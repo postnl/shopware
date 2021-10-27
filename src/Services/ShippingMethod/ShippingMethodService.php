@@ -62,7 +62,7 @@ class ShippingMethodService
         $event = $this->shippingMethodRepository->upsert([
             [
                 'id' => $id,
-                'name' => $carrierName,
+                'name' => 'PostNL',
                 'active' => false,
                 'availabilityRule' => $rule
                     ? ['id' => $rule->getId()]
@@ -98,6 +98,9 @@ class ShippingMethodService
                     ]
                 ],
                 'customFields' => [
+                    'postnl_shipping' => [
+                        'id' => 'postnl'
+                    ]
                 ]
             ],
         ], $context);
@@ -107,11 +110,7 @@ class ShippingMethodService
                 implode(', ', $event->getErrors()),
                 $event->getErrors()
             );
-
-            return null;
         }
-
-        return $id;
     }
 
     /**
