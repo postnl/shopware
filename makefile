@@ -24,7 +24,7 @@ clean: ## Cleans all dependencies
 
 # ------------------------------------------------------------------------------------------------------------
 
-test: ## Starts all Tests
+phpunit: ## Starts all Tests
 	@XDEBUG_MODE=coverage php vendor/bin/phpunit --configuration=phpunit.xml --coverage-html ../../../public/.reports/postnl/coverage
 
 phpcheck: ## Starts the PHP syntax checks
@@ -36,7 +36,7 @@ phpmin: ## Starts the PHP compatibility checks
 csfix: ## Starts the PHP CS Fixer
 	@php vendor/bin/php-cs-fixer fix --config=./.php_cs.php --dry-run
 
-stan: ## Starts the PHPStan Analyser
+phpstan: ## Starts the PHPStan Analyser
 	@php vendor/bin/phpstan analyse -c ./.phpstan.neon
 	@php vendor/bin/phpstan analyse -c ./.phpstan.lvl8.neon
 
@@ -49,8 +49,8 @@ pr: ## Prepares everything for a Pull Request
 	@php vendor/bin/php-cs-fixer fix --config=./.php_cs.php
 	@make phpcheck -B
 	@make phpmin -B
-	@make stan -B
-	@make test -B
+	@make phpstan -B
+	@make phpunit -B
 
 release: ## Creates a new ZIP package
 	@cd .. && rm -rf PostNlShipments-$(PLUGIN_VERSION).zip
