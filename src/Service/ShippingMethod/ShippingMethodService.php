@@ -4,6 +4,9 @@ namespace PostNl\Shipments\Service\ShippingMethod;
 
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Cart\Rule\AlwaysValidRule;
+use Shopware\Core\Checkout\Shipping\ShippingMethodEntity;
+use Shopware\Core\Content\Media\MediaEntity;
+use Shopware\Core\Content\Media\MediaService;
 use Shopware\Core\Content\Rule\RuleEntity;
 use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Context;
@@ -23,12 +26,22 @@ class ShippingMethodService
     /**
      * @var EntityRepositoryInterface
      */
+    private $mediaRepository;
+
+    /**
+     * @var EntityRepositoryInterface
+     */
     private $ruleRepository;
 
     /**
      * @var EntityRepositoryInterface
      */
     private $shippingMethodRepository;
+
+    /**
+     * @var MediaService
+     */
+    private $mediaService;
 
     /**
      * @var LoggerInterface
@@ -38,22 +51,28 @@ class ShippingMethodService
 
     public function __construct(
         EntityRepositoryInterface $deliveryTimeRepository,
+        EntityRepositoryInterface $mediaRepository,
         EntityRepositoryInterface $ruleRepository,
         EntityRepositoryInterface $shippingMethodRepository,
-        LoggerInterface $logger
+        MediaService              $mediaService,
+        LoggerInterface           $logger
     )
     {
         $this->deliveryTimeRepository = $deliveryTimeRepository;
+        $this->mediaRepository = $mediaRepository;
         $this->ruleRepository = $ruleRepository;
         $this->shippingMethodRepository = $shippingMethodRepository;
+        $this->mediaService = $mediaService;
         $this->logger = $logger;
     }
 
-    public function createShippingMethod(Context $context): void
+    public function createShippingMethod(string $pluginDir, Context $context): void
     {
-        $id = Uuid::randomHex();
+        $shippingMethod = $this->getExistingShippingMethod($context);
 
-        // TODO get existing shipping method
+        if ($shippingMethod instanceof ShippingMethodEntity) {
+            return;
+        }
 
         $rule = $this->getAlwaysValidRule($context);
         $deliveryTime = $this->getDeliveryTime($context);
@@ -61,10 +80,10 @@ class ShippingMethodService
         // Create the shipping method
         $event = $this->shippingMethodRepository->upsert([
             [
-                'id' => $id,
+                'id' => Uuid::randomHex(),
                 'name' => 'PostNL',
                 'active' => false,
-                'availabilityRule' => $rule
+                'availabilityRule' => $rule instanceof RuleEntity
                     ? ['id' => $rule->getId()]
                     : [
                         'name' => 'Always valid (Default)',
@@ -76,7 +95,7 @@ class ShippingMethodService
                             ]
                         ]
                     ],
-                'deliveryTime' => $deliveryTime
+                'deliveryTime' => $deliveryTime instanceof DeliveryTimeEntity
                     ? ['id' => $deliveryTime->getId()]
                     : [
                         'min' => 1,
@@ -89,6 +108,7 @@ class ShippingMethodService
                             ],
                         ],
                     ],
+                'mediaId' => $this->getMediaId($pluginDir, $context),
                 'prices' => [
                     [
                         'calculation' => 1,
@@ -111,6 +131,14 @@ class ShippingMethodService
                 $event->getErrors()
             );
         }
+    }
+
+    private function getExistingShippingMethod(Context $context): ?ShippingMethodEntity
+    {
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('customFields.postnl_shipping.id', 'postnl'));
+
+        return $this->shippingMethodRepository->search($criteria, $context)->first();
     }
 
     /**
@@ -137,6 +165,47 @@ class ShippingMethodService
      */
     private function getDeliveryTime(Context $context): ?DeliveryTimeEntity
     {
-        return $this->deliveryTimeRepository->search(new Criteria(), $context)->first();
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('min', 1));
+        $criteria->addFilter(new EqualsFilter('max', 3));
+        $criteria->addFilter(new EqualsFilter('unit', 'day'));
+
+        return $this->deliveryTimeRepository->search($criteria, $context)->first();
+    }
+
+    private function getMediaId(string $pluginDir, Context $context): string
+    {
+        $fileName = 'postnl-icon';
+
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('fileName', $fileName));
+
+        $icon = $this->mediaRepository->search($criteria, $context)->first();
+
+        if ($icon instanceof MediaEntity) {
+            return $icon->getId();
+        }
+
+        // Add icon to the media library
+        $iconMime = 'image/svg+xml';
+        $iconExt = 'svg';
+        $iconPath = realpath(implode(DIRECTORY_SEPARATOR, [
+            $pluginDir,
+            '..',
+            'assets',
+            'postnl-logo-vector.svg'
+        ]));
+        $iconBlob = file_get_contents($iconPath);
+
+        return $this->mediaService->saveFile(
+            $iconBlob,
+            $iconExt,
+            $iconMime,
+            $fileName,
+            $context,
+            '',
+            null,
+            false
+        );
     }
 }

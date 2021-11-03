@@ -5,6 +5,13 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-
+        <service id="PostNl\Shipments\Service\ShippingMethod\ShippingMethodService" public="true">
+            <argument type="service" id="delivery_time.repository"/>
+            <argument type="service" id="media.repository"/>
+            <argument type="service" id="rule.repository"/>
+            <argument type="service" id="shipping_method.repository"/>
+            <argument type="service" id="Shopware\Core\Content\Media\MediaService"/>
+            <argument type="service" id="logger"/>
+        </service>
     </services>
 </container>
