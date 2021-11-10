@@ -1,14 +1,49 @@
 {
-  "name": "postnl/shipments",
-  "description": "PostNL Shipments",
-  "type": "shopware-platform-plugin",
-  "license": "MIT",
-  "config": {
-    "optimize-autoloader": true
-  },
-  "autoload": {
-    "psr-4": {
-      "PostNl\\Shipments\\": "src/"
+    "name": "postnl/shipments",
+    "description": "PostNL Shipments",
+    "type": "shopware-platform-plugin",
+    "license": "MIT",
+    "config": {
+        "optimize-autoloader": true
+    },
+    "autoload": {
+        "psr-4": {
+            "PostNl\\Shipments\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PostNl\\Shipments\\PHPUnit\\": "tests/PHPUnit/",
+            "PostNl\\Shipments\\PHPStan\\": "tests/PHPStan/"
+        }
+    },
+    "extra": {
+        "shopware-plugin-class": "PostNl\\Shipments\\PostNlShipments",
+        "label": {
+            "de-DE": "PostNL Shipments plugin",
+            "en-GB": "PostNL Shipments plugin"
+        }
+    },
+    "require": {
+        "composer-runtime-api": "^2.0"
+    },
+    "require-dev": {
+        "shopware/core": "*",
+        "shopware/administration": "*",
+        "shopware/storefront": "*",
+        "phpunit/phpunit": "^9.5",
+        "phpstan/phpstan": "^0.12.82",
+        "friendsofphp/php-cs-fixer": "^2.18",
+        "phpcompatibility/php-compatibility": "^9.3",
+        "squizlabs/php_codesniffer": "^3.6"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "[ ! -f vendor/bin/phpcs ] || vendor/bin/phpcs --config-set installed_paths vendor/phpcompatibility/php-compatibility"
+        ],
+        "post-update-cmd": [
+            "[ ! -f vendor/bin/phpcs ] || vendor/bin/phpcs --config-set installed_paths vendor/phpcompatibility/php-compatibility"
+        ]
     }
   },
   "autoload-dev": {

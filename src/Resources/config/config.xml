@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
+    <card>
+        <title>PostNL integration for Shopware 6</title>
+        <title lang="de-DE">PostNL-Integration für Shopware 6</title>
+        <title lang="nl-NL">PostNL integratie voor Shopware 6</title>
+
+        <input-field>
+            <name>apiKey</name>
+            <label>API Key</label>
+            <label lang="de-DE">API-Schlüssel</label>
+            <label lang="nl-NL">API Key</label>
+        </input-field>
+
+<!--        <component name="postnl-api-test-button">-->
+<!--            <name>apiTestButton</name>-->
+<!--            <label>API Connection test</label>-->
+<!--            <label lang="de-DE">API Verbindung testen</label>-->
+<!--            <label lang="nl-NL">API Verbinding testen</label>-->
+<!--        </component>-->
+    </card>
+</config>
