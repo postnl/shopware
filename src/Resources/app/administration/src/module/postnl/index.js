@@ -1,3 +1,8 @@
+import './component';
+import './page';
+import './view';
+
+
 // import nlNL from './snippet/nl-NL.json';
 // import deDE from './snippet/de-DE.json';
 // import enGB from './snippet/en-GB.json';
@@ -20,7 +25,7 @@ Shopware.Module.register('postnl-shipments', {
 
     routes: {
         orders: {
-            component: 'postnl-shipments-orders',
+            component: 'postnl-shipments-order-list',
             path: 'orders'
         },
     },
