@@ -1,0 +1,90 @@
+<?php declare(strict_types=1);
+
+namespace PostNl\Shipments\Migration;
+
+use Doctrine\DBAL\Connection;
+use PostNl\Shipments\Component\Migration\MigrationStepExecute;
+
+class Migration1638804654CreateEntityTables extends MigrationStepExecute
+{
+    public function getCreationTimestamp(): int
+    {
+        return 1638804654;
+    }
+
+    public function update(Connection $connection): void
+    {
+        $sql = <<<SQL
+CREATE TABLE IF NOT EXISTS `postnl_shipments_product_code_config` (
+    `id` BINARY(16) NOT NULL,
+    `product_code_delivery` VARCHAR(255) NOT NULL,
+    `source_zone` VARCHAR(255) NOT NULL,
+    `destination_zone` VARCHAR(255) NOT NULL,
+    `delivery_type` VARCHAR(255) NOT NULL,
+    `next_door_delivery` TINYINT(1) NULL DEFAULT '0',
+    `return_if_not_home` TINYINT(1) NULL DEFAULT '0',
+    `insurance` TINYINT(1) NULL DEFAULT '0',
+    `signature` TINYINT(1) NULL DEFAULT '0',
+    `age_check` TINYINT(1) NULL DEFAULT '0',
+    `notification` TINYINT(1) NULL DEFAULT '0',
+    `created_at` DATETIME(3) NOT NULL,
+    `updated_at` DATETIME(3) NULL,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `json.postnl_shipments_product_code_config.translated` CHECK (JSON_VALID(`translated`))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `postnl_shipments_product_code_config_translation` (
+    `name` VARCHAR(255) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL,
+    `updated_at` DATETIME(3) NULL,
+    `postnl_shipments_product_code_config_id` BINARY(16) NOT NULL,
+    `language_id` BINARY(16) NOT NULL,
+    PRIMARY KEY (`postnl_shipments_product_code_config_id`,`language_id`),
+    KEY `fk.postnl_shipments_product_code_config_translation.postnl_shipments_product_code_config_id` (`postnl_shipments_product_code_config_id`),
+    KEY `fk.postnl_shipments_product_code_config_translation.language_id` (`language_id`),
+    CONSTRAINT `fk.postnl_shipments_product_code_config_translation.postnl_shipments_product_code_config_id` FOREIGN KEY (`postnl_shipments_product_code_config_id`) REFERENCES `postnl_shipments_product_code_config` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT `fk.postnl_shipments_product_code_config_translation.language_id` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `postnl_shipments_product_option` (
+    `id` BINARY(16) NOT NULL,
+    `characteristic` VARCHAR(3) NOT NULL,
+    `option` VARCHAR(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL,
+    `updated_at` DATETIME(3) NULL,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `json.postnl_shipments_product_option.translated` CHECK (JSON_VALID(`translated`))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `postnl_shipments_product_option_translation` (
+    `name` VARCHAR(255) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL,
+    `updated_at` DATETIME(3) NULL,
+    `postnl_shipments_product_option_id` BINARY(16) NOT NULL,
+    `language_id` BINARY(16) NOT NULL,
+    PRIMARY KEY (`postnl_shipments_product_option_id`,`language_id`),
+    KEY `fk.postnl_shipments_product_option_translation.postnl_shipments_product_option_id` (`postnl_shipments_product_option_id`),
+    KEY `fk.postnl_shipments_product_option_translation.language_id` (`language_id`),
+    CONSTRAINT `fk.postnl_shipments_product_option_translation.postnl_shipments_product_option_id` FOREIGN KEY (`postnl_shipments_product_option_id`) REFERENCES `postnl_shipments_product_option` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT `fk.postnl_shipments_product_option_translation.language_id` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `postnl_shipments_product_code_option` (
+    `product_option_id` BINARY(16) NOT NULL,
+    `product_code_config_id` BINARY(16) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL,
+    PRIMARY KEY (`product_option_id`,`product_code_config_id`),
+    KEY `fk.postnl_shipments_product_code_option.product_option_id` (`product_option_id`),
+    KEY `fk.postnl_shipments_product_code_option.product_code_config_id` (`product_code_config_id`),
+    CONSTRAINT `fk.postnl_shipments_product_code_option.product_option_id` FOREIGN KEY (`product_option_id`) REFERENCES `postnl_shipments_product_option` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT `fk.postnl_shipments_product_code_option.product_code_config_id` FOREIGN KEY (`product_code_config_id`) REFERENCES `postnl_shipments_product_code_config` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+SQL;
+
+        $this->execute($connection, $sql);
+    }
+
+    public function updateDestructive(Connection $connection): void
+    {
+    }
+}
