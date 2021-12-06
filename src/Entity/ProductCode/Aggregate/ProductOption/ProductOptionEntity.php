@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PostNl\Shipments\Entity\ProductCode\Aggregate\ProductOption;
 
+use Firstred\PostNL\Entity\ProductOption;
 use PostNl\Shipments\Entity\ProductCode\Aggregate\ProductOptionTranslation\ProductOptionTranslationCollection;
 use PostNl\Shipments\Entity\ProductCode\ProductCodeConfigDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
@@ -76,5 +77,10 @@ class ProductOptionEntity extends Entity
     public function getProductCodes(): ?ProductCodeConfigDefinition
     {
         return $this->productCodes;
+    }
+
+    public function getApiEntity(): ProductOption
+    {
+        return new ProductOption($this->characteristic, $this->option);
     }
 }

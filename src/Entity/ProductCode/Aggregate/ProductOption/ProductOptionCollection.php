@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PostNl\Shipments\Entity\ProductCode\Aggregate\ProductOption;
 
+use Firstred\PostNL\Entity\ProductOption;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityCollection;
 
 /**
@@ -20,5 +21,18 @@ class ProductOptionCollection extends EntityCollection
     public function getExpectedClass(): string
     {
         return ProductOptionEntity::class;
+    }
+
+    /**
+     * @return array<ProductOption>
+     */
+    public function getApiEntities(): array {
+        $arr = [];
+
+        foreach($this->getElements() as $productOption) {
+            $arr[] = $productOption->getApiEntity();
+        }
+
+        return $arr;
     }
 }
