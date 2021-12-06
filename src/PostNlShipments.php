@@ -10,7 +10,6 @@ class PostNlShipments extends Plugin
 {
     public function activate(ActivateContext $activateContext): void
     {
-        dump($this->getPath());
         $shippingMethodService = $this->container->get(ShippingMethodService::class);
         $shippingMethodService->createShippingMethod($this->getPath(), $activateContext->getContext());
     }
