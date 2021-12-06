@@ -40,10 +40,10 @@ CREATE TABLE IF NOT EXISTS `postnl_shipments_product_code_config_translation` (
     `postnl_shipments_product_code_config_id` BINARY(16) NOT NULL,
     `language_id` BINARY(16) NOT NULL,
     PRIMARY KEY (`postnl_shipments_product_code_config_id`,`language_id`),
-    KEY `fk.postnl_shipments_product_code_config_translation.postnl_shipments_product_code_config_id` (`postnl_shipments_product_code_config_id`),
-    KEY `fk.postnl_shipments_product_code_config_translation.language_id` (`language_id`),
-    CONSTRAINT `fk.postnl_shipments_product_code_config_translation.postnl_shipments_product_code_config_id` FOREIGN KEY (`postnl_shipments_product_code_config_id`) REFERENCES `postnl_shipments_product_code_config` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT `fk.postnl_shipments_product_code_config_translation.language_id` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+    KEY `fk.postnl_shipments_pcct.postnl_shipments_pcci` (`postnl_shipments_product_code_config_id`),
+    KEY `fk.postnl_shipments_pcct.language_id` (`language_id`),
+    CONSTRAINT `fk.postnl_shipments_pcct.postnl_shipments_pcci` FOREIGN KEY (`postnl_shipments_product_code_config_id`) REFERENCES `postnl_shipments_product_code_config` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT `fk.postnl_shipments_pcct.language_id` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `postnl_shipments_product_option` (
@@ -63,10 +63,10 @@ CREATE TABLE IF NOT EXISTS `postnl_shipments_product_option_translation` (
     `postnl_shipments_product_option_id` BINARY(16) NOT NULL,
     `language_id` BINARY(16) NOT NULL,
     PRIMARY KEY (`postnl_shipments_product_option_id`,`language_id`),
-    KEY `fk.postnl_shipments_product_option_translation.postnl_shipments_product_option_id` (`postnl_shipments_product_option_id`),
-    KEY `fk.postnl_shipments_product_option_translation.language_id` (`language_id`),
-    CONSTRAINT `fk.postnl_shipments_product_option_translation.postnl_shipments_product_option_id` FOREIGN KEY (`postnl_shipments_product_option_id`) REFERENCES `postnl_shipments_product_option` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT `fk.postnl_shipments_product_option_translation.language_id` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+    KEY `fk.postnl_shipments_pot.postnl_shipments_poi` (`postnl_shipments_product_option_id`),
+    KEY `fk.postnl_shipments_pot.language_id` (`language_id`),
+    CONSTRAINT `fk.postnl_shipments_pot.postnl_shipments_poi` FOREIGN KEY (`postnl_shipments_product_option_id`) REFERENCES `postnl_shipments_product_option` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT `fk.postnl_shipments_pot.language_id` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `postnl_shipments_product_code_option` (
@@ -74,10 +74,10 @@ CREATE TABLE IF NOT EXISTS `postnl_shipments_product_code_option` (
     `product_code_config_id` BINARY(16) NOT NULL,
     `created_at` DATETIME(3) NOT NULL,
     PRIMARY KEY (`product_option_id`,`product_code_config_id`),
-    KEY `fk.postnl_shipments_product_code_option.product_option_id` (`product_option_id`),
-    KEY `fk.postnl_shipments_product_code_option.product_code_config_id` (`product_code_config_id`),
-    CONSTRAINT `fk.postnl_shipments_product_code_option.product_option_id` FOREIGN KEY (`product_option_id`) REFERENCES `postnl_shipments_product_option` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT `fk.postnl_shipments_product_code_option.product_code_config_id` FOREIGN KEY (`product_code_config_id`) REFERENCES `postnl_shipments_product_code_config` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+    KEY `fk.postnl_shipments_pco.product_option_id` (`product_option_id`),
+    KEY `fk.postnl_shipments_pco.product_code_config_id` (`product_code_config_id`),
+    CONSTRAINT `fk.postnl_shipments_pco.product_option_id` FOREIGN KEY (`product_option_id`) REFERENCES `postnl_shipments_product_option` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT `fk.postnl_shipments_pco.product_code_config_id` FOREIGN KEY (`product_code_config_id`) REFERENCES `postnl_shipments_product_code_config` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 SQL;
 
