@@ -13,5 +13,25 @@
             <argument type="service" id="Shopware\Core\Content\Media\MediaService"/>
             <argument type="service" id="logger"/>
         </service>
+
+        <service id="PostNl\Shipments\Entity\ProductCode\ProductCodeConfigDefinition" public="true">
+            <tag name="shopware.entity.definition"/>
+        </service>
+
+        <service id="PostNl\Shipments\Entity\ProductCode\Aggregate\ProductCodeConfigTranslation\ProductCodeConfigTranslationDefinition" public="true">
+            <tag name="shopware.entity.definition"/>
+        </service>
+
+        <service id="PostNl\Shipments\Entity\ProductCode\Aggregate\ProductOption\ProductOptionDefinition" public="true">
+            <tag name="shopware.entity.definition"/>
+        </service>
+
+        <service id="PostNl\Shipments\Entity\ProductCode\Aggregate\ProductOptionTranslation\ProductOptionTranslationDefinition" public="true">
+            <tag name="shopware.entity.definition"/>
+        </service>
+
+        <service id="PostNl\Shipments\Entity\ProductCode\Aggregate\ProductCodeOption\ProductCodeOptionDefinition" public="true">
+            <tag name="shopware.entity.definition"/>
+        </service>
     </services>
 </container>
