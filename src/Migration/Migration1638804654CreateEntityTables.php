@@ -29,7 +29,8 @@ CREATE TABLE IF NOT EXISTS `postnl_shipments_product_code_config` (
     `notification` TINYINT(1) NULL DEFAULT '0',
     `created_at` DATETIME(3) NOT NULL,
     `updated_at` DATETIME(3) NULL,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    CONSTRAINT `un.postnl_shipments_pcc.product_code_delivery` UNIQUE (`product_code_delivery`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `postnl_shipments_product_code_config_translation` (
@@ -53,7 +54,8 @@ CREATE TABLE IF NOT EXISTS `postnl_shipments_product_option` (
     `option` VARCHAR(3) NOT NULL,
     `created_at` DATETIME(3) NOT NULL,
     `updated_at` DATETIME(3) NULL,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    CONSTRAINT `un.postnl_shipments_pcc.product_option` UNIQUE (`characteristic`, `option`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `postnl_shipments_product_option_translation` (
@@ -90,5 +92,15 @@ SQL;
 
     public function updateDestructive(Connection $connection): void
     {
+        $sql = <<<SQL
+DROP TABLE IF EXISTS
+    `postnl_shipments_product_code_option`,
+    `postnl_shipments_product_option_translation`,
+    `postnl_shipments_product_option`,
+    `postnl_shipments_product_code_config_translation`,
+    `postnl_shipments_product_code_config`;
+SQL;
+
+        $this->execute($connection, $sql);
     }
 }
