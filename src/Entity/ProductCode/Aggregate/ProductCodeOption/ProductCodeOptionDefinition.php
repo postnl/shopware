@@ -4,6 +4,7 @@ namespace PostNl\Shipments\Entity\ProductCode\Aggregate\ProductCodeOption;
 
 use PostNl\Shipments\Entity\ProductCode\Aggregate\ProductOption\ProductOptionDefinition;
 use PostNl\Shipments\Entity\ProductCode\ProductCodeConfigDefinition;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\CascadeDelete;
 use Shopware\Core\Framework\DataAbstractionLayer\MappingEntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\FkField;
@@ -25,16 +26,16 @@ class ProductCodeOptionDefinition extends MappingEntityDefinition
             (new FkField('product_code_config_id', 'productCodeConfigId', ProductCodeConfigDefinition::class))
                 ->addFlags(new PrimaryKey(), new Required()),
 
-            new ManyToOneAssociationField(
+            (new ManyToOneAssociationField(
                 'productOption',
                 'product_option_id',
                 ProductOptionDefinition::class
-            ),
-            new ManyToOneAssociationField(
+            ))->addFlags(new CascadeDelete()),
+            (new ManyToOneAssociationField(
                 'productCodeConfig',
                 'product_code_config_id',
                 ProductCodeConfigDefinition::class
-            ),
+            ))->addFlags(new CascadeDelete()),
             new CreatedAtField()
         ]);
     }
