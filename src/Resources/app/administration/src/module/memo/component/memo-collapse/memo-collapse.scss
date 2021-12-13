@@ -1,0 +1,45 @@
+@import "~scss/variables";
+
+$memo-collapse-color-disabled: $color-gray-100;
+$memo-collapse-color-divider: $color-gray-300;
+$memo-collapse-color-title: $color-darkgray-200;
+$memo-collapse-font-size-title: $font-size-small;
+
+.memo-collapse {
+    &__header {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        cursor: pointer;
+        padding: 12px 16px;
+        color: $memo-collapse-color-title;
+
+        &.is--disabled {
+            background-color: $memo-collapse-color-disabled;
+        }
+    }
+
+    &__title {
+        font-size: $memo-collapse-font-size-title;
+        font-weight: normal;
+        line-height: 22px;
+    }
+
+    &__button {
+        width: 16px;
+        height: 16px;
+
+        &.is--hidden {
+            display: none;
+        }
+    }
+
+
+    &__content {
+        border-top: 1px solid $memo-collapse-color-divider;
+        padding: 12px 16px;
+
+        .sw-field:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
