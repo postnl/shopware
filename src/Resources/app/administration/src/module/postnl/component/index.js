@@ -1,1 +1,1 @@
-import './postnl-api-credentials';
+import './postnl-api-credentials-test';

@@ -1,8 +1,8 @@
-import template from "./postnl-api-credentials.html.twig";
+import template from "./postnl-api-credentials-test.html.twig";
 
 const {Component, Mixin} = Shopware;
 
-Component.register('postnl-api-credentials', {
+Component.register('postnl-api-credentials-test', {
     template,
 
     inject: [
@@ -26,7 +26,7 @@ Component.register('postnl-api-credentials', {
             const apiKeyInput = document.querySelector('input[name="PostNlShipments.config.apiKey"]');
 
             const apiKey = !!apiKeyInput ? apiKeyInput.value : null;
-            //
+
             this.PostNlApiCredentialsService.checkCredentials(apiKey)
                 .then((response) => {
                     if (response.valid === true) {

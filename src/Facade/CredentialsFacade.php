@@ -22,15 +22,17 @@ class CredentialsFacade
                 $apiKey,
                 [
                     'CustomerCode' => 'DEVC',
-                    'CustomerNumber' => '11223344'
+                    'CustomerNumber' => '11223344',
                 ],
                 [],
                 true
             );
 
-            dd($apiClient->generateBarcodeByCountryCode('NL'));
+            $apiClient->generateBarcodeByCountryCode('NL');
+            
+            return true;
         } catch(ResponseException $e) {
-            dd(json_decode($e->getResponse()->getBody()));
+            return false;
         }
     }
 }
