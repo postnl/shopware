@@ -14,16 +14,14 @@
     {% block memo_collapse_buttons %}
         <div class="memo-collapse__indicator">
             <sw-icon
-                v-if="expanded"
+                name="small-arrow-large-right"
+                class="memo-collapse__button"
+                :class="expandButtonClass"
+            />
+            <sw-icon
                 name="small-arrow-large-down"
                 class="memo-collapse__button"
                 :class="collapseButtonClass"
-            />
-            <sw-icon
-                v-else
-                name="small-arrow-large-left"
-                class="memo-collapse__button"
-                :class="expandButtonClass"
             />
         </div>
     {% endblock %}
