@@ -2,9 +2,9 @@ import './component';
 import './page';
 import './view';
 
-// import nlNL from './snippet/nl-NL.json';
-// import deDE from './snippet/de-DE.json';
-// import enGB from './snippet/en-GB.json';
+import nlNL from './snippet/nl-NL.json';
+import deDE from './snippet/de-DE.json';
+import enGB from './snippet/en-GB.json';
 
 Shopware.Module.register('postnl-shipments', {
     type: 'core',
@@ -17,9 +17,9 @@ Shopware.Module.register('postnl-shipments', {
     icon: 'default-package-closed',
 
     snippets: {
-        // 'nl-NL': nlNL,
-        // 'de-DE': deDE,
-        // 'en-GB': enGB
+        'nl-NL': nlNL,
+        'de-DE': deDE,
+        'en-GB': enGB
     },
 
     routes: {

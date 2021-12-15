@@ -1,0 +1,16 @@
+{
+  "postnl": {
+    "shipments": {
+      "config": {
+        "api": {
+          "testButton": "Test API keys",
+          "dashboardButton": "Naar PostNL API Management Portal",
+          "productionApiKey": "Productie API key",
+          "sandboxApiKey": "Sandbox API key",
+          "isValid": "is geldig.",
+          "isInvalid": "is ongeldig."
+        }
+      }
+    }
+  }
+}

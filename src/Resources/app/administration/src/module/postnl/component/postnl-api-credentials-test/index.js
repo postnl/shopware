@@ -23,32 +23,49 @@ Component.register('postnl-api-credentials-test', {
         onTestButtonClicked() {
             this.isLoading = true;
 
-            const apiKeyInput = document.querySelector('input[name="PostNlShipments.config.apiKey"]');
+            const productionApiKeyInput = document.querySelector('input[name="PostNlShipments.config.productionApiKey"]');
+            const sandboxApiKeyInput = document.querySelector('input[name="PostNlShipments.config.sandboxApiKey"]');
 
-            const apiKey = !!apiKeyInput ? apiKeyInput.value : null;
+            const productionApiKey = !!productionApiKeyInput ? productionApiKeyInput.value : null;
+            const sandboxApiKey = !!sandboxApiKeyInput ? sandboxApiKeyInput.value : null;
 
-            this.PostNlApiCredentialsService.checkCredentials(apiKey)
+            Promise
+                .all([
+                    this.createApiKeyTestPromise(productionApiKey, false),
+                    this.createApiKeyTestPromise(sandboxApiKey, true),
+                ])
+                .finally(() => this.isLoading = false)
+        },
+
+        createApiKeyTestPromise(apikey, sandbox) {
+            if(!apikey) {
+                return Promise.resolve();
+            }
+
+            return this.PostNlApiCredentialsService.checkCredentials(apikey, sandbox)
                 .then((response) => {
+                    const keySnippet = sandbox === true
+                        ? this.$tc('postnl.shipments.config.api.sandboxApiKey')
+                        : this.$tc('postnl.shipments.config.api.productionApiKey');
+
                     if (response.valid === true) {
                         this.createNotificationSuccess({
                             title: this.$tc('global.default.success'),
-                            message: this.$tc(response.message),
+                            message: `${keySnippet} ${this.$tc('postnl.shipments.config.api.isValid')}`,
                         });
                     } else {
                         this.createNotificationError({
                             title: this.$tc('global.default.error'),
-                            message: this.$tc(response.message),
+                            message: `${keySnippet} ${this.$tc('postnl.shipments.config.api.isInvalid')}`,
                         });
                     }
                 })
-                .catch((response) => {
-                    console.error(response);
+                .catch(() => {
                     this.createNotificationError({
                         title: this.$tc('global.default.error'),
                         message: this.$tc('global.notification.unspecifiedSaveErrorMessage'),
                     });
-                })
-                .finally(() => this.isLoading = false);
+                });
         }
     }
 });
