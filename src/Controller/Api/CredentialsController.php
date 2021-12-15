@@ -27,15 +27,15 @@ class CredentialsController extends AbstractController
      *         defaults={"auth_enabled"=true}, name="api.action.postnl.credentials.test", methods={"POST"})
      *
      * @param Request $request
-     * @param Context $context
      * @return JsonResponse
      */
     public function test(Request $request): JsonResponse
     {
-        // Get the live API key
+        // Get the API key
         $apiKey = $request->get('apiKey');
+        $sandbox = $request->get('sandbox');
 
-        return $this->getTestResponse($apiKey);
+        return $this->getTestResponse($apiKey, $sandbox);
     }
 
     /**
@@ -43,25 +43,26 @@ class CredentialsController extends AbstractController
      *         defaults={"auth_enabled"=true}, name="api.action.postnl.credentials.test.legacy", methods={"POST"})
      *
      * @param Request $request
-     * @param Context $context
      * @return JsonResponse
      */
     public function testLegacy(Request $request): JsonResponse
     {
-        // Get the live API key
+        // Get the API key
         $apiKey = $request->get('apiKey');
+        $sandbox = $request->get('sandbox');
 
-        return $this->getTestResponse($apiKey);
+        return $this->getTestResponse($apiKey, $sandbox);
     }
 
     /**
      * @param $apiKey
+     * @param $sandbox
      * @return JsonResponse
      */
-    private function getTestResponse($apiKey): JsonResponse
+    private function getTestResponse($apiKey, $sandbox): JsonResponse
     {
-        $this->credentialsFacade->test($apiKey);
+        $valid = $this->credentialsFacade->test($apiKey, $sandbox);
 
-        return $this->json([]);
+        return $this->json(['valid' => $valid]);
     }
 }

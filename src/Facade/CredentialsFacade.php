@@ -2,6 +2,10 @@
 
 namespace PostNl\Shipments\Facade;
 
+use Firstred\PostNL\Entity\Location;
+use Firstred\PostNL\Entity\Request\GetNearestLocations;
+use Firstred\PostNL\Entity\Response\GetNearestLocationsResponse;
+use Firstred\PostNL\Exception\InvalidConfigurationException;
 use Firstred\PostNL\Exception\ResponseException;
 use PostNl\Shipments\Factory\ApiFactory;
 
@@ -15,23 +19,18 @@ class CredentialsFacade
         $this->apiFactory = $apiFactory;
     }
 
-    public function test(string $apiKey)
+    public function test(string $apiKey, bool $sandbox): bool
     {
         try {
-            $apiClient = $this->apiFactory->createClient(
-                $apiKey,
-                [
-                    'CustomerCode' => 'DEVC',
-                    'CustomerNumber' => '11223344',
-                ],
-                [],
-                true
-            );
+            $apiClient = $this->apiFactory->createClient($apiKey, $sandbox);
 
-            $apiClient->generateBarcodeByCountryCode('NL');
-            
-            return true;
-        } catch(ResponseException $e) {
+            $location = new Location();
+            $location->setPostalcode('3532VA');
+
+            $response = $apiClient->getNearestLocations(new GetNearestLocations('NL', $location));
+
+            return $response instanceof GetNearestLocationsResponse;
+        } catch(ResponseException | InvalidConfigurationException $e) {
             return false;
         }
     }

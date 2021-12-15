@@ -12,7 +12,7 @@ class ApiFactory
         //TODO ConfigService
     }
 
-    public function createClient(string $apiKey, array $customerData, array $senderAddress, $sandbox = false): PostNL
+    public function createClient(string $apiKey, $sandbox = false, array $customerData = [], array $senderAddress = []): PostNL
     {
         $customer = Customer::create($customerData);
         $customer->setAddress((Address::create($senderAddress))->setAddressType('02'));
