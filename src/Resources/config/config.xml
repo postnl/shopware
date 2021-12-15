@@ -7,19 +7,54 @@
         <title lang="nl-NL">PostNL integratie voor Shopware 6</title>
 
         <input-field type="password">
-            <name>apiKey</name>
+            <name>productionApiKey</name>
             <copyable>true</copyable>
-            <required>true</required>
-            <label>API Key</label>
-            <label lang="de-DE">API-Schlüssel</label>
-            <label lang="nl-NL">API Key</label>
+            <label>Production API Key</label>
+            <label lang="de-DE">Produktions-API-Schlüssel</label>
+            <label lang="nl-NL">Productie API Key</label>
         </input-field>
 
-<!--        <component name="postnl-api-test-button">-->
-<!--            <name>apiTestButton</name>-->
-<!--            <label>API Connection test</label>-->
-<!--            <label lang="de-DE">API Verbindung testen</label>-->
-<!--            <label lang="nl-NL">API Verbinding testen</label>-->
-<!--        </component>-->
+        <input-field type="password">
+            <name>sandboxApiKey</name>
+            <copyable>true</copyable>
+            <label>Sandbox API Key</label>
+            <label lang="de-DE">Sandbox-API-Schlüssel</label>
+            <label lang="nl-NL">Sandbox API Key</label>
+        </input-field>
+
+        <component name="postnl-customer-data">
+            <name>customerData</name>
+            <label>Customer data</label>
+            <label lang="de-DE">Label missing</label>
+            <label lang="nl-NL">Klantgegevens</label>
+        </component>
+
+        <component name="postnl-api-credentials-test">
+            <name>apiTestButton</name>
+            <label>API Connection test</label>
+            <label lang="de-DE">API Verbindung testen</label>
+            <label lang="nl-NL">API Verbinding testen</label>
+        </component>
+    </card>
+
+    <card>
+        <title>Modes</title>
+        <title lang="de-DE">Modi</title>
+        <title lang="nl-NL">Modi</title>
+        <input-field type="bool">
+            <name>productionMode</name>
+            <label>Production Mode</label>
+            <label lang="de-DE">Produktionsmodus</label>
+            <label lang="nl-NL">Productie modus</label>
+            <defaultValue>false</defaultValue>
+        </input-field>
+
+        <input-field type="bool">
+            <name>debugMode</name>
+            <label>Debug Mode</label>
+            <label lang="de-DE">Debug Modus</label>
+            <label lang="nl-NL">Debug Modus</label>
+            <defaultValue>false</defaultValue>
+        </input-field>
     </card>
 </config>
