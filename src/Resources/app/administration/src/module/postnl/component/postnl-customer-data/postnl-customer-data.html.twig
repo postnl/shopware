@@ -1,0 +1,39 @@
+{% block memo_config_content %}
+    <memo-collapse :disabled="disabled">
+        <template #header>
+            {{ content.customerNumber }} {{ content.customerCode }}
+
+            <template v-if="content.collectionLocation">
+            , {{ content.collectionLocation }}
+            </template>
+
+            <template v-if="content.globalPackCustomerNumber || content.globalPackBarcodeType">
+                &mdash; GlobalPack: {{ content.globalPackCustomerNumber }} {{ content.globalPackBarcodeType }}
+            </template>
+        </template>
+        <template #content="{ disabled }">
+            <sw-container columns="2fr 1fr 1fr" gap="16px">
+                <sw-text-field v-model="content.customerNumber"
+                               :disabled="disabled"
+                               label="Klantnumber"/>
+
+                <sw-text-field v-model="content.customerCode"
+                               :disabled="disabled"
+                               label="Klantcode"/>
+
+                <sw-text-field v-model="content.collectionLocation"
+                               :disabled="disabled"
+                               label="Locatiecode / BLS code"/>
+
+                <sw-text-field v-model="content.globalPackCustomerNumber"
+                               :disabled="disabled"
+                               label="Global Pack klantcode"/>
+
+                <sw-text-field v-model="content.globalPackBarcodeType"
+                               style="grid-column: 2 / span 2"
+                               :disabled="disabled"
+                               label="Global Pack barcode type"/>
+            </sw-container>
+        </template>
+    </memo-collapse>
+{% endblock %}
