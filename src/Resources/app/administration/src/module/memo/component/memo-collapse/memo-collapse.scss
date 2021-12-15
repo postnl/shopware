@@ -22,6 +22,7 @@ $memo-collapse-font-size-title: $font-size-small;
         font-size: $memo-collapse-font-size-title;
         font-weight: normal;
         line-height: 22px;
+        min-height: 22px;
     }
 
     &__button {
