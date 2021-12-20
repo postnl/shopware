@@ -1,4 +1,5 @@
-import template from './memo-config.html.twig'
+import template from './memo-config.html.twig';
+import { string } from 'src/core/service/util.service';
 
 const { Component, Mixin } = Shopware;
 
@@ -41,7 +42,8 @@ Component.register('memo-config', {
         },
         content: {
             handler(value) {
-                this.$emit('input', JSON.stringify(value));
+                const cleanedValue = Object.fromEntries(Object.entries(value).filter(([k, v]) => !string.isEmptyOrSpaces(v)));
+                this.$emit('input', JSON.stringify(cleanedValue));
             },
             deep: true
         }
