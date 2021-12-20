@@ -1,0 +1,13 @@
+{% block memo_config_content %}
+    <memo-collapse :disabled="disabled">
+        <template #header>
+            <sw-container rows="1fr 1fr">
+                {{ country?.name }}
+            </sw-container>
+        </template>
+        <template #content>
+            <sw-container columns="repeat(4, 1fr)" gap="0 16px">
+            </sw-container>
+        </template>
+    </memo-collapse>
+{% endblock %}

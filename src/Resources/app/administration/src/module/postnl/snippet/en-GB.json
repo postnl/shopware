@@ -9,6 +9,24 @@
           "sandboxApiKey": "Sandbox API key",
           "isValid": "is valid.",
           "isInvalid": "is invalid."
+        },
+        "customerData": {
+          "customerNumber": "Customer number",
+          "customerCode": "Customer code",
+          "collectionLocation": "Location / BLS code",
+          "globalPackCustomerCode": "Global Pack customer code",
+          "globalPackBarcodeType": "Global Pack barcode type"
+        },
+        "senderAddress": {
+          "companyName": "Company name",
+          "firstName": "First name",
+          "name": "Last name",
+          "street": "Street",
+          "houseNr": "House number",
+          "houseNrExt": "House number addition",
+          "zipcode": "Zipcode",
+          "city": "City",
+          "country": "Country"
         }
       }
     }

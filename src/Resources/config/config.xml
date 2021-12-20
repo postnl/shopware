@@ -41,9 +41,10 @@
         <title>Modes</title>
         <title lang="de-DE">Modi</title>
         <title lang="nl-NL">Modi</title>
+
         <input-field type="bool">
             <name>productionMode</name>
-            <label>Production Mode</label>
+            <label>Production mode</label>
             <label lang="de-DE">Produktionsmodus</label>
             <label lang="nl-NL">Productie modus</label>
             <defaultValue>false</defaultValue>
@@ -51,10 +52,30 @@
 
         <input-field type="bool">
             <name>debugMode</name>
-            <label>Debug Mode</label>
-            <label lang="de-DE">Debug Modus</label>
-            <label lang="nl-NL">Debug Modus</label>
+            <label>Debug mode</label>
+            <label lang="de-DE">Debug modus</label>
+            <label lang="nl-NL">Debug modus</label>
             <defaultValue>false</defaultValue>
         </input-field>
+    </card>
+
+    <card>
+        <title>Addresses</title>
+        <title lang="de-DE">Adressen</title>
+        <title lang="nl-NL">Adressen</title>
+
+        <component name="postnl-sender-address">
+            <name>senderAddress</name>
+            <label>Sender address</label>
+            <label lang="de-DE">Absender-Adresse</label>
+            <label lang="nl-NL">Adres afzender</label>
+        </component>
+
+        <component name="postnl-return-address">
+            <name>returnAddress</name>
+            <label>Return address</label>
+            <label lang="de-DE">Absender-Adresse</label>
+            <label lang="nl-NL">Adres afzender</label>
+        </component>
     </card>
 </config>
