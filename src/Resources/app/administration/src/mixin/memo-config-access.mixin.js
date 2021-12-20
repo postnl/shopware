@@ -1,4 +1,4 @@
-const {Mixin} = Shopware;
+const { Mixin } = Shopware;
 
 Mixin.register('memo-config-access', {
     computed: {
@@ -21,7 +21,7 @@ Mixin.register('memo-config-access', {
 
     methods: {
         getConfigItem(name) {
-            const configName = `${this.systemConfigDomain}.${name}`;
+            const configName = `${ this.systemConfigDomain }.${ name }`;
             if (!this.isDefaultSalesChannel &&
                 this.currentConfigData.hasOwnProperty(configName) &&
                 this.currentConfigData.hasOwnProperty(configName) !== null) {
@@ -34,7 +34,7 @@ Mixin.register('memo-config-access', {
         getJsonConfigItem(name) {
             try {
                 return JSON.parse(this.getConfigItem(name));
-            } catch(e) {
+            } catch (e) {
                 return null;
             }
         }
