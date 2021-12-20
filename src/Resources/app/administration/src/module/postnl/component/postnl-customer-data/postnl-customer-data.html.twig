@@ -12,27 +12,27 @@
             </template>
         </template>
         <template #content="{ disabled }">
-            <sw-container columns="2fr 1fr 1fr" gap="16px">
+            <sw-container columns="2fr 1fr 1fr" gap="0 16px">
                 <sw-text-field v-model="content.customerNumber"
-                               :disabled="disabled"
-                               label="Klantnumber"/>
+                               :label="$tc('postnl.shipments.config.customerData.customerNumber')"
+                               :disabled="disabled"/>
 
                 <sw-text-field v-model="content.customerCode"
-                               :disabled="disabled"
-                               label="Klantcode"/>
+                               :label="$tc('postnl.shipments.config.customerData.customerCode')"
+                               :disabled="disabled"/>
 
                 <sw-text-field v-model="content.collectionLocation"
-                               :disabled="disabled"
-                               label="Locatiecode / BLS code"/>
+                               :label="$tc('postnl.shipments.config.customerData.collectionLocation')"
+                               :disabled="disabled"/>
 
-                <sw-text-field v-model="content.globalPackCustomerNumber"
-                               :disabled="disabled"
-                               label="Global Pack klantcode"/>
+                <sw-text-field v-model="content.globalPackCustomerCode"
+                               :label="$tc('postnl.shipments.config.customerData.globalPackCustomerCode')"
+                               :disabled="disabled"/>
 
                 <sw-text-field v-model="content.globalPackBarcodeType"
-                               style="grid-column: 2 / span 2"
+                               :label="$tc('postnl.shipments.config.customerData.globalPackBarcodeType')"
                                :disabled="disabled"
-                               label="Global Pack barcode type"/>
+                               :style="span(2)"/>
             </sw-container>
         </template>
     </memo-collapse>

@@ -1,5 +1,11 @@
 import template from './postnl-customer-data.html.twig';
 
-Shopware.Component.extend('postnl-customer-data', 'memo-config', {
-    template
+const { Component, Mixin } = Shopware;
+
+Component.extend('postnl-customer-data', 'memo-config', {
+    template,
+
+    mixins: [
+        Mixin.getByName('memo-grid-span')
+    ]
 })
