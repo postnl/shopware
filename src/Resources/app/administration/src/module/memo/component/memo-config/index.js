@@ -42,7 +42,11 @@ Component.register('memo-config', {
         },
         content: {
             handler(value) {
-                const cleanedValue = Object.fromEntries(Object.entries(value).filter(([k, v]) => !string.isEmptyOrSpaces(v)));
+                const cleanedValue = Object.fromEntries(Object.entries(value).filter(([k, v]) => {
+                    return typeof v === 'string'
+                        ? !string.isEmptyOrSpaces(v)
+                        : true;
+                }));
                 this.$emit('input', JSON.stringify(cleanedValue));
             },
             deep: true
