@@ -27,6 +27,23 @@
           "zipcode": "Zipcode",
           "city": "City",
           "country": "Country"
+        },
+        "returnAddress": {
+          "contract": "I have a return contract with PostNL",
+          "companyName": "Company name",
+          "firstName": "First name",
+          "name": "Last name",
+          "street": "Street",
+          "houseNr": "House number",
+          "houseNrExt": "House number addition",
+          "zipcode": "Zipcode",
+          "city": "City",
+          "country": "Country",
+          "returnCustomerCode": "Return customer code ?",
+          "returnNumber": "Return number",
+          "warning": {
+            "country": "Please (re)select a valid country under sender address first."
+          }
         }
       }
     }

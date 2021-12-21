@@ -34,7 +34,7 @@ Component.extend('postnl-return-address', 'memo-config', {
         countryId: {
             handler(value) {
                 if(!!value) {
-                    this.getCountryName(value);
+                    this.getCountry(value);
                     return;
                 }
 
@@ -45,7 +45,7 @@ Component.extend('postnl-return-address', 'memo-config', {
     },
 
     methods: {
-        getCountryName(countryId) {
+        getCountry(countryId) {
             this.countryRepository
                 .get(countryId, Shopware.Context.api)
                 .then(country => {
