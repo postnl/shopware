@@ -3,10 +3,13 @@
 namespace PostNl\Shipments\Migration;
 
 use Doctrine\DBAL\Connection;
-use PostNl\Shipments\Component\Migration\MigrationStepExecute;
+use PostNl\Shipments\Component\Migration\MigrationExecuteTrait;
+use Shopware\Core\Framework\Migration\MigrationStep;
 
-class Migration1638804654CreateEntityTables extends MigrationStepExecute
+class Migration1638804654CreateEntityTables extends MigrationStep
 {
+    use MigrationExecuteTrait;
+
     public function getCreationTimestamp(): int
     {
         return 1638804654;
