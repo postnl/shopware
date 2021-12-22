@@ -3,7 +3,6 @@
 namespace PostNl\Shipments\Controller\Api;
 
 use PostNl\Shipments\Facade\CredentialsFacade;
-use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,7 +30,6 @@ class CredentialsController extends AbstractController
      */
     public function test(Request $request): JsonResponse
     {
-        // Get the API key
         $apiKey = $request->get('apiKey');
         $sandbox = $request->get('sandbox');
 
@@ -47,7 +45,6 @@ class CredentialsController extends AbstractController
      */
     public function testLegacy(Request $request): JsonResponse
     {
-        // Get the API key
         $apiKey = $request->get('apiKey');
         $sandbox = $request->get('sandbox');
 
