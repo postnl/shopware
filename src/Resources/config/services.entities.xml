@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="true">
+            <tag name="shopware.entity.definition"/>
+        </defaults>
+
+        <service id="PostNl\Shipments\Entity\ProductCode\ProductCodeConfigDefinition"/>
+        <service id="PostNl\Shipments\Entity\ProductCode\Aggregate\ProductCodeConfigTranslation\ProductCodeConfigTranslationDefinition"/>
+        <service id="PostNl\Shipments\Entity\ProductCode\Aggregate\ProductOption\ProductOptionDefinition"/>
+        <service id="PostNl\Shipments\Entity\ProductCode\Aggregate\ProductOptionTranslation\ProductOptionTranslationDefinition"/>
+        <service id="PostNl\Shipments\Entity\ProductCode\Aggregate\ProductCodeOption\ProductCodeOptionDefinition"/>
+    </services>
+</container>
