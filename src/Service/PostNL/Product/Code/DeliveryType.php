@@ -1,0 +1,9 @@
+<?php
+
+namespace PostNl\Shipments\Service\PostNL\Product\Code;
+
+interface DeliveryType
+{
+    const SHIPMENT = "shipment";
+    const PICKUP = "pickup";
+}
