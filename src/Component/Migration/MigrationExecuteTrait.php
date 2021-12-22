@@ -5,7 +5,7 @@ namespace PostNl\Shipments\Component\Migration;
 use Doctrine\DBAL\Connection;
 use Shopware\Core\Framework\Migration\MigrationStep;
 
-abstract class MigrationStepExecute extends MigrationStep
+trait MigrationExecuteTrait
 {
     /**
      * @param Connection $connection
