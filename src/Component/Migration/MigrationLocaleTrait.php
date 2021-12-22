@@ -4,15 +4,16 @@ namespace PostNl\Shipments\Component\Migration;
 
 use Doctrine\DBAL\Connection;
 use Shopware\Core\Framework\Uuid\Uuid;
-use Swag\LanguagePack\SwagLanguagePack;
-use Swag\LanguagePack\Util\Exception\MissingLocalesException;
 
 trait MigrationLocaleTrait
 {
-
     public function getOrCreateLanguages(Connection $connection): array
     {
-        $localeCodes = ['en-GB', 'de-DE', 'nl-NL'];
+        $localeCodes = [
+            'English' => 'en-GB',
+            'Deutsch' => 'de-DE',
+            'Nederlands' => 'nl-NL'
+        ];
         $locales = $this->getLocales($connection, $localeCodes);
         $data = $this->createLanguageData($connection, $locales);
 
@@ -20,13 +21,13 @@ trait MigrationLocaleTrait
         $newLanguages = [];
         foreach ($data as $locale) {
             $language = [
-                'id' => Uuid::randomBytes(),
-                'languageId' => $locale['languageId'],
+                'id' => $locale['languageId'],
+                'name' => $locale['name'],
             ];
 
             if ($locale['languageId'] === null) {
                 $newLanguageId = Uuid::randomBytes();
-                $language['languageId'] = $newLanguageId;
+                $language['id'] = $newLanguageId;
 
                 $newLanguages[] = [
                     'id' => $newLanguageId,
@@ -36,7 +37,7 @@ trait MigrationLocaleTrait
                 ];
             }
 
-            $languages[] = $language;
+            $languages[$locale['code']] = $language;
         }
 
         $insertLanguagesSql = <<<SQL
@@ -87,10 +88,32 @@ SQL;
 SELECT `id`, `code` FROM `locale` WHERE `code` IN (?);
 SQL;
 
-        return $connection->executeQuery(
+        $locales = $connection->executeQuery(
             $sql,
             [\array_values($localeCodes)],
             [Connection::PARAM_STR_ARRAY]
         )->fetchAll();
+
+        $enhancedLocales = [];
+        foreach ($localeCodes as $name => $code) {
+            foreach ($locales as $locale) {
+                if ($code === $locale['code']) {
+                    $locale['name'] = $name;
+                    $enhancedLocales[$code] = $locale;
+                }
+            }
+        }
+
+        return $enhancedLocales;
+    }
+
+    public function bin2hex(array $data, array $keys)
+    {
+        return array_map(function ($entry) use ($keys) {
+            foreach ($keys as $key) {
+                $entry[$key] = Uuid::fromBytesToHex($entry[$key]);
+            }
+            return $entry;
+        }, $data);
     }
 }
