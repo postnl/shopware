@@ -12,9 +12,11 @@ use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 
 class ProductCodeConfigTranslationDefinition extends EntityTranslationDefinition
 {
+    const ENTITY_NAME = 'postnl_shipments_product_code_config_translation';
+
     public function getEntityName(): string
     {
-        return 'postnl_shipments_product_code_config_translation';
+        return self::ENTITY_NAME;
     }
 
     public function getEntityClass(): string
