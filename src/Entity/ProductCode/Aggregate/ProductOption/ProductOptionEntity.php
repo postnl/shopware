@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PostNl\Shipments\Entity\ProductCode\Aggregate\ProductOption;
+namespace PostNL\Shipments\Entity\ProductCode\Aggregate\ProductOption;
 
 use Firstred\PostNL\Entity\ProductOption;
-use PostNl\Shipments\Entity\ProductCode\Aggregate\ProductOptionTranslation\ProductOptionTranslationCollection;
-use PostNl\Shipments\Entity\ProductCode\ProductCodeConfigDefinition;
+use PostNL\Shipments\Entity\ProductCode\Aggregate\ProductOptionTranslation\ProductOptionTranslationCollection;
+use PostNL\Shipments\Entity\ProductCode\ProductCodeConfigDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 

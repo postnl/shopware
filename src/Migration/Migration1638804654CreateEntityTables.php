@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace PostNl\Shipments\Migration;
+namespace PostNL\Shipments\Migration;
 
 use Doctrine\DBAL\Connection;
-use PostNl\Shipments\Component\Migration\MigrationExecuteTrait;
+use PostNL\Shipments\Component\Migration\MigrationExecuteTrait;
 use Shopware\Core\Framework\Migration\MigrationStep;
 
 class Migration1638804654CreateEntityTables extends MigrationStep

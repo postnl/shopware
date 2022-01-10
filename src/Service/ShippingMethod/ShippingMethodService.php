@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PostNl\Shipments\Service\ShippingMethod;
+namespace PostNL\Shipments\Service\ShippingMethod;
 
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Cart\Rule\AlwaysValidRule;

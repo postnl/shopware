@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PostNl\Shipments\Entity\ProductCode\Aggregate\ProductOption;
+namespace PostNL\Shipments\Entity\ProductCode\Aggregate\ProductOption;
 
-use PostNl\Shipments\Entity\ProductCode\Aggregate\ProductCodeOption\ProductCodeOptionDefinition;
-use PostNl\Shipments\Entity\ProductCode\Aggregate\ProductOptionTranslation\ProductOptionTranslationDefinition;
-use PostNl\Shipments\Entity\ProductCode\ProductCodeConfigDefinition;
+use PostNL\Shipments\Entity\ProductCode\Aggregate\ProductCodeOption\ProductCodeOptionDefinition;
+use PostNL\Shipments\Entity\ProductCode\Aggregate\ProductOptionTranslation\ProductOptionTranslationDefinition;
+use PostNL\Shipments\Entity\ProductCode\ProductCodeConfigDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
@@ -20,7 +20,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 class ProductOptionDefinition extends EntityDefinition
 {
     const ENTITY_NAME = 'postnl_shipments_product_option';
-    
+
     public function getEntityName(): string
     {
         return self::ENTITY_NAME;

@@ -5,7 +5,7 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="PostNl\Shipments\Service\ShippingMethod\ShippingMethodService" public="true">
+        <service id="PostNL\Shipments\Service\ShippingMethod\ShippingMethodService" public="true">
             <argument type="service" id="delivery_time.repository"/>
             <argument type="service" id="media.repository"/>
             <argument type="service" id="rule.repository"/>

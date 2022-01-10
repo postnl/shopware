@@ -1,6 +1,6 @@
 <?php
 
-namespace PostNl\Shipments\Component\Migration;
+namespace PostNL\Shipments\Component\Migration;
 
 use Doctrine\DBAL\Connection;
 use Shopware\Core\Framework\Uuid\Uuid;

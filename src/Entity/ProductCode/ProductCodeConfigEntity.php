@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PostNl\Shipments\Entity\ProductCode;
+namespace PostNL\Shipments\Entity\ProductCode;
 
-use PostNl\Shipments\Entity\ProductCode\Aggregate\ProductCodeConfigTranslation\ProductCodeConfigTranslationCollection;
-use PostNl\Shipments\Entity\ProductCode\Aggregate\ProductOption\ProductOptionCollection;
+use PostNL\Shipments\Entity\ProductCode\Aggregate\ProductCodeConfigTranslation\ProductCodeConfigTranslationCollection;
+use PostNL\Shipments\Entity\ProductCode\Aggregate\ProductOption\ProductOptionCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 

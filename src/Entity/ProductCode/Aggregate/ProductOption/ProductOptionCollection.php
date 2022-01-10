@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PostNl\Shipments\Entity\ProductCode\Aggregate\ProductOption;
+namespace PostNL\Shipments\Entity\ProductCode\Aggregate\ProductOption;
 
 use Firstred\PostNL\Entity\ProductOption;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityCollection;

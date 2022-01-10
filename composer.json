@@ -8,18 +8,18 @@
   },
   "autoload": {
     "psr-4": {
-      "PostNl\\Shipments\\": "src/",
+      "PostNL\\Shipments\\": "src/",
       "Firstred\\PostNL\\": "vendor/firstred/postnl-api-php/src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "PostNl\\Shipments\\PHPUnit\\": "tests/PHPUnit/",
-      "PostNl\\Shipments\\PHPStan\\": "tests/PHPStan/"
+      "PostNL\\Shipments\\PHPUnit\\": "tests/PHPUnit/",
+      "PostNL\\Shipments\\PHPStan\\": "tests/PHPStan/"
     }
   },
   "extra": {
-    "shopware-plugin-class": "PostNl\\Shipments\\PostNlShipments",
+    "shopware-plugin-class": "PostNL\\Shipments\\PostNLShipments",
     "label": {
       "de-DE": "PostNL Shipments plugin",
       "en-GB": "PostNL Shipments plugin"

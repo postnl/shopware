@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace PostNl\Shipments;
+namespace PostNL\Shipments;
 
-use PostNl\Shipments\Service\ShippingMethod\ShippingMethodService;
+use PostNL\Shipments\Service\ShippingMethod\ShippingMethodService;
 use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
 
-class PostNlShipments extends Plugin
+class PostNLShipments extends Plugin
 {
     public function activate(ActivateContext $activateContext): void
     {
