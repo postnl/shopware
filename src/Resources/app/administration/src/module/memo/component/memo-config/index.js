@@ -1,5 +1,5 @@
 import template from './memo-config.html.twig';
-import { string } from 'src/core/service/util.service';
+const { string } = Shopware.Utils;
 
 const { Component, Mixin } = Shopware;
 
@@ -11,7 +11,6 @@ Component.register('memo-config', {
     ],
 
     props: {
-        // eslint-disable-next-line vue/require-prop-types
         value: {
             required: false,
         },
