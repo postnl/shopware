@@ -7,7 +7,7 @@
     <services>
         <defaults public="true"/>
 
-        <service id="PostNl\Shipments\Factory\ApiFactory">
+        <service id="PostNL\Shipments\Factory\ApiFactory">
         </service>
     </services>
 </container>

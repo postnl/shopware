@@ -7,8 +7,8 @@
     <services>
         <defaults public="true"/>
 
-        <service id="PostNl\Shipments\Facade\CredentialsFacade">
-            <argument type="service" id="PostNl\Shipments\Factory\ApiFactory"/>
+        <service id="PostNL\Shipments\Facade\CredentialsFacade">
+            <argument type="service" id="PostNL\Shipments\Factory\ApiFactory"/>
         </service>
     </services>
 </container>

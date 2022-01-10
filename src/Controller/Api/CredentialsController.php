@@ -1,8 +1,8 @@
 <?php
 
-namespace PostNl\Shipments\Controller\Api;
+namespace PostNL\Shipments\Controller\Api;
 
-use PostNl\Shipments\Facade\CredentialsFacade;
+use PostNL\Shipments\Facade\CredentialsFacade;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

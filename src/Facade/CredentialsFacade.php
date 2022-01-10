@@ -1,13 +1,13 @@
 <?php
 
-namespace PostNl\Shipments\Facade;
+namespace PostNL\Shipments\Facade;
 
 use Firstred\PostNL\Entity\Location;
 use Firstred\PostNL\Entity\Request\GetNearestLocations;
 use Firstred\PostNL\Entity\Response\GetNearestLocationsResponse;
 use Firstred\PostNL\Exception\InvalidConfigurationException;
 use Firstred\PostNL\Exception\ResponseException;
-use PostNl\Shipments\Factory\ApiFactory;
+use PostNL\Shipments\Factory\ApiFactory;
 
 class CredentialsFacade
 {

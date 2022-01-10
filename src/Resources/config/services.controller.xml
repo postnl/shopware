@@ -7,8 +7,8 @@
     <services>
         <defaults public="true"/>
 
-        <service id="PostNl\Shipments\Controller\Api\CredentialsController">
-            <argument type="service" id="PostNl\Shipments\Facade\CredentialsFacade"/>
+        <service id="PostNL\Shipments\Controller\Api\CredentialsController">
+            <argument type="service" id="PostNL\Shipments\Facade\CredentialsFacade"/>
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>
