@@ -1,9 +1,9 @@
 <?php
 
-namespace PostNl\Shipments\Entity\ProductCode\Aggregate\ProductCodeOption;
+namespace PostNL\Shipments\Entity\ProductCode\Aggregate\ProductCodeOption;
 
-use PostNl\Shipments\Entity\ProductCode\Aggregate\ProductOption\ProductOptionDefinition;
-use PostNl\Shipments\Entity\ProductCode\ProductCodeConfigDefinition;
+use PostNL\Shipments\Entity\ProductCode\Aggregate\ProductOption\ProductOptionDefinition;
+use PostNL\Shipments\Entity\ProductCode\ProductCodeConfigDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\CascadeDelete;
 use Shopware\Core\Framework\DataAbstractionLayer\MappingEntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;

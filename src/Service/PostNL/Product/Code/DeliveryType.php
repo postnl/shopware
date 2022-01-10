@@ -1,6 +1,6 @@
 <?php
 
-namespace PostNl\Shipments\Service\PostNL\Product\Code;
+namespace PostNL\Shipments\Service\PostNL\Product\Code;
 
 interface DeliveryType
 {

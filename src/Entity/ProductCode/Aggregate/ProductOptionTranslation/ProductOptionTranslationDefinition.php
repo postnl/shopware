@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PostNl\Shipments\Entity\ProductCode\Aggregate\ProductOptionTranslation;
+namespace PostNL\Shipments\Entity\ProductCode\Aggregate\ProductOptionTranslation;
 
-use PostNl\Shipments\Entity\ProductCode\Aggregate\ProductOption\ProductOptionDefinition;
+use PostNL\Shipments\Entity\ProductCode\Aggregate\ProductOption\ProductOptionDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityTranslationDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\StringField;

@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace PostNl\Shipments\Migration;
+namespace PostNL\Shipments\Migration;
 
 use Doctrine\DBAL\Connection;
-use PostNl\Shipments\Component\Migration\ProductMigration;
-use PostNl\Shipments\Defaults;
-use PostNl\Shipments\Service\PostNL\Product\Code\DeliveryType;
-use PostNl\Shipments\Service\PostNL\Product\Code\Zone\Zone;
+use PostNL\Shipments\Component\Migration\ProductMigration;
+use PostNL\Shipments\Defaults;
+use PostNL\Shipments\Service\PostNL\Product\Code\DeliveryType;
+use PostNL\Shipments\Service\PostNL\Product\Code\Zone\Zone;
 use Shopware\Core\Framework\Uuid\Uuid;
 
 class Migration1640162702CreateV1Products extends ProductMigration

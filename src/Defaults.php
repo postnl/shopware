@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PostNl\Shipments;
+namespace PostNL\Shipments;
 
 class Defaults
 {
