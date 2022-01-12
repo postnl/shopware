@@ -7,7 +7,7 @@ use Firstred\PostNL\Entity\Request\GetNearestLocations;
 use Firstred\PostNL\Entity\Response\GetNearestLocationsResponse;
 use Firstred\PostNL\Exception\InvalidConfigurationException;
 use Firstred\PostNL\Exception\ResponseException;
-use PostNL\Shipments\Factory\ApiFactory;
+use PostNL\Shipments\Service\PostNL\Factory\ApiFactory;
 
 class CredentialsFacade
 {

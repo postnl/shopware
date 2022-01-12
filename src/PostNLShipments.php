@@ -2,7 +2,7 @@
 
 namespace PostNL\Shipments;
 
-use PostNL\Shipments\Service\ShippingMethod\ShippingMethodService;
+use PostNL\Shipments\Service\Shopware\ShippingMethodService;
 use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;

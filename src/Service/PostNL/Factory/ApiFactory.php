@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shipments\Factory;
+namespace PostNL\Shipments\Service\PostNL\Factory;
 
 use Firstred\PostNL\Entity\Address;
 use Firstred\PostNL\Entity\Customer;

@@ -8,7 +8,7 @@
         <defaults public="true"/>
 
         <service id="PostNL\Shipments\Facade\CredentialsFacade">
-            <argument type="service" id="PostNL\Shipments\Factory\ApiFactory"/>
+            <argument type="service" id="PostNL\Shipments\Service\PostNL\Factory\ApiFactory"/>
         </service>
     </services>
 </container>
