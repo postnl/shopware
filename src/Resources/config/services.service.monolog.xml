@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="PostNL\Shipments\Service\Monolog\PostNLLoggerFactory">
+            <argument type="service" id="session"/>
+        </service>
+
+        <service id="PostNL\Shipments\Service\Monolog\PostNLHandlerFactory">
+        </service>
+
+        <service id="postnl_shipments.logger" class="Monolog\Logger">
+            <factory service="PostNL\Shipments\Service\Monolog\PostNLLoggerFactory" method="createLogger"/>
+            <argument type="collection">
+                <argument type="service" id="postnl_shipments.file_handler"/>
+                <argument type="service" id="postnl_shipments.sql_handler"/>
+            </argument>
+        </service>
+
+        <!-- Handlers -->
+        <service id="postnl_shipments.file_handler" class="Monolog\Handler\RotatingFileHandler">
+            <factory service="PostNL\Shipments\Service\Monolog\PostNLHandlerFactory" method="createFileHandler"/>
+            <argument>%kernel.logs_dir%/postnl_%kernel.environment%.log</argument>
+            <argument>14</argument>
+        </service>
+
+        <service id="postnl_shipments.sql_handler" class="Shopware\Core\Framework\Log\Monolog\DoctrineSQLHandler">
+            <factory service="PostNL\Shipments\Service\Monolog\PostNLHandlerFactory" method="createSQLHandler"/>
+        </service>
+    </services>
+</container>
