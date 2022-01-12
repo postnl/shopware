@@ -1,0 +1,69 @@
+{% block memo_config_content %}
+    <memo-collapse :disabled="disabled">
+        <template #header>
+            <sw-container rows="1fr 1fr">
+                <div>
+                    {{ content.companyName }}
+
+                    <template v-if="content.companyName && (content.firstName || content.name)">
+                        &mdash;
+                    </template>
+
+                    {{ content.firstName }} {{ content.name }}
+                </div>
+                <div>
+                    {{ content.street }} {{ content.houseNr }}
+
+                    <template v-if="content.houseNrExt">
+                        {{ content.houseNrExt }}
+                    </template>
+
+                    <template v-if="content.zipcode || content.city">
+                        , {{ content.zipcode }} {{ content.city }}
+                    </template>
+
+                    <template v-if="country">
+                        , {{ country }}
+                    </template>
+                </div>
+            </sw-container>
+        </template>
+        <template #content>
+            <sw-container columns="repeat(4, 1fr)" gap="0 16px">
+                <sw-text-field v-model="content.companyName"
+                               :label="$tc('postnl.shipments.config.senderAddress.companyName')"
+                               :style="span(4)"/>
+
+                <sw-text-field v-model="content.firstName"
+                               :label="$tc('postnl.shipments.config.senderAddress.firstName')"
+                               :style="span(2)"/>
+
+                <sw-text-field v-model="content.name"
+                               :label="$tc('postnl.shipments.config.senderAddress.name')"
+                               :style="span(2)"/>
+
+                <sw-text-field v-model="content.street"
+                               :label="$tc('postnl.shipments.config.senderAddress.street')"
+                               :style="span(2)"/>
+
+                <sw-text-field v-model="content.houseNr"
+                               :label="$tc('postnl.shipments.config.senderAddress.houseNr')"/>
+
+                <sw-text-field v-model="content.houseNrExt"
+                               :label="$tc('postnl.shipments.config.senderAddress.houseNrExt')"/>
+
+                <sw-text-field v-model="content.zipcode"
+                               :label="$tc('postnl.shipments.config.senderAddress.zipcode')"/>
+
+                <sw-text-field v-model="content.city"
+                               :label="$tc('postnl.shipments.config.senderAddress.city')"
+                               :style="span(2)"/>
+
+                <sw-entity-single-select v-model="content.country"
+                                         :label="$tc('postnl.shipments.config.senderAddress.country')"
+                                         entity="country"
+                                         :criteria="countryCriteria"/>
+            </sw-container>
+        </template>
+    </memo-collapse>
+{% endblock %}

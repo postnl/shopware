@@ -1,0 +1,13 @@
+{% block sw_order_list_grid_columns %}
+
+    {% parent %}
+
+    {% block sw_order_list_grid_columns_deliveries_shipping_order_address %}
+        <template #column-deliveries[0].shippingOrderAddressId="{ item }">
+            {{ item.deliveries[0].shippingOrderAddress.street }},
+            {{ item.deliveries[0].shippingOrderAddress.zipcode }}
+            {{ item.deliveries[0].shippingOrderAddress.city }}
+        </template>
+    {% endblock %}
+
+{% endblock %}

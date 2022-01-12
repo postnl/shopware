@@ -8,7 +8,8 @@
   },
   "autoload": {
     "psr-4": {
-      "PostNL\\Shipments\\": "src/"
+      "PostNL\\Shipments\\": "src/",
+      "Firstred\\PostNL\\": "vendor/firstred/postnl-api-php/src/"
     }
   },
   "autoload-dev": {
@@ -26,7 +27,7 @@
   },
   "require": {
     "composer-runtime-api": "^2.0",
-    "firstred/postnl-api-php": "^v1.3"
+    "firstred/postnl-api-php": "^v1.3.7"
   },
   "require-dev": {
     "shopware/core": "*",
