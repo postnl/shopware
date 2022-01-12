@@ -2,7 +2,7 @@
   "name": "postnl/shipments",
   "description": "PostNL Shipments",
   "type": "shopware-platform-plugin",
-  "license": "MIT",
+  "license": "proprietary",
   "config": {
     "optimize-autoloader": true
   },
@@ -21,8 +21,8 @@
   "extra": {
     "shopware-plugin-class": "PostNL\\Shipments\\PostNLShipments",
     "label": {
-      "de-DE": "PostNL Shipments plugin",
-      "en-GB": "PostNL Shipments plugin"
+      "de-DE": "PostNL Shipments",
+      "en-GB": "PostNL Shipments"
     }
   },
   "require": {
