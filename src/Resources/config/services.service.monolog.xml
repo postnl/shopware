@@ -4,7 +4,7 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service id="postnl_shipments.logger" class="Monolog\Logger">
+        <service id="postnl_shipments.logger" class="Symfony\Bridge\Monolog\Logger">
             <argument>PostNL</argument>
             <argument type="collection">
                 <argument type="service" id="postnl_shipments.logger.handler.file"/>
@@ -14,6 +14,10 @@
                 <argument type="service" id="postnl_shipments.logger.processor.uid"/>
                 <argument type="service" id="postnl_shipments.logger.processor.introspection"/>
                 <argument type="service" id="postnl_shipments.logger.processor.web"/>
+                <argument type="service" id="postnl_shipments.logger.processor.console"/>
+                <argument type="service" id="postnl_shipments.logger.processor.route"/>
+
+                <!-- Custom processors, should run after web processor -->
                 <argument type="service" id="postnl_shipments.logger.processor.ip_anonymize"/>
                 <argument type="service" id="postnl_shipments.logger.processor.session"/>
             </argument>
@@ -41,8 +45,17 @@
             <argument>400</argument>
         </service>
 
-        <service id="postnl_shipments.logger.processor.web" class="Monolog\Processor\WebProcessor"/>
+        <service id="postnl_shipments.logger.processor.web" class="Symfony\Bridge\Monolog\Processor\WebProcessor"/>
 
+        <service id="postnl_shipments.logger.processor.console" class="Symfony\Bridge\Monolog\Processor\ConsoleCommandProcessor">
+            <argument>true</argument>
+            <argument>true</argument>
+        </service>
+
+        <service id="postnl_shipments.logger.processor.route" class="Symfony\Bridge\Monolog\Processor\RouteProcessor"/>
+
+
+        <!-- Custom Processors -->
         <service id="postnl_shipments.logger.processor.ip_anonymize" class="PostNL\Shipments\Service\Monolog\Processor\AnonymizeIPProcessor">
             <argument>*</argument>
         </service>
