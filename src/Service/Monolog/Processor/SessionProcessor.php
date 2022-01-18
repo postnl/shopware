@@ -3,17 +3,18 @@
 namespace PostNL\Shipments\Service\Monolog\Processor;
 
 use Monolog\Processor\ProcessorInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class SessionProcessor implements ProcessorInterface
 {
     /**
-     * @var string|null
+     * @var string
      */
     private $sessionId;
 
-    public function __construct(string $sessionId = null)
+    public function __construct(Session $session)
     {
-        $this->sessionId = $sessionId;
+        $this->sessionId = trim($session->getId());
     }
 
     public function __invoke(array $record)

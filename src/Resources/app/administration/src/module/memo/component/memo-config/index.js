@@ -1,7 +1,7 @@
 import template from './memo-config.html.twig';
-const { string } = Shopware.Utils;
 
 const { Component, Mixin } = Shopware;
+const { string } = Shopware.Utils;
 
 Component.register('memo-config', {
     template,
