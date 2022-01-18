@@ -1,8 +1,10 @@
 <?php
 
-namespace PostNL\Shipments\Service\Monolog\Anonymizer;
+namespace PostNL\Shipments\Service\Monolog\Processor;
 
-class IPAnonymizer implements AnonymizerInterface
+use Monolog\Processor\ProcessorInterface;
+
+class AnonymizeIPProcessor implements ProcessorInterface
 {
     /**
      * @var string
@@ -12,7 +14,7 @@ class IPAnonymizer implements AnonymizerInterface
     /**
      * @param string $placeholder
      */
-    public function __construct($placeholder)
+    public function __construct(string $placeholder = "0")
     {
         $this->placeholder = $placeholder;
     }
@@ -22,10 +24,10 @@ class IPAnonymizer implements AnonymizerInterface
      * provided IP address string.
      * The anonymous IP will end with a 0.
      *
-     * @param string $ip
-     * @return string
+     * @param array $record
+     * @return array
      */
-    public function anonymize(array $record): array
+    public function __invoke(array $record): array
     {
         if (!array_key_exists('ip', $record['extra'])) {
             return $record;
@@ -52,7 +54,7 @@ class IPAnonymizer implements AnonymizerInterface
      * @param string $ip
      * @return bool
      */
-    private function isValidIP($ip)
+    private function isValidIP(string $ip): bool
     {
         return (filter_var($ip, FILTER_VALIDATE_IP) !== false);
     }

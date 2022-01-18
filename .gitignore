@@ -6,4 +6,4 @@
 /tests/Cypress/package-lock.json
 
 src/Resources/app/storefront/dist/
-src/Resources/public/administration/js/
+src/Resources/public/administration/
