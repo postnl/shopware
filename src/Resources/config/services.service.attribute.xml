@@ -12,5 +12,10 @@
             <argument type="tagged" tag="postnl.attribute.handler.type"/>
             <argument type="service" id="postnl_shipments.logger"/>
         </service>
+
+        <service id="PostNL\Shipments\Service\Attribute\TypeHandler\CustomerDataStructHandler">
+            <argument type="service" id="PostNL\Shipments\Service\Attribute\AttributeFactory"/>
+            <tag name="postnl.attribute.handler.type"/>
+        </service>
     </services>
 </container>
