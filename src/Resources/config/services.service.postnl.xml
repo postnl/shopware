@@ -8,6 +8,8 @@
         <defaults public="true"/>
 
         <service id="PostNL\Shipments\Service\PostNL\Factory\ApiFactory">
+            <argument type="service" id="PostNL\Shipments\Service\Shopware\ConfigService"/>
+            <argument type="service" id="postnl_shipments.logger"/>
         </service>
     </services>
 </container>

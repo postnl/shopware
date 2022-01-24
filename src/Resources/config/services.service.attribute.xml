@@ -8,7 +8,7 @@
         <defaults public="true"/>
 
         <service id="PostNL\Shipments\Service\Attribute\AttributeFactory">
-            <argument type="tagged" tag="postnl.attribute.handler.entity"/>
+            <argument type="tagged" tag="postnl.attribute.struct.entity"/>
             <argument type="tagged" tag="postnl.attribute.handler.type"/>
             <argument type="service" id="postnl_shipments.logger"/>
         </service>

@@ -26,26 +26,25 @@
         </service>
 
         <!-- Handler Factory -->
-        <service id="PostNL\Shipments\Service\Monolog\PostNLHandlerFactory">
+        <service id="PostNL\Shipments\Service\Monolog\LoggerFactory">
+            <argument type="service" id="PostNL\Shipments\Service\Shopware\ConfigService"/>
         </service>
 
         <!-- Handlers -->
         <service id="postnl_shipments.logger.handler.file" class="Monolog\Handler\RotatingFileHandler">
-            <factory service="PostNL\Shipments\Service\Monolog\PostNLHandlerFactory" method="createFileHandler"/>
+            <factory service="PostNL\Shipments\Service\Monolog\LoggerFactory" method="createFileHandler"/>
             <argument>%kernel.logs_dir%/postnl_%kernel.environment%.log</argument>
             <argument>14</argument>
         </service>
 
         <service id="postnl_shipments.logger.handler.sql" class="Shopware\Core\Framework\Log\Monolog\DoctrineSQLHandler">
-            <factory service="PostNL\Shipments\Service\Monolog\PostNLHandlerFactory" method="createSQLHandler"/>
+            <factory service="PostNL\Shipments\Service\Monolog\LoggerFactory" method="createSQLHandler"/>
         </service>
 
         <!-- Processors -->
         <service id="postnl_shipments.logger.processor.uid" class="Monolog\Processor\UidProcessor"/>
 
-        <service id="postnl_shipments.logger.processor.introspection" class="Monolog\Processor\IntrospectionProcessor">
-            <argument>400</argument>
-        </service>
+        <service id="postnl_shipments.logger.processor.introspection" class="Monolog\Processor\IntrospectionProcessor"/>
 
         <service id="postnl_shipments.logger.processor.web" class="Symfony\Bridge\Monolog\Processor\WebProcessor"/>
 
@@ -55,7 +54,6 @@
         </service>
 
         <service id="postnl_shipments.logger.processor.route" class="Symfony\Bridge\Monolog\Processor\RouteProcessor"/>
-
 
         <!-- Custom Processors -->
         <service id="postnl_shipments.logger.processor.ip_anonymize" class="PostNL\Shipments\Service\Monolog\Processor\AnonymizeIPProcessor">

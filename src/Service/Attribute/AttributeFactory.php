@@ -3,6 +3,12 @@
 namespace PostNL\Shipments\Service\Attribute;
 
 use PostNL\Shipments\Defaults;
+use PostNL\Shipments\Exception\Attribute\EntityCustomFieldsException;
+use PostNL\Shipments\Exception\Attribute\MissingAttributeStructException;
+use PostNL\Shipments\Exception\Attribute\MissingEntityAttributeStructException;
+use PostNL\Shipments\Exception\Attribute\MissingPropertyAccessorMethodException;
+use PostNL\Shipments\Exception\Attribute\MissingReturnTypeException;
+use PostNL\Shipments\Exception\Attribute\MissingTypeHandlerException;
 use PostNL\Shipments\Service\Attribute\TypeHandler\AttributeTypeHandlerInterface;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
@@ -39,17 +45,27 @@ class AttributeFactory
     /**
      * @param Entity $entity
      * @return EntityAttributeStruct
-     * @throws \ReflectionException
+     * @throws EntityCustomFieldsException
+     * @throws MissingAttributeStructException
+     * @throws MissingEntityAttributeStructException
+     * @throws MissingPropertyAccessorMethodException
+     * @throws MissingReturnTypeException
+     * @throws MissingTypeHandlerException
      */
     public function createFromEntity(Entity $entity): EntityAttributeStruct
     {
+        $this->logger->debug("Creating struct for entity", [
+            'entity' => get_class($entity),
+        ]);
+
         /**
          * If this entity does not contain getCustomFields, we can't do anything, and we shouldn't even create
          * an attribute struct in the first place.
          */
-        // TODO 001 specific exception
-        if(!method_exists($entity, 'getCustomFields')) {
-            throw new \Exception('Entity does not contain custom fields');
+        if (!method_exists($entity, 'getCustomFields')) {
+            throw new EntityCustomFieldsException([
+                'entity' => get_class($entity),
+            ]);
         }
 
         $structClass = $this->getStructClassForEntity(get_class($entity));
@@ -71,7 +87,7 @@ class AttributeFactory
          * If this entity has custom fields, and our key exists in the custom fields,
          * grab it and create the struct with it.
          */
-        if(!empty($customFields) && array_key_exists(Defaults::CUSTOM_FIELDS_KEY, $customFields)) {
+        if (!empty($customFields) && array_key_exists(Defaults::CUSTOM_FIELDS_KEY, $customFields)) {
             $data = $customFields[Defaults::CUSTOM_FIELDS_KEY];
         }
 
@@ -85,15 +101,29 @@ class AttributeFactory
      * @param string $structName
      * @param array $data
      * @return AttributeStruct
-     * @throws \ReflectionException
+     * @throws MissingAttributeStructException
+     * @throws MissingPropertyAccessorMethodException
+     * @throws MissingReturnTypeException
+     * @throws MissingTypeHandlerException
      */
     public function create(string $structName, array $data = []): AttributeStruct
     {
+        $this->logger->debug("Creating struct", [
+            'struct' => $structName,
+            'data' => $data,
+        ]);
+
         /** @var AttributeStruct $struct */
         $struct = new $structName();
         $structData = [];
 
-        $reflectionClass = new \ReflectionClass($structName);
+        try {
+            $reflectionClass = new \ReflectionClass($structName);
+        } catch(\ReflectionException $e) {
+            throw new MissingAttributeStructException([
+                'class' => $structName,
+            ], $e);
+        }
 
         foreach ($reflectionClass->getProperties() as $reflectionProperty) {
             if ($reflectionProperty->getDeclaringClass()->getName() !== $structName) {
@@ -107,17 +137,6 @@ class AttributeFactory
             $value = $data[$reflectionProperty->getName()];
 
             $reflectionType = $this->resolvePropertyType($reflectionProperty, $reflectionClass);
-
-            if (!$reflectionType instanceof \ReflectionNamedType) {
-                $this->logger->critical(
-                    sprintf('Could not infer type for property "%s"', $reflectionProperty->getName()),
-                    [
-                        'class' => $structName,
-                        'data' => $data,
-                    ]
-                );
-                continue;
-            }
 
             if (!$reflectionType->isBuiltin()) {
                 $structData[$reflectionProperty->getName()] = $this->getTypeHandler($reflectionType)->handle($value);
@@ -134,64 +153,103 @@ class AttributeFactory
     /**
      * @param string $entityName
      * @return string
-     * @throws \Exception
+     * @throws MissingEntityAttributeStructException
      */
     protected function getStructClassForEntity(string $entityName): string
     {
-        foreach ($this->entityStructs as $struct) {
-            if ($entityName === $struct->supports()) {
-                return get_class($struct);
-            }
-        }
+        try {
+            $this->logger->debug("Getting struct class for entity", [
+                'entity' => $entityName,
+            ]);
 
-        throw new \Exception(sprintf('No struct found for entity "%s"', $entityName));
+            foreach ($this->entityStructs as $struct) {
+                if ($entityName === $struct->supports()) {
+                    return get_class($struct);
+                }
+            }
+
+            throw new MissingEntityAttributeStructException([
+                'entity' => $entityName,
+            ]);
+        } catch(MissingEntityAttributeStructException $e) {
+            $this->logger->critical($e->getMessage(), $e->getParameters());
+            throw $e;
+        }
     }
 
     /**
      * @param \ReflectionNamedType $reflectionType
      * @return AttributeTypeHandlerInterface
-     * @throws \Exception
+     * @throws MissingTypeHandlerException
      */
     protected function getTypeHandler(\ReflectionNamedType $reflectionType): AttributeTypeHandlerInterface
     {
-        foreach ($this->typeHandlers as $handler) {
-            if (in_array($reflectionType->getName(), $handler->supports())) {
-                return $handler;
-            }
-        }
+        try {
+            $this->logger->debug("Getting handler for property type", [
+                'type' => $reflectionType->getName(),
+            ]);
 
-        throw new \Exception(sprintf('No handler found for type "%s"', $reflectionType->getName()));
+            foreach ($this->typeHandlers as $handler) {
+                if (in_array($reflectionType->getName(), $handler->supports())) {
+                    return $handler;
+                }
+            }
+
+            throw new MissingTypeHandlerException([
+                'type' => $reflectionType->getName(),
+            ]);
+        } catch (MissingTypeHandlerException $e) {
+            $this->logger->critical($e->getMessage(), $e->getParameters());
+            throw $e;
+        }
     }
 
     /**
      * @param \ReflectionProperty $reflectionProperty
      * @param \ReflectionClass $reflectionClass
      * @return \ReflectionNamedType|null
-     * @throws \Exception
+     * @throws MissingPropertyAccessorMethodException
+     * @throws MissingReturnTypeException
      */
     private function resolvePropertyType(
         \ReflectionProperty $reflectionProperty,
         \ReflectionClass    $reflectionClass
-    ): ?\ReflectionNamedType
+    ): \ReflectionNamedType
     {
-        $reflectionType = $reflectionProperty->getType();
-        if ($reflectionType instanceof \ReflectionNamedType) {
-            return $reflectionType;
+        try {
+            $reflectionType = $reflectionProperty->getType();
+            if ($reflectionType instanceof \ReflectionNamedType) {
+                return $reflectionType;
+            }
+
+            $getMethod = 'get' . ucfirst($reflectionProperty->getName());
+            $isMethod = 'is' . ucfirst($reflectionProperty->getName());
+
+            if ($reflectionClass->hasMethod($getMethod)) {
+                $reflectionMethod = $reflectionClass->getMethod($getMethod);
+            } elseif ($reflectionClass->hasMethod($isMethod)) {
+                $reflectionMethod = $reflectionClass->getMethod($isMethod);
+            } else {
+                throw new MissingPropertyAccessorMethodException([
+                    'class' => $reflectionClass->getName(),
+                    'property' => $reflectionProperty->getName(),
+                    'example' => [$getMethod, $isMethod],
+                ]);
+            }
+
+            $reflectionType = $reflectionMethod->getReturnType();
+
+            if ($reflectionType instanceof \ReflectionNamedType) {
+                return $reflectionType;
+            }
+
+            throw new MissingReturnTypeException([
+                'class' => $reflectionClass->getName(),
+                'method' => $reflectionMethod->getName(),
+            ]);
+        } catch (MissingPropertyAccessorMethodException | MissingReturnTypeException $e) {
+            $this->logger->critical($e->getMessage(), $e->getParameters());
+            throw $e;
         }
-
-        $getMethod = 'get' . ucfirst($reflectionProperty->getName());
-        $isMethod = 'is' . ucfirst($reflectionProperty->getName());
-
-        if ($reflectionClass->hasMethod($getMethod)) {
-            $reflectionMethod = $reflectionClass->getMethod($getMethod);
-        } elseif ($reflectionClass->hasMethod($isMethod)) {
-            $reflectionMethod = $reflectionClass->getMethod($isMethod);
-        } else {
-            throw new \Exception(sprintf('Accessor method for property "%s" not found',
-                $reflectionProperty->getName()
-            ));
-        }
-
-        return $reflectionMethod->getReturnType();
     }
 }
