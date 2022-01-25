@@ -4,7 +4,7 @@ namespace PostNL\Shipments\Struct\Config;
 
 use PostNL\Shipments\Service\Attribute\AttributeStruct;
 
-class CustomerDataStruct extends AttributeStruct
+class CustomerDataStruct extends ApiCompatibleStruct
 {
     /**
      * @var string
