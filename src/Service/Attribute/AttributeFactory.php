@@ -147,7 +147,10 @@ class AttributeFactory
             $structData[$reflectionProperty->getName()] = $value;
         }
 
+        $extraData = array_diff_key($data, $structData);
+
         $struct->assign($structData);
+        $struct->assign($extraData);
         return $struct;
     }
 
