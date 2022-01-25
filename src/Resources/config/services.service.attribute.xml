@@ -20,7 +20,7 @@
 
         <service id="PostNL\Shipments\Service\Attribute\TypeHandler\SenderAddressStructHandler">
             <argument type="service" id="PostNL\Shipments\Service\Attribute\AttributeFactory"/>
-            <argument type="service" id="country.repository"/>
+            <argument type="service" id="PostNL\Shipments\Service\Shopware\CountryService"/>
             <tag name="postnl.attribute.handler.type"/>
         </service>
     </services>
