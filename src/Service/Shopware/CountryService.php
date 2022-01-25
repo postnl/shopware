@@ -2,6 +2,7 @@
 
 namespace PostNL\Shipments\Service\Shopware;
 
+use PostNL\Shipments\Exception\Shopware\InvalidCountryIdException;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
@@ -47,7 +48,9 @@ class CountryService
             return $country;
         }
 
-        throw new \Exception('Could not find country');
+        throw new InvalidCountryIdException([
+            'countryId' => $countryId
+        ]);
     }
 
     /**
