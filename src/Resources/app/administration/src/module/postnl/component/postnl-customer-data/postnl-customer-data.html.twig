@@ -7,8 +7,8 @@
             , {{ content.collectionLocation }}
             </template>
 
-            <template v-if="content.globalPackCustomerNumber || content.globalPackBarcodeType">
-                &mdash; GlobalPack: {{ content.globalPackCustomerNumber }} {{ content.globalPackBarcodeType }}
+            <template v-if="content.globalPackCustomerCode || content.globalPackBarcodeType">
+                &mdash; GlobalPack: {{ content.globalPackCustomerCode }} {{ content.globalPackBarcodeType }}
             </template>
         </template>
         <template #content="{ disabled }">

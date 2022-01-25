@@ -10,7 +10,8 @@ Component.register('postnl-api-credentials-test', {
     ],
 
     mixins: [
-        Mixin.getByName('notification')
+        Mixin.getByName('notification'),
+        Mixin.getByName('memo-config-access'),
     ],
 
     data() {
@@ -23,11 +24,8 @@ Component.register('postnl-api-credentials-test', {
         onTestButtonClicked() {
             this.isLoading = true;
 
-            const productionApiKeyInput = document.querySelector('input[name="PostNlShipments.config.productionApiKey"]');
-            const sandboxApiKeyInput = document.querySelector('input[name="PostNlShipments.config.sandboxApiKey"]');
-
-            const productionApiKey = !!productionApiKeyInput ? productionApiKeyInput.value : null;
-            const sandboxApiKey = !!sandboxApiKeyInput ? sandboxApiKeyInput.value : null;
+            const productionApiKey = this.getConfigItem('productionApiKey');
+            const sandboxApiKey = this.getConfigItem('sandboxApiKey');
 
             Promise
                 .all([

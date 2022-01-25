@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="true"/>
+
+        <service id="PostNL\Shipments\Service\Attribute\AttributeFactory">
+            <argument type="tagged" tag="postnl.attribute.struct.entity"/>
+            <argument type="tagged" tag="postnl.attribute.handler.type"/>
+            <argument type="service" id="postnl_shipments.logger"/>
+        </service>
+
+        <service id="PostNL\Shipments\Service\Attribute\TypeHandler\CustomerDataStructHandler">
+            <argument type="service" id="PostNL\Shipments\Service\Attribute\AttributeFactory"/>
+            <tag name="postnl.attribute.handler.type"/>
+        </service>
+
+        <service id="PostNL\Shipments\Service\Attribute\TypeHandler\SenderAddressStructHandler">
+            <argument type="service" id="PostNL\Shipments\Service\Attribute\AttributeFactory"/>
+            <argument type="service" id="PostNL\Shipments\Service\Shopware\CountryService"/>
+            <tag name="postnl.attribute.handler.type"/>
+        </service>
+    </services>
+</container>

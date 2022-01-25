@@ -4,6 +4,8 @@ namespace PostNL\Shipments;
 
 class Defaults
 {
+    const CUSTOM_FIELDS_KEY = 'postnl-shipments';
+
     // NL->NL, Verzending
     const PRODUCT_SHIPPING_NL_NL_3085 = "01c8aeac08cd4d1b95de9ef6a18ae89d";
 
