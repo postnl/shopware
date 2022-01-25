@@ -4,6 +4,8 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
+        <defaults public="true"/>
+
         <service id="postnl_shipments.logger" class="Symfony\Bridge\Monolog\Logger">
             <argument>PostNL</argument>
 
@@ -27,7 +29,7 @@
 
         <!-- Handler Factory -->
         <service id="PostNL\Shipments\Service\Monolog\LoggerFactory">
-            <argument type="service" id="PostNL\Shipments\Service\Shopware\ConfigService"/>
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
         </service>
 
         <!-- Handlers -->

@@ -7,22 +7,23 @@ use Monolog\Logger;
 use PostNL\Shipments\Service\Shopware\ConfigService;
 use Shopware\Core\Framework\Log\Monolog\DoctrineSQLHandler;
 use Shopware\Core\Kernel;
+use Shopware\Core\System\SystemConfig\SystemConfigService;
 
 class LoggerFactory
 {
     /**
-     * @var ConfigService
+     * @var SystemConfigService
      */
-    private $configService;
+    private $systemConfigService;
 
     /**
-     * @param ConfigService $configService
+     * @param SystemConfigService $systemConfigService
      */
     public function __construct(
-        ConfigService $configService
+        SystemConfigService $systemConfigService
     )
     {
-        $this->configService = $configService;
+        $this->systemConfigService = $systemConfigService;
     }
 
     /**
@@ -49,7 +50,7 @@ class LoggerFactory
     private function getConfigurationBasedLogLevel(): int
     {
         try {
-            if ($this->configService->getConfiguration()->isDebugMode()) {
+            if ($this->systemConfigService->getBool(ConfigService::DOMAIN . 'debugMode')) {
                 return Logger::DEBUG;
             }
         } catch (\Exception $e) {
