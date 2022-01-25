@@ -42,12 +42,12 @@ class SenderAddressStruct extends ApiCompatibleStruct
     /**
      * @var string
      */
-    protected $code;
+    protected $city;
 
     /**
      * @var string
      */
-    protected $countryCode;
+    protected $countrycode;
 
     /**
      * @return string
@@ -164,32 +164,32 @@ class SenderAddressStruct extends ApiCompatibleStruct
     /**
      * @return string
      */
-    public function getCode(): string
+    public function getCity(): string
     {
-        return $this->code;
+        return $this->city;
     }
 
     /**
-     * @param string $code
+     * @param string $city
      */
-    public function setCode(string $code): void
+    public function setCity(string $city): void
     {
-        $this->code = $code;
+        $this->city = $city;
     }
 
     /**
      * @return string
      */
-    public function getCountryCode(): string
+    public function getCountrycode(): string
     {
-        return $this->countryCode;
+        return $this->countrycode;
     }
 
     /**
-     * @param string $countryCode
+     * @param string $countrycode
      */
-    public function setCountryCode(string $countryCode): void
+    public function setCountrycode(string $countrycode): void
     {
-        $this->countryCode = $countryCode;
+        $this->countrycode = $countrycode;
     }
 }

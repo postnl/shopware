@@ -41,9 +41,9 @@ class SenderAddressStructHandler implements AttributeTypeHandlerInterface
         $data = json_decode($data, true);
 
         if(Uuid::isValid($data['country'])) {
-            $data['countryCode'] = $this->countryService->getCountryCodeById($data['country'], $context);
+            $data['countrycode'] = $this->countryService->getCountryCodeById($data['country'], $context);
         } else {
-            $data['countryCode'] = '';
+            $data['countrycode'] = '';
         }
         unset($data['country']);
 
