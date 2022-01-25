@@ -7,6 +7,7 @@ use Firstred\PostNL\Entity\Customer;
 use Firstred\PostNL\PostNL;
 use PostNL\Shipments\Service\Shopware\ConfigService;
 use Psr\Log\LoggerInterface;
+use Shopware\Core\Framework\Context;
 
 class ApiFactory
 {
@@ -52,15 +53,16 @@ class ApiFactory
 
     /**
      * @param string $salesChannelId
+     * @param Context $context
      * @return PostNL
      */
-    public function createClientForSalesChannel(string $salesChannelId): PostNL
+    public function createClientForSalesChannel(string $salesChannelId, Context $context): PostNL
     {
         $this->logger->debug("Creating API client for saleschannel", [
             'salesChannelId' => $salesChannelId
         ]);
 
-        $config = $this->configService->getConfiguration($salesChannelId);
+        $config = $this->configService->getConfiguration($salesChannelId, $context);
 
         $client = $this->createClient(
             $config->isSandboxMode()

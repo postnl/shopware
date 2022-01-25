@@ -5,6 +5,7 @@ namespace PostNL\Shipments\Service\Shopware;
 use PostNL\Shipments\Service\Attribute\AttributeFactory;
 use PostNL\Shipments\Struct\Config\ConfigStruct;
 use Psr\Log\LoggerInterface;
+use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\ShopwareHttpException;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 
@@ -40,9 +41,10 @@ class ConfigService
 
     /**
      * @param string|null $salesChannelId
+     * @param Context $context
      * @return ConfigStruct
      */
-    public function getConfiguration(?string $salesChannelId = null): ConfigStruct
+    public function getConfiguration(?string $salesChannelId, Context $context): ConfigStruct
     {
         $this->logger->debug("Getting plugin configuration", [
             'salesChannelId' => $salesChannelId,
@@ -61,7 +63,7 @@ class ConfigService
             }
 
             /** @var ConfigStruct $struct */
-            $struct = $this->attributeFactory->create(ConfigStruct::class, $data);
+            $struct = $this->attributeFactory->create(ConfigStruct::class, $data, $context);
 
             return $struct;
         } catch (ShopwareHttpException $e) {
