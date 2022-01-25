@@ -9,6 +9,7 @@
 
         <service id="PostNL\Shipments\Controller\Api\CredentialsController">
             <argument type="service" id="PostNL\Shipments\Facade\CredentialsFacade"/>
+            <argument type="service" id="postnl_shipments.logger"/>
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>

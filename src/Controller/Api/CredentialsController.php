@@ -3,6 +3,7 @@
 namespace PostNL\Shipments\Controller\Api;
 
 use PostNL\Shipments\Facade\CredentialsFacade;
+use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,11 +15,23 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CredentialsController extends AbstractController
 {
-    private $credentialsFacade;
+    /**
+     * @var CredentialsFacade
+     */
+    protected $credentialsFacade;
 
-    public function __construct(CredentialsFacade $credentialsFacade)
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    public function __construct(
+        CredentialsFacade $credentialsFacade,
+        LoggerInterface   $logger
+    )
     {
         $this->credentialsFacade = $credentialsFacade;
+        $this->logger = $logger;
     }
 
     /**
@@ -52,13 +65,18 @@ class CredentialsController extends AbstractController
     }
 
     /**
-     * @param $apiKey
-     * @param $sandbox
+     * @param string $apiKey
+     * @param bool $sandbox
      * @return JsonResponse
      */
-    private function getTestResponse($apiKey, $sandbox): JsonResponse
+    private function getTestResponse(string $apiKey, bool $sandbox): JsonResponse
     {
         $valid = $this->credentialsFacade->test($apiKey, $sandbox);
+
+        $this->logger->info("API key validated", [
+            'sandbox' => $sandbox,
+            'valid' => $valid,
+        ]);
 
         return $this->json(['valid' => $valid]);
     }

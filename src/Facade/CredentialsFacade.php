@@ -8,20 +8,37 @@ use Firstred\PostNL\Entity\Response\GetNearestLocationsResponse;
 use Firstred\PostNL\Exception\InvalidConfigurationException;
 use Firstred\PostNL\Exception\ResponseException;
 use PostNL\Shipments\Service\PostNL\Factory\ApiFactory;
+use Psr\Log\LoggerInterface;
 
 class CredentialsFacade
 {
-    /** @var ApiFactory  */
-    private $apiFactory;
+    /**
+     * @var ApiFactory
+     */
+    protected $apiFactory;
 
-    public function __construct(ApiFactory $apiFactory)
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    public function __construct(
+        ApiFactory      $apiFactory,
+        LoggerInterface $logger
+    )
     {
         $this->apiFactory = $apiFactory;
+        $this->logger = $logger;
     }
 
     public function test(string $apiKey, bool $sandbox): bool
     {
         try {
+            $this->logger->debug("Testing API key", [
+                'apiKey' => $this->apiFactory->obfuscateApiKey($apiKey),
+                'sandbox' => $sandbox,
+            ]);
+
             $apiClient = $this->apiFactory->createClient($apiKey, $sandbox);
 
             $location = new Location();
@@ -30,7 +47,7 @@ class CredentialsFacade
             $response = $apiClient->getNearestLocations(new GetNearestLocations('NL', $location));
 
             return $response instanceof GetNearestLocationsResponse;
-        } catch(ResponseException | InvalidConfigurationException $e) {
+        } catch (ResponseException|InvalidConfigurationException $e) {
             return false;
         }
     }
