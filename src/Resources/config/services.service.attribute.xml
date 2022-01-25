@@ -17,5 +17,11 @@
             <argument type="service" id="PostNL\Shipments\Service\Attribute\AttributeFactory"/>
             <tag name="postnl.attribute.handler.type"/>
         </service>
+
+        <service id="PostNL\Shipments\Service\Attribute\TypeHandler\SenderAddressStructHandler">
+            <argument type="service" id="PostNL\Shipments\Service\Attribute\AttributeFactory"/>
+            <argument type="service" id="country.repository"/>
+            <tag name="postnl.attribute.handler.type"/>
+        </service>
     </services>
 </container>

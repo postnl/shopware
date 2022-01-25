@@ -31,11 +31,11 @@ class ConfigStruct extends AttributeStruct
      */
     protected $customerData;
 
-//    /**
-//     * @var
-//     */
-//    protected $senderAddress;
-//
+    /**
+     * @var SenderAddressStruct
+     */
+    protected $senderAddress;
+
 //    /**
 //     * @var
 //     */
@@ -119,6 +119,22 @@ class ConfigStruct extends AttributeStruct
     public function setCustomerData(CustomerDataStruct $customerData): void
     {
         $this->customerData = $customerData;
+    }
+
+    /**
+     * @return SenderAddressStruct
+     */
+    public function getSenderAddress(): SenderAddressStruct
+    {
+        return $this->senderAddress;
+    }
+
+    /**
+     * @param SenderAddressStruct $senderAddress
+     */
+    public function setSenderAddress(SenderAddressStruct $senderAddress): void
+    {
+        $this->senderAddress = $senderAddress;
     }
 
 
