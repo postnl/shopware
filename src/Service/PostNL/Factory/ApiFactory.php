@@ -39,7 +39,7 @@ class ApiFactory
     ): PostNL
     {
         $this->logger->debug("Creating API client", [
-            'apiKey' => sprintf("%s..%s", substr($apiKey, 0, 6), substr($apiKey, -6)),
+            'apiKey' => $this->obfuscateApiKey($apiKey),
             'sandbox' => $sandbox,
             'customerData' => $customerData,
             'senderAddress' => $senderAddress,
@@ -64,7 +64,7 @@ class ApiFactory
 
         $config = $this->configService->getConfiguration($salesChannelId, $context);
 
-        $client = $this->createClient(
+        return $this->createClient(
             $config->isSandboxMode()
                 ? $config->getSandboxApiKey()
                 : $config->getProductionApiKey(),
@@ -72,8 +72,10 @@ class ApiFactory
             $config->getCustomerData()->getVarsForApi(),
             $config->getSenderAddress()->getVarsForApi()
         );
-
-        dd($config, $client);
     }
 
+    public function obfuscateApiKey(string $apiKey, $visibleCharacters = 6): string
+    {
+        return sprintf("%s..%s", substr($apiKey, 0, $visibleCharacters), substr($apiKey, -$visibleCharacters));
+    }
 }
