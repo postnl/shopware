@@ -69,7 +69,8 @@ class ApiFactory
                 ? $config->getSandboxApiKey()
                 : $config->getProductionApiKey(),
             $config->isSandboxMode(),
-            $config->getCustomerData()->getVarsForApi()
+            $config->getCustomerData()->getVarsForApi(),
+            $config->getSenderAddress()->getVarsForApi()
         );
 
         dd($config, $client);
