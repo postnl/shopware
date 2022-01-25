@@ -4,6 +4,7 @@ namespace PostNL\Shipments\Service\PostNL\Factory;
 
 use Firstred\PostNL\Entity\Address;
 use Firstred\PostNL\Entity\Customer;
+use Firstred\PostNL\Exception\InvalidArgumentException;
 use Firstred\PostNL\PostNL;
 use PostNL\Shipments\Component\PostNL\Factory\GuzzleRequestFactory;
 use PostNL\Shipments\Service\Shopware\ConfigService;
@@ -46,16 +47,32 @@ class ApiFactory
             'senderAddress' => $senderAddress,
         ]);
 
-        $customer = Customer::create($customerData);
-        $customer->setAddress((Address::create($senderAddress))->setAddressType('02'));
+        try {
+            $customer = Customer::create($customerData);
+            $customer->setAddress((Address::create($senderAddress))->setAddressType('02'));
 
-        $requestFactory = new GuzzleRequestFactory();
-//        $requestFactory->addHeader();
+            $requestFactory = new GuzzleRequestFactory();
+//            $requestFactory->addHeader();
 
-        $client = new PostNL($customer, $apiKey, $sandbox);
-        $client->setRequestFactory($requestFactory);
+            $client = new PostNL($customer, $apiKey, $sandbox);
+            $client->setRequestFactory($requestFactory);
 
-        return $client;
+            return $client;
+        } catch(InvalidArgumentException $e) {
+            $this->logger->critical($e->getMessage(), [
+                'apiKey' => $this->obfuscateApiKey($apiKey),
+                'sandbox' => $sandbox,
+                'customerData' => $customerData,
+                'senderAddress' => $senderAddress,
+            ]);
+
+            throw new \ClientCreationException([
+                'apiKey' => $this->obfuscateApiKey($apiKey),
+                'sandbox' => $sandbox,
+                'customerData' => $customerData,
+                'senderAddress' => $senderAddress,
+            ], $e);
+        }
     }
 
     /**
