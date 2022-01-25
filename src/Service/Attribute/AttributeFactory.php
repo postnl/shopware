@@ -11,6 +11,7 @@ use PostNL\Shipments\Exception\Attribute\MissingReturnTypeException;
 use PostNL\Shipments\Exception\Attribute\MissingTypeHandlerException;
 use PostNL\Shipments\Service\Attribute\TypeHandler\AttributeTypeHandlerInterface;
 use Psr\Log\LoggerInterface;
+use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 
 class AttributeFactory
@@ -52,7 +53,7 @@ class AttributeFactory
      * @throws MissingReturnTypeException
      * @throws MissingTypeHandlerException
      */
-    public function createFromEntity(Entity $entity): EntityAttributeStruct
+    public function createFromEntity(Entity $entity, Context $context): EntityAttributeStruct
     {
         $this->logger->debug("Creating struct for entity", [
             'entity' => get_class($entity),
@@ -92,7 +93,7 @@ class AttributeFactory
         }
 
         /** @var EntityAttributeStruct $struct */
-        $struct = $this->create($structClass, $data);
+        $struct = $this->create($structClass, $data, $context);
 
         return $struct;
     }
@@ -106,7 +107,7 @@ class AttributeFactory
      * @throws MissingReturnTypeException
      * @throws MissingTypeHandlerException
      */
-    public function create(string $structName, array $data = []): AttributeStruct
+    public function create(string $structName, array $data, Context $context): AttributeStruct
     {
         $this->logger->debug("Creating struct", [
             'struct' => $structName,
@@ -139,7 +140,7 @@ class AttributeFactory
             $reflectionType = $this->resolvePropertyType($reflectionProperty, $reflectionClass);
 
             if (!$reflectionType->isBuiltin()) {
-                $structData[$reflectionProperty->getName()] = $this->getTypeHandler($reflectionType)->handle($value);
+                $structData[$reflectionProperty->getName()] = $this->getTypeHandler($reflectionType)->handle($value, $context);
                 continue;
             }
 
