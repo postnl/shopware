@@ -1,6 +1,6 @@
 <?php
 
-namespace PostNL\Shipments\Service\Attribute;
+namespace PostNL\Shipments\Service\Attribute\Factory;
 
 use PostNL\Shipments\Defaults;
 use PostNL\Shipments\Exception\Attribute\EntityCustomFieldsException;
@@ -9,6 +9,8 @@ use PostNL\Shipments\Exception\Attribute\MissingEntityAttributeStructException;
 use PostNL\Shipments\Exception\Attribute\MissingPropertyAccessorMethodException;
 use PostNL\Shipments\Exception\Attribute\MissingReturnTypeException;
 use PostNL\Shipments\Exception\Attribute\MissingTypeHandlerException;
+use PostNL\Shipments\Service\Attribute\AttributeStruct;
+use PostNL\Shipments\Service\Attribute\EntityAttributeStruct;
 use PostNL\Shipments\Service\Attribute\TypeHandler\AttributeTypeHandlerInterface;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
