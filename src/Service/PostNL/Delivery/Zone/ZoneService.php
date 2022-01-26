@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shipments\Service\PostNL\ProductCode\Zone;
+namespace PostNL\Shipments\Service\PostNL\Delivery\Zone;
 
 class ZoneService
 {
@@ -8,10 +8,10 @@ class ZoneService
     {
         switch($sourceCountryIso) {
             case 'NL':
-                $sourceMapping = Mapping::SOURCE_NL;
+                $sourceMapping = ZoneMapping::SOURCE_NL;
                 break;
             case 'BE':
-                $sourceMapping = Mapping::SOURCE_BE;
+                $sourceMapping = ZoneMapping::SOURCE_BE;
                 break;
             default:
                 throw new \Exception('Shipping not supported for this source country');

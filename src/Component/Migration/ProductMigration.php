@@ -5,8 +5,8 @@ namespace PostNL\Shipments\Component\Migration;
 use Doctrine\DBAL\Connection;
 use PostNL\Shipments\Entity\ProductCode\Aggregate\ProductCodeConfigTranslation\ProductCodeConfigTranslationDefinition;
 use PostNL\Shipments\Entity\ProductCode\ProductCodeConfigDefinition;
-use PostNL\Shipments\Service\PostNL\ProductCode\DeliveryType;
-use PostNL\Shipments\Service\PostNL\ProductCode\Zone\Zone;
+use PostNL\Shipments\Service\PostNL\Delivery\DeliveryType;
+use PostNL\Shipments\Service\PostNL\Delivery\Zone\Zone;
 use Shopware\Core\Framework\Migration\MigrationStep;
 
 abstract class ProductMigration extends MigrationStep

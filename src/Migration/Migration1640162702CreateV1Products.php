@@ -5,8 +5,8 @@ namespace PostNL\Shipments\Migration;
 use Doctrine\DBAL\Connection;
 use PostNL\Shipments\Component\Migration\ProductMigration;
 use PostNL\Shipments\Defaults;
-use PostNL\Shipments\Service\PostNL\ProductCode\DeliveryType;
-use PostNL\Shipments\Service\PostNL\ProductCode\Zone\Zone;
+use PostNL\Shipments\Service\PostNL\Delivery\DeliveryType;
+use PostNL\Shipments\Service\PostNL\Delivery\Zone\Zone;
 use Shopware\Core\Defaults as ShopwareDefaults;
 use Shopware\Core\Framework\Uuid\Uuid;
 
