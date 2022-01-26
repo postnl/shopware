@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shipments\Service\PostNL\Product\Code\Zone;
+namespace PostNL\Shipments\Service\PostNL\Product\Zone;
 
 interface Zone
 {
