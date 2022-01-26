@@ -52,12 +52,12 @@ class ProductCodeConfigEntity extends Entity
     /** @var ProductCodeConfigTranslationCollection */
     protected $translations;
 
-    public function setName(?string $value): void
+    public function setName(string $value): void
     {
         $this->name = $value;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -162,12 +162,12 @@ class ProductCodeConfigEntity extends Entity
         return $this->notification;
     }
 
-    public function setTranslations(?ProductCodeConfigTranslationCollection $value): void
+    public function setTranslations(ProductCodeConfigTranslationCollection $value): void
     {
         $this->translations = $value;
     }
 
-    public function getTranslations(): ?ProductCodeConfigTranslationCollection
+    public function getTranslations(): ProductCodeConfigTranslationCollection
     {
         return $this->translations;
     }

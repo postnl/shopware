@@ -14,26 +14,41 @@ class ProductCodeConfigTranslationDefinition extends EntityTranslationDefinition
 {
     const ENTITY_NAME = 'postnl_shipments_product_code_config_translation';
 
+    /**
+     * @return string
+     */
     public function getEntityName(): string
     {
         return self::ENTITY_NAME;
     }
 
+    /**
+     * @return string
+     */
     public function getEntityClass(): string
     {
         return ProductCodeConfigTranslationEntity::class;
     }
 
+    /**
+     * @return string
+     */
     public function getCollectionClass(): string
     {
         return ProductCodeConfigTranslationCollection::class;
     }
 
+    /**
+     * @return string
+     */
     public function getParentDefinitionClass(): string
     {
         return ProductCodeConfigDefinition::class;
     }
 
+    /**
+     * @return FieldCollection
+     */
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([

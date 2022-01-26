@@ -6,6 +6,10 @@ use Shopware\Core\Framework\ShopwareHttpException;
 
 class MissingPropertyAccessorMethodException extends ShopwareHttpException
 {
+    /**
+     * @param array<mixed> $parameters
+     * @param \Throwable|null $e
+     */
     public function __construct(array $parameters = [], ?\Throwable $e = null)
     {
         if(is_array($parameters['example'])) {
@@ -16,6 +20,9 @@ class MissingPropertyAccessorMethodException extends ShopwareHttpException
         parent::__construct($message, $parameters, $e);
     }
 
+    /**
+     * @return string
+     */
     public function getErrorCode(): string
     {
         return 'POSTNL__ATTRIBUTE_MISSING_PROPERTY_ACCESSOR';

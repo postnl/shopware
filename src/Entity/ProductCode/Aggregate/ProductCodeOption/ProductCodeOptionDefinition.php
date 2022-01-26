@@ -14,10 +14,17 @@ use Shopware\Core\Framework\DataAbstractionLayer\Field\ManyToOneAssociationField
 use Shopware\Core\Framework\DataAbstractionLayer\Field\CreatedAtField;
 class ProductCodeOptionDefinition extends MappingEntityDefinition
 {
+    /**
+     * @return string
+     */
     public function getEntityName() : string
     {
         return 'postnl_shipments_product_code_option';
     }
+
+    /**
+     * @return FieldCollection
+     */
     protected function defineFields() : FieldCollection
     {
         return new FieldCollection([

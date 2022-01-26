@@ -15,7 +15,7 @@ abstract class AttributeStruct extends Struct
     /**
      * @param array<mixed>|null $options
      */
-    public function assign(?array $options = [])
+    public function assign(?array $options = []): void
     {
         /**
          * Create a struct to store attributes that don't have properties, but whose data still needs to be kept.

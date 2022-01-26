@@ -7,6 +7,11 @@ use Shopware\Core\Framework\Uuid\Uuid;
 
 trait MigrationLocaleTrait
 {
+    /**
+     * @param Connection $connection
+     * @return array<mixed>
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function getOrCreateLanguages(Connection $connection): array
     {
         $localeCodes = [
@@ -52,6 +57,12 @@ SQL;
         return $languages;
     }
 
+    /**
+     * @param Connection $connection
+     * @param array<string, mixed> $locales
+     * @return array<mixed>
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function createLanguageData(Connection $connection, array $locales): array
     {
         $sql = <<<SQL
@@ -82,6 +93,12 @@ SQL;
         }, $locales);
     }
 
+    /**
+     * @param Connection $connection
+     * @param array<string> $localeCodes
+     * @return array<string, mixed>
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function getLocales(Connection $connection, array $localeCodes): array
     {
         $sql = <<<SQL
@@ -107,7 +124,12 @@ SQL;
         return $enhancedLocales;
     }
 
-    public function bin2hex(array $data, array $keys)
+    /**
+     * @param array<mixed> $data
+     * @param array<mixed> $keys
+     * @return array<mixed>
+     */
+    public function bin2hex(array $data, array $keys): array
     {
         return array_map(function ($entry) use ($keys) {
             foreach ($keys as $key) {
