@@ -29,12 +29,12 @@ class ProductOptionEntity extends Entity
     /** @var ProductCodeConfigDefinition|null */
     protected $productCodes;
 
-    public function setName(?string $value): void
+    public function setName(string $value): void
     {
         $this->name = $value;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -59,12 +59,12 @@ class ProductOptionEntity extends Entity
         return $this->option;
     }
 
-    public function setTranslations(?ProductOptionTranslationCollection $value): void
+    public function setTranslations(ProductOptionTranslationCollection $value): void
     {
         $this->translations = $value;
     }
 
-    public function getTranslations(): ?ProductOptionTranslationCollection
+    public function getTranslations(): ProductOptionTranslationCollection
     {
         return $this->translations;
     }

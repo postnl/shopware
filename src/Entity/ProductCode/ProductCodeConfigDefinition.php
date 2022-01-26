@@ -22,21 +22,33 @@ class ProductCodeConfigDefinition extends EntityDefinition
 {
     const ENTITY_NAME = 'postnl_shipments_product_code_config';
 
+    /**
+     * @return string
+     */
     public function getEntityName(): string
     {
         return self::ENTITY_NAME;
     }
 
+    /**
+     * @return string
+     */
     public function getEntityClass(): string
     {
         return ProductCodeConfigEntity::class;
     }
 
+    /**
+     * @return string
+     */
     public function getCollectionClass(): string
     {
         return ProductCodeConfigCollection::class;
     }
 
+    /**
+     * @return FieldCollection
+     */
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([

@@ -3,7 +3,6 @@
 namespace PostNL\Shipments\Service\Attribute;
 
 use PostNL\Shipments\Defaults;
-use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 
 abstract class EntityAttributeStruct extends AttributeStruct
 {

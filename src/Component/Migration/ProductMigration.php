@@ -5,14 +5,21 @@ namespace PostNL\Shipments\Component\Migration;
 use Doctrine\DBAL\Connection;
 use PostNL\Shipments\Entity\ProductCode\Aggregate\ProductCodeConfigTranslation\ProductCodeConfigTranslationDefinition;
 use PostNL\Shipments\Entity\ProductCode\ProductCodeConfigDefinition;
-use PostNL\Shipments\Service\PostNL\Product\Code\DeliveryType;
-use PostNL\Shipments\Service\PostNL\Product\Code\Zone\Zone;
+use PostNL\Shipments\Service\PostNL\Delivery\DeliveryType;
+use PostNL\Shipments\Service\PostNL\Delivery\Zone\Zone;
 use Shopware\Core\Framework\Migration\MigrationStep;
 
 abstract class ProductMigration extends MigrationStep
 {
     use MigrationLocaleTrait;
 
+    /**
+     * @param Connection $connection
+     * @param array<mixed> $products
+     * @return void
+     * @throws \Doctrine\DBAL\ConnectionException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function insertProducts(Connection $connection, array $products): void
     {
         $languages = $this->getOrCreateLanguages($connection);
@@ -41,6 +48,13 @@ abstract class ProductMigration extends MigrationStep
         }
     }
 
+    /**
+     * @param Connection $connection
+     * @param array<string> $deleteIds
+     * @return void
+     * @throws \Doctrine\DBAL\ConnectionException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function deleteProducts(Connection $connection, array $deleteIds): void
     {
         $connection->beginTransaction();
@@ -57,7 +71,13 @@ abstract class ProductMigration extends MigrationStep
         }
     }
 
-    private function buildProductName($product, $locale): string
+
+    /**
+     * @param array<mixed> $product
+     * @param string $locale
+     * @return string
+     */
+    private function buildProductName(array $product, string $locale): string
     {
         $translations = [
             'en-GB' => [

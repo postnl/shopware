@@ -9,6 +9,9 @@ use Psr\Http\Message\UriInterface;
 
 final class GuzzleRequestFactory implements RequestFactoryInterface
 {
+    /**
+     * @var array<string, mixed>
+     */
     private $headers = [];
 
     /**
@@ -25,11 +28,11 @@ final class GuzzleRequestFactory implements RequestFactoryInterface
     }
 
     /**
-     * @param $header
-     * @param $value
+     * @param string $header
+     * @param mixed $value
      * @return $this
      */
-    public function addHeader($header, $value): self
+    public function addHeader(string $header, $value): self
     {
         $this->headers[$header] = $value;
         return $this;

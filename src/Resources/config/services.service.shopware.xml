@@ -9,7 +9,7 @@
 
         <service id="PostNL\Shipments\Service\Shopware\ConfigService">
             <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
-            <argument type="service" id="PostNL\Shipments\Service\Attribute\AttributeFactory"/>
+            <argument type="service" id="PostNL\Shipments\Service\Attribute\Factory\AttributeFactory"/>
             <argument type="service" id="postnl_shipments.logger"/>
         </service>
 

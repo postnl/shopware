@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shipments\Service\PostNL\Product\Code\Zone;
+namespace PostNL\Shipments\Service\PostNL\Delivery\Zone;
 
-interface Mapping
+interface ZoneMapping
 {
     // countries with n/a isocodes in comments do not have a country in Shopware by default
 

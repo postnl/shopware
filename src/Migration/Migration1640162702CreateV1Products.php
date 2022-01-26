@@ -5,8 +5,9 @@ namespace PostNL\Shipments\Migration;
 use Doctrine\DBAL\Connection;
 use PostNL\Shipments\Component\Migration\ProductMigration;
 use PostNL\Shipments\Defaults;
-use PostNL\Shipments\Service\PostNL\Product\Code\DeliveryType;
-use PostNL\Shipments\Service\PostNL\Product\Code\Zone\Zone;
+use PostNL\Shipments\Service\PostNL\Delivery\DeliveryType;
+use PostNL\Shipments\Service\PostNL\Delivery\Zone\Zone;
+use Shopware\Core\Defaults as ShopwareDefaults;
 use Shopware\Core\Framework\Uuid\Uuid;
 
 class Migration1640162702CreateV1Products extends ProductMigration
@@ -31,7 +32,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'signature' => false,
                 'age_check' => false,
                 'notification' => null,
-                'created_at' => (new \DateTime())->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_NL_3385),
@@ -45,7 +46,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'signature' => false,
                 'age_check' => false,
                 'notification' => null,
-                'created_at' => (new \DateTime())->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_NL_3090),
@@ -59,7 +60,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'signature' => false,
                 'age_check' => false,
                 'notification' => null,
-                'created_at' => (new \DateTime())->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_NL_3390),
@@ -73,7 +74,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'signature' => false,
                 'age_check' => false,
                 'notification' => null,
-                'created_at' => (new \DateTime())->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_NL_3087),
@@ -87,7 +88,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'signature' => false,
                 'age_check' => false,
                 'notification' => null,
-                'created_at' => (new \DateTime())->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_NL_3094),
@@ -101,7 +102,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'signature' => false,
                 'age_check' => false,
                 'notification' => null,
-                'created_at' => (new \DateTime())->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_NL_3089),
@@ -115,7 +116,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'signature' => true,
                 'age_check' => false,
                 'notification' => null,
-                'created_at' => (new \DateTime())->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_NL_3096),
@@ -129,7 +130,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'signature' => true,
                 'age_check' => false,
                 'notification' => null,
-                'created_at' => (new \DateTime())->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_NL_3189),
@@ -143,7 +144,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'signature' => true,
                 'age_check' => false,
                 'notification' => null,
-                'created_at' => (new \DateTime())->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_NL_3389),
@@ -157,7 +158,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'signature' => true,
                 'age_check' => false,
                 'notification' => null,
-                'created_at' => (new \DateTime())->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_PICKUP_NL_NL_3533),
@@ -171,7 +172,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'signature' => true,
                 'age_check' => false,
                 'notification' => false,
-                'created_at' => (new \DateTime())->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_PICKUP_NL_NL_3534),
@@ -185,7 +186,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'signature' => false,
                 'age_check' => false,
                 'notification' => false,
-                'created_at' => (new \DateTime())->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_PICKUP_NL_NL_3543),
@@ -199,7 +200,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'signature' => true,
                 'age_check' => false,
                 'notification' => true,
-                'created_at' => (new \DateTime())->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_PICKUP_NL_NL_3544),
@@ -213,7 +214,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'signature' => false,
                 'age_check' => false,
                 'notification' => true,
-                'created_at' => (new \DateTime())->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_NL_2928),
@@ -227,7 +228,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'signature' => null,
                 'age_check' => null,
                 'notification' => null,
-                'created_at' => (new \DateTime())->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_PICKUP_NL_BE_4936),
@@ -241,7 +242,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'signature' => false,
                 'age_check' => false,
                 'notification' => false,
-                'created_at' => (new \DateTime())->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_BE_4941),
@@ -255,7 +256,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'signature' => false,
                 'age_check' => false,
                 'notification' => null,
-                'created_at' => (new \DateTime())->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_BE_4946),
@@ -269,7 +270,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'signature' => false,
                 'age_check' => false,
                 'notification' => null,
-                'created_at' => (new \DateTime())->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_BE_4912),
@@ -283,7 +284,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'signature' => true,
                 'age_check' => false,
                 'notification' => null,
-                'created_at' => (new \DateTime())->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_BE_4914),
@@ -297,7 +298,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'signature' => true,
                 'age_check' => false,
                 'notification' => null,
-                'created_at' => (new \DateTime())->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_EU_4952),
@@ -311,7 +312,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'signature' => null,
                 'age_check' => null,
                 'notification' => null,
-                'created_at' => (new \DateTime())->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_GLOBAL_4947),
@@ -325,7 +326,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'signature' => null,
                 'age_check' => null,
                 'notification' => null,
-                'created_at' => (new \DateTime())->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
         ];
 

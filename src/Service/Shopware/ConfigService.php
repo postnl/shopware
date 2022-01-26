@@ -2,7 +2,7 @@
 
 namespace PostNL\Shipments\Service\Shopware;
 
-use PostNL\Shipments\Service\Attribute\AttributeFactory;
+use PostNL\Shipments\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shipments\Struct\Config\ConfigStruct;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;

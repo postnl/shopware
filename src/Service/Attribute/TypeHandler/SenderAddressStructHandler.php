@@ -2,12 +2,11 @@
 
 namespace PostNL\Shipments\Service\Attribute\TypeHandler;
 
-use PostNL\Shipments\Service\Attribute\AttributeFactory;
 use PostNL\Shipments\Service\Attribute\AttributeStruct;
+use PostNL\Shipments\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shipments\Service\Shopware\CountryService;
 use PostNL\Shipments\Struct\Config\SenderAddressStruct;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\Uuid\Uuid;
 
 class SenderAddressStructHandler implements AttributeTypeHandlerInterface
@@ -24,7 +23,7 @@ class SenderAddressStructHandler implements AttributeTypeHandlerInterface
 
     public function __construct(
         AttributeFactory $attributeFactory,
-        CountryService $countryService
+        CountryService   $countryService
     )
     {
         $this->attributeFactory = $attributeFactory;
@@ -40,7 +39,7 @@ class SenderAddressStructHandler implements AttributeTypeHandlerInterface
     {
         $data = json_decode($data, true);
 
-        if(Uuid::isValid($data['country'])) {
+        if (Uuid::isValid($data['country'])) {
             $data['countrycode'] = $this->countryService->getCountryCodeById($data['country'], $context);
         } else {
             $data['countrycode'] = '';

@@ -19,7 +19,7 @@ class SessionProcessor implements ProcessorInterface
 
     public function __invoke(array $record)
     {
-        if(empty($this->sessionId)) {
+        if (empty($this->sessionId)) {
             return $record;
         }
 

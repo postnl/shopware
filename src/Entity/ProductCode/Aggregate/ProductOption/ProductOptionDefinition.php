@@ -21,21 +21,33 @@ class ProductOptionDefinition extends EntityDefinition
 {
     const ENTITY_NAME = 'postnl_shipments_product_option';
 
+    /**
+     * @return string
+     */
     public function getEntityName(): string
     {
         return self::ENTITY_NAME;
     }
 
+    /**
+     * @return string
+     */
     public function getEntityClass(): string
     {
         return ProductOptionEntity::class;
     }
 
+    /**
+     * @return string
+     */
     public function getCollectionClass(): string
     {
         return ProductOptionCollection::class;
     }
 
+    /**
+     * @return FieldCollection
+     */
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([

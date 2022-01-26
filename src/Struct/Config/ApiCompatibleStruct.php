@@ -6,6 +6,9 @@ use PostNL\Shipments\Service\Attribute\AttributeStruct;
 
 abstract class ApiCompatibleStruct extends AttributeStruct
 {
+    /**
+     * @return array<mixed>
+     */
     public function getVarsForApi(): array
     {
         $vars = [];
