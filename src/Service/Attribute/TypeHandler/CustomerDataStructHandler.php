@@ -2,7 +2,7 @@
 
 namespace PostNL\Shipments\Service\Attribute\TypeHandler;
 
-use PostNL\Shipments\Service\Attribute\AttributeFactory;
+use PostNL\Shipments\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shipments\Service\Attribute\AttributeStruct;
 use PostNL\Shipments\Struct\Config\CustomerDataStruct;
 use Shopware\Core\Framework\Context;

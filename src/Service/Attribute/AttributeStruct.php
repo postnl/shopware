@@ -208,7 +208,7 @@ abstract class AttributeStruct extends Struct
          */
         $extension = $this->getExtension($extensionName);
 
-        if(!$extension instanceof Struct) {
+        if (!$extension instanceof Struct) {
             return new ArrayStruct();
         }
 

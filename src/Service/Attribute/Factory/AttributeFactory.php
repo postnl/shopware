@@ -122,7 +122,7 @@ class AttributeFactory
 
         try {
             $reflectionClass = new \ReflectionClass($structName);
-        } catch(\ReflectionException $e) {
+        } catch (\ReflectionException $e) {
             throw new MissingAttributeStructException([
                 'class' => $structName,
             ], $e);
@@ -177,7 +177,7 @@ class AttributeFactory
             throw new MissingEntityAttributeStructException([
                 'entity' => $entityName,
             ]);
-        } catch(MissingEntityAttributeStructException $e) {
+        } catch (MissingEntityAttributeStructException $e) {
             $this->logger->critical($e->getMessage(), $e->getParameters());
             throw $e;
         }
@@ -253,7 +253,7 @@ class AttributeFactory
                 'class' => $reflectionClass->getName(),
                 'method' => $reflectionMethod->getName(),
             ]);
-        } catch (MissingPropertyAccessorMethodException | MissingReturnTypeException $e) {
+        } catch (MissingPropertyAccessorMethodException|MissingReturnTypeException $e) {
             $this->logger->critical($e->getMessage(), $e->getParameters());
             throw $e;
         }
