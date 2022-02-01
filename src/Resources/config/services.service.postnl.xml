@@ -11,5 +11,9 @@
             <argument type="service" id="PostNL\Shipments\Service\Shopware\ConfigService"/>
             <argument type="service" id="postnl_shipments.logger"/>
         </service>
+
+        <service id="PostNL\Shipments\Service\PostNL\ProductCode\ProductCodeService">
+            <argument type="service" id="postnl_shipments_product_code_config.repository"/>
+        </service>
     </services>
 </container>
