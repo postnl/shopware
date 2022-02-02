@@ -22,49 +22,7 @@ class ProductCodeConfigCollection extends EntityCollection
         return ProductCodeConfigEntity::class;
     }
 
-    public function getAvailableOptions(): array
-    {
-        return [
-            'nextDoorDelivery' => $this->isNextDoorDeliveryAvailable(),
-            'returnIfNotHome' => $this->isReturnNotHomeAvailable(),
-            'insurance' => $this->isInsuranceAvailable(),
-            'signature' => $this->isSignatureAvailable(),
-            'ageCheck' => $this->isAgeCheckAvailable(),
-            'notification' => $this->isNotificationAvailable(),
-        ];
-    }
-
-    public function isNextDoorDeliveryAvailable(): bool
-    {
-        return count($this->reduceToProperty('nextDoorDelivery')) > 1;
-    }
-
-    public function isReturnNotHomeAvailable(): bool
-    {
-        return count($this->reduceToProperty('returnIfNotHome')) > 1;
-    }
-
-    public function isInsuranceAvailable(): bool
-    {
-        return count($this->reduceToProperty('insurance')) > 1;
-    }
-
-    public function isSignatureAvailable(): bool
-    {
-        return count($this->reduceToProperty('signature')) > 1;
-    }
-
-    public function isAgeCheckAvailable(): bool
-    {
-        return count($this->reduceToProperty('ageCheck')) > 1;
-    }
-
-    public function isNotificationAvailable(): bool
-    {
-        return count($this->reduceToProperty('notification')) > 1;
-    }
-
-    private function reduceToProperty(string $property): array
+    public function reduceToProperty(string $property): array
     {
         $map = $this->map(function(ProductCodeConfigEntity $element) use ($property) {
             return $element->get($property);

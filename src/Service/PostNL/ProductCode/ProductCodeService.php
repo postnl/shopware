@@ -3,9 +3,11 @@
 namespace PostNL\Shipments\Service\PostNL\ProductCode;
 
 use PostNL\Shipments\Entity\ProductCode\ProductCodeConfigCollection;
+use PostNL\Shipments\Entity\ProductCode\ProductCodeConfigDefinition;
 use PostNL\Shipments\Entity\ProductCode\ProductCodeConfigEntity;
 use PostNL\Shipments\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shipments\Service\PostNL\Delivery\Zone\Zone;
+use PostNL\Shipments\Struct\ProductCodeOptionStruct;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -13,6 +15,14 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 
 class ProductCodeService
 {
+    const ALL_OPTS = [
+        ProductCodeConfigDefinition::OPT_NEXT_DOOR_DELIVERY,
+        ProductCodeConfigDefinition::OPT_RETURN_IF_NOT_HOME,
+        ProductCodeConfigDefinition::OPT_INSURANCE,
+        ProductCodeConfigDefinition::OPT_SIGNATURE,
+        ProductCodeConfigDefinition::OPT_AGE_CHECK,
+        ProductCodeConfigDefinition::OPT_NOTIFICATION,
+    ];
 
     /**
      * @var EntityRepositoryInterface
@@ -34,17 +44,18 @@ class ProductCodeService
         Context $context
     ): ProductCodeConfigEntity
     {
-        $allOptions = ['nextDoorDelivery', 'returnIfNotHome', 'insurance', 'signature', 'ageCheck', 'notification'];
-        foreach ($allOptions as $option) {
+        $requiredOptions = $this->requiredOptions($destinationZone, $deliveryType);
+
+        foreach (self::ALL_OPTS as $option) {
             $isInOptions = in_array($option, array_keys($options));
-            $isRequired = in_array($option, $this->requiredOptions($destinationZone, $deliveryType));
+            $isRequired = in_array($option, $requiredOptions);
 
             if ($isInOptions && $isRequired) {
                 continue;
             }
 
-            if(!$isInOptions && $isRequired) {
-                $options[$option] = false;
+            if (!$isInOptions && $isRequired) {
+                $options[$option] = $this->getDefaultOptionValue($option);
                 continue;
             }
 
@@ -93,6 +104,58 @@ class ProductCodeService
         throw new \Exception('Could not find valid products');
     }
 
+    public function getOptions(
+        string  $sourceZone,
+        string  $destinationZone,
+        string  $deliveryType,
+        array   $options,
+        Context $context
+    ): array
+    {
+        $availableProducts = $this->getProducts($sourceZone, $destinationZone, $deliveryType, $options, $context);
+        $requiredOptions = $this->requiredOptions($destinationZone, $deliveryType);
+
+        $structs = [];
+
+        foreach (self::ALL_OPTS as $option) {
+            $optionValuesInAvailableProducts = $availableProducts->reduceToProperty($option);
+
+            $shouldBeVisible = in_array($option, $requiredOptions);
+            $shouldBeDisabled = count($optionValuesInAvailableProducts) == 1;
+            $shouldBeSelected = $shouldBeDisabled
+                ? $optionValuesInAvailableProducts[0]
+                : $this->getDefaultOptionValue($option);
+
+            $isInOptions = array_key_exists($option, $options);
+            $isSelected = $isInOptions && $options[$option];
+            $isDisabled = !$isInOptions && $shouldBeDisabled;
+
+            $structs[$option] = new ProductCodeOptionStruct(
+                $option,
+                $shouldBeVisible,
+                $isDisabled,
+                $isSelected || $shouldBeSelected
+            );
+        }
+
+        return $structs;
+    }
+
+    /**
+     * @param string $option
+     * @return bool
+     */
+    public function getDefaultOptionValue(string $option): bool
+    {
+        if(in_array($option, [
+            ProductCodeConfigDefinition::OPT_NEXT_DOOR_DELIVERY
+        ])) {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * @param string $destinationZone
      * @param string $deliveryType
@@ -109,9 +172,20 @@ class ProductCodeService
 
         switch ($deliveryType) {
             case DeliveryType::SHIPMENT:
-                return ['nextDoorDelivery', 'returnIfNotHome', 'insurance', 'signature', 'ageCheck'];
+                return [
+                    ProductCodeConfigDefinition::OPT_NEXT_DOOR_DELIVERY,
+                    ProductCodeConfigDefinition::OPT_RETURN_IF_NOT_HOME,
+                    ProductCodeConfigDefinition::OPT_INSURANCE,
+                    ProductCodeConfigDefinition::OPT_SIGNATURE,
+                    ProductCodeConfigDefinition::OPT_AGE_CHECK,
+                ];
             case DeliveryType::PICKUP:
-                return ['insurance', 'signature', 'ageCheck', 'notification'];
+                return [
+                    ProductCodeConfigDefinition::OPT_INSURANCE,
+                    ProductCodeConfigDefinition::OPT_SIGNATURE,
+                    ProductCodeConfigDefinition::OPT_AGE_CHECK,
+                    ProductCodeConfigDefinition::OPT_NOTIFICATION,
+                ];
             case DeliveryType::MAILBOX:
                 return [];
         }

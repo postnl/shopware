@@ -22,6 +22,13 @@ class ProductCodeConfigDefinition extends EntityDefinition
 {
     const ENTITY_NAME = 'postnl_shipments_product_code_config';
 
+    const OPT_NEXT_DOOR_DELIVERY = 'nextDoorDelivery';
+    const OPT_RETURN_IF_NOT_HOME = 'returnIfNotHome';
+    const OPT_INSURANCE = 'insurance';
+    const OPT_SIGNATURE = 'signature';
+    const OPT_AGE_CHECK = 'ageCheck';
+    const OPT_NOTIFICATION = 'notification';
+
     /**
      * @return string
      */
@@ -64,12 +71,12 @@ class ProductCodeConfigDefinition extends EntityDefinition
             (new StringField('delivery_type', 'deliveryType', 255))
                 ->addFlags(new Required()),
 
-            new BoolField('next_door_delivery', 'nextDoorDelivery'),
-            new BoolField('return_if_not_home', 'returnIfNotHome'),
-            new BoolField('insurance', 'insurance'),
-            new BoolField('signature', 'signature'),
-            new BoolField('age_check', 'ageCheck'),
-            new BoolField('notification', 'notification'),
+            new BoolField('next_door_delivery', self::OPT_NEXT_DOOR_DELIVERY),
+            new BoolField('return_if_not_home', self::OPT_RETURN_IF_NOT_HOME),
+            new BoolField('insurance', self::OPT_INSURANCE),
+            new BoolField('signature', self::OPT_SIGNATURE),
+            new BoolField('age_check', self::OPT_AGE_CHECK),
+            new BoolField('notification', self::OPT_NOTIFICATION),
 
             new TranslationsAssociationField(ProductCodeConfigTranslationDefinition::class, 'product_code_config_id'),
 
