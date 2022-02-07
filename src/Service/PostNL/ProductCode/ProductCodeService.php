@@ -8,6 +8,7 @@ use PostNL\Shipments\Entity\ProductCode\ProductCodeConfigEntity;
 use PostNL\Shipments\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shipments\Service\PostNL\Delivery\Zone\Zone;
 use PostNL\Shipments\Struct\ProductCodeOptionStruct;
+use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -29,11 +30,18 @@ class ProductCodeService
      */
     protected $productCodeRepository;
 
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
     public function __construct(
-        EntityRepositoryInterface $productCodeRepository
+        EntityRepositoryInterface $productCodeRepository,
+        LoggerInterface $logger
     )
     {
         $this->productCodeRepository = $productCodeRepository;
+        $this->logger = $logger;
     }
 
     public function getProduct(
@@ -44,6 +52,13 @@ class ProductCodeService
         Context $context
     ): ProductCodeConfigEntity
     {
+        $this->logger->debug("Selecting PostNL product", [
+            'sourceZone' => $sourceZone,
+            'destinationZone' => $destinationZone,
+            'deliveryType' => $deliveryType,
+            'options' => $options,
+        ]);
+
         $requiredOptions = $this->requiredOptions($destinationZone, $deliveryType);
 
         foreach (self::ALL_OPTS as $option) {
@@ -79,6 +94,13 @@ class ProductCodeService
         Context $context
     ): ProductCodeConfigCollection
     {
+        $this->logger->debug("Getting PostNL products", [
+            'sourceZone' => $sourceZone,
+            'destinationZone' => $destinationZone,
+            'deliveryType' => $deliveryType,
+            'options' => $options,
+        ]);
+
         $criteria = new Criteria();
         $criteria->addFilter(
             new EqualsFilter('sourceZone', $sourceZone),
@@ -104,6 +126,15 @@ class ProductCodeService
         throw new \Exception('Could not find valid products');
     }
 
+    /**
+     * @param string $sourceZone
+     * @param string $destinationZone
+     * @param string $deliveryType
+     * @param array $options
+     * @param Context $context
+     * @return array
+     * @throws \Exception
+     */
     public function getOptions(
         string  $sourceZone,
         string  $destinationZone,
@@ -112,10 +143,33 @@ class ProductCodeService
         Context $context
     ): array
     {
+        $this->logger->debug("Get available product options", [
+            'sourceZone' => $sourceZone,
+            'destinationZone' => $destinationZone,
+            'deliveryType' => $deliveryType,
+            'options' => $options,
+        ]);
+
         $availableProducts = $this->getProducts($sourceZone, $destinationZone, $deliveryType, $options, $context);
         $requiredOptions = $this->requiredOptions($destinationZone, $deliveryType);
 
         $structs = [];
+
+        /**
+         * An option should be:
+         * - visible
+         *  - if it is required.
+         *
+         * - disabled
+         *  - if it is not in $options and,
+         *  - if there is only one possible value to select.
+         *
+         * - selected
+         *  - if it is in $options, and the option value equates to true, or
+         *  - if the option is disabled, and the only available value equates to true, or
+         *  - if when none of the above, when the default value equates to true.
+         */
+
 
         foreach (self::ALL_OPTS as $option) {
             $optionValuesInAvailableProducts = $availableProducts->reduceToProperty($option);
