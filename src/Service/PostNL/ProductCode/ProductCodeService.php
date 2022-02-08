@@ -122,7 +122,7 @@ class ProductCodeService
         if ($products->count() > 0) {
             return $products;
         }
-
+dd($criteria);
         throw new \Exception('Could not find valid products');
     }
 
@@ -132,7 +132,7 @@ class ProductCodeService
      * @param string $deliveryType
      * @param array $options
      * @param Context $context
-     * @return array
+     * @return ProductCodeOptionStruct[]
      * @throws \Exception
      */
     public function getOptions(

@@ -1,0 +1,45 @@
+{% block memo_config %}
+    <sw-base-field v-bind="$attrs"
+                   :disabled="disabled"
+                   :required="required"
+                   :isLoading="isLoading"
+                   @inheritance-restore="$emit('inheritance-restore', $event)"
+                   @inheritance-remove="$emit('inheritance-remove', $event)">
+        <template #sw-field-input="{ identification, error, disabled, required }">
+
+            {% block memo_config_content %}
+
+                <sw-container>
+                    {{ product.productCodeDelivery }} {{ product.name }}
+                    <sw-single-select v-model="deliveryType"
+                                      :options="deliveryTypeOptions"/>
+
+                    <sw-container columns="1fr 1fr" gap="0 16px">
+                        <sw-switch-field v-for="availableOption in availableOptions"
+                                         v-if="availableOption.visible"
+                                         v-model="options[availableOption.name]"
+                                         :label="availableOption.name"
+                                         :disabled="availableOption.disabled"
+                                         :value="availableOption.selected"
+                                         size="small"
+                                         noMarginTop/>
+{#                        <sw-switch-field v-model="content.nextDoorDelivery" label="Bij buren bezorgen" size="small"#}
+{#                                         noMarginTop/>#}
+{#                        <sw-switch-field v-model="content.returnIfNotHome" label="Retourneren bij geen gehoor"#}
+{#                                         size="small" noMarginTop/>#}
+{#                        <sw-switch-field v-model="content.insurance" label="Verzekerd" size="small" noMarginTop/>#}
+{#                        <sw-switch-field v-model="content.signature" label="Handtekening voor ontvangst" size="small"#}
+{#                                         noMarginTop/>#}
+{#                        <sw-switch-field v-model="content.ageCheck" label="Leeftijdscheck" size="small" noMarginTop/>#}
+{#                        <sw-switch-field v-model="content.notification" label="Ontvang notificatie" size="small"#}
+{#                                         noMarginTop/>#}
+                    </sw-container>
+                </sw-container>
+
+            {% endblock %}
+
+
+        </template>
+    </sw-base-field>
+{% endblock %}
+

@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>Default Products</title>
+        <title lang="de-DE">Default Products</title>
+        <title lang="nl-NL">Default Products</title>
+
+        <component name="postnl-product-selection">
+            <name>test</name>
+            <label>Test</label>
+            <label lang="de-DE">Test</label>
+            <label lang="nl-NL">test</label>
+        </component>
+    </card>
+
     <card>
         <title>API</title>
         <title lang="de-DE">API</title>
@@ -78,4 +92,5 @@
             <label lang="nl-NL">Adres afzender</label>
         </component>
     </card>
+
 </config>
