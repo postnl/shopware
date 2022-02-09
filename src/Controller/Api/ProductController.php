@@ -72,6 +72,9 @@ class ProductController extends AbstractController
         return $this->json($this->productFacade->getAvailableDeliveryTypes($sourceZone, $destinationZone, $context));
     }
 
+
+
+
     /**
      * @Route("/api/_action/postnl/product/select",
      *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.select", methods={"GET"})
@@ -99,6 +102,9 @@ class ProductController extends AbstractController
         ]);
     }
 
+
+
+
     /**
      * @Route("/api/_action/postnl/product/options",
      *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.options", methods={"GET"})
@@ -113,7 +119,7 @@ class ProductController extends AbstractController
         $destinationZone = $query->get('destinationZone');
         $deliveryType = $query->get('deliveryType');
 
-        $options = $this->productFacade->options($sourceZone, $destinationZone, $deliveryType, [], $context);
+        $options = $this->productFacade->getAvailableOptions($sourceZone, $destinationZone, $deliveryType, $context);
 
         return $this->json([
             'options' => $options,

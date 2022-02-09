@@ -8,7 +8,8 @@
 
     <sw-single-select v-model="actualDeliveryType"
                       :options="availableDeliveryTypes"
-                      :disabled="availableDeliveryTypes.length == 0"/>
+                      :disabled="availableDeliveryTypes.length == 0"
+                      @change="onChangeDeliveryType"/>
 
     <sw-container columns="1fr 1fr" gap="0 16px">
 {#        <sw-switch-field v-for="availableOption in availableOptions"#}

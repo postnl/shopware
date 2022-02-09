@@ -94,6 +94,14 @@ class ProductCodeService
         throw new \Exception('No products found for this zone combination');
     }
 
+    /**
+     * @param string $sourceZone
+     * @param string $destinationZone
+     * @param string $deliveryType
+     * @param Context $context
+     * @return ProductCodeConfigEntity
+     * @throws \Exception
+     */
     public function getDefaultProduct(
         string $sourceZone,
         string $destinationZone,
@@ -167,7 +175,6 @@ class ProductCodeService
 
         throw new \Exception('Could not find default product');
     }
-
 
     public function getProduct(
         string  $sourceZone,
@@ -275,8 +282,15 @@ class ProductCodeService
             'options' => $options,
         ]);
 
-        $availableProducts = $this->getProducts($sourceZone, $destinationZone, $deliveryType, $options, $context);
         $requiredOptions = $this->requiredOptions($destinationZone, $deliveryType);
+
+        if(empty($requiredOptions)) {
+            return [];
+        }
+
+        $availableProducts = $this->getProducts($sourceZone, $destinationZone, $deliveryType, $options, $context);
+
+        dump($requiredOptions, $availableProducts);
 
         $structs = [];
 

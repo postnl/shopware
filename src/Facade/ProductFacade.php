@@ -40,13 +40,27 @@ class ProductFacade
         Context $context
     ): array
     {
-        if($this->sourceZoneHasProducts($sourceZone, $context)) {
-            return $this->productCodeService->getAvailableDeliveryTypes($sourceZone, $destinationZone, $context);
+        if(!$this->sourceZoneHasProducts($sourceZone, $context)) {
+            return [];
         }
 
-        return [];
+        return $this->productCodeService->getAvailableDeliveryTypes($sourceZone, $destinationZone, $context);
     }
 
+    public function getAvailableOptions(
+        string $sourceZone,
+        string $destinationZone,
+        string $deliveryType,
+        Context $context
+    ): array
+    {
+        if(!$this->sourceZoneHasProducts($sourceZone, $context)) {
+            return [];
+        }
+
+        $opts = $this->productCodeService->getOptions($sourceZone, $destinationZone, $deliveryType, [], $context);
+        dd($opts);
+    }
 
 
 

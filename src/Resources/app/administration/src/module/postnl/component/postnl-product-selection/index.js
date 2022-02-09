@@ -127,7 +127,12 @@ Component.register('postnl-product-selection', {
 
         onChangeSourceZone() {
             this.checkIfSourceZoneHasProducts()
-                .then(this.getAvailableDeliveryTypes);
+                .then(this.getAvailableDeliveryTypes)
+                .then(this.onChangeDeliveryType());
+        },
+
+        onChangeDeliveryType() {
+            this.getAvailableDeliveryOptions();
         },
 
         checkIfSourceZoneHasProducts() {
@@ -153,6 +158,16 @@ Component.register('postnl-product-selection', {
                     });
                     this.actualDeliveryType = this.availableDeliveryTypes[0].value;
                 });
+        },
+
+        getAvailableDeliveryOptions() {
+            return this.ProductSelectionService
+                .options(
+                    this.actualSourceZone,
+                    this.actualDestinationZone,
+                    this.actualDeliveryType
+                )
+                .then(result => console.log(result));
         }
     }
 })
