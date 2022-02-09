@@ -29,6 +29,27 @@ class ProductFacade
         $this->logger = $logger;
     }
 
+    public function sourceZoneHasProducts(string $sourceZone, Context $context): bool
+    {
+        return $this->productCodeService->sourceZoneHasProducts($sourceZone, $context);
+    }
+
+    public function getAvailableDeliveryTypes(
+        string $sourceZone,
+        string $destinationZone,
+        Context $context
+    ): array
+    {
+        if($this->sourceZoneHasProducts($sourceZone, $context)) {
+            return $this->productCodeService->getAvailableDeliveryTypes($sourceZone, $destinationZone, $context);
+        }
+
+        return [];
+    }
+
+
+
+
     public function select(
         string $sourceZone,
         string $destinationZone,

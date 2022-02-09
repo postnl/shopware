@@ -217,7 +217,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_NL_2928),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_MAILBOX_NL_NL_2928),
                 'product_code_delivery' => '2928',
                 'source_zone' => Zone::NL,
                 'destination_zone' => Zone::NL,
@@ -350,7 +350,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
             Defaults::PRODUCT_PICKUP_NL_NL_3534,
             Defaults::PRODUCT_PICKUP_NL_NL_3543,
             Defaults::PRODUCT_PICKUP_NL_NL_3544,
-            Defaults::PRODUCT_SHIPPING_NL_NL_2928,
+            Defaults::PRODUCT_MAILBOX_NL_NL_2928,
             Defaults::PRODUCT_PICKUP_NL_BE_4936,
             Defaults::PRODUCT_SHIPPING_NL_BE_4941,
             Defaults::PRODUCT_SHIPPING_NL_BE_4946,

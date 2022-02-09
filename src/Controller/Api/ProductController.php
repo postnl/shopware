@@ -37,6 +37,42 @@ class ProductController extends AbstractController
     }
 
     /**
+     * @Route("/api/_action/postnl/product/source",
+     *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.source", methods={"GET"})
+     *
+     * @param QueryDataBag $query
+     * @param Context $context
+     * @return JsonResponse
+     */
+    public function source(QueryDataBag $query, Context $context)
+    {
+        $sourceZone = $query->get('sourceZone');
+
+        //TODO check if vars are empty
+        //TODO catch errors
+
+        return $this->json([
+            'hasProducts' => $this->productFacade->sourceZoneHasProducts($sourceZone, $context)
+        ]);
+    }
+
+    /**
+     * @Route("/api/_action/postnl/product/delivery-types",
+     *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.delivery-types", methods={"GET"})
+     *
+     * @param QueryDataBag $query
+     * @param Context $context
+     * @return JsonResponse
+     */
+    public function deliveryTypes(QueryDataBag $query, Context $context)
+    {
+        $sourceZone = $query->get('sourceZone');
+        $destinationZone = $query->get('destinationZone');
+
+        return $this->json($this->productFacade->getAvailableDeliveryTypes($sourceZone, $destinationZone, $context));
+    }
+
+    /**
      * @Route("/api/_action/postnl/product/select",
      *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.select", methods={"GET"})
      *

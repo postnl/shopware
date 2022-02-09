@@ -1,138 +1,112 @@
 import template from './postnl-product-selection.html.twig';
 
-const { Component, Mixin } = Shopware;
+const { Component } = Shopware;
 
-Component.extend('postnl-product-selection', 'memo-config', {
+Component.register('postnl-product-selection', {
     template,
-
-    mixins: [
-        Mixin.getByName('memo-config-access'),
-    ],
 
     inject: [
         'ProductSelectionService'
     ],
 
+    props: {
+        value: {
+            required: false,
+        },
+        sourceZone: {
+            type: String,
+            required: false,
+            default: 'NL',
+            validator: function (value) {
+                // The value must match one of these strings
+                return ['NL', 'BE'].indexOf(value) !== -1;
+            },
+        },
+        destinationZone: {
+            type: String,
+            required: false,
+            default: 'NL',
+            validator: function (value) {
+                // The value must match one of these strings
+                return ['NL', 'BE', 'EU', 'GLOBAL'].indexOf(value) !== -1;
+            },
+        },
+        deliveryType: {
+            type: String,
+            required: false,
+            default: 'shipment',
+            validator: function (value) {
+                // The value must match one of these strings
+                return ['mailbox', 'shipment', 'pickup'].indexOf(value) !== -1;
+            },
+        },
+    },
+
     data() {
         return {
             isLoading: true,
-            product: null,
+            product: {},
+            productAvailable: false,
+            availableDeliveryTypes: [],
             availableOptions: [],
+
+            internalSourceZone: null,
+            internalDestinationZone: null,
+            internalDeliveryType: null,
         }
     },
 
     computed: {
-        defaultValues() {
-            return {
-                sourceZone: 'NL',
-                destinationZone: 'NL',
-                deliveryType: 'shipment',
-                nextDoorDelivery: true,
-                returnIfNotHome: false,
-                insurance: false,
-                signature: false,
-                ageCheck: false,
-                notification: false,
-            };
+        actualSourceZone: {
+            get() {
+                return this.internalSourceZone;
+            },
+            set(value) {
+                this.internalSourceZone = value;
+                this.$emit('sourceZoneChanged', value);
+            }
         },
 
-        deliveryTypeOptions() {
-            return [
-                {
-                    label: "Shipment",
-                    value: "shipment",
-                },
-                {
-                    label: "Pickup Point",
-                    value: "pickup",
-                },
-                {
-                    label: "Mailbox",
-                    value: "mailbox",
-                },
-            ];
+        actualDestinationZone: {
+            get() {
+                return this.internalDestinationZone;
+            },
+            set(value) {
+                this.internalDestinationZone = value;
+                this.$emit('destinationZoneChanged', value);
+            }
         },
 
-        deliveryType: {
+        actualDeliveryType: {
             get() {
-                return this.resolveValue('deliveryType');
+                return this.internalDeliveryType;
             },
             set(value) {
-                console.log(value);
-                this.content.deliveryType = value;
-                this.loadOptions();
-            }
-        },
-        nextDoorDelivery: {
-            get() {
-                return this.resolveValue('nextDoorDelivery');
-            },
-            set(value) {
-                console.log(value);
-                this.content.nextDoorDelivery = value;
-                this.loadOptions();
-            }
-        },
-        returnIfNotHome: {
-            get() {
-                return this.resolveValue('returnIfNotHome');
-            },
-            set(value) {
-                console.log(value);
-                this.content.returnIfNotHome = value;
-                this.loadOptions();
-            }
-        },
-        insurance: {
-            get() {
-                return this.resolveValue('insurance');
-            },
-            set(value) {
-                console.log(value);
-                this.content.insurance = value;
-                this.loadOptions();
-            }
-        },
-        signature: {
-            get() {
-                return this.resolveValue('signature');
-            },
-            set(value) {
-                console.log(value);
-                this.content.signature = value;
-                this.loadOptions();
-            }
-        },
-        ageCheck: {
-            get() {
-                return this.resolveValue('ageCheck');
-            },
-            set(value) {
-                console.log(value);
-                this.content.ageCheck = value;
-                this.loadOptions();
-            }
-        },
-        notification: {
-            get() {
-                return this.resolveValue('notification');
-            },
-            set(value) {
-                console.log(value);
-                this.content.notification = value;
-                this.loadOptions();
+                this.internalDeliveryType = value;
+                this.$emit('deliveryTypeChanged', value);
             }
         },
     },
 
     watch: {
-        // content: {
-        //     handler() {
-        //         // this.ProductSelectionService.select()
-        //         this.loadProduct();
-        //     },
-        //     deep: true,
-        // }
+        value: {
+            handler(value) {
+                this.$emit('input', value);
+            },
+            deep: true
+        },
+        sourceZone() {
+            this.initInternalData();
+            this.onChangeSourceZone();
+        },
+        destinationZone() {
+            this.initInternalData();
+            this.onChangeSourceZone();
+        },
+        deliveryType() {
+            this.initInternalData();
+            this.onChangeSourceZone();
+        },
     },
 
     created() {
@@ -141,54 +115,44 @@ Component.extend('postnl-product-selection', 'memo-config', {
 
     methods: {
         createdComponent() {
-            this.loadOptions();
+            this.initInternalData();
+            this.onChangeSourceZone();
         },
 
-        loadOptions() {
-            this.ProductSelectionService
-                .options(
-                    this.resolveValue('sourceZone'),
-                    this.resolveValue('destinationZone'),
-                    this.resolveValue('deliveryType')
-                )
-                .then(result => {
-                    this.availableOptions = result.options
-                })
-                .then(this.loadProduct);
+        initInternalData() {
+            this.internalSourceZone = this.sourceZone;
+            this.internalDestinationZone = this.destinationZone;
+            this.internalDeliveryType = this.deliveryType;
         },
 
-        loadProduct() {
-            this.ProductSelectionService
-                .select(
-                    this.resolveValue('sourceZone'),
-                    this.resolveValue('destinationZone'),
-                    this.resolveValue('deliveryType'),
-                    {
-                        nextDoorDelivery: this.resolveOptionValue('nextDoorDelivery'),
-                        returnIfNotHome: this.resolveOptionValue('returnIfNotHome'),
-                        insurance: this.resolveOptionValue('insurance'),
-                        signature: this.resolveOptionValue('signature'),
-                        ageCheck: this.resolveOptionValue('ageCheck'),
-                        notification: this.resolveOptionValue('notification'),
-                    }
-                )
-                .then(result => {
-                    this.product = result.product;
-                    this.availableOptions = result.options;
-                })
+        onChangeSourceZone() {
+            this.checkIfSourceZoneHasProducts()
+                .then(this.getAvailableDeliveryTypes);
         },
 
-        resolveValue(key) {
-            const value = this.content[key] ?? this.defaultValues[key] ?? null;
-            console.log(`Resolved ${ key } to ${ value }`);
-            return value;
+        checkIfSourceZoneHasProducts() {
+            return this.ProductSelectionService
+                .sourceZoneHasProducts(this.actualSourceZone)
+                .then(result => this.productsAvailable = result.hasProducts)
+                .catch(() => {
+                    this.productsAvailable = false;
+                    this.actualDeliveryType = null;
+                    this.availableDeliveryTypes = [];
+                });
         },
 
-        resolveOptionValue(key) {
-            const value = this.content[key] ?? this.availableOptions[key].selected ?? this.defaultValues[key] ?? null;
-            console.log(`Resolved ${ key } to ${ value }`);
-            return value;
+        getAvailableDeliveryTypes() {
+            return this.ProductSelectionService
+                .getAvailableDeliveryTypes(this.actualSourceZone, this.actualDestinationZone)
+                .then(deliveryTypes => {
+                    this.availableDeliveryTypes = deliveryTypes.map(deliveryType => {
+                        return {
+                            label: deliveryType + " label",
+                            value: deliveryType
+                        };
+                    });
+                    this.actualDeliveryType = this.availableDeliveryTypes[0].value;
+                });
         }
     }
-
 })

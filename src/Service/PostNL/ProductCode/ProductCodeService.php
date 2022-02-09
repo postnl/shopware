@@ -2,6 +2,7 @@
 
 namespace PostNL\Shipments\Service\PostNL\ProductCode;
 
+use PostNL\Shipments\Defaults;
 use PostNL\Shipments\Entity\ProductCode\ProductCodeConfigCollection;
 use PostNL\Shipments\Entity\ProductCode\ProductCodeConfigDefinition;
 use PostNL\Shipments\Entity\ProductCode\ProductCodeConfigEntity;
@@ -43,6 +44,130 @@ class ProductCodeService
         $this->productCodeRepository = $productCodeRepository;
         $this->logger = $logger;
     }
+
+
+    /**
+     * Does the source zone have products? There are only two source zones, NL and BE,
+     * but in v1 there are no products for BE yet.
+     *
+     * @param string $sourceZone
+     * @param Context $context
+     * @return bool
+     */
+    public function sourceZoneHasProducts(string $sourceZone, Context $context): bool
+    {
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('sourceZone', $sourceZone));
+
+        /** @var ProductCodeConfigCollection $products */
+        $products = $this->productCodeRepository->search($criteria, $context)->getEntities();
+
+        return $products->count() > 0;
+    }
+
+    /**
+     * @param string $sourceZone
+     * @param string $destinationZone
+     * @param Context $context
+     * @return array
+     * @throws \Exception
+     */
+    public function getAvailableDeliveryTypes(
+        string $sourceZone,
+        string $destinationZone,
+        Context $context
+    ): array
+    {
+        $criteria = new Criteria();
+        $criteria->addFilter(
+            new EqualsFilter('sourceZone', $sourceZone),
+            new EqualsFilter('destinationZone', $destinationZone)
+        );
+
+        /** @var ProductCodeConfigCollection $products */
+        $products = $this->productCodeRepository->search($criteria, $context)->getEntities();
+
+        if($products->count() > 0) {
+            return array_values($products->reduceToProperty('deliveryType'));
+        }
+
+        throw new \Exception('No products found for this zone combination');
+    }
+
+    public function getDefaultProduct(
+        string $sourceZone,
+        string $destinationZone,
+        string $deliveryType,
+        Context $context
+    ): ProductCodeConfigEntity
+    {
+        $this->logger->debug('Getting default product', [
+            'sourceZone' => $sourceZone,
+            'destinationZone' => $destinationZone,
+            'deliveryType' => $deliveryType,
+        ]);
+
+        $defaultProductId = null;
+
+        switch($destinationZone) {
+            case Zone::NL:
+                if($sourceZone == Zone::NL) {
+                    switch($deliveryType) {
+                        case DeliveryType::MAILBOX:
+                            $defaultProductId = Defaults::PRODUCT_MAILBOX_NL_NL;
+                            break;
+                        case DeliveryType::SHIPMENT:
+                            $defaultProductId = Defaults::PRODUCT_SHIPPING_NL_NL;
+                            break;
+                        case DeliveryType::PICKUP:
+                            $defaultProductId = Defaults::PRODUCT_PICKUP_NL_NL;
+                            break;
+                    }
+                }
+                break;
+            case Zone::BE:
+                switch($sourceZone) {
+                    case Zone::NL:
+                        switch($deliveryType) {
+                            case DeliveryType::SHIPMENT:
+                                $defaultProductId = Defaults::PRODUCT_SHIPPING_NL_BE;
+                                break;
+                            case DeliveryType::PICKUP:
+                                $defaultProductId = Defaults::PRODUCT_PICKUP_NL_BE;
+                                break;
+                        }
+                        break;
+                    case Zone::BE:
+                        // Nothing available yet.
+                        break;
+                }
+                break;
+            case Zone::EU:
+                $defaultProductId = Defaults::PRODUCT_SHIPPING_EU_4952;
+                break;
+            case Zone::GLOBAL:
+                $defaultProductId = Defaults::PRODUCT_SHIPPING_GLOBAL_4947;
+                break;
+        }
+
+        if(empty($defaultProductId)) {
+            try {
+                throw new \Exception('No default product available');
+            } catch(\Throwable $e) {
+                //warn here
+                throw $e;
+            }
+        }
+
+        $product = $this->productCodeRepository->search(new Criteria([$defaultProductId]), $context)->first();
+
+        if($product instanceof ProductCodeConfigEntity) {
+           return $product;
+        }
+
+        throw new \Exception('Could not find default product');
+    }
+
 
     public function getProduct(
         string  $sourceZone,
@@ -105,7 +230,7 @@ class ProductCodeService
         $criteria->addFilter(
             new EqualsFilter('sourceZone', $sourceZone),
             new EqualsFilter('destinationZone', $destinationZone),
-            new EqualsFilter('deliveryType', $deliveryType),
+            new EqualsFilter('deliveryType', $deliveryType)
         );
 
         foreach ($options as $option => $value) {
@@ -122,7 +247,7 @@ class ProductCodeService
         if ($products->count() > 0) {
             return $products;
         }
-dd($criteria);
+
         throw new \Exception('Could not find valid products');
     }
 

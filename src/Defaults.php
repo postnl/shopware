@@ -6,6 +6,16 @@ class Defaults
 {
     const CUSTOM_FIELDS_KEY = 'postnl-shipments';
 
+    const PRODUCT_MAILBOX_NL_NL = self::PRODUCT_MAILBOX_NL_NL_2928;
+    const PRODUCT_SHIPPING_NL_NL = self::PRODUCT_SHIPPING_NL_NL_3085;
+    const PRODUCT_PICKUP_NL_NL = self::PRODUCT_PICKUP_NL_NL_3533;
+
+    const PRODUCT_SHIPPING_NL_BE = self::PRODUCT_SHIPPING_NL_BE_4912;
+    const PRODUCT_PICKUP_NL_BE = self::PRODUCT_PICKUP_NL_BE_4936;
+
+    const PRODUCT_SHIPPING_BE_BE = null;
+    const PRODUCT_PICKUP_BE_BE = null;
+
     // NL->NL, Verzending
     const PRODUCT_SHIPPING_NL_NL_3085 = "01c8aeac08cd4d1b95de9ef6a18ae89d";
 
@@ -49,7 +59,7 @@ class Defaults
     const PRODUCT_PICKUP_NL_NL_3544 = "1238b1f6b0744dcdbe61d6350207059d";
 
     // NL->NL, Brievenbuspakje
-    const PRODUCT_SHIPPING_NL_NL_2928 = "62e456542fa843d3b3140622ea9b3547";
+    const PRODUCT_MAILBOX_NL_NL_2928 = "62e456542fa843d3b3140622ea9b3547";
 
     // NL->BE, Pickup
     const PRODUCT_PICKUP_NL_BE_4936 = "5a1d77cf89ec416f8c92f440ba961c6b";
