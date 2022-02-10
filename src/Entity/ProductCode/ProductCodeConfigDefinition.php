@@ -22,12 +22,19 @@ class ProductCodeConfigDefinition extends EntityDefinition
 {
     const ENTITY_NAME = 'postnl_shipments_product_code_config';
 
-    const OPT_NEXT_DOOR_DELIVERY = 'nextDoorDelivery';
-    const OPT_RETURN_IF_NOT_HOME = 'returnIfNotHome';
-    const OPT_INSURANCE = 'insurance';
-    const OPT_SIGNATURE = 'signature';
-    const OPT_AGE_CHECK = 'ageCheck';
-    const OPT_NOTIFICATION = 'notification';
+    const STOR_HOME_ALONE = 'home_alone';
+    const STOR_RETURN_IF_NOT_HOME = 'return_if_not_home';
+    const STOR_INSURANCE = 'insurance';
+    const STOR_SIGNATURE = 'signature';
+    const STOR_AGE_CHECK = 'age_check';
+    const STOR_NOTIFICATION = 'notification';
+
+    const PROP_HOME_ALONE = 'homeAlone';
+    const PROP_RETURN_IF_NOT_HOME = 'returnIfNotHome';
+    const PROP_INSURANCE = 'insurance';
+    const PROP_SIGNATURE = 'signature';
+    const PROP_AGE_CHECK = 'ageCheck';
+    const PROP_NOTIFICATION = 'notification';
 
     /**
      * @return string
@@ -71,12 +78,12 @@ class ProductCodeConfigDefinition extends EntityDefinition
             (new StringField('delivery_type', 'deliveryType', 255))
                 ->addFlags(new Required()),
 
-            new BoolField('next_door_delivery', self::OPT_NEXT_DOOR_DELIVERY),
-            new BoolField('return_if_not_home', self::OPT_RETURN_IF_NOT_HOME),
-            new BoolField('insurance', self::OPT_INSURANCE),
-            new BoolField('signature', self::OPT_SIGNATURE),
-            new BoolField('age_check', self::OPT_AGE_CHECK),
-            new BoolField('notification', self::OPT_NOTIFICATION),
+            new BoolField(self::STOR_HOME_ALONE, self::PROP_HOME_ALONE),
+            new BoolField(self::STOR_RETURN_IF_NOT_HOME, self::PROP_RETURN_IF_NOT_HOME),
+            new BoolField(self::STOR_INSURANCE, self::PROP_INSURANCE),
+            new BoolField(self::STOR_SIGNATURE, self::PROP_SIGNATURE),
+            new BoolField(self::STOR_AGE_CHECK, self::PROP_AGE_CHECK),
+            new BoolField(self::STOR_NOTIFICATION, self::PROP_NOTIFICATION),
 
             new TranslationsAssociationField(ProductCodeConfigTranslationDefinition::class, 'product_code_config_id'),
 

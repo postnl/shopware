@@ -18,12 +18,12 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 class ProductCodeService
 {
     const ALL_OPTS = [
-        ProductCodeConfigDefinition::OPT_NEXT_DOOR_DELIVERY,
-        ProductCodeConfigDefinition::OPT_RETURN_IF_NOT_HOME,
-        ProductCodeConfigDefinition::OPT_INSURANCE,
-        ProductCodeConfigDefinition::OPT_SIGNATURE,
-        ProductCodeConfigDefinition::OPT_AGE_CHECK,
-        ProductCodeConfigDefinition::OPT_NOTIFICATION,
+        ProductCodeConfigDefinition::PROP_HOME_ALONE,
+        ProductCodeConfigDefinition::PROP_RETURN_IF_NOT_HOME,
+        ProductCodeConfigDefinition::PROP_INSURANCE,
+        ProductCodeConfigDefinition::PROP_SIGNATURE,
+        ProductCodeConfigDefinition::PROP_AGE_CHECK,
+        ProductCodeConfigDefinition::PROP_NOTIFICATION,
     ];
 
     /**
@@ -202,7 +202,7 @@ class ProductCodeService
             }
 
             if (!$isInOptions && $isRequired) {
-                $options[$option] = $this->getDefaultOptionValue($option);
+                $options[$option] = false;
                 continue;
             }
 
@@ -317,7 +317,7 @@ class ProductCodeService
             $shouldBeDisabled = count($optionValuesInAvailableProducts) == 1;
             $shouldBeSelected = $shouldBeDisabled
                 ? $optionValuesInAvailableProducts[0]
-                : $this->getDefaultOptionValue($option);
+                : false;
 
             $isInOptions = array_key_exists($option, $options);
             $isSelected = $isInOptions && $options[$option];
@@ -332,21 +332,6 @@ class ProductCodeService
         }
 
         return $structs;
-    }
-
-    /**
-     * @param string $option
-     * @return bool
-     */
-    public function getDefaultOptionValue(string $option): bool
-    {
-        if(in_array($option, [
-            ProductCodeConfigDefinition::OPT_NEXT_DOOR_DELIVERY
-        ])) {
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -366,18 +351,18 @@ class ProductCodeService
         switch ($deliveryType) {
             case DeliveryType::SHIPMENT:
                 return [
-                    ProductCodeConfigDefinition::OPT_NEXT_DOOR_DELIVERY,
-                    ProductCodeConfigDefinition::OPT_RETURN_IF_NOT_HOME,
-                    ProductCodeConfigDefinition::OPT_INSURANCE,
-                    ProductCodeConfigDefinition::OPT_SIGNATURE,
-                    ProductCodeConfigDefinition::OPT_AGE_CHECK,
+                    ProductCodeConfigDefinition::PROP_HOME_ALONE,
+                    ProductCodeConfigDefinition::PROP_RETURN_IF_NOT_HOME,
+                    ProductCodeConfigDefinition::PROP_INSURANCE,
+                    ProductCodeConfigDefinition::PROP_SIGNATURE,
+                    ProductCodeConfigDefinition::PROP_AGE_CHECK,
                 ];
             case DeliveryType::PICKUP:
                 return [
-                    ProductCodeConfigDefinition::OPT_INSURANCE,
-                    ProductCodeConfigDefinition::OPT_SIGNATURE,
-                    ProductCodeConfigDefinition::OPT_AGE_CHECK,
-                    ProductCodeConfigDefinition::OPT_NOTIFICATION,
+                    ProductCodeConfigDefinition::PROP_INSURANCE,
+                    ProductCodeConfigDefinition::PROP_SIGNATURE,
+                    ProductCodeConfigDefinition::PROP_AGE_CHECK,
+                    ProductCodeConfigDefinition::PROP_NOTIFICATION,
                 ];
             case DeliveryType::MAILBOX:
                 return [];

@@ -90,12 +90,12 @@ abstract class ProductMigration extends MigrationStep
                     DeliveryType::PICKUP => 'PostNL Pickup Point',
                     DeliveryType::MAILBOX => 'Mailbox parcel',
                 ],
-                'next_door_delivery' => 'no delivery to neighbors',
-                'return_if_not_home' => 'return if no answer',
-                'insurance' => 'insured',
-                'signature' => 'signature on delivery',
-                'age_check' => '18+ check',
-                'notification' => 'notification when available for pickup',
+                ProductCodeConfigDefinition::STOR_HOME_ALONE => 'no delivery to neighbors', //TODO naam veranderen
+                ProductCodeConfigDefinition::STOR_RETURN_IF_NOT_HOME => 'return if no answer',
+                ProductCodeConfigDefinition::STOR_INSURANCE => 'insured',
+                ProductCodeConfigDefinition::STOR_SIGNATURE => 'signature on delivery',
+                ProductCodeConfigDefinition::STOR_AGE_CHECK => '18+ check',
+                ProductCodeConfigDefinition::STOR_NOTIFICATION => 'notification when available for pickup',
             ],
             'de-DE' => [
                 'destination_zone' => [
@@ -107,12 +107,12 @@ abstract class ProductMigration extends MigrationStep
                     DeliveryType::PICKUP => 'PostNL Abholpunkt',
                     DeliveryType::MAILBOX => 'Briefkasten-Paket',
                 ],
-                'next_door_delivery' => 'keine Lieferung an Nachbarn',
-                'return_if_not_home' => 'Rücksendung bei Nichtbeantwortung',
-                'insurance' => 'versichert',
-                'signature' => 'Unterschrift bei Lieferung',
-                'age_check' => '18+ Kontrolle',
-                'notification' => 'Benachrichtigung bei Abholbereitschaft',
+                ProductCodeConfigDefinition::STOR_HOME_ALONE => 'keine Lieferung an Nachbarn', //TODO naam veranderen
+                ProductCodeConfigDefinition::STOR_RETURN_IF_NOT_HOME => 'Rücksendung bei Nichtbeantwortung',
+                ProductCodeConfigDefinition::STOR_INSURANCE => 'versichert',
+                ProductCodeConfigDefinition::STOR_SIGNATURE => 'Unterschrift bei Lieferung',
+                ProductCodeConfigDefinition::STOR_AGE_CHECK => '18+ Kontrolle',
+                ProductCodeConfigDefinition::STOR_NOTIFICATION => 'Benachrichtigung bei Abholbereitschaft',
             ],
             'nl-NL' => [
                 'destination_zone' => [
@@ -124,12 +124,12 @@ abstract class ProductMigration extends MigrationStep
                     DeliveryType::PICKUP => 'PostNL Pickup Point',
                     DeliveryType::MAILBOX => 'Brievenbuspakje',
                 ],
-                'next_door_delivery' => 'niet bij buren bezorgen',
-                'return_if_not_home' => 'retour bij geen gehoor',
-                'insurance' => 'verzekerd',
-                'signature' => 'handtekening voor ontvangst',
-                'age_check' => '18+ check',
-                'notification' => 'notificatie wanneer beschikbaar voor ophalen',
+                ProductCodeConfigDefinition::STOR_HOME_ALONE => 'niet bij buren bezorgen', //TODO naam veranderen
+                ProductCodeConfigDefinition::STOR_RETURN_IF_NOT_HOME => 'retour bij geen gehoor',
+                ProductCodeConfigDefinition::STOR_INSURANCE => 'verzekerd',
+                ProductCodeConfigDefinition::STOR_SIGNATURE => 'handtekening voor ontvangst',
+                ProductCodeConfigDefinition::STOR_AGE_CHECK => '18+ check',
+                ProductCodeConfigDefinition::STOR_NOTIFICATION => 'notificatie wanneer beschikbaar voor ophalen',
             ],
         ];
 
@@ -140,23 +140,23 @@ abstract class ProductMigration extends MigrationStep
             $nameParts[] = $translations[$locale]['destination_zone'][$product['destination_zone']];
         }
 
-        if ($product['next_door_delivery'] === false) {
-            $nameParts[] = $translations[$locale]['next_door_delivery'];
+        if ($product[ProductCodeConfigDefinition::STOR_HOME_ALONE] === true) {
+            $nameParts[] = $translations[$locale][ProductCodeConfigDefinition::STOR_HOME_ALONE];
         }
-        if ($product['return_if_not_home'] === true) {
-            $nameParts[] = $translations[$locale]['return_if_not_home'];
+        if ($product[ProductCodeConfigDefinition::STOR_RETURN_IF_NOT_HOME] === true) {
+            $nameParts[] = $translations[$locale][ProductCodeConfigDefinition::STOR_RETURN_IF_NOT_HOME];
         }
-        if ($product['insurance'] === true) {
-            $nameParts[] = $translations[$locale]['insurance'];
+        if ($product[ProductCodeConfigDefinition::STOR_INSURANCE] === true) {
+            $nameParts[] = $translations[$locale][ProductCodeConfigDefinition::STOR_INSURANCE];
         }
-        if ($product['signature'] === true) {
-            $nameParts[] = $translations[$locale]['signature'];
+        if ($product[ProductCodeConfigDefinition::STOR_SIGNATURE] === true) {
+            $nameParts[] = $translations[$locale][ProductCodeConfigDefinition::STOR_SIGNATURE];
         }
-        if ($product['age_check'] === true) {
-            $nameParts[] = $translations[$locale]['age_check'];
+        if ($product[ProductCodeConfigDefinition::STOR_AGE_CHECK] === true) {
+            $nameParts[] = $translations[$locale][ProductCodeConfigDefinition::STOR_AGE_CHECK];
         }
-        if ($product['notification'] === true) {
-            $nameParts[] = $translations[$locale]['notification'];
+        if ($product[ProductCodeConfigDefinition::STOR_NOTIFICATION] === true) {
+            $nameParts[] = $translations[$locale][ProductCodeConfigDefinition::STOR_NOTIFICATION];
         }
 
 

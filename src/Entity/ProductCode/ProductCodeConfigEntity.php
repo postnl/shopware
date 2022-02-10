@@ -32,7 +32,7 @@ class ProductCodeConfigEntity extends Entity
     protected $deliveryType;
 
     /** @var bool|null */
-    protected $nextDoorDelivery;
+    protected $homeAlone;
 
     /** @var bool|null */
     protected $returnIfNotHome;
@@ -52,123 +52,211 @@ class ProductCodeConfigEntity extends Entity
     /** @var ProductCodeConfigTranslationCollection */
     protected $translations;
 
-    public function setName(string $value): void
-    {
-        $this->name = $value;
-    }
-
+    /**
+     * @return string
+     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    public function setProductCodeDelivery(string $value): void
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
     {
-        $this->productCodeDelivery = $value;
+        $this->name = $name;
     }
 
+    /**
+     * @return string
+     */
     public function getProductCodeDelivery(): string
     {
         return $this->productCodeDelivery;
     }
 
-    public function setSourceZone(string $value): void
+    /**
+     * @param string $productCodeDelivery
+     */
+    public function setProductCodeDelivery(string $productCodeDelivery): void
     {
-        $this->sourceZone = $value;
+        $this->productCodeDelivery = $productCodeDelivery;
     }
 
+    /**
+     * @return ProductOptionCollection
+     */
+    public function getProductOptions(): ProductOptionCollection
+    {
+        return $this->productOptions;
+    }
+
+    /**
+     * @param ProductOptionCollection $productOptions
+     */
+    public function setProductOptions(ProductOptionCollection $productOptions): void
+    {
+        $this->productOptions = $productOptions;
+    }
+
+    /**
+     * @return string
+     */
     public function getSourceZone(): string
     {
         return $this->sourceZone;
     }
 
-    public function setDestinationZone(string $value): void
+    /**
+     * @param string $sourceZone
+     */
+    public function setSourceZone(string $sourceZone): void
     {
-        $this->destinationZone = $value;
+        $this->sourceZone = $sourceZone;
     }
 
+    /**
+     * @return string
+     */
     public function getDestinationZone(): string
     {
         return $this->destinationZone;
     }
 
-    public function setDeliveryType(string $value): void
+    /**
+     * @param string $destinationZone
+     */
+    public function setDestinationZone(string $destinationZone): void
     {
-        $this->deliveryType = $value;
+        $this->destinationZone = $destinationZone;
     }
 
+    /**
+     * @return string
+     */
     public function getDeliveryType(): string
     {
         return $this->deliveryType;
     }
 
-    public function setNextDoorDelivery(?bool $value): void
+    /**
+     * @param string $deliveryType
+     */
+    public function setDeliveryType(string $deliveryType): void
     {
-        $this->nextDoorDelivery = $value;
+        $this->deliveryType = $deliveryType;
     }
 
-    public function getNextDoorDelivery(): ?bool
+    /**
+     * @return bool|null
+     */
+    public function getHomeAlone(): ?bool
     {
-        return $this->nextDoorDelivery;
+        return $this->homeAlone;
     }
 
-    public function setReturnIfNotHome(?bool $value): void
+    /**
+     * @param bool|null $homeAlone
+     */
+    public function setHomeAlone(?bool $homeAlone): void
     {
-        $this->returnIfNotHome = $value;
+        $this->homeAlone = $homeAlone;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getReturnIfNotHome(): ?bool
     {
         return $this->returnIfNotHome;
     }
 
-    public function setInsurance(?bool $value): void
+    /**
+     * @param bool|null $returnIfNotHome
+     */
+    public function setReturnIfNotHome(?bool $returnIfNotHome): void
     {
-        $this->insurance = $value;
+        $this->returnIfNotHome = $returnIfNotHome;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getInsurance(): ?bool
     {
         return $this->insurance;
     }
 
-    public function setSignature(?bool $value): void
+    /**
+     * @param bool|null $insurance
+     */
+    public function setInsurance(?bool $insurance): void
     {
-        $this->signature = $value;
+        $this->insurance = $insurance;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getSignature(): ?bool
     {
         return $this->signature;
     }
 
-    public function setAgeCheck(?bool $value): void
+    /**
+     * @param bool|null $signature
+     */
+    public function setSignature(?bool $signature): void
     {
-        $this->ageCheck = $value;
+        $this->signature = $signature;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getAgeCheck(): ?bool
     {
         return $this->ageCheck;
     }
 
-    public function setNotification(?bool $value): void
+    /**
+     * @param bool|null $ageCheck
+     */
+    public function setAgeCheck(?bool $ageCheck): void
     {
-        $this->notification = $value;
+        $this->ageCheck = $ageCheck;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getNotification(): ?bool
     {
         return $this->notification;
     }
 
-    public function setTranslations(ProductCodeConfigTranslationCollection $value): void
+    /**
+     * @param bool|null $notification
+     */
+    public function setNotification(?bool $notification): void
     {
-        $this->translations = $value;
+        $this->notification = $notification;
     }
 
+    /**
+     * @return ProductCodeConfigTranslationCollection
+     */
     public function getTranslations(): ProductCodeConfigTranslationCollection
     {
         return $this->translations;
+    }
+
+    /**
+     * @param ProductCodeConfigTranslationCollection $translations
+     */
+    public function setTranslations(ProductCodeConfigTranslationCollection $translations): void
+    {
+        $this->translations = $translations;
     }
 }

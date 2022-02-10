@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `postnl_shipments_product_code_config` (
     `source_zone` VARCHAR(255) NOT NULL,
     `destination_zone` VARCHAR(255) NOT NULL,
     `delivery_type` VARCHAR(255) NOT NULL,
-    `next_door_delivery` TINYINT(1) NULL DEFAULT '0',
+    `home_alone` TINYINT(1) NULL DEFAULT '0',
     `return_if_not_home` TINYINT(1) NULL DEFAULT '0',
     `insurance` TINYINT(1) NULL DEFAULT '0',
     `signature` TINYINT(1) NULL DEFAULT '0',
