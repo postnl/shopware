@@ -2,24 +2,21 @@
 <sw-container>
     {{ product.productCodeDelivery }} {{ product.name }}
 
-
-    <sw-text-field v-model="actualSourceZone" @change="onChangeSourceZone"/>
-
-
     <sw-single-select v-model="actualDeliveryType"
                       :options="availableDeliveryTypes"
                       :disabled="availableDeliveryTypes.length == 0"
                       @change="onChangeDeliveryType"/>
 
     <sw-container columns="1fr 1fr" gap="0 16px">
-{#        <sw-switch-field v-for="availableOption in availableOptions"#}
-{#                         v-if="availableOption.visible"#}
-{#                         v-model="options[availableOption.name]"#}
-{#                         :label="availableOption.name"#}
-{#                         :disabled="availableOption.disabled"#}
-{#                         :value="availableOption.selected"#}
-{#                         size="small"#}
-{#                         noMarginTop/>#}
+        <sw-switch-field v-for="availableOption in availableOptions"
+                         v-if="availableOption.visible"
+                         v-model="options[availableOption.name]"
+                         :key="availableOption.name"
+                         :label="availableOption.name"
+                         :disabled="availableOption.disabled"
+                         @change="onChangeOption(availableOption.name)"
+                         size="small"
+                         noMarginTop/>
     </sw-container>
 </sw-container>
 

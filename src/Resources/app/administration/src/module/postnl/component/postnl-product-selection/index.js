@@ -49,34 +49,14 @@ Component.register('postnl-product-selection', {
             productAvailable: false,
             availableDeliveryTypes: [],
             availableOptions: [],
+            options: {},
+            selectedOptions: [],
 
-            internalSourceZone: null,
-            internalDestinationZone: null,
             internalDeliveryType: null,
         }
     },
 
     computed: {
-        actualSourceZone: {
-            get() {
-                return this.internalSourceZone;
-            },
-            set(value) {
-                this.internalSourceZone = value;
-                this.$emit('sourceZoneChanged', value);
-            }
-        },
-
-        actualDestinationZone: {
-            get() {
-                return this.internalDestinationZone;
-            },
-            set(value) {
-                this.internalDestinationZone = value;
-                this.$emit('destinationZoneChanged', value);
-            }
-        },
-
         actualDeliveryType: {
             get() {
                 return this.internalDeliveryType;
@@ -95,17 +75,22 @@ Component.register('postnl-product-selection', {
             },
             deep: true
         },
+
+        options: {
+            handler(value) {
+                console.log(value);
+            },
+            deep: true
+        },
+
         sourceZone() {
             this.initInternalData();
             this.onChangeSourceZone();
         },
-        destinationZone() {
-            this.initInternalData();
-            this.onChangeSourceZone();
-        },
+
         deliveryType() {
             this.initInternalData();
-            this.onChangeSourceZone();
+            this.onChangeDeliveryType();
         },
     },
 
@@ -120,24 +105,33 @@ Component.register('postnl-product-selection', {
         },
 
         initInternalData() {
-            this.internalSourceZone = this.sourceZone;
-            this.internalDestinationZone = this.destinationZone;
             this.internalDeliveryType = this.deliveryType;
         },
 
         onChangeSourceZone() {
             this.checkIfSourceZoneHasProducts()
                 .then(this.getAvailableDeliveryTypes)
-                .then(this.onChangeDeliveryType());
+                .then(this.onChangeDeliveryType);
         },
 
         onChangeDeliveryType() {
             this.getAvailableDeliveryOptions();
         },
 
+        onChangeOption(name) {
+            this.selectedOptions = this.selectedOptions.filter(option => {
+                return option.name !== name;
+            });
+
+            this.selectedOptions.unshift({
+                name: name,
+                selected: this.options[name]
+            });
+        },
+
         checkIfSourceZoneHasProducts() {
             return this.ProductSelectionService
-                .sourceZoneHasProducts(this.actualSourceZone)
+                .sourceZoneHasProducts(this.sourceZone)
                 .then(result => this.productsAvailable = result.hasProducts)
                 .catch(() => {
                     this.productsAvailable = false;
@@ -148,7 +142,7 @@ Component.register('postnl-product-selection', {
 
         getAvailableDeliveryTypes() {
             return this.ProductSelectionService
-                .getAvailableDeliveryTypes(this.actualSourceZone, this.actualDestinationZone)
+                .getAvailableDeliveryTypes(this.sourceZone, this.destinationZone)
                 .then(deliveryTypes => {
                     this.availableDeliveryTypes = deliveryTypes.map(deliveryType => {
                         return {
@@ -163,11 +157,18 @@ Component.register('postnl-product-selection', {
         getAvailableDeliveryOptions() {
             return this.ProductSelectionService
                 .options(
-                    this.actualSourceZone,
-                    this.actualDestinationZone,
+                    this.sourceZone,
+                    this.destinationZone,
                     this.actualDeliveryType
                 )
-                .then(result => console.log(result));
+                .then(result => this.availableOptions = result.options)
+                .then(options => {
+                    this.selectedOptions = [];
+                    this.options = {};
+                    for(const name in options) {
+                        this.options[name] = options[name].selected;
+                    };
+                });
         }
     }
 })

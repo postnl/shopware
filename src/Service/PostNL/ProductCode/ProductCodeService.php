@@ -45,7 +45,6 @@ class ProductCodeService
         $this->logger = $logger;
     }
 
-
     /**
      * Does the source zone have products? There are only two source zones, NL and BE,
      * but in v1 there are no products for BE yet.
@@ -290,8 +289,6 @@ class ProductCodeService
 
         $availableProducts = $this->getProducts($sourceZone, $destinationZone, $deliveryType, $options, $context);
 
-        dump($requiredOptions, $availableProducts);
-
         $structs = [];
 
         /**
@@ -315,9 +312,7 @@ class ProductCodeService
 
             $shouldBeVisible = in_array($option, $requiredOptions);
             $shouldBeDisabled = count($optionValuesInAvailableProducts) == 1;
-            $shouldBeSelected = $shouldBeDisabled
-                ? $optionValuesInAvailableProducts[0]
-                : false;
+            $shouldBeSelected = $shouldBeDisabled && $optionValuesInAvailableProducts[0];
 
             $isInOptions = array_key_exists($option, $options);
             $isSelected = $isInOptions && $options[$option];

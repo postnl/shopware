@@ -58,8 +58,7 @@ class ProductFacade
             return [];
         }
 
-        $opts = $this->productCodeService->getOptions($sourceZone, $destinationZone, $deliveryType, [], $context);
-        dd($opts);
+        return $this->productCodeService->getOptions($sourceZone, $destinationZone, $deliveryType, [], $context);
     }
 
 
