@@ -24,8 +24,8 @@ export default class ProductSelectionService extends PostNlApiService
         })
     }
 
-    options(sourceZone, destinationZone, deliveryType) {
-        return this.get('product/options', {
+    getAvailableFlags(sourceZone, destinationZone, deliveryType) {
+        return this.get('product/flags/available', {
             sourceZone: sourceZone,
             destinationZone: destinationZone,
             deliveryType: deliveryType

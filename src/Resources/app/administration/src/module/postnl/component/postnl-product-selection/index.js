@@ -48,9 +48,9 @@ Component.register('postnl-product-selection', {
             product: {},
             productAvailable: false,
             availableDeliveryTypes: [],
-            availableOptions: [],
-            options: {},
-            selectedOptions: [],
+            availableFlags: [],
+            flags: {},
+            selectedFlags: [],
 
             internalDeliveryType: null,
         }
@@ -76,7 +76,7 @@ Component.register('postnl-product-selection', {
             deep: true
         },
 
-        options: {
+        flags: {
             handler(value) {
                 console.log(value);
             },
@@ -115,17 +115,18 @@ Component.register('postnl-product-selection', {
         },
 
         onChangeDeliveryType() {
-            this.getAvailableDeliveryOptions();
+            this.getAvailableDeliveryOptions()
+                //.then(this.getDefaultProduct);
         },
 
-        onChangeOption(name) {
-            this.selectedOptions = this.selectedOptions.filter(option => {
-                return option.name !== name;
+        onChangeFlag(name) {
+            this.selectedFlags = this.selectedFlags.filter(flag => {
+                return flag.name !== name;
             });
 
-            this.selectedOptions.unshift({
+            this.selectedFlags.push({
                 name: name,
-                selected: this.options[name]
+                selected: this.flags[name]
             });
         },
 
@@ -156,18 +157,18 @@ Component.register('postnl-product-selection', {
 
         getAvailableDeliveryOptions() {
             return this.ProductSelectionService
-                .options(
+                .getAvailableFlags(
                     this.sourceZone,
                     this.destinationZone,
                     this.actualDeliveryType
                 )
-                .then(result => this.availableOptions = result.options)
-                .then(options => {
-                    this.selectedOptions = [];
-                    this.options = {};
-                    for(const name in options) {
-                        this.options[name] = options[name].selected;
-                    };
+                .then(result => this.availableFlags = result.flags)
+                .then(flags => {
+                    this.selectedFlags = [];
+                    this.flags = {};
+                    for(const name in flags) {
+                        this.flags[name] = flags[name].selected;
+                    }
                 });
         }
     }

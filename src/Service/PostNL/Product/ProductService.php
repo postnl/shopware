@@ -257,7 +257,7 @@ class ProductService
      * @return ProductFlagStruct[]
      * @throws \Exception
      */
-    public function getOptions(
+    public function getFlags(
         string  $sourceZone,
         string  $destinationZone,
         string  $deliveryType,

@@ -8,13 +8,13 @@
                       @change="onChangeDeliveryType"/>
 
     <sw-container columns="1fr 1fr" gap="0 16px">
-        <sw-switch-field v-for="availableOption in availableOptions"
-                         v-if="availableOption.visible"
-                         v-model="options[availableOption.name]"
-                         :key="availableOption.name"
-                         :label="availableOption.name"
-                         :disabled="availableOption.disabled"
-                         @change="onChangeOption(availableOption.name)"
+        <sw-switch-field v-for="availableFlag in availableFlags"
+                         v-if="availableFlag.visible"
+                         v-model="flags[availableFlag.name]"
+                         :key="availableFlag.name"
+                         :label="availableFlag.name"
+                         :disabled="availableFlag.disabled"
+                         @change="onChangeFlag(availableFlag.name)"
                          size="small"
                          noMarginTop/>
     </sw-container>

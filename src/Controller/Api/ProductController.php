@@ -105,23 +105,23 @@ class ProductController extends AbstractController
 
 
     /**
-     * @Route("/api/_action/postnl/product/options",
-     *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.options", methods={"GET"})
+     * @Route("/api/_action/postnl/product/flags/available",
+     *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.flags.available", methods={"GET"})
      *
      * @param QueryDataBag $query
      * @param Context $context
      * @return JsonResponse
      */
-    public function options(QueryDataBag $query, Context $context)
+    public function availableFlags(QueryDataBag $query, Context $context)
     {
         $sourceZone = $query->get('sourceZone');
         $destinationZone = $query->get('destinationZone');
         $deliveryType = $query->get('deliveryType');
 
-        $options = $this->productFacade->getAvailableOptions($sourceZone, $destinationZone, $deliveryType, $context);
+        $flags = $this->productFacade->getAvailableFlags($sourceZone, $destinationZone, $deliveryType, $context);
 
         return $this->json([
-            'options' => $options,
+            'flags' => $flags,
         ]);
     }
 

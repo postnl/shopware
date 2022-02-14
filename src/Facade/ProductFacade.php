@@ -47,7 +47,7 @@ class ProductFacade
         return $this->productCodeService->getAvailableDeliveryTypes($sourceZone, $destinationZone, $context);
     }
 
-    public function getAvailableOptions(
+    public function getAvailableFlags(
         string $sourceZone,
         string $destinationZone,
         string $deliveryType,
@@ -58,7 +58,7 @@ class ProductFacade
             return [];
         }
 
-        return $this->productCodeService->getOptions($sourceZone, $destinationZone, $deliveryType, [], $context);
+        return $this->productCodeService->getFlags($sourceZone, $destinationZone, $deliveryType, [], $context);
     }
 
 
@@ -94,6 +94,6 @@ class ProductFacade
         Context $context
     ): array
     {
-        return $this->productCodeService->getOptions($sourceZone, $destinationZone, $deliveryType, $options, $context);
+        return $this->productCodeService->getFlags($sourceZone, $destinationZone, $deliveryType, $options, $context);
     }
 }
