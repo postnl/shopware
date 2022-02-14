@@ -13,7 +13,7 @@ class ProductFacade
     /**
      * @var ProductService
      */
-    protected $productCodeService;
+    protected $productService;
 
     /**
      * @var LoggerInterface
@@ -21,17 +21,17 @@ class ProductFacade
     protected $logger;
 
     public function __construct(
-        ProductService  $productCodeService,
+        ProductService  $productService,
         LoggerInterface $logger
     )
     {
-        $this->productCodeService = $productCodeService;
+        $this->productService = $productService;
         $this->logger = $logger;
     }
 
     public function sourceZoneHasProducts(string $sourceZone, Context $context): bool
     {
-        return $this->productCodeService->sourceZoneHasProducts($sourceZone, $context);
+        return $this->productService->sourceZoneHasProducts($sourceZone, $context);
     }
 
     public function getAvailableDeliveryTypes(
@@ -44,7 +44,7 @@ class ProductFacade
             return [];
         }
 
-        return $this->productCodeService->getAvailableDeliveryTypes($sourceZone, $destinationZone, $context);
+        return $this->productService->getAvailableDeliveryTypes($sourceZone, $destinationZone, $context);
     }
 
     public function getAvailableFlags(
@@ -58,42 +58,52 @@ class ProductFacade
             return [];
         }
 
-        return $this->productCodeService->getFlags($sourceZone, $destinationZone, $deliveryType, [], $context);
+        return $this->productService->getFlags($sourceZone, $destinationZone, $deliveryType, [], $context);
     }
 
-
-
-    public function select(
+    public function getDefaultProduct(
         string $sourceZone,
         string $destinationZone,
         string $deliveryType,
-        array $options,
         Context $context
     ): ProductEntity
     {
-        try {
-            return $this->productCodeService->getProduct($sourceZone, $destinationZone, $deliveryType, $options, $context);
-        } catch (\Throwable $e) {
-            return $this->productCodeService->getProducts($sourceZone, $destinationZone, $deliveryType, [], $context)->first();
-        }
+        return $this->productService->getDefaultProduct($sourceZone, $destinationZone, $deliveryType, $context);
     }
 
-    /**
-     * @param string $sourceZone
-     * @param string $destinationZone
-     * @param string $deliveryType
-     * @param array $options
-     * @param Context $context
-     * @return ProductFlagStruct[]
-     */
-    public function options(
-        string $sourceZone,
-        string $destinationZone,
-        string $deliveryType,
-        array $options,
-        Context $context
-    ): array
-    {
-        return $this->productCodeService->getFlags($sourceZone, $destinationZone, $deliveryType, $options, $context);
-    }
+
+
+//    public function select(
+//        string $sourceZone,
+//        string $destinationZone,
+//        string $deliveryType,
+//        array $options,
+//        Context $context
+//    ): ProductEntity
+//    {
+//        try {
+//            return $this->productService->getProduct($sourceZone, $destinationZone, $deliveryType, $options, $context);
+//        } catch (\Throwable $e) {
+//            return $this->productService->getProducts($sourceZone, $destinationZone, $deliveryType, [], $context)->first();
+//        }
+//    }
+//
+//    /**
+//     * @param string $sourceZone
+//     * @param string $destinationZone
+//     * @param string $deliveryType
+//     * @param array $options
+//     * @param Context $context
+//     * @return ProductFlagStruct[]
+//     */
+//    public function options(
+//        string $sourceZone,
+//        string $destinationZone,
+//        string $deliveryType,
+//        array $options,
+//        Context $context
+//    ): array
+//    {
+//        return $this->productService->getFlags($sourceZone, $destinationZone, $deliveryType, $options, $context);
+//    }
 }

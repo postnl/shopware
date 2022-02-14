@@ -43,7 +43,7 @@ class ProductController extends AbstractController
      * @param Context $context
      * @return JsonResponse
      */
-    public function source(QueryDataBag $query, Context $context)
+    public function sourceZoneHasProducts(QueryDataBag $query, Context $context)
     {
         $sourceZone = $query->get('sourceZone');
 
@@ -63,46 +63,13 @@ class ProductController extends AbstractController
      * @param Context $context
      * @return JsonResponse
      */
-    public function deliveryTypes(QueryDataBag $query, Context $context)
+    public function getAvailableDeliveryTypes(QueryDataBag $query, Context $context)
     {
         $sourceZone = $query->get('sourceZone');
         $destinationZone = $query->get('destinationZone');
 
         return $this->json($this->productFacade->getAvailableDeliveryTypes($sourceZone, $destinationZone, $context));
     }
-
-
-
-
-    /**
-     * @Route("/api/_action/postnl/product/select",
-     *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.select", methods={"GET"})
-     *
-     * @param QueryDataBag $query
-     * @param Context $context
-     * @return JsonResponse
-     */
-    public function select(QueryDataBag $query, Context $context)
-    {
-        $sourceZone = $query->get('sourceZone');
-        $destinationZone = $query->get('destinationZone');
-        $deliveryType = $query->get('deliveryType');
-        $options = json_decode($query->get('options', '{}'), true);
-
-        //TODO check if vars are empty
-        //TODO catch errors
-
-        $product = $this->productFacade->select($sourceZone, $destinationZone, $deliveryType, $options, $context);
-        $options = $this->productFacade->options($sourceZone, $destinationZone, $deliveryType, $options, $context);
-
-        return $this->json([
-            'product' => $product,
-            'options' => $options,
-        ]);
-    }
-
-
-
 
     /**
      * @Route("/api/_action/postnl/product/flags/available",
@@ -124,5 +91,58 @@ class ProductController extends AbstractController
             'flags' => $flags,
         ]);
     }
+
+    /**
+     * @Route("/api/_action/postnl/product/default",
+     *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.default", methods={"GET"})
+     *
+     * @param QueryDataBag $query
+     * @param Context $context
+     * @return JsonResponse
+     */
+    public function defaultProduct(QueryDataBag $query, Context $context)
+    {
+        $sourceZone = $query->get('sourceZone');
+        $destinationZone = $query->get('destinationZone');
+        $deliveryType = $query->get('deliveryType');
+
+        $product = $this->productFacade->getDefaultProduct($sourceZone, $destinationZone, $deliveryType, $context);
+
+        return $this->json([
+            'product' => $product,
+        ]);
+    }
+
+
+
+//    /**
+//     * @Route("/api/_action/postnl/product/select",
+//     *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.select", methods={"GET"})
+//     *
+//     * @param QueryDataBag $query
+//     * @param Context $context
+//     * @return JsonResponse
+//     */
+//    public function select(QueryDataBag $query, Context $context)
+//    {
+//        $sourceZone = $query->get('sourceZone');
+//        $destinationZone = $query->get('destinationZone');
+//        $deliveryType = $query->get('deliveryType');
+//        $options = json_decode($query->get('options', '{}'), true);
+//
+//        //TODO check if vars are empty
+//        //TODO catch errors
+//
+//        $product = $this->productFacade->select($sourceZone, $destinationZone, $deliveryType, $options, $context);
+//        $options = $this->productFacade->options($sourceZone, $destinationZone, $deliveryType, $options, $context);
+//
+//        return $this->json([
+//            'product' => $product,
+//            'options' => $options,
+//        ]);
+//    }
+
+
+
 
 }

@@ -45,14 +45,15 @@ Component.register('postnl-product-selection', {
     data() {
         return {
             isLoading: true,
+
             product: {},
             productAvailable: false,
-            availableDeliveryTypes: [],
-            availableFlags: [],
-            flags: {},
-            selectedFlags: [],
 
+            availableDeliveryTypes: [],
             internalDeliveryType: null,
+
+            flags: [],
+            selectedFlags: [],
         }
     },
 
@@ -72,13 +73,6 @@ Component.register('postnl-product-selection', {
         value: {
             handler(value) {
                 this.$emit('input', value);
-            },
-            deep: true
-        },
-
-        flags: {
-            handler(value) {
-                console.log(value);
             },
             deep: true
         },
@@ -115,19 +109,14 @@ Component.register('postnl-product-selection', {
         },
 
         onChangeDeliveryType() {
-            this.getAvailableDeliveryOptions()
-                //.then(this.getDefaultProduct);
+            this.getAvailableFlags()
+                .then(this.getDefaultProduct);
         },
 
         onChangeFlag(name) {
-            this.selectedFlags = this.selectedFlags.filter(flag => {
-                return flag.name !== name;
-            });
+            this.setFlagSelected(name);
 
-            this.selectedFlags.push({
-                name: name,
-                selected: this.flags[name]
-            });
+            // Select product based on selected flags
         },
 
         checkIfSourceZoneHasProducts() {
@@ -155,21 +144,51 @@ Component.register('postnl-product-selection', {
                 });
         },
 
-        getAvailableDeliveryOptions() {
+        getAvailableFlags() {
             return this.ProductSelectionService
                 .getAvailableFlags(
                     this.sourceZone,
                     this.destinationZone,
                     this.actualDeliveryType
                 )
-                .then(result => this.availableFlags = result.flags)
-                .then(flags => {
+                .then(result => this.flags = result.flags)
+                .then(() => {
                     this.selectedFlags = [];
-                    this.flags = {};
-                    for(const name in flags) {
-                        this.flags[name] = flags[name].selected;
-                    }
                 });
+        },
+
+        getDefaultProduct() {
+            return this.ProductSelectionService
+                .getDefaultProduct(
+                    this.sourceZone,
+                    this.destinationZone,
+                    this.actualDeliveryType
+                )
+                .then(result => this.product = result.product)
+                .then(product => this.setProductFlags(product))
+        },
+
+        setFlagSelected(name) {
+            this.selectedFlags = this.selectedFlags.filter(flag => {
+                return flag.name !== name;
+            });
+
+            this.selectedFlags.push({
+                name: name,
+                selected: this.flags[name].selected
+            });
+        },
+
+        setProductFlags(product) {
+            for(const name in this.flags) {
+                if(this.flags[name].visible) {
+                    this.flags[name].selected = product[name];
+
+                    if(product[name]) {
+                        this.setFlagSelected(name);
+                    }
+                }
+            }
         }
     }
 })
