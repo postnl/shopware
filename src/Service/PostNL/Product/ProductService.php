@@ -8,14 +8,14 @@ use PostNL\Shipments\Entity\Product\ProductDefinition;
 use PostNL\Shipments\Entity\Product\ProductEntity;
 use PostNL\Shipments\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shipments\Service\PostNL\Delivery\Zone\Zone;
-use PostNL\Shipments\Struct\ProductCodeOptionStruct;
+use PostNL\Shipments\Struct\ProductOptionStruct;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 
-class ProductCodeService
+class ProductService
 {
     const ALL_OPTS = [
         ProductDefinition::PROP_HOME_ALONE,
@@ -263,7 +263,7 @@ class ProductCodeService
      * @param string $deliveryType
      * @param array $options
      * @param Context $context
-     * @return ProductCodeOptionStruct[]
+     * @return ProductOptionStruct[]
      * @throws \Exception
      */
     public function getOptions(
@@ -318,7 +318,7 @@ class ProductCodeService
             $isSelected = $isInOptions && $options[$option];
             $isDisabled = !$isInOptions && $shouldBeDisabled;
 
-            $structs[$option] = new ProductCodeOptionStruct(
+            $structs[$option] = new ProductOptionStruct(
                 $option,
                 $shouldBeVisible,
                 $isDisabled,

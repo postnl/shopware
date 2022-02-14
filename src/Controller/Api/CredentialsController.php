@@ -4,7 +4,7 @@ namespace PostNL\Shipments\Controller\Api;
 
 use PostNL\Shipments\Facade\CredentialsFacade;
 use PostNL\Shipments\Service\PostNL\Delivery\DeliveryType;
-use PostNL\Shipments\Service\PostNL\ProductCode\ProductCodeService;
+use PostNL\Shipments\Service\PostNL\ProductCode\ProductService;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
@@ -75,7 +75,7 @@ class CredentialsController extends AbstractController
     private function getTestResponse(string $apiKey, bool $sandbox): JsonResponse
     {
         $context = Context::createDefaultContext();
-        $service = $this->container->get(ProductCodeService::class);
+        $service = $this->container->get(ProductService::class);
 
 
         $hasProducts = $service->sourceZoneHasProducts('NL', $context);

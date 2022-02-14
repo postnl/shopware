@@ -3,15 +3,15 @@
 namespace PostNL\Shipments\Facade;
 
 use PostNL\Shipments\Entity\Product\ProductEntity;
-use PostNL\Shipments\Service\PostNL\ProductCode\ProductCodeService;
-use PostNL\Shipments\Struct\ProductCodeOptionStruct;
+use PostNL\Shipments\Service\PostNL\ProductCode\ProductService;
+use PostNL\Shipments\Struct\ProductOptionStruct;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 
 class ProductFacade
 {
     /**
-     * @var ProductCodeService
+     * @var ProductService
      */
     protected $productCodeService;
 
@@ -21,7 +21,7 @@ class ProductFacade
     protected $logger;
 
     public function __construct(
-        ProductCodeService $productCodeService,
+        ProductService  $productCodeService,
         LoggerInterface $logger
     )
     {
@@ -84,7 +84,7 @@ class ProductFacade
      * @param string $deliveryType
      * @param array $options
      * @param Context $context
-     * @return ProductCodeOptionStruct[]
+     * @return ProductOptionStruct[]
      */
     public function options(
         string $sourceZone,

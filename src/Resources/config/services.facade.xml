@@ -13,7 +13,7 @@
         </service>
 
         <service id="PostNL\Shipments\Facade\ProductFacade">
-            <argument type="service" id="PostNL\Shipments\Service\PostNL\ProductCode\ProductCodeService"/>
+            <argument type="service" id="PostNL\Shipments\Service\PostNL\ProductCode\ProductService"/>
             <argument type="service" id="postnl_shipments.logger"/>
         </service>
     </services>
