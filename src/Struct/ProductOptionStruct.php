@@ -4,7 +4,7 @@ namespace PostNL\Shipments\Struct;
 
 use Shopware\Core\Framework\Struct\Struct;
 
-class ProductCodeOptionStruct extends Struct
+class ProductOptionStruct extends Struct
 {
     /**
      * @var string

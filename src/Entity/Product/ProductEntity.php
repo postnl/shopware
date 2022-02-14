@@ -2,19 +2,22 @@
 
 declare(strict_types=1);
 
-namespace PostNL\Shipments\Entity\ProductCode;
+namespace PostNL\Shipments\Entity\Product;
 
-use PostNL\Shipments\Entity\ProductCode\Aggregate\ProductCodeConfigTranslation\ProductCodeConfigTranslationCollection;
-use PostNL\Shipments\Entity\ProductCode\Aggregate\ProductOption\ProductOptionCollection;
+use PostNL\Shipments\Entity\Product\Aggregate\ProductTranslation\ProductTranslationCollection;
+use PostNL\Shipments\Entity\Product\Aggregate\ProductOption\ProductOptionCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 
-class ProductCodeConfigEntity extends Entity
+class ProductEntity extends Entity
 {
     use EntityIdTrait;
 
     /** @var string */
     protected $name;
+
+    /** @var string */
+    protected $description;
 
     /** @var string */
     protected $productCodeDelivery;
@@ -49,7 +52,7 @@ class ProductCodeConfigEntity extends Entity
     /** @var bool|null */
     protected $notification;
 
-    /** @var ProductCodeConfigTranslationCollection */
+    /** @var ProductTranslationCollection */
     protected $translations;
 
     /**
@@ -66,6 +69,22 @@ class ProductCodeConfigEntity extends Entity
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
     }
 
     /**
@@ -245,17 +264,17 @@ class ProductCodeConfigEntity extends Entity
     }
 
     /**
-     * @return ProductCodeConfigTranslationCollection
+     * @return ProductTranslationCollection
      */
-    public function getTranslations(): ProductCodeConfigTranslationCollection
+    public function getTranslations(): ProductTranslationCollection
     {
         return $this->translations;
     }
 
     /**
-     * @param ProductCodeConfigTranslationCollection $translations
+     * @param ProductTranslationCollection $translations
      */
-    public function setTranslations(ProductCodeConfigTranslationCollection $translations): void
+    public function setTranslations(ProductTranslationCollection $translations): void
     {
         $this->translations = $translations;
     }

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PostNL\Shipments\Entity\ProductCode;
+namespace PostNL\Shipments\Entity\Product;
 
-use PostNL\Shipments\Entity\ProductCode\Aggregate\ProductCodeConfigTranslation\ProductCodeConfigTranslationDefinition;
-use PostNL\Shipments\Entity\ProductCode\Aggregate\ProductCodeOption\ProductCodeOptionDefinition;
-use PostNL\Shipments\Entity\ProductCode\Aggregate\ProductOption\ProductOptionDefinition;
+use PostNL\Shipments\Entity\Product\Aggregate\ProductTranslation\ProductTranslationDefinition;
+use PostNL\Shipments\Entity\Product\Aggregate\ProductOption\ProductOptionMappingDefinition;
+use PostNL\Shipments\Entity\Product\Aggregate\ProductOption\ProductOptionDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\BoolField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
@@ -18,9 +18,9 @@ use Shopware\Core\Framework\DataAbstractionLayer\Field\TranslatedField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\TranslationsAssociationField;
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 
-class ProductCodeConfigDefinition extends EntityDefinition
+class ProductDefinition extends EntityDefinition
 {
-    const ENTITY_NAME = 'postnl_shipments_product_code_config';
+    const ENTITY_NAME = 'postnl_shipments_product';
 
     const STOR_HOME_ALONE = 'home_alone';
     const STOR_RETURN_IF_NOT_HOME = 'return_if_not_home';
@@ -49,7 +49,7 @@ class ProductCodeConfigDefinition extends EntityDefinition
      */
     public function getEntityClass(): string
     {
-        return ProductCodeConfigEntity::class;
+        return ProductEntity::class;
     }
 
     /**
@@ -57,7 +57,7 @@ class ProductCodeConfigDefinition extends EntityDefinition
      */
     public function getCollectionClass(): string
     {
-        return ProductCodeConfigCollection::class;
+        return ProductCollection::class;
     }
 
     /**
@@ -69,6 +69,7 @@ class ProductCodeConfigDefinition extends EntityDefinition
             (new IdField('id', 'id'))
                 ->addFlags(new Required(), new PrimaryKey()),
             new TranslatedField('name'),
+            new TranslatedField('description'),
             (new StringField('product_code_delivery', 'productCodeDelivery', 255))
                 ->addFlags(new Required()),
             (new StringField('source_zone', 'sourceZone', 255))
@@ -85,13 +86,13 @@ class ProductCodeConfigDefinition extends EntityDefinition
             new BoolField(self::STOR_AGE_CHECK, self::PROP_AGE_CHECK),
             new BoolField(self::STOR_NOTIFICATION, self::PROP_NOTIFICATION),
 
-            new TranslationsAssociationField(ProductCodeConfigTranslationDefinition::class, 'product_code_config_id'),
+            new TranslationsAssociationField(ProductTranslationDefinition::class, 'product_id'),
 
             new ManyToManyAssociationField(
                 'productOptions',
                 ProductOptionDefinition::class,
-                ProductCodeOptionDefinition::class,
-                'product_code_config_id',
+                ProductOptionMappingDefinition::class,
+                'product_id',
                 'product_option_id'
             ),
         ]);

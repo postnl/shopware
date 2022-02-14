@@ -3,9 +3,9 @@
 namespace PostNL\Shipments\Service\PostNL\ProductCode;
 
 use PostNL\Shipments\Defaults;
-use PostNL\Shipments\Entity\ProductCode\ProductCodeConfigCollection;
-use PostNL\Shipments\Entity\ProductCode\ProductCodeConfigDefinition;
-use PostNL\Shipments\Entity\ProductCode\ProductCodeConfigEntity;
+use PostNL\Shipments\Entity\Product\ProductCollection;
+use PostNL\Shipments\Entity\Product\ProductDefinition;
+use PostNL\Shipments\Entity\Product\ProductEntity;
 use PostNL\Shipments\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shipments\Service\PostNL\Delivery\Zone\Zone;
 use PostNL\Shipments\Struct\ProductCodeOptionStruct;
@@ -18,12 +18,12 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 class ProductCodeService
 {
     const ALL_OPTS = [
-        ProductCodeConfigDefinition::PROP_HOME_ALONE,
-        ProductCodeConfigDefinition::PROP_RETURN_IF_NOT_HOME,
-        ProductCodeConfigDefinition::PROP_INSURANCE,
-        ProductCodeConfigDefinition::PROP_SIGNATURE,
-        ProductCodeConfigDefinition::PROP_AGE_CHECK,
-        ProductCodeConfigDefinition::PROP_NOTIFICATION,
+        ProductDefinition::PROP_HOME_ALONE,
+        ProductDefinition::PROP_RETURN_IF_NOT_HOME,
+        ProductDefinition::PROP_INSURANCE,
+        ProductDefinition::PROP_SIGNATURE,
+        ProductDefinition::PROP_AGE_CHECK,
+        ProductDefinition::PROP_NOTIFICATION,
     ];
 
     /**
@@ -58,7 +58,7 @@ class ProductCodeService
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('sourceZone', $sourceZone));
 
-        /** @var ProductCodeConfigCollection $products */
+        /** @var ProductCollection $products */
         $products = $this->productCodeRepository->search($criteria, $context)->getEntities();
 
         return $products->count() > 0;
@@ -83,7 +83,7 @@ class ProductCodeService
             new EqualsFilter('destinationZone', $destinationZone)
         );
 
-        /** @var ProductCodeConfigCollection $products */
+        /** @var ProductCollection $products */
         $products = $this->productCodeRepository->search($criteria, $context)->getEntities();
 
         if($products->count() > 0) {
@@ -98,7 +98,7 @@ class ProductCodeService
      * @param string $destinationZone
      * @param string $deliveryType
      * @param Context $context
-     * @return ProductCodeConfigEntity
+     * @return ProductEntity
      * @throws \Exception
      */
     public function getDefaultProduct(
@@ -106,7 +106,7 @@ class ProductCodeService
         string $destinationZone,
         string $deliveryType,
         Context $context
-    ): ProductCodeConfigEntity
+    ): ProductEntity
     {
         $this->logger->debug('Getting default product', [
             'sourceZone' => $sourceZone,
@@ -168,7 +168,7 @@ class ProductCodeService
 
         $product = $this->productCodeRepository->search(new Criteria([$defaultProductId]), $context)->first();
 
-        if($product instanceof ProductCodeConfigEntity) {
+        if($product instanceof ProductEntity) {
            return $product;
         }
 
@@ -181,7 +181,7 @@ class ProductCodeService
         string  $deliveryType,
         array   $options,
         Context $context
-    ): ProductCodeConfigEntity
+    ): ProductEntity
     {
         $this->logger->debug("Selecting PostNL product", [
             'sourceZone' => $sourceZone,
@@ -223,7 +223,7 @@ class ProductCodeService
         string  $deliveryType,
         array   $options,
         Context $context
-    ): ProductCodeConfigCollection
+    ): ProductCollection
     {
         $this->logger->debug("Getting PostNL products", [
             'sourceZone' => $sourceZone,
@@ -247,7 +247,7 @@ class ProductCodeService
             $criteria->addFilter(new EqualsFilter($option, $value));
         }
 
-        /** @var ProductCodeConfigCollection $products */
+        /** @var ProductCollection $products */
         $products = $this->productCodeRepository->search($criteria, $context)->getEntities();
 
         if ($products->count() > 0) {
@@ -346,18 +346,18 @@ class ProductCodeService
         switch ($deliveryType) {
             case DeliveryType::SHIPMENT:
                 return [
-                    ProductCodeConfigDefinition::PROP_HOME_ALONE,
-                    ProductCodeConfigDefinition::PROP_RETURN_IF_NOT_HOME,
-                    ProductCodeConfigDefinition::PROP_INSURANCE,
-                    ProductCodeConfigDefinition::PROP_SIGNATURE,
-                    ProductCodeConfigDefinition::PROP_AGE_CHECK,
+                    ProductDefinition::PROP_HOME_ALONE,
+                    ProductDefinition::PROP_RETURN_IF_NOT_HOME,
+                    ProductDefinition::PROP_INSURANCE,
+                    ProductDefinition::PROP_SIGNATURE,
+                    ProductDefinition::PROP_AGE_CHECK,
                 ];
             case DeliveryType::PICKUP:
                 return [
-                    ProductCodeConfigDefinition::PROP_INSURANCE,
-                    ProductCodeConfigDefinition::PROP_SIGNATURE,
-                    ProductCodeConfigDefinition::PROP_AGE_CHECK,
-                    ProductCodeConfigDefinition::PROP_NOTIFICATION,
+                    ProductDefinition::PROP_INSURANCE,
+                    ProductDefinition::PROP_SIGNATURE,
+                    ProductDefinition::PROP_AGE_CHECK,
+                    ProductDefinition::PROP_NOTIFICATION,
                 ];
             case DeliveryType::MAILBOX:
                 return [];

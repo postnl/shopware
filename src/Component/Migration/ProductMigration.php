@@ -3,8 +3,8 @@
 namespace PostNL\Shipments\Component\Migration;
 
 use Doctrine\DBAL\Connection;
-use PostNL\Shipments\Entity\ProductCode\Aggregate\ProductCodeConfigTranslation\ProductCodeConfigTranslationDefinition;
-use PostNL\Shipments\Entity\ProductCode\ProductCodeConfigDefinition;
+use PostNL\Shipments\Entity\Product\Aggregate\ProductTranslation\ProductTranslationDefinition;
+use PostNL\Shipments\Entity\Product\ProductDefinition;
 use PostNL\Shipments\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shipments\Service\PostNL\Delivery\Zone\Zone;
 use Shopware\Core\Framework\Migration\MigrationStep;
@@ -23,17 +23,21 @@ abstract class ProductMigration extends MigrationStep
     public function insertProducts(Connection $connection, array $products): void
     {
         $languages = $this->getOrCreateLanguages($connection);
-        $productCodeIdField = ProductCodeConfigDefinition::ENTITY_NAME . '_id';
+        $productCodeIdField = ProductDefinition::ENTITY_NAME . '_id';
 
         $connection->beginTransaction();
 
         try {
             foreach ($products as $product) {
-                $connection->insert(ProductCodeConfigDefinition::ENTITY_NAME, $product);
+                $name = $product['name'];
+                unset($product['name']);
+
+                $connection->insert(ProductDefinition::ENTITY_NAME, $product);
 
                 foreach ($languages as $locale => $language) {
-                    $connection->insert(ProductCodeConfigTranslationDefinition::ENTITY_NAME, [
-                        'name' => $this->buildProductName($product, $locale),
+                    $connection->insert(ProductTranslationDefinition::ENTITY_NAME, [
+                        'name' => $name,
+                        'description' => $this->buildProductDescription($product, $locale),
                         'language_id' => $language['id'],
                         $productCodeIdField => $product['id'],
                         'created_at' => $product['created_at'],
@@ -61,7 +65,7 @@ abstract class ProductMigration extends MigrationStep
 
         try {
             foreach ($deleteIds as $id) {
-                $connection->delete(ProductCodeConfigDefinition::ENTITY_NAME, ['id' => $id]);
+                $connection->delete(ProductDefinition::ENTITY_NAME, ['id' => $id]);
             }
 
             $connection->commit();
@@ -77,7 +81,7 @@ abstract class ProductMigration extends MigrationStep
      * @param string $locale
      * @return string
      */
-    private function buildProductName(array $product, string $locale): string
+    private function buildProductDescription(array $product, string $locale): string
     {
         $translations = [
             'en-GB' => [
@@ -90,12 +94,12 @@ abstract class ProductMigration extends MigrationStep
                     DeliveryType::PICKUP => 'PostNL Pickup Point',
                     DeliveryType::MAILBOX => 'Mailbox parcel',
                 ],
-                ProductCodeConfigDefinition::STOR_HOME_ALONE => 'no delivery to neighbors', //TODO naam veranderen
-                ProductCodeConfigDefinition::STOR_RETURN_IF_NOT_HOME => 'return if no answer',
-                ProductCodeConfigDefinition::STOR_INSURANCE => 'insured',
-                ProductCodeConfigDefinition::STOR_SIGNATURE => 'signature on delivery',
-                ProductCodeConfigDefinition::STOR_AGE_CHECK => '18+ check',
-                ProductCodeConfigDefinition::STOR_NOTIFICATION => 'notification when available for pickup',
+                ProductDefinition::STOR_HOME_ALONE => 'no delivery to neighbors', //TODO naam veranderen
+                ProductDefinition::STOR_RETURN_IF_NOT_HOME => 'return if no answer',
+                ProductDefinition::STOR_INSURANCE => 'insured',
+                ProductDefinition::STOR_SIGNATURE => 'signature on delivery',
+                ProductDefinition::STOR_AGE_CHECK => '18+ check',
+                ProductDefinition::STOR_NOTIFICATION => 'notification when available for pickup',
             ],
             'de-DE' => [
                 'destination_zone' => [
@@ -107,12 +111,12 @@ abstract class ProductMigration extends MigrationStep
                     DeliveryType::PICKUP => 'PostNL Abholpunkt',
                     DeliveryType::MAILBOX => 'Briefkasten-Paket',
                 ],
-                ProductCodeConfigDefinition::STOR_HOME_ALONE => 'keine Lieferung an Nachbarn', //TODO naam veranderen
-                ProductCodeConfigDefinition::STOR_RETURN_IF_NOT_HOME => 'Rücksendung bei Nichtbeantwortung',
-                ProductCodeConfigDefinition::STOR_INSURANCE => 'versichert',
-                ProductCodeConfigDefinition::STOR_SIGNATURE => 'Unterschrift bei Lieferung',
-                ProductCodeConfigDefinition::STOR_AGE_CHECK => '18+ Kontrolle',
-                ProductCodeConfigDefinition::STOR_NOTIFICATION => 'Benachrichtigung bei Abholbereitschaft',
+                ProductDefinition::STOR_HOME_ALONE => 'keine Lieferung an Nachbarn', //TODO naam veranderen
+                ProductDefinition::STOR_RETURN_IF_NOT_HOME => 'Rücksendung bei Nichtbeantwortung',
+                ProductDefinition::STOR_INSURANCE => 'versichert',
+                ProductDefinition::STOR_SIGNATURE => 'Unterschrift bei Lieferung',
+                ProductDefinition::STOR_AGE_CHECK => '18+ Kontrolle',
+                ProductDefinition::STOR_NOTIFICATION => 'Benachrichtigung bei Abholbereitschaft',
             ],
             'nl-NL' => [
                 'destination_zone' => [
@@ -124,42 +128,35 @@ abstract class ProductMigration extends MigrationStep
                     DeliveryType::PICKUP => 'PostNL Pickup Point',
                     DeliveryType::MAILBOX => 'Brievenbuspakje',
                 ],
-                ProductCodeConfigDefinition::STOR_HOME_ALONE => 'niet bij buren bezorgen', //TODO naam veranderen
-                ProductCodeConfigDefinition::STOR_RETURN_IF_NOT_HOME => 'retour bij geen gehoor',
-                ProductCodeConfigDefinition::STOR_INSURANCE => 'verzekerd',
-                ProductCodeConfigDefinition::STOR_SIGNATURE => 'handtekening voor ontvangst',
-                ProductCodeConfigDefinition::STOR_AGE_CHECK => '18+ check',
-                ProductCodeConfigDefinition::STOR_NOTIFICATION => 'notificatie wanneer beschikbaar voor ophalen',
+                ProductDefinition::STOR_HOME_ALONE => 'niet bij buren bezorgen', //TODO naam veranderen
+                ProductDefinition::STOR_RETURN_IF_NOT_HOME => 'retour bij geen gehoor',
+                ProductDefinition::STOR_INSURANCE => 'verzekerd',
+                ProductDefinition::STOR_SIGNATURE => 'handtekening voor ontvangst',
+                ProductDefinition::STOR_AGE_CHECK => '18+ check',
+                ProductDefinition::STOR_NOTIFICATION => 'notificatie wanneer beschikbaar voor ophalen',
             ],
         ];
 
-        $nameParts = [];
+        $parts = [];
         if (in_array($product['destination_zone'], [Zone::NL, Zone::BE])) {
-            $nameParts[] = $translations[$locale]['delivery_type'][$product['delivery_type']];
+            $parts[] = $translations[$locale]['delivery_type'][$product['delivery_type']];
         } else {
-            $nameParts[] = $translations[$locale]['destination_zone'][$product['destination_zone']];
+            $parts[] = $translations[$locale]['destination_zone'][$product['destination_zone']];
         }
 
-        if ($product[ProductCodeConfigDefinition::STOR_HOME_ALONE] === true) {
-            $nameParts[] = $translations[$locale][ProductCodeConfigDefinition::STOR_HOME_ALONE];
-        }
-        if ($product[ProductCodeConfigDefinition::STOR_RETURN_IF_NOT_HOME] === true) {
-            $nameParts[] = $translations[$locale][ProductCodeConfigDefinition::STOR_RETURN_IF_NOT_HOME];
-        }
-        if ($product[ProductCodeConfigDefinition::STOR_INSURANCE] === true) {
-            $nameParts[] = $translations[$locale][ProductCodeConfigDefinition::STOR_INSURANCE];
-        }
-        if ($product[ProductCodeConfigDefinition::STOR_SIGNATURE] === true) {
-            $nameParts[] = $translations[$locale][ProductCodeConfigDefinition::STOR_SIGNATURE];
-        }
-        if ($product[ProductCodeConfigDefinition::STOR_AGE_CHECK] === true) {
-            $nameParts[] = $translations[$locale][ProductCodeConfigDefinition::STOR_AGE_CHECK];
-        }
-        if ($product[ProductCodeConfigDefinition::STOR_NOTIFICATION] === true) {
-            $nameParts[] = $translations[$locale][ProductCodeConfigDefinition::STOR_NOTIFICATION];
+        foreach([
+            ProductDefinition::STOR_HOME_ALONE,
+            ProductDefinition::STOR_RETURN_IF_NOT_HOME,
+            ProductDefinition::STOR_INSURANCE,
+            ProductDefinition::STOR_SIGNATURE,
+            ProductDefinition::STOR_AGE_CHECK,
+            ProductDefinition::STOR_NOTIFICATION,
+        ] as $flag) {
+            if ($product[$flag] === true) {
+                $parts[] = $translations[$locale][$flag];
+            }
         }
 
-
-        return implode(', ', $nameParts);
+        return implode(', ', $parts);
     }
 }

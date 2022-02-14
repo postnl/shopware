@@ -2,7 +2,7 @@
 
 namespace PostNL\Shipments\Facade;
 
-use PostNL\Shipments\Entity\ProductCode\ProductCodeConfigEntity;
+use PostNL\Shipments\Entity\Product\ProductEntity;
 use PostNL\Shipments\Service\PostNL\ProductCode\ProductCodeService;
 use PostNL\Shipments\Struct\ProductCodeOptionStruct;
 use Psr\Log\LoggerInterface;
@@ -69,7 +69,7 @@ class ProductFacade
         string $deliveryType,
         array $options,
         Context $context
-    ): ProductCodeConfigEntity
+    ): ProductEntity
     {
         try {
             return $this->productCodeService->getProduct($sourceZone, $destinationZone, $deliveryType, $options, $context);

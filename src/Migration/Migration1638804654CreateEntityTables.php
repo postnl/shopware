@@ -18,7 +18,7 @@ class Migration1638804654CreateEntityTables extends MigrationStep
     public function update(Connection $connection): void
     {
         $sql = <<<SQL
-CREATE TABLE IF NOT EXISTS `postnl_shipments_product_code_config` (
+CREATE TABLE IF NOT EXISTS `postnl_shipments_product` (
     `id` BINARY(16) NOT NULL,
     `product_code_delivery` VARCHAR(255) NOT NULL,
     `source_zone` VARCHAR(255) NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `postnl_shipments_product_code_config` (
     CONSTRAINT `un.postnl_shipments_pcc.product_code_delivery` UNIQUE (`product_code_delivery`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `postnl_shipments_product_code_config_translation` (
+CREATE TABLE IF NOT EXISTS `postnl_shipments_product_translation` (
     `name` VARCHAR(255) NOT NULL,
     `created_at` DATETIME(3) NOT NULL,
     `updated_at` DATETIME(3) NULL,
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `postnl_shipments_product_option_translation` (
         REFERENCES `language` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `postnl_shipments_product_code_option` (
+CREATE TABLE IF NOT EXISTS `postnl_shipments_product_option_mapping` (
     `product_option_id` BINARY(16) NOT NULL,
     `product_code_config_id` BINARY(16) NOT NULL,
     `created_at` DATETIME(3) NOT NULL,

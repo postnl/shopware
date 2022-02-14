@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PostNL\Shipments\Entity\ProductCode\Aggregate\ProductOptionTranslation;
+namespace PostNL\Shipments\Entity\Product\Aggregate\ProductOptionTranslation;
 
 use Shopware\Core\Framework\DataAbstractionLayer\EntityCollection;
 
