@@ -1,6 +1,6 @@
 <?php
 
-namespace PostNL\Shipments\Service\PostNL\ProductCode;
+namespace PostNL\Shipments\Service\PostNL\Product;
 
 use PostNL\Shipments\Defaults;
 use PostNL\Shipments\Entity\Product\ProductCollection;

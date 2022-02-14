@@ -12,7 +12,7 @@
             <argument type="service" id="postnl_shipments.logger"/>
         </service>
 
-        <service id="PostNL\Shipments\Service\PostNL\ProductCode\ProductService">
+        <service id="PostNL\Shipments\Service\PostNL\Product\ProductService">
             <argument type="service" id="postnl_shipments_product.repository"/>
             <argument type="service" id="postnl_shipments.logger"/>
         </service>

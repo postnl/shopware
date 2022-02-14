@@ -3,7 +3,7 @@
 namespace PostNL\Shipments\Facade;
 
 use PostNL\Shipments\Entity\Product\ProductEntity;
-use PostNL\Shipments\Service\PostNL\ProductCode\ProductService;
+use PostNL\Shipments\Service\PostNL\Product\ProductService;
 use PostNL\Shipments\Struct\ProductFlagStruct;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
