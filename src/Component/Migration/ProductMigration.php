@@ -29,14 +29,16 @@ abstract class ProductMigration extends MigrationStep
 
         try {
             foreach ($products as $product) {
-                $name = $product['name'];
-                unset($product['name']);
+                if(array_key_exists('name', $product)) {
+                    $name = $product['name'];
+                    unset($product['name']);
+                }
 
                 $connection->insert(ProductDefinition::ENTITY_NAME, $product);
 
                 foreach ($languages as $locale => $language) {
                     $connection->insert(ProductTranslationDefinition::ENTITY_NAME, [
-                        'name' => $name,
+                        'name' => $name ?? $this->buildProductDescription($product, $locale),
                         'description' => $this->buildProductDescription($product, $locale),
                         'language_id' => $language['id'],
                         $productCodeIdField => $product['id'],
