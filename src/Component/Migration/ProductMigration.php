@@ -146,14 +146,7 @@ abstract class ProductMigration extends MigrationStep
             $parts[] = $translations[$locale]['destination_zone'][$product['destination_zone']];
         }
 
-        foreach([
-            ProductDefinition::STOR_HOME_ALONE,
-            ProductDefinition::STOR_RETURN_IF_NOT_HOME,
-            ProductDefinition::STOR_INSURANCE,
-            ProductDefinition::STOR_SIGNATURE,
-            ProductDefinition::STOR_AGE_CHECK,
-            ProductDefinition::STOR_NOTIFICATION,
-        ] as $flag) {
+        foreach(array_keys(ProductDefinition::ALL_FLAGS) as $flag) {
             if ($product[$flag] === true) {
                 $parts[] = $translations[$locale][$flag];
             }

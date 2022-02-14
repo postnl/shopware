@@ -4,7 +4,7 @@ namespace PostNL\Shipments\Facade;
 
 use PostNL\Shipments\Entity\Product\ProductEntity;
 use PostNL\Shipments\Service\PostNL\ProductCode\ProductService;
-use PostNL\Shipments\Struct\ProductOptionStruct;
+use PostNL\Shipments\Struct\ProductFlagStruct;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 
@@ -84,7 +84,7 @@ class ProductFacade
      * @param string $deliveryType
      * @param array $options
      * @param Context $context
-     * @return ProductOptionStruct[]
+     * @return ProductFlagStruct[]
      */
     public function options(
         string $sourceZone,

@@ -36,6 +36,15 @@ class ProductDefinition extends EntityDefinition
     const PROP_AGE_CHECK = 'ageCheck';
     const PROP_NOTIFICATION = 'notification';
 
+    const ALL_FLAGS = [
+        self::STOR_HOME_ALONE => self::PROP_HOME_ALONE,
+        self::STOR_RETURN_IF_NOT_HOME => self::PROP_RETURN_IF_NOT_HOME,
+        self::STOR_INSURANCE => self::PROP_INSURANCE,
+        self::STOR_SIGNATURE => self::PROP_SIGNATURE,
+        self::STOR_AGE_CHECK => self::PROP_AGE_CHECK,
+        self::STOR_NOTIFICATION => self::PROP_NOTIFICATION,
+    ];
+
     /**
      * @return string
      */
