@@ -14,13 +14,16 @@ help:
 
 install: ## Installs all production dependencies
 	@composer install --no-dev
+	@cd src/Resources/app/administration/ && npm install
 
 dev: ## Installs all dev dependencies
 	@composer install
+	@cd src/Resources/app/administration/ && npm install --dev
 
 clean: ## Cleans all dependencies
 	rm -rf vendor
 	rm -rf .reports | true
+	rm -rf src/Resources/app/administration/node_modules
 
 # ------------------------------------------------------------------------------------------------------------
 
