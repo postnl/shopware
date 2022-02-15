@@ -36,6 +36,57 @@ class ProductService
         $this->logger = $logger;
     }
 
+
+    /**
+     * @param Criteria $criteria
+     * @param Context $context
+     * @return ProductCollection
+     * @throws \Exception
+     */
+    public function getProducts(Criteria $criteria, Context $context): ProductCollection
+    {
+        // TODO Log
+
+        $criteria->addAssociation('options');
+
+        /** @var ProductCollection $products */
+        $products = $this->productRepository->search($criteria, $context)->getEntities();
+
+        if ($products->count() > 0) {
+            return $products;
+        }
+
+        // TODO Unique exception
+        throw new \Exception('Could not find valid products');
+    }
+
+    /**
+     * @param string $productId
+     * @param Context $context
+     * @return ProductEntity
+     * @throws \Exception
+     */
+    public function getProduct(string $productId, Context $context): ProductEntity
+    {
+        // TODO Log
+
+        $criteria = new Criteria([$productId]);
+
+        try {
+            $product = $this->getProducts($criteria, $context)->first();
+
+            if ($product instanceof ProductEntity) {
+                return $product;
+            }
+
+            // TODO Unique exception
+            throw new \Exception('Could not find product');
+        } catch (\Exception $e) {
+            // TODO Log and Unique exception
+            throw $e;
+        }
+    }
+
     /**
      * Does the source zone have products? There are only two source zones, NL and BE,
      * but in v1 there are no products for BE yet.
@@ -46,13 +97,16 @@ class ProductService
      */
     public function sourceZoneHasProducts(string $sourceZone, Context $context): bool
     {
+        // TODO Log
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('sourceZone', $sourceZone));
 
-        /** @var ProductCollection $products */
-        $products = $this->productRepository->search($criteria, $context)->getEntities();
-
-        return $products->count() > 0;
+        try {
+            $this->getProducts($criteria, $context);
+            return true;
+        } catch (\Throwable $e) {
+            return false;
+        }
     }
 
     /**
@@ -68,20 +122,21 @@ class ProductService
         Context $context
     ): array
     {
+        // TODO Log
         $criteria = new Criteria();
         $criteria->addFilter(
             new EqualsFilter('sourceZone', $sourceZone),
             new EqualsFilter('destinationZone', $destinationZone)
         );
 
-        /** @var ProductCollection $products */
-        $products = $this->productRepository->search($criteria, $context)->getEntities();
+        try {
+            $products = $this->getProducts($criteria, $context);
 
-        if ($products->count() > 0) {
             return array_values($products->reduceToProperty('deliveryType'));
+        } catch (\Throwable $e) {
+            // TODO Unique exception
+            throw new \Exception('No products found for this zone combination');
         }
-
-        throw new \Exception('No products found for this zone combination');
     }
 
     /**
@@ -92,7 +147,7 @@ class ProductService
      * @return ProductEntity
      * @throws \Exception
      */
-    public function getDefaultProduct(
+    public function getDefaultProductForConfiguration(
         string  $sourceZone,
         string  $destinationZone,
         string  $deliveryType,
@@ -150,23 +205,23 @@ class ProductService
 
         if (empty($defaultProductId)) {
             try {
+                // TODO Unique exception
                 throw new \Exception('No default product available');
             } catch (\Throwable $e) {
-                //warn here
+                //TODO warn here
                 throw $e;
             }
         }
 
-        $product = $this->productRepository->search(new Criteria([$defaultProductId]), $context)->first();
-
-        if ($product instanceof ProductEntity) {
-            return $product;
+        try {
+            return $this->getProduct($defaultProductId, $context);
+        } catch (\Exception $e) {
+            //TODO Unique exception
+            throw new \Exception('Could not find default product');
         }
-
-        throw new \Exception('Could not find default product');
     }
 
-    public function getProduct(
+    public function getProductForConfiguration(
         string  $sourceZone,
         string  $destinationZone,
         string  $deliveryType,
@@ -199,7 +254,7 @@ class ProductService
             $flags[$flag] = null;
         }
 
-        $products = $this->getProducts($sourceZone, $destinationZone, $deliveryType, $flags, $context);
+        $products = $this->getProductsForConfiguration($sourceZone, $destinationZone, $deliveryType, $flags, $context);
 
         if ($products->count() === 1) {
             return $products->first();
@@ -208,7 +263,7 @@ class ProductService
         throw new \Exception("Could not select product");
     }
 
-    public function getProducts(
+    public function getProductsForConfiguration(
         string  $sourceZone,
         string  $destinationZone,
         string  $deliveryType,
@@ -238,14 +293,7 @@ class ProductService
             $criteria->addFilter(new EqualsFilter($flag, $value));
         }
 
-        /** @var ProductCollection $products */
-        $products = $this->productRepository->search($criteria, $context)->getEntities();
-
-        if ($products->count() > 0) {
-            return $products;
-        }
-
-        throw new \Exception('Could not find valid products');
+        return $this->getProducts($criteria, $context);
     }
 
     /**
@@ -278,7 +326,7 @@ class ProductService
             return [];
         }
 
-        $availableProducts = $this->getProducts($sourceZone, $destinationZone, $deliveryType, $flags, $context);
+        $availableProducts = $this->getProductsForConfiguration($sourceZone, $destinationZone, $deliveryType, $flags, $context);
 
         $structs = [];
 

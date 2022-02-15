@@ -93,6 +93,26 @@ class ProductController extends AbstractController
     }
 
     /**
+     * @Route("/api/_action/postnl/product/flags",
+     *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.flags", methods={"GET"})
+     *
+     * @param QueryDataBag $query
+     * @param Context $context
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function productFlags(QueryDataBag $query, Context $context): JsonResponse
+    {
+        $productId = $query->get('productId');
+
+        $flags = $this->productFacade->getFlagsForProduct($productId, $context);
+
+        return $this->json([
+            'flags' => $flags,
+        ]);
+    }
+
+    /**
      * @Route("/api/_action/postnl/product/default",
      *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.default", methods={"GET"})
      *
@@ -113,36 +133,34 @@ class ProductController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/api/_action/postnl/product/select",
+     *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.select", methods={"GET"})
+     *
+     * @param QueryDataBag $query
+     * @param Context $context
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function selectProduct(QueryDataBag $query, Context $context)
+    {
+        $sourceZone = $query->get('sourceZone');
+        $destinationZone = $query->get('destinationZone');
+        $deliveryType = $query->get('deliveryType');
+        $flags = $query->get('flags')->all();
+        $changedFlags = $query->get('changedFlags')->all();
 
+        $product = $this->productFacade->selectProduct(
+            $sourceZone,
+            $destinationZone,
+            $deliveryType,
+            $flags,
+            $changedFlags,
+            $context
+        );
 
-//    /**
-//     * @Route("/api/_action/postnl/product/select",
-//     *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.select", methods={"GET"})
-//     *
-//     * @param QueryDataBag $query
-//     * @param Context $context
-//     * @return JsonResponse
-//     */
-//    public function select(QueryDataBag $query, Context $context)
-//    {
-//        $sourceZone = $query->get('sourceZone');
-//        $destinationZone = $query->get('destinationZone');
-//        $deliveryType = $query->get('deliveryType');
-//        $options = json_decode($query->get('options', '{}'), true);
-//
-//        //TODO check if vars are empty
-//        //TODO catch errors
-//
-//        $product = $this->productFacade->select($sourceZone, $destinationZone, $deliveryType, $options, $context);
-//        $options = $this->productFacade->options($sourceZone, $destinationZone, $deliveryType, $options, $context);
-//
-//        return $this->json([
-//            'product' => $product,
-//            'options' => $options,
-//        ]);
-//    }
-
-
-
-
+        return $this->json([
+            'product' => $product,
+        ]);
+    }
 }

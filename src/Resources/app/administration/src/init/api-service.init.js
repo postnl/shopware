@@ -1,5 +1,5 @@
-import ApiCredentialsService from '../core/service/api-credentials.service';
-import ProductSelectionService from '../core/service/product-selection.service';
+import ApiCredentialsService from '../core/service/api/api-credentials.service';
+import ProductSelectionService from '../core/service/api/product-selection.service';
 
 // eslint-disable-next-line no-undef
 const { Application } = Shopware;

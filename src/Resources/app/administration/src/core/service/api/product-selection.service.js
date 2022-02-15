@@ -1,4 +1,4 @@
-import PostNlApiService from "./postnl-api.service";
+import PostNlApiService from "../postnl-api.service";
 
 export default class ProductSelectionService extends PostNlApiService
 {
@@ -23,6 +23,12 @@ export default class ProductSelectionService extends PostNlApiService
         });
     }
 
+    getFlagsForProduct(productId) {
+        return this.get('product/flags', {
+            productId: productId
+        });
+    }
+
     getDefaultProduct(sourceZone, destinationZone, deliveryType) {
         return this.get('product/default', {
             sourceZone: sourceZone,
@@ -31,12 +37,13 @@ export default class ProductSelectionService extends PostNlApiService
         });
     }
 
-    select(sourceZone, destinationZone, deliveryType, options) {
+    selectProduct(sourceZone, destinationZone, deliveryType, flags, changedFlags) {
         return this.get('product/select', {
             sourceZone: sourceZone,
             destinationZone: destinationZone,
             deliveryType: deliveryType,
-            options: options,
+            flags: flags,
+            changedFlags: changedFlags,
         });
     }
 }
