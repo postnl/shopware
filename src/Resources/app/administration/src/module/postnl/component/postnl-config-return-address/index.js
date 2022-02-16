@@ -1,8 +1,8 @@
-import template from './postnl-return-address.html.twig';
+import template from './postnl-config-return-address.html.twig';
 
 const { Component, Mixin } = Shopware;
 
-Component.extend('postnl-return-address', 'memo-config', {
+Component.extend('postnl-config-return-address', 'memo-config', {
     template,
 
     inject: [
