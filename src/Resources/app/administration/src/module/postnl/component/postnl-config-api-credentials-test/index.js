@@ -1,8 +1,8 @@
-import template from "./postnl-api-credentials-test.html.twig";
+import template from "./postnl-config-api-credentials-test.html.twig";
 
 const { Component, Mixin } = Shopware;
 
-Component.register('postnl-api-credentials-test', {
+Component.register('postnl-config-api-credentials-test', {
     template,
 
     inject: [

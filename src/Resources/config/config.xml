@@ -36,14 +36,14 @@
             <label lang="nl-NL">Sandbox API Key</label>
         </input-field>
 
-        <component name="postnl-customer-data">
+        <component name="postnl-config-customer-data">
             <name>customerData</name>
             <label>Customer data</label>
             <label lang="de-DE">Label missing</label>
             <label lang="nl-NL">Klantgegevens</label>
         </component>
 
-        <component name="postnl-api-credentials-test">
+        <component name="postnl-config-api-credentials-test">
             <name>apiTestButton</name>
             <label>API Connection test</label>
             <label lang="de-DE">API Verbindung testen</label>
@@ -78,14 +78,14 @@
         <title lang="de-DE">Adressen</title>
         <title lang="nl-NL">Adressen</title>
 
-        <component name="postnl-sender-address">
+        <component name="postnl-config-sender-address">
             <name>senderAddress</name>
             <label>Sender address</label>
             <label lang="de-DE">Absender-Adresse</label>
             <label lang="nl-NL">Adres afzender</label>
         </component>
 
-        <component name="postnl-return-address">
+        <component name="postnl-config-return-address">
             <name>returnAddress</name>
             <label>Return address</label>
             <label lang="de-DE">Absender-Adresse</label>
