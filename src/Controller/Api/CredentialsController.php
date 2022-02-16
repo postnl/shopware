@@ -74,19 +74,6 @@ class CredentialsController extends AbstractController
      */
     private function getTestResponse(string $apiKey, bool $sandbox): JsonResponse
     {
-        $context = Context::createDefaultContext();
-        $service = $this->container->get(ProductService::class);
-
-
-        $hasProducts = $service->sourceZoneHasProducts('NL', $context);
-
-        $deliveryTypes = $service->getAvailableDeliveryTypes('NL', 'NL', $context);
-
-        $defaultProduct = $service->getDefaultProduct('NL', 'NL', DeliveryType::SHIPMENT, $context);
-
-
-        dd($hasProducts, $deliveryTypes, $defaultProduct);
-
         $valid = $this->credentialsFacade->test($apiKey, $sandbox);
 
         $this->logger->info("API key validated", [
