@@ -294,6 +294,10 @@ Component.register('postnl-product-selection', {
             for (const key in this.selectedFlags) {
                 this.selectedFlags[key].selected = flags[this.selectedFlags[key].name].selected;
             }
+
+            this.selectedFlags = this.selectedFlags.filter(flag => {
+                return flag.selected;
+            });
         },
     }
 })
