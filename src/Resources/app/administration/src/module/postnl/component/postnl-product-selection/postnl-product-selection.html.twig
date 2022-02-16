@@ -1,6 +1,6 @@
+<sw-container class="postnl-product-selection">
 
-<sw-container>
-    {{ product.productCodeDelivery }} {{ product.name }}
+    <sw-label variant="neutral">{{ product.name }}</sw-label>
 
     <sw-single-select v-if="showDeliveryType"
                       v-model="actualDeliveryType"
@@ -19,5 +19,7 @@
                          size="small"
                          noMarginTop/>
     </sw-container>
+
+    <sw-loader v-if="isLoading"/>
 </sw-container>
 

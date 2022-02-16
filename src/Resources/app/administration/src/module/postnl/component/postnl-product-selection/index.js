@@ -1,4 +1,6 @@
 import template from './postnl-product-selection.html.twig';
+import './postnl-product-selection.scss';
+
 import { object } from '../../../../core/service/util.service';
 
 const { Component } = Shopware;
@@ -98,7 +100,7 @@ Component.register('postnl-product-selection', {
 
         productId: {
             handler(value) {
-                if(value !== this.productId) {
+                if (value !== this.productId) {
                     this.$emit('input', value);
                 }
             }
@@ -137,12 +139,12 @@ Component.register('postnl-product-selection', {
 
         onChangeDeliveryType() {
             return this.getAvailableFlags()
-                .then(async () =>  {
-                    if(!this.hasProduct && this.productId) {
+                .then(async () => {
+                    if (!this.hasProduct && this.productId) {
                         await this.getProduct();
                     }
 
-                    if(!this.hasProduct || this.product.deliveryType !== this.actualDeliveryType) {
+                    if (!this.hasProduct || this.product.deliveryType !== this.actualDeliveryType) {
                         return this.getDefaultProduct();
                     }
                 });
@@ -156,6 +158,8 @@ Component.register('postnl-product-selection', {
         },
 
         checkIfSourceZoneHasProducts() {
+            this.isLoading = true;
+
             return this.ProductSelectionService
                 .sourceZoneHasProducts(this.sourceZone)
                 .then(result => this.productsAvailable = result.hasProducts)
@@ -163,10 +167,15 @@ Component.register('postnl-product-selection', {
                     this.productsAvailable = false;
                     this.actualDeliveryType = null;
                     this.availableDeliveryTypes = [];
+                })
+                .finally(() => {
+                    this.isLoading = false;
                 });
         },
 
         getAvailableDeliveryTypes() {
+            this.isLoading = true;
+
             return this.ProductSelectionService
                 .getAvailableDeliveryTypes(this.sourceZone, this.destinationZone)
                 .then(deliveryTypes => {
@@ -177,10 +186,15 @@ Component.register('postnl-product-selection', {
                         };
                     });
                     this.actualDeliveryType = this.availableDeliveryTypes[0].value;
+                })
+                .finally(() => {
+                    this.isLoading = false;
                 });
         },
 
         getAvailableFlags() {
+            this.isLoading = true;
+
             return this.ProductSelectionService
                 .getAvailableFlags(
                     this.sourceZone,
@@ -190,17 +204,27 @@ Component.register('postnl-product-selection', {
                 .then(this.updateFlags)
                 .then(() => {
                     this.selectedFlags = [];
+                })
+                .finally(() => {
+                    this.isLoading = false;
                 });
         },
 
         getProduct() {
+            this.isLoading = true;
+
             return this.ProductSelectionService
                 .getProduct(this.productId)
                 .then(result => this.product = result.product)
                 .then(product => this.setProductFlags(product))
+                .finally(() => {
+                    this.isLoading = false;
+                })
         },
 
         getDefaultProduct() {
+            this.isLoading = true;
+
             return this.ProductSelectionService
                 .getDefaultProduct(
                     this.sourceZone,
@@ -209,9 +233,14 @@ Component.register('postnl-product-selection', {
                 )
                 .then(result => this.product = result.product)
                 .then(product => this.setProductFlags(product))
+                .finally(() => {
+                    this.isLoading = false;
+                })
         },
 
         getProductBySelection() {
+            this.isLoading = true;
+
             const flags = object.map(this.flags, 'selected');
 
             this.ProductSelectionService
@@ -227,14 +256,17 @@ Component.register('postnl-product-selection', {
                 .then(product => this.ProductSelectionService.getFlagsForProduct(product.id))
                 .then(this.updateFlags)
                 .then(flags => this.updateFlagSelection(flags))
+                .finally(() => {
+                    this.isLoading = false;
+                })
         },
 
         setProductFlags(product) {
-            for(const name in this.flags) {
-                if(this.flags[name].visible) {
+            for (const name in this.flags) {
+                if (this.flags[name].visible) {
                     this.flags[name].selected = product[name];
 
-                    if(product[name]) {
+                    if (product[name]) {
                         this.setFlagSelected(name);
                     }
                 }
@@ -259,7 +291,7 @@ Component.register('postnl-product-selection', {
         },
 
         updateFlagSelection(flags) {
-            for(const key in this.selectedFlags) {
+            for (const key in this.selectedFlags) {
                 this.selectedFlags[key].selected = flags[this.selectedFlags[key].name].selected;
             }
         },
