@@ -2,7 +2,8 @@
 <sw-container>
     {{ product.productCodeDelivery }} {{ product.name }}
 
-    <sw-single-select v-model="actualDeliveryType"
+    <sw-single-select v-if="showDeliveryType"
+                      v-model="actualDeliveryType"
                       :options="availableDeliveryTypes"
                       :disabled="availableDeliveryTypes.length == 0"
                       @change="onChangeDeliveryType"/>

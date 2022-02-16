@@ -2,31 +2,10 @@ import PostNlApiService from "../postnl-api.service";
 
 export default class ProductSelectionService extends PostNlApiService
 {
-    sourceZoneHasProducts(sourceZone) {
-        return this.get('product/source', {
-            sourceZone: sourceZone
-        });
-    }
-
-    getAvailableDeliveryTypes(sourceZone, destinationZone) {
-        return this.get('product/delivery-types', {
-            sourceZone: sourceZone,
-            destinationZone: destinationZone
-        });
-    }
-
-    getAvailableFlags(sourceZone, destinationZone, deliveryType) {
-        return this.get('product/flags/available', {
-            sourceZone: sourceZone,
-            destinationZone: destinationZone,
-            deliveryType: deliveryType
-        });
-    }
-
-    getFlagsForProduct(productId) {
-        return this.get('product/flags', {
+    getProduct(productId) {
+        return this.get('product', {
             productId: productId
-        });
+        })
     }
 
     getDefaultProduct(sourceZone, destinationZone, deliveryType) {
@@ -46,4 +25,32 @@ export default class ProductSelectionService extends PostNlApiService
             changedFlags: changedFlags,
         });
     }
+
+    sourceZoneHasProducts(sourceZone) {
+        return this.get('product/source-zone', {
+            sourceZone: sourceZone
+        });
+    }
+
+    getAvailableDeliveryTypes(sourceZone, destinationZone) {
+        return this.get('product/delivery-types', {
+            sourceZone: sourceZone,
+            destinationZone: destinationZone
+        });
+    }
+
+    getFlagsForProduct(productId) {
+        return this.get('product/flags', {
+            productId: productId
+        });
+    }
+
+    getAvailableFlags(sourceZone, destinationZone, deliveryType) {
+        return this.get('product/flags/available', {
+            sourceZone: sourceZone,
+            destinationZone: destinationZone,
+            deliveryType: deliveryType
+        });
+    }
+
 }

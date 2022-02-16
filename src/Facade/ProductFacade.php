@@ -87,6 +87,17 @@ class ProductFacade
         );
     }
 
+    /**
+     * @param string $productId
+     * @param Context $context
+     * @return array
+     * @throws \Exception
+     */
+    public function getProduct(string $productId, Context $context): ProductEntity
+    {
+        return $this->productService->getProduct($productId, $context);
+    }
+
     public function getDefaultProduct(
         string  $sourceZone,
         string  $destinationZone,

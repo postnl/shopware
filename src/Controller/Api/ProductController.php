@@ -36,7 +36,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/api/_action/postnl/product/source",
+     * @Route("/api/_action/postnl/product/source-zone",
      *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.source", methods={"GET"})
      *
      * @param QueryDataBag $query
@@ -109,6 +109,26 @@ class ProductController extends AbstractController
 
         return $this->json([
             'flags' => $flags,
+        ]);
+    }
+
+    /**
+     * @Route("/api/_action/postnl/product",
+     *         defaults={"auth_enabled"=true}, name="api.action.postnl.product", methods={"GET"})
+     *
+     * @param QueryDataBag $query
+     * @param Context $context
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function product(QueryDataBag $query, Context $context): JsonResponse
+    {
+        $productId = $query->get('productId');
+
+        $product = $this->productFacade->getProduct($productId, $context);
+
+        return $this->json([
+            'product' => $product,
         ]);
     }
 
