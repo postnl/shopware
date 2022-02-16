@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace PostNL\Shipments\Entity\ProductCode\Aggregate\ProductOptionTranslation;
+namespace PostNL\Shipments\Entity\Product\Aggregate\ProductTranslation;
 
-use PostNL\Shipments\Entity\ProductCode\Aggregate\ProductOption\ProductOptionDefinition;
+use PostNL\Shipments\Entity\Product\ProductDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityTranslationDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\StringField;
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 
-class ProductOptionTranslationDefinition extends EntityTranslationDefinition
+class ProductTranslationDefinition extends EntityTranslationDefinition
 {
-    const ENTITY_NAME = 'postnl_shipments_product_option_translation';
+    const ENTITY_NAME = 'postnl_shipments_product_translation';
 
     /**
      * @return string
@@ -27,7 +27,7 @@ class ProductOptionTranslationDefinition extends EntityTranslationDefinition
      */
     public function getEntityClass(): string
     {
-        return ProductOptionTranslationEntity::class;
+        return ProductTranslationEntity::class;
     }
 
     /**
@@ -35,7 +35,7 @@ class ProductOptionTranslationDefinition extends EntityTranslationDefinition
      */
     public function getCollectionClass(): string
     {
-        return ProductOptionTranslationCollection::class;
+        return ProductTranslationCollection::class;
     }
 
     /**
@@ -43,7 +43,7 @@ class ProductOptionTranslationDefinition extends EntityTranslationDefinition
      */
     public function getParentDefinitionClass(): string
     {
-        return ProductOptionDefinition::class;
+        return ProductDefinition::class;
     }
 
     /**
@@ -53,7 +53,8 @@ class ProductOptionTranslationDefinition extends EntityTranslationDefinition
     {
         return new FieldCollection([
             (new StringField('name', 'name', 255))
-                ->addFlags(new Required())
+                ->addFlags(new Required()),
+            (new StringField('description', 'description', 255))
         ]);
     }
 }

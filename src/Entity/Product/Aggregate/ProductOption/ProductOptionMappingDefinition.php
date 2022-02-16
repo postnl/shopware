@@ -1,9 +1,8 @@
 <?php
 
-namespace PostNL\Shipments\Entity\ProductCode\Aggregate\ProductCodeOption;
+namespace PostNL\Shipments\Entity\Product\Aggregate\ProductOption;
 
-use PostNL\Shipments\Entity\ProductCode\Aggregate\ProductOption\ProductOptionDefinition;
-use PostNL\Shipments\Entity\ProductCode\ProductCodeConfigDefinition;
+use PostNL\Shipments\Entity\Product\ProductDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\CreatedAtField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\FkField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\CascadeDelete;
@@ -13,14 +12,14 @@ use Shopware\Core\Framework\DataAbstractionLayer\Field\ManyToOneAssociationField
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\MappingEntityDefinition;
 
-class ProductCodeOptionDefinition extends MappingEntityDefinition
+class ProductOptionMappingDefinition extends MappingEntityDefinition
 {
     /**
      * @return string
      */
     public function getEntityName(): string
     {
-        return 'postnl_shipments_product_code_option';
+        return 'postnl_shipments_product_option_mapping';
     }
 
     /**
@@ -31,7 +30,7 @@ class ProductCodeOptionDefinition extends MappingEntityDefinition
         return new FieldCollection([
             (new FkField('product_option_id', 'productOptionId', ProductOptionDefinition::class))
                 ->addFlags(new PrimaryKey(), new Required()),
-            (new FkField('product_code_config_id', 'productCodeConfigId', ProductCodeConfigDefinition::class))
+            (new FkField('product_id', 'productId', ProductDefinition::class))
                 ->addFlags(new PrimaryKey(), new Required()),
 
             (new ManyToOneAssociationField(
@@ -41,9 +40,9 @@ class ProductCodeOptionDefinition extends MappingEntityDefinition
             ))->addFlags(new CascadeDelete()),
 
             (new ManyToOneAssociationField(
-                'productCodeConfig',
-                'product_code_config_id',
-                ProductCodeConfigDefinition::class
+                'product',
+                'product_id',
+                ProductDefinition::class
             ))->addFlags(new CascadeDelete()),
 
             new CreatedAtField()

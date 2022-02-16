@@ -1,4 +1,4 @@
-import PostNlApiService from "./postnl-api.service";
+import PostNlApiService from "../postnl-api.service";
 
 export default class ApiCredentialsService extends PostNlApiService
 {

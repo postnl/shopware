@@ -227,7 +227,11 @@ class AttributeFactory
             if ($reflectionType instanceof \ReflectionNamedType) {
                 return $reflectionType;
             }
+        } catch (\Throwable $e) {
+            //Ignore error because typed properties exist since 7.4, thus getType is not available.
+        }
 
+        try {
             $getMethod = 'get' . ucfirst($reflectionProperty->getName());
             $isMethod = 'is' . ucfirst($reflectionProperty->getName());
 

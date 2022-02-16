@@ -1,0 +1,23 @@
+
+<sw-container>
+    {{ product.productCodeDelivery }} {{ product.name }}
+
+    <sw-single-select v-if="showDeliveryType"
+                      v-model="actualDeliveryType"
+                      :options="availableDeliveryTypes"
+                      :disabled="availableDeliveryTypes.length == 0"
+                      @change="onChangeDeliveryType"/>
+
+    <sw-container columns="1fr 1fr" gap="0 16px">
+        <sw-switch-field v-for="flag in flags"
+                         v-if="flag.visible"
+                         v-model="flag.selected"
+                         :key="flag.name"
+                         :label="flag.name"
+                         :disabled="flag.disabled"
+                         @change="onChangeFlag(flag.name)"
+                         size="small"
+                         noMarginTop/>
+    </sw-container>
+</sw-container>
+

@@ -9,10 +9,10 @@
             <tag name="shopware.entity.definition"/>
         </defaults>
 
-        <service id="PostNL\Shipments\Entity\ProductCode\ProductCodeConfigDefinition"/>
-        <service id="PostNL\Shipments\Entity\ProductCode\Aggregate\ProductCodeConfigTranslation\ProductCodeConfigTranslationDefinition"/>
-        <service id="PostNL\Shipments\Entity\ProductCode\Aggregate\ProductOption\ProductOptionDefinition"/>
-        <service id="PostNL\Shipments\Entity\ProductCode\Aggregate\ProductOptionTranslation\ProductOptionTranslationDefinition"/>
-        <service id="PostNL\Shipments\Entity\ProductCode\Aggregate\ProductCodeOption\ProductCodeOptionDefinition"/>
+        <service id="PostNL\Shipments\Entity\Product\ProductDefinition"/>
+        <service id="PostNL\Shipments\Entity\Product\Aggregate\ProductTranslation\ProductTranslationDefinition"/>
+        <service id="PostNL\Shipments\Entity\Product\Aggregate\ProductOption\ProductOptionDefinition"/>
+        <service id="PostNL\Shipments\Entity\Product\Aggregate\ProductOptionTranslation\ProductOptionTranslationDefinition"/>
+        <service id="PostNL\Shipments\Entity\Product\Aggregate\ProductOption\ProductOptionMappingDefinition"/>
     </services>
 </container>

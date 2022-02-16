@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PostNL\Shipments\Entity\ProductCode\Aggregate\ProductOption;
+namespace PostNL\Shipments\Entity\Product\Aggregate\ProductOption;
 
-use PostNL\Shipments\Entity\ProductCode\Aggregate\ProductCodeOption\ProductCodeOptionDefinition;
-use PostNL\Shipments\Entity\ProductCode\Aggregate\ProductOptionTranslation\ProductOptionTranslationDefinition;
-use PostNL\Shipments\Entity\ProductCode\ProductCodeConfigDefinition;
+use PostNL\Shipments\Entity\Product\Aggregate\ProductOption\ProductOptionMappingDefinition;
+use PostNL\Shipments\Entity\Product\Aggregate\ProductOptionTranslation\ProductOptionTranslationDefinition;
+use PostNL\Shipments\Entity\Product\ProductDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
@@ -54,6 +54,7 @@ class ProductOptionDefinition extends EntityDefinition
             (new IdField('id', 'id'))
                 ->addFlags(new Required(), new PrimaryKey()),
             new TranslatedField('name'),
+            new TranslatedField('description'),
             (new StringField('characteristic', 'characteristic', 3))
                 ->addFlags(new Required()),
             (new StringField('option', 'option', 3))
@@ -62,11 +63,11 @@ class ProductOptionDefinition extends EntityDefinition
             new TranslationsAssociationField(ProductOptionTranslationDefinition::class, 'product_option_id'),
 
             new ManyToManyAssociationField(
-                'productCodes',
-                ProductCodeConfigDefinition::class,
-                ProductCodeOptionDefinition::class,
+                'products',
+                ProductDefinition::class,
+                ProductOptionMappingDefinition::class,
                 'product_option_id',
-                'product_code_config_id'),
+                'product_id'),
         ]);
     }
 }

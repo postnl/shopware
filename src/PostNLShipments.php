@@ -22,6 +22,7 @@ class PostNLShipments extends Plugin
             return;
         }
 
+        //TODO FIgure out better lifecycle
         $uninstallContext->getMigrationCollection()->migrateDestructiveInPlace();
     }
 }

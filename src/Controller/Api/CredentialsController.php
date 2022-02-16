@@ -3,7 +3,10 @@
 namespace PostNL\Shipments\Controller\Api;
 
 use PostNL\Shipments\Facade\CredentialsFacade;
+use PostNL\Shipments\Service\PostNL\Delivery\DeliveryType;
+use PostNL\Shipments\Service\PostNL\ProductCode\ProductService;
 use Psr\Log\LoggerInterface;
+use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -71,6 +74,19 @@ class CredentialsController extends AbstractController
      */
     private function getTestResponse(string $apiKey, bool $sandbox): JsonResponse
     {
+        $context = Context::createDefaultContext();
+        $service = $this->container->get(ProductService::class);
+
+
+        $hasProducts = $service->sourceZoneHasProducts('NL', $context);
+
+        $deliveryTypes = $service->getAvailableDeliveryTypes('NL', 'NL', $context);
+
+        $defaultProduct = $service->getDefaultProduct('NL', 'NL', DeliveryType::SHIPMENT, $context);
+
+
+        dd($hasProducts, $deliveryTypes, $defaultProduct);
+
         $valid = $this->credentialsFacade->test($apiKey, $sandbox);
 
         $this->logger->info("API key validated", [

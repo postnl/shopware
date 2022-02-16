@@ -11,5 +11,10 @@
             <argument type="service" id="PostNL\Shipments\Service\PostNL\Factory\ApiFactory"/>
             <argument type="service" id="postnl_shipments.logger"/>
         </service>
+
+        <service id="PostNL\Shipments\Facade\ProductFacade">
+            <argument type="service" id="PostNL\Shipments\Service\PostNL\Product\ProductService"/>
+            <argument type="service" id="postnl_shipments.logger"/>
+        </service>
     </services>
 </container>
