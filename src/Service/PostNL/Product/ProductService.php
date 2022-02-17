@@ -221,6 +221,52 @@ class ProductService
         }
     }
 
+    public function getProductForChangeSet(
+        string  $sourceZone,
+        string  $destinationZone,
+        string  $deliveryType,
+        array   $flags,
+        array   $changeSet,
+        Context $context
+    ): ProductEntity
+    {
+        $products = $this->getProductsForConfigurationNew($sourceZone, $destinationZone, $deliveryType, $context);
+
+        $filterFlags = [];
+
+        foreach($changeSet as $change) {
+            $filtered = $products->filterByProperty($change['name'], $change['selected']);
+
+            if($filtered->count() == 0) {
+                break;
+            }
+
+            $filterFlags[$change['name']] = $change['selected'];
+
+            $products = $filtered;
+        }
+        unset($filtered);
+
+        if($products->count() === 1) {
+            return $products->first();
+        }
+
+        $unfilteredFlags = array_diff($this->requiredFlags($destinationZone, $deliveryType), array_keys($filterFlags));
+        foreach($unfilteredFlags as $flag) {
+            $availableValues = $products->reduceToProperty($flag);
+
+            if(count($availableValues) === 1) {
+                $filterFlags[$flag] = $availableValues[0];
+            } else {
+                $filterFlags[$flag] = $flags[$flag];
+            }
+        }
+
+        $product = $this->getProductForConfiguration($sourceZone,$destinationZone, $deliveryType, $filterFlags, $context);
+
+        return $product;
+    }
+
     public function getProductForConfiguration(
         string  $sourceZone,
         string  $destinationZone,
