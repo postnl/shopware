@@ -108,6 +108,41 @@ class ProductFacade
         return $this->productService->getDefaultProductForConfiguration($sourceZone, $destinationZone, $deliveryType, $context);
     }
 
+    public function selectProductNew(
+        string  $sourceZone,
+        string  $destinationZone,
+        string  $deliveryType,
+        array   $flags,
+        array   $changeSet,
+        Context $context
+    ): ProductEntity
+    {
+        $changeSet = $this->fixChangeSetBoolean($changeSet);
+
+        $products = $this->productService->getProductsForConfigurationNew($sourceZone, $destinationZone, $deliveryType, $context);
+
+//        dump($changeSet, $products);
+
+        $flags = [];
+
+        foreach($changeSet as $i => $change) {
+            $filtered = $products->filterByProperty($change['name'], $change['selected']);
+
+            if($filtered->count() == 0) {
+                break;
+            }
+
+            $flags[$change['name']] = $change['selected'];
+
+            $products = $filtered;
+        }
+        unset($filtered);
+
+        $product = $this->productService->getProductForConfiguration($sourceZone,$destinationZone, $deliveryType, $flags, $context);
+
+        return $product;
+    }
+
     public function selectProduct(
         string  $sourceZone,
         string  $destinationZone,

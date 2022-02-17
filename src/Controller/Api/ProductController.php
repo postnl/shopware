@@ -170,7 +170,7 @@ class ProductController extends AbstractController
         $flags = $query->get('flags')->all();
         $changedFlags = $query->get('changedFlags')->all();
 
-        $product = $this->productFacade->selectProduct(
+        $product = $this->productFacade->selectProductNew(
             $sourceZone,
             $destinationZone,
             $deliveryType,

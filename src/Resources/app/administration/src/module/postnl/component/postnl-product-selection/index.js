@@ -279,7 +279,7 @@ Component.register('postnl-product-selection', {
                 return flag.name !== name;
             });
 
-            this.selectedFlags.push({
+            this.selectedFlags.unshift({
                 name: name,
                 selected: this.flags[name].selected
             });

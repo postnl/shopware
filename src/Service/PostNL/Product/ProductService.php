@@ -251,7 +251,7 @@ class ProductService
                 continue;
             }
 
-            $flags[$flag] = null;
+//            $flags[$flag] = null;
         }
 
         $products = $this->getProductsForConfiguration($sourceZone, $destinationZone, $deliveryType, $flags, $context);
@@ -261,6 +261,23 @@ class ProductService
         }
 
         throw new \Exception("Could not select product");
+    }
+
+    public function getProductsForConfigurationNew(
+        string  $sourceZone,
+        string  $destinationZone,
+        string  $deliveryType,
+        Context $context
+    ): ProductCollection
+    {
+        $criteria = new Criteria();
+        $criteria->addFilter(
+            new EqualsFilter('sourceZone', $sourceZone),
+            new EqualsFilter('destinationZone', $destinationZone),
+            new EqualsFilter('deliveryType', $deliveryType)
+        );
+
+        return $this->getProducts($criteria, $context);
     }
 
     public function getProductsForConfiguration(
