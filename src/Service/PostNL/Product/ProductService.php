@@ -98,14 +98,14 @@ class ProductService
      * @return ProductCollection
      * @throws \Exception
      */
-    public function getProductsForConfiguration(
+    public function getProductsByShippingConfiguration(
         string  $sourceZone,
         string  $destinationZone,
         string  $deliveryType,
         Context $context
     ): ProductCollection
     {
-        $this->logger->debug("Getting PostNL products for configuration", [
+        $this->logger->debug("Getting PostNL products by shipping configuration", [
             'sourceZone' => $sourceZone,
             'destinationZone' => $destinationZone,
             'deliveryType' => $deliveryType,
@@ -121,36 +121,16 @@ class ProductService
         return $this->getProducts($criteria, $context);
     }
 
-    public function buildFlags(
-        string  $sourceZone,
-        string  $destinationZone,
-        string  $deliveryType,
-        array $currentFlags,
-        array $changeSet,
-        Context $context
-    ): array
+    public function filterProductsByChangeSet(
+        ProductCollection $products,
+        array $changeSet
+    ): ProductCollection
     {
-        $products = $this->getProductsForConfiguration($sourceZone, $destinationZone, $deliveryType, $context);
-
-        $filteredFlags = $this->buildFlagsForChangeSet($products, $changeSet);
-        $filteredProducts = $this->filterProductsByFlags($products, $filteredFlags);
-
-        $unfilteredFlags = array_diff($this->requiredFlags($destinationZone, $deliveryType), array_keys($filteredFlags));
-
-        foreach($unfilteredFlags as $flag) {
-            $availableValues = $filteredProducts->reduceToProperty($flag);
-
-            if(count($availableValues) === 1) {
-                $filteredFlags[$flag] = $availableValues[0];
-            } else {
-                $filteredFlags[$flag] = $currentFlags[$flag];
-            }
-        }
-
-        return $filteredFlags;
+        $filteredFlags = $this->getProductFilterFlagsByChangeSet($products, $changeSet);
+        return $this->filterProductsByFlags($products, $filteredFlags);
     }
 
-    public function buildFlagsForChangeSet(
+    public function getProductFilterFlagsByChangeSet(
         ProductCollection $products,
         array $changeSet
     ): array
@@ -182,6 +162,94 @@ class ProductService
         }
 
         return $products;
+    }
+
+    public function getFlagsForProductSelection(
+        string  $sourceZone,
+        string  $destinationZone,
+        string  $deliveryType,
+        array $currentFlags,
+        array $changeSet,
+        Context $context
+    ): array
+    {
+        $products = $this->getProductsByShippingConfiguration($sourceZone, $destinationZone, $deliveryType, $context);
+
+        $filteredFlags = $this->getProductFilterFlagsByChangeSet($products, $changeSet);
+        $filteredProducts = $this->filterProductsByFlags($products, $filteredFlags);
+
+        $unfilteredFlags = array_diff($this->requiredFlags($destinationZone, $deliveryType), array_keys($filteredFlags));
+
+        foreach($unfilteredFlags as $flag) {
+            $availableValues = $filteredProducts->reduceToProperty($flag);
+
+            if(count($availableValues) === 1) {
+                $filteredFlags[$flag] = $availableValues[0];
+            } else {
+                $filteredFlags[$flag] = $currentFlags[$flag];
+            }
+        }
+
+        return $filteredFlags;
+    }
+
+    public function buildFlagStructs2(
+        ProductCollection $products
+    ): array
+    {
+        $structs = [];
+
+        foreach(ProductDefinition::ALL_FLAGS as $flag) {
+            $availableValues = $products->reduceToProperty($flag);
+
+            $hasMultipleValues = count($availableValues) > 1;
+            $isVisible = $hasMultipleValues || !is_null($availableValues[0]);
+            if(!$hasMultipleValues && !is_null($availableValues[0])) {
+                $isSelected = $availableValues[0];
+            } else {
+                $isSelected = false; // This might go wrong?
+            }
+
+            $structs[$flag] = new ProductFlagStruct(
+                $flag,
+                $isVisible,
+                !$hasMultipleValues,
+                $isSelected
+            );
+        }
+
+        return $structs;
+    }
+
+    public function buildFlagStructs(
+        ProductCollection $products,
+        array $selectionFlags
+    ): array
+    {
+        $structs = [];
+
+        foreach(ProductDefinition::ALL_FLAGS as $flag) {
+            if(!array_key_exists($flag, $selectionFlags)) {
+                $structs[$flag] = new ProductFlagStruct(
+                    $flag,
+                    false,
+                    true,
+                    false,
+                );
+                continue;
+            }
+
+            $availableValues = $products->reduceToProperty($flag);
+
+            $structs[$flag] = new ProductFlagStruct(
+                $flag,
+                true,
+                count($availableValues) > 1,
+                $selectionFlags[$flag]
+            );
+        }
+
+        return $structs;
     }
 
     /**

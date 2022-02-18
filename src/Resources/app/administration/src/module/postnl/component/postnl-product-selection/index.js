@@ -243,6 +243,11 @@ Component.register('postnl-product-selection', {
 
             const flags = object.map(this.flags, 'selected');
 
+            /**
+             * Needs to change
+             * On selection, run getFlagsForProductSelection using currentFlags and changeSet,
+             * then set the here, and based on flag state then get the correct product.
+              */
             this.ProductSelectionService
                 .selectProduct(
                     this.sourceZone,
@@ -252,7 +257,7 @@ Component.register('postnl-product-selection', {
                     this.selectedFlags
                 )
                 .then(result => this.product = result.product)
-                .then(product => this.setProductFlags(product))
+                .then(product => this.setProductFlags(product))//?
                 .then(product => this.ProductSelectionService.getFlagsForProduct(product.id))
                 .then(this.updateFlags)
                 .then(flags => this.updateFlagSelection(flags))
@@ -286,6 +291,7 @@ Component.register('postnl-product-selection', {
         },
 
         updateFlags(result) {
+            console.log(result);
             return Promise.resolve(result)
                 .then(result => this.flags = result.flags);
         },

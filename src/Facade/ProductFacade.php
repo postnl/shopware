@@ -44,7 +44,7 @@ class ProductFacade
             return [];
         }
 
-        return $this->productService->getAvailableDeliveryTypes($sourceZone, $destinationZone, $context);
+        return $this->productService->getDeliveryTypes($sourceZone, $destinationZone, $context);
     }
 
     public function getAvailableFlags(
@@ -58,7 +58,14 @@ class ProductFacade
             return [];
         }
 
-        return $this->productService->getFlags($sourceZone, $destinationZone, $deliveryType, [], $context);
+        $products = $this->productService->getProductsByShippingConfiguration(
+            $sourceZone,
+            $destinationZone,
+            $deliveryType,
+            $context
+        );
+
+        return $this->productService->buildFlagStructs2($products);
     }
 
     /**
@@ -71,10 +78,15 @@ class ProductFacade
     {
         $product = $this->productService->getProduct($productId, $context);
 
-        return $this->productService->getFlags(
+        $products = $this->productService->getProductsByShippingConfiguration(
             $product->getSourceZone(),
             $product->getDestinationZone(),
             $product->getDeliveryType(),
+            $context
+        );
+
+        $filteredProducts = $this->productService->filterProductsByFlags(
+            $products,
             [
                 ProductDefinition::PROP_HOME_ALONE => $product->getHomeAlone(),
                 ProductDefinition::PROP_RETURN_IF_NOT_HOME => $product->getReturnIfNotHome(),
@@ -82,9 +94,22 @@ class ProductFacade
                 ProductDefinition::PROP_SIGNATURE => $product->getSignature(),
                 ProductDefinition::PROP_AGE_CHECK => $product->getAgeCheck(),
                 ProductDefinition::PROP_NOTIFICATION => $product->getNotification(),
-            ],
-            $context
+            ]
         );
+
+        return $this->productService->buildFlagStructs2($filteredProducts);
+        // This might go wrong
+//        return $this->productService->buildFlagStructs(
+//            $products,
+//            [
+//                ProductDefinition::PROP_HOME_ALONE => $product->getHomeAlone(),
+//                ProductDefinition::PROP_RETURN_IF_NOT_HOME => $product->getReturnIfNotHome(),
+//                ProductDefinition::PROP_INSURANCE => $product->getInsurance(),
+//                ProductDefinition::PROP_SIGNATURE => $product->getSignature(),
+//                ProductDefinition::PROP_AGE_CHECK => $product->getAgeCheck(),
+//                ProductDefinition::PROP_NOTIFICATION => $product->getNotification(),
+//            ]
+//        );
     }
 
     /**
@@ -105,29 +130,7 @@ class ProductFacade
         Context $context
     ): ProductEntity
     {
-        return $this->productService->getDefaultProductForConfiguration($sourceZone, $destinationZone, $deliveryType, $context);
-    }
-
-    public function selectProductNew(
-        string  $sourceZone,
-        string  $destinationZone,
-        string  $deliveryType,
-        array   $flags,
-        array   $changeSet,
-        Context $context
-    ): ProductEntity
-    {
-        $flags = $this->fixFlagBoolean($flags);
-        $changeSet = $this->fixChangeSetBoolean($changeSet);
-
-        return $this->productService->getProductForChangeSet(
-            $sourceZone,
-            $destinationZone,
-            $deliveryType,
-            $flags,
-            $changeSet,
-            $context
-        );
+        return $this->productService->getDefaultProduct($sourceZone, $destinationZone, $deliveryType, $context);
     }
 
     public function selectProduct(
@@ -142,25 +145,25 @@ class ProductFacade
         $flags = $this->fixFlagBoolean($flags);
         $changeSet = $this->fixChangeSetBoolean($changeSet);
 
-        try {
-            return $this->productService->getProductForConfiguration($sourceZone, $destinationZone, $deliveryType, $flags, $context);
-        } catch (\Exception $e) {
-            //$this->logger->debug();
-        }
+        $products = $this->productService->getProductsByShippingConfiguration(
+            $sourceZone,
+            $destinationZone,
+            $deliveryType,
+            $context
+        );
 
-        while (count($changeSet) > 0) {
-            try {
-                $oldestChange = array_shift($changeSet);
+        $filters = $this->productService->getFlagsForProductSelection(
+            $sourceZone,
+            $destinationZone,
+            $deliveryType,
+            $flags,
+            $changeSet,
+            $context
+        );
+        // Should always only be one.
+        $filteredProducts = $this->productService->filterProductsByFlags($products, $filters);
 
-                $flags[$oldestChange['name']] = !$oldestChange['selected'];
-
-                return $this->productService->getProductForConfiguration($sourceZone, $destinationZone, $deliveryType, $flags, $context);
-            } catch (\Exception $e) {
-                //$this->logger->debug();
-            }
-        }
-
-        throw new \Exception('abaiksadjf');
+        return $filteredProducts->first();
     }
 
     protected function fixFlagBoolean(array $flags): array
