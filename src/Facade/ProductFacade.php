@@ -34,7 +34,7 @@ class ProductFacade
         return $this->productService->sourceZoneHasProducts($sourceZone, $context);
     }
 
-    public function getAvailableDeliveryTypes(
+    public function getDeliveryTypes(
         string  $sourceZone,
         string  $destinationZone,
         Context $context
@@ -45,27 +45,6 @@ class ProductFacade
         }
 
         return $this->productService->getDeliveryTypes($sourceZone, $destinationZone, $context);
-    }
-
-    public function getAvailableFlags(
-        string  $sourceZone,
-        string  $destinationZone,
-        string  $deliveryType,
-        Context $context
-    ): array
-    {
-        if (!$this->sourceZoneHasProducts($sourceZone, $context)) {
-            return [];
-        }
-
-        $products = $this->productService->getProductsByShippingConfiguration(
-            $sourceZone,
-            $destinationZone,
-            $deliveryType,
-            $context
-        );
-
-        return $this->productService->buildFlagStructs2($products);
     }
 
     /**
@@ -85,37 +64,41 @@ class ProductFacade
             $context
         );
 
-        $filteredProducts = $this->productService->filterProductsByFlags(
-            $products,
-            [
-                ProductDefinition::PROP_HOME_ALONE => $product->getHomeAlone(),
-                ProductDefinition::PROP_RETURN_IF_NOT_HOME => $product->getReturnIfNotHome(),
-                ProductDefinition::PROP_INSURANCE => $product->getInsurance(),
-                ProductDefinition::PROP_SIGNATURE => $product->getSignature(),
-                ProductDefinition::PROP_AGE_CHECK => $product->getAgeCheck(),
-                ProductDefinition::PROP_NOTIFICATION => $product->getNotification(),
-            ]
+        $productFlags = [
+            ProductDefinition::PROP_HOME_ALONE => $product->getHomeAlone(),
+            ProductDefinition::PROP_RETURN_IF_NOT_HOME => $product->getReturnIfNotHome(),
+            ProductDefinition::PROP_INSURANCE => $product->getInsurance(),
+            ProductDefinition::PROP_SIGNATURE => $product->getSignature(),
+            ProductDefinition::PROP_AGE_CHECK => $product->getAgeCheck(),
+            ProductDefinition::PROP_NOTIFICATION => $product->getNotification(),
+        ];
+
+        // Only pass in flags that are true
+        $filteredFlags = array_filter($productFlags, function($value) {
+            return is_bool($value) && $value;
+        });
+
+        $filteredProducts = $this->productService->filterProductsByFlags($products, $filteredFlags);
+
+        return $this->productService->buildFlagStructs($filteredProducts, $filteredFlags);
+    }
+
+    public function getFlags(string $sourceZone, string $destinationZone, string $deliveryType, Context $context): array
+    {
+        $products = $this->productService->getProductsByShippingConfiguration(
+            $sourceZone,
+            $destinationZone,
+            $deliveryType,
+            $context
         );
 
-        return $this->productService->buildFlagStructs2($filteredProducts);
-        // This might go wrong
-//        return $this->productService->buildFlagStructs(
-//            $products,
-//            [
-//                ProductDefinition::PROP_HOME_ALONE => $product->getHomeAlone(),
-//                ProductDefinition::PROP_RETURN_IF_NOT_HOME => $product->getReturnIfNotHome(),
-//                ProductDefinition::PROP_INSURANCE => $product->getInsurance(),
-//                ProductDefinition::PROP_SIGNATURE => $product->getSignature(),
-//                ProductDefinition::PROP_AGE_CHECK => $product->getAgeCheck(),
-//                ProductDefinition::PROP_NOTIFICATION => $product->getNotification(),
-//            ]
-//        );
+        return $this->productService->buildFlagStructs($products, []);
     }
 
     /**
      * @param string $productId
      * @param Context $context
-     * @return array
+     * @return ProductEntity
      * @throws \Exception
      */
     public function getProduct(string $productId, Context $context): ProductEntity
@@ -123,6 +106,14 @@ class ProductFacade
         return $this->productService->getProduct($productId, $context);
     }
 
+    /**
+     * @param string $sourceZone
+     * @param string $destinationZone
+     * @param string $deliveryType
+     * @param Context $context
+     * @return ProductEntity
+     * @throws \Exception
+     */
     public function getDefaultProduct(
         string  $sourceZone,
         string  $destinationZone,
@@ -130,9 +121,20 @@ class ProductFacade
         Context $context
     ): ProductEntity
     {
-        return $this->productService->getDefaultProduct($sourceZone, $destinationZone, $deliveryType, $context);
+        $productId =  $this->productService->getDefaultProductId($sourceZone, $destinationZone, $deliveryType);
+        return $this->getProduct($productId, $context);
     }
 
+    /**
+     * @param string $sourceZone
+     * @param string $destinationZone
+     * @param string $deliveryType
+     * @param array $flags
+     * @param array $changeSet
+     * @param Context $context
+     * @return ProductEntity
+     * @throws \Exception
+     */
     public function selectProduct(
         string  $sourceZone,
         string  $destinationZone,
@@ -160,7 +162,7 @@ class ProductFacade
             $changeSet,
             $context
         );
-        // Should always only be one.
+        // Should always only have one.
         $filteredProducts = $this->productService->filterProductsByFlags($products, $filters);
 
         return $filteredProducts->first();

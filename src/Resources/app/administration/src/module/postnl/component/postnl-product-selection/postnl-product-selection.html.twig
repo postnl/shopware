@@ -1,11 +1,11 @@
 <sw-container class="postnl-product-selection">
 
-    <sw-label variant="neutral">{{ product.name }}</sw-label>
+    <sw-label variant="neutral">{{ product.productCodeDelivery }} {{ product.name }}</sw-label>
 
     <sw-single-select v-if="showDeliveryType"
                       v-model="actualDeliveryType"
-                      :options="availableDeliveryTypes"
-                      :disabled="availableDeliveryTypes.length == 0"
+                      :options="deliveryTypes"
+                      :disabled="deliveryTypes.length == 0"
                       @change="onChangeDeliveryType"/>
 
     <sw-container columns="1fr 1fr" gap="0 16px">

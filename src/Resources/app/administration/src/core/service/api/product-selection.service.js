@@ -32,7 +32,7 @@ export default class ProductSelectionService extends PostNlApiService
         });
     }
 
-    getAvailableDeliveryTypes(sourceZone, destinationZone) {
+    getDeliveryTypes(sourceZone, destinationZone) {
         return this.get('product/delivery-types', {
             sourceZone: sourceZone,
             destinationZone: destinationZone

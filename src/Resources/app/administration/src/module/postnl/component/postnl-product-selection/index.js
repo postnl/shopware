@@ -16,7 +16,7 @@ Component.register('postnl-product-selection', {
         // productId
         value: {
             required: false,
-            default: "6aa1d2225d724416bea415e2454de832"
+            default: ""//6aa1d2225d724416bea415e2454de832
         },
         sourceZone: {
             type: String,
@@ -30,7 +30,7 @@ Component.register('postnl-product-selection', {
         destinationZone: {
             type: String,
             required: false,
-            default: 'NL',
+            default: 'BE',
             validator: function (value) {
                 // The value must match one of these strings
                 return ['NL', 'BE', 'EU', 'GLOBAL'].indexOf(value) !== -1;
@@ -60,11 +60,11 @@ Component.register('postnl-product-selection', {
             productId: "",
             productAvailable: false,
 
-            availableDeliveryTypes: [],
+            deliveryTypes: [],
             internalDeliveryType: null,
 
+            changeSet: [],
             flags: [],
-            selectedFlags: [],
         }
     },
 
@@ -95,6 +95,8 @@ Component.register('postnl-product-selection', {
         product: {
             handler(product) {
                 this.productId = product.id;
+
+                this.onChangeProduct();
             },
         },
 
@@ -133,28 +135,35 @@ Component.register('postnl-product-selection', {
 
         onChangeSourceZone() {
             return this.checkIfSourceZoneHasProducts()
-                .then(this.getAvailableDeliveryTypes)
+                .then(this.getDeliveryTypes)
                 .then(this.onChangeDeliveryType);
         },
 
         onChangeDeliveryType() {
             return this.getAvailableFlags()
-                .then(async () => {
-                    if (!this.hasProduct && this.productId) {
-                        await this.getProduct();
+                .then(() => {
+                    if(!this.hasProduct && this.productId) {
+                        return this.getProduct();
                     }
 
-                    if (!this.hasProduct || this.product.deliveryType !== this.actualDeliveryType) {
+                    if(!this.hasProduct || this.product.deliveryType !== this.actualDeliveryType) {
                         return this.getDefaultProduct();
                     }
-                });
+                })
+                .then(this.buildInitialChangeSet);
         },
 
         onChangeFlag(name) {
-            this.setFlagSelected(name);
+            this.setFlagChanged(name);
 
             // Select product based on selected flags
             return this.getProductBySelection();
+        },
+
+        onChangeProduct() {
+            return this.ProductSelectionService
+                .getFlagsForProduct(this.productId)
+                .then(this.updateFlags)
         },
 
         checkIfSourceZoneHasProducts() {
@@ -166,26 +175,26 @@ Component.register('postnl-product-selection', {
                 .catch(() => {
                     this.productsAvailable = false;
                     this.actualDeliveryType = null;
-                    this.availableDeliveryTypes = [];
+                    this.deliveryTypes = [];
                 })
                 .finally(() => {
                     this.isLoading = false;
                 });
         },
 
-        getAvailableDeliveryTypes() {
+        getDeliveryTypes() {
             this.isLoading = true;
 
             return this.ProductSelectionService
-                .getAvailableDeliveryTypes(this.sourceZone, this.destinationZone)
+                .getDeliveryTypes(this.sourceZone, this.destinationZone)
                 .then(deliveryTypes => {
-                    this.availableDeliveryTypes = deliveryTypes.map(deliveryType => {
+                    this.deliveryTypes = deliveryTypes.map(deliveryType => {
                         return {
-                            label: deliveryType + " label",
+                            label: deliveryType + " label", //TODO translation string
                             value: deliveryType
                         };
                     });
-                    this.actualDeliveryType = this.availableDeliveryTypes[0].value;
+                    this.actualDeliveryType = this.deliveryTypes[0].value;
                 })
                 .finally(() => {
                     this.isLoading = false;
@@ -203,11 +212,16 @@ Component.register('postnl-product-selection', {
                 )
                 .then(this.updateFlags)
                 .then(() => {
-                    this.selectedFlags = [];
+                    this.changeSet = [];
                 })
                 .finally(() => {
                     this.isLoading = false;
                 });
+        },
+
+        updateFlags(result) {
+            this.flags = result.flags;
+            return Promise.resolve(this.flags);
         },
 
         getProduct() {
@@ -216,7 +230,6 @@ Component.register('postnl-product-selection', {
             return this.ProductSelectionService
                 .getProduct(this.productId)
                 .then(result => this.product = result.product)
-                .then(product => this.setProductFlags(product))
                 .finally(() => {
                     this.isLoading = false;
                 })
@@ -232,7 +245,6 @@ Component.register('postnl-product-selection', {
                     this.actualDeliveryType
                 )
                 .then(result => this.product = result.product)
-                .then(product => this.setProductFlags(product))
                 .finally(() => {
                     this.isLoading = false;
                 })
@@ -243,66 +255,39 @@ Component.register('postnl-product-selection', {
 
             const flags = object.map(this.flags, 'selected');
 
-            /**
-             * Needs to change
-             * On selection, run getFlagsForProductSelection using currentFlags and changeSet,
-             * then set the here, and based on flag state then get the correct product.
-              */
             this.ProductSelectionService
                 .selectProduct(
                     this.sourceZone,
                     this.destinationZone,
                     this.actualDeliveryType,
                     flags,
-                    this.selectedFlags
+                    this.changeSet
                 )
                 .then(result => this.product = result.product)
-                .then(product => this.setProductFlags(product))//?
-                .then(product => this.ProductSelectionService.getFlagsForProduct(product.id))
-                .then(this.updateFlags)
-                .then(flags => this.updateFlagSelection(flags))
                 .finally(() => {
                     this.isLoading = false;
                 })
         },
 
-        setProductFlags(product) {
+        buildInitialChangeSet(product) {
             for (const name in this.flags) {
                 if (this.flags[name].visible) {
-                    this.flags[name].selected = product[name];
-
                     if (product[name]) {
-                        this.setFlagSelected(name);
+                        this.setFlagChanged(name);
                     }
                 }
             }
-            return product;
+            return Promise.resolve(product);
         },
 
-        setFlagSelected(name) {
-            this.selectedFlags = this.selectedFlags.filter(flag => {
+        setFlagChanged(name) {
+            this.changeSet = this.changeSet.filter(flag => {
                 return flag.name !== name;
             });
 
-            this.selectedFlags.unshift({
+            this.changeSet.unshift({
                 name: name,
                 selected: this.flags[name].selected
-            });
-        },
-
-        updateFlags(result) {
-            console.log(result);
-            return Promise.resolve(result)
-                .then(result => this.flags = result.flags);
-        },
-
-        updateFlagSelection(flags) {
-            for (const key in this.selectedFlags) {
-                this.selectedFlags[key].selected = flags[this.selectedFlags[key].name].selected;
-            }
-
-            this.selectedFlags = this.selectedFlags.filter(flag => {
-                return flag.selected;
             });
         },
     }

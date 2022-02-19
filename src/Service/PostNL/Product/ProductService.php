@@ -121,6 +121,19 @@ class ProductService
         return $this->getProducts($criteria, $context);
     }
 
+
+    public function filterProductsByFlags(
+        ProductCollection $products,
+        array $flags
+    ): ProductCollection
+    {
+        foreach($flags as $k => $v) {
+            $products = $products->filterByProperty($k, $v);
+        }
+
+        return $products;
+    }
+
     public function filterProductsByChangeSet(
         ProductCollection $products,
         array $changeSet
@@ -152,18 +165,6 @@ class ProductService
         return $filteredFlags;
     }
 
-    public function filterProductsByFlags(
-        ProductCollection $products,
-        array $flags
-    ): ProductCollection
-    {
-        foreach($flags as $k => $v) {
-            $products = $products->filterByProperty($k, $v);
-        }
-
-        return $products;
-    }
-
     public function getFlagsForProductSelection(
         string  $sourceZone,
         string  $destinationZone,
@@ -193,8 +194,14 @@ class ProductService
         return $filteredFlags;
     }
 
-    public function buildFlagStructs2(
-        ProductCollection $products
+    /**
+     * @param ProductCollection $products
+     * @param array $selectedFlags
+     * @return array
+     */
+    public function buildFlagStructs(
+        ProductCollection $products,
+        array $selectedFlags
     ): array
     {
         $structs = [];
@@ -202,53 +209,28 @@ class ProductService
         foreach(ProductDefinition::ALL_FLAGS as $flag) {
             $availableValues = $products->reduceToProperty($flag);
 
+            /**
+             * A flag is visible if there are multiple values, or there is only a single boolean value (i.e. not null)
+             * A flag is disabled if there's only 1 possible value, and it's not set to true by the product.
+             * A flag is selected if it's set to true by the product, or if there's only 1 possible value that equates to true
+             */
+
             $hasMultipleValues = count($availableValues) > 1;
             $isVisible = $hasMultipleValues || !is_null($availableValues[0]);
+            $isDisabled = !array_key_exists($flag, $selectedFlags) && !$hasMultipleValues;
             if(!$hasMultipleValues && !is_null($availableValues[0])) {
                 $isSelected = $availableValues[0];
             } else {
-                $isSelected = false; // This might go wrong?
+                $isSelected = array_key_exists($flag, $selectedFlags);
             }
 
             $structs[$flag] = new ProductFlagStruct(
                 $flag,
                 $isVisible,
-                !$hasMultipleValues,
+                $isDisabled,
                 $isSelected
             );
         }
-
-        return $structs;
-    }
-
-    public function buildFlagStructs(
-        ProductCollection $products,
-        array $selectionFlags
-    ): array
-    {
-        $structs = [];
-
-        foreach(ProductDefinition::ALL_FLAGS as $flag) {
-            if(!array_key_exists($flag, $selectionFlags)) {
-                $structs[$flag] = new ProductFlagStruct(
-                    $flag,
-                    false,
-                    true,
-                    false,
-                );
-                continue;
-            }
-
-            $availableValues = $products->reduceToProperty($flag);
-
-            $structs[$flag] = new ProductFlagStruct(
-                $flag,
-                true,
-                count($availableValues) > 1,
-                $selectionFlags[$flag]
-            );
-        }
-
         return $structs;
     }
 
@@ -319,12 +301,11 @@ class ProductService
      * @return ProductEntity
      * @throws \Exception
      */
-    public function getDefaultProduct(
+    public function getDefaultProductId(
         string  $sourceZone,
         string  $destinationZone,
-        string  $deliveryType,
-        Context $context
-    ): ProductEntity
+        string  $deliveryType
+    ): string
     {
         $this->logger->debug('Getting default product', [
             'sourceZone' => $sourceZone,
@@ -385,12 +366,7 @@ class ProductService
             }
         }
 
-        try {
-            return $this->getProduct($defaultProductId, $context);
-        } catch (\Exception $e) {
-            //TODO Unique exception
-            throw new \Exception('Could not find default product');
-        }
+        return $defaultProductId;
     }
 
     /**

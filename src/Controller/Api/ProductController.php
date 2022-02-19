@@ -63,33 +63,12 @@ class ProductController extends AbstractController
      * @param Context $context
      * @return JsonResponse
      */
-    public function getAvailableDeliveryTypes(QueryDataBag $query, Context $context)
+    public function getDeliveryTypes(QueryDataBag $query, Context $context)
     {
         $sourceZone = $query->get('sourceZone');
         $destinationZone = $query->get('destinationZone');
 
-        return $this->json($this->productFacade->getAvailableDeliveryTypes($sourceZone, $destinationZone, $context));
-    }
-
-    /**
-     * @Route("/api/_action/postnl/product/flags/available",
-     *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.flags.available", methods={"GET"})
-     *
-     * @param QueryDataBag $query
-     * @param Context $context
-     * @return JsonResponse
-     */
-    public function availableFlags(QueryDataBag $query, Context $context)
-    {
-        $sourceZone = $query->get('sourceZone');
-        $destinationZone = $query->get('destinationZone');
-        $deliveryType = $query->get('deliveryType');
-
-        $flags = $this->productFacade->getAvailableFlags($sourceZone, $destinationZone, $deliveryType, $context);
-
-        return $this->json([
-            'flags' => $flags,
-        ]);
+        return $this->json($this->productFacade->getDeliveryTypes($sourceZone, $destinationZone, $context));
     }
 
     /**
@@ -106,6 +85,28 @@ class ProductController extends AbstractController
         $productId = $query->get('productId');
 
         $flags = $this->productFacade->getFlagsForProduct($productId, $context);
+
+        return $this->json([
+            'flags' => $flags,
+        ]);
+    }
+
+    /**
+     * @Route("/api/_action/postnl/product/flags/available",
+     *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.flags.available", methods={"GET"})
+     *
+     * @param QueryDataBag $query
+     * @param Context $context
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function availableFlags(QueryDataBag $query, Context $context): JsonResponse
+    {
+        $sourceZone = $query->get('sourceZone');
+        $destinationZone = $query->get('destinationZone');
+        $deliveryType = $query->get('deliveryType');
+
+        $flags = $this->productFacade->getFlags($sourceZone, $destinationZone, $deliveryType, $context);
 
         return $this->json([
             'flags' => $flags,
