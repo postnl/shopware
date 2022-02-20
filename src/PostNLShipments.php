@@ -13,7 +13,7 @@ class PostNLShipments extends Plugin
     {
         /** @var ShippingMethodService $shippingMethodService */
         $shippingMethodService = $this->container->get(ShippingMethodService::class);
-        $shippingMethodService->createShippingMethod($this->getPath(), $activateContext->getContext());
+        $shippingMethodService->createShippingMethods($this->getPath(), $activateContext->getContext());
     }
 
     public function uninstall(UninstallContext $uninstallContext): void
@@ -22,7 +22,7 @@ class PostNLShipments extends Plugin
             return;
         }
 
-        //TODO FIgure out better lifecycle
+        //TODO Figure out better lifecycle
         $uninstallContext->getMigrationCollection()->migrateDestructiveInPlace();
     }
 }

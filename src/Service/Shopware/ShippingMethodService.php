@@ -3,9 +3,8 @@
 namespace PostNL\Shipments\Service\Shopware;
 
 use Psr\Log\LoggerInterface;
-use Shopware\Core\Checkout\Cart\Rule\AlwaysValidRule;
 use Shopware\Core\Checkout\Cart\Rule\CartAmountRule;
-use Shopware\Core\Checkout\Shipping\ShippingMethodCollection;
+use Shopware\Core\Checkout\Shipping\ShippingMethodEntity;
 use Shopware\Core\Content\Media\MediaEntity;
 use Shopware\Core\Content\Media\MediaService;
 use Shopware\Core\Content\Rule\RuleDefinition;
@@ -13,7 +12,6 @@ use Shopware\Core\Content\Rule\RuleEntity;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\DeliveryTime\DeliveryTimeDefinition;
@@ -21,6 +19,24 @@ use Shopware\Core\System\DeliveryTime\DeliveryTimeEntity;
 
 class ShippingMethodService
 {
+    private const NAMES = [
+        'shipment' => [
+            'en-GB' => 'PostNL Parcels',
+            'nl-NL' => 'PostNL Pakketpost',
+            'de-DE' => 'PostNL Parcels',
+        ],
+        'pickup' => [
+            'en-GB' => 'PostNL Pickup point',
+            'nl-NL' => 'PostNL Pickup point',
+            'de-DE' => 'PostNL Pickup point',
+        ],
+        'mailbox' => [
+            'en-GB' => 'PostNL Mailbox parcel',
+            'nl-NL' => 'PostNL Brievenbuspakje',
+            'de-DE' => 'PostNL Mailbox parcel',
+        ],
+    ];
+
     /**
      * @var EntityRepositoryInterface
      */
@@ -69,93 +85,93 @@ class ShippingMethodService
         $this->logger = $logger;
     }
 
-    public function createShippingMethod(string $pluginDir, Context $context): void
+    public function createShippingMethods(string $pluginDir, Context $context): void
     {
-        $shippingMethod = $this->getExistingShippingMethods($context);
-
         try {
             $rule = $this->getCartAmountRule($context);
             $deliveryTime = $this->getDeliveryTime($context);
-        } catch(\Exception $e) {
+            $mediaId = $this->getMediaId($pluginDir, $context);
+        } catch (\Exception $e) {
             $this->logger->critical($e->getMessage());
             throw $e;
         }
 
+        foreach(['shipment', 'pickup', 'mailbox'] as $deliveryType) {
+            $id = $this->createShippingMethod($deliveryType, $rule->getId(), $deliveryTime->getId(), $mediaId, $context);
+        }
+    }
+
+    public function createShippingMethod(
+        string $deliveryType,
+        string $ruleId,
+        string $deliveryTimeId,
+        string $mediaId,
+        Context $context
+    ): string
+    {
+        try {
+            $existingShippingMethod = $this->getShippingMethodForType($deliveryType, $context);
+            return $existingShippingMethod->getId();
+        } catch (\Exception $e) {
+            // Do nothing, it doesn't exist so create it.
+        }
+
+        $id = Uuid::randomHex();
+
         // Create the shipping method
-        $event = $this->shippingMethodRepository->upsert([
+        $event = $this->shippingMethodRepository->create([
             [
-                'id' => Uuid::randomHex(),
-                'name' => 'PostNL',
+                'id' => $id,
+                'name' => self::NAMES[$deliveryType],
                 'active' => false,
-                'availabilityRuleId' => $rule->getId(),
-                'deliveryTimeId' => $deliveryTime->getId(),
-                'mediaId' => $this->getMediaId($pluginDir, $context),
+                'availabilityRuleId' => $ruleId,
+                'deliveryTimeId' => $deliveryTimeId,
+                'mediaId' => $mediaId,
+                'prices' => [
+                    [
+                        'calculation' => 1,
+                        'currencyId' => $context->getCurrencyId(),
+                        'price' => 0.0,
+                        'quantityStart' => 1,
+                    ]
+                ],
                 'customFields' => [
                     'postnl_shipments' => [
-                        'deliveryType' => 'shipment'
+                        'deliveryType' => $deliveryType
                     ]
                 ]
             ],
         ], $context);
 
+        //?
         if (!empty($event->getErrors())) {
             $this->logger->error(
                 implode(', ', $event->getErrors()),
                 $event->getErrors()
             );
         }
+
+        return $id;
     }
 
     /**
+     * @param string $deliveryType
      * @param Context $context
-     * @return ShippingMethodCollection
+     * @return ShippingMethodEntity
      */
-    private function getExistingShippingMethods(Context $context): ShippingMethodCollection
+    private function getShippingMethodForType(string $deliveryType, Context $context): ShippingMethodEntity
     {
         $criteria = new Criteria();
-        $criteria->addFilter(new EqualsAnyFilter('customFields.postnl_shipments.deliveryType', [
-            'shipment',
-            'pickup',
-            'mailbox'
-        ]));
+        $criteria->addFilter(new EqualsFilter('customFields.postnl_shipments.deliveryType', $deliveryType));
 
-        /** @var ShippingMethodCollection $shippingMethods */
-        $shippingMethods = $this->shippingMethodRepository->search($criteria, $context)->getEntities();
+        $shippingMethod = $this->shippingMethodRepository->search($criteria, $context)->first();
 
-        return $shippingMethods;
-    }
+        if ($shippingMethod instanceof ShippingMethodEntity) {
+            return $shippingMethod;
+        }
 
-    /**
-     * Returns the always valid rule.
-     * @param Context $context
-     * @return RuleEntity|null
-     * @throws \Exception
-     * @deprecated
-     */
-    private function getAlwaysValidRule(Context $context): RuleEntity
-    {
-        return $this->getCartAmountRule($context);
-
-//        $criteria = new Criteria();
-//        $criteria->addFilter(new EqualsFilter('conditions.type', (new AlwaysValidRule())->getName()));
-//
-//        $rule = $this->ruleRepository->search($criteria, $context)->first();
-//
-//        if($rule instanceof RuleEntity) {
-//            return $rule;
-//        }
-
-        // Do write here but Shopware throws error for isAlwaysValid
-//        [
-//            'name' => 'Always valid (Default)',
-//            'priority' => 100,
-//            'conditions' => [
-//                [
-//                    'type' => (new AlwaysValidRule())->getName(),
-//                    'value' => ['isAlwaysValid' => true]
-//                ]
-//            ]
-//        ]
+        // TODO unique exception
+        throw new \Exception('Method not found');
     }
 
     /**
@@ -198,7 +214,7 @@ class ShippingMethodService
             $context
         )->getEventByEntityName(RuleDefinition::ENTITY_NAME);
 
-        if(count($writeEvents->getWriteResults()) > 0){
+        if (count($writeEvents->getWriteResults()) > 0) {
             return $this->getCartAmountRule($context);
         }
 
@@ -237,7 +253,7 @@ class ShippingMethodService
             $context
         )->getEventByEntityName(DeliveryTimeDefinition::ENTITY_NAME);
 
-        if(count($writeEvents->getWriteResults()) > 0){
+        if (count($writeEvents->getWriteResults()) > 0) {
             return $this->getDeliveryTime($context);
         }
 
@@ -258,13 +274,22 @@ class ShippingMethodService
         }
 
         // Add icon to the media library
-        $iconMime = 'image/svg+xml';
-        $iconExt = 'svg';
+//        $iconMime = 'image/svg+xml';
+//        $iconExt = 'svg';
+//        $iconPath = realpath(implode(DIRECTORY_SEPARATOR, [
+//            $pluginDir,
+//            '..',
+//            'assets',
+//            'postnl-logo-vector.svg'
+//        ]));
+
+        $iconMime = 'image/png';
+        $iconExt = 'png';
         $iconPath = realpath(implode(DIRECTORY_SEPARATOR, [
             $pluginDir,
-            '..',
-            'assets',
-            'postnl-logo-vector.svg'
+            'Resources',
+            'config',
+            'plugin.png'
         ]));
         $iconBlob = file_get_contents($iconPath);
 
