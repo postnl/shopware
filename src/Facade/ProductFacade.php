@@ -144,7 +144,7 @@ class ProductFacade
         Context $context
     ): ProductEntity
     {
-        $flags = $this->fixFlagBoolean($flags);
+        $flags = $this->fixBoolean($flags);
         $changeSet = $this->fixChangeSetBoolean($changeSet);
 
         $products = $this->productService->getProductsByShippingConfiguration(
@@ -168,11 +168,15 @@ class ProductFacade
         return $filteredProducts->first();
     }
 
-    protected function fixFlagBoolean(array $flags): array
+    protected function fixBoolean(array $flags, array $keys = []): array
     {
         $fixed = [];
         foreach ($flags as $key => $value) {
-            $fixed[$key] = $value === "true";
+            if(empty($keys) || in_array($key, $keys)) {
+                $fixed[$key] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+            } else {
+                $fixed[$key] = $value;
+            }
         }
         return $fixed;
     }
@@ -181,8 +185,16 @@ class ProductFacade
     {
         $fixed = [];
         foreach ($changeSet as $change) {
-            $change['selected'] = $change['selected'] === 'true';
-            $fixed[] = $change;
+            $fixed[] = $this->fixBoolean($change, ['selected']);
+        }
+        return $fixed;
+    }
+
+    protected function fixFlagStateBoolean(array $flagState): array
+    {
+        $fixed = [];
+        foreach ($flagState as $key => $state) {
+            $fixed[$key] = $this->fixBoolean($state, ['visible', 'disabled', 'selected']);
         }
         return $fixed;
     }

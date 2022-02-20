@@ -80,7 +80,7 @@ class ProductController extends AbstractController
      * @return JsonResponse
      * @throws \Exception
      */
-    public function productFlags(QueryDataBag $query, Context $context): JsonResponse
+    public function flags(QueryDataBag $query, Context $context): JsonResponse
     {
         $productId = $query->get('productId');
 

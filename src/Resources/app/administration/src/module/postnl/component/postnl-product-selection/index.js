@@ -150,7 +150,8 @@ Component.register('postnl-product-selection', {
                         return this.getDefaultProduct();
                     }
                 })
-                .then(this.buildInitialChangeSet);
+                .then(this.buildInitialChangeSet)
+                .then(product => this.product = product);
         },
 
         onChangeFlag(name) {
@@ -229,7 +230,7 @@ Component.register('postnl-product-selection', {
 
             return this.ProductSelectionService
                 .getProduct(this.productId)
-                .then(result => this.product = result.product)
+                .then(result => result.product)
                 .finally(() => {
                     this.isLoading = false;
                 })
@@ -244,7 +245,7 @@ Component.register('postnl-product-selection', {
                     this.destinationZone,
                     this.actualDeliveryType
                 )
-                .then(result => this.product = result.product)
+                .then(result => result.product)
                 .finally(() => {
                     this.isLoading = false;
                 })
@@ -273,21 +274,21 @@ Component.register('postnl-product-selection', {
             for (const name in this.flags) {
                 if (this.flags[name].visible) {
                     if (product[name]) {
-                        this.setFlagChanged(name);
+                        this.setFlagChanged(name, product[name]);
                     }
                 }
             }
             return Promise.resolve(product);
         },
 
-        setFlagChanged(name) {
+        setFlagChanged(name, value = null) {
             this.changeSet = this.changeSet.filter(flag => {
                 return flag.name !== name;
             });
 
             this.changeSet.unshift({
                 name: name,
-                selected: this.flags[name].selected
+                selected: value ?? this.flags[name].selected
             });
         },
     }

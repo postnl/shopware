@@ -4,7 +4,7 @@ export default class ProductSelectionService extends PostNlApiService
 {
     getProduct(productId) {
         return this.get('product', {
-            productId: productId
+            productId: productId,
         })
     }
 
@@ -12,7 +12,7 @@ export default class ProductSelectionService extends PostNlApiService
         return this.get('product/default', {
             sourceZone: sourceZone,
             destinationZone: destinationZone,
-            deliveryType: deliveryType
+            deliveryType: deliveryType,
         });
     }
 
@@ -28,20 +28,20 @@ export default class ProductSelectionService extends PostNlApiService
 
     sourceZoneHasProducts(sourceZone) {
         return this.get('product/source-zone', {
-            sourceZone: sourceZone
+            sourceZone: sourceZone,
         });
     }
 
     getDeliveryTypes(sourceZone, destinationZone) {
         return this.get('product/delivery-types', {
             sourceZone: sourceZone,
-            destinationZone: destinationZone
+            destinationZone: destinationZone,
         });
     }
 
     getFlagsForProduct(productId) {
         return this.get('product/flags', {
-            productId: productId
+            productId: productId,
         });
     }
 
@@ -49,7 +49,7 @@ export default class ProductSelectionService extends PostNlApiService
         return this.get('product/flags/available', {
             sourceZone: sourceZone,
             destinationZone: destinationZone,
-            deliveryType: deliveryType
+            deliveryType: deliveryType,
         });
     }
 
