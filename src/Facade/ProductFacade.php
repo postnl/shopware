@@ -189,13 +189,4 @@ class ProductFacade
         }
         return $fixed;
     }
-
-    protected function fixFlagStateBoolean(array $flagState): array
-    {
-        $fixed = [];
-        foreach ($flagState as $key => $state) {
-            $fixed[$key] = $this->fixBoolean($state, ['visible', 'disabled', 'selected']);
-        }
-        return $fixed;
-    }
 }
