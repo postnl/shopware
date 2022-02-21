@@ -7,7 +7,7 @@
         <title lang="de-DE">Default Products</title>
         <title lang="nl-NL">Default Products</title>
 
-        <component name="postnl-product-selection">
+        <component name="postnl-config-product-selection-shipping-nl-nl-default">
             <name>test</name>
             <label>Test</label>
             <label lang="de-DE">Test</label>
