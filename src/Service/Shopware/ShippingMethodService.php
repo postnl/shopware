@@ -3,21 +3,40 @@
 namespace PostNL\Shipments\Service\Shopware;
 
 use Psr\Log\LoggerInterface;
-use Shopware\Core\Checkout\Cart\Rule\AlwaysValidRule;
+use Shopware\Core\Checkout\Cart\Rule\CartAmountRule;
 use Shopware\Core\Checkout\Shipping\ShippingMethodEntity;
 use Shopware\Core\Content\Media\MediaEntity;
 use Shopware\Core\Content\Media\MediaService;
+use Shopware\Core\Content\Rule\RuleDefinition;
 use Shopware\Core\Content\Rule\RuleEntity;
-use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
+use Shopware\Core\System\DeliveryTime\DeliveryTimeDefinition;
 use Shopware\Core\System\DeliveryTime\DeliveryTimeEntity;
 
 class ShippingMethodService
 {
+    private const NAMES = [
+        'shipment' => [
+            'en-GB' => 'PostNL Parcels',
+            'nl-NL' => 'PostNL Pakketpost',
+            'de-DE' => 'PostNL Parcels',
+        ],
+        'pickup' => [
+            'en-GB' => 'PostNL Pickup point',
+            'nl-NL' => 'PostNL Pickup point',
+            'de-DE' => 'PostNL Pickup point',
+        ],
+        'mailbox' => [
+            'en-GB' => 'PostNL Mailbox parcel',
+            'nl-NL' => 'PostNL Brievenbuspakje',
+            'de-DE' => 'PostNL Mailbox parcel',
+        ],
+    ];
+
     /**
      * @var EntityRepositoryInterface
      */
@@ -66,49 +85,48 @@ class ShippingMethodService
         $this->logger = $logger;
     }
 
-    public function createShippingMethod(string $pluginDir, Context $context): void
+    public function createShippingMethods(string $pluginDir, Context $context): void
     {
-        $shippingMethod = $this->getExistingShippingMethod($context);
-
-        if ($shippingMethod instanceof ShippingMethodEntity) {
-            return;
+        try {
+            $rule = $this->getCartAmountRule($context);
+            $deliveryTime = $this->getDeliveryTime($context);
+            $mediaId = $this->getMediaId($pluginDir, $context);
+        } catch (\Exception $e) {
+            $this->logger->critical($e->getMessage());
+            throw $e;
         }
 
-        $rule = $this->getAlwaysValidRule($context);
-        $deliveryTime = $this->getDeliveryTime($context);
+        foreach(['shipment', 'pickup', 'mailbox'] as $deliveryType) {
+            $id = $this->createShippingMethod($deliveryType, $rule->getId(), $deliveryTime->getId(), $mediaId, $context);
+        }
+    }
+
+    public function createShippingMethod(
+        string $deliveryType,
+        string $ruleId,
+        string $deliveryTimeId,
+        string $mediaId,
+        Context $context
+    ): string
+    {
+        try {
+            $existingShippingMethod = $this->getShippingMethodForType($deliveryType, $context);
+            return $existingShippingMethod->getId();
+        } catch (\Exception $e) {
+            // Do nothing, it doesn't exist so create it.
+        }
+
+        $id = Uuid::randomHex();
 
         // Create the shipping method
-        $event = $this->shippingMethodRepository->upsert([
+        $event = $this->shippingMethodRepository->create([
             [
-                'id' => Uuid::randomHex(),
-                'name' => 'PostNL',
+                'id' => $id,
+                'name' => self::NAMES[$deliveryType],
                 'active' => false,
-                'availabilityRule' => $rule instanceof RuleEntity
-                    ? ['id' => $rule->getId()]
-                    : [
-                        'name' => 'Always valid (Default)',
-                        'priority' => 100,
-                        'conditions' => [
-                            [
-                                'type' => (new AlwaysValidRule())->getName(),
-                                'value' => json_encode(['isAlwaysValid' => true])
-                            ]
-                        ]
-                    ],
-                'deliveryTime' => $deliveryTime instanceof DeliveryTimeEntity
-                    ? ['id' => $deliveryTime->getId()]
-                    : [
-                        'min' => 1,
-                        'max' => 3,
-                        'unit' => DeliveryTimeEntity::DELIVERY_TIME_DAY,
-                        'name' => '1 - 3 days',
-                        'translations' => [
-                            Defaults::LANGUAGE_SYSTEM => [
-                                'name' => '1 - 3 days',
-                            ],
-                        ],
-                    ],
-                'mediaId' => $this->getMediaId($pluginDir, $context),
+                'availabilityRuleId' => $ruleId,
+                'deliveryTimeId' => $deliveryTimeId,
+                'mediaId' => $mediaId,
                 'prices' => [
                     [
                         'calculation' => 1,
@@ -118,59 +136,128 @@ class ShippingMethodService
                     ]
                 ],
                 'customFields' => [
-                    'postnl_shipping' => [
-                        'id' => 'postnl'
+                    'postnl_shipments' => [
+                        'deliveryType' => $deliveryType
                     ]
                 ]
             ],
         ], $context);
 
+        //?
         if (!empty($event->getErrors())) {
             $this->logger->error(
                 implode(', ', $event->getErrors()),
                 $event->getErrors()
             );
         }
-    }
 
-    private function getExistingShippingMethod(Context $context): ?ShippingMethodEntity
-    {
-        $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('customFields.postnl_shipping.id', 'postnl'));
-
-        return $this->shippingMethodRepository->search($criteria, $context)->first();
+        return $id;
     }
 
     /**
-     * Returns the always valid rule.
-     *
+     * @param string $deliveryType
      * @param Context $context
-     *
-     * @return RuleEntity|null
+     * @return ShippingMethodEntity
      */
-    private function getAlwaysValidRule(Context $context): ?RuleEntity
+    private function getShippingMethodForType(string $deliveryType, Context $context): ShippingMethodEntity
     {
         $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('conditions.type', (new AlwaysValidRule())->getName()));
+        $criteria->addFilter(new EqualsFilter('customFields.postnl_shipments.deliveryType', $deliveryType));
 
-        return $this->ruleRepository->search($criteria, $context)->first();
+        $shippingMethod = $this->shippingMethodRepository->search($criteria, $context)->first();
+
+        if ($shippingMethod instanceof ShippingMethodEntity) {
+            return $shippingMethod;
+        }
+
+        // TODO unique exception
+        throw new \Exception('Method not found');
     }
 
     /**
-     * Returns an existing delivery time.
+     * Returns an availability rule. Creates it if it does not exist.
      *
      * @param Context $context
+     * @return RuleEntity
+     * @throws \Exception
+     */
+    private function getCartAmountRule(Context $context): RuleEntity
+    {
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('moduleTypes', null));
+        $criteria->addFilter(new EqualsFilter('conditions.type', (new CartAmountRule())->getName()));
+        $criteria->addFilter(new EqualsFilter('conditions.value.amount', 0));
+        $criteria->addFilter(new EqualsFilter('conditions.value.operator', CartAmountRule::OPERATOR_GTE));
+
+        $rule = $this->ruleRepository->search($criteria, $context)->first();
+
+        if ($rule instanceof RuleEntity) {
+            return $rule;
+        }
+
+        $writeEvents = $this->ruleRepository->create(
+            [
+                [
+                    'name' => 'Cart >= 0',
+                    'priority' => 500,
+                    'conditions' => [
+                        [
+                            'type' => (new CartAmountRule())->getName(),
+                            'value' => [
+                                'amount' => 0,
+                                'operator' => CartAmountRule::OPERATOR_GTE
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            $context
+        )->getEventByEntityName(RuleDefinition::ENTITY_NAME);
+
+        if (count($writeEvents->getWriteResults()) > 0) {
+            return $this->getCartAmountRule($context);
+        }
+
+        throw new \Exception('Could not get availability rule for shipping methods');
+    }
+
+    /**
+     * Returns a delivery time. Creates it if it does not exist.
      *
+     * @param Context $context
      * @return DeliveryTimeEntity|null
+     * @throws \Exception
      */
-    private function getDeliveryTime(Context $context): ?DeliveryTimeEntity
+    private function getDeliveryTime(Context $context): DeliveryTimeEntity
     {
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('min', 1));
         $criteria->addFilter(new EqualsFilter('max', 3));
         $criteria->addFilter(new EqualsFilter('unit', 'day'));
 
-        return $this->deliveryTimeRepository->search($criteria, $context)->first();
+        $deliveryTime = $this->deliveryTimeRepository->search($criteria, $context)->first();
+
+        if ($deliveryTime instanceof DeliveryTimeEntity) {
+            return $deliveryTime;
+        }
+
+        $writeEvents = $this->deliveryTimeRepository->create(
+            [
+                [
+                    'name' => '1-3 days',
+                    'min' => 1,
+                    'max' => 3,
+                    'unit' => 'day',
+                ]
+            ],
+            $context
+        )->getEventByEntityName(DeliveryTimeDefinition::ENTITY_NAME);
+
+        if (count($writeEvents->getWriteResults()) > 0) {
+            return $this->getDeliveryTime($context);
+        }
+
+        throw new \Exception('Could not get delivery time for shipping methods');
     }
 
     private function getMediaId(string $pluginDir, Context $context): string
@@ -187,13 +274,22 @@ class ShippingMethodService
         }
 
         // Add icon to the media library
-        $iconMime = 'image/svg+xml';
-        $iconExt = 'svg';
+//        $iconMime = 'image/svg+xml';
+//        $iconExt = 'svg';
+//        $iconPath = realpath(implode(DIRECTORY_SEPARATOR, [
+//            $pluginDir,
+//            '..',
+//            'assets',
+//            'postnl-logo-vector.svg'
+//        ]));
+
+        $iconMime = 'image/png';
+        $iconExt = 'png';
         $iconPath = realpath(implode(DIRECTORY_SEPARATOR, [
             $pluginDir,
-            '..',
-            'assets',
-            'postnl-logo-vector.svg'
+            'Resources',
+            'config',
+            'plugin.png'
         ]));
         $iconBlob = file_get_contents($iconPath);
 
