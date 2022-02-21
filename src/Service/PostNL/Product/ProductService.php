@@ -36,7 +36,6 @@ class ProductService
         $this->logger = $logger;
     }
 
-
     /**
      * @param Criteria $criteria
      * @param Context $context
@@ -45,7 +44,9 @@ class ProductService
      */
     public function getProducts(Criteria $criteria, Context $context): ProductCollection
     {
-        // TODO Log
+        $this->logger->debug('Getting PostNL products', [
+            'criteria' => $criteria,
+        ]);
 
         $criteria->addAssociation('options');
 
@@ -68,7 +69,9 @@ class ProductService
      */
     public function getProduct(string $productId, Context $context): ProductEntity
     {
-        // TODO Log
+        $this->logger->debug('Getting PostNL product', [
+            'productId' => $productId,
+        ]);
 
         $criteria = new Criteria([$productId]);
 
@@ -88,6 +91,150 @@ class ProductService
     }
 
     /**
+     * @param string $sourceZone
+     * @param string $destinationZone
+     * @param string $deliveryType
+     * @param Context $context
+     * @return ProductCollection
+     * @throws \Exception
+     */
+    public function getProductsByShippingConfiguration(
+        string  $sourceZone,
+        string  $destinationZone,
+        string  $deliveryType,
+        Context $context
+    ): ProductCollection
+    {
+        $this->logger->debug("Getting PostNL products by shipping configuration", [
+            'sourceZone' => $sourceZone,
+            'destinationZone' => $destinationZone,
+            'deliveryType' => $deliveryType,
+        ]);
+
+        $criteria = new Criteria();
+        $criteria->addFilter(
+            new EqualsFilter('sourceZone', $sourceZone),
+            new EqualsFilter('destinationZone', $destinationZone),
+            new EqualsFilter('deliveryType', $deliveryType)
+        );
+
+        return $this->getProducts($criteria, $context);
+    }
+
+
+    public function filterProductsByFlags(
+        ProductCollection $products,
+        array $flags
+    ): ProductCollection
+    {
+        foreach($flags as $k => $v) {
+            $products = $products->filterByProperty($k, $v);
+        }
+
+        return $products;
+    }
+
+    public function filterProductsByChangeSet(
+        ProductCollection $products,
+        array $changeSet
+    ): ProductCollection
+    {
+        $filteredFlags = $this->getProductFilterFlagsByChangeSet($products, $changeSet);
+        return $this->filterProductsByFlags($products, $filteredFlags);
+    }
+
+    public function getProductFilterFlagsByChangeSet(
+        ProductCollection $products,
+        array $changeSet
+    ): array
+    {
+        $filteredFlags = [];
+
+        foreach($changeSet as $change) {
+            $filteredProducts = $products->filterByProperty($change['name'], $change['selected']);
+
+            if($filteredProducts->count() == 0) {
+                break;
+            }
+
+            $filteredFlags[$change['name']] = $change['selected'];
+
+            $products = $filteredProducts;
+        }
+
+        return $filteredFlags;
+    }
+
+    public function getFlagsForProductSelection(
+        string  $sourceZone,
+        string  $destinationZone,
+        string  $deliveryType,
+        array $currentFlags,
+        array $changeSet,
+        Context $context
+    ): array
+    {
+        $products = $this->getProductsByShippingConfiguration($sourceZone, $destinationZone, $deliveryType, $context);
+
+        $filteredFlags = $this->getProductFilterFlagsByChangeSet($products, $changeSet);
+        $filteredProducts = $this->filterProductsByFlags($products, $filteredFlags);
+
+        $unfilteredFlags = array_diff($this->requiredFlags($destinationZone, $deliveryType), array_keys($filteredFlags));
+
+        foreach($unfilteredFlags as $flag) {
+            $availableValues = $filteredProducts->reduceToProperty($flag);
+
+            if(count($availableValues) === 1) {
+                $filteredFlags[$flag] = $availableValues[0];
+            } else {
+                $filteredFlags[$flag] = $currentFlags[$flag];
+            }
+        }
+
+        return $filteredFlags;
+    }
+
+    /**
+     * @param ProductCollection $products
+     * @param array $selectedFlags
+     * @return array
+     */
+    public function buildFlagStructs(
+        ProductCollection $products,
+        array $selectedFlags
+    ): array
+    {
+        $structs = [];
+
+        foreach(ProductDefinition::ALL_FLAGS as $flag) {
+            $availableValues = $products->reduceToProperty($flag);
+
+            /**
+             * A flag is visible if there are multiple values, or there is only a single boolean value (i.e. not null)
+             * A flag is disabled if there's only 1 possible value, and it's not set to true by the product.
+             * A flag is selected if it's set to true by the product, or if there's only 1 possible value that equates to true
+             */
+
+            $hasMultipleValues = count($availableValues) > 1;
+            $isVisible = $hasMultipleValues || !is_null($availableValues[0]);
+            $isDisabled = !array_key_exists($flag, $selectedFlags) && !$hasMultipleValues;
+            if(!$hasMultipleValues && !is_null($availableValues[0])) {
+                $isSelected = $availableValues[0];
+            } else {
+                $isSelected = array_key_exists($flag, $selectedFlags);
+            }
+
+            $structs[$flag] = new ProductFlagStruct(
+                $flag,
+                $isVisible,
+                $isDisabled,
+                $isSelected
+            );
+        }
+        return $structs;
+    }
+
+    /**
      * Does the source zone have products? There are only two source zones, NL and BE,
      * but in v1 there are no products for BE yet.
      *
@@ -97,7 +244,10 @@ class ProductService
      */
     public function sourceZoneHasProducts(string $sourceZone, Context $context): bool
     {
-        // TODO Log
+        $this->logger->debug('Check source zone products', [
+            'sourceZone' => $sourceZone,
+        ]);
+
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('sourceZone', $sourceZone));
 
@@ -116,13 +266,17 @@ class ProductService
      * @return array
      * @throws \Exception
      */
-    public function getAvailableDeliveryTypes(
+    public function getDeliveryTypes(
         string  $sourceZone,
         string  $destinationZone,
         Context $context
     ): array
     {
-        // TODO Log
+        $this->logger->debug('Getting delivery types', [
+            'sourceZone' => $sourceZone,
+            'destinationZone' => $destinationZone,
+        ]);
+
         $criteria = new Criteria();
         $criteria->addFilter(
             new EqualsFilter('sourceZone', $sourceZone),
@@ -147,12 +301,11 @@ class ProductService
      * @return ProductEntity
      * @throws \Exception
      */
-    public function getDefaultProductForConfiguration(
+    public function getDefaultProductId(
         string  $sourceZone,
         string  $destinationZone,
-        string  $deliveryType,
-        Context $context
-    ): ProductEntity
+        string  $deliveryType
+    ): string
     {
         $this->logger->debug('Getting default product', [
             'sourceZone' => $sourceZone,
@@ -213,222 +366,7 @@ class ProductService
             }
         }
 
-        try {
-            return $this->getProduct($defaultProductId, $context);
-        } catch (\Exception $e) {
-            //TODO Unique exception
-            throw new \Exception('Could not find default product');
-        }
-    }
-
-    public function getProductForChangeSet(
-        string  $sourceZone,
-        string  $destinationZone,
-        string  $deliveryType,
-        array   $flags,
-        array   $changeSet,
-        Context $context
-    ): ProductEntity
-    {
-        $products = $this->getProductsForConfigurationNew($sourceZone, $destinationZone, $deliveryType, $context);
-
-        $filterFlags = [];
-
-        foreach($changeSet as $change) {
-            $filtered = $products->filterByProperty($change['name'], $change['selected']);
-
-            if($filtered->count() == 0) {
-                break;
-            }
-
-            $filterFlags[$change['name']] = $change['selected'];
-
-            $products = $filtered;
-        }
-        unset($filtered);
-
-        if($products->count() === 1) {
-            return $products->first();
-        }
-
-        $unfilteredFlags = array_diff($this->requiredFlags($destinationZone, $deliveryType), array_keys($filterFlags));
-        foreach($unfilteredFlags as $flag) {
-            $availableValues = $products->reduceToProperty($flag);
-
-            if(count($availableValues) === 1) {
-                $filterFlags[$flag] = $availableValues[0];
-            } else {
-                $filterFlags[$flag] = $flags[$flag];
-            }
-        }
-
-        $product = $this->getProductForConfiguration($sourceZone,$destinationZone, $deliveryType, $filterFlags, $context);
-
-        return $product;
-    }
-
-    public function getProductForConfiguration(
-        string  $sourceZone,
-        string  $destinationZone,
-        string  $deliveryType,
-        array   $flags,
-        Context $context
-    ): ProductEntity
-    {
-        $this->logger->debug("Selecting PostNL product", [
-            'sourceZone' => $sourceZone,
-            'destinationZone' => $destinationZone,
-            'deliveryType' => $deliveryType,
-            'flags' => $flags,
-        ]);
-
-        $requiredFlags = $this->requiredFlags($destinationZone, $deliveryType);
-
-        foreach (ProductDefinition::ALL_FLAGS as $flag) {
-            $isInFlags = in_array($flag, array_keys($flags));
-            $isRequired = in_array($flag, $requiredFlags);
-
-            if ($isInFlags && $isRequired) {
-                continue;
-            }
-
-            if (!$isInFlags && $isRequired) {
-                $flags[$flag] = false;
-                continue;
-            }
-
-//            $flags[$flag] = null;
-        }
-
-        $products = $this->getProductsForConfiguration($sourceZone, $destinationZone, $deliveryType, $flags, $context);
-
-        if ($products->count() === 1) {
-            return $products->first();
-        }
-
-        throw new \Exception("Could not select product");
-    }
-
-    public function getProductsForConfigurationNew(
-        string  $sourceZone,
-        string  $destinationZone,
-        string  $deliveryType,
-        Context $context
-    ): ProductCollection
-    {
-        $criteria = new Criteria();
-        $criteria->addFilter(
-            new EqualsFilter('sourceZone', $sourceZone),
-            new EqualsFilter('destinationZone', $destinationZone),
-            new EqualsFilter('deliveryType', $deliveryType)
-        );
-
-        return $this->getProducts($criteria, $context);
-    }
-
-    public function getProductsForConfiguration(
-        string  $sourceZone,
-        string  $destinationZone,
-        string  $deliveryType,
-        array   $flags,
-        Context $context
-    ): ProductCollection
-    {
-        $this->logger->debug("Getting PostNL products", [
-            'sourceZone' => $sourceZone,
-            'destinationZone' => $destinationZone,
-            'deliveryType' => $deliveryType,
-            'flags' => $flags,
-        ]);
-
-        $criteria = new Criteria();
-        $criteria->addFilter(
-            new EqualsFilter('sourceZone', $sourceZone),
-            new EqualsFilter('destinationZone', $destinationZone),
-            new EqualsFilter('deliveryType', $deliveryType)
-        );
-
-        foreach ($flags as $flag => $value) {
-            if (!in_array($flag, $this->requiredFlags($destinationZone, $deliveryType))) {
-                continue;
-            }
-
-            $criteria->addFilter(new EqualsFilter($flag, $value));
-        }
-
-        return $this->getProducts($criteria, $context);
-    }
-
-    /**
-     * @param string $sourceZone
-     * @param string $destinationZone
-     * @param string $deliveryType
-     * @param array $flags
-     * @param Context $context
-     * @return ProductFlagStruct[]
-     * @throws \Exception
-     */
-    public function getFlags(
-        string  $sourceZone,
-        string  $destinationZone,
-        string  $deliveryType,
-        array   $flags,
-        Context $context
-    ): array
-    {
-        $this->logger->debug("Get available product options", [
-            'sourceZone' => $sourceZone,
-            'destinationZone' => $destinationZone,
-            'deliveryType' => $deliveryType,
-            'options' => $flags,
-        ]);
-
-        $requiredFlags = $this->requiredFlags($destinationZone, $deliveryType);
-
-        if (empty($requiredFlags)) {
-            return [];
-        }
-
-        $availableProducts = $this->getProductsForConfiguration($sourceZone, $destinationZone, $deliveryType, $flags, $context);
-
-        $structs = [];
-
-        /**
-         * An option should be:
-         * - visible
-         *  - if it is required.
-         *
-         * - disabled
-         *  - if it is not in $options and,
-         *  - if there is only one possible value to select.
-         *
-         * - selected
-         *  - if it is in $options, and the option value equates to true, or
-         *  - if the option is disabled, and the only available value equates to true, or
-         *  - if when none of the above, when the default value equates to true.
-         */
-
-
-        foreach (ProductDefinition::ALL_FLAGS as $flag) {
-            $flagValuesInAvailableProducts = $availableProducts->reduceToProperty($flag);
-
-            $shouldBeVisible = in_array($flag, $requiredFlags);
-            $shouldBeDisabled = count($flagValuesInAvailableProducts) == 1;
-            $shouldBeSelected = $shouldBeDisabled && $flagValuesInAvailableProducts[0];
-
-            $isInFlags = array_key_exists($flag, $flags);
-            $isSelected = $isInFlags && $flags[$flag];
-            $isDisabled = !$isInFlags && $shouldBeDisabled;
-
-            $structs[$flag] = new ProductFlagStruct(
-                $flag,
-                $shouldBeVisible,
-                $isDisabled,
-                $isSelected || $shouldBeSelected
-            );
-        }
-
-        return $structs;
+        return $defaultProductId;
     }
 
     /**
@@ -452,13 +390,13 @@ class ProductService
                     ProductDefinition::PROP_RETURN_IF_NOT_HOME,
                     ProductDefinition::PROP_INSURANCE,
                     ProductDefinition::PROP_SIGNATURE,
-//                    ProductDefinition::PROP_AGE_CHECK,
+                    ProductDefinition::PROP_AGE_CHECK,
                 ];
             case DeliveryType::PICKUP:
                 return [
                     ProductDefinition::PROP_INSURANCE,
                     ProductDefinition::PROP_SIGNATURE,
-//                    ProductDefinition::PROP_AGE_CHECK,
+                    ProductDefinition::PROP_AGE_CHECK,
                     ProductDefinition::PROP_NOTIFICATION,
                 ];
             case DeliveryType::MAILBOX:
