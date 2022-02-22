@@ -13,10 +13,10 @@
 
                             <template v-if="content.enabled">
                                 <template v-if="showProductCode">
-                                    [{{ product.productCodeDelivery }}]
+                                    [{{ product?.productCodeDelivery }}]
                                 </template>
 
-                                {{ product.name }}
+                                {{ product?.name }}
 
                                 &mdash;
 
@@ -32,9 +32,9 @@
                         <template v-else>
 
                             <template v-if="showProductCode">
-                                [{{ product.productCodeDelivery }}]
+                                [{{ product?.productCodeDelivery }}]
                             </template>
-                            {{ product.name }}
+                            {{ product?.name }}
 
                         </template>
                     </template>
