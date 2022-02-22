@@ -16,7 +16,7 @@ Component.extend('postnl-config-product-selection-base', 'memo-config', {
             deliveryType: 'shipment',
 
             isAlt: false,
-            defaultIsEnabled: true,
+            defaultIsEnabled: !this.isAlt,
             defaultCartAmount: 0,
         }
     },

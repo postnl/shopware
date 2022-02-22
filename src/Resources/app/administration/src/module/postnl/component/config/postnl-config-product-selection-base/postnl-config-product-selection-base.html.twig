@@ -1,22 +1,34 @@
 {% block memo_config %}
     <sw-base-field v-bind="$attrs"
-                    :disabled="disabled"
-                    :required="required"
-                    @inheritance-restore="$emit('inheritance-restore', $event)"
-                    @inheritance-remove="$emit('inheritance-remove', $event)">
+                   :disabled="disabled"
+                   :required="required"
+                   @inheritance-restore="$emit('inheritance-restore', $event)"
+                   @inheritance-remove="$emit('inheritance-remove', $event)">
         <template #sw-field-input="{ identification, error, disabled, required }">
             {% block memo_config_content %}
                 <sw-container>
-                    <template v-if="isAlt">
-                        <sw-switch-field v-model="content.enabled" noMarginTop/>
-                        <sw-number-field v-model="content.cartAmount"/>
-                    </template>
+                    <sw-container v-if="isAlt" columns="1fr 1fr" gap="16px">
+                        <sw-switch-field v-model="content.enabled"
+                                         size="small"
+                                         label="Enable alternative product"
+                                        :disabled="disabled"/>
 
-                    <postnl-product-selection v-model="content.id"
+                        <sw-number-field v-if="content.enabled"
+                                         v-model="content.cartAmount"
+                                         size="small"
+                                         label="Use alternative product when cart amount exceeds"
+                                         :disabled="disabled">
+                        </sw-number-field>
+                    </sw-container>
+
+                    <postnl-product-selection v-if="!isAlt || content.enabled"
+                                              v-model="content.id"
                                               :sourceZone="sourceZone"
                                               :destinationZone="destinationZone"
                                               :deliveryType="deliveryType"
-                                              :showDeliveryType="false"/>
+                                              :showDeliveryType="false"
+                                              :showProductCode="showProductCode"
+                                              :disabled="disabled"/>
                 </sw-container>
             {% endblock %}
         </template>
