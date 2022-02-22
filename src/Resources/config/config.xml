@@ -3,25 +3,6 @@
         xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
 
     <card>
-        <title>Default Products</title>
-        <title lang="de-DE">Default Products</title>
-        <title lang="nl-NL">Default Products</title>
-
-        <component name="postnl-config-product-selection-shipping-nl-nl-default">
-            <name>test</name>
-            <label>Test</label>
-            <label lang="de-DE">Test</label>
-            <label lang="nl-NL">test</label>
-        </component>
-        <component name="postnl-config-product-selection-shipping-nl-nl-alternative">
-            <name>asdf1</name>
-            <label>Test</label>
-            <label lang="de-DE">Test</label>
-            <label lang="nl-NL">test</label>
-        </component>
-    </card>
-
-    <card>
         <title>API</title>
         <title lang="de-DE">API</title>
         <title lang="nl-NL">API</title>
@@ -99,4 +80,55 @@
         </component>
     </card>
 
+    <card>
+        <title>Default Products</title>
+        <title lang="de-DE">Default Products</title>
+        <title lang="nl-NL">Standaard Producten</title>
+
+        <component name="postnl-config-product-selection-shipment-nl-nl-default">
+            <name>productShipmentNlNlDefault</name>
+            <label>Shipment NL to NL - Default product</label>
+            <label lang="de-DE">Test</label>
+            <label lang="nl-NL">test</label>
+        </component>
+        <component name="postnl-config-product-selection-shipment-nl-nl-alternative">
+            <name>productShipmentNlNlAlternative</name>
+            <label>Shipment NL to NL - Alternative product</label>
+            <label lang="de-DE">Test</label>
+            <label lang="nl-NL">test</label>
+        </component>
+
+        <component name="postnl-config-product-selection-pickup-nl-nl-default">
+            <name>productPickupNlNlDefault</name>
+            <label>Pickup NL to NL - Default product</label>
+            <label lang="de-DE">Test</label>
+            <label lang="nl-NL">test</label>
+        </component>
+        <component name="postnl-config-product-selection-pickup-nl-nl-alternative">
+            <name>productPickupNlNlAlternative</name>
+            <label>Pickup NL to NL - Alternative product</label>
+            <label lang="de-DE">Test</label>
+            <label lang="nl-NL">test</label>
+        </component>
+
+        <component name="postnl-config-product-selection-shipment-nl-be-default">
+            <name>productShipmentNlBeDefault</name>
+            <label>Shipment NL to BE - Default product</label>
+            <label lang="de-DE">Test</label>
+            <label lang="nl-NL">test</label>
+        </component>
+        <component name="postnl-config-product-selection-shipment-nl-be-alternative">
+            <name>productShipmentNlBeAlternative</name>
+            <label>Shipment NL to BE - Alternative product</label>
+            <label lang="de-DE">Test</label>
+            <label lang="nl-NL">test</label>
+        </component>
+
+        <component name="postnl-config-product-selection-pickup-nl-be-default">
+            <name>productPickupNlBeDefault</name>
+            <label>Pickup NL to BE - Default product</label>
+            <label lang="de-DE">Test</label>
+            <label lang="nl-NL">test</label>
+        </component>
+    </card>
 </config>
