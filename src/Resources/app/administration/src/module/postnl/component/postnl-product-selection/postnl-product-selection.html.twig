@@ -1,11 +1,15 @@
 <sw-container class="postnl-product-selection">
-
-    <sw-label variant="neutral">{{ product.productCodeDelivery }} {{ product.name }}</sw-label>
+    <sw-label :variant="disabled ? 'neutral' : 'info'" ghost>
+        <template v-if="showProductCode">
+            [{{ product.productCodeDelivery }}]
+        </template>
+        {{ product.name }}
+    </sw-label>
 
     <sw-single-select v-if="showDeliveryType"
                       v-model="actualDeliveryType"
                       :options="deliveryTypes"
-                      :disabled="deliveryTypes.length == 0"
+                      :disabled="disabled || (deliveryTypes.length == 0)"
                       @change="onChangeDeliveryType"/>
 
     <sw-container columns="1fr 1fr" gap="0 16px">
@@ -14,7 +18,7 @@
                          v-model="flag.selected"
                          :key="flag.name"
                          :label="flag.name"
-                         :disabled="flag.disabled"
+                         :disabled="disabled || flag.disabled"
                          @change="onChangeFlag(flag.name)"
                          size="small"
                          noMarginTop/>

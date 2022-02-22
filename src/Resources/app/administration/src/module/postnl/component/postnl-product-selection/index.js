@@ -16,7 +16,12 @@ Component.register('postnl-product-selection', {
         // productId
         value: {
             required: false,
-            default: ""//6aa1d2225d724416bea415e2454de832
+            default: ""
+        },
+        disabled: {
+            type: Boolean,
+            required: false,
+            default: false,
         },
         sourceZone: {
             type: String,
@@ -30,7 +35,7 @@ Component.register('postnl-product-selection', {
         destinationZone: {
             type: String,
             required: false,
-            default: 'BE',
+            default: 'NL',
             validator: function (value) {
                 // The value must match one of these strings
                 return ['NL', 'BE', 'EU', 'GLOBAL'].indexOf(value) !== -1;
@@ -50,6 +55,11 @@ Component.register('postnl-product-selection', {
             required: false,
             default: true,
         },
+        showProductCode:{
+            type: Boolean,
+            required: false,
+            default: false,
+        }
     },
 
     data() {
@@ -102,7 +112,7 @@ Component.register('postnl-product-selection', {
 
         productId: {
             handler(value) {
-                if (value !== this.productId) {
+                if (this.value !== value) {
                     this.$emit('input', value);
                 }
             }

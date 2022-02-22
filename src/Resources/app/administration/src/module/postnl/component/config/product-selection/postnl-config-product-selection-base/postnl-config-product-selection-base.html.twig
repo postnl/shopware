@@ -1,0 +1,72 @@
+{% block memo_config %}
+    <sw-block-field v-if="senderCountry?.iso === sourceZone"
+                    v-bind="$attrs"
+                    :disabled="disabled"
+                    :required="required"
+                    @inheritance-restore="$emit('inheritance-restore', $event)"
+                    @inheritance-remove="$emit('inheritance-remove', $event)">
+        <template #sw-field-input="{ identification, error, disabled, required }">
+            {% block memo_config_content %}
+                <memo-collapse :disabled="disabled">
+                    <template #header>
+                        <template v-if="isAlt">
+
+                            <template v-if="content.enabled">
+                                <template v-if="showProductCode">
+                                    [{{ product.productCodeDelivery }}]
+                                </template>
+
+                                {{ product.name }}
+
+                                &mdash;
+
+                                from {{ content.cartAmount }}
+                            </template>
+
+                            <template v-else>
+                                Disabled
+                            </template>
+
+                        </template>
+
+                        <template v-else>
+
+                            <template v-if="showProductCode">
+                                [{{ product.productCodeDelivery }}]
+                            </template>
+                            {{ product.name }}
+
+                        </template>
+                    </template>
+                    <template #content="{ disabled }">
+                        <sw-container>
+                            <sw-container v-if="isAlt" columns="1fr 1fr" gap="16px">
+                                <sw-switch-field v-model="content.enabled"
+                                                 size="small"
+                                                 label="Enable alternative product"
+                                                 :disabled="disabled"/>
+
+                                <sw-number-field v-if="content.enabled"
+                                                 v-model="content.cartAmount"
+                                                 size="small"
+                                                 label="Use alternative product when cart amount exceeds"
+                                                 :disabled="disabled">
+                                </sw-number-field>
+                            </sw-container>
+
+                            <postnl-product-selection v-if="!isAlt || content.enabled"
+                                                      v-model="content.id"
+                                                      :sourceZone="sourceZone"
+                                                      :destinationZone="destinationZone"
+                                                      :deliveryType="deliveryType"
+                                                      :showDeliveryType="false"
+                                                      :showProductCode="showProductCode"
+                                                      :disabled="disabled"/>
+                        </sw-container>
+                    </template>
+                </memo-collapse>
+            {% endblock %}
+        </template>
+    </sw-block-field>
+{% endblock %}
+
