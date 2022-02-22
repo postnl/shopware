@@ -5,6 +5,10 @@ const { Component, Mixin } = Shopware;
 Component.extend('postnl-config-product-selection-base', 'memo-config', {
     template,
 
+    inject: [
+        'ProductSelectionService',
+    ],
+
     mixins: [
         Mixin.getByName('memo-config-access'),
         Mixin.getByName('postnl-config-sender-country'),
@@ -12,6 +16,7 @@ Component.extend('postnl-config-product-selection-base', 'memo-config', {
 
     data() {
         return {
+            product: null,
             sourceZone: 'NL',
             destinationZone: 'NL',
             deliveryType: 'shipment',
@@ -25,6 +30,16 @@ Component.extend('postnl-config-product-selection-base', 'memo-config', {
     computed: {
         showProductCode() {
             return !!this.getConfigItem('debugMode');
+        },
+    },
+
+    watch: {
+        content: {
+            handler(value) {
+                this.updateValue(value);
+                this.updateHeader();
+            },
+            deep: true,
         }
     },
 
@@ -42,7 +57,25 @@ Component.extend('postnl-config-product-selection-base', 'memo-config', {
                 this.content.cartAmount = this.defaultCartAmount;
                 this.updateValue(this.content);
             }
+            this.updateHeader();
         },
+
+        updateHeader() {
+            return Promise.resolve()
+                .then(() => {
+                    if(this.content?.id) {
+                        return this.ProductSelectionService.getProduct(this.content.id);
+                    } else {
+                        return this.ProductSelectionService.getDefaultProduct(
+                            this.sourceZone,
+                            this.destinationZone,
+                            this.deliveryType
+                        );
+                    }
+                })
+                .then(result => result.product)
+                .then(product => this.product = product);
+        }
     },
 
 })
