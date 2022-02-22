@@ -13,6 +13,12 @@
             <label lang="de-DE">Test</label>
             <label lang="nl-NL">test</label>
         </component>
+        <component name="postnl-config-product-selection-shipping-nl-nl-alternative">
+            <name>asdf1</name>
+            <label>Test</label>
+            <label lang="de-DE">Test</label>
+            <label lang="nl-NL">test</label>
+        </component>
     </card>
 
     <card>
