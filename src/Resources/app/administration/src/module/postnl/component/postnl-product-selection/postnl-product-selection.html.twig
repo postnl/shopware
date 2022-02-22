@@ -1,6 +1,10 @@
 <sw-container class="postnl-product-selection">
-
-    <sw-label variant="neutral">{{ product.productCodeDelivery }} {{ product.name }}</sw-label>
+    <sw-label variant="info" ghost>
+        <template v-if="showProductCode">
+            [{{ product.productCodeDelivery }}]
+        </template>
+        {{ product.name }}
+    </sw-label>
 
     <sw-single-select v-if="showDeliveryType"
                       v-model="actualDeliveryType"

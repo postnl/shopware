@@ -50,6 +50,11 @@ Component.register('postnl-product-selection', {
             required: false,
             default: true,
         },
+        showProductCode:{
+            type: Boolean,
+            required: false,
+            default: false,
+        }
     },
 
     data() {

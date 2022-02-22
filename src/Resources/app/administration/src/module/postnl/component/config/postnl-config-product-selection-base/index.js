@@ -21,6 +21,12 @@ Component.extend('postnl-config-product-selection-base', 'memo-config', {
         }
     },
 
+    computed: {
+        showProductCode() {
+            return !!this.getConfigItem('debugMode');
+        }
+    },
+
     mounted() {
         this.mountedComponent();
     },
