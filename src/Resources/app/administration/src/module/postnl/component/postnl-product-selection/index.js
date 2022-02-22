@@ -18,6 +18,11 @@ Component.register('postnl-product-selection', {
             required: false,
             default: ""
         },
+        disabled: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
         sourceZone: {
             type: String,
             required: false,
