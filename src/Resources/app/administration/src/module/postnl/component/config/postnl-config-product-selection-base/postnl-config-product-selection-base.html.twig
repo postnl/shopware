@@ -1,5 +1,6 @@
 {% block memo_config %}
-    <sw-base-field v-bind="$attrs"
+    <sw-base-field v-if="senderCountry?.iso === sourceZone"
+                   v-bind="$attrs"
                    :disabled="disabled"
                    :required="required"
                    @inheritance-restore="$emit('inheritance-restore', $event)"
