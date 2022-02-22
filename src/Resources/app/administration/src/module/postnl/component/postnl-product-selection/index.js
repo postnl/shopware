@@ -205,7 +205,9 @@ Component.register('postnl-product-selection', {
                             value: deliveryType
                         };
                     });
-                    this.actualDeliveryType = this.deliveryTypes[0].value;
+                    if(!this.deliveryTypes.some(deliveryType => deliveryType.value === this.actualDeliveryType)) {
+                        this.actualDeliveryType = this.deliveryTypes[0].value;
+                    }
                 })
                 .finally(() => {
                     this.isLoading = false;
