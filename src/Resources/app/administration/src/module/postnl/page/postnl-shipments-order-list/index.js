@@ -5,6 +5,12 @@ const {Criteria} = Shopware.Data;
 Shopware.Component.extend('postnl-shipments-order-list', 'sw-order-list', {
     template,
 
+    data() {
+        return {
+            shipModalId: null,
+        }
+    },
+
     computed: {
         orderCriteria() {
             const criteria = this.$super('orderCriteria');
@@ -72,8 +78,10 @@ Shopware.Component.extend('postnl-shipments-order-list', 'sw-order-list', {
             });
 
             return columns;
-        }
+        },
 
-
+        showShipModal(id) {
+            this.shipModalId = id;
+        },
     }
 });
