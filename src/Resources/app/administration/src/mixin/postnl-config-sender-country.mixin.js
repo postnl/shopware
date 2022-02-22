@@ -2,13 +2,17 @@ const { Context, Mixin } = Shopware;
 
 Mixin.register('postnl-config-sender-country', {
 
+    mixins: [
+        Mixin.getByName('memo-config-access'),
+    ],
+
     inject: [
         'repositoryFactory'
     ],
 
     data() {
         return {
-            country: null,
+            senderCountry: null,
         }
     },
 
@@ -17,16 +21,16 @@ Mixin.register('postnl-config-sender-country', {
             return this.repositoryFactory.create('country');
         },
 
-        countryId() {
+        senderCountryId() {
             return this.getJsonConfigItem('senderAddress')?.country;
         }
     },
 
     watch: {
-        countryId: {
+        senderCountryId: {
             handler(value) {
                 if(!!value) {
-                    this.getCountry(value);
+                    this.getSenderCountry(value);
                     return;
                 }
 
@@ -37,11 +41,11 @@ Mixin.register('postnl-config-sender-country', {
     },
 
     methods: {
-        getCountry(countryId) {
+        getSenderCountry(countryId) {
             this.countryRepository
                 .get(countryId, Context.api)
                 .then(country => {
-                    this.country = country;
+                    this.senderCountry = country;
                 });
         }
     }

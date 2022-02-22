@@ -1,5 +1,5 @@
 {% block memo_config_content %}
-    <memo-collapse :disabled="disabled" v-if="country?.iso === 'NL'">
+    <memo-collapse :disabled="disabled" v-if="senderCountry?.iso === 'NL'">
         <template #header>
             <sw-container rows="1fr 1fr" v-if="content.hasReturnContract">
                 <div>
@@ -18,8 +18,8 @@
                         , {{ content.zipcode }} {{ content.city }}
                     </template>
 
-                    <template v-if="country">
-                        , {{ country?.name }}
+                    <template v-if="senderCountry">
+                        , {{ senderCountry?.name }}
                     </template>
                 </div>
             </sw-container>
@@ -44,7 +44,7 @@
                                :label="$tc('postnl.shipments.config.returnAddress.city')"
                                :style="span(2)"/>
 
-                <sw-text-field :value="country?.name"
+                <sw-text-field :value="senderCountry?.name"
                                :label="$tc('postnl.shipments.config.returnAddress.country')"
                                disabled/>
 
@@ -54,7 +54,7 @@
             </sw-container>
         </template>
     </memo-collapse>
-    <memo-collapse :disabled="disabled" v-else-if="country?.iso === 'BE'">
+    <memo-collapse :disabled="disabled" v-else-if="senderCountry?.iso === 'BE'">
         <template #header>
             <sw-container rows="1fr 1fr">
                 <div>
@@ -77,8 +77,8 @@
                         , {{ content.zipcode }} {{ content.city }}
                     </template>
 
-                    <template v-if="country">
-                        , {{ country?.name }}
+                    <template v-if="senderCountry">
+                        , {{ senderCountry?.name }}
                     </template>
                 </div>
             </sw-container>
@@ -106,7 +106,7 @@
                                :label="$tc('postnl.shipments.config.returnAddress.city')"
                                :style="span(2)"/>
 
-                <sw-text-field :value="country?.name"
+                <sw-text-field :value="senderCountry?.name"
                                :label="$tc('postnl.shipments.config.returnAddress.country')"
                                disabled/>
 
