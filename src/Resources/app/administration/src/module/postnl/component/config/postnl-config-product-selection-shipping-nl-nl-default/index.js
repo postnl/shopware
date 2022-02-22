@@ -7,10 +7,6 @@ Component.extend('postnl-config-product-selection-shipping-nl-nl-default', 'post
             sourceZone: 'NL',
             destinationZone: 'NL',
             deliveryType: 'shipment',
-
-            isAlt: true,
-            defaultIsEnabled: true,
-            defaultCartAmount: 0,
         };
     },
 })
