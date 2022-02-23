@@ -1,0 +1,17 @@
+{% sw_extends '@Storefront/storefront/component/shipping/shipping-method.html.twig' %}
+
+{% block component_shipping_method_label %}
+    {{ parent() }}
+
+    {% block postnl_shipping_method %}
+        {% if shipping.customFields.postnl_shipments and shipping.id is same as(context.shippingMethod.id) %}
+
+            <div class="postnl-shipping-method">
+                {% set deliveryType = shipping.customFields.postnl_shipments.deliveryType %}
+                {% set template = "@Storefront/storefront/component/postnl/" ~ deliveryType ~ ".html.twig" %}
+                {% sw_include template ignore missing %}
+            </div>
+
+        {% endif %}
+    {% endblock %}
+{% endblock %}

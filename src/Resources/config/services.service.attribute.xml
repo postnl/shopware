@@ -13,6 +13,10 @@
             <argument type="service" id="postnl_shipments.logger"/>
         </service>
 
+        <service id="PostNL\Shipments\Struct\ShippingMethodStruct">
+            <tag name="postnl.attribute.struct.entity"/>
+        </service>
+
         <service id="PostNL\Shipments\Service\Attribute\TypeHandler\CustomerDataStructHandler">
             <argument type="service" id="PostNL\Shipments\Service\Attribute\Factory\AttributeFactory"/>
             <tag name="postnl.attribute.handler.type"/>

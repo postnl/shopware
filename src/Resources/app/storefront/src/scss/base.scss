@@ -1,0 +1,7 @@
+.postnl-shipping-method {
+    padding: 8px;
+}
+
+.custom-control-input:checked ~ .postnl-shipping-method {
+    display: block;
+}
