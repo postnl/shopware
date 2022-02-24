@@ -1,4 +1,22 @@
 {% block postnl_shipping_method_pickup %}
-{{ dump() }}
-    <div class="postnl-shipping-method__pickup" data-postnl-shipping-method-pickup></div>
+    <div class="postnl-shipping-method__pickup" data-postnl-shipping-method-pickup>
+
+        {% for pickup in context.shippingMethod.extensions.postnl_pickup.all | slice(0,5) %}
+            <div class="postnl-pickup-point">
+                <div class="custom-control custom-radio">
+                    <input type="radio"
+                           class="custom-control-input"
+                           id="postnlPickupPoint{{ pickup.getLocationCode() }}"
+                           name="postnlPickupPoint"
+                           value="{{ pickup.getLocationCode() }}"/>
+
+                    <label class="custom-control-label"
+                           for="postnlPickupPoint{{ pickup.getLocationCode() }}">
+                        {{ pickup.getName() }}
+                    </label>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
 {% endblock %}
