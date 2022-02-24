@@ -1,0 +1,9 @@
+{% sw_extends '@Storefront/storefront/base.html.twig' %}
+
+{% block base_script_router %}
+    {{ parent() }}
+
+    <script>
+        window.router['frontend.checkout.postnl.pickup-point'] = '{{ path('frontend.checkout.postnl.pickup-point') }}';
+    </script>
+{% endblock %}
