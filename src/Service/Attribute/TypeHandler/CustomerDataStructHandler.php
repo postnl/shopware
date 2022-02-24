@@ -26,6 +26,13 @@ class CustomerDataStructHandler implements AttributeTypeHandlerInterface
 
     public function handle($data, Context $context): AttributeStruct
     {
+        if(is_null($data)) {
+            return $this->attributeFactory->create(
+                CustomerDataStruct::class,
+                [],
+                $context
+            );
+        }
         return $this->attributeFactory->create(
             CustomerDataStruct::class,
             json_decode($data, true),

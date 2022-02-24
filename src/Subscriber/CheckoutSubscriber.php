@@ -49,7 +49,8 @@ class CheckoutSubscriber implements EventSubscriberInterface
             /** @var ShippingMethodStruct $attributes */
             $attributes = $this->attributeFactory->createFromEntity($event->getSalesChannelContext()->getShippingMethod(), $event->getContext());
         } catch (\Throwable $e) {
-//            dd($e);
+            dd($e);
+            return;
         }
 
         switch ($attributes->getDeliveryType()) {
@@ -71,10 +72,16 @@ class CheckoutSubscriber implements EventSubscriberInterface
 
     protected function handlePickup(CheckoutConfirmPageLoadedEvent $event): void
     {
-        $apiClient = $this->apiFactory->createClientForSalesChannel(
-            $event->getSalesChannelContext()->getSalesChannelId(),
-            $event->getContext()
-        );
+        try {
+            $apiClient = $this->apiFactory->createClientForSalesChannel(
+                $event->getSalesChannelContext()->getSalesChannelId(),
+                $event->getContext()
+            );
+        } catch (\Throwable $e) {
+            dd($e);
+            return;
+        }
+        dd($apiClient);
 
         $address = $event->getPage()->getCart()->getDeliveries()->first()->getLocation()->getAddress();
 

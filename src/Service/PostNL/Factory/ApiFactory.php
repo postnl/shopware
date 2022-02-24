@@ -40,6 +40,7 @@ class ApiFactory
         array $senderAddress = []
     ): PostNL
     {
+        dd(func_get_args());
         $this->logger->debug("Creating API client", [
             'apiKey' => $this->obfuscateApiKey($apiKey),
             'sandbox' => $sandbox,
@@ -87,7 +88,13 @@ class ApiFactory
         ]);
 
         $config = $this->configService->getConfiguration($salesChannelId, $context);
+dump($config);
 
+    print(
+        json_encode($config)
+//        $config->getSenderAddress()->getVarsForApi()
+    );
+dd();
         return $this->createClient(
             $config->isSandboxMode()
                 ? $config->getSandboxApiKey()
