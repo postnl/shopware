@@ -71,10 +71,14 @@ class CheckoutSubscriber implements EventSubscriberInterface
 
     protected function handlePickup(CheckoutConfirmPageLoadedEvent $event): void
     {
-        $apiClient = $this->apiFactory->createClientForSalesChannel(
-            $event->getSalesChannelContext()->getSalesChannelId(),
-            $event->getContext()
-        );
+        try {
+            $apiClient = $this->apiFactory->createClientForSalesChannel(
+                $event->getSalesChannelContext()->getSalesChannelId(),
+                $event->getContext()
+            );
+        } catch(\Throwable $e) {
+            return;
+        }
 
         $address = $event->getPage()->getCart()->getDeliveries()->first()->getLocation()->getAddress();
 
