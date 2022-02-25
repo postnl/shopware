@@ -5,9 +5,14 @@ const {Criteria} = Shopware.Data;
 Shopware.Component.extend('postnl-shipments-order-list', 'sw-order-list', {
     template,
 
+    inject: [
+        'ProductSelectionService'
+    ],
+
     data() {
         return {
             shipModalId: null,
+            products: {},
         }
     },
 
@@ -16,9 +21,13 @@ Shopware.Component.extend('postnl-shipments-order-list', 'sw-order-list', {
             const criteria = this.$super('orderCriteria');
 
             criteria.addFilter(
-                Criteria.equalsAny('deliveries.shippingMethod.customFields.postnl_shipping.id', ['postnl'])
+                Criteria.equalsAny(
+                    'deliveries.shippingMethod.customFields.postnl_shipments.deliveryType',
+                    ['mailbox', 'shipment', 'pickup']
+                )
             );
             criteria.addAssociation('deliveries.shippingOrderAddress.country');
+            criteria.addAssociation('deliveries.shippingMethod');
 
             return criteria;
         },
@@ -65,8 +74,15 @@ Shopware.Component.extend('postnl-shipments-order-list', 'sw-order-list', {
                     label: 'sw-order.list.columnShippingAddress',
                     allowResize: true,
                     addAfter: 'orderCustomer.firstName'
-                }
-            ]
+                },
+                {
+                    property: 'deliveries[0].shippingMethod',
+                    dataIndex: 'deliveries[0].shippingMethod',
+                    label: 'sw-order.list.columnShippingMethod',
+                    allowResize: true,
+                    addAfter: 'deliveries[0].shippingOrderAddressId'
+                },
+            ];
 
 
             extraColumns.forEach((extraColumn) => {
@@ -80,8 +96,29 @@ Shopware.Component.extend('postnl-shipments-order-list', 'sw-order-list', {
             return columns;
         },
 
+        async getProductName(item) {
+            const productId = item?.customFields?.postnl_shipments?.productId;
+
+            if(!productId) {
+                return '';
+            }
+
+            if(!this.products[productId]) {
+                const product = await this.ProductSelectionService
+                    .getProduct(productId)
+                    .then(result => result.product)
+                    .then();
+
+                this.products[productId] = product;
+            }
+
+            return this.products[productId].name;
+        },
+
         showShipModal(id) {
             this.shipModalId = id;
         },
+
+
     }
 });
