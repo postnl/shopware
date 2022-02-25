@@ -6,6 +6,7 @@ use Firstred\PostNL\Entity\Location;
 use Firstred\PostNL\Entity\Request\GetNearestLocations;
 use Firstred\PostNL\Entity\Response\ResponseLocation;
 use Firstred\PostNL\Exception\InvalidConfigurationException;
+use Firstred\PostNL\Exception\PostNLException;
 use PostNL\Shipments\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shipments\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shipments\Service\Shopware\CartService;
@@ -95,7 +96,9 @@ class CheckoutSubscriber implements EventSubscriberInterface
         try {
             $locationRequest = new GetNearestLocations($address->getCountry()->getIso(), new Location($address->getZipcode()));
             $locationResponse = $apiClient->getNearestLocations($locationRequest);
-        } catch(InvalidConfigurationException $e) {
+        } catch(PostNLException $e) {
+            return;
+        } catch(\Throwable $e) {
             return;
         }
 
