@@ -20,6 +20,7 @@
 
         <service id="PostNL\Shipments\Subscriber\ConversionSubscriber">
             <argument type="service" id="PostNL\Shipments\Service\Attribute\Factory\AttributeFactory"/>
+            <argument type="service" id="PostNL\Shipments\Service\Shopware\ConfigService"/>
 
             <tag name="kernel.event_subscriber"/>
         </service>

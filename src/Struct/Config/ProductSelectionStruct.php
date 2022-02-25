@@ -13,7 +13,7 @@ class ProductSelectionStruct extends AttributeStruct
     protected $cartAmount;
 
     /** @var string */
-    protected $productId;
+    protected $id;
 
     /**
      * @return bool
@@ -34,9 +34,9 @@ class ProductSelectionStruct extends AttributeStruct
     /**
      * @return string
      */
-    public function getProductId(): string
+    public function getId(): string
     {
-        return $this->productId;
+        return $this->id;
     }
 
 }
