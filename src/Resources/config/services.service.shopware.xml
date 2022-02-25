@@ -7,6 +7,10 @@
     <services>
         <defaults public="true"/>
 
+        <service id="PostNL\Shipments\Service\Shopware\CartService">
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
+        </service>
+
         <service id="PostNL\Shipments\Service\Shopware\ConfigService">
             <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
             <argument type="service" id="PostNL\Shipments\Service\Attribute\Factory\AttributeFactory"/>

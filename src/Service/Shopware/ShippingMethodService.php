@@ -2,6 +2,7 @@
 
 namespace PostNL\Shipments\Service\Shopware;
 
+use PostNL\Shipments\Defaults;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Cart\Rule\CartAmountRule;
 use Shopware\Core\Checkout\Shipping\ShippingMethodEntity;
@@ -96,16 +97,16 @@ class ShippingMethodService
             throw $e;
         }
 
-        foreach(['shipment', 'pickup', 'mailbox'] as $deliveryType) {
+        foreach (['shipment', 'pickup', 'mailbox'] as $deliveryType) {
             $id = $this->createShippingMethod($deliveryType, $rule->getId(), $deliveryTime->getId(), $mediaId, $context);
         }
     }
 
     public function createShippingMethod(
-        string $deliveryType,
-        string $ruleId,
-        string $deliveryTimeId,
-        string $mediaId,
+        string  $deliveryType,
+        string  $ruleId,
+        string  $deliveryTimeId,
+        string  $mediaId,
         Context $context
     ): string
     {
@@ -136,7 +137,7 @@ class ShippingMethodService
                     ]
                 ],
                 'customFields' => [
-                    'postnl_shipments' => [
+                    Defaults::CUSTOM_FIELDS_KEY => [
                         'deliveryType' => $deliveryType
                     ]
                 ]
@@ -158,11 +159,12 @@ class ShippingMethodService
      * @param string $deliveryType
      * @param Context $context
      * @return ShippingMethodEntity
+     * @throws \Exception
      */
     private function getShippingMethodForType(string $deliveryType, Context $context): ShippingMethodEntity
     {
         $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('customFields.postnl_shipments.deliveryType', $deliveryType));
+        $criteria->addFilter(new EqualsFilter('customFields.' . Defaults::CUSTOM_FIELDS_KEY . '.deliveryType', $deliveryType));
 
         $shippingMethod = $this->shippingMethodRepository->search($criteria, $context)->first();
 
