@@ -4,16 +4,19 @@
         csrfToken: sw_csrf('frontend.checkout.postnl.pickup-point', {"mode": "token"})
     } %}
 
+    {% set locationCode = page.cart.getExtension('postnl-data').get('pickupPointLocationCode') %}
+
     <div class="postnl-shipping-method__pickup"
          data-postnl-pickup-points="true"
          data-postnl-pickup-points-options='{{ pickupOptions | json_encode }}'>
 
-        {% for pickup in context.shippingMethod.extensions.postnl_pickup.all | slice(0,5) %}
+        {% for pickup in context.shippingMethod.extensions.postnl_pickup.all %}
             <div class="postnl-pickup-point">
                 <div class="custom-control custom-radio">
                     <input type="radio"
                            class="custom-control-input postnl-pickup-point-input"
                            id="postnlPickupPoint{{ pickup.getLocationCode() }}"
+                           {% if locationCode == pickup.getLocationCode() %}checked{% endif %}
                            name="postnlPickupPoint"
                            value="{{ pickup.getLocationCode() }}"/>
 

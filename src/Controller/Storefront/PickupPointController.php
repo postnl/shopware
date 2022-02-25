@@ -2,7 +2,7 @@
 
 namespace PostNL\Shipments\Controller\Storefront;
 
-use Shopware\Core\Framework\Context;
+use PostNL\Shipments\Service\Shopware\CartService;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
@@ -15,8 +15,11 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class PickupPointController extends StorefrontController
 {
-    public function __construct()
+    protected $cartService;
+
+    public function __construct(CartService $cartService)
     {
+        $this->cartService = $cartService;
     }
 
     /**
@@ -25,9 +28,14 @@ class PickupPointController extends StorefrontController
      * @param SalesChannelContext $context
      * @return JsonResponse
      */
-    public function setPickupPoint(RequestDataBag $data, Context $context): JsonResponse
+    public function setPickupPoint(RequestDataBag $data, SalesChannelContext $context): JsonResponse
     {
-        dd($data);
-        return $this->json([]);
+        $pickupPointLocationCode = $data->get('pickupPointLocationCode');
+
+        $this->cartService->addData([
+            'pickupPointLocationCode' => $pickupPointLocationCode
+        ], $context);
+
+        return $this->json(null, 204);
     }
 }

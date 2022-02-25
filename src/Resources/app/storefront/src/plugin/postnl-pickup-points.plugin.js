@@ -17,7 +17,7 @@ console.log(this.options);
 
     onChangePickupPoint(e) {
         const data = this._getRequestData();
-        data['pickupPointId'] = e.target.value;
+        data['pickupPointLocationCode'] = e.target.value;
 
         console.log(data, this.options);
 

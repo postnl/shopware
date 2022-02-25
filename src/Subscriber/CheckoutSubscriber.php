@@ -4,9 +4,11 @@ namespace PostNL\Shipments\Subscriber;
 
 use Firstred\PostNL\Entity\Location;
 use Firstred\PostNL\Entity\Request\GetNearestLocations;
+use Firstred\PostNL\Entity\Response\ResponseLocation;
 use Firstred\PostNL\Exception\InvalidConfigurationException;
 use PostNL\Shipments\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shipments\Service\PostNL\Factory\ApiFactory;
+use PostNL\Shipments\Service\Shopware\CartService;
 use PostNL\Shipments\Struct\ShippingMethodStruct;
 use Shopware\Core\Framework\Struct\ArrayStruct;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
@@ -31,13 +33,19 @@ class CheckoutSubscriber implements EventSubscriberInterface
      */
     protected $attributeFactory;
 
+    /** @var CartService */
+    protected $cartService;
+
     /**
+     * @param ApiFactory $apiFactory
      * @param AttributeFactory $attributeFactory
+     * @param CartService $cartService
      */
-    public function __construct(ApiFactory $apiFactory, AttributeFactory $attributeFactory)
+    public function __construct(ApiFactory $apiFactory, AttributeFactory $attributeFactory, CartService $cartService)
     {
         $this->apiFactory = $apiFactory;
         $this->attributeFactory = $attributeFactory;
+        $this->cartService = $cartService;
     }
 
     /**
@@ -91,12 +99,40 @@ class CheckoutSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $struct = new ArrayStruct();
-        foreach($locationResponse->getGetLocationsResult()->getResponseLocation() as $responseLocation) {
-            $struct->set($responseLocation->getId(), $responseLocation);
+        $pickupPoints = new ArrayStruct();
+        $locationCode = null;
+        foreach($locationResponse->getGetLocationsResult()->getResponseLocation() as $i => $responseLocation) {
+            if(is_null($locationCode)) {
+                $locationCode = $responseLocation->getLocationCode();
+            }
+
+            if($i >= 5) {
+                break;
+            }
+
+            $pickupPoints->set($responseLocation->getId(), $responseLocation);
         }
 
-        $event->getSalesChannelContext()->getShippingMethod()->addExtension('postnl_pickup', $struct);
+        if(!$event->getPage()->getCart()->hasExtensionOfType('postnl-data', ArrayStruct::class)) {
+            $event->getPage()->setCart($this->cartService->addData([
+                'pickupPointLocationCode' => $locationCode,
+            ], $event->getSalesChannelContext()));
+        }
+
+        $existingLocationCode = $this->cartService->getByKey('pickupPointLocationCode', $event->getSalesChannelContext());
+
+        $availableLocationCodes = array_map(function($location) {
+            /** @var ResponseLocation $location */
+            return $location->getLocationCode();
+        }, $pickupPoints->all());
+
+        if(!in_array($existingLocationCode, $availableLocationCodes)) {
+            $event->getPage()->setCart($this->cartService->addData([
+                'pickupPointLocationCode' => $locationCode,
+            ], $event->getSalesChannelContext()));
+        }
+
+        $event->getSalesChannelContext()->getShippingMethod()->addExtension('postnl_pickup', $pickupPoints);
     }
 
     protected function handleMailbox(CheckoutConfirmPageLoadedEvent $event): void
