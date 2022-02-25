@@ -22,6 +22,11 @@
             <tag name="postnl.attribute.handler.type"/>
         </service>
 
+        <service id="PostNL\Shipments\Service\Attribute\TypeHandler\ProductSelectionStructHandler">
+            <argument type="service" id="PostNL\Shipments\Service\Attribute\Factory\AttributeFactory"/>
+            <tag name="postnl.attribute.handler.type"/>
+        </service>
+
         <service id="PostNL\Shipments\Service\Attribute\TypeHandler\SenderAddressStructHandler">
             <argument type="service" id="PostNL\Shipments\Service\Attribute\Factory\AttributeFactory"/>
             <argument type="service" id="PostNL\Shipments\Service\Shopware\CountryService"/>
