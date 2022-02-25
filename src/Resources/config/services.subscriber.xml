@@ -17,5 +17,11 @@
 <!--            <argument type="service" id="postnl_shipments.logger"/>-->
             <tag name="kernel.event_subscriber"/>
         </service>
+
+        <service id="PostNL\Shipments\Subscriber\ConversionSubscriber">
+            <argument type="service" id="PostNL\Shipments\Service\Attribute\Factory\AttributeFactory"/>
+
+            <tag name="kernel.event_subscriber"/>
+        </service>
     </services>
 </container>
