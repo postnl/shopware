@@ -4,6 +4,7 @@ namespace PostNL\Shipments\Subscriber;
 
 use Firstred\PostNL\Entity\Location;
 use Firstred\PostNL\Entity\Request\GetNearestLocations;
+use Firstred\PostNL\Exception\InvalidConfigurationException;
 use PostNL\Shipments\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shipments\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shipments\Struct\ShippingMethodStruct;
@@ -78,15 +79,18 @@ class CheckoutSubscriber implements EventSubscriberInterface
                 $event->getContext()
             );
         } catch (\Throwable $e) {
-            dd($e);
+//            dd($e);
             return;
         }
-        dd($apiClient);
 
         $address = $event->getPage()->getCart()->getDeliveries()->first()->getLocation()->getAddress();
 
-        $locationRequest = new GetNearestLocations($address->getCountry()->getIso(), new Location($address->getZipcode()));
-        $locationResponse = $apiClient->getNearestLocations($locationRequest);
+        try {
+            $locationRequest = new GetNearestLocations($address->getCountry()->getIso(), new Location($address->getZipcode()));
+            $locationResponse = $apiClient->getNearestLocations($locationRequest);
+        } catch(InvalidConfigurationException $e) {
+            return;
+        }
 
         $struct = new ArrayStruct();
         foreach($locationResponse->getGetLocationsResult()->getResponseLocation() as $responseLocation) {

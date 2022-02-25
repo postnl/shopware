@@ -25,7 +25,7 @@ abstract class AttributeStruct extends Struct
         /**
          * Create a struct to store the keys that were available during assignment.
          */
-//        $assignKeys = $this->getArrayStructExtension(self::ASSIGN_KEYS);
+        $assignKeys = $this->getArrayStructExtension(self::ASSIGN_KEYS);
 
         if (empty($options)) {
             return;
@@ -43,7 +43,7 @@ abstract class AttributeStruct extends Struct
             /**
              * Save the attributes, so we can determine which properties should be added to the array later
              */
-//            $assignKeys->offsetSet($key, $value);
+            $assignKeys->offsetSet($key, $value);
 
             /**
              * Convert the snake_case property name to camelCase for our set methods.
@@ -91,7 +91,6 @@ abstract class AttributeStruct extends Struct
         /**
          * If we have an extension with additional attributes, use that as the starting point
          */
-        dd( parent::getVars());
         $data = $this->getArrayStructExtension(self::ADDITIONAL)->all();
         /**
          * Loop through all the properties of this class.
@@ -107,9 +106,9 @@ abstract class AttributeStruct extends Struct
             /**
              * If the value was not set during construct, and the value is still null, don't add this to our data
              */
-//            if (!$this->getArrayStructExtension(self::ASSIGN_KEYS)->has($key) && is_null($value)) {
-//                continue;
-//            }
+            if (!$this->getArrayStructExtension(self::ASSIGN_KEYS)->has($key) && is_null($value)) {
+                continue;
+            }
 
             /**
              * If $value is a Collection, return the inner elements array

@@ -136,6 +136,7 @@ class AttributeFactory
             $reflectionType = $this->resolvePropertyType($reflectionProperty, $reflectionClass);
 
             if (!array_key_exists($reflectionProperty->getName(), $data) && $reflectionType->allowsNull()) {
+                $structData[$reflectionProperty->getName()] = null;
                 continue;
             }
 

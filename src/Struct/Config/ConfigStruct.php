@@ -110,7 +110,6 @@ class ConfigStruct extends AttributeStruct
      */
     public function getCustomerData(): CustomerDataStruct
     {
-        dd();
         return $this->customerData;
     }
 

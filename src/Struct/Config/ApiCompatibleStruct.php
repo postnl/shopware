@@ -13,7 +13,6 @@ abstract class ApiCompatibleStruct extends AttributeStruct
     {
         $vars = [];
 
-        dd($this->getVars());
         foreach($this->getVars() as $key => $value) {
             $vars[ucfirst($key)] = $value;
         }
