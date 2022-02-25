@@ -133,17 +133,35 @@ class AttributeFactory
                 continue;
             }
 
-            if (!array_key_exists($reflectionProperty->getName(), $data)) {
+            $reflectionType = $this->resolvePropertyType($reflectionProperty, $reflectionClass);
+
+            if (!array_key_exists($reflectionProperty->getName(), $data) && $reflectionType->allowsNull()) {
+                $structData[$reflectionProperty->getName()] = null;
                 continue;
             }
 
-            $value = $data[$reflectionProperty->getName()];
-
-            $reflectionType = $this->resolvePropertyType($reflectionProperty, $reflectionClass);
+            $value = $data[$reflectionProperty->getName()] ?? null;
 
             if (!$reflectionType->isBuiltin()) {
                 $structData[$reflectionProperty->getName()] = $this->getTypeHandler($reflectionType)->handle($value, $context);
                 continue;
+            }
+
+            if(is_null($value)) {
+                switch($reflectionType->getName()) {
+                    case "string":
+                        $value = "";
+                        break;
+                    case "int":
+                        $value = 0;
+                        break;
+                    case "bool":
+                        $value = false;
+                        break;
+                    case "array":
+                        $value = [];
+                        break;
+                }
             }
 
             $structData[$reflectionProperty->getName()] = $value;
