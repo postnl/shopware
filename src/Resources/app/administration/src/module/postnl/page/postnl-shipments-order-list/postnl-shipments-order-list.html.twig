@@ -26,7 +26,7 @@
 
     <sw-context-menu-item
         class="sw-order-list__order-ship-action"
-        @click="showShipModal(item.id)"
+        @click="openShippingModal(item.id)"
     >
         Ship
     </sw-context-menu-item>
@@ -37,9 +37,9 @@
 
     {% parent %}
 
-    <sw-modal v-if="shipModalId === item.id">
-        {{ item }}
-    </sw-modal>
+    <postnl-shipping-modal v-if="isShippingModalId === item.id"
+                           :selection="{item: item}"
+                           @close="closeShippingModal"/>
 
 {% endblock %}
 
@@ -49,7 +49,7 @@
         <a
             v-if="acl.can('order.editor')"
             class="link link-primary"
-            @click="showBulkEditModal = true"
+            @click="openBulkShippingModal"
         >
             Ship
         </a>
@@ -58,9 +58,9 @@
 
 {% block sw_order_list_bulk_edit_modal %}
     <template #bulk-modals="{ selection }">
-        <sw-modal v-if="showBulkEditModal">
-            {{ selection }}
-        </sw-modal>
+        <postnl-shipping-modal v-if="isOpenBulkShippingModal"
+                               :selection="selection"
+                               @close="closeBulkShippingModal"/>
     </template>
 {% endblock %}
 

@@ -1,0 +1,15 @@
+<sw-modal class="postnl-shipping-modal"
+          title="Hello"
+          size="800px"
+          @modal-close="$emit('close')">
+    <sw-container>
+        <div v-for="item in selection">
+            {{ item.orderNumber }}
+        </div>
+    </sw-container>
+
+    <template #modal-footer>
+        <sw-button size="small" @click="$emit('close')">Cancel</sw-button>
+        <sw-button size="small" variant="primary" :disabled="isLoading">Confirm</sw-button>
+    </template>
+</sw-modal>
