@@ -24,5 +24,14 @@
                 <argument type="service" id="service_container"/>
             </call>
         </service>
+
+        <service id="PostNL\Shipments\Controller\Storefront\PickupPointController">
+            <argument type="service" id="PostNL\Shipments\Service\Shopware\CartService"/>
+<!--            <argument type="service" id="postnl_shipments.logger"/>-->
+
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
     </services>
 </container>

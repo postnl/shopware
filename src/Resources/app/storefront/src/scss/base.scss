@@ -1,0 +1,11 @@
+.postnl-shipping-method > div {
+    margin: .5rem 0 .5rem 1.5rem;
+}
+
+.custom-control-input:checked ~ .postnl-shipping-method {
+    display: block;
+}
+
+.postnl-pickup-point:not(:last-child) {
+    margin-bottom: 8px;
+}

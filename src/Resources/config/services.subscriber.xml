@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults>
+            <tag name="kernel.event_subscriber"/>
+        </defaults>
+
+        <service id="PostNL\Shipments\Subscriber\CheckoutSubscriber">
+            <argument type="service" id="PostNL\Shipments\Service\PostNL\Factory\ApiFactory"/>
+            <argument type="service" id="PostNL\Shipments\Service\Attribute\Factory\AttributeFactory"/>
+            <argument type="service" id="PostNL\Shipments\Service\Shopware\CartService"/>
+<!--            <argument type="service" id="PostNL\Shipments\Service\PostNL\Factory\ApiFactory"/>-->
+<!--            <argument type="service" id="postnl_shipments.logger"/>-->
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="PostNL\Shipments\Subscriber\ConversionSubscriber">
+            <argument type="service" id="PostNL\Shipments\Service\Attribute\Factory\AttributeFactory"/>
+            <argument type="service" id="PostNL\Shipments\Service\Shopware\ConfigService"/>
+
+            <tag name="kernel.event_subscriber"/>
+        </service>
+    </services>
+</container>

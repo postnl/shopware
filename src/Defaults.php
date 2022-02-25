@@ -4,7 +4,7 @@ namespace PostNL\Shipments;
 
 class Defaults
 {
-    const CUSTOM_FIELDS_KEY = 'postnl-shipments';
+    const CUSTOM_FIELDS_KEY = 'postnl_shipments';
 
     const PRODUCT_MAILBOX_NL_NL = self::PRODUCT_MAILBOX_NL_NL_2928;
     const PRODUCT_SHIPPING_NL_NL = self::PRODUCT_SHIPPING_NL_NL_3085;
