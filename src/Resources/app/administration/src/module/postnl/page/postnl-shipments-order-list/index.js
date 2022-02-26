@@ -13,7 +13,6 @@ Shopware.Component.extend('postnl-shipments-order-list', 'sw-order-list', {
         return {
             isOpenBulkShippingModal: false,
             isShippingModalId: null,
-            products: {},
         }
     },
 
@@ -95,25 +94,6 @@ Shopware.Component.extend('postnl-shipments-order-list', 'sw-order-list', {
             });
 
             return columns;
-        },
-
-        async getProductName(item) {
-            const productId = item?.customFields?.postnl_shipments?.productId;
-
-            if(!productId) {
-                return '';
-            }
-
-            if(!this.products[productId]) {
-                const product = await this.ProductSelectionService
-                    .getProduct(productId)
-                    .then(result => result.product)
-                    .then();
-
-                this.products[productId] = product;
-            }
-
-            return this.products[productId].name;
         },
 
         openShippingModal(id) {

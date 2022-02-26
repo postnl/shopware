@@ -23,16 +23,41 @@ Component.register('postnl-shipping-modal', {
 
     data() {
         return {
-            isLoading: false,
-        }
+            isProcessing: false,
+
+            isOverrideProduct: false,
+            overrideProductId: null,
+
+            confirmShipments: false,
+        };
     },
 
     computed: {
+        isBulk() {
+            return Object.values(this.selection).length > 1;
+        }
     },
 
-    mounted() {
+    created() {
+        this.createdComponent();
     },
 
     methods: {
+        createdComponent() {
+            if(!this.isBulk) {
+                this.overrideProductId = Object.values(this.selection)[0].customFields?.postnl_shipments?.productId;
+                this.isOverrideProduct = !!this.overrideProductId;
+            }
+        },
+
+        closeModal() {
+            if(!this.isProcessing) {
+                this.$emit('close');
+            }
+        },
+
+        sendShipments() {
+            this.isProcessing = true;
+        }
     },
 });
