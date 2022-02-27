@@ -22,6 +22,10 @@
             <argument type="service" id="postnl_shipments.logger"/>
         </service>
 
+        <service id="PostNL\Shipments\Service\Shopware\OrderService">
+            <argument type="service" id="order.repository"/>
+        </service>
+
         <service id="PostNL\Shipments\Service\Shopware\ShippingMethodService">
             <argument type="service" id="delivery_time.repository"/>
             <argument type="service" id="media.repository"/>
