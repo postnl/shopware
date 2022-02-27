@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="true"/>
+
+        <service id="PostNL\Shipments\Service\Shopware\DataExtractor\OrderDataExtractor">
+            <argument type="service" id="PostNL\Shipments\Service\Shopware\DataExtractor\OrderDeliveryDataExtractor"/>
+        </service>
+
+        <service id="PostNL\Shipments\Service\Shopware\DataExtractor\OrderAddressDataExtractor"/>
+
+        <service id="PostNL\Shipments\Service\Shopware\DataExtractor\OrderDeliveryDataExtractor">
+            <argument type="service" id="PostNL\Shipments\Service\Shopware\DataExtractor\OrderAddressDataExtractor"/>
+        </service>
+    </services>
+</container>
