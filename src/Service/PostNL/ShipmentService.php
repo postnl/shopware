@@ -43,9 +43,9 @@ class ShipmentService
     public function generateBarcodesForOrders(OrderCollection $orders, Context $context): array
     {
         $barCodesAssigned = [];
-
+        
         // Yes, this should be getSalesChannelIds.
-        foreach($orders->getSalesChannelIs() as $salesChannelId) {
+        foreach(array_unique(array_values($orders->getSalesChannelIs())) as $salesChannelId) {
             $apiClient = $this->apiFactory->createClientForSalesChannel($salesChannelId, $context);
 
             $salesChannelOrders = $orders->filterBySalesChannelId($salesChannelId);
@@ -78,7 +78,7 @@ class ShipmentService
         $response = [];
 
         // Yes, this should be getSalesChannelIds.
-        foreach($orders->getSalesChannelIs() as $salesChannelId) {
+        foreach(array_unique(array_values($orders->getSalesChannelIs())) as $salesChannelId) {
             $apiClient = $this->apiFactory->createClientForSalesChannel($salesChannelId, $context);
 
             $salesChannelOrders = $orders->filterBySalesChannelId($salesChannelId);
@@ -89,7 +89,7 @@ class ShipmentService
             }
 
             /** @var GenerateLabelResponse[] $labelResponse */
-            $labelResponse = $apiClient->generateLabels(
+            $labelResponses = $apiClient->generateLabels(
                 $shipments,
                 'GraphicFile|PDF',
                 false,
@@ -104,7 +104,9 @@ class ShipmentService
                 'L'
             );
 
-            $response += $labelResponse;
+            foreach($labelResponses as $labelResponse) {
+                $response[] = $labelResponse;
+            }
         }
 
         dd($response);
