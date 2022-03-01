@@ -25,25 +25,29 @@ class ShipmentService
 
     protected $orderService;
 
+    protected $labelService;
+
     protected $productService;
 
     public function __construct(
         ApiFactory $apiFactory,
         OrderDataExtractor $orderDataExtractor,
         OrderService $orderService,
+        LabelService $labelService,
         ProductService $productService
     )
     {
         $this->apiFactory = $apiFactory;
         $this->orderDataExtractor = $orderDataExtractor;
         $this->orderService = $orderService;
+        $this->labelService = $labelService;
         $this->productService = $productService;
     }
 
     public function generateBarcodesForOrders(OrderCollection $orders, Context $context): array
     {
         $barCodesAssigned = [];
-        
+
         // Yes, this should be getSalesChannelIds.
         foreach(array_unique(array_values($orders->getSalesChannelIs())) as $salesChannelId) {
             $apiClient = $this->apiFactory->createClientForSalesChannel($salesChannelId, $context);
@@ -73,9 +77,20 @@ class ShipmentService
         return $barCodesAssigned;
     }
 
-    public function shipOrders(OrderCollection $orders, Context $context): array
+    public function shipOrders(OrderCollection $orders, Context $context)
     {
         $response = [];
+
+        $printerType = 'GraphicFile|PDF';
+        $confirm = false;
+        $format = Label::FORMAT_A4;
+        $positions = [
+            1 => false,
+            2 => true,
+            3 => false,
+            4 => true,
+        ];
+        $a6Position = 'P';
 
         // Yes, this should be getSalesChannelIds.
         foreach(array_unique(array_values($orders->getSalesChannelIs())) as $salesChannelId) {
@@ -91,17 +106,12 @@ class ShipmentService
             /** @var GenerateLabelResponse[] $labelResponse */
             $labelResponses = $apiClient->generateLabels(
                 $shipments,
-                'GraphicFile|PDF',
+                $printerType,
+                $confirm,
                 false,
-                false,
-                Label::FORMAT_A4,
-                [
-                    1 => false,
-                    2 => true,
-                    3 => false,
-                    4 => true,
-                ],
-                'L'
+                $format,
+                $positions,
+                $a6Position
             );
 
             foreach($labelResponses as $labelResponse) {
@@ -109,9 +119,16 @@ class ShipmentService
             }
         }
 
-        dd($response);
+        if($printerType !== 'GraphicFile|PDF') {
+            return $response;
+        }
 
-        return $response;
+        return $this->labelService->mergeLabels(
+            $response,
+            $format,
+            $positions,
+            $a6Position
+        );
     }
 
     public function createShipmentForOrder(OrderEntity $order, Context $context): Shipment

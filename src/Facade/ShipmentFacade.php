@@ -14,7 +14,7 @@ class ShipmentFacade
     protected $shipmentService;
 
     public function __construct(
-        OrderService $orderService,
+        OrderService    $orderService,
         ShipmentService $shipmentService
     )
     {
@@ -26,7 +26,7 @@ class ShipmentFacade
     {
         $orders = $this->orderService->getOrders($orderIds, $context);
 
-        $ordersWithoutBarcode = $orders->filter(function(OrderEntity $order) {
+        $ordersWithoutBarcode = $orders->filter(function (OrderEntity $order) {
             return !array_key_exists('barCode', $order->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY]);
         });
 
@@ -35,15 +35,19 @@ class ShipmentFacade
 
     public function createShipments(array $orderIds, bool $overrideProduct, string $overrideProductId, Context $context)
     {
-        if($overrideProduct) {
-            foreach($orderIds as $orderId) {
+        if ($overrideProduct) {
+            foreach ($orderIds as $orderId) {
                 $this->orderService->updateOrderCustomFields($orderId, ['productId' => $overrideProductId], $context);
             }
         }
 
         $orders = $this->orderService->getOrders($orderIds, $context);
 
-        $this->shipmentService->shipOrders($orders, $context);
+        $pdf = $this->shipmentService->shipOrders($orders, $context);
+
+
+        dd(($pdf));
+
 
 //        $shipments = [];
 //
