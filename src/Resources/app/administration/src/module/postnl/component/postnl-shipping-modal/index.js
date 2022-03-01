@@ -8,6 +8,7 @@ Component.register('postnl-shipping-modal', {
     template,
 
     inject: [
+        'ShipmentService'
     ],
 
     mixins: [
@@ -58,6 +59,15 @@ Component.register('postnl-shipping-modal', {
 
         sendShipments() {
             this.isProcessing = true;
+
+            const orderIds = Object.values(this.selection).map(order => order.id);
+
+            this.ShipmentService
+                .generateBarcodes(orderIds)
+                .then(this.ShipmentService.createShipments(orderIds, this.isOverrideProduct, this.overrideProductId))
+                .finally(() => {
+                    this.isProcessing = false;
+                })
         }
     },
 });

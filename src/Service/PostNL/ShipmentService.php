@@ -4,9 +4,13 @@ namespace PostNL\Shipments\Service\PostNL;
 
 use Firstred\PostNL\Entity\Address;
 use Firstred\PostNL\Entity\Dimension;
+use Firstred\PostNL\Entity\Label;
+use Firstred\PostNL\Entity\Response\GenerateLabelResponse;
 use Firstred\PostNL\Entity\Shipment;
+use Firstred\PostNL\Exception\PostNLException;
 use PostNL\Shipments\Defaults;
 use PostNL\Shipments\Service\PostNL\Factory\ApiFactory;
+use PostNL\Shipments\Service\PostNL\Product\ProductService;
 use PostNL\Shipments\Service\Shopware\DataExtractor\OrderDataExtractor;
 use PostNL\Shipments\Service\Shopware\OrderService;
 use Shopware\Core\Checkout\Order\OrderCollection;
@@ -21,19 +25,25 @@ class ShipmentService
 
     protected $orderService;
 
+    protected $productService;
+
     public function __construct(
         ApiFactory $apiFactory,
         OrderDataExtractor $orderDataExtractor,
-        OrderService $orderService
+        OrderService $orderService,
+        ProductService $productService
     )
     {
         $this->apiFactory = $apiFactory;
         $this->orderDataExtractor = $orderDataExtractor;
         $this->orderService = $orderService;
+        $this->productService = $productService;
     }
 
-    public function generateBarcodesForOrders(OrderCollection $orders, Context $context): void
+    public function generateBarcodesForOrders(OrderCollection $orders, Context $context): array
     {
+        $barCodesAssigned = [];
+
         // Yes, this should be getSalesChannelIds.
         foreach($orders->getSalesChannelIs() as $salesChannelId) {
             $apiClient = $this->apiFactory->createClientForSalesChannel($salesChannelId, $context);
@@ -44,27 +54,75 @@ class ShipmentService
                 return $this->orderDataExtractor->extractDeliveryCountry($order)->getIso();
             });
 
-            $barCodes = $apiClient->generateBarcodesByCountryCodes(array_count_values($isoCodes));
+            try {
+                $barCodes = $apiClient->generateBarcodesByCountryCodes(array_count_values($isoCodes));
+            } catch(PostNLException $e) {
+                dd($e);
+            }
 
             foreach($salesChannelOrders as $order) {
                 $iso = $this->orderDataExtractor->extractDeliveryCountry($order)->getIso();
                 $barCode = array_pop($barCodes[$iso]);
 
+                $barCodesAssigned[$order->getId()] = $barCode;
+
                 $this->orderService->updateOrderCustomFields($order->getId(), ['barCode' => $barCode], $context);
             }
         }
+
+        return $barCodesAssigned;
+    }
+
+    public function shipOrders(OrderCollection $orders, Context $context): array
+    {
+        $response = [];
+
+        // Yes, this should be getSalesChannelIds.
+        foreach($orders->getSalesChannelIs() as $salesChannelId) {
+            $apiClient = $this->apiFactory->createClientForSalesChannel($salesChannelId, $context);
+
+            $salesChannelOrders = $orders->filterBySalesChannelId($salesChannelId);
+
+            $shipments = [];
+            foreach($salesChannelOrders as $order) {
+                $shipments[] = $this->createShipmentForOrder($order, $context);
+            }
+
+            /** @var GenerateLabelResponse $labelResponse */
+            $labelResponse = $apiClient->generateLabels(
+                $shipments,
+                'GraphicFile|PDF',
+                false,
+                true,
+                Label::FORMAT_A4,
+                [
+                    1 => false,
+                    2 => true,
+                    3 => false,
+                    4 => true,
+                ],
+                'L'
+            );
+
+            dd($labelResponse);
+        }
+
+        return $response;
     }
 
     public function createShipmentForOrder(OrderEntity $order, Context $context): Shipment
     {
         $apiClient = $this->apiFactory->createClientForSalesChannel($order->getSalesChannelId(), $context);
 
+        $productId = $order->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY]['productId'];
+        $product = $this->productService->getProduct($productId, $context);
+
         $shipment = new Shipment();
         $shipment->setBarcode($order->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY]['barCode']);
         $shipment->setDeliveryAddress('01');
-        $shipment->setProductCodeDelivery();
+        $shipment->setProductCodeDelivery($product->getProductCodeDelivery());
         $shipment->setReference('Order ' . $order->getOrderNumber());
-//        $shipment->setDimension(new Dimension()) // No weight on order
+        $shipment->setDimension(new Dimension(2000)); // No weight on order
 
         $addresses = [];
 
