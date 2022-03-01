@@ -3,6 +3,7 @@
 namespace PostNL\Shipments\Service\PostNL;
 
 use Firstred\PostNL\Entity\Label;
+use Firstred\PostNL\Entity\Response\GenerateLabelResponse;
 use Firstred\PostNL\Exception\PostNLException;
 use Firstred\PostNL\PostNL;
 use Firstred\PostNL\Util\RFPdi;
@@ -11,16 +12,29 @@ use setasign\Fpdi\PdfParser\StreamReader;
 
 class LabelService
 {
+    /**
+     * @param GenerateLabelResponse[] $responseShipments
+     * @param int $format
+     * @param array<int, bool> $positions
+     * @param string $a6Orientation
+     * @return string
+     * @throws PostNLException
+     * @throws \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
+     * @throws \setasign\Fpdi\PdfParser\Filter\FilterException
+     * @throws \setasign\Fpdi\PdfParser\PdfParserException
+     * @throws \setasign\Fpdi\PdfParser\Type\PdfTypeException
+     * @throws \setasign\Fpdi\PdfReader\PdfReaderException
+     */
     public function mergeLabels(
-        array $responseShipments,
-              $format = Label::FORMAT_A4,
-              $positions = [
-                  1 => true,
-                  2 => true,
-                  3 => true,
-                  4 => true,
-              ],
-              $a6Orientation = 'P'
+        array  $responseShipments,
+        int    $format = Label::FORMAT_A4,
+        array  $positions = [
+            1 => true,
+            2 => true,
+            3 => true,
+            4 => true,
+        ],
+        string $a6Orientation = 'P'
     )
     {
         // Disable header and footer

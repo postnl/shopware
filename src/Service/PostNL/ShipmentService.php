@@ -88,12 +88,12 @@ class ShipmentService
                 $shipments[] = $this->createShipmentForOrder($order, $context);
             }
 
-            /** @var GenerateLabelResponse $labelResponse */
+            /** @var GenerateLabelResponse[] $labelResponse */
             $labelResponse = $apiClient->generateLabels(
                 $shipments,
                 'GraphicFile|PDF',
                 false,
-                true,
+                false,
                 Label::FORMAT_A4,
                 [
                     1 => false,
@@ -104,8 +104,10 @@ class ShipmentService
                 'L'
             );
 
-            dd($labelResponse);
+            $response += $labelResponse;
         }
+
+        dd($response);
 
         return $response;
     }
