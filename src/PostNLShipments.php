@@ -7,6 +7,14 @@ use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
 
+if (file_exists(dirname(__DIR__) . '/vendor/autoload.php')) {
+    $loader = require_once dirname(__DIR__) . '/vendor/autoload.php';
+    if ($loader !== true) {
+        spl_autoload_unregister([$loader, 'loadClass']);
+        $loader->register(false);
+    }
+}
+
 class PostNLShipments extends Plugin
 {
     public function activate(ActivateContext $activateContext): void
