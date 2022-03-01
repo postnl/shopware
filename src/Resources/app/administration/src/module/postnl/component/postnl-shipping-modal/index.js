@@ -64,7 +64,7 @@ Component.register('postnl-shipping-modal', {
 
             this.ShipmentService
                 .generateBarcodes(orderIds)
-                .then(this.ShipmentService.createShipments(orderIds, this.isOverrideProduct, this.overrideProductId))
+                .then(() => this.ShipmentService.createShipments(orderIds, this.isOverrideProduct, this.overrideProductId))
                 .finally(() => {
                     this.isProcessing = false;
                 })
