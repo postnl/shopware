@@ -11,8 +11,7 @@
   },
   "autoload": {
     "psr-4": {
-      "PostNL\\Shipments\\": "src/",
-      "Firstred\\PostNL\\": "vendor/firstred/postnl-api-php/src/"
+      "PostNL\\Shipments\\": "src/"
     }
   },
   "autoload-dev": {
