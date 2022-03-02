@@ -40,27 +40,11 @@ class CustomerDataStruct extends ApiCompatibleStruct
     }
 
     /**
-     * @param string $customerNumber
-     */
-    public function setCustomerNumber(string $customerNumber): void
-    {
-        $this->customerNumber = $customerNumber;
-    }
-
-    /**
      * @return string
      */
     public function getCustomerCode(): string
     {
         return $this->customerCode;
-    }
-
-    /**
-     * @param string $customerCode
-     */
-    public function setCustomerCode(string $customerCode): void
-    {
-        $this->customerCode = $customerCode;
     }
 
     /**
@@ -72,27 +56,11 @@ class CustomerDataStruct extends ApiCompatibleStruct
     }
 
     /**
-     * @param string $collectionLocation
-     */
-    public function setCollectionLocation(string $collectionLocation): void
-    {
-        $this->collectionLocation = $collectionLocation;
-    }
-
-    /**
      * @return string
      */
     public function getGlobalPackCustomerCode(): string
     {
         return $this->globalPackCustomerCode;
-    }
-
-    /**
-     * @param string $globalPackCustomerCode
-     */
-    public function setGlobalPackCustomerCode(string $globalPackCustomerCode): void
-    {
-        $this->globalPackCustomerCode = $globalPackCustomerCode;
     }
 
     /**
@@ -102,14 +70,4 @@ class CustomerDataStruct extends ApiCompatibleStruct
     {
         return $this->globalPackBarcodeType;
     }
-
-    /**
-     * @param string $globalPackBarcodeType
-     */
-    public function setGlobalPackBarcodeType(string $globalPackBarcodeType): void
-    {
-        $this->globalPackBarcodeType = $globalPackBarcodeType;
-    }
-
-
 }

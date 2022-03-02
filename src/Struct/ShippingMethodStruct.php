@@ -27,12 +27,4 @@ class ShippingMethodStruct extends EntityAttributeStruct
     {
         return $this->deliveryType;
     }
-
-    /**
-     * @param string|null $deliveryType
-     */
-    public function setDeliveryType(?string $deliveryType): void
-    {
-        $this->deliveryType = $deliveryType;
-    }
 }

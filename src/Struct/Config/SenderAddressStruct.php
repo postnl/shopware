@@ -58,27 +58,11 @@ class SenderAddressStruct extends ApiCompatibleStruct
     }
 
     /**
-     * @param string $companyName
-     */
-    public function setCompanyName(string $companyName): void
-    {
-        $this->companyName = $companyName;
-    }
-
-    /**
      * @return string
      */
     public function getFirstName(): string
     {
         return $this->firstName;
-    }
-
-    /**
-     * @param string $firstName
-     */
-    public function setFirstName(string $firstName): void
-    {
-        $this->firstName = $firstName;
     }
 
     /**
@@ -90,27 +74,11 @@ class SenderAddressStruct extends ApiCompatibleStruct
     }
 
     /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
-
-    /**
      * @return string
      */
     public function getStreet(): string
     {
         return $this->street;
-    }
-
-    /**
-     * @param string $street
-     */
-    public function setStreet(string $street): void
-    {
-        $this->street = $street;
     }
 
     /**
@@ -122,27 +90,11 @@ class SenderAddressStruct extends ApiCompatibleStruct
     }
 
     /**
-     * @param string $houseNr
-     */
-    public function setHouseNr(string $houseNr): void
-    {
-        $this->houseNr = $houseNr;
-    }
-
-    /**
      * @return string
      */
     public function getHouseNrExt(): string
     {
         return $this->houseNrExt;
-    }
-
-    /**
-     * @param string $houseNrExt
-     */
-    public function setHouseNrExt(string $houseNrExt): void
-    {
-        $this->houseNrExt = $houseNrExt;
     }
 
     /**
@@ -154,14 +106,6 @@ class SenderAddressStruct extends ApiCompatibleStruct
     }
 
     /**
-     * @param string $zipcode
-     */
-    public function setZipcode(string $zipcode): void
-    {
-        $this->zipcode = $zipcode;
-    }
-
-    /**
      * @return string
      */
     public function getCity(): string
@@ -170,26 +114,10 @@ class SenderAddressStruct extends ApiCompatibleStruct
     }
 
     /**
-     * @param string $city
-     */
-    public function setCity(string $city): void
-    {
-        $this->city = $city;
-    }
-
-    /**
      * @return string
      */
     public function getCountrycode(): string
     {
         return $this->countrycode;
-    }
-
-    /**
-     * @param string $countrycode
-     */
-    public function setCountrycode(string $countrycode): void
-    {
-        $this->countrycode = $countrycode;
     }
 }
