@@ -119,6 +119,11 @@ class ShipmentService
     {
         $response = [];
 
+        $config = $this->configService->getConfiguration(null, $context);
+
+        $format = $config->getPrinterFormat() === 'a4' ? Label::FORMAT_A4 : Label::FORMAT_A6;
+        $a6Orientation = $config->getPrinterA6Orientation();
+
         $printerType = 'GraphicFile|PDF';
         $confirm = false;
 
@@ -132,11 +137,6 @@ class ShipmentService
         // Yes, this should be getSalesChannelIds.
         foreach(array_unique(array_values($orders->getSalesChannelIs())) as $salesChannelId) {
             $apiClient = $this->apiFactory->createClientForSalesChannel($salesChannelId, $context);
-
-            $config = $this->configService->getConfiguration($salesChannelId, $context);
-
-            $format = $config->getPrinterFormat() === 'a4' ? Label::FORMAT_A4 : Label::FORMAT_A6;
-            $a6Orientation = $config->getPrinterA6Orientation();
 
             $salesChannelOrders = $orders->filterBySalesChannelId($salesChannelId);
 
@@ -169,7 +169,7 @@ class ShipmentService
             $response,
             $format,
             $positions,
-            $a6Position
+            $a6Orientation
         );
     }
 
