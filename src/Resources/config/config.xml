@@ -181,6 +181,14 @@
         <title lang="nl-NL">Other</title>
 
         <input-field type="bool">
+            <name>autoConfirmShipment</name>
+            <label>Automatically confirm shipments</label>
+            <label lang="de-DE">Automatische Vorankündigung von Sendungen</label>
+            <label lang="nl-NL">Automatisch zendingen voormelden</label>
+            <defaultValue>true</defaultValue>
+        </input-field>
+
+        <input-field type="bool">
             <name>debugMode</name>
             <label>Debug mode</label>
             <label lang="de-DE">Debug-Modus</label>

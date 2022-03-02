@@ -84,6 +84,11 @@ class ConfigStruct extends AttributeStruct
     /**
      * @var bool
      */
+    protected $autoConfirmShipment = false;
+
+    /**
+     * @var bool
+     */
     protected $debugMode = false;
 
     //====================================================================================================
@@ -205,6 +210,14 @@ class ConfigStruct extends AttributeStruct
     }
 
     //=======================================================================================================
+
+    /**
+     * @return bool
+     */
+    public function isAutoConfirmShipment(): bool
+    {
+        return $this->autoConfirmShipment;
+    }
 
     /**
      * @return bool
