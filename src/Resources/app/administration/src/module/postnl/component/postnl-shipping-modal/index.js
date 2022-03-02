@@ -66,7 +66,6 @@ Component.register('postnl-shipping-modal', {
                 .generateBarcodes(orderIds)
                 .then(() => this.ShipmentService.createShipments(orderIds, this.isOverrideProduct, this.overrideProductId))
                 .then(response => {
-                    console.log(response);
                     if (response.data) {
                         const filename = response.headers['content-disposition'].split('filename=')[1];
                         const link = document.createElement('a');
