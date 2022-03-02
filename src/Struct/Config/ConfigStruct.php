@@ -31,10 +31,10 @@ class ConfigStruct extends AttributeStruct
      */
     protected $senderAddress;
 
-//    /**
-//     * @var
-//     */
-//    protected $returnAddress;
+    /**
+     * @var ReturnAddressStruct
+     */
+    protected $returnAddress;
 
     //=========================================================================================================
 
@@ -140,6 +140,15 @@ class ConfigStruct extends AttributeStruct
     {
         return $this->senderAddress;
     }
+
+    /**
+     * @return ReturnAddressStruct
+     */
+    public function getReturnAddress(): ReturnAddressStruct
+    {
+        return $this->returnAddress;
+    }
+
 
     //============================================================================================================
 
