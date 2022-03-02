@@ -35,22 +35,24 @@ class OrderService
     {
         $order = $this->getOrders([$orderId], $context)->first();
 
-        if($order instanceof OrderEntity) {
+        if ($order instanceof OrderEntity) {
             return $order;
         }
 
-        throw new \Exception('Could not find order with id '. $orderId);
+        throw new \Exception('Could not find order with id ' . $orderId);
     }
 
     public function updateOrderCustomFields(string $orderId, array $customFields, Context $context): void
     {
         $order = $this->getOrder($orderId, $context);
-        $customFields = array_merge($order->getCustomFields(), [Defaults::CUSTOM_FIELDS_KEY => $customFields]);
+        $customFields = array_merge($order->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY], $customFields);
 
         $this->orderRepository->update([
             [
                 'id' => $order->getId(),
-                'customFields' => $customFields,
+                'customFields' => [
+                    Defaults::CUSTOM_FIELDS_KEY => $customFields,
+                ]
             ]
         ], $context);
     }

@@ -12,6 +12,8 @@
             <argument type="service" id="postnl_shipments.logger"/>
         </service>
 
+        <service id="PostNL\Shipments\Service\PostNL\LabelService"/>
+
         <service id="PostNL\Shipments\Service\PostNL\Product\ProductService">
             <argument type="service" id="postnl_shipments_product.repository"/>
             <argument type="service" id="postnl_shipments.logger"/>
@@ -20,6 +22,9 @@
         <service id="PostNL\Shipments\Service\PostNL\ShipmentService">
             <argument type="service" id="PostNL\Shipments\Service\PostNL\Factory\ApiFactory"/>
             <argument type="service" id="PostNL\Shipments\Service\Shopware\DataExtractor\OrderDataExtractor"/>
+            <argument type="service" id="PostNL\Shipments\Service\Shopware\OrderService"/>
+            <argument type="service" id="PostNL\Shipments\Service\PostNL\LabelService"/>
+            <argument type="service" id="PostNL\Shipments\Service\PostNL\Product\ProductService"/>
         </service>
     </services>
 </container>

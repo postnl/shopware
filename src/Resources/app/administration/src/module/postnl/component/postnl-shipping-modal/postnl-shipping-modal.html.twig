@@ -1,0 +1,40 @@
+<sw-modal class="postnl-shipping-modal"
+          title="Hello"
+          :closable="!isProcessing"
+{#          :variant="isBulk ? 'full' : 'default'"#}
+          @modal-close="closeModal">
+    <sw-container>
+{#        <div v-for="item in selection">#}
+{#            {{ item.orderNumber }}#}
+{#        </div>#}
+
+        <template v-if="isBulk">
+            <sw-switch-field v-model="isOverrideProduct"
+                             label="Override PostNL product"
+                             size="small"
+                             noMarginTop />
+        </template>
+
+        <postnl-product-selection :disabled="!isOverrideProduct"
+                                  v-model="overrideProductId"/>
+
+        <sw-switch-field v-model="confirmShipments"
+                         label="Confirm Shipments"
+                         size="small"
+                         noMarginTop />
+    </sw-container>
+
+    <template #modal-footer>
+        <sw-button size="small"
+                   :disabled="isProcessing"
+                   @click="closeModal">
+            Cancel
+        </sw-button>
+        <sw-button size="small"
+                   variant="primary"
+                   :isLoading="isProcessing"
+                   @click="sendShipments">
+            Send Shipment
+        </sw-button>
+    </template>
+</sw-modal>

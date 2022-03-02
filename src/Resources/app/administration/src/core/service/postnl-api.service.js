@@ -34,4 +34,15 @@ export default class PostNlApiService extends ApiService {
                 return ApiService.handleResponse(response);
             });
     }
+
+    getBlob(url, data = {}) {
+        return this.httpClient
+            .get(
+                `_action/${this.getApiBasePath()}/${url}?${stringify(data)}`,
+                {
+                    headers: this.getBasicHeaders(),
+                    responseType: 'blob',
+                }
+            )
+    }
 }

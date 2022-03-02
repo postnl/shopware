@@ -5,14 +5,29 @@ const {Criteria} = Shopware.Data;
 Shopware.Component.extend('postnl-shipments-order-list', 'sw-order-list', {
     template,
 
+    inject: [
+        'ProductSelectionService'
+    ],
+
+    data() {
+        return {
+            isOpenBulkShippingModal: false,
+            isShippingModalId: null,
+        }
+    },
+
     computed: {
         orderCriteria() {
             const criteria = this.$super('orderCriteria');
 
             criteria.addFilter(
-                Criteria.equalsAny('deliveries.shippingMethod.customFields.postnl_shipping.id', ['postnl'])
+                Criteria.equalsAny(
+                    'deliveries.shippingMethod.customFields.postnl_shipments.deliveryType',
+                    ['mailbox', 'shipment', 'pickup']
+                )
             );
             criteria.addAssociation('deliveries.shippingOrderAddress.country');
+            criteria.addAssociation('deliveries.shippingMethod');
 
             return criteria;
         },
@@ -30,9 +45,9 @@ Shopware.Component.extend('postnl-shipments-order-list', 'sw-order-list', {
             let criteria = await Shopware.Service('filterService')
                 .mergeWithStoredFilters(this.storeKey, this.orderCriteria);
 
-            criteria = this.addQueryScores(this.term, criteria);
+            criteria = await this.addQueryScores(this.term, criteria);
 
-            this.activeFilterNumber = criteria.filters.length - 1;
+            this.activeFilterNumber = criteria?.filters?.length - 1 ?? 0;
 
             try {
                 const response = await this.orderRepository.search(criteria);
@@ -59,8 +74,15 @@ Shopware.Component.extend('postnl-shipments-order-list', 'sw-order-list', {
                     label: 'sw-order.list.columnShippingAddress',
                     allowResize: true,
                     addAfter: 'orderCustomer.firstName'
-                }
-            ]
+                },
+                {
+                    property: 'deliveries[0].shippingMethod',
+                    dataIndex: 'deliveries[0].shippingMethod',
+                    label: 'sw-order.list.columnShippingMethod',
+                    allowResize: true,
+                    addAfter: 'deliveries[0].shippingOrderAddressId'
+                },
+            ];
 
 
             extraColumns.forEach((extraColumn) => {
@@ -72,8 +94,19 @@ Shopware.Component.extend('postnl-shipments-order-list', 'sw-order-list', {
             });
 
             return columns;
-        }
+        },
 
-
+        openShippingModal(id) {
+            this.isShippingModalId = id;
+        },
+        closeShippingModal() {
+            this.isShippingModalId = null;
+        },
+        openBulkShippingModal() {
+            this.isOpenBulkShippingModal = true;
+        } ,
+        closeBulkShippingModal() {
+            this.isOpenBulkShippingModal = false;
+        },
     }
 });
