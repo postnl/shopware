@@ -11,6 +11,7 @@ use Firstred\PostNL\Exception\PostNLException;
 use PostNL\Shipments\Defaults;
 use PostNL\Shipments\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shipments\Service\PostNL\Product\ProductService;
+use PostNL\Shipments\Service\Shopware\ConfigService;
 use PostNL\Shipments\Service\Shopware\DataExtractor\OrderDataExtractor;
 use PostNL\Shipments\Service\Shopware\OrderService;
 use Shopware\Core\Checkout\Order\OrderCollection;
@@ -19,20 +20,42 @@ use Shopware\Core\Framework\Context;
 
 class ShipmentService
 {
+    /**
+     * @var ApiFactory
+     */
     protected $apiFactory;
 
+    /**
+     * @var OrderDataExtractor
+     */
     protected $orderDataExtractor;
 
+    /**
+     * @var OrderService
+     */
     protected $orderService;
 
+    /**
+     * @var ConfigService
+     */
+    protected $configService;
+
+    /**
+     * @var LabelService
+     */
     protected $labelService;
 
+    /**
+     * @var ProductService
+     */
     protected $productService;
+
 
     public function __construct(
         ApiFactory $apiFactory,
         OrderDataExtractor $orderDataExtractor,
         OrderService $orderService,
+        ConfigService $configService,
         LabelService $labelService,
         ProductService $productService
     )
@@ -40,6 +63,7 @@ class ShipmentService
         $this->apiFactory = $apiFactory;
         $this->orderDataExtractor = $orderDataExtractor;
         $this->orderService = $orderService;
+        $this->configService = $configService;
         $this->labelService = $labelService;
         $this->productService = $productService;
     }
@@ -97,18 +121,22 @@ class ShipmentService
 
         $printerType = 'GraphicFile|PDF';
         $confirm = false;
-        $format = Label::FORMAT_A4;
+
         $positions = [
             1 => true,
             2 => true,
             3 => true,
             4 => true,
         ];
-        $a6Position = 'P';
 
         // Yes, this should be getSalesChannelIds.
         foreach(array_unique(array_values($orders->getSalesChannelIs())) as $salesChannelId) {
             $apiClient = $this->apiFactory->createClientForSalesChannel($salesChannelId, $context);
+
+            $config = $this->configService->getConfiguration($salesChannelId, $context);
+
+            $format = $config->getPrinterFormat() === 'a4' ? Label::FORMAT_A4 : Label::FORMAT_A6;
+            $a6Orientation = $config->getPrinterA6Orientation();
 
             $salesChannelOrders = $orders->filterBySalesChannelId($salesChannelId);
 
@@ -125,7 +153,7 @@ class ShipmentService
                 false,
                 $format,
                 $positions,
-                $a6Position
+                $a6Orientation
             );
 
             foreach($labelResponses as $labelResponse) {

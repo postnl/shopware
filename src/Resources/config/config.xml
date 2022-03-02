@@ -127,6 +127,55 @@
     </card>
 
     <card>
+        <title>Labels</title>
+        <title lang="de-DE">Labels</title>
+        <title lang="nl-NL">Labels</title>
+
+        <input-field type="single-select">
+            <name>printerFormat</name>
+            <label>Paper size</label>
+            <label lang="de-DE">Formaat</label>
+            <label lang="nl-NL">Formaat</label>
+            <helpText>Labels are always printed in A6. When selecting A4 you can print 4 labels on one page</helpText>
+            <helpText lang="de-DE">Labels werden immer in A6 gedruckt. Wenn Sie A4 wählen, können Sie 4 Etiketten auf eine Seite drucken</helpText>
+            <helpText lang="nl-NL">Labels worden altijd in A6 afgedrukt. Als u A4 selecteert, kunt u 4 etiketten op één pagina afdrukken</helpText>
+            <defaultValue>a4</defaultValue>
+            <options>
+                <option>
+                    <id>a4</id>
+                    <name>A4</name>
+                </option>
+                <option>
+                    <id>a6</id>
+                    <name>A6</name>
+                </option>
+            </options>
+        </input-field>
+
+        <input-field type="single-select">
+            <name>printerA6Orientation</name>
+            <label>A6 orientation</label>
+            <label lang="de-DE">A6-Ausrichtung</label>
+            <label lang="nl-NL">A6 papier indeling</label>
+            <defaultValue>L</defaultValue>
+            <options>
+                <option>
+                    <id>L</id>
+                    <name>Landscape</name>
+                    <name lang="de-DE">Querformat</name>
+                    <name lang="nl-NL">Liggend</name>
+                </option>
+                <option>
+                    <id>P</id>
+                    <name>Portrait</name>
+                    <name lang="de-DE">Hochformat</name>
+                    <name lang="nl-NL">Staand</name>
+                </option>
+            </options>
+        </input-field>
+    </card>
+
+    <card>
         <title>Other</title>
         <title lang="de-DE">Other</title>
         <title lang="nl-NL">Other</title>

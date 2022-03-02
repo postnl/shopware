@@ -70,6 +70,18 @@ class ConfigStruct extends AttributeStruct
     //====================================================================================================
 
     /**
+     * @var string
+     */
+    protected $printerFormat;
+
+    /**
+     * @var string
+     */
+    protected $printerA6Orientation;
+
+    //====================================================================================================
+
+    /**
      * @var bool
      */
     protected $debugMode = false;
@@ -175,6 +187,24 @@ class ConfigStruct extends AttributeStruct
     }
 
     //=========================================================================================================
+
+    /**
+     * @return string
+     */
+    public function getPrinterFormat(): string
+    {
+        return $this->printerFormat;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrinterA6Orientation(): string
+    {
+        return $this->printerA6Orientation;
+    }
+
+    //=======================================================================================================
 
     /**
      * @return bool
