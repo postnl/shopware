@@ -97,7 +97,7 @@ class ShippingMethodService
             throw $e;
         }
 
-        foreach (['shipment', 'pickup', 'mailbox'] as $deliveryType) {
+        foreach (['shipment', 'pickup'] as $deliveryType) {
             $id = $this->createShippingMethod($deliveryType, $rule->getId(), $deliveryTime->getId(), $mediaId, $context);
         }
     }
