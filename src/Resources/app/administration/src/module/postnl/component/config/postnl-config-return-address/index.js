@@ -9,4 +9,11 @@ Component.extend('postnl-config-return-address', 'memo-config', {
         Mixin.getByName('memo-grid-span'),
         Mixin.getByName('postnl-config-sender-country'),
     ],
+
+    watch: {
+        senderCountry(value) {
+            console.log(value);
+            this.content.countrycode = value.iso;
+        }
+    }
 })

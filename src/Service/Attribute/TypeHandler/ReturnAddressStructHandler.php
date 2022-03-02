@@ -43,13 +43,6 @@ class ReturnAddressStructHandler implements AttributeTypeHandlerInterface
         } else {
             $data = [];
         }
-dd($data);
-        if (array_key_exists('country', $data) && Uuid::isValid($data['country'])) {
-            $data['countrycode'] = $this->countryService->getCountryCodeById($data['country'], $context);
-        } else {
-            $data['countrycode'] = '';
-        }
-        unset($data['country']);
 
         return $this->attributeFactory->create(
             ReturnAddressStruct::class,

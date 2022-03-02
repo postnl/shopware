@@ -3,10 +3,8 @@
 namespace PostNL\Shipments\Controller\Api;
 
 use PostNL\Shipments\Facade\CredentialsFacade;
-use PostNL\Shipments\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shipments\Service\PostNL\ProductCode\ProductService;
 use Psr\Log\LoggerInterface;
-use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

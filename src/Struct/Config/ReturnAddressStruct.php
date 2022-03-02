@@ -15,27 +15,17 @@ class ReturnAddressStruct extends ApiCompatibleStruct
     protected $companyName;
 
     /**
-     * @var string
-     */
-    protected $firstName;
-
-    /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var string
+     * @var string|null
      */
     protected $street;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $houseNr;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $houseNrExt;
 
@@ -55,14 +45,22 @@ class ReturnAddressStruct extends ApiCompatibleStruct
     protected $countrycode;
 
     /**
+     * @var string
+     */
+    protected $returnCustomerCode;
+
+    /**
+     * @var string|null
+     */
+    protected $returnNumber;
+
+    /**
      * @return bool
      */
     public function isHasReturnContract(): bool
     {
         return $this->hasReturnContract;
     }
-
-
 
     /**
      * @return string
@@ -73,41 +71,29 @@ class ReturnAddressStruct extends ApiCompatibleStruct
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getFirstName(): string
+    public function getStreet(): ?string
     {
-        return $this->firstName;
-    }
+        if($this->getCountrycode() === 'NL' && $this->isHasReturnContract()) {
+            return 'Antwoordnummer '. $this->getReturnNumber();
+        }
 
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getStreet(): string
-    {
         return $this->street;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getHouseNr(): string
+    public function getHouseNr(): ?string
     {
         return $this->houseNr;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getHouseNrExt(): string
+    public function getHouseNrExt(): ?string
     {
         return $this->houseNrExt;
     }
@@ -135,4 +121,22 @@ class ReturnAddressStruct extends ApiCompatibleStruct
     {
         return $this->countrycode;
     }
+
+    /**
+     * @return string
+     */
+    public function getReturnCustomerCode(): string
+    {
+        return $this->returnCustomerCode;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getReturnNumber(): ?string
+    {
+        return $this->returnNumber;
+    }
+
+
 }
