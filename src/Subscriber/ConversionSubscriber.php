@@ -137,13 +137,8 @@ class ConversionSubscriber implements EventSubscriberInterface
                             return $id;
                         case DeliveryType::PICKUP:
                             $default = $config->getProductPickupNlNlDefault();
-                            $alternative = $config->getProductPickupNlNlAlternative();
 
                             $id = $default->getId();
-
-                            if($alternative->isEnabled() && $cart->getPrice()->getTotalPrice() >= $alternative->getCartAmount()) {
-                                $id = $alternative->getId();
-                            }
 
                             if(empty($id)) {
                                 $id = Defaults::PRODUCT_PICKUP_NL_NL;

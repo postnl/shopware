@@ -104,12 +104,6 @@
             <label lang="de-DE">Test</label>
             <label lang="nl-NL">test</label>
         </component>
-        <component name="postnl-config-product-selection-pickup-nl-nl-alternative">
-            <name>productPickupNlNlAlternative</name>
-            <label>Pickup NL to NL - Alternative product</label>
-            <label lang="de-DE">Test</label>
-            <label lang="nl-NL">test</label>
-        </component>
 
         <component name="postnl-config-product-selection-shipment-nl-be-default">
             <name>productShipmentNlBeDefault</name>

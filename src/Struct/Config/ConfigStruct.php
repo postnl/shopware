@@ -58,11 +58,6 @@ class ConfigStruct extends AttributeStruct
     /**
      * @var ProductSelectionStruct
      */
-    protected $productPickupNlNlAlternative;
-
-    /**
-     * @var ProductSelectionStruct
-     */
     protected $productShipmentNlBeDefault;
 
     /**
@@ -148,14 +143,6 @@ class ConfigStruct extends AttributeStruct
     }
 
     /**
-     * @param CustomerDataStruct $customerData
-     */
-    public function setCustomerData(CustomerDataStruct $customerData): void
-    {
-        $this->customerData = $customerData;
-    }
-
-    /**
      * @return SenderAddressStruct
      */
     public function getSenderAddress(): SenderAddressStruct
@@ -163,13 +150,7 @@ class ConfigStruct extends AttributeStruct
         return $this->senderAddress;
     }
 
-    /**
-     * @param SenderAddressStruct $senderAddress
-     */
-    public function setSenderAddress(SenderAddressStruct $senderAddress): void
-    {
-        $this->senderAddress = $senderAddress;
-    }
+    //============================================================================================================
 
     /**
      * @return ProductSelectionStruct
@@ -177,14 +158,6 @@ class ConfigStruct extends AttributeStruct
     public function getProductShipmentNlNlDefault(): ProductSelectionStruct
     {
         return $this->productShipmentNlNlDefault;
-    }
-
-    /**
-     * @param ProductSelectionStruct $productShipmentNlNlDefault
-     */
-    public function setProductShipmentNlNlDefault(ProductSelectionStruct $productShipmentNlNlDefault): void
-    {
-        $this->productShipmentNlNlDefault = $productShipmentNlNlDefault;
     }
 
     /**
@@ -196,43 +169,11 @@ class ConfigStruct extends AttributeStruct
     }
 
     /**
-     * @param ProductSelectionStruct $productShipmentNlNlAlternative
-     */
-    public function setProductShipmentNlNlAlternative(ProductSelectionStruct $productShipmentNlNlAlternative): void
-    {
-        $this->productShipmentNlNlAlternative = $productShipmentNlNlAlternative;
-    }
-
-    /**
      * @return ProductSelectionStruct
      */
     public function getProductPickupNlNlDefault(): ProductSelectionStruct
     {
         return $this->productPickupNlNlDefault;
-    }
-
-    /**
-     * @param ProductSelectionStruct $productPickupNlNlDefault
-     */
-    public function setProductPickupNlNlDefault(ProductSelectionStruct $productPickupNlNlDefault): void
-    {
-        $this->productPickupNlNlDefault = $productPickupNlNlDefault;
-    }
-
-    /**
-     * @return ProductSelectionStruct
-     */
-    public function getProductPickupNlNlAlternative(): ProductSelectionStruct
-    {
-        return $this->productPickupNlNlAlternative;
-    }
-
-    /**
-     * @param ProductSelectionStruct $productPickupNlNlAlternative
-     */
-    public function setProductPickupNlNlAlternative(ProductSelectionStruct $productPickupNlNlAlternative): void
-    {
-        $this->productPickupNlNlAlternative = $productPickupNlNlAlternative;
     }
 
     /**
@@ -244,27 +185,11 @@ class ConfigStruct extends AttributeStruct
     }
 
     /**
-     * @param ProductSelectionStruct $productShipmentNlBeDefault
-     */
-    public function setProductShipmentNlBeDefault(ProductSelectionStruct $productShipmentNlBeDefault): void
-    {
-        $this->productShipmentNlBeDefault = $productShipmentNlBeDefault;
-    }
-
-    /**
      * @return ProductSelectionStruct
      */
     public function getProductShipmentNlBeAlternative(): ProductSelectionStruct
     {
         return $this->productShipmentNlBeAlternative;
-    }
-
-    /**
-     * @param ProductSelectionStruct $productShipmentNlBeAlternative
-     */
-    public function setProductShipmentNlBeAlternative(ProductSelectionStruct $productShipmentNlBeAlternative): void
-    {
-        $this->productShipmentNlBeAlternative = $productShipmentNlBeAlternative;
     }
 
     /**
