@@ -23,6 +23,28 @@
             <label lang="nl-NL">Sandbox API Key</label>
         </input-field>
 
+        <input-field type="single-select">
+            <name>apiMode</name>
+            <label>API mode</label>
+            <label lang="de-DE">API-Modus</label>
+            <label lang="nl-NL">API modus</label>
+            <defaultValue>production</defaultValue>
+            <options>
+                <option>
+                    <id>production</id>
+                    <name>Production</name>
+                    <name lang="de-DE">Production</name>
+                    <name lang="nl-NL">Productie</name>
+                </option>
+                <option>
+                    <id>sandbox</id>
+                    <name>Sandbox</name>
+                    <name lang="de-DE">Sandbox</name>
+                    <name lang="nl-NL">Sandbox</name>
+                </option>
+            </options>
+        </input-field>
+
         <component name="postnl-config-customer-data">
             <name>customerData</name>
             <label>Customer data</label>
@@ -36,28 +58,6 @@
             <label lang="de-DE">API Verbindung testen</label>
             <label lang="nl-NL">API Verbinding testen</label>
         </component>
-    </card>
-
-    <card>
-        <title>Modes</title>
-        <title lang="de-DE">Modi</title>
-        <title lang="nl-NL">Modi</title>
-
-        <input-field type="bool">
-            <name>sandboxMode</name>
-            <label>Sandbox mode</label>
-            <label lang="de-DE">Sandbox-Modus</label>
-            <label lang="nl-NL">Sandbox modus</label>
-            <defaultValue>false</defaultValue>
-        </input-field>
-
-        <input-field type="bool">
-            <name>debugMode</name>
-            <label>Debug mode</label>
-            <label lang="de-DE">Debug-Modus</label>
-            <label lang="nl-NL">Debug modus</label>
-            <defaultValue>false</defaultValue>
-        </input-field>
     </card>
 
     <card>
@@ -124,5 +124,22 @@
             <label lang="de-DE">Test</label>
             <label lang="nl-NL">test</label>
         </component>
+    </card>
+
+    <card>
+        <title>Other</title>
+        <title lang="de-DE">Other</title>
+        <title lang="nl-NL">Other</title>
+
+        <input-field type="bool">
+            <name>debugMode</name>
+            <label>Debug mode</label>
+            <label lang="de-DE">Debug-Modus</label>
+            <label lang="nl-NL">Debug modus</label>
+            <helpText>Debug mode logs more data. This can be used to diagnose possible problems</helpText>
+            <helpText lang="de-DE">Im Debug-Modus werden mehr Daten erfasst. Dies kann zur Diagnose möglicher Probleme verwendet werden</helpText>
+            <helpText lang="nl-NL">De Debug-modus logt meer gegevens. Dit kan worden gebruikt om mogelijke problemen te diagnosticeren</helpText>
+            <defaultValue>false</defaultValue>
+        </input-field>
     </card>
 </config>

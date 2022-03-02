@@ -17,14 +17,9 @@ class ConfigStruct extends AttributeStruct
     protected $sandboxApiKey = '';
 
     /**
-     * @var bool
+     * @var string
      */
-    protected $sandboxMode = false;
-
-    /**
-     * @var bool
-     */
-    protected $debugMode = false;
+    protected $apiMode = 'production';
 
     /**
      * @var CustomerDataStruct
@@ -40,6 +35,8 @@ class ConfigStruct extends AttributeStruct
 //     * @var
 //     */
 //    protected $returnAddress;
+
+    //=========================================================================================================
 
     /**
      * @var ProductSelectionStruct
@@ -70,20 +67,21 @@ class ConfigStruct extends AttributeStruct
      */
     protected $productPickupNlBeDefault;
 
+    //====================================================================================================
+
+    /**
+     * @var bool
+     */
+    protected $debugMode = false;
+
+    //====================================================================================================
+
     /**
      * @return string
      */
     public function getProductionApiKey(): string
     {
         return $this->productionApiKey;
-    }
-
-    /**
-     * @param string $productionApiKey
-     */
-    public function setProductionApiKey(string $productionApiKey): void
-    {
-        $this->productionApiKey = $productionApiKey;
     }
 
     /**
@@ -95,11 +93,11 @@ class ConfigStruct extends AttributeStruct
     }
 
     /**
-     * @param string $sandboxApiKey
+     * @return string
      */
-    public function setSandboxApiKey(string $sandboxApiKey): void
+    public function getApiMode(): string
     {
-        $this->sandboxApiKey = $sandboxApiKey;
+        return $this->apiMode;
     }
 
     /**
@@ -107,31 +105,7 @@ class ConfigStruct extends AttributeStruct
      */
     public function isSandboxMode(): bool
     {
-        return $this->sandboxMode;
-    }
-
-    /**
-     * @param bool $sandboxMode
-     */
-    public function setSandboxMode(bool $sandboxMode): void
-    {
-        $this->sandboxMode = $sandboxMode;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isDebugMode(): bool
-    {
-        return $this->debugMode;
-    }
-
-    /**
-     * @param bool $debugMode
-     */
-    public function setDebugMode(bool $debugMode): void
-    {
-        $this->debugMode = $debugMode;
+        return $this->getApiMode() === 'sandbox';
     }
 
     /**
@@ -200,11 +174,13 @@ class ConfigStruct extends AttributeStruct
         return $this->productPickupNlBeDefault;
     }
 
+    //=========================================================================================================
+
     /**
-     * @param ProductSelectionStruct $productPickupNlBeDefault
+     * @return bool
      */
-    public function setProductPickupNlBeDefault(ProductSelectionStruct $productPickupNlBeDefault): void
+    public function isDebugMode(): bool
     {
-        $this->productPickupNlBeDefault = $productPickupNlBeDefault;
+        return $this->debugMode;
     }
 }
