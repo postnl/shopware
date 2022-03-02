@@ -9,6 +9,7 @@ use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\Framework\Validation\DataBag\QueryDataBag;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -132,17 +133,35 @@ class ShipmentController extends AbstractController
         Context $context
     ): Response
     {
-        $shipments = $this->shipmentFacade->createShipments(
+        $pdf = $this->shipmentFacade->shipOrders(
             $orderIds,
             $overrideProduct,
             $overrideProductId,
             $context
         );
-dd($shipments);
-//        $this->logger->info("Generated barcodes", [
-//            'generatedBarCodes' => $generatedBarCodes,
-//        ]);
 
-//        return $this->json(['barcodes' => $generatedBarCodes]);
+        return $this->createBinaryResponse(
+            'PostNL_Labels_' . date('YmdHis') . '.pdf',
+            base64_decode($pdf),
+            true,
+            'application/pdf'
+        );
+    }
+
+    private function createBinaryResponse(string $filename, string $content, bool $forceDownload, string $contentType): Response
+    {
+        $response = new Response($content);
+
+        $disposition = HeaderUtils::makeDisposition(
+            $forceDownload ? HeaderUtils::DISPOSITION_ATTACHMENT : HeaderUtils::DISPOSITION_INLINE,
+            $filename,
+            // only printable ascii
+            preg_replace('/[\x00-\x1F\x7F-\xFF]/', '_', $filename)
+        );
+
+        $response->headers->set('Content-Type', $contentType);
+        $response->headers->set('Content-Disposition', $disposition);
+
+        return $response;
     }
 }

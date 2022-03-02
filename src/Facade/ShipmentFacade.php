@@ -33,7 +33,12 @@ class ShipmentFacade
         return $this->shipmentService->generateBarcodesForOrders($ordersWithoutBarcode, $context);
     }
 
-    public function createShipments(array $orderIds, bool $overrideProduct, string $overrideProductId, Context $context)
+    public function shipOrders(
+        array   $orderIds,
+        bool    $overrideProduct,
+        string  $overrideProductId,
+        Context $context
+    ): string
     {
         if ($overrideProduct) {
             foreach ($orderIds as $orderId) {
@@ -45,18 +50,6 @@ class ShipmentFacade
 
         $pdf = $this->shipmentService->shipOrders($orders, $context);
 
-
-        dd(($pdf));
-
-
-//        $shipments = [];
-//
-//        /** @var OrderEntity $order */
-//        foreach($orders as $order) {
-//            $shipments[] = $this->shipmentService->createShipmentForOrder($order, $context);
-//        }
-//        dd($shipments);
-//        $this->shipmentService->sendShipment()
-//        $this->ap
+        return $pdf;
     }
 }

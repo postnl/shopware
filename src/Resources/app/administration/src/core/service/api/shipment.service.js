@@ -9,7 +9,7 @@ export default class ShipmentService extends PostNlApiService
     }
 
     createShipments(orderIds, overrideProduct, overrideProductId) {
-        return this.get('shipment/labels', {
+        return this.getBlob('shipment/labels', {
             orderIds: orderIds,
             overrideProduct: overrideProduct,
             overrideProductId: overrideProductId,

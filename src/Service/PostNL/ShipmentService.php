@@ -85,9 +85,9 @@ class ShipmentService
         $confirm = false;
         $format = Label::FORMAT_A4;
         $positions = [
-            1 => false,
+            1 => true,
             2 => true,
-            3 => false,
+            3 => true,
             4 => true,
         ];
         $a6Position = 'P';
