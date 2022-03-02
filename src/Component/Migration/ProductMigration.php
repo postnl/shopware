@@ -88,8 +88,8 @@ abstract class ProductMigration extends MigrationStep
         $translations = [
             'en-GB' => [
                 'destination_zone' => [
-                    Zone::EU => 'ParcelsEU',
-                    Zone::GLOBAL => 'Global Pack',
+                    Zone::EU => 'Parcel EU',
+                    Zone::GLOBAL => 'GlobalPack',
                 ],
                 'delivery_type' => [
                     DeliveryType::SHIPMENT => 'Standard Shipment',
@@ -100,13 +100,13 @@ abstract class ProductMigration extends MigrationStep
                 ProductDefinition::STOR_RETURN_IF_NOT_HOME => 'Return when not home',
                 ProductDefinition::STOR_INSURANCE => 'Extra Cover',
                 ProductDefinition::STOR_SIGNATURE => 'Signature on delivery',
-                ProductDefinition::STOR_AGE_CHECK => '18+ check',
-                ProductDefinition::STOR_NOTIFICATION => 'notification when available for pickup',
+                ProductDefinition::STOR_AGE_CHECK => 'Age check',
+                ProductDefinition::STOR_NOTIFICATION => 'Notification',
             ],
             'de-DE' => [
                 'destination_zone' => [
-                    Zone::EU => 'ParcelsEU',
-                    Zone::GLOBAL => 'Global Pack',
+                    Zone::EU => 'EU paket',
+                    Zone::GLOBAL => 'GlobalPack',
                 ],
                 'delivery_type' => [
                     DeliveryType::SHIPMENT => 'Standardversand',
@@ -117,13 +117,13 @@ abstract class ProductMigration extends MigrationStep
                 ProductDefinition::STOR_RETURN_IF_NOT_HOME => 'Zurück, wenn nicht zu Hause sein',
                 ProductDefinition::STOR_INSURANCE => 'Zusätzliche Abdeckung',
                 ProductDefinition::STOR_SIGNATURE => 'Unterschrift bei Lieferung',
-                ProductDefinition::STOR_AGE_CHECK => '18+ Kontrolle',
-                ProductDefinition::STOR_NOTIFICATION => 'Benachrichtigung bei Abholbereitschaft',
+                ProductDefinition::STOR_AGE_CHECK => 'Altersprüfung',
+                ProductDefinition::STOR_NOTIFICATION => 'Benachrichtigung',
             ],
             'nl-NL' => [
                 'destination_zone' => [
-                    Zone::EU => 'ParcelsEU',
-                    Zone::GLOBAL => 'Global Pack',
+                    Zone::EU => 'EU pakket',
+                    Zone::GLOBAL => 'GlobalPack',
                 ],
                 'delivery_type' => [
                     DeliveryType::SHIPMENT => 'Standaard zending',
@@ -134,8 +134,8 @@ abstract class ProductMigration extends MigrationStep
                 ProductDefinition::STOR_RETURN_IF_NOT_HOME => 'Retour bij geen gehoor',
                 ProductDefinition::STOR_INSURANCE => 'Verhoogd aansprakelijkheid',
                 ProductDefinition::STOR_SIGNATURE => 'Handtekening voor ontvangst',
-                ProductDefinition::STOR_AGE_CHECK => '18+ check',
-                ProductDefinition::STOR_NOTIFICATION => 'notificatie wanneer beschikbaar voor ophalen',
+                ProductDefinition::STOR_AGE_CHECK => 'Leeftijdscontrole',
+                ProductDefinition::STOR_NOTIFICATION => 'Notificatie',
             ],
         ];
 
