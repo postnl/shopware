@@ -191,5 +191,7 @@ class ConversionSubscriber implements EventSubscriberInterface
             case Zone::GLOBAL:
                 return Defaults::PRODUCT_SHIPPING_GLOBAL_4947;
         }
+
+        return '';
     }
 }

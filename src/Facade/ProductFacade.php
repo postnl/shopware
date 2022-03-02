@@ -5,6 +5,7 @@ namespace PostNL\Shipments\Facade;
 use PostNL\Shipments\Entity\Product\ProductDefinition;
 use PostNL\Shipments\Entity\Product\ProductEntity;
 use PostNL\Shipments\Service\PostNL\Product\ProductService;
+use PostNL\Shipments\Struct\ProductFlagStruct;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 
@@ -29,11 +30,23 @@ class ProductFacade
         $this->logger = $logger;
     }
 
+    /**
+     * @param string $sourceZone
+     * @param Context $context
+     * @return bool
+     */
     public function sourceZoneHasProducts(string $sourceZone, Context $context): bool
     {
         return $this->productService->sourceZoneHasProducts($sourceZone, $context);
     }
 
+    /**
+     * @param string $sourceZone
+     * @param string $destinationZone
+     * @param Context $context
+     * @return string[]
+     * @throws \Exception
+     */
     public function getDeliveryTypes(
         string  $sourceZone,
         string  $destinationZone,
@@ -50,7 +63,7 @@ class ProductFacade
     /**
      * @param string $productId
      * @param Context $context
-     * @return array
+     * @return array<string, ProductFlagStruct>
      * @throws \Exception
      */
     public function getFlagsForProduct(string $productId, Context $context): array
@@ -83,6 +96,14 @@ class ProductFacade
         return $this->productService->buildFlagStructs($filteredProducts, $filteredFlags);
     }
 
+    /**
+     * @param string $sourceZone
+     * @param string $destinationZone
+     * @param string $deliveryType
+     * @param Context $context
+     * @return array<string, ProductFlagStruct>
+     * @throws \Exception
+     */
     public function getFlags(string $sourceZone, string $destinationZone, string $deliveryType, Context $context): array
     {
         $products = $this->productService->getProductsByShippingConfiguration(
@@ -129,8 +150,8 @@ class ProductFacade
      * @param string $sourceZone
      * @param string $destinationZone
      * @param string $deliveryType
-     * @param array $flags
-     * @param array $changeSet
+     * @param array<string, bool> $flags
+     * @param array<string, mixed>[] $changeSet
      * @param Context $context
      * @return ProductEntity
      * @throws \Exception
@@ -165,9 +186,21 @@ class ProductFacade
         // Should always only have one.
         $filteredProducts = $this->productService->filterProductsByFlags($products, $filters);
 
-        return $filteredProducts->first();
+        $product = $filteredProducts->first();
+
+        if($product instanceof ProductEntity) {
+            return $product;
+        }
+
+        // TODO Exception
+        throw new \Exception('Could not select product');
     }
 
+    /**
+     * @param array<string, mixed> $flags
+     * @param string[] $keys
+     * @return array<string, mixed>
+     */
     protected function fixBoolean(array $flags, array $keys = []): array
     {
         $fixed = [];
@@ -181,6 +214,10 @@ class ProductFacade
         return $fixed;
     }
 
+    /**
+     * @param array<string, mixed>[] $changeSet
+     * @return array<string, mixed>[]
+     */
     protected function fixChangeSetBoolean(array $changeSet): array
     {
         $fixed = [];

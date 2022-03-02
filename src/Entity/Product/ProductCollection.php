@@ -22,6 +22,10 @@ class ProductCollection extends EntityCollection
         return ProductEntity::class;
     }
 
+    /**
+     * @param string $property
+     * @return array<mixed>
+     */
     public function reduceToProperty(string $property): array
     {
         $map = $this->map(function(ProductEntity $element) use ($property) {

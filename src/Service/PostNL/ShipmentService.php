@@ -44,6 +44,18 @@ class ShipmentService
         $this->productService = $productService;
     }
 
+    /**
+     * @param OrderCollection $orders
+     * @param Context $context
+     * @return array<string, string>
+     * @throws PostNLException
+     * @throws \Firstred\PostNL\Exception\CifDownException
+     * @throws \Firstred\PostNL\Exception\CifException
+     * @throws \Firstred\PostNL\Exception\HttpClientException
+     * @throws \Firstred\PostNL\Exception\InvalidBarcodeException
+     * @throws \Firstred\PostNL\Exception\InvalidConfigurationException
+     * @throws \Firstred\PostNL\Exception\ResponseException
+     */
     public function generateBarcodesForOrders(OrderCollection $orders, Context $context): array
     {
         $barCodesAssigned = [];
@@ -61,7 +73,9 @@ class ShipmentService
             try {
                 $barCodes = $apiClient->generateBarcodesByCountryCodes(array_count_values($isoCodes));
             } catch(PostNLException $e) {
+                // TODO log
                 dd($e);
+                throw $e;
             }
 
             foreach($salesChannelOrders as $order) {

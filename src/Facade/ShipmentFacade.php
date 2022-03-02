@@ -10,7 +10,14 @@ use Shopware\Core\Framework\Context;
 
 class ShipmentFacade
 {
+    /**
+     * @var OrderService
+     */
     protected $orderService;
+
+    /**
+     * @var ShipmentService
+     */
     protected $shipmentService;
 
     public function __construct(
@@ -22,17 +29,34 @@ class ShipmentFacade
         $this->shipmentService = $shipmentService;
     }
 
+    /**
+     * @param string[] $orderIds
+     * @param Context $context
+     * @return array<string, string>
+     * @throws \Firstred\PostNL\Exception\PostNLException
+     */
     public function generateBarcodes(array $orderIds, Context $context): array
     {
         $orders = $this->orderService->getOrders($orderIds, $context);
 
         $ordersWithoutBarcode = $orders->filter(function (OrderEntity $order) {
-            return !array_key_exists('barCode', $order->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY]);
+            $customFields = $order->getCustomFields() ?? [];
+            if(!array_key_exists(Defaults::CUSTOM_FIELDS_KEY, $customFields)) {
+                return false;
+            }
+            return !array_key_exists('barCode', $customFields[Defaults::CUSTOM_FIELDS_KEY]);
         });
 
         return $this->shipmentService->generateBarcodesForOrders($ordersWithoutBarcode, $context);
     }
 
+    /**
+     * @param string[] $orderIds
+     * @param bool $overrideProduct
+     * @param string $overrideProductId
+     * @param Context $context
+     * @return string
+     */
     public function shipOrders(
         array   $orderIds,
         bool    $overrideProduct,

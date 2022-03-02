@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace PostNL\Shipments\Entity\Product;
 
-use PostNL\Shipments\Entity\Product\Aggregate\ProductTranslation\ProductTranslationDefinition;
-use PostNL\Shipments\Entity\Product\Aggregate\ProductOption\ProductOptionMappingDefinition;
 use PostNL\Shipments\Entity\Product\Aggregate\ProductOption\ProductOptionDefinition;
+use PostNL\Shipments\Entity\Product\Aggregate\ProductOption\ProductOptionMappingDefinition;
+use PostNL\Shipments\Entity\Product\Aggregate\ProductTranslation\ProductTranslationDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\BoolField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;

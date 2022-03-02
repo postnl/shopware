@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace PostNL\Shipments\Entity\Product;
 
-use PostNL\Shipments\Entity\Product\Aggregate\ProductTranslation\ProductTranslationCollection;
 use PostNL\Shipments\Entity\Product\Aggregate\ProductOption\ProductOptionCollection;
+use PostNL\Shipments\Entity\Product\Aggregate\ProductTranslation\ProductTranslationCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 

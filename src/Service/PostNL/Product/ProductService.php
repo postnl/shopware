@@ -121,7 +121,11 @@ class ProductService
         return $this->getProducts($criteria, $context);
     }
 
-
+    /**
+     * @param ProductCollection $products
+     * @param array<string, mixed> $flags
+     * @return ProductCollection
+     */
     public function filterProductsByFlags(
         ProductCollection $products,
         array $flags
@@ -134,6 +138,11 @@ class ProductService
         return $products;
     }
 
+    /**
+     * @param ProductCollection $products
+     * @param array<int, array<string, mixed>> $changeSet
+     * @return ProductCollection
+     */
     public function filterProductsByChangeSet(
         ProductCollection $products,
         array $changeSet
@@ -143,6 +152,11 @@ class ProductService
         return $this->filterProductsByFlags($products, $filteredFlags);
     }
 
+    /**
+     * @param ProductCollection $products
+     * @param array<int, array<string, mixed>> $changeSet
+     * @return array
+     */
     public function getProductFilterFlagsByChangeSet(
         ProductCollection $products,
         array $changeSet
@@ -165,6 +179,16 @@ class ProductService
         return $filteredFlags;
     }
 
+    /**
+     * @param string $sourceZone
+     * @param string $destinationZone
+     * @param string $deliveryType
+     * @param array $currentFlags
+     * @param array $changeSet
+     * @param Context $context
+     * @return array<string, bool>
+     * @throws \Exception
+     */
     public function getFlagsForProductSelection(
         string  $sourceZone,
         string  $destinationZone,
@@ -197,7 +221,7 @@ class ProductService
     /**
      * @param ProductCollection $products
      * @param array $selectedFlags
-     * @return array
+     * @return array<string, ProductFlagStruct>
      */
     public function buildFlagStructs(
         ProductCollection $products,
@@ -263,7 +287,7 @@ class ProductService
      * @param string $sourceZone
      * @param string $destinationZone
      * @param Context $context
-     * @return array
+     * @return array<string>
      * @throws \Exception
      */
     public function getDeliveryTypes(
@@ -372,7 +396,7 @@ class ProductService
     /**
      * @param string $destinationZone
      * @param string $deliveryType
-     * @return array|string[]
+     * @return string[]
      */
     private function requiredFlags(
         string $destinationZone,
