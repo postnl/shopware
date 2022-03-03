@@ -1,12 +1,12 @@
 <?php
 
-namespace PostNL\Shipments\Service\Attribute\TypeHandler;
+namespace PostNL\Shopware6\Service\Attribute\TypeHandler;
 
-use PostNL\Shipments\Service\Attribute\AttributeStruct;
-use PostNL\Shipments\Service\Attribute\Factory\AttributeFactory;
-use PostNL\Shipments\Service\Shopware\CountryService;
-use PostNL\Shipments\Struct\Config\ReturnAddressStruct;
-use PostNL\Shipments\Struct\Config\SenderAddressStruct;
+use PostNL\Shopware6\Service\Attribute\AttributeStruct;
+use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
+use PostNL\Shopware6\Service\Shopware\CountryService;
+use PostNL\Shopware6\Struct\Config\ReturnAddressStruct;
+use PostNL\Shopware6\Struct\Config\SenderAddressStruct;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\Uuid\Uuid;
 

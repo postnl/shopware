@@ -1,6 +1,6 @@
 <?php
 
-namespace PostNL\Shipments\Struct\Config;
+namespace PostNL\Shopware6\Struct\Config;
 
 class ReturnAddressStruct extends ApiCompatibleStruct
 {

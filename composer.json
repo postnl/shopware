@@ -1,6 +1,6 @@
 {
-  "name": "postnl/shipments",
-  "description": "PostNL Shipments",
+  "name": "postnl/shopware6",
+  "description": "PostNL",
   "type": "shopware-platform-plugin",
   "license": "proprietary",
   "config": {
@@ -11,20 +11,21 @@
   },
   "autoload": {
     "psr-4": {
-      "PostNL\\Shipments\\": "src/"
+      "PostNL\\Shopware6\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "PostNL\\Shipments\\PHPUnit\\": "tests/PHPUnit/",
-      "PostNL\\Shipments\\PHPStan\\": "tests/PHPStan/"
+      "PostNL\\Shopware6\\PHPUnit\\": "tests/PHPUnit/",
+      "PostNL\\Shopware6\\PHPStan\\": "tests/PHPStan/"
     }
   },
   "extra": {
-    "shopware-plugin-class": "PostNL\\Shipments\\PostNLShipments",
+    "shopware-plugin-class": "PostNL\\Shopware6\\PostNL",
     "label": {
-      "de-DE": "PostNL Shipments",
-      "en-GB": "PostNL Shipments"
+      "de-DE": "PostNL",
+      "en-GB": "PostNL",
+      "nl-NL": "PostNL"
     }
   },
   "require": {

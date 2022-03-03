@@ -1,15 +1,15 @@
 <?php
 
-namespace PostNL\Shipments\Subscriber;
+namespace PostNL\Shopware6\Subscriber;
 
-use PostNL\Shipments\Defaults;
-use PostNL\Shipments\Service\Attribute\Factory\AttributeFactory;
-use PostNL\Shipments\Service\PostNL\Delivery\DeliveryType;
-use PostNL\Shipments\Service\PostNL\Delivery\Zone\Zone;
-use PostNL\Shipments\Service\PostNL\Delivery\Zone\ZoneService;
-use PostNL\Shipments\Service\Shopware\ConfigService;
-use PostNL\Shipments\Struct\Config\ConfigStruct;
-use PostNL\Shipments\Struct\ShippingMethodStruct;
+use PostNL\Shopware6\Defaults;
+use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
+use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
+use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
+use PostNL\Shopware6\Service\PostNL\Delivery\Zone\ZoneService;
+use PostNL\Shopware6\Service\Shopware\ConfigService;
+use PostNL\Shopware6\Struct\Config\ConfigStruct;
+use PostNL\Shopware6\Struct\ShippingMethodStruct;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\Order\CartConvertedEvent;
 use Shopware\Core\Framework\Struct\ArrayStruct;

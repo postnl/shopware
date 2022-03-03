@@ -1,10 +1,10 @@
 <?php
 
-namespace PostNL\Shipments\Service\Attribute\TypeHandler;
+namespace PostNL\Shopware6\Service\Attribute\TypeHandler;
 
-use PostNL\Shipments\Service\Attribute\AttributeStruct;
-use PostNL\Shipments\Service\Attribute\Factory\AttributeFactory;
-use PostNL\Shipments\Struct\Config\CustomerDataStruct;
+use PostNL\Shopware6\Service\Attribute\AttributeStruct;
+use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
+use PostNL\Shopware6\Struct\Config\CustomerDataStruct;
 use Shopware\Core\Framework\Context;
 
 class CustomerDataStructHandler implements AttributeTypeHandlerInterface

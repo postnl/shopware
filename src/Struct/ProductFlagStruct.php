@@ -1,6 +1,6 @@
 <?php
 
-namespace PostNL\Shipments\Struct;
+namespace PostNL\Shopware6\Struct;
 
 use Shopware\Core\Framework\Struct\Struct;
 

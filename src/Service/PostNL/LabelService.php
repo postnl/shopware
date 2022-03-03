@@ -1,6 +1,6 @@
 <?php
 
-namespace PostNL\Shipments\Service\PostNL;
+namespace PostNL\Shopware6\Service\PostNL;
 
 use Firstred\PostNL\Entity\Label;
 use Firstred\PostNL\Entity\Response\GenerateLabelResponse;

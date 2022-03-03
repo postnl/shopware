@@ -1,8 +1,8 @@
 <?php
 
-namespace PostNL\Shipments\Service\Attribute\TypeHandler;
+namespace PostNL\Shopware6\Service\Attribute\TypeHandler;
 
-use PostNL\Shipments\Service\Attribute\AttributeStruct;
+use PostNL\Shopware6\Service\Attribute\AttributeStruct;
 use Shopware\Core\Framework\Context;
 
 interface AttributeTypeHandlerInterface

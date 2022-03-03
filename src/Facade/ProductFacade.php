@@ -1,11 +1,11 @@
 <?php
 
-namespace PostNL\Shipments\Facade;
+namespace PostNL\Shopware6\Facade;
 
-use PostNL\Shipments\Entity\Product\ProductDefinition;
-use PostNL\Shipments\Entity\Product\ProductEntity;
-use PostNL\Shipments\Service\PostNL\Product\ProductService;
-use PostNL\Shipments\Struct\ProductFlagStruct;
+use PostNL\Shopware6\Entity\Product\ProductDefinition;
+use PostNL\Shopware6\Entity\Product\ProductEntity;
+use PostNL\Shopware6\Service\PostNL\Product\ProductService;
+use PostNL\Shopware6\Struct\ProductFlagStruct;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 

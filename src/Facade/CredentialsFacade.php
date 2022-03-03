@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shipments\Facade;
+namespace PostNL\Shopware6\Facade;
 
 use Firstred\PostNL\Entity\Location;
 use Firstred\PostNL\Entity\Request\GetNearestLocations;
 use Firstred\PostNL\Entity\Response\GetNearestLocationsResponse;
 use Firstred\PostNL\Exception\InvalidConfigurationException;
 use Firstred\PostNL\Exception\ResponseException;
-use PostNL\Shipments\Service\PostNL\Factory\ApiFactory;
+use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use Psr\Log\LoggerInterface;
 
 class CredentialsFacade

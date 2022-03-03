@@ -1,6 +1,6 @@
 <?php
 
-namespace PostNL\Shipments\Service\Monolog\Processor;
+namespace PostNL\Shopware6\Service\Monolog\Processor;
 
 use Monolog\Processor\ProcessorInterface;
 

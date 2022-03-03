@@ -1,10 +1,10 @@
 <?php
 
-namespace PostNL\Shipments\Facade;
+namespace PostNL\Shopware6\Facade;
 
-use PostNL\Shipments\Defaults;
-use PostNL\Shipments\Service\PostNL\ShipmentService;
-use PostNL\Shipments\Service\Shopware\OrderService;
+use PostNL\Shopware6\Defaults;
+use PostNL\Shopware6\Service\PostNL\Shopware6ervice;
+use PostNL\Shopware6\Service\Shopware\OrderService;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
 

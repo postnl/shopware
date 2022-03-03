@@ -28,19 +28,19 @@
         </service>
 
         <!-- Handler Factory -->
-        <service id="PostNL\Shipments\Service\Monolog\Factory\LoggerFactory">
+        <service id="PostNL\Shopware6\Service\Monolog\Factory\LoggerFactory">
             <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
         </service>
 
         <!-- Handlers -->
         <service id="postnl_shipments.logger.handler.file" class="Monolog\Handler\RotatingFileHandler">
-            <factory service="PostNL\Shipments\Service\Monolog\Factory\LoggerFactory" method="createFileHandler"/>
+            <factory service="PostNL\Shopware6\Service\Monolog\Factory\LoggerFactory" method="createFileHandler"/>
             <argument>%kernel.logs_dir%/postnl_%kernel.environment%.log</argument>
             <argument>14</argument>
         </service>
 
         <service id="postnl_shipments.logger.handler.sql" class="Shopware\Core\Framework\Log\Monolog\DoctrineSQLHandler">
-            <factory service="PostNL\Shipments\Service\Monolog\Factory\LoggerFactory" method="createSQLHandler"/>
+            <factory service="PostNL\Shopware6\Service\Monolog\Factory\LoggerFactory" method="createSQLHandler"/>
         </service>
 
         <!-- Processors -->
@@ -58,11 +58,11 @@
         <service id="postnl_shipments.logger.processor.route" class="Symfony\Bridge\Monolog\Processor\RouteProcessor"/>
 
         <!-- Custom Processors -->
-        <service id="postnl_shipments.logger.processor.ip_anonymize" class="PostNL\Shipments\Service\Monolog\Processor\AnonymizeIPProcessor">
+        <service id="postnl_shipments.logger.processor.ip_anonymize" class="PostNL\Shopware6\Service\Monolog\Processor\AnonymizeIPProcessor">
             <argument>*</argument>
         </service>
 
-        <service id="postnl_shipments.logger.processor.session" class="PostNL\Shipments\Service\Monolog\Processor\SessionProcessor">
+        <service id="postnl_shipments.logger.processor.session" class="PostNL\Shopware6\Service\Monolog\Processor\SessionProcessor">
             <argument type="service" id="session"/>
         </service>
     </services>

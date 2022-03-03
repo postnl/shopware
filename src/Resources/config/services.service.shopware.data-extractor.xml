@@ -7,14 +7,14 @@
     <services>
         <defaults public="true"/>
 
-        <service id="PostNL\Shipments\Service\Shopware\DataExtractor\OrderDataExtractor">
-            <argument type="service" id="PostNL\Shipments\Service\Shopware\DataExtractor\OrderDeliveryDataExtractor"/>
+        <service id="PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor">
+            <argument type="service" id="PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDeliveryDataExtractor"/>
         </service>
 
-        <service id="PostNL\Shipments\Service\Shopware\DataExtractor\OrderAddressDataExtractor"/>
+        <service id="PostNL\Shopware6\Service\Shopware\DataExtractor\OrderAddressDataExtractor"/>
 
-        <service id="PostNL\Shipments\Service\Shopware\DataExtractor\OrderDeliveryDataExtractor">
-            <argument type="service" id="PostNL\Shipments\Service\Shopware\DataExtractor\OrderAddressDataExtractor"/>
+        <service id="PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDeliveryDataExtractor">
+            <argument type="service" id="PostNL\Shopware6\Service\Shopware\DataExtractor\OrderAddressDataExtractor"/>
         </service>
     </services>
 </container>

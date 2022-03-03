@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shipments\Controller\Api;
+namespace PostNL\Shopware6\Controller\Api;
 
-use PostNL\Shipments\Facade\CredentialsFacade;
-use PostNL\Shipments\Service\PostNL\ProductCode\ProductService;
+use PostNL\Shopware6\Facade\CredentialsFacade;
+use PostNL\Shopware6\Service\PostNL\ProductCode\ProductService;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

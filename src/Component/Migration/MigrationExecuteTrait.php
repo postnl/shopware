@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shipments\Component\Migration;
+namespace PostNL\Shopware6\Component\Migration;
 
 use Doctrine\DBAL\Connection;
 use Shopware\Core\Framework\Migration\MigrationStep;

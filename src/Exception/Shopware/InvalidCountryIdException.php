@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shipments\Exception\Shopware;
+namespace PostNL\Shopware6\Exception\Shopware;
 
 use Shopware\Core\Framework\ShopwareHttpException;
 

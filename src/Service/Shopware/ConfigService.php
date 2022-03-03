@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shipments\Service\Shopware;
+namespace PostNL\Shopware6\Service\Shopware;
 
-use PostNL\Shipments\Service\Attribute\Factory\AttributeFactory;
-use PostNL\Shipments\Struct\Config\ConfigStruct;
+use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
+use PostNL\Shopware6\Struct\Config\ConfigStruct;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\ShopwareHttpException;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PostNL\Shipments\Entity\Product\Aggregate\ProductTranslation;
+namespace PostNL\Shopware6\Entity\Product\Aggregate\ProductTranslation;
 
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 use Shopware\Core\Framework\DataAbstractionLayer\TranslationEntity;

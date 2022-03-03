@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shipments\Service\Shopware;
+namespace PostNL\Shopware6\Service\Shopware;
 
-use PostNL\Shipments\Defaults;
+use PostNL\Shopware6\Defaults;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Cart\Rule\CartAmountRule;
 use Shopware\Core\Checkout\Shipping\ShippingMethodEntity;

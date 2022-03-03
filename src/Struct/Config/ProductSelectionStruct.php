@@ -1,8 +1,8 @@
 <?php
 
-namespace PostNL\Shipments\Struct\Config;
+namespace PostNL\Shopware6\Struct\Config;
 
-use PostNL\Shipments\Service\Attribute\AttributeStruct;
+use PostNL\Shopware6\Service\Attribute\AttributeStruct;
 
 class ProductSelectionStruct extends AttributeStruct
 {

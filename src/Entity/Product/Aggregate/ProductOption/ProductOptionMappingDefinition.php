@@ -1,8 +1,8 @@
 <?php
 
-namespace PostNL\Shipments\Entity\Product\Aggregate\ProductOption;
+namespace PostNL\Shopware6\Entity\Product\Aggregate\ProductOption;
 
-use PostNL\Shipments\Entity\Product\ProductDefinition;
+use PostNL\Shopware6\Entity\Product\ProductDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\CreatedAtField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\FkField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\CascadeDelete;

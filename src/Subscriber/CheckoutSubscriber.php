@@ -1,16 +1,16 @@
 <?php
 
-namespace PostNL\Shipments\Subscriber;
+namespace PostNL\Shopware6\Subscriber;
 
 use Firstred\PostNL\Entity\Location;
 use Firstred\PostNL\Entity\Request\GetNearestLocations;
 use Firstred\PostNL\Entity\Response\ResponseLocation;
 use Firstred\PostNL\Exception\InvalidConfigurationException;
 use Firstred\PostNL\Exception\PostNLException;
-use PostNL\Shipments\Service\Attribute\Factory\AttributeFactory;
-use PostNL\Shipments\Service\PostNL\Factory\ApiFactory;
-use PostNL\Shipments\Service\Shopware\CartService;
-use PostNL\Shipments\Struct\ShippingMethodStruct;
+use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
+use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
+use PostNL\Shopware6\Service\Shopware\CartService;
+use PostNL\Shopware6\Struct\ShippingMethodStruct;
 use Shopware\Core\Framework\Struct\ArrayStruct;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

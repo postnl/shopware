@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PostNL\Shipments\Entity\Product;
+namespace PostNL\Shopware6\Entity\Product;
 
 use Shopware\Core\Framework\DataAbstractionLayer\EntityCollection;
 

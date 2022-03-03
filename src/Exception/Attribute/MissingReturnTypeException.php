@@ -1,6 +1,6 @@
 <?php
 
-namespace PostNL\Shipments\Exception\Attribute;
+namespace PostNL\Shopware6\Exception\Attribute;
 
 use Shopware\Core\Framework\ShopwareHttpException;
 

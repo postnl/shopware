@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PostNL\Shipments\Entity\Product\Aggregate\ProductOption;
+namespace PostNL\Shopware6\Entity\Product\Aggregate\ProductOption;
 
-use PostNL\Shipments\Entity\Product\Aggregate\ProductOption\ProductOptionMappingDefinition;
-use PostNL\Shipments\Entity\Product\Aggregate\ProductOptionTranslation\ProductOptionTranslationDefinition;
-use PostNL\Shipments\Entity\Product\ProductDefinition;
+use PostNL\Shopware6\Entity\Product\Aggregate\ProductOption\ProductOptionMappingDefinition;
+use PostNL\Shopware6\Entity\Product\Aggregate\ProductOptionTranslation\ProductOptionTranslationDefinition;
+use PostNL\Shopware6\Entity\Product\ProductDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Required;

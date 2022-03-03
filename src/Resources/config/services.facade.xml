@@ -7,19 +7,19 @@
     <services>
         <defaults public="true"/>
 
-        <service id="PostNL\Shipments\Facade\CredentialsFacade">
-            <argument type="service" id="PostNL\Shipments\Service\PostNL\Factory\ApiFactory"/>
+        <service id="PostNL\Shopware6\Facade\CredentialsFacade">
+            <argument type="service" id="PostNL\Shopware6\Service\PostNL\Factory\ApiFactory"/>
             <argument type="service" id="postnl_shipments.logger"/>
         </service>
 
-        <service id="PostNL\Shipments\Facade\ProductFacade">
-            <argument type="service" id="PostNL\Shipments\Service\PostNL\Product\ProductService"/>
+        <service id="PostNL\Shopware6\Facade\ProductFacade">
+            <argument type="service" id="PostNL\Shopware6\Service\PostNL\Product\ProductService"/>
             <argument type="service" id="postnl_shipments.logger"/>
         </service>
 
-        <service id="PostNL\Shipments\Facade\ShipmentFacade">
-            <argument type="service" id="PostNL\Shipments\Service\Shopware\OrderService"/>
-            <argument type="service" id="PostNL\Shipments\Service\PostNL\ShipmentService"/>
+        <service id="PostNL\Shopware6\Facade\ShipmentFacade">
+            <argument type="service" id="PostNL\Shopware6\Service\Shopware\OrderService"/>
+            <argument type="service" id="PostNL\Shopware6\Service\PostNL\Shopware6ervice"/>
 <!--            <argument type="service" id="postnl_shipments.logger"/>-->
         </service>
     </services>

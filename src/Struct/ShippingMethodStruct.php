@@ -1,8 +1,8 @@
 <?php
 
-namespace PostNL\Shipments\Struct;
+namespace PostNL\Shopware6\Struct;
 
-use PostNL\Shipments\Service\Attribute\EntityAttributeStruct;
+use PostNL\Shopware6\Service\Attribute\EntityAttributeStruct;
 use Shopware\Core\Checkout\Shipping\ShippingMethodEntity;
 
 class ShippingMethodStruct extends EntityAttributeStruct

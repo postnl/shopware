@@ -1,17 +1,17 @@
 <?php
 
-namespace PostNL\Shipments\Service\Attribute\Factory;
+namespace PostNL\Shopware6\Service\Attribute\Factory;
 
-use PostNL\Shipments\Defaults;
-use PostNL\Shipments\Exception\Attribute\EntityCustomFieldsException;
-use PostNL\Shipments\Exception\Attribute\MissingAttributeStructException;
-use PostNL\Shipments\Exception\Attribute\MissingEntityAttributeStructException;
-use PostNL\Shipments\Exception\Attribute\MissingPropertyAccessorMethodException;
-use PostNL\Shipments\Exception\Attribute\MissingReturnTypeException;
-use PostNL\Shipments\Exception\Attribute\MissingTypeHandlerException;
-use PostNL\Shipments\Service\Attribute\AttributeStruct;
-use PostNL\Shipments\Service\Attribute\EntityAttributeStruct;
-use PostNL\Shipments\Service\Attribute\TypeHandler\AttributeTypeHandlerInterface;
+use PostNL\Shopware6\Defaults;
+use PostNL\Shopware6\Exception\Attribute\EntityCustomFieldsException;
+use PostNL\Shopware6\Exception\Attribute\MissingAttributeStructException;
+use PostNL\Shopware6\Exception\Attribute\MissingEntityAttributeStructException;
+use PostNL\Shopware6\Exception\Attribute\MissingPropertyAccessorMethodException;
+use PostNL\Shopware6\Exception\Attribute\MissingReturnTypeException;
+use PostNL\Shopware6\Exception\Attribute\MissingTypeHandlerException;
+use PostNL\Shopware6\Service\Attribute\AttributeStruct;
+use PostNL\Shopware6\Service\Attribute\EntityAttributeStruct;
+use PostNL\Shopware6\Service\Attribute\TypeHandler\AttributeTypeHandlerInterface;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;

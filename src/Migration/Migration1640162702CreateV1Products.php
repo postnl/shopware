@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shipments\Migration;
+namespace PostNL\Shopware6\Migration;
 
 use Doctrine\DBAL\Connection;
-use PostNL\Shipments\Component\Migration\ProductMigration;
-use PostNL\Shipments\Defaults;
-use PostNL\Shipments\Entity\Product\ProductDefinition;
-use PostNL\Shipments\Service\PostNL\Delivery\DeliveryType;
-use PostNL\Shipments\Service\PostNL\Delivery\Zone\Zone;
+use PostNL\Shopware6\Component\Migration\ProductMigration;
+use PostNL\Shopware6\Defaults;
+use PostNL\Shopware6\Entity\Product\ProductDefinition;
+use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
+use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
 use Shopware\Core\Defaults as ShopwareDefaults;
 use Shopware\Core\Framework\Uuid\Uuid;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace PostNL\Shipments\Service\Attribute;
+namespace PostNL\Shopware6\Service\Attribute;
 
-use PostNL\Shipments\Defaults;
+use PostNL\Shopware6\Defaults;
 
 abstract class EntityAttributeStruct extends AttributeStruct
 {

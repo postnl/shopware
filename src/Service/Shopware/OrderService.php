@@ -1,8 +1,8 @@
 <?php
 
-namespace PostNL\Shipments\Service\Shopware;
+namespace PostNL\Shopware6\Service\Shopware;
 
-use PostNL\Shipments\Defaults;
+use PostNL\Shopware6\Defaults;
 use Shopware\Core\Checkout\Order\OrderCollection;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;

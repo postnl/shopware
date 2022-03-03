@@ -7,25 +7,25 @@
     <services>
         <defaults public="true"/>
 
-        <service id="PostNL\Shipments\Service\PostNL\Factory\ApiFactory">
-            <argument type="service" id="PostNL\Shipments\Service\Shopware\ConfigService"/>
+        <service id="PostNL\Shopware6\Service\PostNL\Factory\ApiFactory">
+            <argument type="service" id="PostNL\Shopware6\Service\Shopware\ConfigService"/>
             <argument type="service" id="postnl_shipments.logger"/>
         </service>
 
-        <service id="PostNL\Shipments\Service\PostNL\LabelService"/>
+        <service id="PostNL\Shopware6\Service\PostNL\LabelService"/>
 
-        <service id="PostNL\Shipments\Service\PostNL\Product\ProductService">
+        <service id="PostNL\Shopware6\Service\PostNL\Product\ProductService">
             <argument type="service" id="postnl_shipments_product.repository"/>
             <argument type="service" id="postnl_shipments.logger"/>
         </service>
 
-        <service id="PostNL\Shipments\Service\PostNL\ShipmentService">
-            <argument type="service" id="PostNL\Shipments\Service\PostNL\Factory\ApiFactory"/>
-            <argument type="service" id="PostNL\Shipments\Service\Shopware\DataExtractor\OrderDataExtractor"/>
-            <argument type="service" id="PostNL\Shipments\Service\Shopware\OrderService"/>
-            <argument type="service" id="PostNL\Shipments\Service\Shopware\ConfigService"/>
-            <argument type="service" id="PostNL\Shipments\Service\PostNL\LabelService"/>
-            <argument type="service" id="PostNL\Shipments\Service\PostNL\Product\ProductService"/>
+        <service id="PostNL\Shopware6\Service\PostNL\Shopware6ervice">
+            <argument type="service" id="PostNL\Shopware6\Service\PostNL\Factory\ApiFactory"/>
+            <argument type="service" id="PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor"/>
+            <argument type="service" id="PostNL\Shopware6\Service\Shopware\OrderService"/>
+            <argument type="service" id="PostNL\Shopware6\Service\Shopware\ConfigService"/>
+            <argument type="service" id="PostNL\Shopware6\Service\PostNL\LabelService"/>
+            <argument type="service" id="PostNL\Shopware6\Service\PostNL\Product\ProductService"/>
         </service>
     </services>
 </container>

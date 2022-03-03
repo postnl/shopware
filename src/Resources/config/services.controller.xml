@@ -7,8 +7,8 @@
     <services>
         <defaults public="true"/>
 
-        <service id="PostNL\Shipments\Controller\Api\CredentialsController">
-            <argument type="service" id="PostNL\Shipments\Facade\CredentialsFacade"/>
+        <service id="PostNL\Shopware6\Controller\Api\CredentialsController">
+            <argument type="service" id="PostNL\Shopware6\Facade\CredentialsFacade"/>
             <argument type="service" id="postnl_shipments.logger"/>
 
             <call method="setContainer">
@@ -16,8 +16,8 @@
             </call>
         </service>
 
-        <service id="PostNL\Shipments\Controller\Api\ProductController">
-            <argument type="service" id="PostNL\Shipments\Facade\ProductFacade"/>
+        <service id="PostNL\Shopware6\Controller\Api\ProductController">
+            <argument type="service" id="PostNL\Shopware6\Facade\ProductFacade"/>
             <argument type="service" id="postnl_shipments.logger"/>
 
             <call method="setContainer">
@@ -25,8 +25,8 @@
             </call>
         </service>
 
-        <service id="PostNL\Shipments\Controller\Api\ShipmentController">
-            <argument type="service" id="PostNL\Shipments\Facade\ShipmentFacade"/>
+        <service id="PostNL\Shopware6\Controller\Api\ShipmentController">
+            <argument type="service" id="PostNL\Shopware6\Facade\ShipmentFacade"/>
             <argument type="service" id="postnl_shipments.logger"/>
 
             <call method="setContainer">
@@ -34,8 +34,8 @@
             </call>
         </service>
 
-        <service id="PostNL\Shipments\Controller\Storefront\PickupPointController">
-            <argument type="service" id="PostNL\Shipments\Service\Shopware\CartService"/>
+        <service id="PostNL\Shopware6\Controller\Storefront\PickupPointController">
+            <argument type="service" id="PostNL\Shopware6\Service\Shopware\CartService"/>
 <!--            <argument type="service" id="postnl_shipments.logger"/>-->
 
             <call method="setContainer">

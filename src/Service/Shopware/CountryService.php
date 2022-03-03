@@ -1,8 +1,8 @@
 <?php
 
-namespace PostNL\Shipments\Service\Shopware;
+namespace PostNL\Shopware6\Service\Shopware;
 
-use PostNL\Shipments\Exception\Shopware\InvalidCountryIdException;
+use PostNL\Shopware6\Exception\Shopware\InvalidCountryIdException;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;

@@ -1,14 +1,14 @@
 <?php
 
-namespace PostNL\Shipments\Service\PostNL\Product;
+namespace PostNL\Shopware6\Service\PostNL\Product;
 
-use PostNL\Shipments\Defaults;
-use PostNL\Shipments\Entity\Product\ProductCollection;
-use PostNL\Shipments\Entity\Product\ProductDefinition;
-use PostNL\Shipments\Entity\Product\ProductEntity;
-use PostNL\Shipments\Service\PostNL\Delivery\DeliveryType;
-use PostNL\Shipments\Service\PostNL\Delivery\Zone\Zone;
-use PostNL\Shipments\Struct\ProductFlagStruct;
+use PostNL\Shopware6\Defaults;
+use PostNL\Shopware6\Entity\Product\ProductCollection;
+use PostNL\Shopware6\Entity\Product\ProductDefinition;
+use PostNL\Shopware6\Entity\Product\ProductEntity;
+use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
+use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
+use PostNL\Shopware6\Struct\ProductFlagStruct;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;

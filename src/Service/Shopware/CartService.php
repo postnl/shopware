@@ -1,6 +1,6 @@
 <?php
 
-namespace PostNL\Shipments\Service\Shopware;
+namespace PostNL\Shopware6\Service\Shopware;
 
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\SalesChannel\CartService as ShopwareCartService;

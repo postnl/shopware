@@ -1,6 +1,6 @@
 <?php
 
-namespace PostNL\Shipments\Service\Shopware\DataExtractor;
+namespace PostNL\Shopware6\Service\Shopware\DataExtractor;
 
 use Shopware\Core\Checkout\Cart\Delivery\Struct\DeliveryCollection;
 use Shopware\Core\Checkout\Order\Aggregate\OrderAddress\OrderAddressEntity;

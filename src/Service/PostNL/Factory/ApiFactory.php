@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shipments\Service\PostNL\Factory;
+namespace PostNL\Shopware6\Service\PostNL\Factory;
 
 use Firstred\PostNL\Entity\Address;
 use Firstred\PostNL\Entity\Customer;
 use Firstred\PostNL\Exception\InvalidArgumentException;
 use Firstred\PostNL\PostNL;
-use PostNL\Shipments\Component\PostNL\Factory\GuzzleRequestFactory;
-use PostNL\Shipments\Service\Shopware\ConfigService;
+use PostNL\Shopware6\Component\PostNL\Factory\GuzzleRequestFactory;
+use PostNL\Shopware6\Service\Shopware\ConfigService;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 

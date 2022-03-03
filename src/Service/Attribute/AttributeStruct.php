@@ -1,6 +1,6 @@
 <?php
 
-namespace PostNL\Shipments\Service\Attribute;
+namespace PostNL\Shopware6\Service\Attribute;
 
 use Shopware\Core\Framework\Struct\ArrayStruct;
 use Shopware\Core\Framework\Struct\Collection;

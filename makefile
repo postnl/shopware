@@ -5,7 +5,7 @@
 .PHONY: help
 .DEFAULT_GOAL := help
 
-PLUGIN_VERSION=`php -r 'echo json_decode(file_get_contents("PostNLShipments/composer.json"))->version;'`
+PLUGIN_VERSION=`php -r 'echo json_decode(file_get_contents("PostNL/composer.json"))->version;'`
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -62,5 +62,5 @@ pr: ## Prepares everything for a Pull Request
 	@make phpunit -B
 
 release: ## Creates a new ZIP package
-	@cd .. && rm -rf PostNLShipments-$(PLUGIN_VERSION).zip
-	@cd .. && zip -qq -r -0 PostNLShipments-$(PLUGIN_VERSION).zip PostNLShipments/ -x '.editorconfig' '*.git*' '*.reports*' '*/tests*' '*/makefile' '*.DS_Store' '*/phpunit.xml' '*/.phpstan.neon' '*/.php_cs.php' '*/phpinsights.php' '*node_modules*' '*administration/build*' '*storefront/build*'
+	@cd .. && rm -rf PostNL-$(PLUGIN_VERSION).zip
+	@cd .. && zip -qq -r -0 PostNL-$(PLUGIN_VERSION).zip PostNL/ -x '.editorconfig' '*.git*' '*.reports*' '*/tests*' '*/makefile' '*.DS_Store' '*/phpunit.xml' '*/.phpstan.neon' '*/.php_cs.php' '*/phpinsights.php' '*node_modules*' '*administration/build*' '*storefront/build*'

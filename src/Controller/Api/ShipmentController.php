@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shipments\Controller\Api;
+namespace PostNL\Shopware6\Controller\Api;
 
-use PostNL\Shipments\Facade\ShipmentFacade;
+use PostNL\Shopware6\Facade\ShipmentFacade;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;

@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shipments;
+namespace PostNL\Shopware6;
 
-use PostNL\Shipments\Service\Shopware\ShippingMethodService;
+use PostNL\Shopware6\Service\Shopware\ShippingMethodService;
 use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
@@ -15,7 +15,7 @@ if (file_exists(dirname(__DIR__) . '/vendor/autoload.php')) {
     }
 }
 
-class PostNLShipments extends Plugin
+class PostNL extends Plugin
 {
     public function activate(ActivateContext $activateContext): void
     {

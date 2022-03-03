@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shipments\Controller\Storefront;
+namespace PostNL\Shopware6\Controller\Storefront;
 
-use PostNL\Shipments\Service\Shopware\CartService;
+use PostNL\Shopware6\Service\Shopware\CartService;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;

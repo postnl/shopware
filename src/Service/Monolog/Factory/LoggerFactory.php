@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shipments\Service\Monolog\Factory;
+namespace PostNL\Shopware6\Service\Monolog\Factory;
 
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
-use PostNL\Shipments\Service\Shopware\ConfigService;
+use PostNL\Shopware6\Service\Shopware\ConfigService;
 use Shopware\Core\Framework\Log\Monolog\DoctrineSQLHandler;
 use Shopware\Core\Kernel;
 use Shopware\Core\System\SystemConfig\SystemConfigService;

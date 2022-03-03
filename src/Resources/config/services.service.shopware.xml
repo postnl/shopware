@@ -7,26 +7,26 @@
     <services>
         <defaults public="true"/>
 
-        <service id="PostNL\Shipments\Service\Shopware\CartService">
+        <service id="PostNL\Shopware6\Service\Shopware\CartService">
             <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
         </service>
 
-        <service id="PostNL\Shipments\Service\Shopware\ConfigService">
+        <service id="PostNL\Shopware6\Service\Shopware\ConfigService">
             <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
-            <argument type="service" id="PostNL\Shipments\Service\Attribute\Factory\AttributeFactory"/>
+            <argument type="service" id="PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory"/>
             <argument type="service" id="postnl_shipments.logger"/>
         </service>
 
-        <service id="PostNL\Shipments\Service\Shopware\CountryService">
+        <service id="PostNL\Shopware6\Service\Shopware\CountryService">
             <argument type="service" id="country.repository"/>
             <argument type="service" id="postnl_shipments.logger"/>
         </service>
 
-        <service id="PostNL\Shipments\Service\Shopware\OrderService">
+        <service id="PostNL\Shopware6\Service\Shopware\OrderService">
             <argument type="service" id="order.repository"/>
         </service>
 
-        <service id="PostNL\Shipments\Service\Shopware\ShippingMethodService">
+        <service id="PostNL\Shopware6\Service\Shopware\ShippingMethodService">
             <argument type="service" id="delivery_time.repository"/>
             <argument type="service" id="media.repository"/>
             <argument type="service" id="rule.repository"/>

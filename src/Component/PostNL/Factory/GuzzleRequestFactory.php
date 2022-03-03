@@ -1,6 +1,6 @@
 <?php
 
-namespace PostNL\Shipments\Component\PostNL\Factory;
+namespace PostNL\Shopware6\Component\PostNL\Factory;
 
 use Firstred\PostNL\Factory\RequestFactoryInterface;
 use GuzzleHttp\Psr7\Request;

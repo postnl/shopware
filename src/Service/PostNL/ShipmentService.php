@@ -1,6 +1,6 @@
 <?php
 
-namespace PostNL\Shipments\Service\PostNL;
+namespace PostNL\Shopware6\Service\PostNL;
 
 use Firstred\PostNL\Entity\Address;
 use Firstred\PostNL\Entity\Dimension;
@@ -8,12 +8,12 @@ use Firstred\PostNL\Entity\Label;
 use Firstred\PostNL\Entity\Response\GenerateLabelResponse;
 use Firstred\PostNL\Entity\Shipment;
 use Firstred\PostNL\Exception\PostNLException;
-use PostNL\Shipments\Defaults;
-use PostNL\Shipments\Service\PostNL\Factory\ApiFactory;
-use PostNL\Shipments\Service\PostNL\Product\ProductService;
-use PostNL\Shipments\Service\Shopware\ConfigService;
-use PostNL\Shipments\Service\Shopware\DataExtractor\OrderDataExtractor;
-use PostNL\Shipments\Service\Shopware\OrderService;
+use PostNL\Shopware6\Defaults;
+use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
+use PostNL\Shopware6\Service\PostNL\Product\ProductService;
+use PostNL\Shopware6\Service\Shopware\ConfigService;
+use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor;
+use PostNL\Shopware6\Service\Shopware\OrderService;
 use Shopware\Core\Checkout\Order\OrderCollection;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;

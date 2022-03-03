@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shipments\Service\PostNL\Delivery;
+namespace PostNL\Shopware6\Service\PostNL\Delivery;
 
 interface DeliveryType
 {
