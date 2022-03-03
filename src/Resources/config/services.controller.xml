@@ -9,7 +9,7 @@
 
         <service id="PostNL\Shopware6\Controller\Api\CredentialsController">
             <argument type="service" id="PostNL\Shopware6\Facade\CredentialsFacade"/>
-            <argument type="service" id="postnl_shipments.logger"/>
+            <argument type="service" id="postnl.logger"/>
 
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
@@ -18,7 +18,7 @@
 
         <service id="PostNL\Shopware6\Controller\Api\ProductController">
             <argument type="service" id="PostNL\Shopware6\Facade\ProductFacade"/>
-            <argument type="service" id="postnl_shipments.logger"/>
+            <argument type="service" id="postnl.logger"/>
 
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
@@ -27,7 +27,7 @@
 
         <service id="PostNL\Shopware6\Controller\Api\ShipmentController">
             <argument type="service" id="PostNL\Shopware6\Facade\ShipmentFacade"/>
-            <argument type="service" id="postnl_shipments.logger"/>
+            <argument type="service" id="postnl.logger"/>
 
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
@@ -36,7 +36,7 @@
 
         <service id="PostNL\Shopware6\Controller\Storefront\PickupPointController">
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\CartService"/>
-<!--            <argument type="service" id="postnl_shipments.logger"/>-->
+<!--            <argument type="service" id="postnl.logger"/>-->
 
             <call method="setContainer">
                 <argument type="service" id="service_container"/>

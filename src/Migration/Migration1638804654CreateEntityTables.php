@@ -18,7 +18,7 @@ class Migration1638804654CreateEntityTables extends MigrationStep
     public function update(Connection $connection): void
     {
         $sql = <<<SQL
-CREATE TABLE IF NOT EXISTS `postnl_shipments_product` (
+CREATE TABLE IF NOT EXISTS `postnl_product` (
     `id` BINARY(16) NOT NULL,
     `product_code_delivery` VARCHAR(255) NOT NULL,
     `source_zone` VARCHAR(255) NOT NULL,
@@ -33,62 +33,62 @@ CREATE TABLE IF NOT EXISTS `postnl_shipments_product` (
     `created_at` DATETIME(3) NOT NULL,
     `updated_at` DATETIME(3) NULL,
     PRIMARY KEY (`id`),
-    CONSTRAINT `un.postnl_shipments_product.product_code_delivery` UNIQUE (`product_code_delivery`)
+    CONSTRAINT `un.postnl_product.product_code_delivery` UNIQUE (`product_code_delivery`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `postnl_shipments_product_translation` (
+CREATE TABLE IF NOT EXISTS `postnl_product_translation` (
     `name` VARCHAR(255) NOT NULL,
     `description` VARCHAR(255) NOT NULL,
     `created_at` DATETIME(3) NOT NULL,
     `updated_at` DATETIME(3) NULL,
-    `postnl_shipments_product_id` BINARY(16) NOT NULL,
+    `postnl_product_id` BINARY(16) NOT NULL,
     `language_id` BINARY(16) NOT NULL,
-    PRIMARY KEY (`postnl_shipments_product_id`,`language_id`),
-    KEY `fk.postnl_shipments_product_translation.product_id` (`postnl_shipments_product_id`),
-    KEY `fk.postnl_shipments_product_translation.language_id` (`language_id`),
-    CONSTRAINT `fk.postnl_shipments_product_translation.product_id` FOREIGN KEY (`postnl_shipments_product_id`)
-        REFERENCES `postnl_shipments_product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `fk.postnl_shipments_product_translation.language_id` FOREIGN KEY (`language_id`)
+    PRIMARY KEY (`postnl_product_id`,`language_id`),
+    KEY `fk.postnl_product_translation.product_id` (`postnl_product_id`),
+    KEY `fk.postnl_product_translation.language_id` (`language_id`),
+    CONSTRAINT `fk.postnl_product_translation.product_id` FOREIGN KEY (`postnl_product_id`)
+        REFERENCES `postnl_product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `fk.postnl_product_translation.language_id` FOREIGN KEY (`language_id`)
         REFERENCES `language` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `postnl_shipments_product_option` (
+CREATE TABLE IF NOT EXISTS `postnl_product_option` (
     `id` BINARY(16) NOT NULL,
     `characteristic` VARCHAR(3) NOT NULL,
     `option` VARCHAR(3) NOT NULL,
     `created_at` DATETIME(3) NOT NULL,
     `updated_at` DATETIME(3) NULL,
     PRIMARY KEY (`id`),
-    CONSTRAINT `un.postnl_shipments_product_option.product_option` UNIQUE (`characteristic`, `option`)
+    CONSTRAINT `un.postnl_product_option.product_option` UNIQUE (`characteristic`, `option`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `postnl_shipments_product_option_translation` (
+CREATE TABLE IF NOT EXISTS `postnl_product_option_translation` (
     `name` VARCHAR(255) NOT NULL,
     `description` VARCHAR(255) NOT NULL,
     `created_at` DATETIME(3) NOT NULL,
     `updated_at` DATETIME(3) NULL,
-    `postnl_shipments_product_option_id` BINARY(16) NOT NULL,
+    `postnl_product_option_id` BINARY(16) NOT NULL,
     `language_id` BINARY(16) NOT NULL,
-    PRIMARY KEY (`postnl_shipments_product_option_id`,`language_id`),
-    KEY `fk.postnl_shipments_product_option_translation.product_option_id` (`postnl_shipments_product_option_id`),
-    KEY `fk.postnl_shipments_product_option_translation.language_id` (`language_id`),
-    CONSTRAINT `fk.postnl_shipments_product_option_translation.product_option_id` FOREIGN KEY (`postnl_shipments_product_option_id`)
-        REFERENCES `postnl_shipments_product_option` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `fk.postnl_shipments_product_option_translation.language_id` FOREIGN KEY (`language_id`)
+    PRIMARY KEY (`postnl_product_option_id`,`language_id`),
+    KEY `fk.postnl_product_option_translation.product_option_id` (`postnl_product_option_id`),
+    KEY `fk.postnl_product_option_translation.language_id` (`language_id`),
+    CONSTRAINT `fk.postnl_product_option_translation.product_option_id` FOREIGN KEY (`postnl_product_option_id`)
+        REFERENCES `postnl_product_option` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `fk.postnl_product_option_translation.language_id` FOREIGN KEY (`language_id`)
         REFERENCES `language` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `postnl_shipments_product_option_mapping` (
+CREATE TABLE IF NOT EXISTS `postnl_product_option_mapping` (
     `product_id` BINARY(16) NOT NULL,
     `product_option_id` BINARY(16) NOT NULL,
     `created_at` DATETIME(3) NOT NULL,
     PRIMARY KEY (`product_option_id`,`product_id`),
-    KEY `fk.postnl_shipments_product_option_mapping.product_id` (`product_id`),
-    KEY `fk.postnl_shipments_product_option_mapping.product_option_id` (`product_option_id`),
-    CONSTRAINT `fk.postnl_shipments_product_option_mapping.product_id` FOREIGN KEY (`product_id`)
-        REFERENCES `postnl_shipments_product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `fk.postnl_shipments_product_option_mapping.product_option_id` FOREIGN KEY (`product_option_id`)
-        REFERENCES `postnl_shipments_product_option` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    KEY `fk.postnl_product_option_mapping.product_id` (`product_id`),
+    KEY `fk.postnl_product_option_mapping.product_option_id` (`product_option_id`),
+    CONSTRAINT `fk.postnl_product_option_mapping.product_id` FOREIGN KEY (`product_id`)
+        REFERENCES `postnl_product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `fk.postnl_product_option_mapping.product_option_id` FOREIGN KEY (`product_option_id`)
+        REFERENCES `postnl_product_option` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 SQL;
 
@@ -99,11 +99,11 @@ SQL;
     {
         $sql = <<<SQL
 DROP TABLE IF EXISTS
-    `postnl_shipments_product_option_mapping`,
-    `postnl_shipments_product_option_translation`,
-    `postnl_shipments_product_option`,
-    `postnl_shipments_product_translation`,
-    `postnl_shipments_product`;
+    `postnl_product_option_mapping`,
+    `postnl_product_option_translation`,
+    `postnl_product_option`,
+    `postnl_product_translation`,
+    `postnl_product`;
 SQL;
 
         $this->execute($connection, $sql);

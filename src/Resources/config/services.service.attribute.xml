@@ -10,7 +10,7 @@
         <service id="PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory">
             <argument type="tagged" tag="postnl.attribute.struct.entity"/>
             <argument type="tagged" tag="postnl.attribute.handler.type"/>
-            <argument type="service" id="postnl_shipments.logger"/>
+            <argument type="service" id="postnl.logger"/>
         </service>
 
         <service id="PostNL\Shopware6\Struct\ShippingMethodStruct">

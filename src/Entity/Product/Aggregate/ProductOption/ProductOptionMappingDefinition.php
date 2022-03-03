@@ -19,7 +19,7 @@ class ProductOptionMappingDefinition extends MappingEntityDefinition
      */
     public function getEntityName(): string
     {
-        return 'postnl_shipments_product_option_mapping';
+        return 'postnl_product_option_mapping';
     }
 
     /**

@@ -20,7 +20,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 
 class ProductDefinition extends EntityDefinition
 {
-    const ENTITY_NAME = 'postnl_shipments_product';
+    const ENTITY_NAME = 'postnl_product';
 
     const STOR_HOME_ALONE = 'home_alone';
     const STOR_RETURN_IF_NOT_HOME = 'return_if_not_home';

@@ -22,7 +22,7 @@ Shopware.Component.extend('postnl-shipments-order-list', 'sw-order-list', {
 
             criteria.addFilter(
                 Criteria.equalsAny(
-                    'deliveries.shippingMethod.customFields.postnl_shipments.deliveryType',
+                    'deliveries.shippingMethod.customFields.postnl.deliveryType',
                     ['mailbox', 'shipment', 'pickup']
                 )
             );

@@ -14,12 +14,12 @@
         <service id="PostNL\Shopware6\Service\Shopware\ConfigService">
             <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
             <argument type="service" id="PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory"/>
-            <argument type="service" id="postnl_shipments.logger"/>
+            <argument type="service" id="postnl.logger"/>
         </service>
 
         <service id="PostNL\Shopware6\Service\Shopware\CountryService">
             <argument type="service" id="country.repository"/>
-            <argument type="service" id="postnl_shipments.logger"/>
+            <argument type="service" id="postnl.logger"/>
         </service>
 
         <service id="PostNL\Shopware6\Service\Shopware\OrderService">
@@ -32,7 +32,7 @@
             <argument type="service" id="rule.repository"/>
             <argument type="service" id="shipping_method.repository"/>
             <argument type="service" id="Shopware\Core\Content\Media\MediaService"/>
-            <argument type="service" id="postnl_shipments.logger"/>
+            <argument type="service" id="postnl.logger"/>
         </service>
     </services>
 </container>

@@ -12,7 +12,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 
 class ProductOptionTranslationDefinition extends EntityTranslationDefinition
 {
-    const ENTITY_NAME = 'postnl_shipments_product_option_translation';
+    const ENTITY_NAME = 'postnl_product_option_translation';
 
     /**
      * @return string

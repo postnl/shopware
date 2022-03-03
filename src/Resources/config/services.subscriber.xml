@@ -14,7 +14,7 @@
             <argument type="service" id="PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory"/>
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\CartService"/>
 <!--            <argument type="service" id="PostNL\Shopware6\Service\PostNL\Factory\ApiFactory"/>-->
-<!--            <argument type="service" id="postnl_shipments.logger"/>-->
+<!--            <argument type="service" id="postnl.logger"/>-->
             <tag name="kernel.event_subscriber"/>
         </service>
 

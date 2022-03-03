@@ -46,7 +46,7 @@ Component.register('postnl-shipping-modal', {
     methods: {
         createdComponent() {
             if(!this.isBulk) {
-                this.overrideProductId = Object.values(this.selection)[0].customFields?.postnl_shipments?.productId;
+                this.overrideProductId = Object.values(this.selection)[0].customFields?.postnl?.productId;
                 this.isOverrideProduct = !!this.overrideProductId;
             }
         },

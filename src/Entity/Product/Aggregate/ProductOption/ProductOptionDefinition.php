@@ -19,7 +19,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 
 class ProductOptionDefinition extends EntityDefinition
 {
-    const ENTITY_NAME = 'postnl_shipments_product_option';
+    const ENTITY_NAME = 'postnl_product_option';
 
     /**
      * @return string
