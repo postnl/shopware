@@ -28,8 +28,15 @@ Component.register('memo-config', {
 
     data() {
         return {
+            fieldType: 'block',
             content: {},
         };
+    },
+
+    computed: {
+        field() {
+            return `sw-${this.fieldType}-field`;
+        }
     },
 
     watch: {
