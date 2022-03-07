@@ -5,6 +5,7 @@
   "license": "proprietary",
   "config": {
     "optimize-autoloader": true,
+    "prepend-autoloader": false,
     "allow-plugins": {
       "composer/package-versions-deprecated": true
     }

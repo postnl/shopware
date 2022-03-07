@@ -19,7 +19,7 @@
 
         <service id="PostNL\Shopware6\Facade\ShipmentFacade">
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\OrderService"/>
-            <argument type="service" id="PostNL\Shopware6\Service\PostNL\Shopware6ervice"/>
+            <argument type="service" id="PostNL\Shopware6\Service\PostNL\ShipmentService"/>
 <!--            <argument type="service" id="postnl.logger"/>-->
         </service>
     </services>
