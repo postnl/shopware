@@ -22,19 +22,19 @@ Shopware.Module.register('postnl-order', {
     },
 
     routes: {
-        list: {
+        index: {
             component: 'postnl-order-list',
-            path: 'list'
+            path: 'index'
         },
     },
 
     navigation: [
         {
-            id: 'postnl-order-list',
+            id: 'postnl-order-index',
             label: 'postnl.general.ordersMenuItemGeneral',
             icon: 'default-package-closed',
             color: '#ed7000',
-            path: 'postnl.order.list',
+            path: 'postnl.order.index',
             parent: 'sw-order'
         }
     ]
