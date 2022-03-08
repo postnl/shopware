@@ -47,31 +47,6 @@ class CredentialsController extends AbstractController
         $apiKey = $request->get('apiKey');
         $sandbox = $request->get('sandbox');
 
-        return $this->getTestResponse($apiKey, $sandbox);
-    }
-
-    /**
-     * @Route("/api/v{version}/_action/postnl/credentials/test",
-     *         defaults={"auth_enabled"=true}, name="api.action.postnl.credentials.test.legacy", methods={"POST"})
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function testLegacy(Request $request): JsonResponse
-    {
-        $apiKey = $request->get('apiKey');
-        $sandbox = $request->get('sandbox');
-
-        return $this->getTestResponse($apiKey, $sandbox);
-    }
-
-    /**
-     * @param string $apiKey
-     * @param bool $sandbox
-     * @return JsonResponse
-     */
-    private function getTestResponse(string $apiKey, bool $sandbox): JsonResponse
-    {
         $valid = $this->credentialsFacade->test($apiKey, $sandbox);
 
         $this->logger->info("API key validated", [
