@@ -12,7 +12,6 @@ Component.extend('postnl-config-return-address', 'memo-config', {
 
     watch: {
         senderCountry(value) {
-            console.log(value);
             this.content.countrycode = value.iso;
         }
     }

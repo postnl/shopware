@@ -1,18 +1,20 @@
 import template from './postnl-shipments-order-list.html.twig'
 
-const {Criteria} = Shopware.Data;
+const { Criteria } = Shopware.Data;
 
 Shopware.Component.extend('postnl-shipments-order-list', 'sw-order-list', {
     template,
 
     inject: [
-        'ProductSelectionService'
+        'ProductSelectionService',
     ],
 
     data() {
         return {
             isOpenBulkShippingModal: false,
             isShippingModalId: null,
+
+            countries: {}
         }
     },
 
@@ -30,6 +32,10 @@ Shopware.Component.extend('postnl-shipments-order-list', 'sw-order-list', {
             criteria.addAssociation('deliveries.shippingMethod');
 
             return criteria;
+        },
+
+        countryRepository() {
+            return this.repositoryFactory.create('country');
         },
 
         listFilters() {
@@ -51,6 +57,8 @@ Shopware.Component.extend('postnl-shipments-order-list', 'sw-order-list', {
 
             try {
                 const response = await this.orderRepository.search(criteria);
+
+                await this.loadCountries(response);
 
                 this.total = response.total;
                 this.orders = response;
@@ -82,6 +90,20 @@ Shopware.Component.extend('postnl-shipments-order-list', 'sw-order-list', {
                     allowResize: true,
                     addAfter: 'deliveries[0].shippingOrderAddressId'
                 },
+                {
+                    property: 'customFields.postnl.barCode',
+                    dataIndex: 'customFields.postnl.barCode',
+                    label: 'sw-order.list.columnBarCode',
+                    allowResize: true,
+                    addAfter: 'deliveries[0].shippingMethod'
+                },
+                {
+                    property: 'customFields.postnl.status',
+                    dataIndex: 'customFields.postnl.status',
+                    label: 'sw-order.list.columnStatus',
+                    allowResize: true,
+                    addAfter: 'customFields.postnl.barCode'
+                },
             ];
 
 
@@ -96,6 +118,20 @@ Shopware.Component.extend('postnl-shipments-order-list', 'sw-order-list', {
             return columns;
         },
 
+        loadCountries(orders) {
+            const countryIds = [];
+            for (const order of orders) {
+                countryIds.push(order.deliveries[0].shippingOrderAddress.countryId);
+            }
+
+            const criteria = new Criteria();
+            criteria.setIds([...new Set(countryIds)]);
+
+            return this.countryRepository
+                .search(criteria)
+                .then(result => this.countries = result)
+        },
+
         openShippingModal(id) {
             this.isShippingModalId = id;
         },
@@ -104,9 +140,18 @@ Shopware.Component.extend('postnl-shipments-order-list', 'sw-order-list', {
         },
         openBulkShippingModal() {
             this.isOpenBulkShippingModal = true;
-        } ,
+        },
         closeBulkShippingModal() {
             this.isOpenBulkShippingModal = false;
+        },
+
+        getBarCodeLink(item) {
+            const barCode = item.customFields.postnl.barCode;
+            const zipcode = item.deliveries[0].shippingOrderAddress.zipcode;
+            const country = Array.from(this.countries).find(country =>
+                country.id === item.deliveries[0].shippingOrderAddress.countryId);
+
+            return `http://postnl.nl/tracktrace/?B=${ barCode }&P=${ zipcode }&D=${ country.iso }&T=B`;
         },
     }
 });

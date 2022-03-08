@@ -16,6 +16,16 @@
         </template>
     {% endblock %}
 
+    {% block sw_order_list_grid_columns_custom_fields_postnl_bar_code %}
+        <template #column-customFields.postnl.barCode="{ item }">
+            <sw-external-link v-if="item.customFields.postnl.barCode"
+                              :href="getBarCodeLink(item)"
+                              target="_blank">
+                {{ item.customFields.postnl.barCode }}
+            </sw-external-link>
+        </template>
+    {% endblock %}
+
 {% endblock %}
 
 {% block sw_order_list_grid_columns_actions_view %}
