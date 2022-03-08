@@ -31,11 +31,14 @@
                    @click="closeModal">
             Cancel
         </sw-button>
-        <sw-button size="small"
-                   variant="primary"
-                   :isLoading="isProcessing"
-                   @click="sendShipments">
+        <sw-button-process size="small"
+                           variant="primary"
+                           :animationTimeout="2500"
+                           :isLoading="isProcessing"
+                           :processSuccess="shipmentsSent"
+                           @click="sendShipments"
+                           @process-finish="shipmentsSent = false">
             Send Shipment
-        </sw-button>
+        </sw-button-process>
     </template>
 </sw-modal>

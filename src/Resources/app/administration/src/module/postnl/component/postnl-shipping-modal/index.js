@@ -33,6 +33,8 @@ Component.register('postnl-shipping-modal', {
             autoConfirmShipments: true,
             confirmShipments: true,
             downloadLabels: true,
+
+            shipmentsSent: false
         };
     },
 
@@ -90,6 +92,7 @@ Component.register('postnl-shipping-modal', {
                 })
                 .finally(() => {
                     this.isProcessing = false;
+                    this.shipmentsSent = true;
                 })
         }
     },
