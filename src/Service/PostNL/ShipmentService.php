@@ -115,7 +115,7 @@ class ShipmentService
         return $barCodesAssigned;
     }
 
-    public function shipOrders(OrderCollection $orders, Context $context)
+    public function shipOrders(OrderCollection $orders, bool $confirm, Context $context)
     {
         $response = [];
 
@@ -125,7 +125,7 @@ class ShipmentService
         $a6Orientation = $config->getPrinterA6Orientation();
 
         $printerType = 'GraphicFile|PDF';
-        $confirm = false;
+        $confirm = $config->isAutoConfirmShipment() || $confirm;
 
         $positions = [
             1 => true,

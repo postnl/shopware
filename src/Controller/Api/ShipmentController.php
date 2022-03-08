@@ -74,11 +74,13 @@ class ShipmentController extends AbstractController
         $orderIds = $data->get('orderIds')->all();
         $overrideProduct = $data->getBoolean('overrideProduct');
         $overrideProductId = $data->get('overrideProductId');
+        $confirmShipments = $data->getBoolean('confirmShipments');
 
         $pdf = $this->shipmentFacade->shipOrders(
             $orderIds,
             $overrideProduct,
             $overrideProductId,
+            $confirmShipments,
             $context
         );
 
@@ -90,6 +92,13 @@ class ShipmentController extends AbstractController
         );
     }
 
+    /**
+     * @param string $filename
+     * @param string $content
+     * @param bool $forceDownload
+     * @param string $contentType
+     * @return Response
+     */
     private function createBinaryResponse(string $filename, string $content, bool $forceDownload, string $contentType): Response
     {
         $response = new Response($content);

@@ -41,7 +41,7 @@ class ShipmentFacade
 
         $ordersWithoutBarcode = $orders->filter(function (OrderEntity $order) {
             $customFields = $order->getCustomFields() ?? [];
-            if(!array_key_exists(Defaults::CUSTOM_FIELDS_KEY, $customFields)) {
+            if (!array_key_exists(Defaults::CUSTOM_FIELDS_KEY, $customFields)) {
                 return false;
             }
             return !array_key_exists('barCode', $customFields[Defaults::CUSTOM_FIELDS_KEY]);
@@ -61,6 +61,7 @@ class ShipmentFacade
         array   $orderIds,
         bool    $overrideProduct,
         string  $overrideProductId,
+        bool    $confirmShipments,
         Context $context
     ): string
     {
@@ -72,7 +73,7 @@ class ShipmentFacade
 
         $orders = $this->orderService->getOrders($orderIds, $context);
 
-        $pdf = $this->shipmentService->shipOrders($orders, $context);
+        $pdf = $this->shipmentService->shipOrders($orders, $confirmShipments, $context);
 
         return $pdf;
     }

@@ -70,7 +70,12 @@ Component.register('postnl-shipping-modal', {
 
             this.ShipmentService
                 .generateBarcodes(orderIds)
-                .then(() => this.ShipmentService.createShipments(orderIds, this.isOverrideProduct, this.overrideProductId))
+                .then(() => this.ShipmentService.createShipments(
+                    orderIds,
+                    this.isOverrideProduct,
+                    this.overrideProductId,
+                    this.confirmShipments
+                ))
                 .then(response => {
                     if (response.data) {
                         const filename = response.headers['content-disposition'].split('filename=')[1];
