@@ -11,7 +11,7 @@ use Shopware\Core\System\SystemConfig\SystemConfigService;
 
 class ConfigService
 {
-    const DOMAIN = 'PostNLShipments.config.';
+    const DOMAIN = 'PostNL.config.';
 
     /**
      * @var SystemConfigService

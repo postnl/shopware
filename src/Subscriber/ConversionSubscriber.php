@@ -56,7 +56,10 @@ class ConversionSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $config = $this->configService->getConfiguration($event->getSalesChannelContext()->getSalesChannelId(), $event->getContext());
+        $config = $this->configService->getConfiguration(
+            $event->getSalesChannelContext()->getSalesChannelId(),
+            $event->getContext()
+        );
 
         $productId = $this->getProductId($cart, $config, $attributes);
 
