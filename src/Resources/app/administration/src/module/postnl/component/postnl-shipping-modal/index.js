@@ -8,7 +8,8 @@ Component.register('postnl-shipping-modal', {
     template,
 
     inject: [
-        'ShipmentService'
+        'ShipmentService',
+        'systemConfigApiService'
     ],
 
     mixins: [
@@ -29,14 +30,15 @@ Component.register('postnl-shipping-modal', {
             isOverrideProduct: false,
             overrideProductId: null,
 
-            confirmShipments: false,
+            autoConfirmShipments: true,
+            confirmShipments: true,
         };
     },
 
     computed: {
         isBulk() {
             return Object.values(this.selection).length > 1;
-        }
+        },
     },
 
     created() {
@@ -49,6 +51,10 @@ Component.register('postnl-shipping-modal', {
                 this.overrideProductId = Object.values(this.selection)[0].customFields?.postnl?.productId;
                 this.isOverrideProduct = !!this.overrideProductId;
             }
+
+            this.systemConfigApiService
+                .getValues('PostNL')
+                .then(config => this.autoConfirmShipments = config['PostNL.config.autoConfirmShipments']);
         },
 
         closeModal() {

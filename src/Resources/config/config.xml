@@ -181,7 +181,7 @@
         <title lang="nl-NL">Other</title>
 
         <input-field type="bool">
-            <name>autoConfirmShipment</name>
+            <name>autoConfirmShipments</name>
             <label>Automatically confirm shipments</label>
             <label lang="de-DE">Automatische Vorankündigung von Sendungen</label>
             <label lang="nl-NL">Automatisch zendingen voormelden</label>

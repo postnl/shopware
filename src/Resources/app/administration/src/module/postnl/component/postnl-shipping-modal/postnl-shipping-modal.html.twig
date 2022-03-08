@@ -18,7 +18,8 @@
         <postnl-product-selection :disabled="!isOverrideProduct"
                                   v-model="overrideProductId"/>
 
-        <sw-switch-field v-model="confirmShipments"
+        <sw-switch-field v-if="!autoConfirmShipments"
+                         v-model="confirmShipments"
                          label="Confirm Shipments"
                          size="small"
                          noMarginTop />
