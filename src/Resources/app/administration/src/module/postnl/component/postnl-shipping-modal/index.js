@@ -32,6 +32,7 @@ Component.register('postnl-shipping-modal', {
 
             autoConfirmShipments: true,
             confirmShipments: true,
+            downloadLabels: true,
         };
     },
 
@@ -74,7 +75,8 @@ Component.register('postnl-shipping-modal', {
                     orderIds,
                     this.isOverrideProduct,
                     this.overrideProductId,
-                    this.confirmShipments
+                    this.confirmShipments,
+                    this.downloadLabels,
                 ))
                 .then(response => {
                     if (response.data) {

@@ -75,6 +75,7 @@ class ShipmentController extends AbstractController
         $overrideProduct = $data->getBoolean('overrideProduct');
         $overrideProductId = $data->get('overrideProductId');
         $confirmShipments = $data->getBoolean('confirmShipments');
+        $downloadLabels = $data->getBoolean('downloadLabels');
 
         $pdf = $this->shipmentFacade->shipOrders(
             $orderIds,
@@ -83,6 +84,10 @@ class ShipmentController extends AbstractController
             $confirmShipments,
             $context
         );
+
+        if(!$downloadLabels) {
+            return $this->json(null,204);
+        }
 
         return $this->createBinaryResponse(
             'PostNL_Labels_' . date('YmdHis') . '.pdf',

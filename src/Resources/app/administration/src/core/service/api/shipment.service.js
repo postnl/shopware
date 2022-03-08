@@ -8,12 +8,13 @@ export default class ShipmentService extends PostNlApiService
         })
     }
 
-    createShipments(orderIds, overrideProduct, overrideProductId, confirmShipments) {
+    createShipments(orderIds, overrideProduct, overrideProductId, confirmShipments, downloadLabels) {
         return this.getBlob('shipment/labels', {
             orderIds: orderIds,
             overrideProduct: overrideProduct,
             overrideProductId: overrideProductId,
-            confirmShipments: confirmShipments
+            confirmShipments: confirmShipments,
+            downloadLabels: downloadLabels,
         });
     }
 

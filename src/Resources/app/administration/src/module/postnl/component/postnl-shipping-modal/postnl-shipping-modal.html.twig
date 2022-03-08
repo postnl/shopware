@@ -1,18 +1,14 @@
 <sw-modal class="postnl-shipping-modal"
           title="Hello"
           :closable="!isProcessing"
-{#          :variant="isBulk ? 'full' : 'default'"#}
           @modal-close="closeModal">
     <sw-container>
-{#        <div v-for="item in selection">#}
-{#            {{ item.orderNumber }}#}
-{#        </div>#}
 
         <template v-if="isBulk">
             <sw-switch-field v-model="isOverrideProduct"
                              label="Override PostNL product"
                              size="small"
-                             noMarginTop />
+                             noMarginTop/>
         </template>
 
         <postnl-product-selection :disabled="!isOverrideProduct"
@@ -22,7 +18,11 @@
                          v-model="confirmShipments"
                          label="Confirm Shipments"
                          size="small"
-                         noMarginTop />
+                         noMarginTop/>
+        <sw-switch-field v-model="downloadLabels"
+                         label="Download shipping labels"
+                         size="small"
+                         noMarginTop/>
     </sw-container>
 
     <template #modal-footer>
