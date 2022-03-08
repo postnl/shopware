@@ -14,23 +14,23 @@
         <template #content="{ disabled }">
             <sw-container columns="2fr 1fr 1fr" gap="0 16px">
                 <sw-text-field v-model="content.customerNumber"
-                               :label="$tc('postnl.shipments.config.customerData.customerNumber')"
+                               :label="$tc('postnl.config.customerData.customerNumber')"
                                :disabled="disabled"/>
 
                 <sw-text-field v-model="content.customerCode"
-                               :label="$tc('postnl.shipments.config.customerData.customerCode')"
+                               :label="$tc('postnl.config.customerData.customerCode')"
                                :disabled="disabled"/>
 
                 <sw-text-field v-model="content.collectionLocation"
-                               :label="$tc('postnl.shipments.config.customerData.collectionLocation')"
+                               :label="$tc('postnl.config.customerData.collectionLocation')"
                                :disabled="disabled"/>
 
                 <sw-text-field v-model="content.globalPackCustomerCode"
-                               :label="$tc('postnl.shipments.config.customerData.globalPackCustomerCode')"
+                               :label="$tc('postnl.config.customerData.globalPackCustomerCode')"
                                :disabled="disabled"/>
 
                 <sw-text-field v-model="content.globalPackBarcodeType"
-                               :label="$tc('postnl.shipments.config.customerData.globalPackBarcodeType')"
+                               :label="$tc('postnl.config.customerData.globalPackBarcodeType')"
                                :disabled="disabled"
                                :style="span(2)"/>
             </sw-container>

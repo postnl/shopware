@@ -43,18 +43,18 @@ Component.register('postnl-config-api-credentials-test', {
             return this.PostNlApiCredentialsService.checkCredentials(apikey, sandbox)
                 .then((response) => {
                     const keySnippet = sandbox === true
-                        ? this.$tc('postnl.shipments.config.api.sandboxApiKey')
-                        : this.$tc('postnl.shipments.config.api.productionApiKey');
+                        ? this.$tc('postnl.config.api.sandboxApiKey')
+                        : this.$tc('postnl.config.api.productionApiKey');
 
                     if (response.valid === true) {
                         this.createNotificationSuccess({
                             title: this.$tc('global.default.success'),
-                            message: `${keySnippet} ${this.$tc('postnl.shipments.config.api.isValid')}`,
+                            message: `${keySnippet} ${this.$tc('postnl.config.api.isValid')}`,
                         });
                     } else {
                         this.createNotificationError({
                             title: this.$tc('global.default.error'),
-                            message: `${keySnippet} ${this.$tc('postnl.shipments.config.api.isInvalid')}`,
+                            message: `${keySnippet} ${this.$tc('postnl.config.api.isInvalid')}`,
                         });
                     }
                 })

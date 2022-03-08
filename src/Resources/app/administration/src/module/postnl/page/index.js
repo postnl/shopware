@@ -1,1 +1,1 @@
-import './postnl-shipments-order-list'
+import './postnl-order-list'

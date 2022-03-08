@@ -1,16 +1,15 @@
 import './component';
 import './page';
-import './view';
 
 import nlNL from './snippet/nl-NL.json';
 import deDE from './snippet/de-DE.json';
 import enGB from './snippet/en-GB.json';
 
-Shopware.Module.register('postnl-shipments', {
+Shopware.Module.register('postnl-order', {
     type: 'core',
     name: 'PostNL',
-    title: 'postnl-shipments.general.mainMenuItemGeneral',
-    description: 'postnl-shipments.general.descriptionTextModule',
+    title: 'postnl.general.mainMenuItemGeneral',
+    description: 'postnl.general.descriptionTextModule',
     version: '1.0.0',
     targetVersion: '1.0.0',
     color: '#ed7000',
@@ -23,19 +22,19 @@ Shopware.Module.register('postnl-shipments', {
     },
 
     routes: {
-        orders: {
-            component: 'postnl-shipments-order-list',
-            path: 'orders'
+        list: {
+            component: 'postnl-order-list',
+            path: 'list'
         },
     },
 
     navigation: [
         {
-            id: 'postnl-shipments-orders',
-            label: 'postnl-shipments.general.ordersMenuItemGeneral',
+            id: 'postnl-order-list',
+            label: 'postnl.general.ordersMenuItemGeneral',
             icon: 'default-package-closed',
             color: '#ed7000',
-            path: 'postnl.shipments.orders',
+            path: 'postnl.order.list',
             parent: 'sw-order'
         }
     ]

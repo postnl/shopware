@@ -1,49 +1,47 @@
 {
   "postnl": {
-    "shipments": {
-      "config": {
-        "api": {
-          "testButton": "Test API keys",
-          "dashboardButton": "To the PostNL API Management Portal",
-          "productionApiKey": "Production API key",
-          "sandboxApiKey": "Sandbox API key",
-          "isValid": "is valid.",
-          "isInvalid": "is invalid."
-        },
-        "customerData": {
-          "customerNumber": "Customer number",
-          "customerCode": "Customer code",
-          "collectionLocation": "Location / BLS code",
-          "globalPackCustomerCode": "Global Pack customer code",
-          "globalPackBarcodeType": "Global Pack barcode type"
-        },
-        "senderAddress": {
-          "companyName": "Company name",
-          "firstName": "First name",
-          "name": "Last name",
-          "street": "Street",
-          "houseNr": "House number",
-          "houseNrExt": "House number addition",
-          "zipcode": "Zipcode",
-          "city": "City",
-          "country": "Country"
-        },
-        "returnAddress": {
-          "contract": "I have a return contract with PostNL",
-          "companyName": "Company name",
-          "firstName": "First name",
-          "name": "Last name",
-          "street": "Street",
-          "houseNr": "House number",
-          "houseNrExt": "House number addition",
-          "zipcode": "Zipcode",
-          "city": "City",
-          "country": "Country",
-          "returnCustomerCode": "Return customer code ?",
-          "returnNumber": "Return number",
-          "warning": {
-            "country": "Please (re)select a valid country under sender address first."
-          }
+    "config": {
+      "api": {
+        "testButton": "Test API keys",
+        "dashboardButton": "To the PostNL API Management Portal",
+        "productionApiKey": "Production API key",
+        "sandboxApiKey": "Sandbox API key",
+        "isValid": "is valid.",
+        "isInvalid": "is invalid."
+      },
+      "customerData": {
+        "customerNumber": "Customer number",
+        "customerCode": "Customer code",
+        "collectionLocation": "Location / BLS code",
+        "globalPackCustomerCode": "Global Pack customer code",
+        "globalPackBarcodeType": "Global Pack barcode type"
+      },
+      "senderAddress": {
+        "companyName": "Company name",
+        "firstName": "First name",
+        "name": "Last name",
+        "street": "Street",
+        "houseNr": "House number",
+        "houseNrExt": "House number addition",
+        "zipcode": "Zipcode",
+        "city": "City",
+        "country": "Country"
+      },
+      "returnAddress": {
+        "contract": "I have a return contract with PostNL",
+        "companyName": "Company name",
+        "firstName": "First name",
+        "name": "Last name",
+        "street": "Street",
+        "houseNr": "House number",
+        "houseNrExt": "House number addition",
+        "zipcode": "Zipcode",
+        "city": "City",
+        "country": "Country",
+        "returnCustomerCode": "Return customer code ?",
+        "returnNumber": "Return number",
+        "warning": {
+          "country": "Please (re)select a valid country under sender address first."
         }
       }
     }

@@ -1,8 +1,8 @@
-import template from './postnl-shipments-order-list.html.twig'
+import template from './postnl-order-list.html.twig'
 
 const { Criteria } = Shopware.Data;
 
-Shopware.Component.extend('postnl-shipments-order-list', 'sw-order-list', {
+Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
     template,
 
     inject: [
