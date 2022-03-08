@@ -3,7 +3,7 @@
 namespace PostNL\Shopware6\Facade;
 
 use PostNL\Shopware6\Defaults;
-use PostNL\Shopware6\Service\PostNL\Shopware6ervice;
+use PostNL\Shopware6\Service\PostNL\ShipmentService;
 use PostNL\Shopware6\Service\Shopware\OrderService;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
