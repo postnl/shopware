@@ -112,6 +112,13 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
                 },
             ];
 
+            const orderStatusIndex = columns.findIndex((column) => column.property === 'stateMachineState.name');
+            const transactionStatusIndex = columns.findIndex((column) => column.property === 'transactions.last().stateMachineState.name');
+            const deliveryStatusIndex = columns.findIndex((column) => column.property === 'deliveries[0].stateMachineState.name');
+
+            columns[orderStatusIndex].visible = false;
+            columns[transactionStatusIndex].visible = false;
+            columns[deliveryStatusIndex].visible = false;
 
             extraColumns.forEach((extraColumn) => {
                 const addAfter = extraColumn.addAfter;
