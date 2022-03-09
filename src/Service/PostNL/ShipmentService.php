@@ -162,6 +162,10 @@ class ShipmentService
             foreach ($labelResponses as $labelResponse) {
                 $response[] = $labelResponse;
             }
+
+            foreach ($salesChannelOrders as $order) {
+                $this->orderService->updateOrderCustomFields($order->getId(), ['confirm' => $confirm], $context);
+            }
         }
 
         if ($printerType !== 'GraphicFile|PDF') {

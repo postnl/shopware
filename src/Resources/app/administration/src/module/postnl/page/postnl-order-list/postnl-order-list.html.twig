@@ -26,6 +26,15 @@
         </template>
     {% endblock %}
 
+    {% block sw_order_list_grid_columns_custom_fields_postnl_confirm %}
+        <template #column-customFields.postnl.confirm="{ item }">
+            <sw-data-grid-column-boolean
+                v-model="item.customFields.postnl.confirm || false"
+                :is-inline-edit="false"
+            />
+        </template>
+    {% endblock %}
+
 {% endblock %}
 
 {% block sw_order_list_grid_columns_actions_view %}

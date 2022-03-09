@@ -104,8 +104,8 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
                     addAfter: 'deliveries[0].shippingMethod'
                 },
                 {
-                    property: 'customFields.postnl.status',
-                    dataIndex: 'customFields.postnl.status',
+                    property: 'customFields.postnl.confirm',
+                    dataIndex: 'customFields.postnl.confirm',
                     label: 'sw-order.list.columnStatus',
                     allowResize: true,
                     addAfter: 'customFields.postnl.barCode'
