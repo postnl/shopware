@@ -5,10 +5,12 @@ namespace PostNL\Shopware6\Service\PostNL;
 use Firstred\PostNL\Entity\Address;
 use Firstred\PostNL\Entity\Dimension;
 use Firstred\PostNL\Entity\Label;
+use Firstred\PostNL\Entity\Request\GetLocation;
 use Firstred\PostNL\Entity\Response\GenerateLabelResponse;
 use Firstred\PostNL\Entity\Shipment;
 use Firstred\PostNL\Exception\PostNLException;
 use PostNL\Shopware6\Defaults;
+use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shopware6\Service\PostNL\Product\ProductService;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
@@ -52,12 +54,12 @@ class ShipmentService
 
 
     public function __construct(
-        ApiFactory $apiFactory,
+        ApiFactory         $apiFactory,
         OrderDataExtractor $orderDataExtractor,
-        OrderService $orderService,
-        ConfigService $configService,
-        LabelService $labelService,
-        ProductService $productService
+        OrderService       $orderService,
+        ConfigService      $configService,
+        LabelService       $labelService,
+        ProductService     $productService
     )
     {
         $this->apiFactory = $apiFactory;
@@ -85,7 +87,7 @@ class ShipmentService
         $barCodesAssigned = [];
 
         // Yes, this should be getSalesChannelIds.
-        foreach(array_unique(array_values($orders->getSalesChannelIs())) as $salesChannelId) {
+        foreach (array_unique(array_values($orders->getSalesChannelIs())) as $salesChannelId) {
             $apiClient = $this->apiFactory->createClientForSalesChannel($salesChannelId, $context);
 
             $salesChannelOrders = $orders->filterBySalesChannelId($salesChannelId);
@@ -96,13 +98,13 @@ class ShipmentService
 
             try {
                 $barCodes = $apiClient->generateBarcodesByCountryCodes(array_count_values($isoCodes));
-            } catch(PostNLException $e) {
+            } catch (PostNLException $e) {
                 // TODO log
                 dd($e);
                 throw $e;
             }
 
-            foreach($salesChannelOrders as $order) {
+            foreach ($salesChannelOrders as $order) {
                 $iso = $this->orderDataExtractor->extractDeliveryCountry($order)->getIso();
                 $barCode = array_pop($barCodes[$iso]);
 
@@ -135,13 +137,13 @@ class ShipmentService
         ];
 
         // Yes, this should be getSalesChannelIds.
-        foreach(array_unique(array_values($orders->getSalesChannelIs())) as $salesChannelId) {
+        foreach (array_unique(array_values($orders->getSalesChannelIs())) as $salesChannelId) {
             $apiClient = $this->apiFactory->createClientForSalesChannel($salesChannelId, $context);
 
             $salesChannelOrders = $orders->filterBySalesChannelId($salesChannelId);
 
             $shipments = [];
-            foreach($salesChannelOrders as $order) {
+            foreach ($salesChannelOrders as $order) {
                 $shipments[] = $this->createShipmentForOrder($order, $context);
             }
 
@@ -156,12 +158,12 @@ class ShipmentService
                 $a6Orientation
             );
 
-            foreach($labelResponses as $labelResponse) {
+            foreach ($labelResponses as $labelResponse) {
                 $response[] = $labelResponse;
             }
         }
 
-        if($printerType !== 'GraphicFile|PDF') {
+        if ($printerType !== 'GraphicFile|PDF') {
             return $response;
         }
 
@@ -190,7 +192,7 @@ class ShipmentService
         $addresses = [];
 
         $senderAddress = $apiClient->getCustomer()->getAddress();
-        if($senderAddress instanceof Address) {
+        if ($senderAddress instanceof Address) {
             $addresses[] = $senderAddress;
         }
 
@@ -205,6 +207,19 @@ class ShipmentService
         $receiverAddress->setZipcode($orderAddress->getZipcode());
         $receiverAddress->setCity($orderAddress->getCity());
         $receiverAddress->setCountrycode($this->orderDataExtractor->extractDeliveryCountry($order)->getIso());
+
+        if ($product->getDeliveryType() === DeliveryType::PICKUP) {
+            $pickupPointLocationCode = $order->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY]['pickupPointLocationCode'];
+
+            $locationResult = $apiClient->getLocation(new GetLocation($pickupPointLocationCode));
+            $pickupLocation = $locationResult->getGetLocationsResult()->getResponseLocation()[0];
+
+            $address = $pickupLocation->getAddress()->setAddressType('09');
+            $address->setCompanyName($pickupLocation->getName());
+            $addresses[] = $address;
+
+            $shipment->setDeliveryAddress('09');
+        }
 
         $addresses[] = $receiverAddress;
         $shipment->setAddresses($addresses);
