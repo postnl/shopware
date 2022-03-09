@@ -14,7 +14,8 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
             isOpenBulkShippingModal: false,
             isShippingModalId: null,
 
-            countries: {}
+            countries: {},
+            products: {}
         }
     },
 
@@ -38,6 +39,10 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
             return this.repositoryFactory.create('country');
         },
 
+        productRepository() {
+            return this.repositoryFactory.create('postnl_product');
+        },
+
         listFilters() {
             const filters = this.$super('listFilters');
             return filters.filter(filter => filter.name !== 'shipping-method-filter');
@@ -59,6 +64,7 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
                 const response = await this.orderRepository.search(criteria);
 
                 await this.loadCountries(response);
+                await this.loadProducts(response);
 
                 this.total = response.total;
                 this.orders = response;
@@ -78,14 +84,14 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
             const extraColumns = [
                 {
                     property: 'deliveries[0].shippingOrderAddressId',
-                    dataIndex: 'deliveries[0].shippingOrderAddress.street',
+                    dataIndex: 'deliveries.shippingOrderAddress.street',
                     label: 'sw-order.list.columnShippingAddress',
                     allowResize: true,
                     addAfter: 'orderCustomer.firstName'
                 },
                 {
                     property: 'deliveries[0].shippingMethod',
-                    dataIndex: 'deliveries[0].shippingMethod',
+                    dataIndex: 'deliveries.shippingMethod',
                     label: 'sw-order.list.columnShippingMethod',
                     allowResize: true,
                     addAfter: 'deliveries[0].shippingOrderAddressId'
@@ -132,6 +138,19 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
                 .then(result => this.countries = result)
         },
 
+        loadProducts(orders) {
+            const productIds = [];
+            for (const order of orders) {
+                productIds.push(order.customFields.postnl.productId);
+            }
+
+            const criteria = new Criteria();
+            criteria.setIds([...new Set(productIds)]);
+
+            return this.productRepository
+                .search(criteria)
+                .then(result => this.products = result)
+        },
         openShippingModal(id) {
             this.isShippingModalId = id;
         },
@@ -153,5 +172,11 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
 
             return `http://postnl.nl/tracktrace/?B=${ barCode }&P=${ zipcode }&D=${ country.iso }&T=B`;
         },
+        getProductName(item) {
+            const product = Array.from(this.products).find(product =>
+                product.id === item.customFields.postnl.productId);
+
+            return product.name;
+        }
     }
 });

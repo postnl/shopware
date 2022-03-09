@@ -12,7 +12,7 @@
 
     {% block sw_order_list_grid_columns_deliveries_shipping_method %}
         <template #column-deliveries[0].shippingMethod="{ item }">
-            {{ item.deliveries[0].shippingMethod.name }}
+            {{ getProductName(item) }}
         </template>
     {% endblock %}
 
