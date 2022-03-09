@@ -3,7 +3,11 @@ const { Mixin } = Shopware;
 Mixin.register('memo-config-access', {
     computed: {
         systemConfig() {
-            return this.$parent.$parent.$parent.$parent;
+            let component = this;
+            while(!component.domain) {
+                component = component.$parent;
+            }
+            return component;
         },
         systemConfigDomain() {
             return this.systemConfig.domain;
