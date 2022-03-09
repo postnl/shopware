@@ -161,7 +161,8 @@ Component.register('postnl-product-selection', {
                     }
                 })
                 .then(this.buildInitialChangeSet)
-                .then(product => this.product = product);
+                .then(product => this.product = product)
+                .then(product => this.actualDeliveryType = product.deliveryType);
         },
 
         onChangeFlag(name) {
