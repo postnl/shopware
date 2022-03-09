@@ -1,12 +1,14 @@
 <sw-modal class="postnl-shipping-modal"
-          title="Hello"
+          :title="$tc('postnl.order.shippingModal.title', selectionCount, {
+              count: selectionCount
+          })"
           :closable="!isProcessing"
           @modal-close="closeModal">
     <sw-container>
 
         <template v-if="isBulk">
             <sw-switch-field v-model="isOverrideProduct"
-                             label="Override PostNL product"
+                             label="$tc('postnl.order.shippingModal.overrideProduct')"
                              size="small"
                              noMarginTop/>
         </template>
@@ -16,20 +18,18 @@
 
         <sw-switch-field v-if="!autoConfirmShipments"
                          v-model="confirmShipments"
-                         label="Confirm Shipments"
-                         size="small"
-                         noMarginTop/>
+                         label="$tc('postnl.order.shippingModal.confirmShipments')"
+                         size="small"/>
         <sw-switch-field v-model="downloadLabels"
-                         label="Download shipping labels"
-                         size="small"
-                         noMarginTop/>
+                         label="$tc('postnl.order.shippingModal.downloadLabels')"
+                         size="small"/>
     </sw-container>
 
     <template #modal-footer>
         <sw-button size="small"
                    :disabled="isProcessing"
                    @click="closeModal">
-            Cancel
+            {{ $tc('postnl.order.shippingModal.cancel') }}
         </sw-button>
         <sw-button-process size="small"
                            variant="primary"
@@ -38,7 +38,7 @@
                            :processSuccess="shipmentsSent"
                            @click="sendShipments"
                            @process-finish="shipmentsSent = false">
-            Send Shipment
+            {{ $tc('postnl.order.shippingModal.confirm') }}
         </sw-button-process>
     </template>
 </sw-modal>

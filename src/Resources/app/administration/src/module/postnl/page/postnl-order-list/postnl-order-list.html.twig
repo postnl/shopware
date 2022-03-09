@@ -10,8 +10,8 @@
         </template>
     {% endblock %}
 
-    {% block sw_order_list_grid_columns_deliveries_shipping_method %}
-        <template #column-deliveries[0].shippingMethod="{ item }">
+    {% block sw_order_list_grid_columns_custom_fields_postnl_product_id %}
+        <template #column-customFields.postnl.productId="{ item }">
             {{ getProductName(item) }}
         </template>
     {% endblock %}

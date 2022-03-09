@@ -40,8 +40,12 @@ Component.register('postnl-shipping-modal', {
 
     computed: {
         isBulk() {
-            return Object.values(this.selection).length > 1;
+            return this.selectionCount > 1;
         },
+
+        selectionCount() {
+            return Object.values(this.selection).length;
+        }
     },
 
     created() {

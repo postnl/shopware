@@ -202,7 +202,7 @@ Component.register('postnl-product-selection', {
                 .then(deliveryTypes => {
                     this.deliveryTypes = deliveryTypes.map(deliveryType => {
                         return {
-                            label: deliveryType + " label", //TODO translation string
+                            label: this.$tc('postnl.productSelection.deliveryType.' + deliveryType),
                             value: deliveryType
                         };
                     });
@@ -304,5 +304,12 @@ Component.register('postnl-product-selection', {
                 selected: value ?? this.flags[name].selected
             });
         },
+
+        getFlagLabel(flag) {
+            if(flag) {
+                return this.$tc('postnl.productSelection.flag.' + flag.name);
+            }
+            return '';
+        }
     }
 })

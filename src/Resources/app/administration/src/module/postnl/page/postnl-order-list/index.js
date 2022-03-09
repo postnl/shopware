@@ -85,29 +85,28 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
                 {
                     property: 'deliveries[0].shippingOrderAddressId',
                     dataIndex: 'deliveries.shippingOrderAddress.street',
-                    label: 'sw-order.list.columnShippingAddress',
+                    label: 'postnl.order.list.columnShippingAddress',
                     allowResize: true,
                     addAfter: 'orderCustomer.firstName'
                 },
                 {
-                    property: 'deliveries[0].shippingMethod',
-                    dataIndex: 'deliveries.shippingMethod',
-                    label: 'sw-order.list.columnShippingMethod',
+                    property: 'customFields.postnl.productId',
+                    dataIndex: 'customFields.postnl.productId',
+                    label: 'postnl.order.list.columnProduct',
                     allowResize: true,
                     addAfter: 'deliveries[0].shippingOrderAddressId'
                 },
                 {
                     property: 'customFields.postnl.barCode',
                     dataIndex: 'customFields.postnl.barCode',
-                    label: 'sw-order.list.columnBarCode',
-                    allowResize: true,
-                    addAfter: 'deliveries[0].shippingMethod'
+                    label: 'postnl.order.list.columnBarCode',
+                    addAfter: 'customFields.postnl.productId'
                 },
                 {
                     property: 'customFields.postnl.confirm',
                     dataIndex: 'customFields.postnl.confirm',
-                    label: 'sw-order.list.columnStatus',
-                    allowResize: true,
+                    label: 'postnl.order.list.columnConfirm',
+                    align: 'center',
                     addAfter: 'customFields.postnl.barCode'
                 },
             ];

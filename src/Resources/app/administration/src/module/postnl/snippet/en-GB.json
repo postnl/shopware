@@ -44,6 +44,37 @@
           "country": "Please (re)select a valid country under sender address first."
         }
       }
+    },
+    "order": {
+      "list": {
+        "columnShippingAddress": "Shipping address",
+        "columnProduct": "PostNL product",
+        "columnBarCode": "Barcode",
+        "columnConfirm": "Confirmed"
+      },
+      "shippingModal": {
+        "title": "Ship this order | Ship {count} orders",
+        "overrideProduct": "Select different product",
+        "confirmShipments": "Confirm shipments at PostNL",
+        "downloadLabels": "Download shipping labels",
+        "cancel": "Cancel",
+        "confirm": "Send shipments"
+      }
+    },
+    "productSelection": {
+      "deliveryType": {
+        "shipment": "Standard Shipment",
+        "pickup": "Pick-up at PostNL location",
+        "mailbox": "Mailbox parcel"
+      },
+      "flag": {
+        "homeAlone": "Deliver to stated address only",
+        "returnIfNotHome": "Return when not home",
+        "insurance": "Extra Cover",
+        "signature": "Signature on delivery\n\n",
+        "ageCheck": "Age check",
+        "notification": "Notification"
+      }
     }
   }
 }
