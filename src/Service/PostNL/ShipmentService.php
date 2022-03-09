@@ -3,6 +3,7 @@
 namespace PostNL\Shopware6\Service\PostNL;
 
 use Firstred\PostNL\Entity\Address;
+use Firstred\PostNL\Entity\Amount;
 use Firstred\PostNL\Entity\Dimension;
 use Firstred\PostNL\Entity\Label;
 use Firstred\PostNL\Entity\Request\GetLocation;
@@ -224,8 +225,17 @@ class ShipmentService
         $addresses[] = $receiverAddress;
         $shipment->setAddresses($addresses);
 
-        // add pickup location address and set delivery address to type 09
-        //$shipment->setDeliveryAddress('09');
+        $amounts = [];
+
+        if (!!$product->getInsurance()) {
+            $insuredAmount = new Amount();
+            $insuredAmount->setAmountType('02');
+            $insuredAmount->setValue('500');
+            $amounts[] = $insuredAmount;
+        }
+
+        $shipment->setAmounts($amounts);
+
         return $shipment;
     }
 }
