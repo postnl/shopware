@@ -48,7 +48,7 @@
         <component name="postnl-config-customer-data">
             <name>customerData</name>
             <label>Customer data</label>
-            <label lang="de-DE">Label missing</label>
+            <label lang="de-DE">Kundendaten</label>
             <label lang="nl-NL">Klantgegevens</label>
         </component>
 
@@ -82,47 +82,48 @@
 
     <card>
         <title>Default Products</title>
-        <title lang="de-DE">Default Products</title>
+        <title lang="de-DE">Standardprodukte</title>
         <title lang="nl-NL">Standaard Producten</title>
 
         <component name="postnl-config-product-selection-shipment-nl-nl-default">
             <name>productShipmentNlNlDefault</name>
-            <label>Shipment NL to NL - Default product</label>
-            <label lang="de-DE">Test</label>
-            <label lang="nl-NL">test</label>
+            <label>Standard shipment, from NL to NL</label>
+            <label lang="de-DE">Standardversand, von NL nach NL</label>
+            <label lang="nl-NL">Standaard zending, van NL naar NL</label>
         </component>
         <component name="postnl-config-product-selection-shipment-nl-nl-alternative">
             <name>productShipmentNlNlAlternative</name>
-            <label>Shipment NL to NL - Alternative product</label>
-            <label lang="de-DE">Test</label>
-            <label lang="nl-NL">test</label>
+            <label>Standard shipment, from NL to NL - Alternative</label>
+            <label lang="de-DE">Standardversand, von NL nach NL - Alternativ</label>
+            <label lang="nl-NL">Standaard zending, van NL naar NL - Alternatief</label>
         </component>
 
         <component name="postnl-config-product-selection-pickup-nl-nl-default">
             <name>productPickupNlNlDefault</name>
-            <label>Pickup NL to NL - Default product</label>
-            <label lang="de-DE">Test</label>
-            <label lang="nl-NL">test</label>
+            <label>Pick-up at PostNL location, from NL to NL</label>
+            <label lang="de-DE">Pick-up at PostNL location, von NL nach NL</label>
+            <label lang="nl-NL">Pick-up at PostNL location, van NL naar NL</label>
         </component>
+
 
         <component name="postnl-config-product-selection-shipment-nl-be-default">
             <name>productShipmentNlBeDefault</name>
-            <label>Shipment NL to BE - Default product</label>
-            <label lang="de-DE">Test</label>
-            <label lang="nl-NL">test</label>
+            <label>Standard shipment, from NL to BE</label>
+            <label lang="de-DE">Standardversand, von NL nach BE</label>
+            <label lang="nl-NL">Standaard zending, van NL naar BE</label>
         </component>
         <component name="postnl-config-product-selection-shipment-nl-be-alternative">
             <name>productShipmentNlBeAlternative</name>
-            <label>Shipment NL to BE - Alternative product</label>
-            <label lang="de-DE">Test</label>
-            <label lang="nl-NL">test</label>
+            <label>Standard shipment, from NL to BE - Alternative</label>
+            <label lang="de-DE">Standardversand, von NL nach BE - Alternativ</label>
+            <label lang="nl-NL">Standaard zending, van NL naar BE - Alternatief</label>
         </component>
 
         <component name="postnl-config-product-selection-pickup-nl-be-default">
             <name>productPickupNlBeDefault</name>
-            <label>Pickup NL to BE - Default product</label>
-            <label lang="de-DE">Test</label>
-            <label lang="nl-NL">test</label>
+            <label>Pick-up at PostNL location, from NL to BE</label>
+            <label lang="de-DE">Pick-up at PostNL location, von NL nach BE</label>
+            <label lang="nl-NL">Pick-up at PostNL location, van NL naar BE</label>
         </component>
     </card>
 
@@ -134,11 +135,11 @@
         <input-field type="single-select">
             <name>printerFormat</name>
             <label>Paper size</label>
-            <label lang="de-DE">Formaat</label>
-            <label lang="nl-NL">Formaat</label>
-            <helpText>Labels are always printed in A6. When selecting A4 you can print 4 labels on one page</helpText>
-            <helpText lang="de-DE">Labels werden immer in A6 gedruckt. Wenn Sie A4 wählen, können Sie 4 Etiketten auf eine Seite drucken</helpText>
-            <helpText lang="nl-NL">Labels worden altijd in A6 afgedrukt. Als u A4 selecteert, kunt u 4 etiketten op één pagina afdrukken</helpText>
+            <label lang="de-DE">Papierformat</label>
+            <label lang="nl-NL">Papierformaat</label>
+            <helpText>Labels are always printed in A6. When selecting A4 you can print 4 labels on one page. Labels for Global Pack shipments are always printed in A4</helpText>
+            <helpText lang="de-DE">Labels werden immer in A6 gedruckt. Wenn Sie A4 wählen, können Sie 4 Labels auf eine Seite drucken. Labels für Global Pack Sendungen werden immer in A4 gedruckt.</helpText>
+            <helpText lang="nl-NL">Labels worden altijd in A6 afgedrukt. Als u A4 selecteert, kunt u 4 etiketten op één pagina afdrukken. Labels voor Global Pack zendingen worden altijd afgedrukt in A4</helpText>
             <defaultValue>a4</defaultValue>
             <options>
                 <option>
@@ -177,8 +178,8 @@
 
     <card>
         <title>Other</title>
-        <title lang="de-DE">Other</title>
-        <title lang="nl-NL">Other</title>
+        <title lang="de-DE">Sonstiges</title>
+        <title lang="nl-NL">Overige</title>
 
         <input-field type="bool">
             <name>autoConfirmShipments</name>
