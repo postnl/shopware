@@ -45,10 +45,10 @@
         }
       },
       "productSelection": {
-        "header": " {Name}",
+        "header": "{name}",
         "headerDebug": "[{code}] {name}",
-        "headerAltActive": "{Name} - von {Betrag}",
-        "headerAltActiveDebug": "[{code}] {name} - ab {Betrag}",
+        "headerAltActive": "{Name} - von {amount}",
+        "headerAltActiveDebug": "[{code}] {name} - ab {amount}",
         "headerAltDisabled": "Deaktiviert",
         "enableAltProduct": "Alternatives Produkt aktivieren",
         "altProductAmount": "Alternatives Produkt verwenden ab"
@@ -62,7 +62,7 @@
         "columnConfirm": "Bestätigt"
       },
       "shippingModal": {
-        "title": "Diese Bestellung versenden | {Anzahl} Bestellungen versenden",
+        "title": "Diese Bestellung versenden | {count} Bestellungen versenden",
         "overrideProduct": "Anderes Produkt auswählen",
         "confirmShipments": "Bestätige Sendungen bei PostNL",
         "downloadLabels": "Versandetiketten herunterladen",

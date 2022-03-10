@@ -41,11 +41,11 @@
         "returnCustomerCode": "Retour klantcode",
         "returnNumber": "Antwoordnummer",
         "warning": {
-          "country": " Kies eerst (opnieuw) een geldig land onder afzenderadres."
+          "country": "Kies eerst (opnieuw) een geldig land onder afzenderadres."
         }
       },
-      "productSelectie": {
-        "header": " {name}",
+      "productSelection": {
+        "header": "{name}",
         "headerDebug": "[{code}] {name}",
         "headerAltActive": "{name} - vanaf {amount}",
         "headerAltActiveDebug": "[{code}] {name} - vanaf {amount}",
@@ -68,22 +68,23 @@
         "downloadLabels": "Verzendlabels downloaden",
         "cancel": "Annuleren",
         "confirm": "Verzendingen aanmaken"
+      }
+    },
+    "productSelection": {
+      "deliveryType": {
+        "shipment": "Standaard zending",
+        "pickup": "Ophalen bij een PostNL-punt",
+        "mailbox": "Brievenbuspakje"
       },
-      "productSelection": {
-        "deliveryType": {
-          "shipment": "Standaard zending",
-          "pickup": "Ophalen bij een PostNL-punt",
-          "mailbox": "Brievenbuspakje"
-        },
-        "flag": {
-          "homeAlone": "Alleen huisadres",
-          "returnIfNotHome": "Retour bij geen gehoor",
-          "insurance": "Verhoogd aansprakelijkheid",
-          "signature": "Handtekening voor ontvangst",
-          "ageCheck": "Leeftijdscontrole",
-          "notification": "Notificatie"
-        }
+      "flag": {
+        "homeAlone": "Alleen huisadres",
+        "returnIfNotHome": "Retour bij geen gehoor",
+        "insurance": "Verhoogd aansprakelijkheid",
+        "signature": "Handtekening voor ontvangst",
+        "ageCheck": "Leeftijdscontrole",
+        "notification": "Notificatie"
       }
     }
   }
 }
+
