@@ -1,9 +1,9 @@
 {
   "postnl": {
     "general": {
-      "mainMenuItemGeneral": "PostNL Orders",
-      "descriptionTextModule": "PostNL Orders",
-      "ordersMenuItemGeneral": "PostNL Orders"
+      "mainMenuItemGeneral": "PostNL Bestellungen",
+      "descriptionTextModule": "PostNL Bestellungen",
+      "ordersMenuItemGeneral": "PostNL Bestellungen"
     },
     "config": {
       "api": {
