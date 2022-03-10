@@ -1,5 +1,10 @@
 {
   "postnl": {
+    "general": {
+      "mainMenuItemGeneral": "PostNL Orders",
+      "descriptionTextModule": "PostNL Orders",
+      "ordersMenuItemGeneral": "PostNL Orders"
+    },
     "config": {
       "api": {
         "testButton": "API-Schlüssel testen",
