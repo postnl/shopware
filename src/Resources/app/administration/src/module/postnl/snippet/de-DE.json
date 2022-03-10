@@ -1,1 +1,89 @@
-{}
+{
+  "postnl": {
+    "config": {
+      "api": {
+        "testButton": "API-Schlüssel testen",
+        "dashboardButton": "Zum PostNL API-Verwaltungsportal",
+        "productionApiKey": "Produktions-API-Schlüssel",
+        "sandboxApiKey": "Sandbox-API-Schlüssel",
+        "isValid": "ist gültig",
+        "isInvalid": "ist ungültig"
+      },
+      "customerData": {
+        "customerNumber": "Kundennummer",
+        "customerCode": "Kundencode",
+        "collectionLocation": "Ort / BLS-Code",
+        "globalPackCustomerCode": "GlobalPack-Kundencode",
+        "globalPackBarcodeType": "Global Pack Barcode-Typ"
+      },
+      "senderAddress": {
+        "companyName": "Firmenname",
+        "firstName": "Vorname",
+        "name": "Nachname",
+        "street": "Straße",
+        "houseNr": "Hausnummer",
+        "houseNrExt": "Hausnummer Zusatz",
+        "zipcode": "Postleitzahl",
+        "city": "Stadt",
+        "country": "Land"
+      },
+      "returnAddress": {
+        "contract": "Ich habe einen Rücksendevertrag mit PostNL",
+        "companyName": "Firmenname",
+        "firstName": "Vorname",
+        "name": "Nachname",
+        "street": "Straße",
+        "houseNr": "Hausnummer",
+        "houseNrExt": "Hausnummer Zusatz",
+        "zipcode": "Postleitzahl",
+        "city": "Stadt",
+        "country": "Land",
+        "returnCustomerCode": "Kundencode zurückgeben?",
+        "returnNumber": "Rückgabenummer",
+        "warning": {
+          "country": "Bitte wählen Sie zuerst ein gültiges Land unter der Absenderadresse (erneut) aus."
+        }
+      },
+      "productSelection": {
+        "header": " {Name}",
+        "headerDebug": "[{code}] {name}",
+        "headerAltActive": "{Name} - von {Betrag}",
+        "headerAltActiveDebug": "[{code}] {name} - ab {Betrag}",
+        "headerAltDisabled": "Deaktiviert",
+        "enableAltProduct": "Alternatives Produkt aktivieren",
+        "altProductAmount": "Alternatives Produkt verwenden ab"
+      }
+    },
+    "order": {
+      "list": {
+        "columnShippingAddress": "Lieferadresse",
+        "columnProduct": "PostNL-Produkt",
+        "columnBarCode": "Strichcode",
+        "columnConfirm": "Bestätigt"
+      },
+      "shippingModal": {
+        "title": "Diese Bestellung versenden | {Anzahl} Bestellungen versenden",
+        "overrideProduct": "Anderes Produkt auswählen",
+        "confirmShipments": "Bestätige Sendungen bei PostNL",
+        "downloadLabels": "Versandetiketten herunterladen",
+        "cancel": "Abbrechen",
+        "confirm": "Sendungen senden"
+      }
+    },
+    "productSelection": {
+      "deliveryType": {
+        "shipment": "Standardversand",
+        "pickup": "Abholung am PostNL-Standort",
+        "mailbox": "Briefkasten Paket"
+      },
+      "flag": {
+        "homeAlone": "Nur an die angegebene Adresse liefern",
+        "returnIfNotHome": "Zurück, wenn nicht zu Hause sein",
+        "insurance": "Zusätzliche Abdeckung",
+        "signature": "Unterschrift bei Lieferung",
+        "ageCheck": "Altersprüfung",
+        "notification": "Benachrichtigung"
+      }
+    }
+  }
+}

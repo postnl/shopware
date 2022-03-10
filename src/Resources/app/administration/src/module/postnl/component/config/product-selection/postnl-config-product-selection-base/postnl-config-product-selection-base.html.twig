@@ -14,18 +14,23 @@
 
                             <template v-if="content.enabled">
                                 <template v-if="showProductCode">
-                                    [{{ product?.productCodeDelivery }}]
+                                    {{ $tc('postnl.config.productSelection.headerDebug', 0, {
+                                        name: product?.name,
+                                        code: product?.productCodeDelivery,
+                                        amount: content.cartAmount
+                                    }) }}
                                 </template>
 
-                                {{ product?.name }}
-
-                                &mdash;
-
-                                from {{ content.cartAmount }}
+                                <template v-else>
+                                    {{ $tc('postnl.config.productSelection.header', 0, {
+                                        name: product?.name,
+                                        amount: content.cartAmount
+                                    }) }}
+                                </template>
                             </template>
 
                             <template v-else>
-                                Disabled
+                                {{ $tc('postnl.config.productSelection.headerAltDisabled') }}
                             </template>
 
                         </template>
@@ -33,9 +38,17 @@
                         <template v-else>
 
                             <template v-if="showProductCode">
-                                [{{ product?.productCodeDelivery }}]
+                                {{ $tc('postnl.config.productSelection.headerDebug', 0, {
+                                    name: product?.name,
+                                    code: product?.productCodeDelivery
+                                }) }}
                             </template>
-                            {{ product?.name }}
+
+                            <template v-else>
+                                {{ $tc('postnl.config.productSelection.header', 0, {
+                                    name: product?.name,
+                                }) }}
+                            </template>
 
                         </template>
                     </template>
@@ -44,15 +57,14 @@
                             <sw-container v-if="isAlt" columns="1fr 1fr" gap="16px">
                                 <sw-switch-field v-model="content.enabled"
                                                  size="small"
-                                                 label="Enable alternative product"
+                                                 :label="$tc('postnl.config.productSelection.enableAltProduct')"
                                                  :disabled="disabled"/>
 
                                 <sw-number-field v-if="content.enabled"
                                                  v-model="content.cartAmount"
                                                  size="small"
-                                                 label="Use alternative product when cart amount exceeds"
-                                                 :disabled="disabled">
-                                </sw-number-field>
+                                                 :label="$tc('postnl.config.productSelection.altProductAmount')"
+                                                 :disabled="disabled"/>
                             </sw-container>
 
                             <postnl-product-selection v-if="!isAlt || content.enabled"

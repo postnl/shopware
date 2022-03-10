@@ -101,8 +101,8 @@
         <component name="postnl-config-product-selection-pickup-nl-nl-default">
             <name>productPickupNlNlDefault</name>
             <label>Pick-up at PostNL location, from NL to NL</label>
-            <label lang="de-DE">Pick-up at PostNL location, von NL nach NL</label>
-            <label lang="nl-NL">Pick-up at PostNL location, van NL naar NL</label>
+            <label lang="de-DE">Abholung am PostNL-Standort, von NL nach NL</label>
+            <label lang="nl-NL">Ophalen bij een PostNL-punt, van NL naar NL</label>
         </component>
 
 
@@ -122,8 +122,8 @@
         <component name="postnl-config-product-selection-pickup-nl-be-default">
             <name>productPickupNlBeDefault</name>
             <label>Pick-up at PostNL location, from NL to BE</label>
-            <label lang="de-DE">Pick-up at PostNL location, von NL nach BE</label>
-            <label lang="nl-NL">Pick-up at PostNL location, van NL naar BE</label>
+            <label lang="de-DE">Abholung am PostNL-Standort, von NL nach BE</label>
+            <label lang="nl-NL">Ophalen bij een PostNL-punt, van NL naar BE</label>
         </component>
     </card>
 

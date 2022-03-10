@@ -2,12 +2,87 @@
   "postnl": {
     "config": {
       "api": {
-        "testButton": "Test API keys",
-        "dashboardButton": "Naar PostNL API Management Portal",
-        "productionApiKey": "Productie API key",
-        "sandboxApiKey": "Sandbox API key",
-        "isValid": "is geldig.",
-        "isInvalid": "is ongeldig."
+        "testButton": "Test API sleutels",
+        "dashboardButton": "Naar het PostNL API Management Portaal",
+        "productionApiKey": "Productie API sleutel",
+        "sandboxApiKey": "Sandbox API sleutel",
+        "isValid": "is geldig",
+        "isInvalid": "is ongeldig"
+      },
+      "customerData": {
+        "customerNumber": "Klantnummer",
+        "customerCode": "Klantcode",
+        "collectionLocation": "Locatie / BLS-code",
+        "globalPackCustomerCode": "Global Pack klantcode",
+        "globalPackBarcodeType": "Global Pack barcode type"
+      },
+      "senderAddress": {
+        "companyName": "Bedrijfsnaam",
+        "firstName": "Voornaam",
+        "name": "Achternaam",
+        "street": "Street",
+        "houseNr": "Huisnummer",
+        "houseNrExt": "Huisnummer toevoeging",
+        "zipcode": "Zipcode",
+        "city": "City",
+        "country": "Country"
+      },
+      "returnAddress": {
+        "contract": "Ik heb een retourcontract met PostNL",
+        "companyName": "Bedrijfsnaam",
+        "firstName": "Voornaam",
+        "name": "Achternaam",
+        "street": "Street",
+        "houseNr": "Huisnummer",
+        "houseNrExt": "Huisnummer toevoeging",
+        "zipcode": "Zipcode",
+        "city": "City",
+        "country": "Country",
+        "returnCustomerCode": "Retour klantcode",
+        "returnNumber": "Antwoordnummer",
+        "warning": {
+          "country": " Kies eerst (opnieuw) een geldig land onder afzenderadres."
+        }
+      },
+      "productSelectie": {
+        "header": " {name}",
+        "headerDebug": "[{code}] {name}",
+        "headerAltActive": "{name} - vanaf {amount}",
+        "headerAltActiveDebug": "[{code}] {name} - vanaf {amount}",
+        "headerAltDisabled": "Niet actief",
+        "enableAltProduct": "Schakel alternatief product in",
+        "altProductAmount": "Alternatief product gebruiken vanaf"
+      }
+    },
+    "order": {
+      "list": {
+        "columnShippingAddress": "Verzendadres",
+        "columnProduct": "PostNL product",
+        "columnBarCode": "Barcode",
+        "columnConfirm": "Voorgemeld"
+      },
+      "shippingModal": {
+        "title": "Verzend deze order | Verzend {count} orders",
+        "overrideProduct": "Selecteer ander product",
+        "confirmShipments": "Zending voormelden bij PostNL",
+        "downloadLabels": "Verzendlabels downloaden",
+        "cancel": "Annuleren",
+        "confirm": "Verzendingen aanmaken"
+      },
+      "productSelection": {
+        "deliveryType": {
+          "shipment": "Standaard zending",
+          "pickup": "Ophalen bij een PostNL-punt",
+          "mailbox": "Brievenbuspakje"
+        },
+        "flag": {
+          "homeAlone": "Alleen huisadres",
+          "returnIfNotHome": "Retour bij geen gehoor",
+          "insurance": "Verhoogd aansprakelijkheid",
+          "signature": "Handtekening voor ontvangst",
+          "ageCheck": "Leeftijdscontrole",
+          "notification": "Notificatie"
+        }
       }
     }
   }

@@ -38,11 +38,20 @@
         "zipcode": "Zipcode",
         "city": "City",
         "country": "Country",
-        "returnCustomerCode": "Return customer code ?",
+        "returnCustomerCode": "Return customer code",
         "returnNumber": "Return number",
         "warning": {
           "country": "Please (re)select a valid country under sender address first."
         }
+      },
+      "productSelection": {
+        "header": " {name}",
+        "headerDebug": "[{code}] {name}",
+        "headerAltActive": "{name} - from {amount}",
+        "headerAltActiveDebug": "[{code}] {name} - from {amount}",
+        "headerAltDisabled": "Disabled",
+        "enableAltProduct": "Enable alternative product",
+        "altProductAmount": "Use alternative product from"
       }
     },
     "order": {
