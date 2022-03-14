@@ -7,6 +7,7 @@ use Firstred\PostNL\Entity\Customer;
 use Firstred\PostNL\Exception\InvalidArgumentException;
 use Firstred\PostNL\PostNL;
 use PostNL\Shopware6\Component\PostNL\Factory\GuzzleRequestFactory;
+use PostNL\Shopware6\Exception\PostNL\ClientCreationException;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
@@ -66,7 +67,7 @@ class ApiFactory
                 'senderAddress' => $senderAddress,
             ]);
 
-            throw new \ClientCreationException([
+            throw new ClientCreationException([
                 'apiKey' => $this->obfuscateApiKey($apiKey),
                 'sandbox' => $sandbox,
                 'customerData' => $customerData,

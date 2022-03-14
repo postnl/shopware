@@ -1,12 +1,14 @@
 <?php declare(strict_types=1);
 
+namespace PostNL\Shopware6\Exception\PostNL;
+
 use Shopware\Core\Framework\ShopwareHttpException;
 
 class ClientCreationException extends ShopwareHttpException
 {
     /**
      * @param array<mixed> $parameters
-     * @param Throwable|null $e
+     * @param \Throwable|null $e
      */
     public function __construct(array $parameters = [], ?\Throwable $e = null)
     {
