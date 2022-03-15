@@ -234,7 +234,7 @@ class ShipmentService
         if (!!$product->getInsurance()) {
             $insuredAmount = new Amount();
             $insuredAmount->setAmountType('02');
-            $insuredAmount->setValue('500');
+            $insuredAmount->setValue($order->getAmountTotal());
             $amounts[] = $insuredAmount;
         }
 
