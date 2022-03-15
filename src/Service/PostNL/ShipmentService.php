@@ -125,7 +125,7 @@ class ShipmentService
         $config = $this->configService->getConfiguration(null, $context);
 
         $format = $config->getPrinterFormat() === 'a4' ? Label::FORMAT_A4 : Label::FORMAT_A6;
-        $a6Orientation = $config->getPrinterA6Orientation();
+        $a6Orientation = 'P';//$config->getPrinterA6Orientation();
 
         $printerType = 'GraphicFile|PDF';
         $confirm = $config->isAutoConfirmShipment() || $confirm;

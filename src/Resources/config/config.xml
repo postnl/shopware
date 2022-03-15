@@ -152,28 +152,6 @@
                 </option>
             </options>
         </input-field>
-
-        <input-field type="single-select">
-            <name>printerA6Orientation</name>
-            <label>A6 orientation</label>
-            <label lang="de-DE">A6-Ausrichtung</label>
-            <label lang="nl-NL">A6 papier indeling</label>
-            <defaultValue>L</defaultValue>
-            <options>
-                <option>
-                    <id>L</id>
-                    <name>Landscape</name>
-                    <name lang="de-DE">Querformat</name>
-                    <name lang="nl-NL">Liggend</name>
-                </option>
-                <option>
-                    <id>P</id>
-                    <name>Portrait</name>
-                    <name lang="de-DE">Hochformat</name>
-                    <name lang="nl-NL">Staand</name>
-                </option>
-            </options>
-        </input-field>
     </card>
 
     <card>
