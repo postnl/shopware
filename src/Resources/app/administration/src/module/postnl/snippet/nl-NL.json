@@ -15,11 +15,11 @@
         "isInvalid": "is ongeldig"
       },
       "customerData": {
-        "customerNumber": "Klantnummer",
-        "customerCode": "Klantcode",
-        "collectionLocation": "Locatie / BLS-code",
-        "globalPackCustomerCode": "Global Pack klantcode",
-        "globalPackBarcodeType": "Global Pack barcode type"
+        "customerNumber": "Klantnummer (bijvoorbeeld '11223344')",
+        "customerCode": "Klantcode (bijvoorbeeld 'DEVC')",
+        "collectionLocation": "Locatiecode (bijvoorbeeld '123456') ",
+        "globalPackCustomerCode": "Klantcode Global Pack (bijvoorbeeld '1234')",
+        "globalPackBarcodeType": "Type Barcode GlobalPack (bijvoorbeeld 'CD')"
       },
       "senderAddress": {
         "companyName": "Bedrijfsnaam",

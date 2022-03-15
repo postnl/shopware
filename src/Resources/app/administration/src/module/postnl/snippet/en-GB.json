@@ -15,11 +15,11 @@
         "isInvalid": "is invalid."
       },
       "customerData": {
-        "customerNumber": "Customer number",
-        "customerCode": "Customer code",
-        "collectionLocation": "Location / BLS code",
-        "globalPackCustomerCode": "Global Pack customer code",
-        "globalPackBarcodeType": "Global Pack barcode type"
+        "customerNumber": "Customer number (for example '11223344')",
+        "customerCode": "Customer code (for example 'DEVC')",
+        "collectionLocation": "Location code (for example '123456')",
+        "globalPackCustomerCode": "Global Pack customer code (for example '1234')",
+        "globalPackBarcodeType": "Global Pack barcode type(for example 'CD')"
       },
       "senderAddress": {
         "companyName": "Company name",

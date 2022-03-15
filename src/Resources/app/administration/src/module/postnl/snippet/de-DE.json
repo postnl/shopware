@@ -15,11 +15,11 @@
         "isInvalid": "ist ungültig"
       },
       "customerData": {
-        "customerNumber": "Kundennummer",
-        "customerCode": "Kundencode",
-        "collectionLocation": "Ort / BLS-Code",
-        "globalPackCustomerCode": "GlobalPack-Kundencode",
-        "globalPackBarcodeType": "Global Pack Barcode-Typ"
+        "customerNumber": "Kundennummer (zum Beispiel '11223344')",
+        "customerCode": "Kundencode (zum Beispiel 'DEVC')",
+        "collectionLocation": "Ort-Code (zum Beispiel '123456')",
+        "globalPackCustomerCode": "GlobalPack-Kundencode (zum Beispiel '1234')",
+        "globalPackBarcodeType": "Global Pack Barcode-Typ (zum Beispiel 'CD')"
       },
       "senderAddress": {
         "companyName": "Firmenname",
