@@ -8,7 +8,7 @@
 
         <template v-if="isBulk">
             <sw-switch-field v-model="isOverrideProduct"
-                             label="$tc('postnl.order.shippingModal.overrideProduct')"
+                             :label="$tc('postnl.order.shippingModal.overrideProduct')"
                              size="small"
                              noMarginTop/>
         </template>
@@ -18,10 +18,10 @@
 
         <sw-switch-field v-if="!autoConfirmShipments"
                          v-model="confirmShipments"
-                         label="$tc('postnl.order.shippingModal.confirmShipments')"
+                         :label="$tc('postnl.order.shippingModal.confirmShipments')"
                          size="small"/>
         <sw-switch-field v-model="downloadLabels"
-                         label="$tc('postnl.order.shippingModal.downloadLabels')"
+                         :label="$tc('postnl.order.shippingModal.downloadLabels')"
                          size="small"/>
     </sw-container>
 
