@@ -45,6 +45,7 @@
         "country": "Land",
         "returnCustomerCode": "Kundencode zurückgeben?",
         "returnNumber": "Rückgabenummer",
+        "returnNumberPrefix": "Antwoordnummer",
         "warning": {
           "country": "Bitte wählen Sie zuerst ein gültiges Land unter der Absenderadresse (erneut) aus."
         }

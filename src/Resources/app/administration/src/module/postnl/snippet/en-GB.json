@@ -45,6 +45,7 @@
         "country": "Country",
         "returnCustomerCode": "Return customer code",
         "returnNumber": "Return number",
+        "returnNumberPrefix": "Antwoordnummer",
         "warning": {
           "country": "Please (re)select a valid country under sender address first."
         }

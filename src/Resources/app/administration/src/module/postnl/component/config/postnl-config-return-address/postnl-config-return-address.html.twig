@@ -12,7 +12,7 @@
                     {{ content.returnCustomerCode }}
                 </div>
                 <div>
-                    {{ $tc('postnl.config.returnAddress.returnNumber') }} {{ content.returnNumber }}
+                    {{ $tc('postnl.config.returnAddress.returnNumberPrefix') }} {{ content.returnNumber }}
 
                     <template v-if="content.zipcode || content.city">
                         , {{ content.zipcode }} {{ content.city }}
@@ -35,7 +35,11 @@
 
                 <sw-text-field v-model="content.returnNumber"
                                :label="$tc('postnl.config.returnAddress.returnNumber')"
-                               :style="span(4)"/>
+                               :style="span(4)">
+                    <template #prefix>
+                        {{ $tc('postnl.config.returnAddress.returnNumberPrefix') }}
+                    </template>
+                </sw-text-field>
 
                 <sw-text-field v-model="content.zipcode"
                                :label="$tc('postnl.config.returnAddress.zipcode')"/>

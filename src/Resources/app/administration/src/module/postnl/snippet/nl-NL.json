@@ -45,6 +45,7 @@
         "country": "Country",
         "returnCustomerCode": "Retour klantcode",
         "returnNumber": "Antwoordnummer",
+        "returnNumberPrefix": "Antwoordnummer",
         "warning": {
           "country": "Kies eerst (opnieuw) een geldig land onder afzenderadres."
         }
