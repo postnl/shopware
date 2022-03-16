@@ -4,6 +4,7 @@ namespace PostNL\Shopware6\Service\PostNL;
 
 use Firstred\PostNL\Entity\Address;
 use Firstred\PostNL\Entity\Amount;
+use Firstred\PostNL\Entity\Contact;
 use Firstred\PostNL\Entity\Dimension;
 use Firstred\PostNL\Entity\Label;
 use Firstred\PostNL\Entity\Request\GetLocation;
@@ -239,6 +240,11 @@ class ShipmentService
         }
 
         $shipment->setAmounts($amounts);
+
+        $contact = new Contact();
+        $contact->setContactType('02');//?
+        $contact->setEmail($this->orderDataExtractor->extractCustomer($order)->getEmail());
+        $contact->setTelNr($this->orderDataExtractor->extractDeliveryAddress($order)->getPhoneNumber());
 
         return $shipment;
     }
