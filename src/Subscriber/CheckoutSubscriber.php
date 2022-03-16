@@ -4,6 +4,7 @@ namespace PostNL\Shopware6\Subscriber;
 
 use Firstred\PostNL\Entity\Location;
 use Firstred\PostNL\Entity\Request\GetNearestLocations;
+use Firstred\PostNL\Entity\Response\GetLocationsResult;
 use Firstred\PostNL\Entity\Response\ResponseLocation;
 use Firstred\PostNL\Exception\InvalidConfigurationException;
 use Firstred\PostNL\Exception\PostNLException;
@@ -102,9 +103,15 @@ class CheckoutSubscriber implements EventSubscriberInterface
             return;
         }
 
+        $locationsResult = $locationResponse->getGetLocationsResult();
+
+        if(!$locationsResult instanceof GetLocationsResult) {
+            return;
+        }
+
         $pickupPoints = new ArrayStruct();
         $locationCode = null;
-        foreach($locationResponse->getGetLocationsResult()->getResponseLocation() as $i => $responseLocation) {
+        foreach($locationsResult->getResponseLocation() as $i => $responseLocation) {
             if(is_null($locationCode)) {
                 $locationCode = $responseLocation->getLocationCode();
             }
