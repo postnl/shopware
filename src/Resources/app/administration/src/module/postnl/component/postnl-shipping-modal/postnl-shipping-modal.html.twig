@@ -9,12 +9,14 @@
         <template v-if="isBulk">
             <sw-switch-field v-model="isOverrideProduct"
                              :label="$tc('postnl.order.shippingModal.overrideProduct')"
+                             :disabled="deliveryZones.length !== 1"
                              size="small"
                              noMarginTop/>
         </template>
 
-        <postnl-product-selection :disabled="!isOverrideProduct"
-                                  v-model="overrideProductId"/>
+        <postnl-product-selection v-model="overrideProductId"
+                                  :destinationZone="deliveryZones[0]"
+                                  :disabled="!isOverrideProduct || deliveryZones.length !== 1"/>
 
         <sw-switch-field v-if="!autoConfirmShipments"
                          v-model="confirmShipments"

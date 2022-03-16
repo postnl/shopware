@@ -43,13 +43,14 @@ class ShipmentController extends AbstractController
      * @Route("/api/_action/postnl/shipment/barcodes",
      *         defaults={"auth_enabled"=true}, name="api.action.postnl.shipment.barcodes", methods={"GET"})
      *
-     * @param Request $request
+     * @param QueryDataBag $data
      * @param Context $context
      * @return JsonResponse
+     * @throws \Firstred\PostNL\Exception\PostNLException
      */
-    public function barcodes(Request $request, Context $context): JsonResponse
+    public function barcodes(QueryDataBag $data, Context $context): JsonResponse
     {
-        $orderIds = $request->get('orderIds');
+        $orderIds = $data->get('orderIds');
 
         $generatedBarCodes = $this->shipmentFacade->generateBarcodes($orderIds, $context);
 
@@ -60,6 +61,25 @@ class ShipmentController extends AbstractController
         return $this->json(['barcodes' => $generatedBarCodes]);
     }
 
+
+    /**
+     * @Route("/api/_action/postnl/shipment/zones",
+     *         defaults={"auth_enabled"=true}, name="api.action.postnl.shipment.zonse", methods={"GET"})
+     *
+     * @param QueryDataBag $data
+     * @param Context $context
+     * @return JsonResponse
+     */
+    public function determineZones(QueryDataBag $data, Context $context): JsonResponse
+    {
+        $orderIds = $data->get('orderIds')->all();
+
+        $zones = $this->shipmentFacade->determineZones($orderIds, $context);
+
+        return $this->json([
+            'zones' => $zones
+        ]);
+    }
 
     /**
      * @Route("/api/_action/postnl/shipment/labels",

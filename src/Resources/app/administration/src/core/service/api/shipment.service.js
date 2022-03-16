@@ -22,4 +22,9 @@ export default class ShipmentService extends PostNlApiService
         });
     }
 
+    determineDestinationZones(orderIds) {
+        return this.get('zones', {
+            orderIds: orderIds,
+        })
+    }
 }

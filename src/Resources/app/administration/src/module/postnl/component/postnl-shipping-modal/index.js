@@ -1,6 +1,8 @@
 import template from './postnl-shipping-modal.html.twig';
 // import './postnl-shipping-modal.scss';
 
+import { object } from '../../../../core/service/util.service';
+
 // eslint-disable-next-line no-undef
 const {Component, Mixin, } = Shopware;
 
@@ -26,6 +28,8 @@ Component.register('postnl-shipping-modal', {
     data() {
         return {
             isProcessing: false,
+
+            deliveryZones: [],
 
             isOverrideProduct: false,
             overrideProductId: null,
@@ -59,6 +63,8 @@ Component.register('postnl-shipping-modal', {
                 this.isOverrideProduct = !!this.overrideProductId;
             }
 
+            this.determineZones();
+
             this.systemConfigApiService
                 .getValues('PostNL')
                 .then(config => this.autoConfirmShipments = config['PostNL.config.autoConfirmShipments']);
@@ -68,6 +74,12 @@ Component.register('postnl-shipping-modal', {
             if(!this.isProcessing) {
                 this.$emit('close');
             }
+        },
+
+        determineZones() {
+            this.ShipmentService
+                .determineDestinationZones(Object.values(object.map(this.selection, 'id')))
+                .then(response => this.deliveryZones = response.zones);
         },
 
         sendShipments() {

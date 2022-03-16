@@ -3,7 +3,10 @@
 namespace PostNL\Shopware6\Facade;
 
 use PostNL\Shopware6\Defaults;
+use PostNL\Shopware6\Service\PostNL\Delivery\Zone\ZoneService;
 use PostNL\Shopware6\Service\PostNL\ShipmentService;
+use PostNL\Shopware6\Service\Shopware\ConfigService;
+use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor;
 use PostNL\Shopware6\Service\Shopware\OrderService;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
@@ -11,9 +14,19 @@ use Shopware\Core\Framework\Context;
 class ShipmentFacade
 {
     /**
+     * @var ConfigService
+     */
+    protected $configService;
+
+    /**
      * @var OrderService
      */
     protected $orderService;
+
+    /**
+     * @var OrderDataExtractor
+     */
+    protected $orderDataExtractor;
 
     /**
      * @var ShipmentService
@@ -21,11 +34,15 @@ class ShipmentFacade
     protected $shipmentService;
 
     public function __construct(
+        ConfigService   $configService,
         OrderService    $orderService,
+        OrderDataExtractor $orderDataExtractor,
         ShipmentService $shipmentService
     )
     {
+        $this->configService = $configService;
         $this->orderService = $orderService;
+        $this->orderDataExtractor = $orderDataExtractor;
         $this->shipmentService = $shipmentService;
     }
 
@@ -48,6 +65,26 @@ class ShipmentFacade
         });
 
         return $this->shipmentService->generateBarcodesForOrders($ordersWithoutBarcode, $context);
+    }
+
+    public function determineZones(array $orderIds, Context $context): array
+    {
+        $deliveryZones = [];
+
+        foreach($orderIds as $orderId) {
+            $order = $this->orderService->getOrder($orderId, $context);
+
+            $config = $this->configService->getConfiguration($order->getSalesChannelId(), $context);
+
+            $deliveryCountry = $this->orderDataExtractor->extractDeliveryCountry($order);
+
+            $deliveryZones[] = ZoneService::getDestinationZone(
+                $config->getSenderAddress()->getCountrycode(),
+                $deliveryCountry->getIso()
+            );
+        }
+
+        return array_values(array_unique($deliveryZones));
     }
 
     /**
@@ -78,3 +115,4 @@ class ShipmentFacade
         return $pdf;
     }
 }
+
