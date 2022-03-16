@@ -2,14 +2,18 @@ import PostNlApiService from "../postnl-api.service";
 
 export default class ProductSelectionService extends PostNlApiService
 {
+    constructor(httpClient, loginService, apiBasePath = 'product') {
+        super(httpClient, loginService, apiBasePath);
+    }
+
     getProduct(productId) {
-        return this.get('product', {
+        return this.get('', {
             productId: productId,
         })
     }
 
     getDefaultProduct(sourceZone, destinationZone, deliveryType) {
-        return this.get('product/default', {
+        return this.get('default', {
             sourceZone: sourceZone,
             destinationZone: destinationZone,
             deliveryType: deliveryType,
@@ -17,7 +21,7 @@ export default class ProductSelectionService extends PostNlApiService
     }
 
     selectProduct(sourceZone, destinationZone, deliveryType, flags, changedFlags) {
-        return this.get('product/select', {
+        return this.get('select', {
             sourceZone: sourceZone,
             destinationZone: destinationZone,
             deliveryType: deliveryType,
@@ -27,26 +31,26 @@ export default class ProductSelectionService extends PostNlApiService
     }
 
     sourceZoneHasProducts(sourceZone) {
-        return this.get('product/source-zone', {
+        return this.get('source-zone', {
             sourceZone: sourceZone,
         });
     }
 
     getDeliveryTypes(sourceZone, destinationZone) {
-        return this.get('product/delivery-types', {
+        return this.get('delivery-types', {
             sourceZone: sourceZone,
             destinationZone: destinationZone,
         });
     }
 
     getFlagsForProduct(productId) {
-        return this.get('product/flags', {
+        return this.get('flags', {
             productId: productId,
         });
     }
 
     getAvailableFlags(sourceZone, destinationZone, deliveryType) {
-        return this.get('product/flags/available', {
+        return this.get('flags/available', {
             sourceZone: sourceZone,
             destinationZone: destinationZone,
             deliveryType: deliveryType,

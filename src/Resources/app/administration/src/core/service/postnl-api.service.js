@@ -4,8 +4,11 @@ import { stringify } from "qs";
 const ApiService = Shopware.Classes.ApiService;
 
 export default class PostNlApiService extends ApiService {
-    constructor(httpClient, loginService, apiEndpoint = 'postnl') {
-        super(httpClient, loginService, apiEndpoint);
+    constructor(httpClient, loginService, apiBasePath = '') {
+        const endpoint = ['postnl'];
+        endpoint.push(apiBasePath.replace(/^\/|\/$/g, '').trim());
+
+        super(httpClient, loginService, endpoint.filter(s => s.trim().length > 0).join('/'));
     }
 
     get(url, data = {}) {

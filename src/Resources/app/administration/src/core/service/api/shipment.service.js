@@ -2,14 +2,18 @@ import PostNlApiService from "../postnl-api.service";
 
 export default class ShipmentService extends PostNlApiService
 {
+    constructor(httpClient, loginService, apiBasePath = 'shipment') {
+        super(httpClient, loginService, apiBasePath);
+    }
+
     generateBarcodes(orderIds) {
-        return this.get('shipment/barcodes', {
+        return this.get('barcodes', {
             orderIds: orderIds,
         })
     }
 
     createShipments(orderIds, overrideProduct, overrideProductId, confirmShipments, downloadLabels) {
-        return this.getBlob('shipment/labels', {
+        return this.getBlob('labels', {
             orderIds: orderIds,
             overrideProduct: overrideProduct,
             overrideProductId: overrideProductId,
