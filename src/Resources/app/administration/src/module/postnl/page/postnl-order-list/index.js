@@ -81,53 +81,60 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
                 return !['salesChannel.name', 'billingAddressId', 'amountTotal', 'affiliateCode', 'campaignCode'].includes(column.property);
             });
 
+            const columnMap = {};
+            columns.forEach(column => {
+                const key = (column.dataIndex ?? column.property).replace(/\.|,/g, '-');
+                columnMap[key] = column;
+            });
+
             const extraColumns = [
                 {
                     property: 'deliveries[0].shippingOrderAddressId',
                     dataIndex: 'deliveries.shippingOrderAddress.street',
                     label: 'postnl.order.list.columnShippingAddress',
                     allowResize: true,
-                    addAfter: 'orderCustomer.firstName'
                 },
                 {
                     property: 'customFields.postnl.productId',
                     dataIndex: 'customFields.postnl.productId',
                     label: 'postnl.order.list.columnProduct',
                     allowResize: true,
-                    addAfter: 'deliveries[0].shippingOrderAddressId'
                 },
                 {
                     property: 'customFields.postnl.barCode',
                     dataIndex: 'customFields.postnl.barCode',
                     label: 'postnl.order.list.columnBarCode',
-                    addAfter: 'customFields.postnl.productId'
                 },
                 {
                     property: 'customFields.postnl.confirm',
                     dataIndex: 'customFields.postnl.confirm',
                     label: 'postnl.order.list.columnConfirm',
                     align: 'center',
-                    addAfter: 'customFields.postnl.barCode'
                 },
             ];
 
-            const orderStatusIndex = columns.findIndex((column) => column.property === 'stateMachineState.name');
-            const transactionStatusIndex = columns.findIndex((column) => column.property === 'transactions.last().stateMachineState.name');
-            const deliveryStatusIndex = columns.findIndex((column) => column.property === 'deliveries[0].stateMachineState.name');
-
-            columns[orderStatusIndex].visible = false;
-            columns[transactionStatusIndex].visible = false;
-            columns[deliveryStatusIndex].visible = false;
-
-            extraColumns.forEach((extraColumn) => {
-                const addAfter = extraColumn.addAfter;
-                delete extraColumn.addAfter;
-
-                const addAfterIndex = columns.findIndex((column) => column.property === addAfter);
-                columns.splice(addAfterIndex + 1, 0, extraColumn);
+            extraColumns.forEach(column => {
+                const key = (column.dataIndex ?? column.property).replace(/\.|,/g, '-');
+                columnMap[key] = column;
             });
 
-            return columns;
+            // Hide the states by default
+            columnMap['stateMachineState-name'].visible = false;
+            columnMap['transactions-stateMachineState-name'].visible = false;
+            columnMap['deliveries-stateMachineState-name'].visible = false;
+
+            return [
+                columnMap['orderDateTime'],
+                columnMap['orderNumber'],
+                columnMap['orderCustomer-lastName-orderCustomer-firstName'],
+                columnMap['deliveries-shippingOrderAddress-street'],
+                columnMap['customFields-postnl-productId'],
+                columnMap['customFields-postnl-barCode'],
+                columnMap['customFields-postnl-confirm'],
+                columnMap['stateMachineState-name'],
+                columnMap['transactions-stateMachineState-name'],
+                columnMap['deliveries-stateMachineState-name'],
+            ];
         },
 
         loadCountries(orders) {
