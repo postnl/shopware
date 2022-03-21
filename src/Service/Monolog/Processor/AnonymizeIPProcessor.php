@@ -3,6 +3,7 @@
 namespace PostNL\Shopware6\Service\Monolog\Processor;
 
 use Monolog\Processor\ProcessorInterface;
+use Symfony\Component\HttpFoundation\IpUtils;
 
 class AnonymizeIPProcessor implements ProcessorInterface
 {
@@ -33,29 +34,8 @@ class AnonymizeIPProcessor implements ProcessorInterface
             return $record;
         }
 
-        $ip = trim($record['extra']['ip']);
-
-        # return an empty string as the ip and return early
-        # if the IP address is not even valid
-        if (!$this->isValidIP($ip)) {
-            $record['extra']['ip'] = '';
-            return $record;
-        }
-
-        $ipOctets = explode('.', $ip);
-        $record['extra']['ip'] = $ipOctets[0] . '.' . $ipOctets[1] . '.' . $ipOctets[2] . '.' . $this->placeholder;
+        $record['extra']['ip'] = IpUtils::anonymize($record['extra']['ip']);
 
         return $record;
-    }
-
-    /**
-     * Gets if the provided IP is even a valid IP address.
-     *
-     * @param string $ip
-     * @return bool
-     */
-    private function isValidIP(string $ip): bool
-    {
-        return (filter_var($ip, FILTER_VALIDATE_IP) !== false);
     }
 }
