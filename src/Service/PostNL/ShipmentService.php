@@ -242,7 +242,7 @@ class ShipmentService
         $shipment->setAmounts($amounts);
 
         $contact = new Contact();
-        $contact->setContactType('02');//?
+        $contact->setContactType('01');
         $contact->setEmail($this->orderDataExtractor->extractCustomer($order)->getEmail());
         $contact->setTelNr($this->orderDataExtractor->extractDeliveryAddress($order)->getPhoneNumber());
 
