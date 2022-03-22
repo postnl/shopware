@@ -27,5 +27,9 @@
             <argument type="service" id="PostNL\Shopware6\Service\PostNL\LabelService"/>
             <argument type="service" id="PostNL\Shopware6\Service\PostNL\Product\ProductService"/>
         </service>
+
+        <service id="PostNL\Shopware6\Service\PostNL\PostalCodeService">
+            <argument type="service" id="PostNL\Shopware6\Service\PostNL\Factory\ApiFactory"/>
+        </service>
     </services>
 </container>

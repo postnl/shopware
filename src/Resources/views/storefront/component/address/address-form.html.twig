@@ -1,0 +1,39 @@
+{% sw_extends '@Storefront/storefront/component/address/address-form.html.twig' %}
+{% block component_address_form_address_fields %}
+    {% set allowedCountries =  page.countries.elements|filter(country => country.iso == "NL") %}
+    {% set codecheckOptions = {
+        csrfToken: sw_csrf('frontend.address.postnl.postal-code-check', {"mode": "token"}),
+        countries: allowedCountries
+    } %}
+        <div data-postnl-postal-code-check="true" data-postnl-postal-code-check-options='{{ codecheckOptions | json_encode }}'>
+            <div class="form-row country-and-state-form-elements" data-country-state-select="true">
+                {% block component_address_form_country %}
+                   {{ parent() }}
+                {% endblock %}
+            </div>
+
+            <div class="form-row">
+                {% block component_address_form_street %}
+                    {{ parent() }}
+                {% endblock %}
+
+                {% block component_address_form_zipcode_city %}
+                    {{ parent() }}
+                {% endblock %}
+
+                {% block component_address_form_additional_field1 %}
+                    {{ parent() }}
+                {% endblock %}
+
+                {% block component_address_form_additional_field2 %}
+                    {{ parent() }}
+                {% endblock %}
+            </div>
+
+            <div class="form-row">
+                {% block component_address_form_phone_number %}
+                    {{ parent() }}
+                {% endblock %}
+            </div>
+        </div>
+{% endblock %}

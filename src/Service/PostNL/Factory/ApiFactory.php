@@ -5,9 +5,9 @@ namespace PostNL\Shopware6\Service\PostNL\Factory;
 use Firstred\PostNL\Entity\Address;
 use Firstred\PostNL\Entity\Customer;
 use Firstred\PostNL\Exception\InvalidArgumentException;
-use Firstred\PostNL\PostNL;
 use PostNL\Shopware6\Component\PostNL\Factory\GuzzleRequestFactory;
 use PostNL\Shopware6\Exception\PostNL\ClientCreationException;
+use PostNL\Shopware6\Service\PostNL\ApiExtension\PostNLExtension;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
@@ -39,7 +39,7 @@ class ApiFactory
         bool $sandbox = false,
         array $customerData = [],
         array $senderAddress = []
-    ): PostNL
+    ): PostNLExtension
     {
         $this->logger->debug("Creating API client", [
             'apiKey' => $this->obfuscateApiKey($apiKey),
@@ -55,7 +55,7 @@ class ApiFactory
             $requestFactory = new GuzzleRequestFactory();
 //            $requestFactory->addHeader();
 
-            $client = new PostNL($customer, $apiKey, $sandbox);
+            $client = new PostNLExtension($customer, $apiKey, $sandbox);
             $client->setRequestFactory($requestFactory);
 
             return $client;
@@ -79,9 +79,9 @@ class ApiFactory
     /**
      * @param string $salesChannelId
      * @param Context $context
-     * @return PostNL
+     * @return PostNLExtension
      */
-    public function createClientForSalesChannel(string $salesChannelId, Context $context): PostNL
+    public function createClientForSalesChannel(string $salesChannelId, Context $context): PostNLExtension
     {
         $this->logger->debug("Creating API client for saleschannel", [
             'salesChannelId' => $salesChannelId
