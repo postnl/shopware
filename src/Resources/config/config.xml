@@ -7,6 +7,10 @@
         <title lang="de-DE">API</title>
         <title lang="nl-NL">API</title>
 
+        <component name="postnl-config-api-credentials-link">
+            <name>apiCredentialsLink</name>
+        </component>
+
         <input-field type="password">
             <name>productionApiKey</name>
             <copyable>true</copyable>
@@ -53,7 +57,7 @@
         </component>
 
         <component name="postnl-config-api-credentials-test">
-            <name>apiTestButton</name>
+            <name>apiCredentialsTest</name>
             <label>API Connection test</label>
             <label lang="de-DE">API Verbindung testen</label>
             <label lang="nl-NL">API Verbinding testen</label>
