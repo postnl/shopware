@@ -33,6 +33,7 @@
         "country": "Country"
       },
       "returnAddress": {
+        "customerCodeWarning": "Please note, a return customer code must be used for return shipments",
         "contract": "I have a return contract with PostNL",
         "companyName": "Company name",
         "firstName": "First name",

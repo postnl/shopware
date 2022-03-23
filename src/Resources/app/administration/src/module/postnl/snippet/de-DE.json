@@ -33,6 +33,7 @@
         "country": "Land"
       },
       "returnAddress": {
+        "customerCodeWarning": "Bitte beachten Sie, dass für Rücksendungen ein Kundencode verwendet werden muss",
         "contract": "Ich habe einen Rücksendevertrag mit PostNL",
         "companyName": "Firmenname",
         "firstName": "Vorname",

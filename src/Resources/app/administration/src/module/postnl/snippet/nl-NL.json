@@ -33,6 +33,7 @@
         "country": "Country"
       },
       "returnAddress": {
+        "customerCodeWarning": "Let op, voor retour zendingen moet een retour klantcode gebruikt worden",
         "contract": "Ik heb een retourcontract met PostNL",
         "companyName": "Bedrijfsnaam",
         "firstName": "Voornaam",

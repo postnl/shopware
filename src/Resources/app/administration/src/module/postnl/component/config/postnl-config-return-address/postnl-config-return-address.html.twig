@@ -26,7 +26,13 @@
         </template>
         <template #content>
             <sw-switch-field v-model="content.hasReturnContract"
-                             :label="$tc('postnl.config.returnAddress.contract')"/>
+                             :label="$tc('postnl.config.returnAddress.contract')"
+                             size="small"
+                             noMarginTop/>
+
+            <sw-alert variant="info">
+                {{ $tc('postnl.config.returnAddress.customerCodeWarning') }}
+            </sw-alert>
 
             <sw-container columns="repeat(4, 1fr)" gap="0 16px" v-if="content.hasReturnContract">
                 <sw-text-field v-model="content.companyName"
@@ -58,6 +64,7 @@
             </sw-container>
         </template>
     </memo-collapse>
+
     <memo-collapse :disabled="disabled" v-else-if="senderCountry?.iso === 'BE'">
         <template #header>
             <sw-container rows="1fr 1fr">
@@ -88,6 +95,10 @@
             </sw-container>
         </template>
         <template #content>
+            <sw-alert variant="info">
+                {{ $tc('postnl.config.returnAddress.customerCodeWarning') }}
+            </sw-alert>
+
             <sw-container columns="repeat(4, 1fr)" gap="0 16px">
                 <sw-text-field v-model="content.companyName"
                                :label="$tc('postnl.config.returnAddress.companyName')"
