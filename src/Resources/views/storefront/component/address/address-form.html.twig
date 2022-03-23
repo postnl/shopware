@@ -5,35 +5,139 @@
         csrfToken: sw_csrf('frontend.address.postnl.postal-code-check', {"mode": "token"}),
         countries: allowedCountries
     } %}
-        <div data-postnl-postal-code-check="true" data-postnl-postal-code-check-options='{{ codecheckOptions | json_encode }}'>
-            <div class="form-row country-and-state-form-elements" data-country-state-select="true">
-                {% block component_address_form_country %}
-                   {{ parent() }}
-                {% endblock %}
-            </div>
-
-            <div class="form-row">
-                {% block component_address_form_street %}
-                    {{ parent() }}
-                {% endblock %}
-
-                {% block component_address_form_zipcode_city %}
-                    {{ parent() }}
-                {% endblock %}
-
-                {% block component_address_form_additional_field1 %}
-                    {{ parent() }}
-                {% endblock %}
-
-                {% block component_address_form_additional_field2 %}
-                    {{ parent() }}
-                {% endblock %}
-            </div>
-
-            <div class="form-row">
-                {% block component_address_form_phone_number %}
-                    {{ parent() }}
-                {% endblock %}
-            </div>
+    <div data-postnl-postal-code-check="true"
+         data-postnl-postal-code-check-options='{{ codecheckOptions | json_encode }}'>
+        <div class="form-row country-and-state-form-elements" data-country-state-select="true">
+            {% block component_address_form_country %}
+                {{ parent() }}
+            {% endblock %}
         </div>
+
+        <div class="form-row" id="postNLAddressRow" hidden="hidden">
+            {% block postnl_component_address_form_zipcode %}
+                <div class="form-group col-sm-6">
+
+                    {% if formViolations.getViolations("/zipcode") is not empty %}
+                        {% set violationPath = "/zipcode" %}
+                    {% elseif formViolations.getViolations("/#{prefix}/zipcode") is not empty %}
+                        {% set violationPath = "/#{prefix}/zipcode" %}
+                    {% endif %}
+
+                    {% block postnl_component_address_form_zipcode_label %}
+                        <label class="form-label"
+                               for="{{ idPrefix ~ prefix }}PostNLAddressZipcode">
+                            {{ "address.zipcodeLabel"|trans|sw_sanitize }}{{ "general.required"|trans|sw_sanitize }}
+                        </label>
+                    {% endblock %}
+
+                    {% block postnl_component_address_form_zipcode_input %}
+                        <input type="text"
+                               class="form-control{% if violationPath %} is-invalid{% endif %}"
+                               id="{{ idPrefix ~ prefix }}PostNLAddressZipcode"
+                               placeholder="{{ "address.zipcodePlaceholder"|trans|striptags }}"
+                               name="{{ prefix }}[zipcode]"
+                               value="{{ data.get('zipcode') }}"
+                               required="required">
+                    {% endblock %}
+
+                    {% block postnl_component_address_form_zipcode_error %}
+                        {% if violationPath %}
+                            {% sw_include '@Storefront/storefront/utilities/form-violation.html.twig' %}
+                        {% endif %}
+                    {% endblock %}
+                </div>
+            {% endblock %}
+
+            {% block postnl_component_address_form_house_number %}
+                <div class="form-group col-sm-6">
+                    <label class="form-label"
+                           for="{{ idPrefix ~ prefix }}PostNLAddressHouseNumber">
+                        {{ "address.houseNumberLabel"|trans|sw_sanitize }}{{ "general.required"|trans|sw_sanitize }}
+                    </label>
+                    <input type="text"
+                           class="form-control{% if violationPath %} is-invalid{% endif %}"
+                           id="{{ idPrefix ~ prefix }}PostNLAddressHouseNumber"
+                           placeholder="{{ "address.houseNumberPlaceholder"|trans|striptags }}"
+                           name="{{ prefix }}[houseNumber]"
+                           value="{{ data.get('houseNumber') }}"
+                           required="required"
+                    >
+                </div>
+            {% endblock %}
+
+            {% block postnl_component_address_form_street %}
+                <div class="form-group col-sm-6">
+                    <label class="form-label"
+                           for="{{ idPrefix ~ prefix }}PostNLAddressHouseNumber">
+                        {{ "address.streetLabel"|trans|sw_sanitize }}{{ "general.required"|trans|sw_sanitize }}
+                    </label>
+                    <input type="text"
+                           class="form-control{% if violationPath %} is-invalid{% endif %}"
+                           id="{{ idPrefix ~ prefix }}PostNLAddressHouseNumber"
+                           placeholder="{{ "address.streetPlaceholder"|trans|striptags }}"
+                           name="{{ prefix }}[houseNumber]"
+                           value="{{ data.get('houseNumber') }}"
+                           required="required"
+                           disabled="disabled"
+                    >
+                </div>
+            {% endblock %}
+
+            {% block postnl_component_address_form_city %}
+                <div class="form-group col-sm-6">
+                    {% if formViolations.getViolations("/city") is not empty %}
+                        {% set violationPath = "/city" %}
+                    {% elseif formViolations.getViolations("/#{prefix}/city") is not empty %}
+                        {% set violationPath = "/#{prefix}/city" %}
+                    {% else %}
+                        {% set violationPath = null %}
+                    {% endif %}
+
+                    <label class="form-label"
+                           for="{{ idPrefix ~ prefix }}AddressCity">
+                        {{ "address.cityLabel"|trans|sw_sanitize }}{{ "general.required"|trans|sw_sanitize }}
+                    </label>
+
+                    <input type="text"
+                           class="form-control{% if violationPath %} is-invalid{% endif %}"
+                           id="{{ idPrefix ~ prefix }}AddressCity"
+                           placeholder="{{ "address.cityPlaceholder"|trans|striptags }}"
+                           name="{{ prefix }}[city]"
+                           value="{{ data.get('city') }}"
+                           required="required"
+                           disabled="disabled">
+
+                    {% block component_address_form_city_error %}
+                        {% if violationPath %}
+                            {% sw_include '@Storefront/storefront/utilities/form-violation.html.twig' %}
+                        {% endif %}
+                    {% endblock %}
+                </div>
+            {% endblock %}
+        </div>
+
+        <div class="form-row" id="defaultAddressRow">
+            {% block component_address_form_street %}
+                {{ parent() }}
+            {% endblock %}
+
+            {% block component_address_form_zipcode_city %}
+                {{ parent() }}
+            {% endblock %}
+
+            {% block component_address_form_additional_field1 %}
+                {{ parent() }}
+            {% endblock %}
+
+            {% block component_address_form_additional_field2 %}
+                {{ parent() }}
+            {% endblock %}
+        </div>
+
+        <div class="form-row">
+            {% block component_address_form_phone_number %}
+                {{ parent() }}
+            {% endblock %}
+        </div>
+    </div>
 {% endblock %}
