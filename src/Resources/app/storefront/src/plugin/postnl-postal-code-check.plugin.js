@@ -16,6 +16,7 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         // this._checkPostalCode();
         this._registerEvents();
         this._updateRequired();
+        this._setupLinkedFields();
     }
 
     _registerEvents() {
@@ -93,6 +94,30 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
             DomAccess.querySelector(this.el, '#defaultAddressRow').removeAttribute('hidden');
         }
         this._updateRequired();
+    }
+
+    _setupLinkedFields(){
+        //Postal code
+        this._linkFields('#billingAddressAddressZipcode','#billingAddressPostNLAddressZipcode')
+        this._linkFields('#shippingAddressAddressZipcode','#shippingAddressPostNLAddressZipcode')
+        //Address
+        //TODO: fix this with converter because the address needs to be added
+        this._linkFields('#billingAddressAddressStreet','#shippingAddressPostNLAddressStreet')
+        this._linkFields('#shippingAddressAddressStreet','#shippingAddressPostNLAddressStreet')
+        //City
+        this._linkFields('#billingAddressAddressCity','#shippingAddressPostNLAddressCity')
+        this._linkFields('#shippingAddressAddressCity','#shippingAddressPostNLAddressCity')
+
+    }
+
+    _linkFields(field1Selector,field2Selector){
+        const field1 = document.querySelector(field1Selector);
+        const field2 = document.querySelector(field2Selector);
+        field1.addEventListener('change', this.copyValue.bind(this,field1,field2));
+    }
+
+    copyValue(sender,receiver){
+        receiver.value = sender.value
     }
 
     onChangeSelectedCountry(e) {
