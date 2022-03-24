@@ -3,7 +3,7 @@
 namespace PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Response;
 
 use Firstred\PostNL\Entity\AbstractEntity;
-use phpDocumentor\Reflection\Types\Array_;
+use PostNL\Shopware6\Service\PostNL\PostalCodeService;
 
 
 /**
@@ -25,9 +25,9 @@ use phpDocumentor\Reflection\Types\Array_;
 class PostalCodeResponse extends AbstractEntity
 {
     public static $defaultProperties = [
-        'PostalCode'=>[
-            'MergedLabels'      => BarcodeService::DOMAIN_NAMESPACE,
-            'ResponseShipments' => BarcodeService::DOMAIN_NAMESPACE,
+        'PostalCode' => [
+            'MergedLabels' => PostalCodeService::DOMAIN_NAMESPACE,
+            'ResponseShipments' => PostalCodeService::DOMAIN_NAMESPACE,
         ]
     ];
 
@@ -59,8 +59,8 @@ class PostalCodeResponse extends AbstractEntity
         string $city,
         string $postalCode,
         string $streetName,
-        int $houseNumber,
-        array $formattedAddress,
+        int    $houseNumber,
+        array  $formattedAddress,
         string $houseNumberAddition = null)
     {
         parent::__construct();

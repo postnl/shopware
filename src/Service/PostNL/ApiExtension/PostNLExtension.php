@@ -3,6 +3,7 @@
 namespace PostNL\Shopware6\Service\PostNL\ApiExtension;
 
 use Firstred\PostNL\PostNL;
+
 use PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Response\PostalCodeResponse;
 use PostNL\Shopware6\Service\PostNL\ApiExtension\Service\PostalCodeCheckService;
 use PostNL\Shopware6\Service\PostNL\ApiExtension\Service\PostalCodeCheckServiceInterface;
@@ -32,14 +33,13 @@ class PostNLExtension extends PostNL
         $this->postalCodeCheckService = $postalCodeCheckService;
     }
 
-
     /**
      * @param string $postalCode
      * @param string $houseNumber
      * @param string|null $houseNumberAddition
      * @return PostalCodeResponse
      */
-    public function getPostalCode(string $postalCode, string $houseNumber, string $houseNumberAddition = null)
+    public function getPostalCode(string $postalCode, string $houseNumber, string $houseNumberAddition = null): PostalCodeResponse
     {
         return new PostalCodeResponse('test', 'test', 'test', 123, ['test', 'test']);
     }

@@ -17,15 +17,24 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     init() {
         this._client = new HttpClient();
 
-        //Register elements
-        this.zipcode= DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressZipcode');
-        this.houseNumber = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressHouseNumber');
-        this.houseNumberAddition = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressHouseNumberAddition');
-
+        this._registerElements();
         this._registerEvents();
         this._updateRequired();
         this._setupLinkedFields();
         console.log(this.options);
+    }
+
+    _registerElements(){
+        //Register elements
+        this.zipcodeElement= DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressZipcode');
+        this.houseNumberElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressHouseNumber');
+        this.houseNumberAdditionElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressHouseNumberAddition');
+        this.streetElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressStreet');
+        this.cityElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressCity');
+        //Shopware own
+        this.zipcodeElementSW= DomAccess.querySelector(document, '#' + this.options.concatPrefix + 'AddressZipcode');
+        this.streetElementSW = DomAccess.querySelector(document, '#' + this.options.concatPrefix + 'AddressStreet');
+        this.cityElementSW = DomAccess.querySelector(document, '#' + this.options.concatPrefix + 'AddressCity');
     }
 
     _registerEvents() {
@@ -39,18 +48,18 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         DomAccess.querySelectorAll(this.el, '.country-select').forEach(input => {
             input.addEventListener('change', this.onChangeSelectedCountry.bind(this));
         });
-        const debouceLookup = Debouncer.debounce(this._lookupAddress.bind(this), 2000);
+        const debouceLookup = Debouncer.debounce(this._lookupAddress.bind(this), 1500);
 
         //Address fields
-        this.zipcode.addEventListener('keyup', debouceLookup)
-        this.houseNumber.addEventListener('keyup', debouceLookup)
-        this.houseNumberAddition.addEventListener('keyup', debouceLookup)
+        this.zipcodeElement.addEventListener('keyup', debouceLookup)
+        this.houseNumberElement.addEventListener('keyup', debouceLookup)
+        this.houseNumberAdditionElement.addEventListener('keyup', debouceLookup)
     }
 
     _lookupAddress() {
         //Are all fields filled?
-        if (this.zipcode.value != null && this.houseNumber.value != null) {
-            this._checkPostalCode(this.zipcode.value, this.houseNumber.value, this.houseNumberAddition.value);
+        if (this.zipcodeElement.value != null && this.houseNumberElement.value != null) {
+            this._checkPostalCode(this.zipcodeElement.value, this.houseNumberElement.value, this.houseNumberAdditionElement.value);
         }
     }
 
@@ -86,14 +95,25 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         ElementLoadingIndicatorUtil.create(this.el);
         this._client.post(this.options.url, JSON.stringify(data), content =>{
             ElementLoadingIndicatorUtil.remove(this.el);
-            this._parseRequest(JSON.parse(content))
+            // this._parseRequest(JSON.parse(content))
+            this._parseRequest(content) //TODO: swap me above
         });
     }
 
     _parseRequest(data) {
-        console.log('Logging data')
-        console.log(data)
+        console.log('Parsing data')
+
         //TODO: fill in all the data you got here
+        let city = "ZAANDAM"
+        let streetName = "Wals"
+
+        //Put the data in the our fields
+        this.cityElement.value = city;
+        this.streetElement.value = streetName;
+        //Put the data in shopware fields (street+housenumber+addition, zipcode, city)
+        this.streetElementSW.value = this.streetElement.value + ' ' + this.houseNumberElement.value + ' ' + this.houseNumberAdditionElement.value
+        this.zipcodeElementSW.value = this.zipcodeElement.value;
+        this.cityElementSW.value = this.cityElement.value;
     }
 
     _getRequestData() {
@@ -125,17 +145,12 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
 
     _setupLinkedFields() {
         //Postal code
-        this._linkFields('#' + this.options.concatPrefix + 'AddressZipcode',
-            '#' + this.options.concatPrefix + 'PostNLAddressZipcode')
-
-        this._linkFields('#' + this.options.concatPrefix + 'PostNLAddressZipcode',
-            '#' + this.options.concatPrefix + 'AddressZipcode')
+        this._linkFields(this.zipcodeElementSW,this.zipcodeElement)
+        this._linkFields(this.zipcodeElement,this.zipcodeElementSW)
 
         //City
-        this._linkFields('#' + this.options.concatPrefix + 'AddressCity',
-            '#' + this.options.concatPrefix + 'PostNLAddressCity')
-        this._linkFields('#' + this.options.concatPrefix + 'PostNLAddressCity',
-            '#' + this.options.concatPrefix + 'AddressCity')
+        this._linkFields(this.cityElement,this.cityElementSW)
+        this._linkFields(this.cityElementSW,this.cityElement)
 
         //Address (street + house number in shopware)
         //TODO: fix this with converter because the address needs to be compounded
@@ -146,11 +161,9 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
 
     }
 
-    _linkFields(field1Selector, field2Selector) {
-        console.log('Linking ', field1Selector, 'with', field2Selector);
-        const field1 = document.querySelector(field1Selector);
-        const field2 = document.querySelector(field2Selector);
-        field1.addEventListener('change', this.copyValue.bind(this, field1, field2));
+    _linkFields(field1Element, field2Element) {
+        console.log('Linking ', field1Element, 'with', field2Element);
+        field1Element.addEventListener('change', this.copyValue.bind(this, field1Element, field2Element));
     }
 
     copyValue(sender, receiver) {

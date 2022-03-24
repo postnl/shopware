@@ -13,6 +13,7 @@ class PostalCodeService
      */
     protected $apiFactory;
 
+    const DOMAIN_NAMESPACE = 'http://postnl.nl/cif/domain/PostalCodeService/';
 
     public function __construct(ApiFactory $apiFactory)
     {
