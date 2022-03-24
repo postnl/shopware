@@ -9,6 +9,7 @@
         countries: allowedCountries,
         concatPrefix : idPrefix ~ prefix
     } %}
+    {{ dump(data) }}
     <div data-postnl-postal-code-check="true"
          data-postnl-postal-code-check-options='{{ codecheckOptions | json_encode }}'>
 
@@ -42,7 +43,7 @@
                                    id="{{ idPrefix ~ prefix }}PostNLAddressZipcode"
                                    placeholder="{{ "address.zipcodePlaceholder"|trans|striptags }}"
                                    name="{{ prefix }}[zipcode]"
-                                   value="{{ data.get('zipcode') }}"
+{#                                   value="{{ data.get('zipcode') }}"#}
                                    required="required">
                         {% endblock %}
 
@@ -65,7 +66,7 @@
                                id="{{ idPrefix ~ prefix }}PostNLAddressHouseNumber"
                                placeholder="{{ "address.houseNumberPlaceholder"|trans|striptags }}"
                                name="{{ prefix }}[houseNumber]"
-                               value="{{ data.get('houseNumber') }}"
+{#                               value="{{ data.get('houseNumber') }}"#}
                                required="required"
                         >
                     </div>
@@ -82,8 +83,7 @@
                                id="{{ idPrefix ~ prefix }}PostNLAddressHouseNumberAddition"
                                placeholder="{{ "address.houseNumberAdditionPlaceholder"|trans|striptags }}"
                                name="{{ prefix }}[houseNumberAddition]"
-                               value="{{ data.get('houseNumberAddition') }}"
-                               required="required"
+{#                               value="{{ data.get('houseNumberAddition') }}"#}
                         >
                     </div>
                 {% endblock %}
@@ -100,8 +100,8 @@
                                class="form-control{% if violationPath %} is-invalid{% endif %}"
                                id="{{ idPrefix ~ prefix }}PostNLAddressStreet"
                                placeholder="{{ "address.streetPlaceholder"|trans|striptags }}"
-                               name="{{ prefix }}[street]"
-                               value="{{ data.get('street') }}"
+                               name="{{ prefix }}[streetName]"
+{#                               value="{{ data.get('street') }}"#}
                                required="required"
                                disabled="disabled"
                         >
@@ -128,9 +128,10 @@
                                id="{{ idPrefix ~ prefix }}PostNLAddressCity"
                                placeholder="{{ "address.cityPlaceholder"|trans|striptags }}"
                                name="{{ prefix }}[city]"
-                               value="{{ data.get('city') }}"
+{#                               value="{{ data.get('city') }}"#}
                                required="required"
-                               disabled="disabled">
+                               disabled="disabled"
+                        >
 
                         {% block component_address_form_city_error %}
                             {% if violationPath %}

@@ -21,6 +21,14 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this._registerEvents();
         this._updateRequired();
         this._setupLinkedFields();
+        //Setup if filled in
+        let selectedCountryValue =this.countrySelectorElement.value
+        console.log(this.countrySelectorElement.selectedOptions);
+        console.log(this.countrySelectorElement.selectedOptions[0]);
+        if(selectedCountryValue!=null&&selectedCountryValue!==""){
+
+            this._adaptFormToSelectedCountryId(selectedCountryValue);
+        }
         console.log(this.options);
     }
 
@@ -35,15 +43,20 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this.zipcodeElementSW= DomAccess.querySelector(document, '#' + this.options.concatPrefix + 'AddressZipcode');
         this.streetElementSW = DomAccess.querySelector(document, '#' + this.options.concatPrefix + 'AddressStreet');
         this.cityElementSW = DomAccess.querySelector(document, '#' + this.options.concatPrefix + 'AddressCity');
+        //Country selector
+        this.countrySelectorElement = DomAccess.querySelector(this.el, '.country-select');
     }
 
     _registerEvents() {
         //Checkbox remove required
         const jsToggle = document.querySelector('#differentShippingAddress');
-        const jsToggleInstance = PluginManager.getPluginInstanceFromElement(jsToggle, 'FormFieldToggle');
-        jsToggleInstance.$emitter.subscribe('onChange', () => {
-            this._updateRequired();
-        })
+        if (jsToggle!=null){
+            const jsToggleInstance = PluginManager.getPluginInstanceFromElement(jsToggle, 'FormFieldToggle');
+            jsToggleInstance.$emitter.subscribe('onChange', () => {
+                this._updateRequired();
+            })
+        }
+
         //Country checker
         DomAccess.querySelectorAll(this.el, '.country-select').forEach(input => {
             input.addEventListener('change', this.onChangeSelectedCountry.bind(this));
@@ -96,7 +109,7 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this._client.post(this.options.url, JSON.stringify(data), content =>{
             ElementLoadingIndicatorUtil.remove(this.el);
             // this._parseRequest(JSON.parse(content))
-            this._parseRequest(content) //TODO: swap me above
+            this._parseRequest(content) //TODO: swap me above when sdk works
         });
     }
 
@@ -110,7 +123,7 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         //Put the data in the our fields
         this.cityElement.value = city;
         this.streetElement.value = streetName;
-        //Put the data in shopware fields (street+housenumber+addition, zipcode, city)
+        //Put the data in shopware fields (street+house number+addition, zipcode, city)
         this.streetElementSW.value = this.streetElement.value + ' ' + this.houseNumberElement.value + ' ' + this.houseNumberAdditionElement.value
         this.zipcodeElementSW.value = this.zipcodeElement.value;
         this.cityElementSW.value = this.cityElement.value;
@@ -162,7 +175,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     _linkFields(field1Element, field2Element) {
-        console.log('Linking ', field1Element, 'with', field2Element);
         field1Element.addEventListener('change', this.copyValue.bind(this, field1Element, field2Element));
     }
 
