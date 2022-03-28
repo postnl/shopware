@@ -10,26 +10,22 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         url: window.router['frontend.address.postnl.postal-code-check'],
         csrfToken: 'put token here',
         countries: [],
-        concatPrefix: ""
+        concatPrefix: "",
     }
-
 
     init() {
         this._client = new HttpClient();
-
         this._registerElements();
         this._registerEvents();
         this._updateRequired();
         this._setupLinkedFields();
-        //Setup if filled in
-        let selectedCountryValue =this.countrySelectorElement.value
-        console.log(this.countrySelectorElement.selectedOptions);
-        console.log(this.countrySelectorElement.selectedOptions[0]);
-        if(selectedCountryValue!=null&&selectedCountryValue!==""){
+        this._prepareFormWithExistingData();
 
-            this._adaptFormToSelectedCountryId(selectedCountryValue);
-        }
         console.log(this.options);
+    }
+
+    update(){
+        console.log('UPDATE')
     }
 
     _registerElements(){
@@ -37,14 +33,18 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this.zipcodeElement= DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressZipcode');
         this.houseNumberElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressHouseNumber');
         this.houseNumberAdditionElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressHouseNumberAddition');
-        this.streetElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressStreet');
-        this.cityElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressCity');
+        this.streetElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressStreetShow');
+        this.streetElementHidden = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressStreet');
+        this.cityElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressCityShow');
+        this.cityElementHidden = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressCity');
         //Shopware own
         this.zipcodeElementSW= DomAccess.querySelector(document, '#' + this.options.concatPrefix + 'AddressZipcode');
         this.streetElementSW = DomAccess.querySelector(document, '#' + this.options.concatPrefix + 'AddressStreet');
         this.cityElementSW = DomAccess.querySelector(document, '#' + this.options.concatPrefix + 'AddressCity');
         //Country selector
         this.countrySelectorElement = DomAccess.querySelector(this.el, '.country-select');
+        //Excluded elements
+        this.excludedElements = [this.houseNumberAdditionElement,this.streetElementHidden,this.cityElementHidden];
     }
 
     _registerEvents() {
@@ -67,6 +67,14 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this.zipcodeElement.addEventListener('keyup', debouceLookup)
         this.houseNumberElement.addEventListener('keyup', debouceLookup)
         this.houseNumberAdditionElement.addEventListener('keyup', debouceLookup)
+    }
+
+    _prepareFormWithExistingData(){
+        //Setup if filled in
+        let selectedCountryValue =this.countrySelectorElement.value
+        if(selectedCountryValue!=null&&selectedCountryValue!==""){
+            this._adaptFormToSelectedCountryId(selectedCountryValue);
+        }
     }
 
     _lookupAddress() {
@@ -96,7 +104,11 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
             input.removeAttribute('required');
         });
         DomAccess.querySelectorAll(required, 'input,select').forEach(input => {
-            input.setAttribute('required', 'required');
+            //Unless it is excluded
+            let found = this.excludedElements.includes(element => element!==input)
+            if (found){
+                input.setAttribute('required', 'required');
+            }
         });
     }
 
@@ -123,6 +135,8 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         //Put the data in the our fields
         this.cityElement.value = city;
         this.streetElement.value = streetName;
+        this.cityElementHidden.value = city;
+        this.streetElementHidden.value = streetName;
         //Put the data in shopware fields (street+house number+addition, zipcode, city)
         this.streetElementSW.value = this.streetElement.value + ' ' + this.houseNumberElement.value + ' ' + this.houseNumberAdditionElement.value
         this.zipcodeElementSW.value = this.zipcodeElement.value;
@@ -164,6 +178,9 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         //City
         this._linkFields(this.cityElement,this.cityElementSW)
         this._linkFields(this.cityElementSW,this.cityElement)
+
+        //Hidden street
+        this._linkFields(this.streetElement,this.streetElementHidden)
 
         //Address (street + house number in shopware)
         //TODO: fix this with converter because the address needs to be compounded

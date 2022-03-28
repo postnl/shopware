@@ -9,7 +9,8 @@
         countries: allowedCountries,
         concatPrefix : idPrefix ~ prefix
     } %}
-    {{ dump(data) }}
+{#    {{ dump(page) }}#}
+    {{ dump(data.customFields.postNL) }}
     <div data-postnl-postal-code-check="true"
          data-postnl-postal-code-check-options='{{ codecheckOptions | json_encode }}'>
 
@@ -43,7 +44,7 @@
                                    id="{{ idPrefix ~ prefix }}PostNLAddressZipcode"
                                    placeholder="{{ "address.zipcodePlaceholder"|trans|striptags }}"
                                    name="{{ prefix }}[zipcode]"
-{#                                   value="{{ data.get('zipcode') }}"#}
+                                   value="{{ data.get('zipcode') }}"
                                    required="required">
                         {% endblock %}
 
@@ -66,7 +67,7 @@
                                id="{{ idPrefix ~ prefix }}PostNLAddressHouseNumber"
                                placeholder="{{ "address.houseNumberPlaceholder"|trans|striptags }}"
                                name="{{ prefix }}[houseNumber]"
-{#                               value="{{ data.get('houseNumber') }}"#}
+                               value="{{ data.customFields.postNL.houseNumber }}"
                                required="required"
                         >
                     </div>
@@ -83,7 +84,7 @@
                                id="{{ idPrefix ~ prefix }}PostNLAddressHouseNumberAddition"
                                placeholder="{{ "address.houseNumberAdditionPlaceholder"|trans|striptags }}"
                                name="{{ prefix }}[houseNumberAddition]"
-{#                               value="{{ data.get('houseNumberAddition') }}"#}
+                               value="{{ data.customFields.postNL.houseNumberAddition }}"
                         >
                     </div>
                 {% endblock %}
@@ -93,17 +94,27 @@
                 {% block postnl_component_address_form_street %}
                     <div class="form-group col-sm-6">
                         <label class="form-label"
-                               for="{{ idPrefix ~ prefix }}PostNLAddressStreet">
+                               for="{{ idPrefix ~ prefix }}PostNLAddressStreetShow">
                             {{ "address.streetLabel"|trans|sw_sanitize }}{{ "general.required"|trans|sw_sanitize }}
                         </label>
                         <input type="text"
                                class="form-control{% if violationPath %} is-invalid{% endif %}"
+                               id="{{ idPrefix ~ prefix }}PostNLAddressStreetShow"
+                               placeholder="{{ "address.streetPlaceholder"|trans|striptags }}"
+                            {#                               name="{{ prefix }}[streetName]" #}
+                               value="{{ data.customFields.postNL.streetName }}"
+                               required="required"
+                               disabled="disabled"
+                        >
+                    </div>
+                {% endblock %}
+                {% block postnl_component_address_form_street_hidden %}
+                    <div class="form-group col-sm-6" hidden="hidden">
+                        <input type="text"
                                id="{{ idPrefix ~ prefix }}PostNLAddressStreet"
                                placeholder="{{ "address.streetPlaceholder"|trans|striptags }}"
                                name="{{ prefix }}[streetName]"
-{#                               value="{{ data.get('street') }}"#}
-                               required="required"
-                               disabled="disabled"
+                               value="{{ data.get('street') }}"
                         >
                     </div>
                 {% endblock %}
@@ -125,10 +136,10 @@
 
                         <input type="text"
                                class="form-control{% if violationPath %} is-invalid{% endif %}"
-                               id="{{ idPrefix ~ prefix }}PostNLAddressCity"
+                               id="{{ idPrefix ~ prefix }}PostNLAddressCityShow"
                                placeholder="{{ "address.cityPlaceholder"|trans|striptags }}"
                                name="{{ prefix }}[city]"
-{#                               value="{{ data.get('city') }}"#}
+                               value="{{ data.get('city') }}"
                                required="required"
                                disabled="disabled"
                         >
@@ -138,6 +149,14 @@
                                 {% sw_include '@Storefront/storefront/utilities/form-violation.html.twig' %}
                             {% endif %}
                         {% endblock %}
+                    </div>
+                {% endblock %}
+                {% block postnl_component_address_form_city_hidden %}
+                    <div class="form-group col-sm-6" hidden="hidden">
+                        <input type="text"
+                               id="{{ idPrefix ~ prefix }}PostNLAddressCity"
+                               name="{{ prefix }}[city]"
+                        >
                     </div>
                 {% endblock %}
             {% endblock %}

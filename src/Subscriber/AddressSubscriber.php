@@ -22,8 +22,9 @@ class AddressSubscriber implements EventSubscriberInterface
     {
         $inputData = $event->getInput();
         $outputData = $event->getOutput();
-        dd($inputData);
+//        dd($inputData);
         $postNL = [
+            'streetName'=>$inputData->get('streetName'),
             'houseNumber'=>$inputData->get('houseNumber'),
             'houseNumberAddition'=>$inputData->get('houseNumberAddition'),
         ];
