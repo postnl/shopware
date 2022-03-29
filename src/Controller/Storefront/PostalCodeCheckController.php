@@ -38,7 +38,7 @@ class PostalCodeCheckController extends StorefrontController
         $houseNumberAddition = $data->get('houseNumberAddition');
 
         $response = $this->postalCodeFacade->checkPostalCode($context,$postalCode,$houseNumber,$houseNumberAddition);
-dd($response);
+
         return $this->json($response);
     }
 }

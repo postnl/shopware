@@ -3,16 +3,17 @@
 namespace PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Request;
 
 use Firstred\PostNL\Entity\AbstractEntity;
+use PostNL\Shopware6\Service\PostNL\PostalCodeService;
 
 /**
  * Class SendShipment.
  *
- * @method string   getPostalCode()
- * @method string    getHouseNumber()
- * @method string|null getHouseNumberAddition()
- * @method PostalCode  setPostalCode(string $postalcode)
- * @method PostalCode  setHouseNumber(string $housenumber)
- * @method PostalCode  setHouseNumberAddition(string|null $housenumberaddition = null)
+ * @method string   getpostalcode()
+ * @method string    gethousenumber()
+ * @method string|null gethousenumberaddition()
+ * @method PostalCode  setpostalcode(string $postalcode)
+ * @method PostalCode  sethousenumber(string $housenumber)
+ * @method PostalCode  sethousenumberaddition(string|null $housenumberaddition = null)
  *
  * @since 1.0.0
  */
@@ -26,6 +27,13 @@ class PostalCode extends AbstractEntity
     /** @var string|null */
     protected ?string $housenumberaddition;
 
+    public static $defaultProperties = [
+        'PostalCodeCheck' => [
+            'postalcode' => PostalCodeService::DOMAIN_NAMESPACE,
+            'housenumber' => PostalCodeService::DOMAIN_NAMESPACE,
+            'housenumberaddition' => PostalCodeService::DOMAIN_NAMESPACE
+        ]
+    ];
 
     /**
      * SendShipment constructor.
@@ -38,12 +46,13 @@ class PostalCode extends AbstractEntity
         string $postalcode,
         string $housenumber,
         string $housenumberaddition = null
-    ) {
+    )
+    {
         parent::__construct();
 
-        $this->setPostalCode($postalcode);
-        $this->setHouseNumber($housenumber);
-        $this->setHouseNumberAddition($housenumberaddition);
+        $this->setpostalcode($postalcode);
+        $this->sethousenumber($housenumber);
+        $this->sethousenumberaddition($housenumberaddition);
     }
 
     /**

@@ -2,13 +2,19 @@
 
 namespace PostNL\Shopware6\Service\PostNL\ApiExtension\Service;
 
+use Firstred\PostNL\Exception\CifDownException;
+use Firstred\PostNL\Exception\CifException;
+use Firstred\PostNL\Exception\HttpClientException;
+use Firstred\PostNL\Exception\InvalidConfigurationException;
 use Firstred\PostNL\Exception\NotFoundException;
 use Firstred\PostNL\Exception\ResponseException;
 use Firstred\PostNL\Service\AbstractService;
 use GuzzleHttp\Psr7\Message as PsrMessage;
 use PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Request\PostalCode;
 use PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Response\PostalCodeResponse;
+use PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Response\PostalCodeResult;
 use Psr\Cache\CacheItemInterface;
+use Psr\Cache\InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -18,20 +24,20 @@ class PostalCodeCheckService extends AbstractService implements PostalCodeCheckS
     const VERSION = '1';
 
     // Endpoints
-    const LIVE_ENDPOINT = 'https://api.postnl.nl/v1/shipment/checkout/v1/postalcodecheck';
-    const SANDBOX_ENDPOINT = 'https://api-sandbox.postnl.nl/v1/shipment/checkout/v1/postalcodecheck';
+    const LIVE_ENDPOINT = 'https://api.postnl.nl/shipment/checkout/v1/postalcodecheck';
+    const SANDBOX_ENDPOINT = 'https://api-sandbox.postnl.nl/shipment/checkout/v1/postalcodecheck';
 
     const DOMAIN_NAMESPACE = 'http://postnl.nl/';
 
 
     /**
-     * @throws \Firstred\PostNL\Exception\CifDownException
+     * @throws CifDownException
      * @throws NotFoundException
-     * @throws \Firstred\PostNL\Exception\CifException
-     * @throws \Firstred\PostNL\Exception\HttpClientException
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws CifException
+     * @throws HttpClientException
+     * @throws InvalidArgumentException
      * @throws ResponseException
-     * @throws \Firstred\PostNL\Exception\InvalidConfigurationException
+     * @throws InvalidConfigurationException
      */
     public function sendPostalCodeCheckRest(PostalCode $postalCode): PostalCodeResponse
     {
@@ -93,18 +99,35 @@ class PostalCodeCheckService extends AbstractService implements PostalCodeCheckS
             ->withBody($this->postnl->getStreamFactory()->createStream(json_encode($postalCode)));
     }
 
-    public function processSendPostalCodeCheckResponseREST($response): ?PostalCodeResponse
+    /**
+     * @param $response
+     * @return mixed|PostalCodeResponse
+     * @throws HttpClientException
+     * @throws ResponseException
+     */
+    public function processSendPostalCodeCheckResponseREST($response)
     {
         $body = json_decode(static::getResponseText($response));
-        if (isset($body->ResponseShipments)) {
-            /** @var PostalCodeResponse $object */
-            $object = PostalCodeResponse::JsonDeserialize((object) ['SendShipmentResponse' => $body]);
-            $this->setService($object);
-
-            return $object;
+        dd($body);
+        $object = null;
+        if (isset($body->errors)) {
+            return $body;
         }
 
-        return null;
+        if (is_array($body) && !empty($body)) {
+            $postalResponses = [];
+            foreach ($body as $postalCodeGroup) {
+                $postalCodeResult = new PostalCodeResult($postalCodeGroup->city,
+                    $postalCodeGroup->postalCode,
+                    $postalCodeGroup->streetName,
+                    $postalCodeGroup->houseNumber,
+                    $postalCodeGroup->formattedAddress);
+                $postalResponses[] = $postalCodeResult;
+            }
+            $object = new PostalCodeResponse($postalResponses);
+        }
+//        $this->setService($object);
+        return $object;
     }
 
 }
