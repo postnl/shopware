@@ -8,9 +8,6 @@ use Firstred\PostNL\Exception\PostNLException;
 use PostNL\Shopware6\Facade\PostalCodeFacade;
 use PostNL\Shopware6\Service\PostNL\ApiExtension\Exception\InvalidAddressException;
 use Psr\Log\LoggerInterface;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
@@ -25,8 +22,9 @@ class PostalCodeCheckController extends StorefrontController
 {
     private PostalCodeFacade $postalCodeFacade;
     private LoggerInterface $logger;
+
     public function __construct(PostalCodeFacade $postalCodeFacade,
-                                LoggerInterface $logger)
+                                LoggerInterface  $logger)
     {
         $this->postalCodeFacade = $postalCodeFacade;
         $this->logger = $logger;
@@ -46,29 +44,26 @@ class PostalCodeCheckController extends StorefrontController
         $houseNumberAddition = $data->get('houseNumberAddition');
 
         try {
-            $response = $this->postalCodeFacade->checkPostalCode($context,$postalCode,$houseNumber,$houseNumberAddition);
-
+            $response = $this->postalCodeFacade->checkPostalCode($context, $postalCode, $houseNumber, $houseNumberAddition);
             return $this->json($response);
 
-        }catch (InvalidAddressException $e){
-            $this->logger->error($e->getMessage(),['exception'=>$e]);
+        } catch (InvalidAddressException $e) {
+            $this->logger->error($e->getMessage(), ['exception' => $e]);
             $translatedMessage = $this->postNLErrorCreator($e->getMessage());
+            return $this->json(['error' => $translatedMessage]);
 
-            return $this->json(['error'=>$translatedMessage]);
-
-        }catch (PostNLException|Exception $e){
-            $this->logger->error($e->getMessage(),['exception'=>$e]);
-
-            return $this->json($this->trans("postnl.errors.internalServerError"),501);
+        } catch (PostNLException|Exception $e) {
+            $this->logger->error($e->getMessage(), ['exception' => $e]);
+            return $this->json($this->trans("postnl.errors.internalServerError"), 501);
         }
     }
 
     private function postNLErrorCreator(string $message): string
     {
         $translation = $this->trans("postnl.errors.api." . $message);
-        if (str_starts_with($translation, "postnl.errors.api.")){
+        if (str_starts_with($translation, "postnl.errors.api.")) {
             return $message;
-        }else{
+        } else {
             return $translation;
         }
     }

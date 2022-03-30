@@ -16,6 +16,7 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     init() {
         this._client = new HttpClient();
         this._registerElements();
+        this._showWarningAlert("");
         this._registerEvents();
         this._updateRequired();
         this._setupLinkedFields();
@@ -24,30 +25,36 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         console.log(this.options);
     }
 
-    update() {
-        console.log('UPDATE')
-    }
-
     _registerElements() {
         //Register elements
+
+        //Custom form elements
         this.zipcodeElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressZipcode');
         this.houseNumberElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressHouseNumber');
         this.houseNumberAdditionElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressHouseNumberAddition');
-        this.streetElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressStreetShow');
-        this.streetElementHidden = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressStreet');
-        this.cityElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressCityShow');
-        this.cityElementHidden = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressCity');
+        this.streetElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressStreet');
+        this.cityElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressCity');
+
         //Shopware own
         this.zipcodeElementSW = DomAccess.querySelector(document, '#' + this.options.concatPrefix + 'AddressZipcode');
         this.streetElementSW = DomAccess.querySelector(document, '#' + this.options.concatPrefix + 'AddressStreet');
         this.cityElementSW = DomAccess.querySelector(document, '#' + this.options.concatPrefix + 'AddressCity');
         //Country selector
         this.countrySelectorElement = DomAccess.querySelector(this.el, '.country-select');
+
         //Excluded elements
-        this.excludedElements = [this.houseNumberAdditionElement, this.streetElementHidden, this.cityElementHidden];
+        this.excludedElements = [this.houseNumberAdditionElement];
+
         //Rows to hide
         this.postNLAddressRow = DomAccess.querySelector(this.el, '#postNLAddressRow');
-        this.defaultAddressRow =DomAccess.querySelector(this.el, '#defaultAddressRow');
+        this.defaultAddressRow = DomAccess.querySelector(this.el, '#defaultAddressRow');
+
+        //Alert blocks
+        this.postnlWarningAlert = DomAccess.querySelector(this.el, '.postnl-alerts .alert-warning');
+
+        console.log(this.zipcodeElement);
+        console.log(this.zipcodeElement.closest('form'));
+        this.addressForm = this.zipcodeElement.closest('form');
     }
 
     _registerEvents() {
@@ -66,10 +73,19 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         });
         const debouceLookup = Debouncer.debounce(this._lookupAddress.bind(this), 1500);
 
+        //shopware field copiers
+        this.streetElement.addEventListener('change', this._fillStreetFields.bind(this));
+        this.houseNumberElement.addEventListener('change', this._fillStreetFields.bind(this));
+        this.houseNumberAdditionElement.addEventListener('change', this._fillStreetFields.bind(this));
+
         //Address fields
         this.zipcodeElement.addEventListener('keyup', debouceLookup)
         this.houseNumberElement.addEventListener('keyup', debouceLookup)
         this.houseNumberAdditionElement.addEventListener('keyup', debouceLookup)
+
+        //Form submit
+        const submitForm = this.submitForm.bind(this);
+        this.addressForm.addEventListener('submit', submitForm);
     }
 
     _prepareFormWithExistingData() {
@@ -82,7 +98,7 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
 
     _lookupAddress() {
         //Are all fields filled?
-        if (this.zipcodeElement.value != null && this.houseNumberElement.value != null) {
+        if (this.zipcodeElement.value !== "" && this.houseNumberElement.value !== "") {
             this._checkPostalCode(this.zipcodeElement.value, this.houseNumberElement.value, this.houseNumberAdditionElement.value);
         }
     }
@@ -122,36 +138,65 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
             ElementLoadingIndicatorUtil.remove(this.el);
             console.log(content);
             this._parseRequest(JSON.parse(content))
-            // this._parseRequest(content) //TODO: swap me above when sdk works
         });
+    }
+
+    _showWarningAlert(innerHTML) {
+        if (innerHTML === "") {
+            this.postnlWarningAlert.setAttribute('hidden', 'hidden');
+            this.postnlWarningAlert.querySelector('.alert-content').innerHTML = innerHTML
+        } else {
+            this.postnlWarningAlert.removeAttribute('hidden');
+            this.postnlWarningAlert.querySelector('.alert-content').innerHTML = innerHTML
+        }
+
     }
 
     _parseRequest(data) {
         console.log('Parsing data')
+        //Unlock the fields
+        this.streetElement.removeAttribute('disabled');
+        this.cityElement.removeAttribute('disabled');
 
-        if (data['PostalCodeResult']) {
-            let postalCode = data['PostalCodeResult'].at(0)
-            console.log(postalCode);
-            //Put the data in the our fields
-            this.cityElement.value = postalCode['city'];
-            this.streetElement.value = postalCode['streetName'];
-            this.cityElementHidden.value = postalCode['city'];
-            this.streetElementHidden.value = postalCode['streetName'];
-            //Put the data in shopware fields (street+house number+addition, zipcode, city)
-            this.streetElementSW.value = this.streetElement.value + ' ' + this.houseNumberElement.value + ' ' + this.houseNumberAdditionElement.value
-            this.zipcodeElementSW.value = this.zipcodeElement.value;
-            this.cityElementSW.value = this.cityElement.value;
+        if (data['PostalCodeResult'] && Array.isArray(data['PostalCodeResult'])) {
+            console.log(data['PostalCodeResult']);
+            if (data['PostalCodeResult'].length === 0) {
+                //Address not found
+                this._showWarningAlert("ENTER DETAILS AT OWN PERIL")
+            } else {
+                this._showWarningAlert("")
+                //Might have more
+                let postalCode = data['PostalCodeResult'].at(0)
+                console.log(postalCode);
+                //Put the data in our fields
+                this.cityElement.value = postalCode['city'];
+                this.streetElement.value = postalCode['streetName'];
 
-            this.zipcodeElement.setCustomValidity("");
-            this.houseNumberElement.setCustomValidity("");
-            this.houseNumberAdditionElement.setCustomValidity("");
-        }else{
-            console.log('not valid');
+                //Refill the existing fields with the results
+                this.zipcodeElement.value = postalCode['postalCode'];
+                this.houseNumberElement.value = postalCode['houseNumber'];
+                if (postalCode['houseNumberAddition']) {
+                    this.houseNumberAdditionElement.value = postalCode['houseNumberAddition'];
+                }
+
+                //Put the data in shopware fields (street+house number+addition, zipcode, city)
+                this.streetElementSW.value = this.streetElement.value + ' ' + this.houseNumberElement.value + ' ' + this.houseNumberAdditionElement.value
+                this.zipcodeElementSW.value = this.zipcodeElement.value;
+                this.cityElementSW.value = this.cityElement.value;
+
+                this.zipcodeElement.setCustomValidity("");
+                this.houseNumberElement.setCustomValidity("");
+                this.houseNumberAdditionElement.setCustomValidity("");
+            }
+        } else {
+            console.log('not valid', data);
+            //Actual error
+            //TODO:check the error type and do something with it
             this.zipcodeElement.setCustomValidity("OW FUCK");
             this.zipcodeElement.reportValidity();
             this.houseNumberElement.setCustomValidity("OW FUCK");
             this.houseNumberElement.reportValidity();
-            if(this.houseNumberAdditionElement.value){
+            if (this.houseNumberAdditionElement.value) {
                 this.houseNumberAdditionElement.setCustomValidity("OW FUCK");
                 this.houseNumberAdditionElement.reportValidity();
             }
@@ -194,20 +239,21 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this._linkFields(this.cityElement, this.cityElementSW)
         this._linkFields(this.cityElementSW, this.cityElement)
 
-        //Hidden street
-        this._linkFields(this.streetElement, this.streetElementHidden)
-
-        //Address (street + house number in shopware)
-        //TODO: fix this with converter because the address needs to be compounded
-        // this._linkFields('#'+this.options.concatPrefix+'AddressStreet',
-        //     '#'+this.options.concatPrefix+'PostNLAddressStreet')
-        // this._linkFields('#'+this.options.concatPrefix+'PostNLAddressStreet',
-        //     '#'+this.options.concatPrefix+'AddressStreet')
-
     }
 
     _linkFields(field1Element, field2Element) {
         field1Element.addEventListener('change', this.copyValue.bind(this, field1Element, field2Element));
+    }
+
+    _fillStreetFields() {
+        //Fill this with street + house number + house number addition
+        this.streetElementSW.value = this.streetElement.value + " " + this.houseNumberElement.value + this.houseNumberAdditionElement.value
+    }
+
+    submitForm(event) {
+        this.streetElement.removeAttribute('disabled');
+        this.cityElement.removeAttribute('disabled');
+        return true;
     }
 
     copyValue(sender, receiver) {

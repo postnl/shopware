@@ -80,7 +80,6 @@ class PostalCodeCheckService extends AbstractService implements PostalCodeCheckS
             throw new InvalidAddressException($object->errors[0]->detail);
         }
 
-
         if (200 === $response->getStatusCode()) {
             throw new ResponseException('Invalid API response', null, null, $response);
         }
@@ -123,6 +122,10 @@ class PostalCodeCheckService extends AbstractService implements PostalCodeCheckS
             return $body;
         }
 
+        if ($body==[]){
+            return new PostalCodeResponse([]);
+        }
+
         if (is_array($body) && !empty($body)) {
             $postalResponses = [];
             foreach ($body as $postalCodeGroup) {
@@ -136,6 +139,7 @@ class PostalCodeCheckService extends AbstractService implements PostalCodeCheckS
             $object = new PostalCodeResponse($postalResponses);
         }
 //        $this->setService($object);
+
         return $object;
     }
 

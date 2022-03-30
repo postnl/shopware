@@ -1,9 +1,11 @@
 {
   "postnl": {
     "address": {
-      "houseNumberLabel": "Nr.",
+      "streetLabel": "Street name",
+      "streetPlaceholder": "Enter street name",
+      "houseNumberLabel": "House number",
       "houseNumberPlaceholder": "Enter house number...",
-      "houseNumberAdditionLabel": "Add.",
+      "houseNumberAdditionLabel": "Addition",
       "houseNumberAdditionPlaceholder": "Enter addition..."
     },
     "errors": {

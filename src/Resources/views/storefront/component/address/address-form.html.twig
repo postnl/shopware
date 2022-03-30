@@ -9,8 +9,8 @@
         countries: allowedCountries,
         concatPrefix : idPrefix ~ prefix
     } %}
-{#    {{ dump(page) }}#}
-    {{ dump(data.customFields.postNL) }}
+    {#    {{ dump(page) }} #}
+{#    {{ dump(data.customFields.postNL) }}#}
     <div data-postnl-postal-code-check="true"
          data-postnl-postal-code-check-options='{{ codecheckOptions | json_encode }}'>
 
@@ -77,7 +77,7 @@
                     <div class="form-group col-sm-2">
                         <label class="form-label"
                                for="{{ idPrefix ~ prefix }}PostNLAddressHouseNumberAddition">
-                            {{ "postnl.address.houseNumberAdditionLabel"|trans|sw_sanitize }}{{ "general.required"|trans|sw_sanitize }}
+                            {{ "postnl.address.houseNumberAdditionLabel"|trans|sw_sanitize }}
                         </label>
                         <input type="text"
                                class="form-control{% if violationPath %} is-invalid{% endif %}"
@@ -95,26 +95,16 @@
                     <div class="form-group col-sm-6">
                         <label class="form-label"
                                for="{{ idPrefix ~ prefix }}PostNLAddressStreetShow">
-                            {{ "address.streetLabel"|trans|sw_sanitize }}{{ "general.required"|trans|sw_sanitize }}
+                            {{ "postnl.address.streetLabel"|trans|sw_sanitize }}{{ "general.required"|trans|sw_sanitize }}
                         </label>
                         <input type="text"
                                class="form-control{% if violationPath %} is-invalid{% endif %}"
-                               id="{{ idPrefix ~ prefix }}PostNLAddressStreetShow"
-                               placeholder="{{ "address.streetPlaceholder"|trans|striptags }}"
+                               id="{{ idPrefix ~ prefix }}PostNLAddressStreet"
+                               placeholder="{{ "postnl.address.streetPlaceholder"|trans|striptags }}"
                             {#                               name="{{ prefix }}[streetName]" #}
                                value="{{ data.customFields.postNL.streetName }}"
                                required="required"
                                disabled="disabled"
-                        >
-                    </div>
-                {% endblock %}
-                {% block postnl_component_address_form_street_hidden %}
-                    <div class="form-group col-sm-6" hidden="hidden">
-                        <input type="text"
-                               id="{{ idPrefix ~ prefix }}PostNLAddressStreet"
-                               placeholder="{{ "address.streetPlaceholder"|trans|striptags }}"
-                               name="{{ prefix }}[streetName]"
-                               value="{{ data.get('street') }}"
                         >
                     </div>
                 {% endblock %}
@@ -136,7 +126,7 @@
 
                         <input type="text"
                                class="form-control{% if violationPath %} is-invalid{% endif %}"
-                               id="{{ idPrefix ~ prefix }}PostNLAddressCityShow"
+                               id="{{ idPrefix ~ prefix }}PostNLAddressCity"
                                placeholder="{{ "address.cityPlaceholder"|trans|striptags }}"
                                name="{{ prefix }}[city]"
                                value="{{ data.get('city') }}"
@@ -151,12 +141,13 @@
                         {% endblock %}
                     </div>
                 {% endblock %}
-                {% block postnl_component_address_form_city_hidden %}
-                    <div class="form-group col-sm-6" hidden="hidden">
-                        <input type="text"
-                               id="{{ idPrefix ~ prefix }}PostNLAddressCity"
-                               name="{{ prefix }}[city]"
-                        >
+
+                {% block postnl_component_address_form_alerts %}
+                    <div class="postnl-alerts form-group col-md-12">
+                        {% sw_include '@Storefront/storefront/utilities/alert.html.twig' with {
+                            content: '',
+                            type: "warning"
+                        } %}
                     </div>
                 {% endblock %}
             {% endblock %}
