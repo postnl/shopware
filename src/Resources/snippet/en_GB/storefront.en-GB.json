@@ -1,0 +1,18 @@
+{
+  "postnl": {
+    "address": {
+      "houseNumberLabel": "Nr.",
+      "houseNumberPlaceholder": "Enter house number...",
+      "houseNumberAdditionLabel": "Add.",
+      "houseNumberAdditionPlaceholder": "Enter addition..."
+    },
+    "errors": {
+      "internalServerError": "An internal server error has occurred, please try again later.",
+      "api": {
+        "Input field 'postalcode' has the wrong format. It should be: 1234AB": "Input field 'postalcode' has the wrong format. It should be: 1234AB",
+        "Input field 'housenumber' required": "Input field 'housenumber' required",
+        "Input field 'housenumber' must be a number": "Input field 'housenumber' must be a number"
+      }
+    }
+  }
+}

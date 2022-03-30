@@ -13,6 +13,7 @@ use GuzzleHttp\Psr7\Message as PsrMessage;
 use PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Request\PostalCode;
 use PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Response\PostalCodeResponse;
 use PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Response\PostalCodeResult;
+use PostNL\Shopware6\Service\PostNL\ApiExtension\Exception\InvalidAddressException;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
@@ -27,7 +28,7 @@ class PostalCodeCheckService extends AbstractService implements PostalCodeCheckS
     const LIVE_ENDPOINT = 'https://api.postnl.nl/shipment/checkout/v1/postalcodecheck';
     const SANDBOX_ENDPOINT = 'https://api-sandbox.postnl.nl/shipment/checkout/v1/postalcodecheck';
 
-    const DOMAIN_NAMESPACE = 'http://postnl.nl/';
+    const DOMAIN_NAMESPACE = 'https://postnl.nl/';
 
 
     /**
@@ -38,6 +39,7 @@ class PostalCodeCheckService extends AbstractService implements PostalCodeCheckS
      * @throws InvalidArgumentException
      * @throws ResponseException
      * @throws InvalidConfigurationException
+     * @throws InvalidAddressException
      */
     public function sendPostalCodeCheckRest(PostalCode $postalCode): PostalCodeResponse
     {
@@ -51,6 +53,7 @@ class PostalCodeCheckService extends AbstractService implements PostalCodeCheckS
             } catch (InvalidArgumentException $e) {
             }
         }
+
         if (!$response instanceof ResponseInterface) {
             $response = $this->postnl->getHttpClient()->doRequest(
                 $this->buildSendPostalCodeCheckRequestREST($postalCode)
@@ -60,6 +63,7 @@ class PostalCodeCheckService extends AbstractService implements PostalCodeCheckS
         }
 
         $object = $this->processSendPostalCodeCheckResponseREST($response);
+
         if ($object instanceof PostalCodeResponse) {
             if ($item instanceof CacheItemInterface
                 && $response instanceof ResponseInterface
@@ -72,11 +76,16 @@ class PostalCodeCheckService extends AbstractService implements PostalCodeCheckS
             return $object;
         }
 
+        if (isset($object->errors)) {
+            throw new InvalidAddressException($object->errors[0]->detail);
+        }
+
+
         if (200 === $response->getStatusCode()) {
             throw new ResponseException('Invalid API response', null, null, $response);
         }
 
-        throw new NotFoundException('Unable to create shipment');
+        throw new NotFoundException('Unable to create postal code');
     }
 
 
@@ -108,7 +117,7 @@ class PostalCodeCheckService extends AbstractService implements PostalCodeCheckS
     public function processSendPostalCodeCheckResponseREST($response)
     {
         $body = json_decode(static::getResponseText($response));
-        dd($body);
+
         $object = null;
         if (isset($body->errors)) {
             return $body;

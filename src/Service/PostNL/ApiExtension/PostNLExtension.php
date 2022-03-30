@@ -39,6 +39,7 @@ class PostNLExtension extends PostNL
      * @param string $houseNumber
      * @param string|null $houseNumberAddition
      * @return PostalCodeResponse
+     * @throws Exception\InvalidAddressException
      */
     public function getPostalCode(string $postalCode, string $houseNumber, string $houseNumberAddition = null): PostalCodeResponse
     {

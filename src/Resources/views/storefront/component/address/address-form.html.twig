@@ -60,12 +60,12 @@
                     <div class="form-group col-sm-4">
                         <label class="form-label"
                                for="{{ idPrefix ~ prefix }}PostNLAddressHouseNumber">
-                            {{ "address.houseNumberLabel"|trans|sw_sanitize }}{{ "general.required"|trans|sw_sanitize }}
+                            {{ "postnl.address.houseNumberLabel"|trans|sw_sanitize }}{{ "general.required"|trans|sw_sanitize }}
                         </label>
                         <input type="text"
                                class="form-control{% if violationPath %} is-invalid{% endif %}"
                                id="{{ idPrefix ~ prefix }}PostNLAddressHouseNumber"
-                               placeholder="{{ "address.houseNumberPlaceholder"|trans|striptags }}"
+                               placeholder="{{ "postnl.address.houseNumberPlaceholder"|trans|striptags }}"
                                name="{{ prefix }}[houseNumber]"
                                value="{{ data.customFields.postNL.houseNumber }}"
                                required="required"
@@ -77,12 +77,12 @@
                     <div class="form-group col-sm-2">
                         <label class="form-label"
                                for="{{ idPrefix ~ prefix }}PostNLAddressHouseNumberAddition">
-                            {{ "address.houseNumberAdditionLabel"|trans|sw_sanitize }}{{ "general.required"|trans|sw_sanitize }}
+                            {{ "postnl.address.houseNumberAdditionLabel"|trans|sw_sanitize }}{{ "general.required"|trans|sw_sanitize }}
                         </label>
                         <input type="text"
                                class="form-control{% if violationPath %} is-invalid{% endif %}"
                                id="{{ idPrefix ~ prefix }}PostNLAddressHouseNumberAddition"
-                               placeholder="{{ "address.houseNumberAdditionPlaceholder"|trans|striptags }}"
+                               placeholder="{{ "postnl.address.houseNumberAdditionPlaceholder"|trans|striptags }}"
                                name="{{ prefix }}[houseNumberAddition]"
                                value="{{ data.customFields.postNL.houseNumberAddition }}"
                         >

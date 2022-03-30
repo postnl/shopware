@@ -20,6 +20,14 @@ class PostalCodeService
         $this->apiFactory = $apiFactory;
     }
 
+    /**
+     * @param SalesChannelContext $context
+     * @param string $postalCode
+     * @param string $houseNumber
+     * @param string|null $houseNumberAddition
+     * @return ApiExtension\Entity\Response\PostalCodeResponse
+     * @throws ApiExtension\Exception\InvalidAddressException
+     */
     public function checkPostalCode(SalesChannelContext $context, string $postalCode, string $houseNumber, string $houseNumberAddition = null){
         $apiClient = $this->apiFactory->createClientForSalesChannel($context->getSalesChannelId(), $context->getContext());
 
