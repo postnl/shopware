@@ -89,7 +89,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
 
     _updateRequired() {
         //Check which form is hidden
-
         if (this.postNLAddressRow.getAttribute('hidden') === 'hidden') {
             this._swapRequired(this.defaultAddressRow, this.postNLAddressRow)
         }
@@ -104,7 +103,9 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         });
         DomAccess.querySelectorAll(required, 'input,select').forEach(input => {
             //Unless it is excluded
-            let found = this.excludedElements.includes(element => element !== input)
+            let found = this.excludedElements.find(element => {
+                return element.id !== input.id
+            });
             if (found) {
                 input.setAttribute('required', 'required');
             }
