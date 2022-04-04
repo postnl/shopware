@@ -1,0 +1,72 @@
+@import '~scss/variables';
+
+// Using the same color changes as for Shopware's pumpkin spice, using 500 as base.
+
+$color-postnl-50: #ffeede;  // lighten 88%
+$color-postnl-100: #ffd4ad; // lighten 70%
+$color-postnl-200: #ffb776; // lighten 50%
+$color-postnl-300: #ff9a40; // lighten 30%
+$color-postnl-400: #ff8517; // lighten 15%
+$color-postnl-500: #ed7000; // base, H28, L46
+$color-postnl-600: #e66000; // L-1, H-3
+$color-postnl-700: #e05200; // L-1, H-3
+$color-postnl-800: #db4500; // L-1, H-3
+$color-postnl-900: #d12d00; // L-2, H-6
+
+.sw-button.postnl-button {
+    &.sw-button--primary {
+        background: $color-postnl-500;
+        color: $color-white;
+
+        .sw-icon {
+            color: $color-white;
+        }
+
+        &:hover {
+            background: $color-postnl-700;
+        }
+
+        &:active {
+            background: $color-postnl-800;
+        }
+
+        &:disabled,
+        &.sw-button--disabled {
+            background: $color-postnl-200;
+        }
+
+        &.sw-button--square .sw-icon {
+            color: $color-white;
+        }
+    }
+
+
+    &.sw-button--ghost {
+        border-color: $color-postnl-500;
+        color: $color-postnl-500;
+
+        .sw-icon {
+            color: $color-postnl-500;
+        }
+
+        &:hover {
+            background-color: $color-postnl-50;
+        }
+
+        &:active {
+            background-color: $color-postnl-100;
+        }
+
+        &:disabled,
+        &.sw-button--disabled {
+            border-color: $color-postnl-200;
+            color: $color-postnl-200;
+
+            .sw-icon {
+                color: $color-postnl-200;
+            }
+        }
+    }
+
+
+}
