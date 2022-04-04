@@ -1,4 +1,4 @@
-import template from './postnl-shipping-modal.html.twig';
+import template from './postnl-create-shipment-modal.html.twig';
 // import './postnl-shipping-modal.scss';
 
 import { object } from '../../../../core/service/util.service';
@@ -11,7 +11,6 @@ Component.register('postnl-shipping-modal', {
 
     inject: [
         'ShipmentService',
-        'systemConfigApiService'
     ],
 
     mixins: [
@@ -28,17 +27,10 @@ Component.register('postnl-shipping-modal', {
     data() {
         return {
             isProcessing: false,
+            isSuccess: false,
 
-            deliveryZones: [],
-
-            isOverrideProduct: false,
-            overrideProductId: null,
-
-            autoConfirmShipments: true,
             confirmShipments: true,
             downloadLabels: true,
-
-            shipmentsSent: false
         };
     },
 
@@ -52,34 +44,11 @@ Component.register('postnl-shipping-modal', {
         }
     },
 
-    created() {
-        this.createdComponent();
-    },
-
     methods: {
-        createdComponent() {
-            if(!this.isBulk) {
-                this.overrideProductId = Object.values(this.selection)[0].customFields?.postnl?.productId;
-                this.isOverrideProduct = !!this.overrideProductId;
-            }
-
-            this.determineZones();
-
-            this.systemConfigApiService
-                .getValues('PostNL')
-                .then(config => this.autoConfirmShipments = config['PostNL.config.autoConfirmShipments']);
-        },
-
         closeModal() {
             if(!this.isProcessing) {
                 this.$emit('close');
             }
-        },
-
-        determineZones() {
-            this.ShipmentService
-                .determineDestinationZones(Object.values(object.map(this.selection, 'id')))
-                .then(response => this.deliveryZones = response.zones);
         },
 
         sendShipments() {
@@ -91,8 +60,6 @@ Component.register('postnl-shipping-modal', {
                 .generateBarcodes(orderIds)
                 .then(() => this.ShipmentService.createShipments(
                     orderIds,
-                    this.isOverrideProduct,
-                    this.overrideProductId,
                     this.confirmShipments,
                     this.downloadLabels,
                 ))

@@ -11,7 +11,6 @@ Component.register('postnl-change-shipping-modal', {
 
     inject: [
         'ShipmentService',
-        'systemConfigApiService'
     ],
 
     mixins: [
