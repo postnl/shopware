@@ -4,12 +4,16 @@
           })"
           :closable="!isProcessing"
           @modal-close="closeModal">
-    <sw-container>
-        <postnl-product-selection v-model="overrideProductId"
-                                  :destinationZone="deliveryZones[0]"/>
+    <postnl-product-selection
+        v-if="canChangeProduct"
+        v-model="overrideProductId"
+        :destinationZone="deliveryZones[0]"/>
 
-{#        TODO Show warning if cant change product #}
-    </sw-container>
+    <sw-alert v-else
+              variant="warning">
+        {# TODO Show warning if cant change product #}
+        Hello
+    </sw-alert>
 
     <template #modal-footer>
         <sw-button size="small"
@@ -20,10 +24,11 @@
         <sw-button-process size="small"
                            variant="primary"
                            :animationTimeout="2500"
+                           :disabled="!canChangeProduct"
                            :isLoading="isProcessing"
-                           :processSuccess="shipmentsSent"
+                           :processSuccess="isSuccess"
                            @click="sendShipments"
-                           @process-finish="shipmentsSent = false">
+                           @process-finish="isSuccess = false">
             {{ $tc('postnl.order.shippingModal.confirm') }}
         </sw-button-process>
     </template>
