@@ -11,8 +11,10 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
 
     data() {
         return {
-            isOpenBulkShippingModal: false,
-            isShippingModalId: null,
+            isBulkChangeShippingModalOpen: false,
+            isBulkCreateShipmentModalOpen: false,
+            isChangeShippingModalId: null,
+            isCreateShipmentModalId: null,
 
             countries: {},
             products: {}
@@ -50,6 +52,32 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
     },
 
     methods: {
+        openBulkChangeShippingModal() {
+            this.isBulkChangeShippingModalOpen = true;
+        },
+        closeBulkChangeShippingModal() {
+            this.isBulkChangeShippingModalOpen = false;
+        },
+        openBulkCreateShipmentModal() {
+            this.isBulkCreateShipmentModalOpen = true;
+        },
+        closeBulkCreateShipmentModal() {
+            this.isBulkCreateShipmentModalOpen = false;
+        },
+        openChangeShippingModal(id) {
+            this.isChangeShippingModalId = id;
+        },
+        closeChangeShippingModal() {
+            this.isChangeShippingModalId = null;
+        },
+        openCreateShipmentModal(id) {
+            this.isCreateShipmentModalId = id;
+        },
+        closeCreateShipmentModal() {
+            this.isCreateShipmentModalId = null;
+        },
+
+
         async getList() {
             this.isLoading = true;
 
@@ -163,18 +191,6 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
             return this.productRepository
                 .search(criteria)
                 .then(result => this.products = result)
-        },
-        openShippingModal(id) {
-            this.isShippingModalId = id;
-        },
-        closeShippingModal() {
-            this.isShippingModalId = null;
-        },
-        openBulkShippingModal() {
-            this.isOpenBulkShippingModal = true;
-        },
-        closeBulkShippingModal() {
-            this.isOpenBulkShippingModal = false;
         },
 
         getBarCodeLink(item) {
