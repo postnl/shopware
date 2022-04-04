@@ -10,7 +10,7 @@
         concatPrefix : idPrefix ~ prefix
     } %}
     {#    {{ dump(page) }} #}
-{#    {{ dump(data.customFields.postNL) }}#}
+    {{ dump(data.customFields.postNL) }}
     <div data-postnl-postal-code-check="true"
          data-postnl-postal-code-check-options='{{ codecheckOptions | json_encode }}'>
 
@@ -85,7 +85,9 @@
                                placeholder="{{ "postnl.address.houseNumberAdditionPlaceholder"|trans|striptags }}"
                                name="{{ prefix }}[houseNumberAddition]"
                                value="{{ data.customFields.postNL.houseNumberAddition }}"
+                               list="{{ idPrefix ~ prefix }}PostNLAddressHouseNumberDatalist"
                         >
+                        <datalist id="{{ idPrefix ~ prefix }}PostNLAddressHouseNumberDatalist"></datalist>
                     </div>
                 {% endblock %}
             {% endblock %}
@@ -101,10 +103,10 @@
                                class="form-control{% if violationPath %} is-invalid{% endif %}"
                                id="{{ idPrefix ~ prefix }}PostNLAddressStreet"
                                placeholder="{{ "postnl.address.streetPlaceholder"|trans|striptags }}"
-                            {#                               name="{{ prefix }}[streetName]" #}
+                               name="{{ prefix }}[streetName]"
                                value="{{ data.customFields.postNL.streetName }}"
                                required="required"
-                               disabled="disabled"
+                               {% if not data.customFields.postNL.streetName %}disabled="disabled"{% endif %}
                         >
                     </div>
                 {% endblock %}
@@ -131,7 +133,7 @@
                                name="{{ prefix }}[city]"
                                value="{{ data.get('city') }}"
                                required="required"
-                               disabled="disabled"
+                               {% if not data.get('city') %}disabled="disabled"{% endif %}
                         >
 
                         {% block component_address_form_city_error %}

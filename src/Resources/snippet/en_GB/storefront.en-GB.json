@@ -10,6 +10,7 @@
     },
     "errors": {
       "internalServerError": "An internal server error has occurred, please try again later.",
+      "addressNotFound": "No address has been found, check if your input is correct.",
       "api": {
         "Input field 'postalcode' has the wrong format. It should be: 1234AB": "Input field 'postalcode' has the wrong format. It should be: 1234AB",
         "Input field 'housenumber' required": "Input field 'housenumber' required",

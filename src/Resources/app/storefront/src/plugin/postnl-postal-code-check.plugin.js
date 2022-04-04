@@ -26,8 +26,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     _registerElements() {
-        //Register elements
-
         //Custom form elements
         this.zipcodeElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressZipcode');
         this.houseNumberElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressHouseNumber');
@@ -35,10 +33,14 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this.streetElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressStreet');
         this.cityElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressCity');
 
+        //Data list
+        this.houseNumberAdditionDatalistElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressHouseNumberDatalist');
+
         //Shopware own
         this.zipcodeElementSW = DomAccess.querySelector(document, '#' + this.options.concatPrefix + 'AddressZipcode');
         this.streetElementSW = DomAccess.querySelector(document, '#' + this.options.concatPrefix + 'AddressStreet');
         this.cityElementSW = DomAccess.querySelector(document, '#' + this.options.concatPrefix + 'AddressCity');
+
         //Country selector
         this.countrySelectorElement = DomAccess.querySelector(this.el, '.country-select');
 
@@ -52,8 +54,7 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         //Alert blocks
         this.postnlWarningAlert = DomAccess.querySelector(this.el, '.postnl-alerts .alert-warning');
 
-        console.log(this.zipcodeElement);
-        console.log(this.zipcodeElement.closest('form'));
+        //Parent form
         this.addressForm = this.zipcodeElement.closest('form');
     }
 
@@ -160,46 +161,69 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
 
         if (data['PostalCodeResult'] && Array.isArray(data['PostalCodeResult'])) {
             console.log(data['PostalCodeResult']);
-            if (data['PostalCodeResult'].length === 0) {
-                //Address not found
-                this._showWarningAlert("ENTER DETAILS AT OWN PERIL")
-            } else {
-                this._showWarningAlert("")
-                //Might have more
-                let postalCode = data['PostalCodeResult'].at(0)
-                console.log(postalCode);
-                //Put the data in our fields
-                this.cityElement.value = postalCode['city'];
-                this.streetElement.value = postalCode['streetName'];
 
-                //Refill the existing fields with the results
-                this.zipcodeElement.value = postalCode['postalCode'];
-                this.houseNumberElement.value = postalCode['houseNumber'];
-                if (postalCode['houseNumberAddition']) {
+            this._showWarningAlert("")
+            //Might have more TODO: show message for this?
+            let postalCode = data['PostalCodeResult'].at(0)
+            console.log(postalCode);
+            //Put the data in our fields
+            this.cityElement.value = postalCode['city'];
+            this.streetElement.value = postalCode['streetName'];
+
+            //Refill the existing fields with the results
+            this.zipcodeElement.value = postalCode['postalCode'];
+            this.houseNumberElement.value = postalCode['houseNumber'];
+            if (postalCode['houseNumberAddition']) {
+                //Is there more than one? Fill the datalist with options
+                if (data['PostalCodeResult'].length > 1) {
+                    data['PostalCodeResult'].forEach(result => {
+                        let option = document.createElement('option');
+                        option.value = result['houseNumberAddition'];
+                        this.houseNumberAdditionDatalistElement.appendChild(option);
+                    });
+                }else{
                     this.houseNumberAdditionElement.value = postalCode['houseNumberAddition'];
                 }
 
-                //Put the data in shopware fields (street+house number+addition, zipcode, city)
-                this.streetElementSW.value = this.streetElement.value + ' ' + this.houseNumberElement.value + ' ' + this.houseNumberAdditionElement.value
-                this.zipcodeElementSW.value = this.zipcodeElement.value;
-                this.cityElementSW.value = this.cityElement.value;
-
-                this.zipcodeElement.setCustomValidity("");
-                this.houseNumberElement.setCustomValidity("");
-                this.houseNumberAdditionElement.setCustomValidity("");
             }
+
+            //Put the data in shopware fields (street+house number+addition, zipcode, city)
+            this.streetElementSW.value = this.streetElement.value + ' ' + this.houseNumberElement.value + ' ' + this.houseNumberAdditionElement.value
+            this.zipcodeElementSW.value = this.zipcodeElement.value;
+            this.cityElementSW.value = this.cityElement.value;
+
+            this.zipcodeElement.setCustomValidity("");
+            this.houseNumberElement.setCustomValidity("");
+            this.houseNumberAdditionElement.setCustomValidity("");
+
         } else {
             console.log('not valid', data);
-            //Actual error
-            //TODO:check the error type and do something with it
-            this.zipcodeElement.setCustomValidity("OW FUCK");
-            this.zipcodeElement.reportValidity();
-            this.houseNumberElement.setCustomValidity("OW FUCK");
-            this.houseNumberElement.reportValidity();
-            if (this.houseNumberAdditionElement.value) {
-                this.houseNumberAdditionElement.setCustomValidity("OW FUCK");
-                this.houseNumberAdditionElement.reportValidity();
+            this.zipcodeElement.setCustomValidity("");
+            this.houseNumberElement.setCustomValidity("");
+            //Known errors with a field connected to it
+            if(data['errorType']==="AddressNotFoundException"){
+                this._showWarningAlert(data['errorMessage'])
             }
+            if (data['errorType']==="InvalidAddressException"){
+                if (data['errorField']) {
+                    switch (data['errorField']) {
+                        case 'postalcode':
+                            console.log('postalcode');
+                            this.zipcodeElement.setCustomValidity(data['errorMessage']);
+                            break;
+                        case 'housenumber':
+                            console.log('housenumber');
+                            this.houseNumberElement.setCustomValidity(data['errorMessage']);
+                            break;
+                    }
+                }else{
+                    this._showWarningAlert(data['errorMessage'])
+                }
+            }
+
+
+            this.zipcodeElement.reportValidity();
+            this.houseNumberElement.reportValidity();
         }
     }
 

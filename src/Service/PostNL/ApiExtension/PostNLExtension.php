@@ -6,6 +6,7 @@ use Firstred\PostNL\PostNL;
 
 use PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Request\PostalCode;
 use PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Response\PostalCodeResponse;
+use PostNL\Shopware6\Service\PostNL\ApiExtension\Exception\AddressNotFoundException;
 use PostNL\Shopware6\Service\PostNL\ApiExtension\Service\PostalCodeCheckService;
 use PostNL\Shopware6\Service\PostNL\ApiExtension\Service\PostalCodeCheckServiceInterface;
 
@@ -39,7 +40,7 @@ class PostNLExtension extends PostNL
      * @param string $houseNumber
      * @param string|null $houseNumberAddition
      * @return PostalCodeResponse
-     * @throws Exception\InvalidAddressException
+     * @throws Exception\InvalidAddressException|AddressNotFoundException
      */
     public function getPostalCode(string $postalCode, string $houseNumber, string $houseNumberAddition = null): PostalCodeResponse
     {

@@ -6,6 +6,7 @@ namespace PostNL\Shopware6\Controller\Storefront;
 use Exception;
 use Firstred\PostNL\Exception\PostNLException;
 use PostNL\Shopware6\Facade\PostalCodeFacade;
+use PostNL\Shopware6\Service\PostNL\ApiExtension\Exception\AddressNotFoundException;
 use PostNL\Shopware6\Service\PostNL\ApiExtension\Exception\InvalidAddressException;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
@@ -48,17 +49,40 @@ class PostalCodeCheckController extends StorefrontController
             return $this->json($response);
 
         } catch (InvalidAddressException $e) {
-            $this->logger->error($e->getMessage(), ['exception' => $e]);
-            $translatedMessage = $this->postNLErrorCreator($e->getMessage());
-            return $this->json(['error' => $translatedMessage]);
 
+            $this->logger->error($e->getMessage(), ['exception' => $e]);
+
+            if ($e->getMessage()==""){
+                $translatedMessage = $this->trans("postnl.errors.addressNotFound");
+            }else{
+                $translatedMessage = $this->postNLErrorMessageCreator($e->getMessage());
+            }
+
+            return $this->json([
+                'errorType' => $this->postNLErrorTypeCreator($e),
+                'errorMessage' => $translatedMessage,
+                'errorField' => $this->errorFieldCreator($e->getMessage())]);
+
+        } catch (AddressNotFoundException $e) {
+            $this->logger->error($e->getMessage(), ['exception' => $e]);
+
+            return $this->json([
+                'errorType' => $this->postNLErrorTypeCreator($e),
+                'errorMessage' => $this->trans("postnl.errors.addressNotFound")
+                ]);
         } catch (PostNLException|Exception $e) {
             $this->logger->error($e->getMessage(), ['exception' => $e]);
             return $this->json($this->trans("postnl.errors.internalServerError"), 501);
         }
     }
 
-    private function postNLErrorCreator(string $message): string
+    private function postNLErrorTypeCreator(Exception $exception): string
+    {
+        $explode = explode('\\', get_class($exception));
+        return end($explode);
+    }
+
+    private function postNLErrorMessageCreator(string $message): string
     {
         $translation = $this->trans("postnl.errors.api." . $message);
         if (str_starts_with($translation, "postnl.errors.api.")) {
@@ -66,5 +90,16 @@ class PostalCodeCheckController extends StorefrontController
         } else {
             return $translation;
         }
+    }
+
+    private function errorFieldCreator(string $error): string
+    {
+        $errorFields = ['housenumber', 'postalcode'];
+        foreach ($errorFields as $errorField) {
+            if (str_contains($error, $errorField)) {
+                return $errorField;
+            }
+        }
+        return "";
     }
 }

@@ -3,6 +3,7 @@
 namespace PostNL\Shopware6\Facade;
 
 use PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Response\PostalCodeResponse;
+use PostNL\Shopware6\Service\PostNL\ApiExtension\Exception\AddressNotFoundException;
 use PostNL\Shopware6\Service\PostNL\ApiExtension\Exception\InvalidAddressException;
 use PostNL\Shopware6\Service\PostNL\PostalCodeService;
 use Psr\Log\LoggerInterface;
@@ -35,7 +36,7 @@ class PostalCodeFacade
      * @param string $houseNumber
      * @param string|null $houseNumberAddition
      * @return PostalCodeResponse
-     * @throws InvalidAddressException
+     * @throws InvalidAddressException|AddressNotFoundException
      */
     public function checkPostalCode(SalesChannelContext $context, string $postalCode, string $houseNumber, string $houseNumberAddition = null): PostalCodeResponse
     {

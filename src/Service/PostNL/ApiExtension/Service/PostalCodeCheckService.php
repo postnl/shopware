@@ -13,6 +13,7 @@ use GuzzleHttp\Psr7\Message as PsrMessage;
 use PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Request\PostalCode;
 use PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Response\PostalCodeResponse;
 use PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Response\PostalCodeResult;
+use PostNL\Shopware6\Service\PostNL\ApiExtension\Exception\AddressNotFoundException;
 use PostNL\Shopware6\Service\PostNL\ApiExtension\Exception\InvalidAddressException;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\InvalidArgumentException;
@@ -40,6 +41,7 @@ class PostalCodeCheckService extends AbstractService implements PostalCodeCheckS
      * @throws ResponseException
      * @throws InvalidConfigurationException
      * @throws InvalidAddressException
+     * @throws AddressNotFoundException
      */
     public function sendPostalCodeCheckRest(PostalCode $postalCode): PostalCodeResponse
     {
@@ -65,6 +67,9 @@ class PostalCodeCheckService extends AbstractService implements PostalCodeCheckS
         $object = $this->processSendPostalCodeCheckResponseREST($response);
 
         if ($object instanceof PostalCodeResponse) {
+            if (count($object->getPostalCodeResult())==0){
+                throw new AddressNotFoundException();
+            }
             if ($item instanceof CacheItemInterface
                 && $response instanceof ResponseInterface
                 && 200 === $response->getStatusCode()
@@ -133,7 +138,8 @@ class PostalCodeCheckService extends AbstractService implements PostalCodeCheckS
                     $postalCodeGroup->postalCode,
                     $postalCodeGroup->streetName,
                     $postalCodeGroup->houseNumber,
-                    $postalCodeGroup->formattedAddress);
+                    $postalCodeGroup->formattedAddress,
+                    $postalCodeGroup->houseNumberAddition);
                 $postalResponses[] = $postalCodeResult;
             }
             $object = new PostalCodeResponse($postalResponses);
