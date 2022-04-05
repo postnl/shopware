@@ -81,29 +81,12 @@ Component.register('postnl-change-shipping-modal', {
 
             const orderIds = Object.values(this.selection).map(order => order.id);
 
-            // this.ShipmentService
-            //     .generateBarcodes(orderIds)
-            //     .then(() => this.ShipmentService.createShipments(
-            //         orderIds,
-            //         this.isOverrideProduct,
-            //         this.overrideProductId,
-            //         this.confirmShipments,
-            //         this.downloadLabels,
-            //     ))
-            //     .then(response => {
-            //         if (response.data) {
-            //             const filename = response.headers['content-disposition'].split('filename=')[1];
-            //             const link = document.createElement('a');
-            //             link.href = URL.createObjectURL(response.data);
-            //             link.download = filename;
-            //             link.dispatchEvent(new MouseEvent('click'));
-            //             link.remove();
-            //         }
-            //     })
-            //     .finally(() => {
-            //         this.isProcessing = false;
-            //         this.shipmentsSent = true;
-            //     })
+            this.ShipmentService
+                .changeProducts(orderIds, this.overrideProductId)
+                .finally(() => {
+                    this.isProcessing = false;
+                    this.isSuccess = true;
+                })
         }
     },
 });

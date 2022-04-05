@@ -1,5 +1,4 @@
 {% block sw_order_list_grid_columns %}
-
     {% parent %}
 
     {% block sw_order_list_grid_columns_deliveries_shipping_order_address %}
@@ -44,12 +43,20 @@
 
     <sw-context-menu-item
         class="sw-order-list__order-ship-action"
-        @click="openChangeShippingModal(item.id)"
-    >
+        @click="isChangeShippingModalId = item.id"
+        icon="postnl-ghost">
         Verzendmethode wijzigen
     </sw-context-menu-item>
-{% endblock %}
 
+    <sw-context-menu-item
+        class="sw-order-list__order-ship-action"
+        @click="isCreateShipmentModalId = item.id"
+        icon="postnl-ghost">
+        Voormelden en labels printen
+    </sw-context-menu-item>
+
+    <sw-context-menu-divider/>
+{% endblock %}
 
 {% block sw_order_list_delete_modal %}
     {% parent %}
@@ -57,7 +64,12 @@
     <postnl-change-shipping-modal
         v-if="isChangeShippingModalId === item.id"
         :selection="{item: item}"
-        @close="closeChangeShippingModal"/>
+        @close="isChangeShippingModalId = null"/>
+
+    <postnl-create-shipment-modal
+        v-if="isCreateShipmentModalId === item.id"
+        :selection="{item: item}"
+        @close="isCreateShipmentModalId = null"/>
 {% endblock %}
 
 {% block sw_order_list_bulk_selected_actions_content %}
@@ -65,9 +77,17 @@
         <postnl-button v-if="acl.can('order.editor')"
                        variant="ghost"
                        size="x-small"
-                       @click="openBulkChangeShippingModal">
+                       @click="isBulkChangeShippingModalOpen = true">
             <sw-icon name="postnl" multicolor></sw-icon>
             Verzendmethode wijzigen
+        </postnl-button>
+
+        <postnl-button v-if="acl.can('order.editor')"
+                       variant="ghost"
+                       size="x-small"
+                       @click="isBulkCreateShipmentModalOpen = true">
+            <sw-icon name="postnl" multicolor></sw-icon>
+            Voormelden en labels printen
         </postnl-button>
     </template>
 {% endblock %}
@@ -77,10 +97,14 @@
         <postnl-change-shipping-modal
             v-if="isBulkChangeShippingModalOpen"
             :selection="selection"
-            @close="closeBulkChangeShippingModal"/>
+            @close="isBulkChangeShippingModalOpen = false"/>
+
+        <postnl-create-shipment-modal
+            v-if="isBulkCreateShipmentModalOpen"
+            :selection="selection"
+            @close="isBulkCreateShipmentModalOpen = false"/>
     </template>
 {% endblock %}
-
 
 {% block sw_order_list_smart_bar_actions_add %}
 {% endblock %}

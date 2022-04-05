@@ -52,30 +52,6 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
     },
 
     methods: {
-        openBulkChangeShippingModal() {
-            this.isBulkChangeShippingModalOpen = true;
-        },
-        closeBulkChangeShippingModal() {
-            this.isBulkChangeShippingModalOpen = false;
-        },
-        openBulkCreateShipmentModal() {
-            this.isBulkCreateShipmentModalOpen = true;
-        },
-        closeBulkCreateShipmentModal() {
-            this.isBulkCreateShipmentModalOpen = false;
-        },
-        openChangeShippingModal(id) {
-            this.isChangeShippingModalId = id;
-        },
-        closeChangeShippingModal() {
-            this.isChangeShippingModalId = null;
-        },
-        openCreateShipmentModal(id) {
-            this.isCreateShipmentModalId = id;
-        },
-        closeCreateShipmentModal() {
-            this.isCreateShipmentModalId = null;
-        },
 
 
         async getList() {

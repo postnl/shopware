@@ -6,7 +6,7 @@ import { object } from '../../../../core/service/util.service';
 // eslint-disable-next-line no-undef
 const {Component, Mixin, } = Shopware;
 
-Component.register('postnl-shipping-modal', {
+Component.register('postnl-create-shipment-modal', {
     template,
 
     inject: [
@@ -58,6 +58,14 @@ Component.register('postnl-shipping-modal', {
 
             this.ShipmentService
                 .generateBarcodes(orderIds)
+                .catch(error => {
+                    if(error.message) {
+                        this.createNotificationError({
+                            title: this.$tc('global.default.error'),
+                            message: error.message,
+                        });
+                    }
+                })
                 .then(() => this.ShipmentService.createShipments(
                     orderIds,
                     this.confirmShipments,
