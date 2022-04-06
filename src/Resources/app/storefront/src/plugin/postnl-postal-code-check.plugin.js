@@ -21,8 +21,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this._updateRequired();
         this._setupLinkedFields();
         this._prepareFormWithExistingData();
-
-        console.log(this.options);
     }
 
     _registerElements() {
@@ -48,8 +46,8 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this.excludedElements = [this.houseNumberAdditionElement];
 
         //Rows to hide
-        this.postNLAddressRow = DomAccess.querySelector(this.el, '#postNLAddressRow');
-        this.defaultAddressRow = DomAccess.querySelector(this.el, '#defaultAddressRow');
+        this.postNLAddressRow = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'postNLAddressRow');
+        this.defaultAddressRow = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'defaultAddressRow');
 
         //Alert blocks
         this.postnlWarningAlert = DomAccess.querySelector(this.el, '.postnl-alerts .alert-warning');
@@ -85,8 +83,8 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this.houseNumberAdditionElement.addEventListener('keyup', debouceLookup)
 
         //Form submit
-        const submitForm = this.submitForm.bind(this);
-        this.addressForm.addEventListener('submit', submitForm);
+        // const submitForm = this.submitForm.bind(this);
+        // this.addressForm.addEventListener('submit', submitForm);
     }
 
     _prepareFormWithExistingData() {
@@ -105,12 +103,19 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     _updateRequired() {
-        //Check which form is hidden
+        //Check which form is hidden, set required as needed
         if (this.postNLAddressRow.getAttribute('hidden') === 'hidden') {
             this._swapRequired(this.defaultAddressRow, this.postNLAddressRow)
         }
         if (this.defaultAddressRow.getAttribute('hidden') === 'hidden') {
             this._swapRequired(this.postNLAddressRow, this.defaultAddressRow)
+        }
+        //Fix shopware removing disabled on a toggle form
+        if (!this.streetElement.value){
+            this.streetElement.setAttribute('disabled','disabled');
+        }
+        if (!this.cityElement.value){
+            this.cityElement.setAttribute('disabled','disabled');
         }
     }
 
@@ -137,7 +142,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         ElementLoadingIndicatorUtil.create(this.el);
         this._client.post(this.options.url, JSON.stringify(data), content => {
             ElementLoadingIndicatorUtil.remove(this.el);
-            console.log(content);
             this._parseRequest(JSON.parse(content))
         });
     }
@@ -154,18 +158,19 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     _parseRequest(data) {
-        console.log('Parsing data')
         //Unlock the fields
         this.streetElement.removeAttribute('disabled');
         this.cityElement.removeAttribute('disabled');
+        //Reset the errors
+        this.zipcodeElement.setCustomValidity("");
+        this.houseNumberElement.setCustomValidity("");
+        this.houseNumberAdditionElement.setCustomValidity("");
 
         if (data['PostalCodeResult'] && Array.isArray(data['PostalCodeResult'])) {
-            console.log(data['PostalCodeResult']);
-
+            //Clear the warnings
             this._showWarningAlert("")
-            //Might have more TODO: show message for this?
+
             let postalCode = data['PostalCodeResult'].at(0)
-            console.log(postalCode);
             //Put the data in our fields
             this.cityElement.value = postalCode['city'];
             this.streetElement.value = postalCode['streetName'];
@@ -181,7 +186,7 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
                         option.value = result['houseNumberAddition'];
                         this.houseNumberAdditionDatalistElement.appendChild(option);
                     });
-                }else{
+                } else {
                     this.houseNumberAdditionElement.value = postalCode['houseNumberAddition'];
                 }
 
@@ -192,36 +197,28 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
             this.zipcodeElementSW.value = this.zipcodeElement.value;
             this.cityElementSW.value = this.cityElement.value;
 
-            this.zipcodeElement.setCustomValidity("");
-            this.houseNumberElement.setCustomValidity("");
-            this.houseNumberAdditionElement.setCustomValidity("");
-
         } else {
-            console.log('not valid', data);
-            this.zipcodeElement.setCustomValidity("");
-            this.houseNumberElement.setCustomValidity("");
-            //Known errors with a field connected to it
-            if(data['errorType']==="AddressNotFoundException"){
+            //No result, so it is an error
+            if (data['errorType'] === "AddressNotFoundException") {
                 this._showWarningAlert(data['errorMessage'])
             }
-            if (data['errorType']==="InvalidAddressException"){
+
+            if (data['errorType'] === "InvalidAddressException") {
+                //Known errors with a field connected to it
                 if (data['errorField']) {
                     switch (data['errorField']) {
                         case 'postalcode':
-                            console.log('postalcode');
                             this.zipcodeElement.setCustomValidity(data['errorMessage']);
                             break;
                         case 'housenumber':
-                            console.log('housenumber');
                             this.houseNumberElement.setCustomValidity(data['errorMessage']);
                             break;
                     }
-                }else{
+                } else {
+                    //Unknown errors with a message connected to it
                     this._showWarningAlert(data['errorMessage'])
                 }
             }
-
-
             this.zipcodeElement.reportValidity();
             this.houseNumberElement.reportValidity();
         }
@@ -245,11 +242,11 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
 
     _showCustomForm(show) {
         if (show) {
-            DomAccess.querySelector(this.el, '#postNLAddressRow').removeAttribute('hidden');
-            DomAccess.querySelector(this.el, '#defaultAddressRow').setAttribute('hidden', 'hidden');
+            this.postNLAddressRow.removeAttribute('hidden');
+            this.defaultAddressRow.setAttribute('hidden', 'hidden');
         } else {
-            DomAccess.querySelector(this.el, '#postNLAddressRow').setAttribute('hidden', 'hidden');
-            DomAccess.querySelector(this.el, '#defaultAddressRow').removeAttribute('hidden');
+            this.postNLAddressRow.setAttribute('hidden', 'hidden');
+            this.defaultAddressRow.removeAttribute('hidden');
         }
         this._updateRequired();
     }
@@ -272,12 +269,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     _fillStreetFields() {
         //Fill this with street + house number + house number addition
         this.streetElementSW.value = this.streetElement.value + " " + this.houseNumberElement.value + this.houseNumberAdditionElement.value
-    }
-
-    submitForm(event) {
-        this.streetElement.removeAttribute('disabled');
-        this.cityElement.removeAttribute('disabled');
-        return true;
     }
 
     copyValue(sender, receiver) {

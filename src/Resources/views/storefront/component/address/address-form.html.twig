@@ -20,7 +20,7 @@
             {% endblock %}
         </div>
 
-        <div class="form-row" id="postNLAddressRow" hidden="hidden">
+        <div class="form-row" id="{{ idPrefix ~ prefix }}postNLAddressRow" hidden="hidden">
             {% block postnl_component_adress_form_zipcode_house_number_house_number_addition %}
                 {% block postnl_component_address_form_zipcode %}
                     <div class="form-group col-sm-6">
@@ -108,6 +108,8 @@
                                required="required"
                                {% if not data.customFields.postNL.streetName %}disabled="disabled"{% endif %}
                         >
+                        {{ dump(prefix) }}
+                        {{ dump(data.customFields.postNL.streetName) }}
                     </div>
                 {% endblock %}
 
@@ -155,7 +157,7 @@
             {% endblock %}
         </div>
 
-        <div class="form-row" id="defaultAddressRow">
+        <div class="form-row" id="{{ idPrefix ~ prefix }}defaultAddressRow">
             {% block component_address_form_street %}
                 {{ parent() }}
             {% endblock %}
