@@ -32,12 +32,7 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this.cityElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressCity');
 
         //Data list
-        this.houseNumberAdditionDatalistElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressHouseNumberDatalist');
-
-        //Shopware own
-        this.zipcodeElementSW = DomAccess.querySelector(document, '#' + this.options.concatPrefix + 'AddressZipcode');
-        this.streetElementSW = DomAccess.querySelector(document, '#' + this.options.concatPrefix + 'AddressStreet');
-        this.cityElementSW = DomAccess.querySelector(document, '#' + this.options.concatPrefix + 'AddressCity');
+        this.houseNumberAdditionDatalistElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressHouseNumberAdditionDatalist');
 
         //Country selector
         this.countrySelectorElement = DomAccess.querySelector(this.el, '.country-select');
@@ -54,6 +49,11 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
 
         //Parent form
         this.addressForm = this.zipcodeElement.closest('form');
+
+        //Shopware own
+        this.zipcodeElementSW = DomAccess.querySelector(this.addressForm, '#' + this.options.concatPrefix + 'AddressZipcode');
+        this.streetElementSW = DomAccess.querySelector(this.addressForm, '#' + this.options.concatPrefix + 'AddressStreet');
+        this.cityElementSW = DomAccess.querySelector(this.addressForm, '#' + this.options.concatPrefix + 'AddressCity');
     }
 
     _registerEvents() {
@@ -185,6 +185,8 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
                         let option = document.createElement('option');
                         option.value = result['houseNumberAddition'];
                         this.houseNumberAdditionDatalistElement.appendChild(option);
+                        console.log('Filling')
+                        console.log(this.houseNumberAdditionDatalistElement);
                     });
                 } else {
                     this.houseNumberAdditionElement.value = postalCode['houseNumberAddition'];
@@ -252,6 +254,11 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     _setupLinkedFields() {
+        console.log('Linking')
+        console.log(this.zipcodeElementSW, this.zipcodeElement)
+        console.log(this.zipcodeElement, this.zipcodeElementSW)
+        console.log(this.cityElement, this.cityElementSW)
+        console.log(this.cityElementSW, this.cityElement)
         //Postal code
         this._linkFields(this.zipcodeElementSW, this.zipcodeElement)
         this._linkFields(this.zipcodeElement, this.zipcodeElementSW)

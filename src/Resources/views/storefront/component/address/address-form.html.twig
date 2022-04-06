@@ -85,9 +85,9 @@
                                placeholder="{{ "postnl.address.houseNumberAdditionPlaceholder"|trans|striptags }}"
                                name="{{ prefix }}[houseNumberAddition]"
                                value="{{ data.customFields.postNL.houseNumberAddition }}"
-                               list="{{ idPrefix ~ prefix }}PostNLAddressHouseNumberDatalist"
+                               list="{{ idPrefix ~ prefix }}PostNLAddressHouseNumberAdditionDatalist"
                         >
-                        <datalist id="{{ idPrefix ~ prefix }}PostNLAddressHouseNumberDatalist"></datalist>
+                        <datalist id="{{ idPrefix ~ prefix }}PostNLAddressHouseNumberAdditionDatalist"></datalist>
                     </div>
                 {% endblock %}
             {% endblock %}
@@ -108,8 +108,6 @@
                                required="required"
                                {% if not data.customFields.postNL.streetName %}disabled="disabled"{% endif %}
                         >
-                        {{ dump(prefix) }}
-                        {{ dump(data.customFields.postNL.streetName) }}
                     </div>
                 {% endblock %}
 
