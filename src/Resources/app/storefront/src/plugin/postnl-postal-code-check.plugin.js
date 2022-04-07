@@ -254,11 +254,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     _setupLinkedFields() {
-        console.log('Linking')
-        console.log(this.zipcodeElementSW, this.zipcodeElement)
-        console.log(this.zipcodeElement, this.zipcodeElementSW)
-        console.log(this.cityElement, this.cityElementSW)
-        console.log(this.cityElementSW, this.cityElement)
         //Postal code
         this._linkFields(this.zipcodeElementSW, this.zipcodeElement)
         this._linkFields(this.zipcodeElement, this.zipcodeElementSW)
