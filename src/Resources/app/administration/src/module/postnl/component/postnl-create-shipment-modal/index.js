@@ -65,6 +65,7 @@ Component.register('postnl-create-shipment-modal', {
                             message: error.message,
                         });
                     }
+                    return Promise.reject();
                 })
                 .then(() => this.ShipmentService.createShipments(
                     orderIds,

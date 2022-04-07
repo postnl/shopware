@@ -20,9 +20,7 @@ export default class PostNlApiService extends ApiService {
                 }
             )
             .then(response => ApiService.handleResponse(response))
-            .catch(error => {
-                throw ApiService.handleResponse(error.response)
-            })
+            .catch(error => Promise.reject(ApiService.handleResponse(error.response)))
     }
 
     post(url, data = {}) {
@@ -35,9 +33,7 @@ export default class PostNlApiService extends ApiService {
                 }
             )
             .then(response => ApiService.handleResponse(response))
-            .catch(error => {
-                throw ApiService.handleResponse(error.response)
-            })
+            .catch(error => Promise.reject(ApiService.handleResponse(error.response)))
     }
 
     getBlob(url, data = {}) {
