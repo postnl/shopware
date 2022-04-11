@@ -81,6 +81,22 @@
     </card>
 
     <card>
+        <title>Address check</title>
+        <title lang="de-DE">Adressprüfung</title>
+        <title lang="nl-NL">Adrescontrole</title>
+        <input-field type="bool">
+            <name>addressCheck</name>
+            <label>Address check</label>
+            <label lang="de-DE">Adressprüfung</label>
+            <label lang="nl-NL">Adrescontrole</label>
+            <helpText>Validate the address users fill in.</helpText>
+            <helpText lang="de-DE">Überprüfen Sie die von den Benutzern eingegebene Adresse.</helpText>
+            <helpText lang="nl-NL">Valideer het adres dat gebruikers invullen.</helpText>
+            <defaultValue>true</defaultValue>
+        </input-field>
+    </card>
+
+    <card>
         <title>Default Products</title>
         <title lang="de-DE">Standardprodukte</title>
         <title lang="nl-NL">Standaard Producten</title>
