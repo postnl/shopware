@@ -2,6 +2,7 @@
 
 namespace PostNL\Shopware6\Service\PostNL\ApiExtension\Service;
 
+use Exception;
 use Firstred\PostNL\Exception\CifDownException;
 use Firstred\PostNL\Exception\CifException;
 use Firstred\PostNL\Exception\HttpClientException;
@@ -19,6 +20,7 @@ use Psr\Cache\CacheItemInterface;
 use Psr\Cache\InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use TypeError;
 
 class PostalCodeCheckService extends AbstractService implements PostalCodeCheckServiceInterface
 {
@@ -42,6 +44,7 @@ class PostalCodeCheckService extends AbstractService implements PostalCodeCheckS
      * @throws InvalidConfigurationException
      * @throws InvalidAddressException
      * @throws AddressNotFoundException
+     * @throws Exception
      */
     public function sendPostalCodeCheckRest(PostalCode $postalCode): PostalCodeResponse
     {
@@ -50,16 +53,18 @@ class PostalCodeCheckService extends AbstractService implements PostalCodeCheckS
 
         if ($item instanceof CacheItemInterface && $item->isHit()) {
             $response = $item->get();
-            try {
-                $response = PsrMessage::parseResponse($response);
-            } catch (InvalidArgumentException $e) {
-            }
+            $response = PsrMessage::parseResponse($response);
         }
 
         if (!$response instanceof ResponseInterface) {
-            $response = $this->postnl->getHttpClient()->doRequest(
-                $this->buildSendPostalCodeCheckRequestREST($postalCode)
-            );
+            try {
+                $response = $this->postnl->getHttpClient()->doRequest(
+                    $this->buildSendPostalCodeCheckRequestREST($postalCode)
+                );
+            }catch (TypeError $error){
+                throw new Exception('Guzzle/Firstred error');
+            }
+
 
             static::validateRESTResponse($response);
         }
@@ -145,7 +150,6 @@ class PostalCodeCheckService extends AbstractService implements PostalCodeCheckS
             $object = new PostalCodeResponse($postalResponses);
         }
 //        $this->setService($object);
-
         return $object;
     }
 
