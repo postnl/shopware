@@ -9,8 +9,7 @@
         countries: allowedCountries,
         concatPrefix : idPrefix ~ prefix
     } %}
-    {#    {{ dump(page) }} #}
-    {{ dump(data.customFields.postNL) }}
+
     <div data-postnl-postal-code-check="true"
          data-postnl-postal-code-check-options='{{ codecheckOptions | json_encode }}'>
 

@@ -15,7 +15,14 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
 
     init() {
         this._client = new HttpClient();
+        this.uuid = crypto.randomUUID();
+
         this._registerElements();
+        this._makeElementsUnique()
+
+        //Link the datalist
+        this.houseNumberAdditionElement.setAttribute('list',this.houseNumberAdditionDatalistElement.id);
+
         this._showWarningAlert("");
         this._registerEvents();
         this._updateRequired();
@@ -54,6 +61,24 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this.zipcodeElementSW = DomAccess.querySelector(this.addressForm, '#' + this.options.concatPrefix + 'AddressZipcode');
         this.streetElementSW = DomAccess.querySelector(this.addressForm, '#' + this.options.concatPrefix + 'AddressStreet');
         this.cityElementSW = DomAccess.querySelector(this.addressForm, '#' + this.options.concatPrefix + 'AddressCity');
+    }
+
+    _makeElementsUnique(){
+        this._makeElementUnique(this.zipcodeElement);
+        this._makeElementUnique(this.houseNumberElement);
+        this._makeElementUnique(this.houseNumberAdditionElement);
+        this._makeElementUnique(this.streetElement);
+        this._makeElementUnique(this.cityElement);
+        this._makeElementUnique(this.houseNumberAdditionDatalistElement);
+        this._makeElementUnique(this.postNLAddressRow);
+        this._makeElementUnique(this.defaultAddressRow);
+        this._makeElementUnique(this.postnlWarningAlert);
+        this._makeElementUnique(this.postNLAddressRow);
+        this._makeElementUnique(this.defaultAddressRow);
+    }
+
+    _makeElementUnique(element){
+        element.id += '-'+this.uuid
     }
 
     _registerEvents() {
@@ -111,11 +136,11 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
             this._swapRequired(this.postNLAddressRow, this.defaultAddressRow)
         }
         //Fix shopware removing disabled on a toggle form
-        if (!this.streetElement.value){
-            this.streetElement.setAttribute('disabled','disabled');
+        if (!this.streetElement.value) {
+            this.streetElement.setAttribute('disabled', 'disabled');
         }
-        if (!this.cityElement.value){
-            this.cityElement.setAttribute('disabled','disabled');
+        if (!this.cityElement.value) {
+            this.cityElement.setAttribute('disabled', 'disabled');
         }
     }
 
@@ -135,14 +160,15 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     _checkPostalCode(zipcodeValue, houseNumberValue, houseNumberAdditionValue) {
+
         const data = this._getRequestData();
-        data['postalCode'] = zipcodeValue//'7821 AC';
-        data['houseNumber'] = houseNumberValue//'20';
-        data['houseNumberAddition'] = houseNumberAdditionValue//'NL';
+        data['postalCode'] = zipcodeValue;
+        data['houseNumber'] = houseNumberValue;
+        data['houseNumberAddition'] = houseNumberAdditionValue;
         ElementLoadingIndicatorUtil.create(this.el);
         this._client.post(this.options.url, JSON.stringify(data), content => {
             ElementLoadingIndicatorUtil.remove(this.el);
-            this._parseRequest(JSON.parse(content))
+                this._parseRequest(JSON.parse(content))
         });
     }
 
@@ -157,10 +183,14 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
 
     }
 
-    _parseRequest(data) {
+    _unlockFormFields() {
         //Unlock the fields
         this.streetElement.removeAttribute('disabled');
         this.cityElement.removeAttribute('disabled');
+    }
+
+    _parseRequest(data) {
+        this._unlockFormFields();
         //Reset the errors
         this.zipcodeElement.setCustomValidity("");
         this.houseNumberElement.setCustomValidity("");
@@ -185,8 +215,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
                         let option = document.createElement('option');
                         option.value = result['houseNumberAddition'];
                         this.houseNumberAdditionDatalistElement.appendChild(option);
-                        console.log('Filling')
-                        console.log(this.houseNumberAdditionDatalistElement);
                     });
                 } else {
                     this.houseNumberAdditionElement.value = postalCode['houseNumberAddition'];
@@ -203,7 +231,7 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
             //No result, so it is an error
             if (data['errorType'] === "AddressNotFoundException") {
                 this._showWarningAlert(data['errorMessage'])
-            }
+            }else
 
             if (data['errorType'] === "InvalidAddressException") {
                 //Known errors with a field connected to it
@@ -220,7 +248,12 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
                     //Unknown errors with a message connected to it
                     this._showWarningAlert(data['errorMessage'])
                 }
+            }else
+
+            if (!data['errorMessage']){
+                this._showWarningAlert(data);
             }
+
             this.zipcodeElement.reportValidity();
             this.houseNumberElement.reportValidity();
         }
