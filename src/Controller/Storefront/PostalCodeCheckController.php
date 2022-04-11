@@ -49,7 +49,6 @@ class PostalCodeCheckController extends StorefrontController
             return $this->json($response);
 
         } catch (InvalidAddressException $e) {
-
             $this->logger->error($e->getMessage(), ['exception' => $e]);
 
             if ($e->getMessage()==""){

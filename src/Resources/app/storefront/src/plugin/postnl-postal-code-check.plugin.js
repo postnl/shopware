@@ -21,7 +21,7 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this._makeElementsUnique()
 
         //Link the datalist
-        this.houseNumberAdditionElement.setAttribute('list',this.houseNumberAdditionDatalistElement.id);
+        this.houseNumberAdditionElement.setAttribute('list', this.houseNumberAdditionDatalistElement.id);
 
         this._showWarningAlert("");
         this._registerEvents();
@@ -63,7 +63,7 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this.cityElementSW = DomAccess.querySelector(this.addressForm, '#' + this.options.concatPrefix + 'AddressCity');
     }
 
-    _makeElementsUnique(){
+    _makeElementsUnique() {
         this._makeElementUnique(this.zipcodeElement);
         this._makeElementUnique(this.houseNumberElement);
         this._makeElementUnique(this.houseNumberAdditionElement);
@@ -77,8 +77,8 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this._makeElementUnique(this.defaultAddressRow);
     }
 
-    _makeElementUnique(element){
-        element.id += '-'+this.uuid
+    _makeElementUnique(element) {
+        element.id += '-' + this.uuid
     }
 
     _registerEvents() {
@@ -168,7 +168,7 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         ElementLoadingIndicatorUtil.create(this.el);
         this._client.post(this.options.url, JSON.stringify(data), content => {
             ElementLoadingIndicatorUtil.remove(this.el);
-                this._parseRequest(JSON.parse(content))
+            this._parseRequest(JSON.parse(content))
         });
     }
 
@@ -223,7 +223,7 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
             }
 
             //Put the data in shopware fields (street+house number+addition, zipcode, city)
-            this.streetElementSW.value = this.streetElement.value + ' ' + this.houseNumberElement.value + ' ' + this.houseNumberAdditionElement.value
+            this._fillStreetFields();
             this.zipcodeElementSW.value = this.zipcodeElement.value;
             this.cityElementSW.value = this.cityElement.value;
 
@@ -231,9 +231,7 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
             //No result, so it is an error
             if (data['errorType'] === "AddressNotFoundException") {
                 this._showWarningAlert(data['errorMessage'])
-            }else
-
-            if (data['errorType'] === "InvalidAddressException") {
+            } else if (data['errorType'] === "InvalidAddressException") {
                 //Known errors with a field connected to it
                 if (data['errorField']) {
                     switch (data['errorField']) {
@@ -248,9 +246,7 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
                     //Unknown errors with a message connected to it
                     this._showWarningAlert(data['errorMessage'])
                 }
-            }else
-
-            if (!data['errorMessage']){
+            } else if (!data['errorMessage']) {
                 this._showWarningAlert(data);
             }
 
@@ -303,7 +299,8 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
 
     _fillStreetFields() {
         //Fill this with street + house number + house number addition
-        this.streetElementSW.value = this.streetElement.value + " " + this.houseNumberElement.value + this.houseNumberAdditionElement.value
+        let elementArray = [this.streetElement.value, this.houseNumberElement.value, this.houseNumberAdditionElement.value];
+        this.streetElementSW.value = elementArray.filter((element) => element.trim() !== "").join(" ");
     }
 
     copyValue(sender, receiver) {

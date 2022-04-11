@@ -1,0 +1,21 @@
+{
+  "postnl": {
+    "address": {
+      "streetLabel": "Straßenname",
+      "streetPlaceholder": "Straßenname eingeben...",
+      "houseNumberLabel": "Hausnummer",
+      "houseNumberPlaceholder": "Hausnummer eingeben...",
+      "houseNumberAdditionLabel": "Zusatz",
+      "houseNumberAdditionPlaceholder": "Zusatz eingeben..."
+    },
+    "errors": {
+      "internalServerError": "Es ist ein interner Serverfehler aufgetreten, die Adresse konnte nicht verifiziert werden",
+      "addressNotFound": "Es wurde keine Adresse gefunden, überprüfen Sie, ob Ihre Eingabe korrekt ist.",
+      "api": {
+        "Input field 'postalcode' has the wrong format. It should be: 1234AB": "Das Eingabefeld 'Postleitzahl' hat ein falsches Format. It should be: 1234AB",
+        "Input field 'housenumber' required": "Eingabefeld 'Hausnummer' erforderlich",
+        "Input field 'housenumber' must be a number": "Eingabefeld 'Hausnummer' muss eine Zahl sein"
+      }
+    }
+  }
+}
