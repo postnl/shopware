@@ -11,8 +11,10 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
 
     data() {
         return {
-            isOpenBulkShippingModal: false,
-            isShippingModalId: null,
+            isBulkChangeShippingModalOpen: false,
+            isBulkCreateShipmentModalOpen: false,
+            isChangeShippingModalId: null,
+            isCreateShipmentModalId: null,
 
             countries: {},
             products: {}
@@ -50,6 +52,8 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
     },
 
     methods: {
+
+
         async getList() {
             this.isLoading = true;
 
@@ -163,18 +167,6 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
             return this.productRepository
                 .search(criteria)
                 .then(result => this.products = result)
-        },
-        openShippingModal(id) {
-            this.isShippingModalId = id;
-        },
-        closeShippingModal() {
-            this.isShippingModalId = null;
-        },
-        openBulkShippingModal() {
-            this.isOpenBulkShippingModal = true;
-        },
-        closeBulkShippingModal() {
-            this.isOpenBulkShippingModal = false;
         },
 
         getBarCodeLink(item) {

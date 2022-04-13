@@ -19,9 +19,8 @@ export default class PostNlApiService extends ApiService {
                     headers: this.getBasicHeaders(),
                 }
             )
-            .then((response) => {
-                return ApiService.handleResponse(response);
-            });
+            .then(response => ApiService.handleResponse(response))
+            .catch(error => Promise.reject(ApiService.handleResponse(error.response)))
     }
 
     post(url, data = {}) {
@@ -33,9 +32,8 @@ export default class PostNlApiService extends ApiService {
                     headers: this.getBasicHeaders(),
                 }
             )
-            .then((response) => {
-                return ApiService.handleResponse(response);
-            });
+            .then(response => ApiService.handleResponse(response))
+            .catch(error => Promise.reject(ApiService.handleResponse(error.response)))
     }
 
     getBlob(url, data = {}) {

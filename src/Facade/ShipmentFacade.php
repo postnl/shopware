@@ -34,10 +34,10 @@ class ShipmentFacade
     protected $shipmentService;
 
     public function __construct(
-        ConfigService   $configService,
-        OrderService    $orderService,
+        ConfigService      $configService,
+        OrderService       $orderService,
         OrderDataExtractor $orderDataExtractor,
-        ShipmentService $shipmentService
+        ShipmentService    $shipmentService
     )
     {
         $this->configService = $configService;
@@ -71,7 +71,7 @@ class ShipmentFacade
     {
         $deliveryZones = [];
 
-        foreach($orderIds as $orderId) {
+        foreach ($orderIds as $orderId) {
             $order = $this->orderService->getOrder($orderId, $context);
 
             $config = $this->configService->getConfiguration($order->getSalesChannelId(), $context);
@@ -88,26 +88,34 @@ class ShipmentFacade
     }
 
     /**
+     * @param array $orderIds
+     * @param string $productId
+     * @param Context $context
+     * @return void
+     */
+    public function changeProduct(
+        array   $orderIds,
+        string  $productId,
+        Context $context
+    ): void
+    {
+        foreach ($orderIds as $orderId) {
+            $this->orderService->updateOrderCustomFields($orderId, ['productId' => $productId], $context);
+        }
+    }
+
+    /**
      * @param string[] $orderIds
-     * @param bool $overrideProduct
-     * @param string $overrideProductId
+     * @param bool $confirmShipments
      * @param Context $context
      * @return string
      */
     public function shipOrders(
         array   $orderIds,
-        bool    $overrideProduct,
-        string  $overrideProductId,
         bool    $confirmShipments,
         Context $context
     ): string
     {
-        if ($overrideProduct) {
-            foreach ($orderIds as $orderId) {
-                $this->orderService->updateOrderCustomFields($orderId, ['productId' => $overrideProductId], $context);
-            }
-        }
-
         $orders = $this->orderService->getOrders($orderIds, $context);
 
         $pdf = $this->shipmentService->shipOrders($orders, $confirmShipments, $context);
@@ -115,4 +123,3 @@ class ShipmentFacade
         return $pdf;
     }
 }
-

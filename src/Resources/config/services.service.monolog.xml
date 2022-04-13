@@ -58,11 +58,11 @@
         <service id="postnl.logger.processor.route" class="Symfony\Bridge\Monolog\Processor\RouteProcessor"/>
 
         <!-- Custom Processors -->
-        <service id="postnl.logger.processor.ip_anonymize" class="PostNL\Shopware6\Service\Monolog\Processor\AnonymizeIPProcessor">
-            <argument>*</argument>
-        </service>
+        <service id="postnl.logger.processor.ip_anonymize"
+                 class="PostNL\Shopware6\Service\Monolog\Processor\AnonymizeIPProcessor"/>
 
-        <service id="postnl.logger.processor.session" class="PostNL\Shopware6\Service\Monolog\Processor\SessionProcessor">
+        <service id="postnl.logger.processor.session"
+                 class="PostNL\Shopware6\Service\Monolog\Processor\SessionProcessor">
             <argument type="service" id="session"/>
         </service>
     </services>
