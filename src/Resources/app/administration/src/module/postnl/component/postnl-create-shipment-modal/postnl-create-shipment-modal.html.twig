@@ -4,13 +4,15 @@
           })"
           :closable="!isProcessing"
           @modal-close="closeModal">
-    <sw-container>
+    <sw-container columns="1fr 1fr" gap="16px">
         <sw-switch-field v-model="confirmShipments"
                          :label="$tc('postnl.order.shippingModal.confirmShipments')"
-                         size="small"/>
+                         size="small"
+                         noMarginTop/>
         <sw-switch-field v-model="downloadLabels"
                          :label="$tc('postnl.order.shippingModal.downloadLabels')"
-                         size="small"/>
+                         size="small"
+                         noMarginTop/>
     </sw-container>
 
     <template #modal-footer>
