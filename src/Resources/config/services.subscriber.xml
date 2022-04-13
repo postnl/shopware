@@ -24,5 +24,9 @@
 
             <tag name="kernel.event_subscriber"/>
         </service>
+
+        <service id="PostNL\Shopware6\Subscriber\AddressSubscriber">
+            <tag name="kernel.event_subscriber"/>
+        </service>
     </services>
 </container>
