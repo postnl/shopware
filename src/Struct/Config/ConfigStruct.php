@@ -77,16 +77,18 @@ class ConfigStruct extends AttributeStruct
     //====================================================================================================
 
     /**
+     * @var bool
+     */
+    protected $returnLabelInTheBox;
+
+    //====================================================================================================
+
+    /**
      * @var string
      */
     protected $printerFormat;
 
     //====================================================================================================
-
-    /**
-     * @var bool
-     */
-    protected $autoConfirmShipment = false;
 
     /**
      * @var bool
@@ -214,6 +216,16 @@ class ConfigStruct extends AttributeStruct
     //=========================================================================================================
 
     /**
+     * @return bool
+     */
+    public function isReturnLabelInTheBox(): bool
+    {
+        return $this->returnLabelInTheBox;
+    }
+
+    //=========================================================================================================
+
+    /**
      * @return string
      */
     public function getPrinterFormat(): string
@@ -222,14 +234,6 @@ class ConfigStruct extends AttributeStruct
     }
 
     //=======================================================================================================
-
-    /**
-     * @return bool
-     */
-    public function isAutoConfirmShipment(): bool
-    {
-        return $this->autoConfirmShipment;
-    }
 
     /**
      * @return bool

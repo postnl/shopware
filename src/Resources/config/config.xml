@@ -148,6 +148,19 @@
     </card>
 
     <card>
+        <title>Returns</title>
+        <title lang="de-DE">Rücksendung</title>
+        <title lang="nl-NL">Retouren</title>
+        <input-field type="bool">
+            <name>returnLabelInTheBox</name>
+            <label>Print return label at the same time as the shipping label</label>
+            <label lang="de-DE">Das Rücksendeetikett gleichzeitig mit dem Versandetikett ausdrucken</label>
+            <label lang="nl-NL">Retourlabel afdrukken tegelijk met label voor de heenzending</label>
+            <defaultValue>true</defaultValue>
+        </input-field>
+    </card>
+
+    <card>
         <title>Labels</title>
         <title lang="de-DE">Labels</title>
         <title lang="nl-NL">Labels</title>
@@ -178,14 +191,6 @@
         <title>Other</title>
         <title lang="de-DE">Sonstiges</title>
         <title lang="nl-NL">Overige</title>
-
-        <input-field type="bool">
-            <name>autoConfirmShipments</name>
-            <label>Automatically confirm shipments</label>
-            <label lang="de-DE">Automatische Vorankündigung von Sendungen</label>
-            <label lang="nl-NL">Automatisch zendingen voormelden</label>
-            <defaultValue>true</defaultValue>
-        </input-field>
 
         <input-field type="bool">
             <name>debugMode</name>
