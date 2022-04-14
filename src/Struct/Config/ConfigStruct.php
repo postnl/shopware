@@ -39,6 +39,13 @@ class ConfigStruct extends AttributeStruct
     //=========================================================================================================
 
     /**
+     * @var bool
+     */
+    protected $addressCheck;
+
+    //=========================================================================================================
+
+    /**
      * @var ProductSelectionStruct
      */
     protected $productShipmentNlNlDefault;
@@ -144,6 +151,15 @@ class ConfigStruct extends AttributeStruct
         return $this->returnAddress;
     }
 
+    //=========================================================================================================
+
+    /**
+     * @return bool
+     */
+    public function isAddressCheck(): bool
+    {
+        return $this->addressCheck;
+    }
 
     //============================================================================================================
 
