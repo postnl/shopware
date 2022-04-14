@@ -123,7 +123,6 @@ class ShipmentService
         $a6Orientation = 'P';//$config->getPrinterA6Orientation();
 
         $printerType = 'GraphicFile|PDF';
-        $confirm = $config->isAutoConfirmShipment() || $confirm;
 
         $positions = [
             1 => true,
