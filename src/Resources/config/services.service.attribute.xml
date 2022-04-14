@@ -12,7 +12,7 @@
             <argument type="tagged" tag="postnl.attribute.handler.type"/>
             <argument type="service" id="postnl.logger"/>
         </service>
-        
+
         <service id="PostNL\Shopware6\Service\Attribute\TypeHandler\CustomerDataStructHandler">
             <argument type="service" id="PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory"/>
             <tag name="postnl.attribute.handler.type"/>

@@ -32,6 +32,11 @@ class OrderAttributeStruct extends EntityAttributeStruct
     protected $pickupPointLocationCode;
 
     /**
+     * @var bool
+     */
+    protected $confirm;
+
+    /**
      * @return string|null
      */
     public function getProductId(): ?string
@@ -53,5 +58,13 @@ class OrderAttributeStruct extends EntityAttributeStruct
     public function getPickupPointLocationCode(): ?string
     {
         return $this->pickupPointLocationCode;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isConfirm(): bool
+    {
+        return $this->confirm;
     }
 }
