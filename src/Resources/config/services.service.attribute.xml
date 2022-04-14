@@ -13,7 +13,7 @@
             <argument type="service" id="postnl.logger"/>
         </service>
 
-        <service id="PostNL\Shopware6\Struct\ShippingMethodStruct">
+        <service id="PostNL\Shopware6\Struct\Attribute\ShippingMethodAttributeStruct">
             <tag name="postnl.attribute.struct.entity"/>
         </service>
 

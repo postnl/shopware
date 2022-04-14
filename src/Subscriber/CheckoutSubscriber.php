@@ -6,12 +6,11 @@ use Firstred\PostNL\Entity\Location;
 use Firstred\PostNL\Entity\Request\GetNearestLocations;
 use Firstred\PostNL\Entity\Response\GetLocationsResult;
 use Firstred\PostNL\Entity\Response\ResponseLocation;
-use Firstred\PostNL\Exception\InvalidConfigurationException;
 use Firstred\PostNL\Exception\PostNLException;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shopware6\Service\Shopware\CartService;
-use PostNL\Shopware6\Struct\ShippingMethodStruct;
+use PostNL\Shopware6\Struct\Attribute\ShippingMethodAttributeStruct;
 use Shopware\Core\Framework\Struct\ArrayStruct;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -57,7 +56,7 @@ class CheckoutSubscriber implements EventSubscriberInterface
     public function onCheckoutConfirmPageLoaded(CheckoutConfirmPageLoadedEvent $event)
     {
         try {
-            /** @var ShippingMethodStruct $attributes */
+            /** @var ShippingMethodAttributeStruct $attributes */
             $attributes = $this->attributeFactory->createFromEntity($event->getSalesChannelContext()->getShippingMethod(), $event->getContext());
         } catch (\Throwable $e) {
 //            dd($e);
@@ -88,7 +87,7 @@ class CheckoutSubscriber implements EventSubscriberInterface
                 $event->getSalesChannelContext()->getSalesChannelId(),
                 $event->getContext()
             );
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             return;
         }
 
@@ -97,33 +96,33 @@ class CheckoutSubscriber implements EventSubscriberInterface
         try {
             $locationRequest = new GetNearestLocations($address->getCountry()->getIso(), new Location($address->getZipcode()));
             $locationResponse = $apiClient->getNearestLocations($locationRequest);
-        } catch(PostNLException $e) {
+        } catch (PostNLException $e) {
             return;
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             return;
         }
 
         $locationsResult = $locationResponse->getGetLocationsResult();
 
-        if(!$locationsResult instanceof GetLocationsResult) {
+        if (!$locationsResult instanceof GetLocationsResult) {
             return;
         }
 
         $pickupPoints = new ArrayStruct();
         $locationCode = null;
-        foreach($locationsResult->getResponseLocation() as $i => $responseLocation) {
-            if(is_null($locationCode)) {
+        foreach ($locationsResult->getResponseLocation() as $i => $responseLocation) {
+            if (is_null($locationCode)) {
                 $locationCode = $responseLocation->getLocationCode();
             }
 
-            if($i >= 5) {
+            if ($i >= 5) {
                 break;
             }
 
             $pickupPoints->set($responseLocation->getId(), $responseLocation);
         }
 
-        if(!$event->getPage()->getCart()->hasExtensionOfType('postnl-data', ArrayStruct::class)) {
+        if (!$event->getPage()->getCart()->hasExtensionOfType('postnl-data', ArrayStruct::class)) {
             $event->getPage()->setCart($this->cartService->addData([
                 'pickupPointLocationCode' => $locationCode,
             ], $event->getSalesChannelContext()));
@@ -131,12 +130,12 @@ class CheckoutSubscriber implements EventSubscriberInterface
 
         $existingLocationCode = $this->cartService->getByKey('pickupPointLocationCode', $event->getSalesChannelContext());
 
-        $availableLocationCodes = array_map(function($location) {
+        $availableLocationCodes = array_map(function ($location) {
             /** @var ResponseLocation $location */
             return $location->getLocationCode();
         }, $pickupPoints->all());
 
-        if(!in_array($existingLocationCode, $availableLocationCodes)) {
+        if (!in_array($existingLocationCode, $availableLocationCodes)) {
             $event->getPage()->setCart($this->cartService->addData([
                 'pickupPointLocationCode' => $locationCode,
             ], $event->getSalesChannelContext()));
