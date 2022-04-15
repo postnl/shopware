@@ -169,7 +169,7 @@ class ShipmentBuilder
 
         switch($returnAddress->getCountrycode()) {
             case 'NL':
-                $address->setStreetHouseNrExt(sprintf('Antwoordnummer %s', $returnAddress->getStreet()));
+                $address->setStreetHouseNrExt($returnAddress->getStreet());
                 break;
             default:
                 $address->setStreet($returnAddress->getStreet());
