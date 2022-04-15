@@ -12,6 +12,7 @@ use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shopware6\Service\PostNL\Product\ProductService;
+use PostNL\Shopware6\Service\Shopware\ConfigService;
 use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor;
 use PostNL\Shopware6\Struct\Attribute\OrderAttributeStruct;
 use Psr\Log\LoggerInterface;
@@ -31,6 +32,11 @@ class ShipmentBuilder
     protected $attributeFactory;
 
     /**
+     * @var ConfigService
+     */
+    protected $configService;
+
+    /**
      * @var OrderDataExtractor
      */
     protected $orderDataExtractor;
@@ -48,6 +54,7 @@ class ShipmentBuilder
     public function __construct(
         ApiFactory         $apiFactory,
         AttributeFactory   $attributeFactory,
+        ConfigService      $configService,
         OrderDataExtractor $orderDataExtractor,
         ProductService     $productService,
         LoggerInterface    $logger
@@ -55,6 +62,7 @@ class ShipmentBuilder
     {
         $this->apiFactory = $apiFactory;
         $this->attributeFactory = $attributeFactory;
+        $this->configService = $configService;
         $this->orderDataExtractor = $orderDataExtractor;
         $this->productService = $productService;
         $this->logger = $logger;
@@ -68,26 +76,37 @@ class ShipmentBuilder
             'orderCustomFields' => $order->getCustomFields(),
         ]);
 
+        $apiClient = $this->apiFactory->createClientForSalesChannel($order->getSalesChannelId(), $context);
+
+        $config = $this->configService->getConfiguration($order->getSalesChannelId(), $context);
 
         /** @var OrderAttributeStruct $orderAttributes */
         $orderAttributes = $this->attributeFactory->createFromEntity($order, $context);
 
         $product = $this->productService->getProduct($orderAttributes->getProductId(), $context);
 
+        $addresses = [];
+        $amounts = [];
+        $contacts = [];
+
+        //= General ====
         $shipment = new Shipment();
         $shipment->setBarcode($orderAttributes->getBarCode());
         $shipment->setDeliveryAddress('01');
         $shipment->setProductCodeDelivery($product->getProductCodeDelivery());
         $shipment->setReference('Order ' . $order->getOrderNumber());
 
-        $shipment->setDimension($this->buildDimension($order, $context));
+        //= Return label in the box ====
+        if($config->isReturnLabelInTheBox()) {
+            $returnCountryCode = $config->getReturnAddress()->getCountrycode();
+            $returnBarcode = $apiClient->generateBarcodeByCountryCode($returnCountryCode);
 
-        $addresses = [];
-        $amounts = [];
-        $contacts = [];
+            $shipment->setReturnBarcode($returnBarcode);
+
+            $addresses[] = $this->buildReturnAddress($order, $context);
+        }
 
         //= Addresses ====
-
         $addresses[] = $this->buildReceiverAddress($order);
 
         if ($product->getDeliveryType() === DeliveryType::PICKUP) {
@@ -97,20 +116,20 @@ class ShipmentBuilder
         }
 
         //= Amount ====
-
         if (!!$product->getInsurance()) {
             $amounts[] = $this->buildInsuranceAmount($order);
         }
 
         //= Contacts ====
-
         $contacts[] = $this->buildReceiverContact($order);
+
+        //= Dimension ====
+        $shipment->setDimension($this->buildDimension($order, $context));
 
         $shipment->setAddresses($addresses);
         $shipment->setAmounts($amounts);
         $shipment->setContacts($contacts);
 
-        dd($shipment);
         return $shipment;
     }
 
@@ -131,6 +150,33 @@ class ShipmentBuilder
         $address->setZipcode($orderAddress->getZipcode());
         $address->setCity($orderAddress->getCity());
         $address->setCountrycode($this->orderDataExtractor->extractDeliveryCountry($order)->getIso());
+
+        return $address;
+    }
+
+    public function buildReturnAddress(OrderEntity $order, Context $context): Address
+    {
+        $config = $this->configService->getConfiguration($order->getSalesChannelId(), $context);
+
+        $returnAddress = $config->getReturnAddress();
+
+        $address = new Address();
+        $address->setAddressType('08');
+        $address->setCompanyName($returnAddress->getCompanyName());
+        $address->setZipcode($returnAddress->getZipcode());
+        $address->setCity($returnAddress->getCity());
+        $address->setCountrycode($returnAddress->getCountrycode());
+
+        switch($returnAddress->getCountrycode()) {
+            case 'NL':
+                $address->setStreetHouseNrExt(sprintf('Antwoordnummer %s', $returnAddress->getStreet()));
+                break;
+            default:
+                $address->setStreet($returnAddress->getStreet());
+                $address->setHouseNr($returnAddress->getHouseNr());
+                $address->setHouseNrExt($returnAddress->getHouseNrExt());
+                break;
+        }
 
         return $address;
     }
