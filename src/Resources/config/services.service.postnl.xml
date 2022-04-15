@@ -32,5 +32,9 @@
                  decorates="Shopware\Core\Content\Mail\Service\MailService">
             <argument type="service" id="PostNL\Shopware6\Service\PostNL\TrackAndTraceMailDataService.inner"/>
         </service>
+
+        <service id="PostNL\Shopware6\Service\PostNL\PostalCodeService">
+            <argument type="service" id="PostNL\Shopware6\Service\PostNL\Factory\ApiFactory"/>
+        </service>
     </services>
 </container>

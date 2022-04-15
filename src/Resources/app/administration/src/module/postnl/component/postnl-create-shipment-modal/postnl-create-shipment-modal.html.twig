@@ -1,30 +1,18 @@
-<sw-modal class="postnl-shipping-modal"
+<sw-modal class="postnl-create-shipment-modal"
           :title="$tc('postnl.order.shippingModal.title', selectionCount, {
               count: selectionCount
           })"
           :closable="!isProcessing"
           @modal-close="closeModal">
-    <sw-container>
-
-        <template v-if="isBulk">
-            <sw-switch-field v-model="isOverrideProduct"
-                             :label="$tc('postnl.order.shippingModal.overrideProduct')"
-                             :disabled="deliveryZones.length !== 1"
-                             size="small"
-                             noMarginTop/>
-        </template>
-
-        <postnl-product-selection v-model="overrideProductId"
-                                  :destinationZone="deliveryZones[0]"
-                                  :disabled="!isOverrideProduct || deliveryZones.length !== 1"/>
-
-        <sw-switch-field v-if="!autoConfirmShipments"
-                         v-model="confirmShipments"
+    <sw-container columns="1fr 1fr" gap="16px">
+        <sw-switch-field v-model="confirmShipments"
                          :label="$tc('postnl.order.shippingModal.confirmShipments')"
-                         size="small"/>
+                         size="small"
+                         noMarginTop/>
         <sw-switch-field v-model="downloadLabels"
                          :label="$tc('postnl.order.shippingModal.downloadLabels')"
-                         size="small"/>
+                         size="small"
+                         noMarginTop/>
     </sw-container>
 
     <template #modal-footer>
@@ -37,9 +25,9 @@
                            variant="primary"
                            :animationTimeout="2500"
                            :isLoading="isProcessing"
-                           :processSuccess="shipmentsSent"
+                           :processSuccess="isSuccess"
                            @click="sendShipments"
-                           @process-finish="shipmentsSent = false">
+                           @process-finish="isSuccess = false">
             {{ $tc('postnl.order.shippingModal.confirm') }}
         </sw-button-process>
     </template>

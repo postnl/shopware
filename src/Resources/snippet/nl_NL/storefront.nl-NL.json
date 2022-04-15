@@ -1,0 +1,21 @@
+{
+  "postnl": {
+    "address": {
+      "streetLabel": "Straatnaam",
+      "streetPlaceholder": "Voer straatnaam in...",
+      "houseNumberLabel": "Huisnummer",
+      "houseNumberPlaceholder": "Voer huisnummer in...",
+      "houseNumberAdditionLabel": "Toevoeging",
+      "houseNumberAdditionPlaceholder": "Vul toevoeging in..."
+    },
+    "errors": {
+      "internalServerError": "Er is een interne serverfout opgetreden, het adres kan niet worden geverifieerd",
+      "addressNotFound": "Er is geen adres gevonden, controleer of uw invoer correct is.",
+      "api": {
+        "Input field 'postalcode' has the wrong format. It should be: 1234AB": "Invoerveld 'postcode' heeft het verkeerde formaat. Het zou moeten zijn: 1234AB",
+        "Input field 'housenumber' required": "Invoerveld 'huisnummer' vereist",
+        "Input field 'housenumber' must be a number": "Invoerveld 'huisnummer' moet een getal zijn."
+      }
+    }
+  }
+}

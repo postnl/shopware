@@ -98,13 +98,7 @@ class ShipmentService
                 return $this->orderDataExtractor->extractDeliveryCountry($order)->getIso();
             });
 
-            try {
-                $barCodes = $apiClient->generateBarcodesByCountryCodes(array_count_values($isoCodes));
-            } catch (PostNLException $e) {
-                // TODO log
-                dd($e);
-                throw $e;
-            }
+            $barCodes = $apiClient->generateBarcodesByCountryCodes(array_count_values($isoCodes));
 
             foreach ($salesChannelOrders as $order) {
                 $iso = $this->orderDataExtractor->extractDeliveryCountry($order)->getIso();
@@ -129,7 +123,6 @@ class ShipmentService
         $a6Orientation = 'P';//$config->getPrinterA6Orientation();
 
         $printerType = 'GraphicFile|PDF';
-        $confirm = $config->isAutoConfirmShipment() || $confirm;
 
         $positions = [
             1 => true,

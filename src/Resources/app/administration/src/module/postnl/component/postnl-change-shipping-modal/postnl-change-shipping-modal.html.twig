@@ -1,0 +1,35 @@
+<sw-modal class="postnl-change-shipping-modal"
+          :title="$tc('postnl.order.shippingModal.title', selectionCount, {
+              count: selectionCount
+          })"
+          :closable="!isProcessing"
+          @modal-close="closeModal">
+    <postnl-product-selection
+        v-if="canChangeProduct"
+        v-model="overrideProductId"
+        :destinationZone="deliveryZones[0]"/>
+
+    <sw-alert v-else
+              variant="warning">
+        {# TODO Show warning if cant change product #}
+        Hello
+    </sw-alert>
+
+    <template #modal-footer>
+        <sw-button size="small"
+                   :disabled="isProcessing"
+                   @click="closeModal">
+            {{ $tc('postnl.order.shippingModal.cancel') }}
+        </sw-button>
+        <sw-button-process size="small"
+                           variant="primary"
+                           :animationTimeout="2500"
+                           :disabled="!canChangeProduct"
+                           :isLoading="isProcessing"
+                           :processSuccess="isSuccess"
+                           @click="sendShipments"
+                           @process-finish="isSuccess = false">
+            {{ $tc('postnl.order.shippingModal.confirm') }}
+        </sw-button-process>
+    </template>
+</sw-modal>
