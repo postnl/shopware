@@ -39,7 +39,7 @@ MAIL;
 <p>
 Good news! Your order with order number {{order.orderNumber}} has been prepared and will come to you as soon as possible with PostNL. Within a few hours you can track your order via the link below:
 <br>
-{{postNL.trackAndTraceLink}}
+<a href="{{postNL.trackAndTraceLink}}">{{postNL.trackAndTraceLink}}</a>
 <br>
 Keep an eye on the Track & Trace link for the most current status of your package.
 </p>

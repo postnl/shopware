@@ -39,7 +39,7 @@ MAIL;
     <p>
 Gute Nachrichten! Ihre Bestellung mit der Bestellnummer {{order.orderNumber}} wurde vorbereitet und wird Ihnen so schnell wie möglich mit PostNL zugestellt. Innerhalb weniger Stunden können Sie Ihre Bestellung über den folgenden Link verfolgen:
 <br>
-{{postNL.trackAndTraceLink}}
+<a href="{{postNL.trackAndTraceLink}}">{{postNL.trackAndTraceLink}}</a>
 <br>
 Behalten Sie den Track & Trace-Link im Auge, um den aktuellsten Status Ihres Pakets zu erhalten.
 </p>

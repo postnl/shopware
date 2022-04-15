@@ -30,7 +30,6 @@ class TrackAndTraceMailDataService extends AbstractMailService
         /** @var OrderEntity $order */
         $order = $templateData['order'];
         if (isset($order->getCustomFields()['postnl']['barCode'])) {
-
             $barcode = $order->getCustomFields()['postnl']['barCode'];
             $zipCode = $order->getDeliveries()->first()->getShippingOrderAddress()->getZipcode();
             $countryCode = $order->getDeliveries()->first()->getShippingOrderAddress()->getCountry()->getIso();

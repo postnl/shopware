@@ -39,7 +39,7 @@ MAIL;
     <p>
 Goed nieuws! Je bestelling met bestelnummer {ORDERNUMBER} is klaargemaakt en komt zo snel mogelijk met PostNL naar je toe. Binnen enkele uren kun je je bestelling volgen via onderstaande link:
 <br>
-{{postNL.trackAndTraceLink}}
+<a href="{{postNL.trackAndTraceLink}}">{{postNL.trackAndTraceLink}}</a>
 <br>
 Houd de Track & Trace link in de gaten voor de meest actuele status van jouw pakket.
 </p>
