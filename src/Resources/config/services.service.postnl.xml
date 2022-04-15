@@ -27,5 +27,10 @@
             <argument type="service" id="PostNL\Shopware6\Service\PostNL\LabelService"/>
             <argument type="service" id="PostNL\Shopware6\Service\PostNL\Product\ProductService"/>
         </service>
+
+        <service id="PostNL\Shopware6\Service\PostNL\TrackAndTraceMailDataService"
+                 decorates="Shopware\Core\Content\Mail\Service\MailService">
+            <argument type="service" id="PostNL\Shopware6\Service\PostNL\TrackAndTraceMailDataService.inner"/>
+        </service>
     </services>
 </container>
