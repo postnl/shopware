@@ -150,7 +150,9 @@ class ShipmentService
             }
 
             foreach ($salesChannelOrders as $order) {
-                $this->orderService->updateOrderCustomFields($order->getId(), ['confirm' => $confirm], $context);
+                if($confirm) {
+                    $this->orderService->updateOrderCustomFields($order->getId(), ['confirm' => $confirm], $context);
+                }
             }
         }
 
