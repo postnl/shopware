@@ -2,19 +2,11 @@
 
 namespace PostNL\Shopware6\Service\PostNL;
 
-use Firstred\PostNL\Entity\Address;
-use Firstred\PostNL\Entity\Amount;
-use Firstred\PostNL\Entity\Contact;
-use Firstred\PostNL\Entity\Dimension;
 use Firstred\PostNL\Entity\Label;
-use Firstred\PostNL\Entity\Request\GetLocation;
 use Firstred\PostNL\Entity\Response\GenerateLabelResponse;
-use Firstred\PostNL\Entity\Shipment;
 use Firstred\PostNL\Exception\PostNLException;
-use PostNL\Shopware6\Defaults;
-use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
+use PostNL\Shopware6\Service\PostNL\Builder\ShipmentBuilder;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
-use PostNL\Shopware6\Service\PostNL\Product\ProductService;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
 use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor;
 use PostNL\Shopware6\Service\Shopware\OrderService;
@@ -49,11 +41,11 @@ class ShipmentService
      */
     protected $labelService;
 
-    /**
-     * @var ProductService
-     */
-    protected $productService;
 
+    /**
+     * @var ShipmentBuilder
+     */
+    protected $shipmentBuilder;
 
     public function __construct(
         ApiFactory         $apiFactory,
@@ -61,7 +53,7 @@ class ShipmentService
         OrderService       $orderService,
         ConfigService      $configService,
         LabelService       $labelService,
-        ProductService     $productService
+        ShipmentBuilder    $shipmentBuilder
     )
     {
         $this->apiFactory = $apiFactory;
@@ -69,7 +61,7 @@ class ShipmentService
         $this->orderService = $orderService;
         $this->configService = $configService;
         $this->labelService = $labelService;
-        $this->productService = $productService;
+        $this->shipmentBuilder = $shipmentBuilder;
     }
 
     /**
@@ -120,7 +112,7 @@ class ShipmentService
         $config = $this->configService->getConfiguration(null, $context);
 
         $format = $config->getPrinterFormat() === 'a4' ? Label::FORMAT_A4 : Label::FORMAT_A6;
-        $a6Orientation = 'P';//$config->getPrinterA6Orientation();
+        $a6Orientation = 'P';
 
         $printerType = 'GraphicFile|PDF';
 
@@ -139,7 +131,7 @@ class ShipmentService
 
             $shipments = [];
             foreach ($salesChannelOrders as $order) {
-                $shipments[] = $this->createShipmentForOrder($order, $context);
+                $shipments[] = $this->shipmentBuilder->buildShipment($order, $context);
             }
 
             /** @var GenerateLabelResponse[] $labelResponse */
@@ -158,7 +150,9 @@ class ShipmentService
             }
 
             foreach ($salesChannelOrders as $order) {
-                $this->orderService->updateOrderCustomFields($order->getId(), ['confirm' => $confirm], $context);
+                if($confirm) {
+                    $this->orderService->updateOrderCustomFields($order->getId(), ['confirm' => $confirm], $context);
+                }
             }
         }
 
@@ -172,73 +166,5 @@ class ShipmentService
             $positions,
             $a6Orientation
         );
-    }
-
-    public function createShipmentForOrder(OrderEntity $order, Context $context): Shipment
-    {
-        $apiClient = $this->apiFactory->createClientForSalesChannel($order->getSalesChannelId(), $context);
-
-        $productId = $order->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY]['productId'];
-        $product = $this->productService->getProduct($productId, $context);
-
-        $shipment = new Shipment();
-        $shipment->setBarcode($order->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY]['barCode']);
-        $shipment->setDeliveryAddress('01');
-        $shipment->setProductCodeDelivery($product->getProductCodeDelivery());
-        $shipment->setReference('Order ' . $order->getOrderNumber());
-        $shipment->setDimension(new Dimension(2000)); // No weight on order
-
-        $addresses = [];
-
-        $senderAddress = $apiClient->getCustomer()->getAddress();
-        if ($senderAddress instanceof Address) {
-            $addresses[] = $senderAddress;
-        }
-
-        $orderAddress = $this->orderDataExtractor->extractDeliveryAddress($order);
-
-        $receiverAddress = new Address();
-        $receiverAddress->setAddressType('01');
-        $receiverAddress->setFirstName($orderAddress->getFirstName());
-        $receiverAddress->setName($orderAddress->getLastName());
-        $receiverAddress->setCompanyName($orderAddress->getCompany());
-        $receiverAddress->setStreetHouseNrExt($orderAddress->getStreet());
-        $receiverAddress->setZipcode($orderAddress->getZipcode());
-        $receiverAddress->setCity($orderAddress->getCity());
-        $receiverAddress->setCountrycode($this->orderDataExtractor->extractDeliveryCountry($order)->getIso());
-
-        if ($product->getDeliveryType() === DeliveryType::PICKUP) {
-            $pickupPointLocationCode = $order->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY]['pickupPointLocationCode'];
-
-            $locationResult = $apiClient->getLocation(new GetLocation($pickupPointLocationCode));
-            $pickupLocation = $locationResult->getGetLocationsResult()->getResponseLocation()[0];
-
-            $address = $pickupLocation->getAddress()->setAddressType('09');
-            $address->setCompanyName($pickupLocation->getName());
-            $addresses[] = $address;
-
-            $shipment->setDeliveryAddress('09');
-        }
-
-        $addresses[] = $receiverAddress;
-        $shipment->setAddresses($addresses);
-
-        $amounts = [];
-
-        if (!!$product->getInsurance()) {
-            $insuredAmount = new Amount();
-            $insuredAmount->setAmountType('02');
-            $insuredAmount->setValue($order->getAmountTotal());
-            $amounts[] = $insuredAmount;
-        }
-
-        $shipment->setAmounts($amounts);
-
-        $contact = new Contact();
-        $contact->setContactType('01');
-        $contact->setEmail($this->orderDataExtractor->extractCustomer($order)->getEmail());
-        $contact->setTelNr($this->orderDataExtractor->extractDeliveryAddress($order)->getPhoneNumber());
-
-        return $shipment;
     }
 }

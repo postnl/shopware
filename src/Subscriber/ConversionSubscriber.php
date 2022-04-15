@@ -8,8 +8,8 @@ use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\ZoneService;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
+use PostNL\Shopware6\Struct\Attribute\ShippingMethodAttributeStruct;
 use PostNL\Shopware6\Struct\Config\ConfigStruct;
-use PostNL\Shopware6\Struct\ShippingMethodStruct;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\Order\CartConvertedEvent;
 use Shopware\Core\Framework\Struct\ArrayStruct;
@@ -17,7 +17,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ConversionSubscriber implements EventSubscriberInterface
 {
-
     /**
      * @inheritDoc
      */
@@ -46,7 +45,7 @@ class ConversionSubscriber implements EventSubscriberInterface
         $cart = $event->getCart();
 
         try {
-            /** @var ShippingMethodStruct $attributes */
+            /** @var ShippingMethodAttributeStruct $attributes */
             $attributes = $this->attributeFactory->createFromEntity($cart->getDeliveries()->first()->getShippingMethod(), $event->getContext());
         } catch (\Throwable $e) {
             return;
@@ -83,7 +82,7 @@ class ConversionSubscriber implements EventSubscriberInterface
         }
 
         try {
-            /** @var ShippingMethodStruct $attributes */
+            /** @var ShippingMethodAttributeStruct $attributes */
             $attributes = $this->attributeFactory->createFromEntity($cart->getDeliveries()->first()->getShippingMethod(), $event->getContext());
         } catch (\Throwable $e) {
             return;
@@ -106,9 +105,9 @@ class ConversionSubscriber implements EventSubscriberInterface
     }
 
     protected function getProductId(
-        Cart                 $cart,
-        ConfigStruct         $config,
-        ShippingMethodStruct $shippingMethodAttributes
+        Cart                          $cart,
+        ConfigStruct                  $config,
+        ShippingMethodAttributeStruct $shippingMethodAttributes
     ): string
     {
         $sourceZone = $config->getSenderAddress()->getCountrycode();
@@ -130,11 +129,11 @@ class ConversionSubscriber implements EventSubscriberInterface
 
                             $id = $default->getId();
 
-                            if($alternative->isEnabled() && $cart->getPrice()->getTotalPrice() >= $alternative->getCartAmount()) {
+                            if ($alternative->isEnabled() && $cart->getPrice()->getTotalPrice() >= $alternative->getCartAmount()) {
                                 $id = $alternative->getId();
                             }
 
-                            if(empty($id)) {
+                            if (empty($id)) {
                                 $id = Defaults::PRODUCT_SHIPPING_NL_NL;
                             }
                             return $id;
@@ -143,7 +142,7 @@ class ConversionSubscriber implements EventSubscriberInterface
 
                             $id = $default->getId();
 
-                            if(empty($id)) {
+                            if (empty($id)) {
                                 $id = Defaults::PRODUCT_PICKUP_NL_NL;
                             }
                             return $id;
@@ -160,11 +159,11 @@ class ConversionSubscriber implements EventSubscriberInterface
 
                                 $id = $default->getId();
 
-                                if($alternative->isEnabled() && $cart->getPrice()->getTotalPrice() >= $alternative->getCartAmount()) {
+                                if ($alternative->isEnabled() && $cart->getPrice()->getTotalPrice() >= $alternative->getCartAmount()) {
                                     $id = $alternative->getId();
                                 }
 
-                                if(empty($id)) {
+                                if (empty($id)) {
                                     $id = Defaults::PRODUCT_SHIPPING_NL_BE;
                                 }
                                 return $id;
@@ -173,7 +172,7 @@ class ConversionSubscriber implements EventSubscriberInterface
 
                                 $id = $default->getId();
 
-                                if(empty($id)) {
+                                if (empty($id)) {
                                     $id = Defaults::PRODUCT_PICKUP_NL_BE;
                                 }
                                 return $id;

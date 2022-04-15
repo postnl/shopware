@@ -1,11 +1,11 @@
 <?php
 
-namespace PostNL\Shopware6\Struct;
+namespace PostNL\Shopware6\Struct\Attribute;
 
 use PostNL\Shopware6\Service\Attribute\EntityAttributeStruct;
 use Shopware\Core\Checkout\Shipping\ShippingMethodEntity;
 
-class ShippingMethodStruct extends EntityAttributeStruct
+class ShippingMethodAttributeStruct extends EntityAttributeStruct
 {
     /**
      * @inheritDoc

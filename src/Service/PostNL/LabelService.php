@@ -73,28 +73,33 @@ class LabelService
                 }
                 $pdfContent = base64_decode($responseShipment->getResponseShipments()[0]->getLabels()[0]->getContent());
                 $sizes = Util::getPdfSizeAndOrientation($pdfContent);
+
                 if ('A6' === $sizes['iso']) {
-                    if ($firstPage) {
-                        $pdf->addPage('P', [297, 210], 90);
-                    }
-                    $firstPage = false;
-                    while (empty($positions[5 - $a6s]) && $a6s >= 1) {
-                        $positions[5 - $a6s] = true;
-                        --$a6s;
-                    }
-                    if ($a6s < 1) {
-                        $pdf->addPage('P', [297, 210], 90);
-                        $a6s = 4;
-                    }
-                    $pdf->rotateCounterClockWise();
-                    $pdf->setSourceFile(StreamReader::createByString($pdfContent));
-                    $pdf->useTemplate($pdf->importPage(1), PostNL::$a6positions[$a6s][0], PostNL::$a6positions[$a6s][1]);
-                    --$a6s;
-                    if ($a6s < 1) {
-                        if ($responseShipment !== end($responseShipments)) {
+                    foreach($responseShipment->getResponseShipments()[0]->getLabels() as $label) {
+                        $pdfContent = base64_decode($label->getContent());
+
+                        if ($firstPage) {
                             $pdf->addPage('P', [297, 210], 90);
                         }
-                        $a6s = 4;
+                        $firstPage = false;
+                        while (empty($positions[5 - $a6s]) && $a6s >= 1) {
+                            $positions[5 - $a6s] = true;
+                            --$a6s;
+                        }
+                        if ($a6s < 1) {
+                            $pdf->addPage('P', [297, 210], 90);
+                            $a6s = 4;
+                        }
+                        $pdf->rotateCounterClockWise();
+                        $pdf->setSourceFile(StreamReader::createByString($pdfContent));
+                        $pdf->useTemplate($pdf->importPage(1), PostNL::$a6positions[$a6s][0], PostNL::$a6positions[$a6s][1]);
+                        --$a6s;
+                        if ($a6s < 1) {
+                            if ($responseShipment !== end($responseShipments)) {
+                                $pdf->addPage('P', [297, 210], 90);
+                            }
+                            $a6s = 4;
+                        }
                     }
                 } else {
                     // Assuming A4 here (could be multi-page) - defer to end
