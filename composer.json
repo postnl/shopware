@@ -32,7 +32,7 @@
   },
   "require": {
     "composer-runtime-api": "^2.0",
-    "firstred/postnl-api-php": "^v1.3.7"
+    "firstred/postnl-api-php": "^v1.3.14"
   },
   "require-dev": {
     "shopware/core": "*",
