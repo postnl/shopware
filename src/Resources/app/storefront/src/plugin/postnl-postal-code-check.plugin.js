@@ -15,7 +15,8 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
 
     init() {
         this._client = new HttpClient();
-        this.uuid = crypto.randomUUID();
+        const array = new Uint32Array(1);
+        this.random = crypto.getRandomValues(array)[0];
 
         this._registerElements();
         this._makeElementsUnique()
@@ -78,7 +79,7 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     _makeElementUnique(element) {
-        element.id += '-' + this.uuid
+        element.id += '-' + this.random
     }
 
     _registerEvents() {
