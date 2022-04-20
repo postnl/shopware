@@ -53,7 +53,7 @@ class ApiFactory
             $customer->setAddress((Address::create($senderAddress))->setAddressType('02'));
 
             $requestFactory = new GuzzleRequestFactory();
-//            $requestFactory->addHeader();
+            $requestFactory->addHeader('SourceSystem', 25);
 
             $client = new PostNLExtension($customer, $apiKey, $sandbox);
             $client->setRequestFactory($requestFactory);
