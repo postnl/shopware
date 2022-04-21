@@ -54,6 +54,8 @@ class LabelService
                             $correction[1] = -0.5;
                             $pdf->rotateCounterClockWise();
                         } elseif ('P' === $a6Orientation && 'L' === $sizes['orientation']) {
+                            $correction[0] = -128;
+                            $correction[1] = -0.5;
                             $pdf->rotateCounterClockWise();
                         }
                         $pdf->setSourceFile(StreamReader::createByString($pdfContent));
