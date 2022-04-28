@@ -13,7 +13,7 @@ Shopware.Module.register('postnl-order', {
     version: '1.0.0',
     targetVersion: '1.0.0',
     color: '#ed7000',
-    icon: 'default-package-closed',
+    icon: 'postnl-ghost',
 
     snippets: {
         'nl-NL': nlNL,
