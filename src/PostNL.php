@@ -2,8 +2,7 @@
 
 namespace PostNL\Shopware6;
 
-use PostNL\Shopware6\Service\Shopware\ShippingMethodService;
-use Shopware\Core\Content\Media\MediaService;
+use PostNL\Shopware6\Service\PostNL\ShippingMethodCreatorService;
 use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
@@ -20,20 +19,17 @@ class PostNL extends Plugin
 {
     public function activate(ActivateContext $activateContext): void
     {
-        /** @var ShippingMethodService $shippingMethodService */
-        $shippingMethodService = new ShippingMethodService(
-            $this->container->get('delivery_time.repository'),
-            $this->container->get('media.repository'),
-            $this->container->get('rule.repository'),
-            $this->container->get('shipping_method.repository'),
-            $this->container->get(MediaService::class),
-            $this->container->get('postnl.logger')
-        );
-        $shippingMethodService->createShippingMethods($this->getPath(), $activateContext->getContext());
+        parent::activate($activateContext);
+
+        $shippingMethodCreator = $this->container->get(ShippingMethodCreatorService::Class);
+        $shippingMethodCreator->create($activateContext,$this->container,$this->getPath());
+
+
     }
 
     public function uninstall(UninstallContext $uninstallContext): void
     {
+        parent::uninstall($uninstallContext);
         if ($uninstallContext->keepUserData()) {
             return;
         }
