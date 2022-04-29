@@ -1,4 +1,10 @@
-{% block sw_order_list_grid_columns %}
+{% block sw_order_list_grid_order_number_link %}
+    <router-link :to="{ name: 'postnl.order.detail', params: { id: item.id } }">
+        {{ item.orderNumber }}
+    </router-link>
+{% endblock %}
+
+{% block sw_order_list_grid_columns_billing_address %}
     {% parent %}
 
     {% block sw_order_list_grid_columns_deliveries_shipping_order_address %}
@@ -33,11 +39,15 @@
             />
         </template>
     {% endblock %}
-
 {% endblock %}
 
 {% block sw_order_list_grid_columns_actions_view %}
-    {% parent %}
+    <sw-context-menu-item
+        class="sw-order-list__order-view-action"
+        :router-link="{ name: 'postnl.order.detail', params: { id: item.id } }"
+    >
+        {{ $tc('sw-order.list.contextMenuView') }}
+    </sw-context-menu-item>
 
     <sw-context-menu-divider/>
 
