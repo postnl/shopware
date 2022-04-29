@@ -1,18 +1,10 @@
-{% block sw_order_list_grid_columns %}
-    {% block sw_order_list_grid_columns_order_number %}
-        <template #column-orderNumber="{ item }">
-            {% block sw_order_list_grid_order_number_link %}
-                <router-link :to="{ name: 'postnl.order.detail', params: { id: item.id } }">
-                    {{ item.orderNumber }}
-                </router-link>
-            {% endblock %}
+{% block sw_order_list_grid_order_number_link %}
+    <router-link :to="{ name: 'postnl.order.detail', params: { id: item.id } }">
+        {{ item.orderNumber }}
+    </router-link>
+{% endblock %}
 
-            {% block sw_order_list_grid_label_manual_order %}
-                {% parent %}
-            {% endblock %}
-        </template>
-    {% endblock %}
-
+{% block sw_order_list_grid_columns_billing_address %}
     {% parent %}
 
     {% block sw_order_list_grid_columns_deliveries_shipping_order_address %}
