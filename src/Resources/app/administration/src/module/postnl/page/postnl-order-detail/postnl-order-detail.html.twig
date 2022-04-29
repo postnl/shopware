@@ -1,3 +1,65 @@
 {% block sw_order_detail_actions_slot_smart_bar_actions %}
-{{ orderId }}
+
+    <postnl-button v-if="acl.can('order.editor')"
+                   variant="ghost"
+                   @click="isChangeShippingModalOpen = true">
+        <sw-icon name="postnl" multicolor></sw-icon>
+        Verzendmethode wijzigen
+    </postnl-button>
+
+    <postnl-button v-if="acl.can('order.editor')"
+                   variant="ghost"
+                   @click="isCreateShipmentModalOpen = true">
+        <sw-icon name="postnl" multicolor></sw-icon>
+        Voormelden en labels printen
+    </postnl-button>
+
+    <postnl-change-shipping-modal
+        v-if="isChangeShippingModalOpen"
+        :selection="{order: order}"
+        @close="isChangeShippingModalOpen = false"/>
+
+    <postnl-create-shipment-modal
+        v-if="isCreateShipmentModalOpen"
+        :selection="{order: order}"
+        @close="isCreateShipmentModalOpen = false"/>
+{% endblock %}
+
+
+{% block sw_order_detail_content_tabs_general %}
+    <sw-tabs-item
+        v-if="!showTabs"
+        :route="{ name: 'postnl.order.detail.base', params: { id: $route.params.id } }"
+        :title="$tc('sw-order.detail.tabGeneral')"
+    >
+        {{ $tc('sw-order.detail.tabGeneral') }}
+    </sw-tabs-item>
+
+    <sw-tabs-item
+        v-if="showTabs"
+        :route="{ name: 'postnl.order.detail.general', params: { id: $route.params.id } }"
+        :title="$tc('sw-order.detail.tabGeneral')"
+    >
+        {{ $tc('sw-order.detail.tabGeneral') }}
+    </sw-tabs-item>
+{% endblock %}
+
+{% block sw_order_detail_content_tabs_details %}
+    <sw-tabs-item
+        v-if="showTabs"
+        :route="{ name: 'postnl.order.detail.details', params: { id: $route.params.id } }"
+        :title="$tc('sw-order.detail.tabDetails')"
+    >
+        {{ $tc('sw-order.detail.tabDetails') }}
+    </sw-tabs-item>
+{% endblock %}
+
+{% block sw_order_detail_content_tabs_documents %}
+    <sw-tabs-item
+        v-if="showTabs"
+        :route="{ name: 'postnl.order.detail.documents', params: { id: $route.params.id } }"
+        :title="$tc('sw-order.detail.tabDocuments')"
+    >
+        {{ $tc('sw-order.detail.tabDocuments') }}
+    </sw-tabs-item>
 {% endblock %}
