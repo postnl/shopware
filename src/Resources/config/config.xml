@@ -65,6 +65,21 @@
     </card>
 
     <card>
+        <title>Send options</title>
+        <title lang="de-DE">Adressen</title>
+        <title lang="nl-NL">Adressen</title>
+
+        <input-field type="bool">
+            <name>sendToEU</name>
+            <label>Send to EU</label>
+        </input-field>
+        <input-field type="bool">
+            <name>sendToWorld</name>
+            <label>Send to rest of the World</label>
+        </input-field>
+    </card>
+
+    <card>
         <title>Addresses</title>
         <title lang="de-DE">Adressen</title>
         <title lang="nl-NL">Adressen</title>

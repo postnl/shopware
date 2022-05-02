@@ -44,5 +44,12 @@
             <argument type="service" id="PostNL\Shopware6\Service\PostNL\Product\ProductService"/>
             <argument type="service" id="postnl.logger"/>
         </service>
+
+        <service id="PostNL\Shopware6\Service\PostNL\Decorator\ShippingMethodDecorator"
+                 decorates="Shopware\Core\Checkout\Shipping\SalesChannel\ShippingMethodRoute">
+            <argument type="service"
+                      id="PostNL\Shopware6\Service\PostNL\Decorator\ShippingMethodDecorator.inner"/>
+            <argument type="service" id="PostNL\Shopware6\Service\Shopware\ConfigService"/>
+        </service>
     </services>
 </container>
