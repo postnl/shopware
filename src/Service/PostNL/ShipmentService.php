@@ -4,9 +4,12 @@ namespace PostNL\Shopware6\Service\PostNL;
 
 use Firstred\PostNL\Entity\Label;
 use Firstred\PostNL\Entity\Response\GenerateLabelResponse;
+use Firstred\PostNL\Entity\Response\ResponseShipment;
+use Firstred\PostNL\Entity\Shipment;
 use Firstred\PostNL\Exception\PostNLException;
 use PostNL\Shopware6\Service\PostNL\Builder\ShipmentBuilder;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
+use PostNL\Shopware6\Service\PostNL\Label\A6OnA4LandscapeLabelConfiguration;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
 use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor;
 use PostNL\Shopware6\Service\Shopware\OrderService;
@@ -105,6 +108,19 @@ class ShipmentService
         return $barCodesAssigned;
     }
 
+    /**
+     * @throws \Firstred\PostNL\Exception\HttpClientException
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \Firstred\PostNL\Exception\ResponseException
+     * @throws \setasign\Fpdi\PdfParser\Type\PdfTypeException
+     * @throws PostNLException
+     * @throws \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
+     * @throws \Firstred\PostNL\Exception\NotSupportedException
+     * @throws \setasign\Fpdi\PdfReader\PdfReaderException
+     * @throws \Firstred\PostNL\Exception\InvalidArgumentException
+     * @throws \setasign\Fpdi\PdfParser\PdfParserException
+     * @throws \setasign\Fpdi\PdfParser\Filter\FilterException
+     */
     public function shipOrders(OrderCollection $orders, bool $confirm, Context $context)
     {
         $response = [];
@@ -133,7 +149,7 @@ class ShipmentService
             foreach ($salesChannelOrders as $order) {
                 $shipments[] = $this->shipmentBuilder->buildShipment($order, $context);
             }
-
+            
             /** @var GenerateLabelResponse[] $labelResponse */
             $labelResponses = $apiClient->generateLabels(
                 $shipments,
@@ -160,11 +176,16 @@ class ShipmentService
             return $response;
         }
 
-        return $this->labelService->mergeLabels(
-            $response,
-            $format,
-            $positions,
-            $a6Orientation
-        );
+        //Extract labels
+        $labels = [];
+
+        /** @var GenerateLabelResponse $labelResponses */
+        foreach ($labelResponses as $labelResponse) {
+            foreach ($labelResponse->getResponseShipments()[0]->getLabels() as $label) {
+                $labels[] = $label;
+            }
+        }
+        $format = $config->getPrinterFormat() === 'a4' ? LabelService::LABEL_FORMAT_A4 : LabelService::LABEL_FORMAT_A6;
+        return $this->labelService->mergeLabels($labels,[],$format);
     }
 }
