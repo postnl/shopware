@@ -7,6 +7,7 @@ use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\ZoneService;
+use PostNL\Shopware6\Service\Shopware\CartService;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
 use PostNL\Shopware6\Struct\Attribute\ShippingMethodAttributeStruct;
 use PostNL\Shopware6\Struct\Config\ConfigStruct;
@@ -77,7 +78,7 @@ class ConversionSubscriber implements EventSubscriberInterface
     {
         $cart = $event->getCart();
 
-        if (!$cart->hasExtensionOfType('postnl-data', ArrayStruct::class)) {
+        if (!$cart->hasExtensionOfType(CartService::EXTENSION, ArrayStruct::class)) {
             return;
         }
 
@@ -93,7 +94,7 @@ class ConversionSubscriber implements EventSubscriberInterface
         }
 
         /** @var ArrayStruct $data */
-        $data = $cart->getExtensionOfType('postnl-data', ArrayStruct::class);
+        $data = $cart->getExtensionOfType(CartService::EXTENSION, ArrayStruct::class);
 
         $convertedCart = $event->getConvertedCart();
         $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge(

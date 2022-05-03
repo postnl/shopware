@@ -8,6 +8,7 @@ use Firstred\PostNL\Entity\Response\GetLocationsResult;
 use Firstred\PostNL\Entity\Response\ResponseLocation;
 use Firstred\PostNL\Exception\PostNLException;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
+use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shopware6\Service\Shopware\CartService;
 use PostNL\Shopware6\Struct\Attribute\ShippingMethodAttributeStruct;
@@ -64,13 +65,13 @@ class CheckoutSubscriber implements EventSubscriberInterface
         }
 
         switch ($attributes->getDeliveryType()) {
-            case 'shipment':
+            case DeliveryType::SHIPMENT:
                 $this->handleShipment($event);
                 break;
-            case 'pickup':
+            case DeliveryType::PICKUP:
                 $this->handlePickup($event);
                 break;
-            case 'mailbox':
+            case DeliveryType::MAILBOX:
                 $this->handleMailbox($event);
                 break;
         }
@@ -122,7 +123,7 @@ class CheckoutSubscriber implements EventSubscriberInterface
             $pickupPoints->set($responseLocation->getId(), $responseLocation);
         }
 
-        if (!$event->getPage()->getCart()->hasExtensionOfType('postnl-data', ArrayStruct::class)) {
+        if (!$event->getPage()->getCart()->hasExtensionOfType(CartService::EXTENSION, ArrayStruct::class)) {
             $event->getPage()->setCart($this->cartService->addData([
                 'pickupPointLocationCode' => $locationCode,
             ], $event->getSalesChannelContext()));
