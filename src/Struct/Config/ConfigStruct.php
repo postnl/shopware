@@ -88,6 +88,16 @@ class ConfigStruct extends AttributeStruct
      */
     protected $printerFormat;
 
+    /**
+     * @var string
+     */
+    protected $printerFile;
+
+    /**
+     * @var string
+     */
+    protected $printerDPI;
+
     //====================================================================================================
 
     /**
@@ -231,6 +241,22 @@ class ConfigStruct extends AttributeStruct
     public function getPrinterFormat(): string
     {
         return $this->printerFormat;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrinterFile(): string
+    {
+        return $this->printerFile;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrinterDPI(): string
+    {
+        return $this->printerDPI;
     }
 
     //=======================================================================================================

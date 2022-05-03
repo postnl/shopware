@@ -2,20 +2,23 @@
 
 namespace PostNL\Shopware6\Service\PostNL;
 
-use Firstred\PostNL\Entity\Label;
+
 use Firstred\PostNL\Entity\Response\GenerateLabelResponse;
 use Firstred\PostNL\Entity\Response\ResponseShipment;
 use Firstred\PostNL\Entity\Shipment;
 use Firstred\PostNL\Exception\PostNLException;
 use PostNL\Shopware6\Service\PostNL\Builder\ShipmentBuilder;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
-use PostNL\Shopware6\Service\PostNL\Label\A6OnA4LandscapeLabelConfiguration;
+use PostNL\Shopware6\Service\PostNL\Label\Label;
+use PostNL\Shopware6\Service\PostNL\Label\MergedLabelResponse;
+use PostNL\Shopware6\Service\PostNL\Label\PrinterFileType;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
 use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor;
 use PostNL\Shopware6\Service\Shopware\OrderService;
 use Shopware\Core\Checkout\Order\OrderCollection;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
+use ZipArchive;
 
 class ShipmentService
 {
@@ -121,23 +124,19 @@ class ShipmentService
      * @throws \setasign\Fpdi\PdfParser\PdfParserException
      * @throws \setasign\Fpdi\PdfParser\Filter\FilterException
      */
-    public function shipOrders(OrderCollection $orders, bool $confirm, Context $context)
+    public function shipOrders(OrderCollection $orders, bool $confirm, Context $context): MergedLabelResponse
     {
         $response = [];
 
         $config = $this->configService->getConfiguration(null, $context);
 
-        $format = $config->getPrinterFormat() === 'a4' ? Label::FORMAT_A4 : Label::FORMAT_A6;
-        $a6Orientation = 'P';
-
-        $printerType = 'GraphicFile|PDF';
-
-        $positions = [
-            1 => true,
-            2 => true,
-            3 => true,
-            4 => true,
-        ];
+        $printerType = PrinterFileType::getPrefixForConfigFiletype($config->getPrinterFile());
+        if ($printerType != PrinterFileType::PDFPrefix) {
+            $printerType .= " " . $config->getPrinterDPI();
+        }
+        //Extract labels
+        /** @var Label[] $labels */
+        $labels = [];
 
         // Yes, this should be getSalesChannelIds.
         foreach (array_unique(array_values($orders->getSalesChannelIs())) as $salesChannelId) {
@@ -149,43 +148,69 @@ class ShipmentService
             foreach ($salesChannelOrders as $order) {
                 $shipments[] = $this->shipmentBuilder->buildShipment($order, $context);
             }
-            
+
             /** @var GenerateLabelResponse[] $labelResponse */
             $labelResponses = $apiClient->generateLabels(
                 $shipments,
                 $printerType,
-                $confirm,
-                false,
-                $format,
-                $positions,
-                $a6Orientation
+                $confirm
             );
 
+            /** @var GenerateLabelResponse[] $labelResponses */
             foreach ($labelResponses as $labelResponse) {
-                $response[] = $labelResponse;
+                /** @var ResponseShipment $shipment */
+                foreach ($labelResponse->getResponseShipments() as $shipment) {
+                    foreach ($shipment->getLabels() as $label) {
+                        $labels[] = new Label($label->getContent(), $shipment->getBarcode(), $label->getLabeltype());
+                    }
+                }
             }
 
             foreach ($salesChannelOrders as $order) {
-                if($confirm) {
+                if ($confirm) {
                     $this->orderService->updateOrderCustomFields($order->getId(), ['confirm' => $confirm], $context);
                 }
             }
         }
 
-        if ($printerType !== 'GraphicFile|PDF') {
-            return $response;
+
+        switch ($config->getPrinterFile()) {
+            case 'pdf':
+                //Merge to into one document
+                $format = $config->getPrinterFormat() === 'a4' ? LabelService::LABEL_FORMAT_A4 : LabelService::LABEL_FORMAT_A6;
+                return new MergedLabelResponse(PrinterFileType::PDF, $this->labelService->mergeLabels($labels, [], $format));
+            case 'gif':
+                //Merge into one zip
+                return $this->zipImages($labels,PrinterFileType::GIF);
+            case 'jpg':
+                //Merge into one zip
+                return $this->zipImages($labels,PrinterFileType::JPG);
+                break;
+            case 'zpl':
+                //Merge into one string
+                $mergedLabel = '';
+                foreach ($labels as $label) {
+                    $mergedLabel .= " " . base64_decode($label->getContent());
+                }
+                return new MergedLabelResponse(PrinterFileType::ZPL, base64_encode($mergedLabel));
         }
 
-        //Extract labels
-        $labels = [];
-
-        /** @var GenerateLabelResponse $labelResponses */
-        foreach ($labelResponses as $labelResponse) {
-            foreach ($labelResponse->getResponseShipments()[0]->getLabels() as $label) {
-                $labels[] = $label;
-            }
-        }
-        $format = $config->getPrinterFormat() === 'a4' ? LabelService::LABEL_FORMAT_A4 : LabelService::LABEL_FORMAT_A6;
-        return $this->labelService->mergeLabels($labels,[],$format);
     }
+
+    private function zipImages(array $labels, string $extension): MergedLabelResponse
+    {
+        $zip = new ZipArchive();
+        $filePath = 'PostNL_Labels_' . date('YmdHis');
+        $zip->open($filePath, ZipArchive::CREATE);
+        foreach ($labels as $label) {
+            $zip->addFromString($label->getBarcode() .
+                "_" .
+                str_replace(' ', '_', $label->getType()) .
+                "." .
+                $extension, base64_decode($label->getContent()));
+        }
+        $zip->close();
+        return new MergedLabelResponse($extension, base64_encode(file_get_contents($filePath)));
+    }
+
 }

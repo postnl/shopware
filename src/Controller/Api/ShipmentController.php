@@ -4,6 +4,7 @@ namespace PostNL\Shopware6\Controller\Api;
 
 use Firstred\PostNL\Exception\PostNLException;
 use PostNL\Shopware6\Facade\ShipmentFacade;
+use PostNL\Shopware6\Service\PostNL\Label\PrinterFileType;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
@@ -121,21 +122,40 @@ class ShipmentController extends AbstractController
         $confirmShipments = $data->getBoolean('confirmShipments');
         $downloadLabels = $data->getBoolean('downloadLabels');
 
-        $pdf = $this->shipmentFacade->shipOrders(
+        $response = $this->shipmentFacade->shipOrders(
             $orderIds,
             $confirmShipments,
             $context
         );
 
-        if(!$downloadLabels) {
-            return $this->json(null,204);
+        if (!$downloadLabels) {
+            return $this->json(null, 204);
+        }
+
+        $contentType = '';
+        $fileExtension = '';
+
+        switch ($response->getType()) {
+            case PrinterFileType::PDF:
+                $contentType = 'application/pdf';
+                $fileExtension = '.pdf';
+                break;
+            case PrinterFileType::JPG:
+            case PrinterFileType::GIF:
+                $contentType = 'application/zip';
+                $fileExtension = '.zip';
+                break;
+            case PrinterFileType::ZPL:
+                $contentType = 'text/zpl';
+                $fileExtension = '.zpl';
+                break;
         }
 
         return $this->createBinaryResponse(
-            'PostNL_Labels_' . date('YmdHis') . '.pdf',
-            base64_decode($pdf),
+            'PostNL_Labels_' . date('YmdHis') . $fileExtension,
+            base64_decode($response->getContent()),
             true,
-            'application/pdf'
+            $contentType
         );
     }
 
