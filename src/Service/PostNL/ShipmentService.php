@@ -178,21 +178,28 @@ class ShipmentService
             case 'pdf':
                 //Merge to into one document
                 $format = $config->getPrinterFormat() === 'a4' ? LabelService::LABEL_FORMAT_A4 : LabelService::LABEL_FORMAT_A6;
-                return new MergedLabelResponse(PrinterFileType::PDF, $this->labelService->mergeLabels($labels, [], $format));
+                return new MergedLabelResponse('pdf', $this->labelService->mergeLabels($labels, [], $format));
             case 'gif':
                 //Merge into one zip
-                return $this->zipImages($labels,PrinterFileType::GIF);
+                if (count($labels) == 1) {
+                    return new MergedLabelResponse('gif', $labels[0]->getContent());
+                } else {
+                    return $this->zipImages($labels, 'gif');
+                }
             case 'jpg':
                 //Merge into one zip
-                return $this->zipImages($labels,PrinterFileType::JPG);
-                break;
+                if (count($labels) == 1) {
+                    return new MergedLabelResponse('jpg', $labels[0]->getContent());
+                } else {
+                    return $this->zipImages($labels, 'jpg');
+                }
             case 'zpl':
                 //Merge into one string
                 $mergedLabel = '';
                 foreach ($labels as $label) {
                     $mergedLabel .= " " . base64_decode($label->getContent());
                 }
-                return new MergedLabelResponse(PrinterFileType::ZPL, base64_encode($mergedLabel));
+                return new MergedLabelResponse('zpl', base64_encode($mergedLabel));
         }
 
     }
@@ -210,7 +217,7 @@ class ShipmentService
                 $extension, base64_decode($label->getContent()));
         }
         $zip->close();
-        return new MergedLabelResponse($extension, base64_encode(file_get_contents($filePath)));
+        return new MergedLabelResponse('zip', base64_encode(file_get_contents($filePath)));
     }
 
 }

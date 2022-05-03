@@ -136,16 +136,23 @@ class ShipmentController extends AbstractController
         $fileExtension = '';
 
         switch ($response->getType()) {
-            case PrinterFileType::PDF:
+            case 'pdf':
                 $contentType = 'application/pdf';
                 $fileExtension = '.pdf';
                 break;
-            case PrinterFileType::JPG:
-            case PrinterFileType::GIF:
+            case 'gif':
+                $contentType = 'image/gif';
+                $fileExtension = '.gif';
+                break;
+            case 'jpg':
+                $contentType = 'image/jpg';
+                $fileExtension = '.jpg';
+                break;
+            case 'zip':
                 $contentType = 'application/zip';
                 $fileExtension = '.zip';
                 break;
-            case PrinterFileType::ZPL:
+            case 'zpl':
                 $contentType = 'text/zpl';
                 $fileExtension = '.zpl';
                 break;
