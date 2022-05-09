@@ -34,5 +34,14 @@
             <argument type="service" id="Shopware\Core\Content\Media\MediaService"/>
             <argument type="service" id="postnl.logger"/>
         </service>
+
+        <service id="PostNL\Shopware6\Service\Shopware\ShippingMethod\ShippingMethodRouteDecorator"
+                 decorates="Shopware\Core\Checkout\Shipping\SalesChannel\ShippingMethodRoute">
+            <argument type="service"
+                      id="PostNL\Shopware6\Service\Shopware\ShippingMethod\ShippingMethodRouteDecorator.inner"/>
+            <argument type="service" id="PostNL\Shopware6\Service\Shopware\ConfigService"/>
+            <argument type="service" id="Shopware\Core\System\SalesChannel\Context\SalesChannelContextPersister"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
+        </service>
     </services>
 </container>
