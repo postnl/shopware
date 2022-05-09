@@ -1,36 +1,45 @@
 <?php
 
-namespace PostNL\Shopware6\Service\PostNL\Decorator;
+namespace PostNL\Shopware6\Service\Shopware\ShippingMethod;
 
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
-use PostNL\Shopware6\Service\PostNL\Delivery\Zone\ZoneMapping;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\ZoneService;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
+use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 use Shopware\Core\Checkout\Shipping\SalesChannel\AbstractShippingMethodRoute;
 use Shopware\Core\Checkout\Shipping\SalesChannel\ShippingMethodRouteResponse;
 use Shopware\Core\Checkout\Shipping\ShippingMethodEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\System\SalesChannel\Context\SalesChannelContextPersister;
+use Shopware\Core\System\SalesChannel\Context\SalesChannelContextService;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
-use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Symfony\Component\HttpFoundation\Request;
 
-class ShippingMethodDecorator extends AbstractShippingMethodRoute
+class ShippingMethodRouteDecorator extends AbstractShippingMethodRoute
 {
 
     private AbstractShippingMethodRoute $decoratedService;
     private ConfigService $configService;
+    private SalesChannelContextPersister $salesChannelContextPersister;
+    private CartService $cartService;
 
     /**
      * @param AbstractShippingMethodRoute $decoratedService
      * @param ConfigService $configService
+     * @param SalesChannelContextPersister $channelContextPersister
+     * @param CartService $cartService
      */
-    public function __construct(AbstractShippingMethodRoute $decoratedService, ConfigService $configService)
+    public function __construct(AbstractShippingMethodRoute  $decoratedService,
+                                ConfigService                $configService,
+                                SalesChannelContextPersister $channelContextPersister,
+                                CartService                  $cartService)
     {
         $this->decoratedService = $decoratedService;
         $this->configService = $configService;
+        $this->salesChannelContextPersister = $channelContextPersister;
+        $this->cartService = $cartService;
     }
-
 
     public function getDecorated(): AbstractShippingMethodRoute
     {
@@ -75,14 +84,20 @@ class ShippingMethodDecorator extends AbstractShippingMethodRoute
             }
         }
 
-        dump($context,$context->getShippingMethod());
-        return $originalResult;
-    }
+        if (!in_array($context->getShippingMethod()->getId(), $originalResult->getShippingMethods()->getIds())) {
+            $shippingMethod = $originalResult->getShippingMethods()->first();
 
-    private function removeShippingFromContext(SalesChannelContext $context,ShippingMethodEntity $entity)
-    {
-        if ($context->getShippingMethod()->getId()==$entity->getId()){
+            $context->assign(['shippingMethod' => $shippingMethod]);
 
+            $this->salesChannelContextPersister->save(
+                $context->getToken(),
+                [
+                    SalesChannelContextService::SHIPPING_METHOD_ID => $shippingMethod->getId()
+                ],
+                $context->getSalesChannelId()
+            );
         }
+
+        return $originalResult;
     }
 }
