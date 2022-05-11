@@ -21,8 +21,9 @@ class PostNL extends Plugin
     {
         parent::activate($activateContext);
 
-        $shippingMethodCreator = $this->container->get(ShippingMethodCreatorService::Class);
-        $shippingMethodCreator->create($activateContext,$this->container,$this->getPath());
+        /** @var ShippingMethodCreatorService $shippingMethodCreator */
+        $shippingMethodCreator = $this->container->get(ShippingMethodCreatorService::class);
+        $shippingMethodCreator->create($activateContext,$this->container, $this->getPath());
 
 
     }
