@@ -17,6 +17,26 @@ class CartService
     {
         $this->cartService = $cartService;
     }
+    
+    public function hasData(SalesChannelContext $context, ?string $key = null): bool
+    {
+        $cart = $this->cartService->getCart($context->getToken(), $context);
+
+        $hasData = $cart->hasExtensionOfType('postnl-data', ArrayStruct::class);
+
+        if(empty($key)) {
+            return $hasData;
+        }
+
+        if(!$hasData) {
+            return false;
+        }
+
+        /** @var ArrayStruct $data */
+        $data = $cart->getExtensionOfType('postnl-data', ArrayStruct::class);
+
+        return $data->has($key);
+    }
 
     public function addData(array $data, SalesChannelContext $context): Cart
     {
