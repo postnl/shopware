@@ -84,6 +84,10 @@ class ShippingMethodRouteDecorator extends AbstractShippingMethodRoute
             }
         }
 
+        if($originalResult->getShippingMethods()->count() === 0) {
+            return $originalResult;
+        }
+
         if (!in_array($context->getShippingMethod()->getId(), $originalResult->getShippingMethods()->getIds())) {
             $shippingMethod = $originalResult->getShippingMethods()->first();
 
