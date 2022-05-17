@@ -7,6 +7,8 @@ use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\ZoneService;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
 use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
+use Shopware\Core\Checkout\Payment\Cart\Error\PaymentMethodBlockedError;
+use Shopware\Core\Checkout\Shipping\Cart\Error\ShippingMethodBlockedError;
 use Shopware\Core\Checkout\Shipping\SalesChannel\AbstractShippingMethodRoute;
 use Shopware\Core\Checkout\Shipping\SalesChannel\ShippingMethodRouteResponse;
 use Shopware\Core\Checkout\Shipping\ShippingMethodEntity;
@@ -25,10 +27,10 @@ class ShippingMethodRouteDecorator extends AbstractShippingMethodRoute
     private CartService $cartService;
 
     /**
-     * @param AbstractShippingMethodRoute $decoratedService
-     * @param ConfigService $configService
+     * @param AbstractShippingMethodRoute  $decoratedService
+     * @param ConfigService                $configService
      * @param SalesChannelContextPersister $channelContextPersister
-     * @param CartService $cartService
+     * @param CartService                  $cartService
      */
     public function __construct(AbstractShippingMethodRoute  $decoratedService,
                                 ConfigService                $configService,
@@ -49,7 +51,7 @@ class ShippingMethodRouteDecorator extends AbstractShippingMethodRoute
     public function load(Request $request, SalesChannelContext $context, Criteria $criteria): ShippingMethodRouteResponse
     {
         $originalResult = $this->decoratedService->load($request, $context, $criteria);
-
+//return $originalResult;
         $config = $this->configService->getConfiguration($context->getSalesChannelId(), $context->getContext());
 
         $shippingZone = ZoneService::getDestinationZone(
@@ -58,7 +60,7 @@ class ShippingMethodRouteDecorator extends AbstractShippingMethodRoute
         );
 
         /**
-         * @var string $key
+         * @var string               $key
          * @var ShippingMethodEntity $shippingMethod
          */
         foreach ($originalResult->getShippingMethods() as $key => $shippingMethod) {
@@ -84,22 +86,14 @@ class ShippingMethodRouteDecorator extends AbstractShippingMethodRoute
             }
         }
 
-        if($originalResult->getShippingMethods()->count() === 0) {
-            return $originalResult;
-        }
-
         if (!in_array($context->getShippingMethod()->getId(), $originalResult->getShippingMethods()->getIds())) {
-            $shippingMethod = $originalResult->getShippingMethods()->first();
+            $cart = $this->cartService->getCart($context->getToken(), $context);
 
-            $context->assign(['shippingMethod' => $shippingMethod]);
-
-            $this->salesChannelContextPersister->save(
-                $context->getToken(),
-                [
-                    SalesChannelContextService::SHIPPING_METHOD_ID => $shippingMethod->getId()
-                ],
-                $context->getSalesChannelId()
+            $cart->addErrors(
+                new ShippingMethodBlockedError((string) $context->getShippingMethod()->getTranslation('name'))
             );
+
+            $this->cartService->recalculate($cart, $context);
         }
 
         return $originalResult;
