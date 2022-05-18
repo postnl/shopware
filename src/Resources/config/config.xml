@@ -94,8 +94,8 @@
         <component name="postnl-config-return-address">
             <name>returnAddress</name>
             <label>Return address</label>
-            <label lang="de-DE">Absender-Adresse</label>
-            <label lang="nl-NL">Adres afzender</label>
+            <label lang="de-DE">Rücksendeadresse</label>
+            <label lang="nl-NL">Retour adres</label>
         </component>
     </card>
 
