@@ -78,6 +78,19 @@ class A6OnA4LandscapeLabelConfiguration
                 return [148,105];
         }
     }
+    public static function getRotatedCoordinatesXYForSlot(string $slot)
+    {
+        switch ($slot) {
+            case self::TOP_LEFT_FREE:
+                return [-105,0];
+            case self::TOP_RIGHT_FREE:
+                return [-105,148];
+            case self::BOTTOM_LEFT_FREE:
+                return [-210,0];
+            case self::BOTTOM_RIGHT_FREE:
+                return [-210,148];
+        }
+    }
 
     public static function createFullLabel(): A6OnA4LandscapeLabelConfiguration
     {

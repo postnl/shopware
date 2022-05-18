@@ -5,7 +5,6 @@ namespace PostNL\Shopware6\Service\PostNL;
 
 use Firstred\PostNL\Entity\Response\GenerateLabelResponse;
 use Firstred\PostNL\Entity\Response\ResponseShipment;
-use Firstred\PostNL\Entity\Shipment;
 use Firstred\PostNL\Exception\PostNLException;
 use PostNL\Shopware6\Service\PostNL\Builder\ShipmentBuilder;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
