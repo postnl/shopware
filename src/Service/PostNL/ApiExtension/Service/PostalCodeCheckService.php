@@ -61,7 +61,7 @@ class PostalCodeCheckService extends AbstractService implements PostalCodeCheckS
                 $response = $this->postnl->getHttpClient()->doRequest(
                     $this->buildSendPostalCodeCheckRequestREST($postalCode)
                 );
-            }catch (TypeError $error){
+            } catch (TypeError $error) {
                 throw new Exception('Guzzle/Firstred error');
             }
 
@@ -72,7 +72,7 @@ class PostalCodeCheckService extends AbstractService implements PostalCodeCheckS
         $object = $this->processSendPostalCodeCheckResponseREST($response);
 
         if ($object instanceof PostalCodeResponse) {
-            if (count($object->getPostalCodeResult())==0){
+            if (count($object->getPostalCodeResult()) == 0) {
                 throw new AddressNotFoundException();
             }
             if ($item instanceof CacheItemInterface
@@ -132,7 +132,7 @@ class PostalCodeCheckService extends AbstractService implements PostalCodeCheckS
             return $body;
         }
 
-        if ($body==[]){
+        if ($body == []) {
             return new PostalCodeResponse([]);
         }
 
@@ -144,7 +144,7 @@ class PostalCodeCheckService extends AbstractService implements PostalCodeCheckS
                     $postalCodeGroup->streetName,
                     $postalCodeGroup->houseNumber,
                     $postalCodeGroup->formattedAddress,
-                    $postalCodeGroup->houseNumberAddition);
+                    $postalCodeGroup->houseNumberAddition ?? "");
                 $postalResponses[] = $postalCodeResult;
             }
             $object = new PostalCodeResponse($postalResponses);
