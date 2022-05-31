@@ -99,7 +99,9 @@ class ShipmentBuilder
         //= Return label in the box ====
         if($config->isReturnLabelInTheBox()) {
             $returnCountryCode = $config->getReturnAddress()->getCountrycode();
-            $returnBarcode = $apiClient->generateBarcodeByCountryCode($returnCountryCode);
+            $returnCustomerCode = $config->getReturnAddress()->getReturnCustomerCode();
+
+            $returnBarcode = $apiClient->generateBarcodeByCountryCode($returnCountryCode,$returnCustomerCode);
 
             $shipment->setReturnBarcode($returnBarcode);
 
