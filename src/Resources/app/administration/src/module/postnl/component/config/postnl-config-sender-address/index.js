@@ -1,4 +1,5 @@
 import template from './postnl-config-sender-address.html.twig';
+import '../postnl-config.scss'
 
 const { Component, Mixin } = Shopware;
 const { Criteria } = Shopware.Data;

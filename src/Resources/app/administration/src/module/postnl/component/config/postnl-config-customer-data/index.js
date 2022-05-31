@@ -1,4 +1,5 @@
 import template from './postnl-config-customer-data.html.twig';
+import '../postnl-config.scss';
 
 const { Component, Mixin } = Shopware;
 
