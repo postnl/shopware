@@ -97,9 +97,23 @@ class ShipmentBuilder
         $shipment->setReference('Order ' . $order->getOrderNumber());
 
         //= Return label in the box ====
-        if($config->isReturnLabelInTheBox()) {
+        if ($config->isReturnLabelInTheBox()) {
             $returnCountryCode = $config->getReturnAddress()->getCountrycode();
-            $returnBarcode = $apiClient->generateBarcodeByCountryCode($returnCountryCode);
+            $returnCustomerCode = $config->getReturnAddress()->getReturnCustomerCode();
+
+            //Next 2 lines are a temp fix for non usage of returncode in SDK 2/3
+            $originalCustomerCode =  $apiClient->getCustomer()->getCustomerCode();
+            $apiClient->getCustomer()->setCustomerCode($returnCustomerCode);
+
+            $returnBarcode = $apiClient->generateBarcode(
+                '3S',
+                $returnCustomerCode,
+                null,
+                strtoupper($returnCountryCode) === 'BE'
+            );
+
+            //Rest of the fix for the usage of returncode 3/3
+            $apiClient->getCustomer()->setCustomerCode($originalCustomerCode);
 
             $shipment->setReturnBarcode($returnBarcode);
 
