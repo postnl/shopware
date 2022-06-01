@@ -23,7 +23,7 @@ Component.extend('postnl-config-sender-address', 'postnl-memo-config', {
     computed: {
         countryCriteria() {
             const criteria = new Criteria();
-            criteria.addFilter(Criteria.equalsAny('iso', ['NL'])); // Remove BE for now
+            criteria.addFilter(Criteria.equalsAny('iso', ['NL', 'BE']));
 
             return criteria;
         },
