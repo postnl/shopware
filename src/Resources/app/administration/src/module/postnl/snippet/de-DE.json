@@ -6,6 +6,7 @@
       "ordersMenuItemGeneral": "PostNL Bestellungen"
     },
     "config": {
+      "mandatoryFields": "Mit einem Sternchen versehene Felder sind Pflichtfelder.",
       "api": {
         "testButton": "API-Schlüssel testen",
         "dashboardButton": "Sie finden Ihren API-Schlüssel und Ihre Kundendaten in Ihrer Mijn PostNL Geschäftsumgebung",

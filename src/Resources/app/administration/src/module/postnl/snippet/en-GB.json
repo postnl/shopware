@@ -6,6 +6,7 @@
       "ordersMenuItemGeneral": "PostNL Orders"
     },
     "config": {
+      "mandatoryFields": "Fields with an asterisk are mandatory.",
       "api": {
         "testButton": "Test API keys",
         "dashboardButton": "You can find your API key and customer data in your Mijn PostNL business environment",
