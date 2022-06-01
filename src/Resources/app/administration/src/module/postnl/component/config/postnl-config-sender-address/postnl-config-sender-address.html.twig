@@ -69,8 +69,9 @@
                                          required
                                          :label="$tc('postnl.config.senderAddress.country')"
                                          :criteria="countryCriteria"/>
-                <span class="required-text" :style="span(4)" >{{ $tc('postnl.config.mandatoryFields') }}</span>
             </sw-container>
+
+            <postnl-required-hint textAlign="right"/>
         </template>
 
     </memo-collapse>
