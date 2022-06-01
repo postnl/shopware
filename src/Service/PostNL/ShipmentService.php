@@ -129,11 +129,15 @@ class ShipmentService
 
         $config = $this->configService->getConfiguration(null, $context);
 
+        /* Does not work yet, isn't needed yet, and when it is it should be moved to the foreach
         $printerType = PrinterFileType::getPrefixForConfigFiletype($config->getPrinterFile());
         if ($printerType != PrinterFileType::PDFPrefix) {
             $printerType .= " " . $config->getPrinterDPI();
         }
-        //Extract labels
+        */
+
+        $printerType = 'GraphicFile|PDF';
+
         /** @var Label[] $labels */
         $labels = [];
 
