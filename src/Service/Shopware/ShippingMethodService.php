@@ -22,14 +22,14 @@ class ShippingMethodService
 {
     private const NAMES = [
         'shipment' => [
-            'en-GB' => 'PostNL Parcels',
-            'nl-NL' => 'PostNL Pakketpost',
-            'de-DE' => 'PostNL Parcels',
+            'en-GB' => 'PostNL standard shipping',
+            'nl-NL' => 'PostNL standaard verzending',
+            'de-DE' => 'PostNL Standardversand',
         ],
         'pickup' => [
-            'en-GB' => 'PostNL Pickup point',
-            'nl-NL' => 'PostNL Pickup point',
-            'de-DE' => 'PostNL Pickup point',
+            'en-GB' => 'Pickup at PostNL point',
+            'nl-NL' => 'Ophalen bij PostNL-punt',
+            'de-DE' => 'Abholung am PostNL-Punkt',
         ],
         'mailbox' => [
             'en-GB' => 'PostNL Mailbox parcel',
