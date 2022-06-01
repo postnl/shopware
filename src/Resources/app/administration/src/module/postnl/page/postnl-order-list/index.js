@@ -127,6 +127,8 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
             columnMap['transactions-stateMachineState-name'].visible = false;
             columnMap['deliveries-stateMachineState-name'].visible = false;
 
+            columnMap['orderNumber'].routerLink = 'postnl.order.detail';
+
             return [
                 columnMap['orderDateTime'],
                 columnMap['orderNumber'],

@@ -108,6 +108,19 @@ class ConfigStruct extends AttributeStruct
     //====================================================================================================
 
     /**
+     * @var bool
+     */
+    protected $sendToEU = false;
+
+    /**
+     * @var bool
+     */
+    protected $sendToWorld = false;
+
+    //====================================================================================================
+
+
+    /**
      * @return string
      */
     public function getProductionApiKey(): string
@@ -268,4 +281,26 @@ class ConfigStruct extends AttributeStruct
     {
         return $this->debugMode;
     }
+
+    //=======================================================================================================
+
+    /**
+     * @return bool
+     */
+    public function isSendToEU(): bool
+    {
+        return $this->sendToEU;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSendToWorld(): bool
+    {
+        return $this->sendToWorld;
+    }
+
+
+
+
 }

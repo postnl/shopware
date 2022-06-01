@@ -9,23 +9,45 @@ use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 class CartService
 {
+    public const EXTENSION = 'postnl-data';
+
     protected $cartService;
 
     public function __construct(ShopwareCartService $cartService)
     {
         $this->cartService = $cartService;
     }
+    
+    public function hasData(SalesChannelContext $context, ?string $key = null): bool
+    {
+        $cart = $this->cartService->getCart($context->getToken(), $context);
+
+        $hasData = $cart->hasExtensionOfType('postnl-data', ArrayStruct::class);
+
+        if(empty($key)) {
+            return $hasData;
+        }
+
+        if(!$hasData) {
+            return false;
+        }
+
+        /** @var ArrayStruct $data */
+        $data = $cart->getExtensionOfType('postnl-data', ArrayStruct::class);
+
+        return $data->has($key);
+    }
 
     public function addData(array $data, SalesChannelContext $context): Cart
     {
         $cart = $this->cartService->getCart($context->getToken(), $context);
 
-        if(!$cart->hasExtensionOfType('postnl-data', ArrayStruct::class)) {
-            $cart->addExtension('postnl-data', new ArrayStruct());
+        if(!$cart->hasExtensionOfType(self::EXTENSION, ArrayStruct::class)) {
+            $cart->addExtension(self::EXTENSION, new ArrayStruct());
         }
 
         /** @var ArrayStruct $postnlData */
-        $postnlData = $cart->getExtensionOfType('postnl-data', ArrayStruct::class);
+        $postnlData = $cart->getExtensionOfType(self::EXTENSION, ArrayStruct::class);
 
         foreach($data as $key => $value) {
             $postnlData->set($key, $value);
@@ -39,12 +61,12 @@ class CartService
     {
         $cart = $this->cartService->getCart($context->getToken(), $context);
 
-        if(!$cart->hasExtensionOfType('postnl-data', ArrayStruct::class)) {
+        if(!$cart->hasExtensionOfType(self::EXTENSION, ArrayStruct::class)) {
             return [];
         }
 
         /** @var ArrayStruct $postnlData */
-        $postnlData = $cart->getExtensionOfType('postnl-data', ArrayStruct::class);
+        $postnlData = $cart->getExtensionOfType(self::EXTENSION, ArrayStruct::class);
 
         return $postnlData->all();
     }

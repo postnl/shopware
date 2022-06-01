@@ -68,6 +68,12 @@ class ShipmentFacade
         return $this->shipmentService->generateBarcodesForOrders($ordersWithoutBarcode, $context);
     }
 
+    /**
+     * @param string[]   $orderIds
+     * @param Context $context
+     * @return string[]
+     * @throws \Exception
+     */
     public function determineZones(array $orderIds, Context $context): array
     {
         $deliveryZones = [];
@@ -89,7 +95,7 @@ class ShipmentFacade
     }
 
     /**
-     * @param array $orderIds
+     * @param string[] $orderIds
      * @param string $productId
      * @param Context $context
      * @return void

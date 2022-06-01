@@ -3,9 +3,9 @@
         xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
 
     <card>
-        <title>API</title>
-        <title lang="de-DE">API</title>
-        <title lang="nl-NL">API</title>
+        <title>Account Settings</title>
+        <title lang="de-DE">Kontoeinstellungen</title>
+        <title lang="nl-NL">Account Instellingen</title>
 
         <component name="postnl-config-api-credentials-link">
             <name>apiCredentialsLink</name>
@@ -29,9 +29,9 @@
 
         <input-field type="single-select">
             <name>apiMode</name>
-            <label>API mode</label>
-            <label lang="de-DE">API-Modus</label>
-            <label lang="nl-NL">API modus</label>
+            <label>API mode (The sandbox can be used for testing)</label>
+            <label lang="de-DE">API-Modus (Die Sandbox kann für Tests verwendet werden)</label>
+            <label lang="nl-NL">API modus (De sandbox kan worden gebruikt voor testen)</label>
             <defaultValue>production</defaultValue>
             <options>
                 <option>
@@ -51,7 +51,7 @@
 
         <component name="postnl-config-customer-data">
             <name>customerData</name>
-            <label>Customer data</label>
+            <label>Customer Details</label>
             <label lang="de-DE">Kundendaten</label>
             <label lang="nl-NL">Klantgegevens</label>
         </component>
@@ -65,9 +65,9 @@
     </card>
 
     <card>
-        <title>Addresses</title>
-        <title lang="de-DE">Adressen</title>
-        <title lang="nl-NL">Adressen</title>
+        <title>Address details</title>
+        <title lang="de-DE">Angaben zur Adresse</title>
+        <title lang="nl-NL">Adresgegevens</title>
 
         <component name="postnl-config-sender-address">
             <name>senderAddress</name>
@@ -79,31 +79,15 @@
         <component name="postnl-config-return-address">
             <name>returnAddress</name>
             <label>Return address</label>
-            <label lang="de-DE">Absender-Adresse</label>
-            <label lang="nl-NL">Adres afzender</label>
+            <label lang="de-DE">Rücksendeadresse</label>
+            <label lang="nl-NL">Retour adres</label>
         </component>
     </card>
 
     <card>
-        <title>Address check</title>
-        <title lang="de-DE">Adressprüfung</title>
-        <title lang="nl-NL">Adrescontrole</title>
-        <input-field type="bool">
-            <name>addressCheck</name>
-            <label>Address check</label>
-            <label lang="de-DE">Adressprüfung</label>
-            <label lang="nl-NL">Adrescontrole</label>
-            <helpText>Validate the address users fill in.</helpText>
-            <helpText lang="de-DE">Überprüfen Sie die von den Benutzern eingegebene Adresse.</helpText>
-            <helpText lang="nl-NL">Valideer het adres dat gebruikers invullen.</helpText>
-            <defaultValue>true</defaultValue>
-        </input-field>
-    </card>
-
-    <card>
-        <title>Default Products</title>
+        <title>Default Shipping Products</title>
         <title lang="de-DE">Standardprodukte</title>
-        <title lang="nl-NL">Standaard Producten</title>
+        <title lang="nl-NL">Standard-Versandprodukte</title>
 
         <component name="postnl-config-product-selection-shipment-nl-nl-default">
             <name>productShipmentNlNlDefault</name>
@@ -145,25 +129,51 @@
             <label lang="de-DE">Abholung am PostNL-Standort, von NL nach BE</label>
             <label lang="nl-NL">Ophalen bij een PostNL-punt, van NL naar BE</label>
         </component>
+
+        <input-field type="bool">
+            <name>sendToEU</name>
+            <label>Send to EU</label>
+        </input-field>
+        <input-field type="bool">
+            <name>sendToWorld</name>
+            <label>Send to rest of the World</label>
+        </input-field>
     </card>
 
     <card>
-        <title>Returns</title>
-        <title lang="de-DE">Rücksendung</title>
-        <title lang="nl-NL">Retouren</title>
+        <title>Address check</title>
+        <title lang="de-DE">Adressprüfung</title>
+        <title lang="nl-NL">Adrescontrole</title>
         <input-field type="bool">
-            <name>returnLabelInTheBox</name>
-            <label>Print return label at the same time as the shipping label</label>
-            <label lang="de-DE">Das Rücksendeetikett gleichzeitig mit dem Versandetikett ausdrucken</label>
-            <label lang="nl-NL">Retourlabel afdrukken tegelijk met label voor de heenzending</label>
+            <name>addressCheck</name>
+            <label>Address check</label>
+            <label lang="de-DE">Adressprüfung</label>
+            <label lang="nl-NL">Adrescontrole</label>
+            <helpText>Based on the combination Postal Code and Housenumber, addresses customers fill in are validated</helpText>
+            <helpText lang="de-DE">Anhand der Kombination aus Postleitzahl und Hausnummer werden die von den Kunden eingegebenen Adressen überprüft.</helpText>
+            <helpText lang="nl-NL">Op basis van de combinatie postcode en huisnummer worden adressen die klanten invullen gevalideerd</helpText>
             <defaultValue>true</defaultValue>
         </input-field>
     </card>
 
     <card>
-        <title>Labels</title>
-        <title lang="de-DE">Labels</title>
-        <title lang="nl-NL">Labels</title>
+        <title>Return label</title>
+        <title lang="de-DE">Rücksendeetikett</title>
+        <title lang="nl-NL">Retouretiket</title>
+        <input-field type="bool">
+            <name>returnLabelInTheBox</name>
+            <label>Print return label directly when the shipping label is printed so that the return label can be put in the box.</label>
+            <label lang="de-DE">Drucken Sie das Rücksendeetikett direkt beim Drucken des Versandetiketts, damit das Rücksendeetikett in den Karton gelegt werden kann.</label>
+            <label lang="nl-NL">Druk het retouretiket direct af wanneer het verzendetiket wordt afgedrukt, zodat het retouretiket in de doos kan worden gedaan.</label>
+            <defaultValue>true</defaultValue>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Label Format</title>
+        <title lang="de-DE">Etikett Format</title>
+        <title lang="nl-NL">Etiketformaat</title>
+
         <input-field type="single-select">
             <name>printerFile</name>
             <label>File format</label>
@@ -237,9 +247,9 @@
     </card>
 
     <card>
-        <title>Other</title>
-        <title lang="de-DE">Sonstiges</title>
-        <title lang="nl-NL">Overige</title>
+        <title>Technical Settings</title>
+        <title lang="de-DE">Technische Einstellungen</title>
+        <title lang="nl-NL">Technische instellingen</title>
 
         <input-field type="bool">
             <name>debugMode</name>
