@@ -86,8 +86,8 @@
 
     <card>
         <title>Default Shipping Products</title>
-        <title lang="de-DE">Standardprodukte</title>
-        <title lang="nl-NL">Standard-Versandprodukte</title>
+        <title lang="de-DE">Standard-Versandprodukte</title>
+        <title lang="nl-NL">Standaard verzendproducten</title>
 
         <component name="postnl-config-product-selection-shipment-nl-nl-default">
             <name>productShipmentNlNlDefault</name>
