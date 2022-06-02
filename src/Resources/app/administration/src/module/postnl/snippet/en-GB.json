@@ -6,6 +6,7 @@
       "ordersMenuItemGeneral": "PostNL Orders"
     },
     "config": {
+      "mandatoryFields": "Fields with an asterisk are mandatory.",
       "info": {
         "title": "Hi {username}, welcome to the PostNL extension",
         "onboardingStep1": "Find your API key at {mijnPostNLLink}. Or request an API key {mijnPostNLApiHere}.",

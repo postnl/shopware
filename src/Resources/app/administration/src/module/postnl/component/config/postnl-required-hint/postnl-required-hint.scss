@@ -1,0 +1,18 @@
+@import "~scss/variables";
+
+.postnl-required-hint {
+    font-size: $font-size-extra-small;
+    color: $color-shopware-brand-500;
+
+    &__align--left {
+        text-align:left;
+    }
+
+    &__align--center {
+        text-align:center;
+    }
+
+    &__align--right {
+        text-align:right;
+    }
+}
