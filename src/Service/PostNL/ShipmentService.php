@@ -4,13 +4,12 @@ namespace PostNL\Shopware6\Service\PostNL;
 
 
 use Firstred\PostNL\Entity\Response\GenerateLabelResponse;
-use Firstred\PostNL\Entity\Response\ResponseShipment;
 use Firstred\PostNL\Exception\PostNLException;
 use PostNL\Shopware6\Service\PostNL\Builder\ShipmentBuilder;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
+use PostNL\Shopware6\Service\PostNL\Label\Extractor\LabelExtractorInterface;
 use PostNL\Shopware6\Service\PostNL\Label\Label;
 use PostNL\Shopware6\Service\PostNL\Label\MergedLabelResponse;
-use PostNL\Shopware6\Service\PostNL\Label\PrinterFileType;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
 use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor;
 use PostNL\Shopware6\Service\Shopware\OrderService;
@@ -46,19 +45,24 @@ class ShipmentService
      */
     protected $labelService;
 
-
     /**
      * @var ShipmentBuilder
      */
     protected $shipmentBuilder;
 
+    /**
+     * @var LabelExtractorInterface
+     */
+    protected $labelExtractor;
+
     public function __construct(
-        ApiFactory         $apiFactory,
-        OrderDataExtractor $orderDataExtractor,
-        OrderService       $orderService,
-        ConfigService      $configService,
-        LabelService       $labelService,
-        ShipmentBuilder    $shipmentBuilder
+        ApiFactory              $apiFactory,
+        OrderDataExtractor      $orderDataExtractor,
+        OrderService            $orderService,
+        ConfigService           $configService,
+        LabelService            $labelService,
+        ShipmentBuilder         $shipmentBuilder,
+        LabelExtractorInterface $labelExtractor
     )
     {
         $this->apiFactory = $apiFactory;
@@ -67,11 +71,12 @@ class ShipmentService
         $this->configService = $configService;
         $this->labelService = $labelService;
         $this->shipmentBuilder = $shipmentBuilder;
+        $this->labelExtractor = $labelExtractor;
     }
 
     /**
      * @param OrderCollection $orders
-     * @param Context $context
+     * @param Context         $context
      * @return array<string, string>
      * @throws PostNLException
      * @throws \Firstred\PostNL\Exception\CifDownException
@@ -152,22 +157,14 @@ class ShipmentService
                 $shipments[] = $this->shipmentBuilder->buildShipment($order, $context);
             }
 
-            /** @var GenerateLabelResponse[] $labelResponse */
+            /** @var GenerateLabelResponse[] $labelResponses */
             $labelResponses = $apiClient->generateLabels(
                 $shipments,
                 $printerType,
                 $confirm
             );
 
-            /** @var GenerateLabelResponse[] $labelResponses */
-            foreach ($labelResponses as $labelResponse) {
-                /** @var ResponseShipment $shipment */
-                foreach ($labelResponse->getResponseShipments() as $shipment) {
-                    foreach ($shipment->getLabels() as $label) {
-                        $labels[] = new Label($label->getContent(), $shipment->getBarcode(), $label->getLabeltype());
-                    }
-                }
-            }
+            $labels = array_merge($labels, $this->labelExtractor->extract($labelResponses));
 
             foreach ($salesChannelOrders as $order) {
                 if ($confirm) {
@@ -178,6 +175,7 @@ class ShipmentService
 
 
         switch ($config->getPrinterFile()) {
+            default:
             case 'pdf':
                 //Merge to into one document
                 $format = $config->getPrinterFormat() === 'a4' ? LabelService::LABEL_FORMAT_A4 : LabelService::LABEL_FORMAT_A6;

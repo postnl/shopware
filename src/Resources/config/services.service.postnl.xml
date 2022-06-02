@@ -30,6 +30,7 @@
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\ConfigService"/>
             <argument type="service" id="PostNL\Shopware6\Service\PostNL\LabelService"/>
             <argument type="service" id="PostNL\Shopware6\Service\PostNL\Builder\ShipmentBuilder"/>
+            <argument type="service" id="PostNL\Shopware6\Service\PostNL\Label\Extractor\GenerateLabelsLabelExtractor"/>
         </service>
 
         <service id="PostNL\Shopware6\Service\PostNL\PostalCodeService">
@@ -44,5 +45,8 @@
             <argument type="service" id="PostNL\Shopware6\Service\PostNL\Product\ProductService"/>
             <argument type="service" id="postnl.logger"/>
         </service>
+
+        <service id="PostNL\Shopware6\Service\PostNL\Label\Extractor\GenerateLabelsLabelExtractor"/>
+        <service id="PostNL\Shopware6\Service\PostNL\Label\Extractor\SendShipmentsLabelExtractor"/>
     </services>
 </container>
