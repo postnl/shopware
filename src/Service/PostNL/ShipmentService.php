@@ -5,6 +5,7 @@ namespace PostNL\Shopware6\Service\PostNL;
 
 use Firstred\PostNL\Entity\Response\GenerateLabelResponse;
 use Firstred\PostNL\Exception\PostNLException;
+use Firstred\PostNL\PostNL;
 use PostNL\Shopware6\Service\PostNL\Builder\ShipmentBuilder;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shopware6\Service\PostNL\Label\Extractor\LabelExtractorInterface;
@@ -152,27 +153,14 @@ class ShipmentService
 
             $salesChannelOrders = $orders->filterBySalesChannelId($salesChannelId);
 
-            $shipments = [];
-            foreach ($salesChannelOrders as $order) {
-                $shipments[] = $this->shipmentBuilder->buildShipment($order, $context);
-            }
-
-            /** @var GenerateLabelResponse[] $labelResponses */
-            $labelResponses = $apiClient->generateLabels(
-                $shipments,
+            $labels = array_merge($labels, $this->createLabelsForOrders(
+                $salesChannelOrders,
+                $apiClient,
                 $printerType,
-                $confirm
-            );
-
-            $labels = array_merge($labels, $this->labelExtractor->extract($labelResponses));
-
-            foreach ($salesChannelOrders as $order) {
-                if ($confirm) {
-                    $this->orderService->updateOrderCustomFields($order->getId(), ['confirm' => $confirm], $context);
-                }
-            }
+                $confirm,
+                $context
+            ));
         }
-
 
         switch ($config->getPrinterFile()) {
             default:
@@ -221,4 +209,52 @@ class ShipmentService
         return new MergedLabelResponse('zip', base64_encode(file_get_contents($filePath)));
     }
 
+
+    /**
+     * @param OrderCollection $orders
+     * @param PostNL          $apiClient
+     * @param string          $printerType
+     * @param bool            $confirm
+     * @param Context         $context
+     * @return Label[]
+     * @throws PostNLException
+     * @throws \Firstred\PostNL\Exception\HttpClientException
+     * @throws \Firstred\PostNL\Exception\InvalidArgumentException
+     * @throws \Firstred\PostNL\Exception\NotSupportedException
+     * @throws \Firstred\PostNL\Exception\ResponseException
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
+     * @throws \setasign\Fpdi\PdfParser\Filter\FilterException
+     * @throws \setasign\Fpdi\PdfParser\PdfParserException
+     * @throws \setasign\Fpdi\PdfParser\Type\PdfTypeException
+     * @throws \setasign\Fpdi\PdfReader\PdfReaderException
+     */
+    private function createLabelsForOrders(
+        OrderCollection $orders,
+        PostNL          $apiClient,
+        string          $printerType,
+        bool            $confirm,
+        Context         $context
+    ): array
+    {
+        $shipments = [];
+        foreach ($orders as $order) {
+            $shipments[] = $this->shipmentBuilder->buildShipment($order, $context);
+        }
+
+        /** @var GenerateLabelResponse[] $labelResponses */
+        $labelResponses = $apiClient->generateLabels(
+            $shipments,
+            $printerType,
+            $confirm
+        );
+
+        foreach ($orders as $order) {
+            if ($confirm) {
+                $this->orderService->updateOrderCustomFields($order->getId(), ['confirm' => $confirm], $context);
+            }
+        }
+
+        return $this->labelExtractor->extract($labelResponses);
+    }
 }
