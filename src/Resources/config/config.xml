@@ -86,8 +86,8 @@
 
     <card>
         <title>Default Shipping Products</title>
-        <title lang="de-DE">Standardprodukte</title>
-        <title lang="nl-NL">Standard-Versandprodukte</title>
+        <title lang="de-DE">Standard-Versandprodukte</title>
+        <title lang="nl-NL">Standaard verzendproducten</title>
 
         <component name="postnl-config-product-selection-shipment-nl-nl-default">
             <name>productShipmentNlNlDefault</name>
@@ -173,15 +173,66 @@
         <title>Label Format</title>
         <title lang="de-DE">Etikett Format</title>
         <title lang="nl-NL">Etiketformaat</title>
-
+<!--
+        <input-field type="single-select">
+            <name>printerFile</name>
+            <label>File format</label>
+            <defaultValue>pdf</defaultValue>
+            <options>
+                <option>
+                    <id>pdf</id>
+                    <name>PDF</name>
+                </option>
+                <option>
+                    <id>jpg</id>
+                    <name>JPG</name>
+                </option>
+                <option>
+                    <id>gif</id>
+                    <name>GIF</name>
+                </option>
+                <option>
+                    <id>zpl</id>
+                    <name>ZPL</name>
+                </option>
+            </options>
+        </input-field>
+        <input-field type="single-select">
+            <name>printerDPI</name>
+            <label>Dpi</label>
+            <helpText>Only applicable when selecting GIF, JPG or ZPL
+            </helpText>
+            <defaultValue>300</defaultValue>
+            <options>
+                <option>
+                    <id>200</id>
+                    <name>200</name>
+                </option>
+                <option>
+                    <id>300</id>
+                    <name>300</name>
+                </option>
+                <option>
+                    <id>600</id>
+                    <name>600</name>
+                </option>
+            </options>
+        </input-field>
+        -->
         <input-field type="single-select">
             <name>printerFormat</name>
             <label>Paper size</label>
             <label lang="de-DE">Papierformat</label>
             <label lang="nl-NL">Papierformaat</label>
-            <helpText>Labels are always printed in A6. When selecting A4 you can print 4 labels on one page. Labels for Global Pack shipments are always printed in A4</helpText>
-            <helpText lang="de-DE">Labels werden immer in A6 gedruckt. Wenn Sie A4 wählen, können Sie 4 Labels auf eine Seite drucken. Labels für Global Pack Sendungen werden immer in A4 gedruckt.</helpText>
-            <helpText lang="nl-NL">Labels worden altijd in A6 afgedrukt. Als u A4 selecteert, kunt u 4 etiketten op één pagina afdrukken. Labels voor Global Pack zendingen worden altijd afgedrukt in A4</helpText>
+            <helpText>Labels are always printed in A6. When selecting A4 you can print 4 labels on one page. Labels for
+                Global Pack shipments are always printed in A4
+            </helpText>
+            <helpText lang="de-DE">Labels werden immer in A6 gedruckt. Wenn Sie A4 wählen, können Sie 4 Labels auf eine
+                Seite drucken. Labels für Global Pack Sendungen werden immer in A4 gedruckt.
+            </helpText>
+            <helpText lang="nl-NL">Labels worden altijd in A6 afgedrukt. Als u A4 selecteert, kunt u 4 etiketten op één
+                pagina afdrukken. Labels voor Global Pack zendingen worden altijd afgedrukt in A4
+            </helpText>
             <defaultValue>a4</defaultValue>
             <options>
                 <option>
@@ -207,8 +258,12 @@
             <label lang="de-DE">Debug-Modus</label>
             <label lang="nl-NL">Debug modus</label>
             <helpText>Debug mode logs more data. This can be used to diagnose possible problems</helpText>
-            <helpText lang="de-DE">Im Debug-Modus werden mehr Daten erfasst. Dies kann zur Diagnose möglicher Probleme verwendet werden</helpText>
-            <helpText lang="nl-NL">De Debug-modus logt meer gegevens. Dit kan worden gebruikt om mogelijke problemen te diagnosticeren</helpText>
+            <helpText lang="de-DE">Im Debug-Modus werden mehr Daten erfasst. Dies kann zur Diagnose möglicher Probleme
+                verwendet werden
+            </helpText>
+            <helpText lang="nl-NL">De Debug-modus logt meer gegevens. Dit kan worden gebruikt om mogelijke problemen te
+                diagnosticeren
+            </helpText>
             <defaultValue>false</defaultValue>
         </input-field>
     </card>

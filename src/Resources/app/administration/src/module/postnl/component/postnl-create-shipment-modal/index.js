@@ -74,10 +74,10 @@ Component.register('postnl-create-shipment-modal', {
                 ))
                 .then(response => {
                     if (response.data) {
-                        // const filename = response.headers['content-disposition'].split('filename=')[1];
+                        const filename = response.headers['content-disposition'].split('filename=')[1];
                         const link = document.createElement('a');
                         link.href = URL.createObjectURL(response.data);
-                        // link.download = filename;
+                        link.download = filename;
                         link.target = '_blank';
                         link.dispatchEvent(new MouseEvent('click'));
                         link.remove();
