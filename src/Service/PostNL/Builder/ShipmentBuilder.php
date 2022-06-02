@@ -120,6 +120,12 @@ class ShipmentBuilder
             $addresses[] = $this->buildReturnAddress($order, $context);
         }
 
+        //= Mailbox ====
+        if ($product->getDeliveryType()===DeliveryType::MAILBOX){
+            $shipment->setDeliveryDate(date_create()->format('d-m-Y H:i:s'));
+        }
+
+
         //= Addresses ====
         $addresses[] = $this->buildReceiverAddress($order);
 
