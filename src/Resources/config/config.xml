@@ -173,7 +173,7 @@
         <title>Label Format</title>
         <title lang="de-DE">Etikett Format</title>
         <title lang="nl-NL">Etiketformaat</title>
-
+<!--
         <input-field type="single-select">
             <name>printerFile</name>
             <label>File format</label>
@@ -218,6 +218,7 @@
                 </option>
             </options>
         </input-field>
+        -->
         <input-field type="single-select">
             <name>printerFormat</name>
             <label>Paper size</label>
