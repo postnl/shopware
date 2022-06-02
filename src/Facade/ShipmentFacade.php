@@ -4,6 +4,7 @@ namespace PostNL\Shopware6\Facade;
 
 use PostNL\Shopware6\Defaults;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\ZoneService;
+use PostNL\Shopware6\Service\PostNL\Label\MergedLabelResponse;
 use PostNL\Shopware6\Service\PostNL\ShipmentService;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
 use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor;
@@ -120,12 +121,10 @@ class ShipmentFacade
         array   $orderIds,
         bool    $confirmShipments,
         Context $context
-    ): string
+    ): MergedLabelResponse
     {
         $orders = $this->orderService->getOrders($orderIds, $context);
 
-        $pdf = $this->shipmentService->shipOrders($orders, $confirmShipments, $context);
-
-        return $pdf;
+        return $this->shipmentService->shipOrders($orders, $confirmShipments, $context);
     }
 }
