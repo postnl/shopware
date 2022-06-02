@@ -172,7 +172,7 @@ class ShipmentService
             $apiClient = $this->apiFactory->createClientForSalesChannel($salesChannelId, $context);
 
             $salesChannelOrders = $orders->filterBySalesChannelId($salesChannelId);
-            //Seperate the order if mailbox or not
+            //Separate the order if mailbox or not
             $mailBoxOrders = [];
             $nonMailBoxOrders = [];
 
@@ -189,22 +189,25 @@ class ShipmentService
             }
 
             //Create the mailbox labels that always need to be confirmed
-            $labels = $this->createLabelsForOrders(
-                new OrderCollection($mailBoxOrders),
-                $apiClient,
-                $printerType,
-                true,
-                $context
-            );
-
+            if (!empty($mailBoxOrders)) {
+                $labels = $this->createLabelsForOrders(
+                    new OrderCollection($mailBoxOrders),
+                    $apiClient,
+                    $printerType,
+                    true,
+                    $context
+                );
+            }
             //Create the other labels confirmed on preference
-            $labels = array_merge($labels, $this->createLabelsForOrders(
-                new OrderCollection($nonMailBoxOrders),
-                $apiClient,
-                $printerType,
-                $confirm,
-                $context
-            ));
+            if (!empty($nonMailBoxOrders)) {
+                $labels = array_merge($labels, $this->createLabelsForOrders(
+                    new OrderCollection($nonMailBoxOrders),
+                    $apiClient,
+                    $printerType,
+                    $confirm,
+                    $context
+                ));
+            }
         }
 
         switch ($config->getPrinterFile()) {
