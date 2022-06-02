@@ -13,10 +13,6 @@
         <title lang="de-DE">Kontoeinstellungen</title>
         <title lang="nl-NL">Account Instellingen</title>
 
-        <component name="postnl-config-api-credentials-link">
-            <name>apiCredentialsLink</name>
-        </component>
-
         <input-field type="password">
             <name>productionApiKey</name>
             <copyable>true</copyable>
