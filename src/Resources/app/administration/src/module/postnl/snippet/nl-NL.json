@@ -6,6 +6,20 @@
       "ordersMenuItemGeneral": "PostNL bestellingen"
     },
     "config": {
+      "info": {
+        "title": "Hi {username}, welkom bij de PostNL extensie",
+        "onboardingStep1": "Bekijk jouw API key in {mijnPostNLLink}. Of vraag {mijnPostNLApiHere} een API key aan",
+        "mijnPostNL": "MijnPostNL",
+        "mijnPostNLApiHere": "hier",
+        "onboardingStep2": "Activeer de verzendopties van PostNL in de Shipping instellingen van Shopware.",
+        "onboardingStep21": "Ga naar {shippingSettingsLink}.",
+        "shippingSettings": "Shipping instellingen",
+        "onboardingStep3": "Activeer de verzendopties van PostNL per verkoop kanaal.",
+        "onboardingStep31": "Ga naar mijn {salesChannels}",
+        "salesChannels": "verkoopkanalen",
+        "btnManual": "Handleiding",
+        "btnSupport": "Support"
+      },
       "api": {
         "testButton": "Test API sleutels",
         "dashboardButton": "In de zakelijke Mijn PostNL omgeving vind je jouw API key en klantgegevens",

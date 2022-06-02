@@ -3,6 +3,12 @@
         xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
 
     <card>
+        <component name="postnl-config-info">
+            <name>postnlPluginConfigSectionInfo</name>
+        </component>
+    </card>
+
+    <card>
         <title>API</title>
         <title lang="de-DE">API</title>
         <title lang="nl-NL">API</title>
