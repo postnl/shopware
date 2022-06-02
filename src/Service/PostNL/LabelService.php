@@ -3,10 +3,10 @@
 namespace PostNL\Shopware6\Service\PostNL;
 
 use Exception;
-use Firstred\PostNL\Entity\Label;
 use Firstred\PostNL\Util\RFPdi;
 use Firstred\PostNL\Util\Util;
 use PostNL\Shopware6\Service\PostNL\Label\A6OnA4LandscapeLabelConfiguration;
+use PostNL\Shopware6\Service\PostNL\Label\Label;
 use setasign\Fpdi\PdfParser\StreamReader;
 
 class LabelService
