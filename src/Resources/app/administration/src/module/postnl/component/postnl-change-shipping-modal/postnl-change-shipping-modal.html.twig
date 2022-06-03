@@ -28,7 +28,7 @@
                            :isLoading="isProcessing"
                            :processSuccess="isSuccess"
                            @click="sendShipments"
-                           @process-finish="isSuccess = false">
+                           @process-finish="processFinish">
             {{ $tc('postnl.order.shippingModal.confirm') }}
         </sw-button-process>
     </template>
