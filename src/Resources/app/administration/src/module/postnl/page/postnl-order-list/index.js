@@ -52,8 +52,6 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
     },
 
     methods: {
-
-
         async getList() {
             this.isLoading = true;
 
@@ -179,11 +177,19 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
 
             return `http://postnl.nl/tracktrace/?B=${ barCode }&P=${ zipcode }&D=${ country.iso }&T=B`;
         },
+
         getProductName(item) {
             const product = Array.from(this.products).find(product =>
                 product.id === item.customFields.postnl.productId);
 
             return product.name;
+        },
+
+        onChangeShipping() {
+            this.isBulkChangeShippingModalOpen = false;
+            this.isChangeShippingModalId = null;
+
+            this.onRefresh();
         }
     }
 });

@@ -74,7 +74,9 @@
     <postnl-change-shipping-modal
         v-if="isChangeShippingModalId === item.id"
         :selection="{item: item}"
-        @close="isChangeShippingModalId = null"/>
+        @close="isChangeShippingModalId = null"
+        @change-shipping="onChangeShipping"
+    />
 
     <postnl-create-shipment-modal
         v-if="isCreateShipmentModalId === item.id"
@@ -107,12 +109,15 @@
         <postnl-change-shipping-modal
             v-if="isBulkChangeShippingModalOpen"
             :selection="selection"
-            @close="isBulkChangeShippingModalOpen = false"/>
+            @close="isBulkChangeShippingModalOpen = false"
+            @change-shipping="onChangeShipping"
+        />
 
         <postnl-create-shipment-modal
             v-if="isBulkCreateShipmentModalOpen"
             :selection="selection"
-            @close="isBulkCreateShipmentModalOpen = false"/>
+            @close="isBulkCreateShipmentModalOpen = false"
+        />
     </template>
 {% endblock %}
 
