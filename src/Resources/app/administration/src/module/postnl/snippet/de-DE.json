@@ -63,6 +63,9 @@
       }
     },
     "order": {
+      "detail": {
+        "shippingProduct": "PostNL produkt"
+      },
       "list": {
         "columnShippingAddress": "Lieferadresse",
         "columnProduct": "PostNL-Produkt",

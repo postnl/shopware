@@ -27,4 +27,10 @@ Component.extend('postnl-order-detail', 'sw-order-detail', {
         }
     },
 
+    methods: {
+        onChangeShipping() {
+            this.isChangeShippingModalOpen = false;
+            location.reload();
+        }
+    }
 })

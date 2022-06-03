@@ -87,6 +87,11 @@ Component.register('postnl-change-shipping-modal', {
                     this.isProcessing = false;
                     this.isSuccess = true;
                 })
+        },
+
+        processFinish() {
+            this.isSuccess = false;
+            this.$emit('change-shipping');
         }
     },
 });
