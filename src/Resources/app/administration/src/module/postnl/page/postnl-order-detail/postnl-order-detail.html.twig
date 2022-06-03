@@ -17,12 +17,15 @@
     <postnl-change-shipping-modal
         v-if="isChangeShippingModalOpen"
         :selection="{order: order}"
-        @close="isChangeShippingModalOpen = false"/>
+        @close="isChangeShippingModalOpen = false"
+        @change-shipping="onChangeShipping"
+    />
 
     <postnl-create-shipment-modal
         v-if="isCreateShipmentModalOpen"
         :selection="{order: order}"
-        @close="isCreateShipmentModalOpen = false"/>
+        @close="isCreateShipmentModalOpen = false"
+    />
 {% endblock %}
 
 
