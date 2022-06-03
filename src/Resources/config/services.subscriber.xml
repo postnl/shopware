@@ -14,18 +14,13 @@
             <argument type="service" id="PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory"/>
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\CartService"/>
             <argument type="service" id="postnl.logger"/>
-            <tag name="kernel.event_subscriber"/>
         </service>
 
         <service id="PostNL\Shopware6\Subscriber\ConversionSubscriber">
             <argument type="service" id="PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory"/>
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\ConfigService"/>
-
-            <tag name="kernel.event_subscriber"/>
         </service>
 
-        <service id="PostNL\Shopware6\Subscriber\AddressSubscriber">
-            <tag name="kernel.event_subscriber"/>
-        </service>
+        <service id="PostNL\Shopware6\Subscriber\AddressSubscriber"/>
     </services>
 </container>

@@ -75,11 +75,13 @@ class CheckoutSubscriber implements EventSubscriberInterface
             /** @var ShippingMethodAttributeStruct $attributes */
             $attributes = $this->attributeFactory->createFromEntity($event->getSalesChannelContext()->getShippingMethod(), $event->getContext());
         } catch (\Throwable $e) {
-            $this->logger->critical('Could not read attributes for shipping method', [
-                'exception' => $e,
-            ]);
+            // This is not a PostNL shipping method
             return;
         }
+
+        $this->logger->debug('Handling checkout data for PostNL shipping method', [
+            'shippingMethod' => $event->getSalesChannelContext()->getShippingMethod()
+        ]);
 
         switch ($attributes->getDeliveryType()) {
             case DeliveryType::SHIPMENT:
@@ -100,6 +102,8 @@ class CheckoutSubscriber implements EventSubscriberInterface
 
     protected function handlePickup(CheckoutConfirmPageLoadedEvent $event): void
     {
+        $this->logger->debug('Handling checkout data for pickup point shipping method');
+
         try {
             $apiClient = $this->apiFactory->createClientForSalesChannel(
                 $event->getSalesChannelContext()->getSalesChannelId(),
@@ -115,17 +119,21 @@ class CheckoutSubscriber implements EventSubscriberInterface
 
         $address = $event->getPage()->getCart()->getDeliveries()->first()->getLocation()->getAddress();
 
+        $this->logger->debug('Getting nearest pickup points for address', [
+            'address' => $address,
+        ]);
+
         try {
             $locationRequest = new GetNearestLocations($address->getCountry()->getIso(), new Location($address->getZipcode()));
             $locationResponse = $apiClient->getNearestLocations($locationRequest);
         } catch (PostNLException $e) {
-            $this->logger->error('Could not fetch nearest locations', [
+            $this->logger->error('Could not fetch nearest pickup points', [
                 'exception' => $e,
                 'address' => $address
             ]);
             return;
         } catch (\Throwable $e) {
-            $this->logger->error('Could not fetch nearest locations', [
+            $this->logger->error('Could not fetch nearest pickup points', [
                 'exception' => $e,
                 'address' => $address
             ]);
@@ -140,6 +148,11 @@ class CheckoutSubscriber implements EventSubscriberInterface
             ]);
             return;
         }
+
+        $this->logger->debug('Fetched nearest pickup points for address', [
+            'address' => $address,
+            'result' => $locationsResult,
+        ]);
 
         $pickupPoints = new ArrayStruct();
         $locationCode = null;
@@ -173,6 +186,10 @@ class CheckoutSubscriber implements EventSubscriberInterface
                 'pickupPointLocationCode' => $locationCode,
             ], $event->getSalesChannelContext()));
         }
+
+        $this->logger->debug('Setting closest pickup points', [
+            'pickupPoints' => $pickupPoints,
+        ]);
 
         $event->getSalesChannelContext()->getShippingMethod()->addExtension('postnl_pickup', $pickupPoints);
     }
