@@ -4,10 +4,10 @@
     {{ parent() }}
 
     {% block postnl_shipping_method %}
-        {% if shipping.customFields.postnl and shipping.id is same as(context.shippingMethod.id) %}
+        {% if shipping.translated.customFields.postnl and shipping.id is same as(context.shippingMethod.id) %}
 
             <div class="postnl-shipping-method">
-                {% set deliveryType = shipping.customFields.postnl.deliveryType %}
+                {% set deliveryType = shipping.translated.customFields.postnl.deliveryType %}
                 {% set template = "@Storefront/storefront/component/postnl/" ~ deliveryType ~ ".html.twig" %}
                 {% sw_include template ignore missing %}
             </div>
