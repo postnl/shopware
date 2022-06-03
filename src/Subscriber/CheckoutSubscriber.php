@@ -12,6 +12,7 @@ use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shopware6\Service\Shopware\CartService;
 use PostNL\Shopware6\Struct\Attribute\ShippingMethodAttributeStruct;
+use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Struct\ArrayStruct;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -35,19 +36,33 @@ class CheckoutSubscriber implements EventSubscriberInterface
      */
     protected $attributeFactory;
 
-    /** @var CartService */
+    /**
+     * @var CartService
+     */
     protected $cartService;
 
     /**
-     * @param ApiFactory $apiFactory
-     * @param AttributeFactory $attributeFactory
-     * @param CartService $cartService
+     * @var LoggerInterface
      */
-    public function __construct(ApiFactory $apiFactory, AttributeFactory $attributeFactory, CartService $cartService)
+    protected $logger;
+
+    /**
+     * @param ApiFactory       $apiFactory
+     * @param AttributeFactory $attributeFactory
+     * @param CartService      $cartService
+     * @param LoggerInterface  $logger
+     */
+    public function __construct(
+        ApiFactory $apiFactory,
+        AttributeFactory $attributeFactory,
+        CartService $cartService,
+        LoggerInterface $logger
+    )
     {
         $this->apiFactory = $apiFactory;
         $this->attributeFactory = $attributeFactory;
         $this->cartService = $cartService;
+        $this->logger = $logger;
     }
 
     /**
@@ -60,7 +75,9 @@ class CheckoutSubscriber implements EventSubscriberInterface
             /** @var ShippingMethodAttributeStruct $attributes */
             $attributes = $this->attributeFactory->createFromEntity($event->getSalesChannelContext()->getShippingMethod(), $event->getContext());
         } catch (\Throwable $e) {
-//            dd($e);
+            $this->logger->critical('Could not read attributes for shipping method', [
+                'exception' => $e,
+            ]);
             return;
         }
 
@@ -89,6 +106,10 @@ class CheckoutSubscriber implements EventSubscriberInterface
                 $event->getContext()
             );
         } catch (\Throwable $e) {
+            $this->logger->error('Could not get an API client for saleschannel', [
+                'salesChannelId' => $event->getSalesChannelContext()->getSalesChannelId(),
+                'exception' => $e,
+            ]);
             return;
         }
 
@@ -98,14 +119,25 @@ class CheckoutSubscriber implements EventSubscriberInterface
             $locationRequest = new GetNearestLocations($address->getCountry()->getIso(), new Location($address->getZipcode()));
             $locationResponse = $apiClient->getNearestLocations($locationRequest);
         } catch (PostNLException $e) {
+            $this->logger->error('Could not fetch nearest locations', [
+                'exception' => $e,
+                'address' => $address
+            ]);
             return;
         } catch (\Throwable $e) {
+            $this->logger->error('Could not fetch nearest locations', [
+                'exception' => $e,
+                'address' => $address
+            ]);
             return;
         }
 
         $locationsResult = $locationResponse->getGetLocationsResult();
 
         if (!$locationsResult instanceof GetLocationsResult) {
+            $this->logger->error('Get Nearest Locations: API returned an unexpected result', [
+                'result' => $locationsResult
+            ]);
             return;
         }
 
