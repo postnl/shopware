@@ -8,6 +8,7 @@ use Firstred\PostNL\Entity\Contact;
 use Firstred\PostNL\Entity\Dimension;
 use Firstred\PostNL\Entity\Request\GetLocation;
 use Firstred\PostNL\Entity\Shipment;
+use PostNL\Shopware6\Defaults;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
@@ -16,6 +17,7 @@ use PostNL\Shopware6\Service\Shopware\ConfigService;
 use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor;
 use PostNL\Shopware6\Struct\Attribute\OrderAttributeStruct;
 use Psr\Log\LoggerInterface;
+use Shopware\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemEntity;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
 
@@ -233,8 +235,16 @@ class ShipmentBuilder
      */
     public function buildDimension(OrderEntity $order, Context $context): Dimension
     {
-        // TODO determine approximate weight and dimension of total order
-        return new Dimension(2000);
+        $totalWeight = 0.0;
+        // Calculate weight per line item payload.
+        /** @var OrderLineItemEntity $lineItem */
+        foreach ($order->getLineItems() as $lineItem) {
+            if (!empty($lineItem->getPayload()[Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY])){
+                $totalWeight+=$lineItem->getPayload()[Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY];
+            }
+        }
+
+        return new Dimension($totalWeight);
     }
 
     /**

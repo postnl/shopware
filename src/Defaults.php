@@ -6,6 +6,8 @@ class Defaults
 {
     const CUSTOM_FIELDS_KEY = 'postnl';
 
+    const LINEITEM_PAYLOAD_WEIGHT_KEY = 'weight';
+
     const PRODUCT_MAILBOX_NL_NL = self::PRODUCT_MAILBOX_NL_NL_2928;
     const PRODUCT_SHIPPING_NL_NL = self::PRODUCT_SHIPPING_NL_NL_3085;
     const PRODUCT_PICKUP_NL_NL = self::PRODUCT_PICKUP_NL_NL_3533;

@@ -3,21 +3,43 @@
 namespace PostNL\Shopware6\Subscriber;
 
 use PostNL\Shopware6\Defaults;
-use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\ZoneService;
 use PostNL\Shopware6\Service\Shopware\CartService;
-use PostNL\Shopware6\Service\Shopware\ConfigService;
 use PostNL\Shopware6\Struct\Attribute\ShippingMethodAttributeStruct;
 use PostNL\Shopware6\Struct\Config\ConfigStruct;
 use Shopware\Core\Checkout\Cart\Cart;
+use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Shopware\Core\Checkout\Cart\Order\CartConvertedEvent;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\Struct\ArrayStruct;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ConversionSubscriber implements EventSubscriberInterface
 {
+    protected $attributeFactory;
+
+    protected $configService;
+
+    /**
+     * @var EntityRepository
+     */
+    protected $productRepository;
+
+    /**
+     * @param $attributeFactory
+     * @param $configService
+     * @param $productRepository
+     */
+    public function __construct($attributeFactory, $configService, $productRepository)
+    {
+        $this->attributeFactory = $attributeFactory;
+        $this->configService = $configService;
+        $this->productRepository = $productRepository;
+    }
+
     /**
      * @inheritDoc
      */
@@ -26,19 +48,42 @@ class ConversionSubscriber implements EventSubscriberInterface
         return [
             CartConvertedEvent::class => [
                 ['addProductData', 500],
+                ['addWeight', 400],
                 ['addDeliveryTypeData', 100],
             ],
         ];
     }
 
-    protected $attributeFactory;
-
-    protected $configService;
-
-    public function __construct(AttributeFactory $attributeFactory, ConfigService $configService)
+    public function addWeight(CartConvertedEvent $event)
     {
-        $this->attributeFactory = $attributeFactory;
-        $this->configService = $configService;
+        //Get the cart
+        $convertedCart = $event->getConvertedCart();
+        //Get each of the line items and add the product weight to it in the payload
+        /** @var array $lineItem */
+        foreach ($convertedCart['lineItems'] as $key => $lineItem) {
+            //If product type
+            if (
+                !empty($lineItem['type']) &&
+                $lineItem['type'] === LineItem::PRODUCT_LINE_ITEM_TYPE &&
+                !empty($lineItem['payload'])
+            ) {
+                //Get product weight if not already in there
+                if (!empty($lineItem['payload'][Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY])) {
+                    continue;
+                } else {
+                    $productCriteria = new Criteria([$lineItem['referencedId']]);
+                    $repositoryProduct = $this->productRepository->search($productCriteria, $event->getContext())->first();
+                    if ($repositoryProduct !== null) {
+                        // Add the weight to the original product/payload
+                        $weight = $repositoryProduct->getWeight();
+                        //Add it back
+                        $convertedCart['lineItems'][$key]['payload'][Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY] = $weight;
+                    }
+                }
+            }
+        }
+        //Don't forget to add it back to the event.
+        $event->setConvertedCart($convertedCart);
     }
 
     public function addProductData(CartConvertedEvent $event)
@@ -69,37 +114,6 @@ class ConversionSubscriber implements EventSubscriberInterface
             [
                 'productId' => $productId,
             ]
-        );
-
-        $event->setConvertedCart($convertedCart);
-    }
-
-    public function addDeliveryTypeData(CartConvertedEvent $event)
-    {
-        $cart = $event->getCart();
-
-        if (!$cart->hasExtensionOfType(CartService::EXTENSION, ArrayStruct::class)) {
-            return;
-        }
-
-        try {
-            /** @var ShippingMethodAttributeStruct $attributes */
-            $attributes = $this->attributeFactory->createFromEntity($cart->getDeliveries()->first()->getShippingMethod(), $event->getContext());
-        } catch (\Throwable $e) {
-            return;
-        }
-
-        if (is_null($attributes->getDeliveryType())) {
-            return;
-        }
-
-        /** @var ArrayStruct $data */
-        $data = $cart->getExtensionOfType(CartService::EXTENSION, ArrayStruct::class);
-
-        $convertedCart = $event->getConvertedCart();
-        $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge(
-            $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] ?? [],
-            $data->all()
         );
 
         $event->setConvertedCart($convertedCart);
@@ -191,5 +205,36 @@ class ConversionSubscriber implements EventSubscriberInterface
         }
 
         return '';
+    }
+
+    public function addDeliveryTypeData(CartConvertedEvent $event)
+    {
+        $cart = $event->getCart();
+
+        if (!$cart->hasExtensionOfType(CartService::EXTENSION, ArrayStruct::class)) {
+            return;
+        }
+
+        try {
+            /** @var ShippingMethodAttributeStruct $attributes */
+            $attributes = $this->attributeFactory->createFromEntity($cart->getDeliveries()->first()->getShippingMethod(), $event->getContext());
+        } catch (\Throwable $e) {
+            return;
+        }
+
+        if (is_null($attributes->getDeliveryType())) {
+            return;
+        }
+
+        /** @var ArrayStruct $data */
+        $data = $cart->getExtensionOfType(CartService::EXTENSION, ArrayStruct::class);
+
+        $convertedCart = $event->getConvertedCart();
+        $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge(
+            $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] ?? [],
+            $data->all()
+        );
+
+        $event->setConvertedCart($convertedCart);
     }
 }
