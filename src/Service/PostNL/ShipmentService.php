@@ -190,13 +190,13 @@ class ShipmentService
 
             //Create the mailbox labels that always need to be confirmed
             if (!empty($mailBoxOrders)) {
-                $labels = $this->createLabelsForOrders(
+                $labels = array_merge($labels,$this->createLabelsForOrders(
                     new OrderCollection($mailBoxOrders),
                     $apiClient,
                     $printerType,
                     true,
                     $context
-                );
+                ));
             }
             //Create the other labels confirmed on preference
             if (!empty($nonMailBoxOrders)) {
