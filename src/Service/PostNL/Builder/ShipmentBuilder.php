@@ -122,7 +122,7 @@ class ShipmentBuilder
 
         //= Mailbox ====
         if ($product->getDeliveryType()===DeliveryType::MAILBOX){
-            $shipment->setDeliveryDate(date_create()->format('d-m-Y H:i:s'));
+            $shipment->setDeliveryDate(date_create()->format('d-m-Y 15:00:00'));
         }
 
 
