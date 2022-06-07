@@ -3,13 +3,15 @@
         xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
 
     <card>
+        <component name="postnl-config-info">
+            <name>postnlPluginConfigSectionInfo</name>
+        </component>
+    </card>
+
+    <card>
         <title>Account Settings</title>
         <title lang="de-DE">Kontoeinstellungen</title>
         <title lang="nl-NL">Account Instellingen</title>
-
-        <component name="postnl-config-api-credentials-link">
-            <name>apiCredentialsLink</name>
-        </component>
 
         <input-field type="password">
             <name>productionApiKey</name>

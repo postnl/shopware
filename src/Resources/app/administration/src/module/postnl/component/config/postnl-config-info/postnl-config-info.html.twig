@@ -1,0 +1,64 @@
+<sw-container class="postnl-config-info" gap="16px" columns="3fr 1fr">
+    <div>
+        <div class="title">
+            <i18n path="postnl.config.info.title">
+                <template #username>
+                    {{ userName }}
+                </template>
+            </i18n>
+        </div>
+        <div class="description">
+            <br/>
+            <ol class="list">
+                <li class="list-item">
+                    <i18n path="postnl.config.info.onboardingStep1">
+                        <template #mijnPostNLLink>
+                            <sw-external-link
+                                href="https://mijn.postnl.nl/c/BP2_Mod_Login.app?inresponseto=&RelayState=&startURL=%2F">
+                                {{ $tc('postnl.config.info.mijnPostNL') }}
+                            </sw-external-link>
+                        </template>
+                        <template #mijnPostNLApiHere>
+                            <sw-external-link href="https://mijn.postnl.nl/c/BP2_Mod_APIManagement.app">
+                                {{ $tc('postnl.config.info.mijnPostNLApiHere') }}
+                            </sw-external-link>
+                        </template>
+                    </i18n>
+                </li>
+                <li class="list-item">
+                    <i18n path="postnl.config.info.onboardingStep2"/>
+                    <br>
+                    <i18n path="postnl.config.info.onboardingStep21">
+                        <template #shippingSettingsLink>
+                            <sw-internal-link inline="true" :routerLink="{ name:'sw.settings.shipping.index'}">
+                                {{ $tc('postnl.config.info.shippingSettings') }}
+                            </sw-internal-link>
+                        </template>
+                    </i18n>
+                </li>
+                <li class="list-item">
+                    <i18n path="postnl.config.info.onboardingStep3"/>
+                    <br>
+                    <i18n path="postnl.config.info.onboardingStep31">
+                        <template #salesChannels>
+                            <sw-internal-link inline="true" :routerLink="{ name:'sw.sales.channel.list'}">
+                                {{ $tc('postnl.config.info.salesChannels') }}
+                            </sw-internal-link>
+                        </template>
+                    </i18n>
+                </li>
+            </ol>
+        </div>
+
+    </div>
+    <div class="col-right">
+        <sw-button class="btn-action" link="#" disabled="true">
+            <sw-icon name="default-documentation-file"></sw-icon>
+            {{ $tc('postnl.config.info.btnManual') }}
+        </sw-button>
+        <sw-button class="btn-action" link="mailto:digitaleklantsupport@postnl.nl">
+            <sw-icon name="default-communication-envelope"></sw-icon>
+            {{ $tc('postnl.config.info.btnSupport') }}
+        </sw-button>
+    </div>
+</sw-container>
