@@ -30,7 +30,7 @@
                     <br>
                     <i18n path="postnl.config.info.onboardingStep21">
                         <template #shippingSettingsLink>
-                            <sw-internal-link  inline="true" routerLink="{ name:'sw.settings.shipping.index'}">
+                            <sw-internal-link inline="true" :routerLink="{ name:'sw.settings.shipping.index'}">
                                 {{ $tc('postnl.config.info.shippingSettings') }}
                             </sw-internal-link>
                         </template>
@@ -41,7 +41,7 @@
                     <br>
                     <i18n path="postnl.config.info.onboardingStep31">
                         <template #salesChannels>
-                            <sw-internal-link inline="true" routerLink="{ name:'sw.sales.channel.list'}">
+                            <sw-internal-link inline="true" :routerLink="{ name:'sw.sales.channel.list'}">
                                 {{ $tc('postnl.config.info.salesChannels') }}
                             </sw-internal-link>
                         </template>
