@@ -12,6 +12,7 @@ use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shopware6\Service\Shopware\CartService;
 use PostNL\Shopware6\Struct\Attribute\ShippingMethodAttributeStruct;
+use Shopware\Core\Checkout\Cart\Event\CheckoutOrderPlacedEvent;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Struct\ArrayStruct;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
@@ -23,6 +24,7 @@ class CheckoutSubscriber implements EventSubscriberInterface
     {
         return [
             CheckoutConfirmPageLoadedEvent::class => 'onCheckoutConfirmPageLoaded',
+            CheckoutOrderPlacedEvent::class => 'onCheckoutOrderPlaced'
         ];
     }
 
@@ -197,6 +199,5 @@ class CheckoutSubscriber implements EventSubscriberInterface
     protected function handleMailbox(CheckoutConfirmPageLoadedEvent $event): void
     {
     }
-
 
 }

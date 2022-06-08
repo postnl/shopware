@@ -24,6 +24,7 @@ class OrderService
         $criteria->addAssociation('salesChannel');
         $criteria->addAssociation('deliveries.shippingMethod');
         $criteria->addAssociation('deliveries.shippingOrderAddress.country');
+        $criteria->addAssociation('lineItems');
 
         /** @var OrderCollection $orders */
         $orders = $this->orderRepository->search($criteria, $context)->getEntities();
