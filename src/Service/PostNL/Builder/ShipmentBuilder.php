@@ -104,7 +104,7 @@ class ShipmentBuilder
             $returnCustomerCode = $config->getReturnAddress()->getReturnCustomerCode();
 
             //Next 2 lines are a temp fix for non usage of returncode in SDK 2/3
-            $originalCustomerCode =  $apiClient->getCustomer()->getCustomerCode();
+            $originalCustomerCode = $apiClient->getCustomer()->getCustomerCode();
             $apiClient->getCustomer()->setCustomerCode($returnCustomerCode);
 
             $returnBarcode = $apiClient->generateBarcode(
@@ -123,7 +123,7 @@ class ShipmentBuilder
         }
 
         //= Mailbox ====
-        if ($product->getDeliveryType()===DeliveryType::MAILBOX){
+        if ($product->getDeliveryType() === DeliveryType::MAILBOX) {
             $shipment->setDeliveryDate(date_create()->format('d-m-Y 15:00:00'));
         }
 
@@ -155,6 +155,33 @@ class ShipmentBuilder
         return $shipment;
     }
 
+    public function buildReturnAddress(OrderEntity $order, Context $context): Address
+    {
+        $config = $this->configService->getConfiguration($order->getSalesChannelId(), $context);
+
+        $returnAddress = $config->getReturnAddress();
+
+        $address = new Address();
+        $address->setAddressType('08');
+        $address->setCompanyName($returnAddress->getCompanyName());
+        $address->setZipcode($returnAddress->getZipcode());
+        $address->setCity($returnAddress->getCity());
+        $address->setCountrycode($returnAddress->getCountrycode());
+
+        switch ($returnAddress->getCountrycode()) {
+            case 'NL':
+                $address->setStreetHouseNrExt($returnAddress->getStreet());
+                break;
+            default:
+                $address->setStreet($returnAddress->getStreet());
+                $address->setHouseNr($returnAddress->getHouseNr());
+                $address->setHouseNrExt($returnAddress->getHouseNrExt());
+                break;
+        }
+
+        return $address;
+    }
+
     /**
      * @param $order
      * @return Address
@@ -172,33 +199,6 @@ class ShipmentBuilder
         $address->setZipcode($orderAddress->getZipcode());
         $address->setCity($orderAddress->getCity());
         $address->setCountrycode($this->orderDataExtractor->extractDeliveryCountry($order)->getIso());
-
-        return $address;
-    }
-
-    public function buildReturnAddress(OrderEntity $order, Context $context): Address
-    {
-        $config = $this->configService->getConfiguration($order->getSalesChannelId(), $context);
-
-        $returnAddress = $config->getReturnAddress();
-
-        $address = new Address();
-        $address->setAddressType('08');
-        $address->setCompanyName($returnAddress->getCompanyName());
-        $address->setZipcode($returnAddress->getZipcode());
-        $address->setCity($returnAddress->getCity());
-        $address->setCountrycode($returnAddress->getCountrycode());
-
-        switch($returnAddress->getCountrycode()) {
-            case 'NL':
-                $address->setStreetHouseNrExt($returnAddress->getStreet());
-                break;
-            default:
-                $address->setStreet($returnAddress->getStreet());
-                $address->setHouseNr($returnAddress->getHouseNr());
-                $address->setHouseNrExt($returnAddress->getHouseNrExt());
-                break;
-        }
 
         return $address;
     }
@@ -230,25 +230,6 @@ class ShipmentBuilder
 
     /**
      * @param OrderEntity $order
-     * @param Context $context
-     * @return Dimension
-     */
-    public function buildDimension(OrderEntity $order, Context $context): Dimension
-    {
-        $totalWeight = 0.0;
-        // Calculate weight per line item payload.
-        /** @var OrderLineItemEntity $lineItem */
-        foreach ($order->getLineItems() as $lineItem) {
-            if (!empty($lineItem->getPayload()[Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY])){
-                $totalWeight+=$lineItem->getPayload()[Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY];
-            }
-        }
-
-        return new Dimension($totalWeight);
-    }
-
-    /**
-     * @param OrderEntity $order
      * @return Amount
      */
     public function buildInsuranceAmount(OrderEntity $order): Amount
@@ -273,5 +254,24 @@ class ShipmentBuilder
         $contact->setTelNr($this->orderDataExtractor->extractDeliveryAddress($order)->getPhoneNumber());
 
         return $contact;
+    }
+
+    /**
+     * @param OrderEntity $order
+     * @param Context $context
+     * @return Dimension
+     */
+    public function buildDimension(OrderEntity $order, Context $context): Dimension
+    {
+        $totalWeight = 0.0;
+        // Calculate weight per line item payload.
+        /** @var OrderLineItemEntity $lineItem */
+        foreach ($order->getLineItems() as $lineItem) {
+            if (empty($lineItem->getPayload()[Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY])) {
+                continue;
+            }
+            $totalWeight += ($lineItem->getPayload()[Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY] * $lineItem->getQuantity());
+        }
+        return new Dimension($totalWeight);
     }
 }

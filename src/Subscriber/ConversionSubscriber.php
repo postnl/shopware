@@ -3,6 +3,7 @@
 namespace PostNL\Shopware6\Subscriber;
 
 use PostNL\Shopware6\Defaults;
+
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\ZoneService;
@@ -12,6 +13,7 @@ use PostNL\Shopware6\Struct\Config\ConfigStruct;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Shopware\Core\Checkout\Cart\Order\CartConvertedEvent;
+use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\Struct\ArrayStruct;
@@ -62,25 +64,29 @@ class ConversionSubscriber implements EventSubscriberInterface
         /** @var array $lineItem */
         foreach ($convertedCart['lineItems'] as $key => $lineItem) {
             //If product type
-            if (
-                !empty($lineItem['type']) &&
-                $lineItem['type'] === LineItem::PRODUCT_LINE_ITEM_TYPE &&
-                !empty($lineItem['payload'])
-            ) {
-                //Get product weight if not already in there
-                if (!empty($lineItem['payload'][Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY])) {
-                    continue;
-                } else {
-                    $productCriteria = new Criteria([$lineItem['referencedId']]);
-                    $repositoryProduct = $this->productRepository->search($productCriteria, $event->getContext())->first();
-                    if ($repositoryProduct !== null) {
-                        // Add the weight to the original product/payload
-                        $weight = $repositoryProduct->getWeight();
-                        //Add it back
-                        $convertedCart['lineItems'][$key]['payload'][Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY] = $weight;
-                    }
-                }
+            if (empty($lineItem['type'])) {
+                continue;
             }
+            if ($lineItem['type'] !== LineItem::PRODUCT_LINE_ITEM_TYPE) {
+                continue;
+            }
+            if (empty($lineItem['payload'])) {
+                continue;
+            }
+            if (!empty($lineItem['payload'][Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY])) {
+                continue;
+            }
+            //Get product weight if not already in there
+            $productCriteria = new Criteria([$lineItem['referencedId']]);
+            $repositoryProduct = $this->productRepository->search($productCriteria, $event->getContext())->first();
+
+            if (!$repositoryProduct instanceof ProductEntity) {
+                continue;
+            }
+            // Add the weight to the original product/payload
+            $weight = $repositoryProduct->getWeight();
+            //Add it back
+            $convertedCart['lineItems'][$key]['payload'][Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY] = $weight;
         }
         //Don't forget to add it back to the event.
         $event->setConvertedCart($convertedCart);
