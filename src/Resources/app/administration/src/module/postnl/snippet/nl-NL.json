@@ -109,6 +109,17 @@
         "ageCheck": "Leeftijdscontrole",
         "notification": "Notificatie"
       }
+    },
+    "rules": {
+      "shipping": {
+        "name": "PostNL verzendzone",
+        "zone": {
+          "nl": "Nederland",
+          "be": "België",
+          "eu": "Europa",
+          "global": "Globaal"
+        }
+      }
     }
   }
 }

@@ -48,13 +48,16 @@ class PostNLZoneRule extends \Shopware\Core\Framework\Rule\Rule
             return false;
         }
 
+        if ($this->operator === self::OPERATOR_EMPTY) {
+            return false;
+        }
+
         $destinationCountryIso = $scope->getSalesChannelContext()
             ->getShippingLocation()
             ->getCountry()
             ->getIso();
 
-        //TODO: get sourcecountry from cart if null, get out.
-        $sourceCountryIso = null;
+        $sourceCountryIso = 'NL';
 
         $destinationZone = ZoneService::getDestinationZone($sourceCountryIso, $destinationCountryIso);
 
@@ -64,9 +67,6 @@ class PostNLZoneRule extends \Shopware\Core\Framework\Rule\Rule
 
             case self::OPERATOR_NEQ:
                 return !\in_array($destinationZone, $this->postNLZones, true);
-
-            case self::OPERATOR_EMPTY:
-                return empty($destinationCountryIso);
 
             default:
                 throw new UnsupportedOperatorException($this->operator, self::class);

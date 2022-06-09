@@ -109,6 +109,17 @@
         "ageCheck": "Altersprüfung",
         "notification": "Benachrichtigung"
       }
+    },
+    "rules": {
+      "shipping": {
+        "name": "PostNL Versandzone",
+        "zone": {
+          "nl": "Niederlande",
+          "be": "Belgien",
+          "eu": "Europa",
+          "global": "Global"
+        }
+      }
     }
   }
 }

@@ -12,10 +12,10 @@ Shopware.Component.extend('postnl-zone', 'sw-condition-base', {
         zones: {
             get() {
                 return [
-                    {value:'NL', label:'NL'},
-                    {value:'BE', label:'BE'},
-                    {value:'GLOBAL', label:'GLOBAL'},
-                    {value:'EU', label:'EU'},
+                    {value:'NL', label:this.$tc('postnl.rules.shipping.zone.nl')},
+                    {value:'BE', label:this.$tc('postnl.rules.shipping.zone.be')},
+                    {value:'GLOBAL', label:this.$tc('postnl.rules.shipping.zone.global')},
+                    {value:'EU', label:this.$tc('postnl.rules.shipping.zone.eu')},
                 ];
             }
         },
