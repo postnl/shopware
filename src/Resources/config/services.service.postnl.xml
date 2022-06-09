@@ -23,6 +23,9 @@
             <argument type="service" id="Shopware\Core\Content\Media\MediaService"/>
         </service>
 
+        <service id="PostNL\Shopware6\Service\PostNL\RuleCreatorService">
+        </service>
+
         <service id="PostNL\Shopware6\Service\PostNL\ShipmentService">
             <argument type="service" id="PostNL\Shopware6\Service\PostNL\Factory\ApiFactory"/>
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor"/>

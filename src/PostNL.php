@@ -2,6 +2,7 @@
 
 namespace PostNL\Shopware6;
 
+use PostNL\Shopware6\Service\PostNL\RuleCreatorService;
 use PostNL\Shopware6\Service\PostNL\ShippingMethodCreatorService;
 use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
@@ -24,6 +25,10 @@ class PostNL extends Plugin
         /** @var ShippingMethodCreatorService $shippingMethodCreator */
         $shippingMethodCreator = $this->container->get(ShippingMethodCreatorService::class);
         $shippingMethodCreator->create($activateContext,$this->container, $this->getPath());
+
+        /** @var RuleCreatorService $ruleCreatorService */
+        $ruleCreatorService = $this->container->get(RuleCreatorService::class);
+        $ruleCreatorService->create($activateContext,$this->container);
 
 
     }
