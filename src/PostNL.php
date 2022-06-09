@@ -24,8 +24,6 @@ class PostNL extends Plugin
         /** @var ShippingMethodCreatorService $shippingMethodCreator */
         $shippingMethodCreator = $this->container->get(ShippingMethodCreatorService::class);
         $shippingMethodCreator->create($activateContext,$this->container, $this->getPath());
-
-
     }
 
     public function uninstall(UninstallContext $uninstallContext): void
