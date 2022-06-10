@@ -1,6 +1,6 @@
 <?php
 
-namespace PostNL\Shopware6\Service\Shopware;
+namespace PostNL\Shopware6\Service\Shopware\CustomField\Factory;
 
 use PostNL\Shopware6\Exception\CustomField\CustomFieldException;
 use PostNL\Shopware6\Exception\CustomField\CustomFieldNotExistsException;
@@ -14,9 +14,19 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\CustomField\Aggregate\CustomFieldSet\CustomFieldSetEntity;
 use Shopware\Core\System\CustomField\CustomFieldEntity;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class CustomFieldService
+class CustomFieldFactory
 {
+    public static function createFactory(ContainerInterface $container)
+    {
+        return new self(
+            $container->get('custom_field.repository'),
+            $container->get('custom_field_set.repository'),
+            $container->get(DefinitionInstanceRegistry::class)
+        );
+    }
+
     /**
      * @var EntityRepositoryInterface
      */
@@ -52,18 +62,18 @@ class CustomFieldService
      * @param string  $id
      * @param Context $context
      * @return CustomFieldEntity
-     * @throws CustomFieldSetNotExistsException
+     * @throws CustomFieldNotExistsException
      */
     public function getField(string $id, Context $context): CustomFieldEntity
     {
-        $set = $this->customFieldRepository->search(
+        $field = $this->customFieldRepository->search(
             (new Criteria([$id]))
                 ->addAssociation('customFieldSet.relations'),
             $context
         )->first();
 
-        if ($set instanceof CustomFieldEntity) {
-            return $set;
+        if ($field instanceof CustomFieldEntity) {
+            return $field;
         }
 
         throw new CustomFieldNotExistsException(['id' => $id]);
@@ -73,19 +83,19 @@ class CustomFieldService
      * @param string  $name
      * @param Context $context
      * @return CustomFieldEntity
-     * @throws CustomFieldSetNotExistsException
+     * @throws CustomFieldNotExistsException
      */
     public function getFieldByName(string $name, Context $context): CustomFieldEntity
     {
-        $set = $this->customFieldSetRepository->search(
+        $field = $this->customFieldRepository->search(
             (new Criteria())
                 ->addFilter(new EqualsFilter('name', $name))
                 ->addAssociation('customFieldSet.relations'),
             $context
         )->first();
 
-        if ($set instanceof CustomFieldEntity) {
-            return $set;
+        if ($field instanceof CustomFieldEntity) {
+            return $field;
         }
 
         throw new CustomFieldNotExistsException(['name' => $name]);
@@ -138,10 +148,10 @@ class CustomFieldService
 
     public function addFieldsToSet(string $setId, array $fieldIds, Context $context): void
     {
-        $updates = array_map(function($fieldId) use ($setId) {
+        $updates = array_map(function ($fieldId) use ($setId) {
             return [
                 'id' => $fieldId,
-                'setId' => $setId,
+                'customFieldSetId' => $setId,
             ];
         }, $fieldIds);
 
@@ -179,13 +189,15 @@ class CustomFieldService
 
         $this->customFieldSetRepository->create(
             [
-                'id' => $id,
-                'name' => $name,
-                'global' => !$editable,
-                'config' => [
-                    'label' => $labels,
+                [
+                    'id' => $id,
+                    'name' => $name,
+                    'global' => !$editable,
+                    'config' => [
+                        'label' => $labels,
+                    ],
+                    'relations' => $relations,
                 ],
-                'relations' => $relations,
             ],
             $context
         );
@@ -595,15 +607,18 @@ class CustomFieldService
 
         $id = Uuid::randomHex();
 
-        $this->customFieldRepository->create([
+        $this->customFieldRepository->create(
             [
-                'id' => $id,
-                'name' => $name,
-                'type' => $type,
-                'config' => $config,
-                'active' => true,
+                [
+                    'id' => $id,
+                    'name' => $name,
+                    'type' => $type,
+                    'config' => $config,
+                    'active' => true,
+                ],
             ],
-        ], $context);
+            $context
+        );
 
         return $id;
     }
