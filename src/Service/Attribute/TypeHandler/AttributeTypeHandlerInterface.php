@@ -2,8 +2,8 @@
 
 namespace PostNL\Shopware6\Service\Attribute\TypeHandler;
 
-use PostNL\Shopware6\Service\Attribute\AttributeStruct;
 use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\Struct\Struct;
 
 interface AttributeTypeHandlerInterface
 {
@@ -13,9 +13,9 @@ interface AttributeTypeHandlerInterface
     public function supports(): array;
 
     /**
-     * @param $data
+     * @param         $data
      * @param Context $context
-     * @return AttributeStruct
+     * @return Struct|null
      */
-    public function handle($data, Context $context): AttributeStruct;
+    public function handle($data, Context $context): ?Struct;
 }

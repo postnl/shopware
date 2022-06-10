@@ -15,6 +15,7 @@ use PostNL\Shopware6\Service\Attribute\TypeHandler\AttributeTypeHandlerInterface
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
+use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 
 class AttributeFactory
 {
@@ -143,7 +144,14 @@ class AttributeFactory
             $value = $data[$reflectionProperty->getName()] ?? null;
 
             if (!$reflectionType->isBuiltin()) {
-                $structData[$reflectionProperty->getName()] = $this->getTypeHandler($reflectionType)->handle($value, $context);
+                $handledValue = $this->getTypeHandler($reflectionType)->handle($value, $context);
+
+                if(is_null($handledValue) && !$reflectionType->allowsNull()) {
+                    // TODO throw specific exception
+                    throw new \Exception('Value cannot be null');
+                }
+
+                $structData[$reflectionProperty->getName()] = $handledValue;
                 continue;
             }
 
@@ -250,8 +258,11 @@ class AttributeFactory
         }
 
         try {
-            $getMethod = 'get' . ucfirst($reflectionProperty->getName());
-            $isMethod = 'is' . ucfirst($reflectionProperty->getName());
+            $converter = new CamelCaseToSnakeCaseNameConverter();
+            $propertyName = ucfirst($converter->denormalize($reflectionProperty->getName()));
+
+            $getMethod = 'get' . $propertyName;
+            $isMethod = 'is' . $propertyName;
 
             if ($reflectionClass->hasMethod($getMethod)) {
                 $reflectionMethod = $reflectionClass->getMethod($getMethod);
