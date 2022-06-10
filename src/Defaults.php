@@ -7,6 +7,8 @@ class Defaults
     const CUSTOM_FIELDS_KEY = 'postnl';
 
     const LINEITEM_PAYLOAD_WEIGHT_KEY = 'weight';
+    const LINEITEM_PAYLOAD_TARIFF_KEY = 'hsTariffCode';
+    const LINEITEM_PAYLOAD_ORIGIN_KEY = 'countryOfOrigin';
 
     const PRODUCT_MAILBOX_NL_NL = self::PRODUCT_MAILBOX_NL_NL_2928;
     const PRODUCT_SHIPPING_NL_NL = self::PRODUCT_SHIPPING_NL_NL_3085;
