@@ -134,17 +134,38 @@
 
         <input-field type="bool">
             <name>sendToEU</name>
-            <label>Send to EU</label>
+            <label>Enable shipments to Europe</label>
+            <label lang="de-DE">Versand nach Europa ermöglichen</label>
+            <label lang="nl-NL">Zendingen naar Europa inschakelen</label>
+            <helpText>
+                When shipping from the Netherlands, shipments to the Netherlands or Belgium are not regarded as shipments to Europe.
+                When shipping from Belgium, only shipments to Belgium are not regarded as shipments to Europe, shipping to the Netherlands is regarded as shipping to Europe.
+                For a list of all other European countries, please check https://www.postnl.nl/klantenservice/algemene-vragen/landen-europese-unie/
+            </helpText>
+            <helpText lang="de-DE">
+                Beim Versand aus den Niederlanden gelten Sendungen nach den Niederlanden oder Belgien nicht als Sendungen nach Europa.
+                Beim Versand aus Belgien gelten nur Sendungen nach Belgien nicht als Sendungen nach Europa, Sendungen nach den Niederlanden gelten als Sendungen nach Europa.
+                Eine Liste aller anderen europäischen Länder finden Sie auf https://www.postnl.nl/klantenservice/algemene-vragen/landen-europese-unie/
+            </helpText>
+            <helpText lang="nl-NL">
+                Bij verzending vanuit Nederland worden verzendingen naar Nederland of België niet beschouwd als verzending naar Europa.
+                Bij verzending vanuit België worden alleen zendingen naar België niet beschouwd als zendingen naar Europa, zendingen naar Nederland worden wel beschouwd als zendingen naar Europa.
+                Voor een lijst van alle andere Europese landen, kijk op https://www.postnl.nl/klantenservice/algemene-vragen/landen-europese-unie/
+            </helpText>
         </input-field>
 
         <input-field type="bool">
             <name>sendToWorld</name>
-            <label>Send to rest of the World</label>
+            <label>Enable shipments to the rest of the world</label>
+            <label lang="de-DE">Sendungen zum Rest der Welt aktivieren</label>
+            <label lang="nl-NL">Zendingen naar de rest van de wereld inschakelen</label>
         </input-field>
 
         <input-field type="text">
             <name>fallbackHSCode</name>
-            <label>Default HS code</label>
+            <label>Default HS Tariff code</label>
+            <label lang="de-DE">Standard-HS-Zolltarifcode</label>
+            <label lang="nl-NL">Standaard GS-tariefcode</label>
             <placeholder>000000</placeholder>
         </input-field>
     </card>

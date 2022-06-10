@@ -56,7 +56,9 @@ class CustomFieldInstaller
                 'nl-NL' => 'GS-tariefcode',
             ],
             null,
-            null,
+            [
+                'en-GB' => '000000',
+            ],
             1,
             false,
             $context
