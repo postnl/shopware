@@ -102,7 +102,7 @@ class ShipmentBuilder
         $shipment->setReference('Order ' . $order->getOrderNumber());
 
         //= Return label in the box ====
-        if ($config->isReturnLabelInTheBox()) {
+        if ($config->isReturnLabelInTheBox() && $product->getId() !== Defaults::PRODUCT_SHIPPING_GLOBAL_4947) {
             $returnCountryCode = $config->getReturnAddress()->getCountrycode();
             $returnCustomerCode = $config->getReturnAddress()->getReturnCustomerCode();
 
