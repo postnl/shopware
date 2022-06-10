@@ -5,6 +5,8 @@ namespace PostNL\Shopware6\Service\PostNL\Builder;
 use Firstred\PostNL\Entity\Address;
 use Firstred\PostNL\Entity\Amount;
 use Firstred\PostNL\Entity\Contact;
+use Firstred\PostNL\Entity\Content;
+use Firstred\PostNL\Entity\Customs;
 use Firstred\PostNL\Entity\Dimension;
 use Firstred\PostNL\Entity\Request\GetLocation;
 use Firstred\PostNL\Entity\Shipment;
@@ -17,7 +19,8 @@ use PostNL\Shopware6\Service\Shopware\ConfigService;
 use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor;
 use PostNL\Shopware6\Struct\Attribute\OrderAttributeStruct;
 use Psr\Log\LoggerInterface;
-use Shopware\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemEntity;
+use Shopware\Core\Checkout\Document\DocumentEntity;
+use Shopware\Core\Checkout\Document\DocumentGenerator\InvoiceGenerator;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
 
@@ -148,6 +151,10 @@ class ShipmentBuilder
         //= Dimension ====
         $shipment->setDimension($this->buildDimension($order, $context));
 
+        if ($product->getId() === Defaults::PRODUCT_SHIPPING_GLOBAL_4947) {
+            $shipment->setCustoms($this->buildCustoms($order, $context));
+        }
+
         $shipment->setAddresses($addresses);
         $shipment->setAmounts($amounts);
         $shipment->setContacts($contacts);
@@ -205,7 +212,7 @@ class ShipmentBuilder
 
     /**
      * @param OrderEntity $order
-     * @param Context $context
+     * @param Context     $context
      * @return Address
      */
     public function buildPickupLocationAddress(OrderEntity $order, Context $context): Address
@@ -258,20 +265,89 @@ class ShipmentBuilder
 
     /**
      * @param OrderEntity $order
-     * @param Context $context
+     * @param Context     $context
      * @return Dimension
      */
     public function buildDimension(OrderEntity $order, Context $context): Dimension
     {
         $totalWeight = 0.0;
+
         // Calculate weight per line item payload.
-        /** @var OrderLineItemEntity $lineItem */
         foreach ($order->getLineItems() as $lineItem) {
             if (empty($lineItem->getPayload()[Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY])) {
                 continue;
             }
+
             $totalWeight += ($lineItem->getPayload()[Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY] * $lineItem->getQuantity());
         }
+
         return new Dimension($totalWeight);
     }
+
+    public function buildCustoms(OrderEntity $order, Context $context): Customs
+    {
+        $config = $this->configService->getConfiguration($order->getSalesChannelId(), $context);
+
+        $invoice = $order->getDocuments()->filter(function($document) {
+            /** @var DocumentEntity $document */
+            return $document->getDocumentType()->getTechnicalName() === InvoiceGenerator::INVOICE;
+        })->last();
+
+        if($invoice instanceof DocumentEntity) {
+            $invoiceNumber = $invoice->getConfig()['documentNumber'];
+        } else {
+            $invoiceNumber = $order->getOrderNumber();
+        }
+
+        $customs = new Customs();
+        $customs->setCurrency($order->getCurrency()->getIsoCode());
+        $customs->setHandleAsNonDeliverable("false");
+        $customs->setInvoice('true');
+        $customs->setInvoiceNr($invoiceNumber);
+        $customs->setShipmentType('Commercial Goods');
+
+        $contents = [];
+        $i = 0;
+        foreach($order->getLineItems() as $lineItem) {
+            $weight = 0.0;
+
+            if (!empty($lineItem->getPayload()[Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY])) {
+                $weight = $lineItem->getPayload()[Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY] * $lineItem->getQuantity();
+            }
+
+            $tariffNr = '000000';
+
+            if(!empty($config->getFallbackHSCode())) {
+                $tariffNr = $config->getFallbackHSCode();
+            }
+
+            if (!empty($lineItem->getPayload()[Defaults::LINEITEM_PAYLOAD_TARIFF_KEY])) {
+                $tariffNr = $lineItem->getPayload()[Defaults::LINEITEM_PAYLOAD_TARIFF_KEY];
+            }
+
+            $countryOfOrigin = $config->getSenderAddress()->getCountrycode();
+
+            if (!empty($lineItem->getPayload()[Defaults::LINEITEM_PAYLOAD_ORIGIN_KEY])) {
+                $countryOfOrigin = $lineItem->getPayload()[Defaults::LINEITEM_PAYLOAD_ORIGIN_KEY];
+            }
+
+            $content = new Content();
+            $content->setDescription($lineItem->getLabel());
+            $content->setQuantity((string)$lineItem->getQuantity());
+            $content->setWeight((string)$weight);
+            $content->setValue((string)$lineItem->getTotalPrice());
+            $content->setHSTariffNr($tariffNr);
+            $content->setCountryOfOrigin($countryOfOrigin);
+
+            $contents[] = $content;
+            if(++$i >= 5) {
+                break;
+            }
+        }
+
+        $customs->setContent($contents);
+
+        return $customs;
+    }
+
 }
