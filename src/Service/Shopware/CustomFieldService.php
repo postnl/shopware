@@ -595,7 +595,7 @@ class CustomFieldService
 
         $id = Uuid::randomHex();
 
-        $this->customFieldSetRepository->create([
+        $this->customFieldRepository->create([
             [
                 'id' => $id,
                 'name' => $name,
