@@ -136,9 +136,16 @@
             <name>sendToEU</name>
             <label>Send to EU</label>
         </input-field>
+
         <input-field type="bool">
             <name>sendToWorld</name>
             <label>Send to rest of the World</label>
+        </input-field>
+
+        <input-field type="text">
+            <name>fallbackHSCode</name>
+            <label>Default HS code</label>
+            <placeholder>000000</placeholder>
         </input-field>
     </card>
 
