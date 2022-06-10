@@ -3,9 +3,12 @@
 namespace PostNL\Shopware6;
 
 use PostNL\Shopware6\Service\PostNL\ShippingMethodCreatorService;
+use PostNL\Shopware6\Service\Shopware\CustomField\CustomFieldInstaller;
 use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
+use Shopware\Core\Framework\Plugin\Context\InstallContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
+use Shopware\Core\Framework\Plugin\Context\UpdateContext;
 
 if (file_exists(dirname(__DIR__) . '/vendor/autoload.php')) {
     $loader = require_once dirname(__DIR__) . '/vendor/autoload.php';
@@ -17,6 +20,17 @@ if (file_exists(dirname(__DIR__) . '/vendor/autoload.php')) {
 
 class PostNL extends Plugin
 {
+
+    public function install(InstallContext $installContext): void
+    {
+        CustomFieldInstaller::createFactory($this->container)->install($installContext->getContext());
+    }
+
+    public function update(UpdateContext $updateContext): void
+    {
+        CustomFieldInstaller::createFactory($this->container)->install($updateContext->getContext());
+    }
+
     public function activate(ActivateContext $activateContext): void
     {
         parent::activate($activateContext);
