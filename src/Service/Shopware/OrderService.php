@@ -21,10 +21,12 @@ class OrderService
     public function getOrders(array $orderIds, Context $context): OrderCollection
     {
         $criteria = new Criteria($orderIds);
-        $criteria->addAssociation('salesChannel');
+        $criteria->addAssociation('currency');
         $criteria->addAssociation('deliveries.shippingMethod');
         $criteria->addAssociation('deliveries.shippingOrderAddress.country');
+        $criteria->addAssociation('documents.documentType');
         $criteria->addAssociation('lineItems');
+        $criteria->addAssociation('salesChannel');
 
         /** @var OrderCollection $orders */
         $orders = $this->orderRepository->search($criteria, $context)->getEntities();
