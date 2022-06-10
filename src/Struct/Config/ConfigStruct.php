@@ -117,6 +117,11 @@ class ConfigStruct extends AttributeStruct
      */
     protected $sendToWorld = false;
 
+    /**
+     * @var string|null
+     */
+    protected $fallbackHSCode;
+
     //====================================================================================================
 
 
@@ -300,7 +305,11 @@ class ConfigStruct extends AttributeStruct
         return $this->sendToWorld;
     }
 
-
-
-
+    /**
+     * @return string|null
+     */
+    public function getFallbackHSCode(): ?string
+    {
+        return $this->fallbackHSCode;
+    }
 }
