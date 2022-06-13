@@ -2,6 +2,7 @@
 
 namespace PostNL\Shopware6\Service\PostNL\Builder;
 
+use Exception;
 use Firstred\PostNL\Entity\Address;
 use Firstred\PostNL\Entity\Amount;
 use Firstred\PostNL\Entity\Contact;
@@ -251,7 +252,7 @@ class ShipmentBuilder
     /**
      * @param OrderEntity $order
      * @return Contact
-     * @throws \Exception
+     * @throws Exception
      */
     public function buildReceiverContact(OrderEntity $order): Contact
     {

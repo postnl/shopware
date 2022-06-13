@@ -24,5 +24,6 @@
         </service>
 
         <service id="PostNL\Shopware6\Subscriber\AddressSubscriber"/>
+
     </services>
 </container>
