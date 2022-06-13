@@ -24,7 +24,6 @@ class CheckoutSubscriber implements EventSubscriberInterface
     {
         return [
             CheckoutConfirmPageLoadedEvent::class => 'onCheckoutConfirmPageLoaded',
-            CheckoutOrderPlacedEvent::class => 'onCheckoutOrderPlaced'
         ];
     }
 

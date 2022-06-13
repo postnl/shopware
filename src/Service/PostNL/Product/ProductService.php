@@ -234,7 +234,7 @@ class ProductService
             if($flag === ProductDefinition::PROP_AGE_CHECK) {
                 continue;
             }
-            
+
             $availableValues = $products->reduceToProperty($flag);
 
             /**
@@ -380,7 +380,7 @@ class ProductService
                 $defaultProductId = Defaults::PRODUCT_SHIPPING_EU_4952;
                 break;
             case Zone::GLOBAL:
-                $defaultProductId = Defaults::PRODUCT_SHIPPING_GLOBAL_4947;
+                $defaultProductId = Defaults::PRODUCT_SHIPPING_GLOBAL_4945;
                 break;
         }
 

@@ -18,6 +18,11 @@
             <tag name="postnl.attribute.handler.type"/>
         </service>
 
+        <service id="PostNL\Shopware6\Service\Attribute\TypeHandler\CountryEntityHandler">
+            <argument type="service" id="country.repository"/>
+            <tag name="postnl.attribute.handler.type"/>
+        </service>
+
         <service id="PostNL\Shopware6\Service\Attribute\TypeHandler\ProductSelectionStructHandler">
             <argument type="service" id="PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory"/>
             <tag name="postnl.attribute.handler.type"/>
