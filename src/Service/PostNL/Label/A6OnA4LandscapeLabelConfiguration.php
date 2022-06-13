@@ -2,15 +2,22 @@
 
 namespace PostNL\Shopware6\Service\PostNL\Label;
 
+use PostNL\Shopware6\Service\PostNL\LabelService;
+
 /**
- *
+ * All titles are on a landscape page
  */
 class A6OnA4LandscapeLabelConfiguration
 {
+    //A6 configurations
     const TOP_LEFT_FREE = 'topLeftFree';
     const TOP_RIGHT_FREE = 'topRightFree';
     const BOTTOM_LEFT_FREE = 'bottomLeftFree';
     const BOTTOM_RIGHT_FREE = 'bottomRightFree';
+    //A5 configurations
+    const LEFT_FREE = 'leftFree';
+    const RIGHT_FREE = 'rightFree';
+
     public bool $topLeftFree;
     public bool $topRightFree;
     public bool $bottomLeftFree;
@@ -32,63 +39,114 @@ class A6OnA4LandscapeLabelConfiguration
         $this->active = false;
     }
 
-    public function hasFreeSlots(): bool
+    public function hasFreeSlots(string $labelFormat): bool
     {
-        return $this->topLeftFree || $this->topRightFree || $this->bottomLeftFree || $this->bottomRightFree;
+        if ($labelFormat == LabelService::LABEL_FORMAT_A6) {
+            return $this->topLeftFree || $this->topRightFree || $this->bottomLeftFree || $this->bottomRightFree;
+        }
+        if ($labelFormat == LabelService::LABEL_FORMAT_A5) {
+            return $this->topLeftFree && $this->bottomLeftFree || $this->topRightFree && $this->bottomRightFree;
+        }
     }
 
-    public function getFreeSlot(): ?string
+    public function getFreeSlot(string $labelFormat): ?string
     {
-        foreach ($this->getSlotsArray() as $slotName => $free) {
-            if ($free) {
-                return $slotName;
+        if ($labelFormat == LabelService::LABEL_FORMAT_A6) {
+            foreach ($this->getSlotsArray() as $slotName => $free) {
+                if ($free) {
+                    return $slotName;
+                }
+            }
+        }
+
+        if ($labelFormat == LabelService::LABEL_FORMAT_A5) {
+            if ($this->topLeftFree && $this->bottomLeftFree) {
+                return self::LEFT_FREE;
+            }
+            if ($this->topRightFree && $this->bottomRightFree) {
+                return self::RIGHT_FREE;
             }
         }
         return null;
     }
 
-    public function fillSlot(string $slot)
+    public function fillSlot(string $slot, string $labelFormat)
     {
-        switch ($slot) {
-            case self::TOP_LEFT_FREE:
-                $this->topLeftFree = false;
-                break;
-            case self::TOP_RIGHT_FREE:
-                $this->topRightFree = false;
-                break;
-            case self::BOTTOM_LEFT_FREE:
-                $this->bottomLeftFree = false;
-                break;
-            case self::BOTTOM_RIGHT_FREE:
-                $this->bottomRightFree = false;
-                break;
+        if ($labelFormat == LabelService::LABEL_FORMAT_A5) {
+            switch ($slot){
+                case self::LEFT_FREE:
+                    $this->topLeftFree = false;
+                    $this->bottomLeftFree = false;
+                    break;
+                case self::RIGHT_FREE:
+                    $this->topRightFree = false;
+                    $this->bottomRightFree = false;
+                    break;
+            }
+        }
+        if ($labelFormat == LabelService::LABEL_FORMAT_A6) {
+            switch ($slot) {
+                case self::TOP_LEFT_FREE:
+                    $this->topLeftFree = false;
+                    break;
+                case self::TOP_RIGHT_FREE:
+                    $this->topRightFree = false;
+                    break;
+                case self::BOTTOM_LEFT_FREE:
+                    $this->bottomLeftFree = false;
+                    break;
+                case self::BOTTOM_RIGHT_FREE:
+                    $this->bottomRightFree = false;
+                    break;
+            }
         }
     }
 
-    public static function getCoordinatesXYForSlot(string $slot)
+    public static function getCoordinatesXYForSlot(string $slot, string $labelFormat)
     {
-        switch ($slot) {
-            case self::TOP_LEFT_FREE:
-                return [0,0];
-            case self::TOP_RIGHT_FREE:
-                return [148,0];
-            case self::BOTTOM_LEFT_FREE:
-                return [0,105];
-            case self::BOTTOM_RIGHT_FREE:
-                return [148,105];
+        if ($labelFormat == LabelService::LABEL_FORMAT_A5) {
+            switch ($slot) {
+                case self::LEFT_FREE:
+                    return [0,0];
+                case self::RIGHT_FREE:
+                    return [148, 0];
+            }
+        }
+        if ($labelFormat == LabelService::LABEL_FORMAT_A6) {
+            switch ($slot) {
+                case self::TOP_LEFT_FREE:
+                    return [0, 0];
+                case self::TOP_RIGHT_FREE:
+                    return [148, 0];
+                case self::BOTTOM_LEFT_FREE:
+                    return [0, 105];
+                case self::BOTTOM_RIGHT_FREE:
+                    return [148, 105];
+            }
         }
     }
-    public static function getRotatedCoordinatesXYForSlot(string $slot)
+
+    public static function getRotatedCoordinatesXYForSlot(string $slot, string $labelFormat)
     {
-        switch ($slot) {
-            case self::TOP_LEFT_FREE:
-                return [-105,0];
-            case self::TOP_RIGHT_FREE:
-                return [-105,148];
-            case self::BOTTOM_LEFT_FREE:
-                return [-210,0];
-            case self::BOTTOM_RIGHT_FREE:
-                return [-210,148];
+        if ($labelFormat == LabelService::LABEL_FORMAT_A5) {
+            switch ($slot) {
+                case self::LEFT_FREE:
+                    return [-210,0];
+                case self::RIGHT_FREE:
+                    return [-210, 148];
+            }
+        }
+        if ($labelFormat == LabelService::LABEL_FORMAT_A6) {
+            switch ($slot) {
+                case self::TOP_LEFT_FREE:
+                    return [-105, 0];
+                case self::TOP_RIGHT_FREE:
+                    return [-105, 148];
+                case self::BOTTOM_LEFT_FREE:
+                    return [-210, 0];
+                case self::BOTTOM_RIGHT_FREE:
+                    return [-210, 148];
+            }
         }
     }
 
