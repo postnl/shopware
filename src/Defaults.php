@@ -83,6 +83,6 @@ class Defaults
     // ParcelsEU, is actually 4944, but 4952 should be used
     const PRODUCT_SHIPPING_EU_4952 = "2e00df0d0e7146b5b16f955084792e05";
 
-    // GlobalPack, is actually 4945, but 4947 should be used
-    const PRODUCT_SHIPPING_GLOBAL_4947 = "2a4dae5c11634f28b8051fbe3d810b2d";
+    // GlobalPack
+    const PRODUCT_SHIPPING_GLOBAL_4945 = "2a4dae5c11634f28b8051fbe3d810b2d";
 }

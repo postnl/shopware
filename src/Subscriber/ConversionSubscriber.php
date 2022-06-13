@@ -232,7 +232,7 @@ class ConversionSubscriber implements EventSubscriberInterface
             case Zone::EU:
                 return Defaults::PRODUCT_SHIPPING_EU_4952;
             case Zone::GLOBAL:
-                return Defaults::PRODUCT_SHIPPING_GLOBAL_4947;
+                return Defaults::PRODUCT_SHIPPING_GLOBAL_4945;
         }
 
         return '';
