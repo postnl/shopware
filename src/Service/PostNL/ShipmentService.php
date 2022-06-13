@@ -71,15 +71,15 @@ class ShipmentService
     protected $productService;
 
     /**
-     * @param ApiFactory $apiFactory
-     * @param OrderDataExtractor $orderDataExtractor
-     * @param OrderService $orderService
-     * @param ConfigService $configService
-     * @param LabelService $labelService
-     * @param ShipmentBuilder $shipmentBuilder
+     * @param ApiFactory              $apiFactory
+     * @param OrderDataExtractor      $orderDataExtractor
+     * @param OrderService            $orderService
+     * @param ConfigService           $configService
+     * @param LabelService            $labelService
+     * @param ShipmentBuilder         $shipmentBuilder
      * @param LabelExtractorInterface $labelExtractor
-     * @param AttributeFactory $attributeFactory
-     * @param ProductService $productService
+     * @param AttributeFactory        $attributeFactory
+     * @param ProductService          $productService
      */
     public function __construct(ApiFactory $apiFactory, OrderDataExtractor $orderDataExtractor, OrderService $orderService, ConfigService $configService, LabelService $labelService, ShipmentBuilder $shipmentBuilder, LabelExtractorInterface $labelExtractor, AttributeFactory $attributeFactory, ProductService $productService)
     {
@@ -97,7 +97,7 @@ class ShipmentService
 
     /**
      * @param OrderCollection $orders
-     * @param Context $context
+     * @param Context         $context
      * @return array<string, string>
      * @throws PostNLException
      * @throws \Firstred\PostNL\Exception\CifDownException
@@ -190,7 +190,7 @@ class ShipmentService
 
             //Create the mailbox labels that always need to be confirmed
             if (!empty($mailBoxOrders)) {
-                $labels = array_merge($labels,$this->createLabelsForOrders(
+                $labels = array_merge($labels, $this->createLabelsForOrders(
                     new OrderCollection($mailBoxOrders),
                     $apiClient,
                     $printerType,
@@ -243,10 +243,10 @@ class ShipmentService
 
     /**
      * @param OrderCollection $orders
-     * @param PostNL $apiClient
-     * @param string $printerType
-     * @param bool $confirm
-     * @param Context $context
+     * @param PostNL          $apiClient
+     * @param string          $printerType
+     * @param bool            $confirm
+     * @param Context         $context
      * @return Label[]
      * @throws PostNLException
      * @throws \Firstred\PostNL\Exception\HttpClientException
@@ -280,8 +280,8 @@ class ShipmentService
             $confirm
         );
 
+        if ($confirm) {
         foreach ($orders as $order) {
-            if ($confirm) {
                 $this->orderService->updateOrderCustomFields($order->getId(), ['confirm' => $confirm], $context);
             }
         }
