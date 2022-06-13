@@ -8,6 +8,8 @@ use Firstred\PostNL\Exception\InvalidArgumentException;
 use Firstred\PostNL\PostNL;
 use PostNL\Shopware6\Component\PostNL\Factory\GuzzleRequestFactory;
 use PostNL\Shopware6\Component\PostNL\Service\BarcodeService;
+use PostNL\Shopware6\Component\PostNL\Service\LabellingService;
+use PostNL\Shopware6\Component\PostNL\Service\ShippingService;
 use PostNL\Shopware6\Exception\PostNL\ClientCreationException;
 use PostNL\Shopware6\Service\PostNL\ApiExtension\PostNLExtension;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
@@ -61,6 +63,8 @@ class ApiFactory
             $client->setRequestFactory($requestFactory);
 
             $client->setBarcodeService(new BarcodeService($client));
+            $client->setLabellingService(new LabellingService($client));
+            $client->setShippingService(new ShippingService($client));
 
             return $client;
         } catch(InvalidArgumentException $e) {
