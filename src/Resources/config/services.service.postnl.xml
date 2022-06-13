@@ -33,7 +33,7 @@
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\ConfigService"/>
             <argument type="service" id="PostNL\Shopware6\Service\PostNL\LabelService"/>
             <argument type="service" id="PostNL\Shopware6\Service\PostNL\Builder\ShipmentBuilder"/>
-            <argument type="service" id="PostNL\Shopware6\Service\PostNL\Label\Extractor\GenerateLabelsLabelExtractor"/>
+            <argument type="service" id="PostNL\Shopware6\Service\PostNL\Label\Extractor\SendShipmentsLabelExtractor"/>
             <argument type="service" id="PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory"/>
             <argument type="service" id="PostNL\Shopware6\Service\PostNL\Product\ProductService"/>
         </service>

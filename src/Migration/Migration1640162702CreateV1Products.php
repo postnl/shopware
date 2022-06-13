@@ -316,8 +316,8 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_GLOBAL_4947),
-                'product_code_delivery' => '4947',
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_GLOBAL_4945),
+                'product_code_delivery' => '4945',
                 'source_zone' => Zone::NL,
                 'destination_zone' => Zone::GLOBAL,
                 'delivery_type' => DeliveryType::SHIPMENT,

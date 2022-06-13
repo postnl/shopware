@@ -9,16 +9,15 @@ use PostNL\Shopware6\Service\PostNL\Label\Label;
 class GenerateLabelsLabelExtractor implements LabelExtractorInterface
 {
     /**
-     * @inheritDoc
+     * @param GenerateLabelResponse[] $response
+     * @return Label[]
      */
-    public function extract(array $responses): array
+    public function extract($response): array
     {
         $labels = [];
 
-        /** @var GenerateLabelResponse[] $response */
-        foreach ($responses as $response) {
-            /** @var ResponseShipment $shipment */
-            foreach ($response->getResponseShipments() as $shipment) {
+        foreach ($response as $innerResponse) {
+            foreach ($innerResponse->getResponseShipments() as $shipment) {
                 foreach ($shipment->getLabels() as $label) {
                     $labels[] = new Label($label->getContent(), $shipment->getBarcode(), $label->getLabeltype());
                 }

@@ -3,39 +3,46 @@
 namespace PostNL\Shopware6\Subscriber;
 
 use PostNL\Shopware6\Defaults;
-
+use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\ZoneService;
 use PostNL\Shopware6\Service\Shopware\CartService;
+use PostNL\Shopware6\Service\Shopware\ConfigService;
+use PostNL\Shopware6\Struct\Attribute\ProductAttributeStruct;
 use PostNL\Shopware6\Struct\Attribute\ShippingMethodAttributeStruct;
 use PostNL\Shopware6\Struct\Config\ConfigStruct;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Shopware\Core\Checkout\Cart\Order\CartConvertedEvent;
 use Shopware\Core\Content\Product\ProductEntity;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\Struct\ArrayStruct;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ConversionSubscriber implements EventSubscriberInterface
 {
+    /**
+     * @var AttributeFactory
+     */
     protected $attributeFactory;
 
+    /**
+     * @var ConfigService
+     */
     protected $configService;
 
     /**
-     * @var EntityRepository
+     * @var EntityRepositoryInterface
      */
     protected $productRepository;
 
-    /**
-     * @param $attributeFactory
-     * @param $configService
-     * @param $productRepository
-     */
-    public function __construct($attributeFactory, $configService, $productRepository)
+    public function __construct(
+        AttributeFactory          $attributeFactory,
+        ConfigService             $configService,
+        EntityRepositoryInterface $productRepository
+    )
     {
         $this->attributeFactory = $attributeFactory;
         $this->configService = $configService;
@@ -49,50 +56,68 @@ class ConversionSubscriber implements EventSubscriberInterface
     {
         return [
             CartConvertedEvent::class => [
-                ['addProductData', 500],
-                ['addWeight', 400],
+                ['addPostNLProductId', 500],
+                ['addShopwareProductData', 400],
                 ['addDeliveryTypeData', 100],
             ],
         ];
     }
 
-    public function addWeight(CartConvertedEvent $event)
+    public function addShopwareProductData(CartConvertedEvent $event)
     {
-        //Get the cart
         $convertedCart = $event->getConvertedCart();
-        //Get each of the line items and add the product weight to it in the payload
+
         /** @var array $lineItem */
         foreach ($convertedCart['lineItems'] as $key => $lineItem) {
-            //If product type
             if (empty($lineItem['type'])) {
                 continue;
             }
+
             if ($lineItem['type'] !== LineItem::PRODUCT_LINE_ITEM_TYPE) {
                 continue;
             }
+
             if (empty($lineItem['payload'])) {
                 continue;
             }
-            if (!empty($lineItem['payload'][Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY])) {
-                continue;
-            }
-            //Get product weight if not already in there
-            $productCriteria = new Criteria([$lineItem['referencedId']]);
-            $repositoryProduct = $this->productRepository->search($productCriteria, $event->getContext())->first();
 
-            if (!$repositoryProduct instanceof ProductEntity) {
+            $productCriteria = new Criteria([$lineItem['referencedId']]);
+
+            /** @var ProductEntity $product */
+            $product = $this->productRepository->search($productCriteria, $event->getContext())->first();
+
+            /** @var ProductAttributeStruct $productAttributes */
+            $productAttributes = $this->attributeFactory->create(
+                ProductAttributeStruct::class,
+                $product->getTranslation('customFields'),
+                $event->getContext()
+            );
+
+            if (!$product instanceof ProductEntity) {
                 continue;
             }
-            // Add the weight to the original product/payload
-            $weight = $repositoryProduct->getWeight();
-            //Add it back
-            $convertedCart['lineItems'][$key]['payload'][Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY] = $weight;
+
+            if (empty($lineItem['payload'][Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY])) {
+                $convertedCart['lineItems'][$key]['payload'][Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY]
+                    = $product->getWeight();
+            }
+
+            if (empty($lineItem['payload'][Defaults::LINEITEM_PAYLOAD_TARIFF_KEY])) {
+                $convertedCart['lineItems'][$key]['payload'][Defaults::LINEITEM_PAYLOAD_TARIFF_KEY]
+                    = $productAttributes->getPostnlProductHsCode();
+            }
+
+            if (empty($lineItem['payload'][Defaults::LINEITEM_PAYLOAD_ORIGIN_KEY])
+                && !empty($productAttributes->getPostnlProductCountryOfOrigin())) {
+                $convertedCart['lineItems'][$key]['payload'][Defaults::LINEITEM_PAYLOAD_ORIGIN_KEY]
+                    = $productAttributes->getPostnlProductCountryOfOrigin()->getIso();
+            }
         }
-        //Don't forget to add it back to the event.
+
         $event->setConvertedCart($convertedCart);
     }
 
-    public function addProductData(CartConvertedEvent $event)
+    public function addPostNLProductId(CartConvertedEvent $event)
     {
         $cart = $event->getCart();
 
@@ -112,7 +137,7 @@ class ConversionSubscriber implements EventSubscriberInterface
             $event->getContext()
         );
 
-        $productId = $this->getProductId($cart, $config, $attributes);
+        $productId = $this->getPostNLProductId($cart, $config, $attributes);
 
         $convertedCart = $event->getConvertedCart();
         $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge(
@@ -125,7 +150,7 @@ class ConversionSubscriber implements EventSubscriberInterface
         $event->setConvertedCart($convertedCart);
     }
 
-    protected function getProductId(
+    protected function getPostNLProductId(
         Cart                          $cart,
         ConfigStruct                  $config,
         ShippingMethodAttributeStruct $shippingMethodAttributes
@@ -207,7 +232,7 @@ class ConversionSubscriber implements EventSubscriberInterface
             case Zone::EU:
                 return Defaults::PRODUCT_SHIPPING_EU_4952;
             case Zone::GLOBAL:
-                return Defaults::PRODUCT_SHIPPING_GLOBAL_4947;
+                return Defaults::PRODUCT_SHIPPING_GLOBAL_4945;
         }
 
         return '';

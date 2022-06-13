@@ -7,6 +7,8 @@ class Defaults
     const CUSTOM_FIELDS_KEY = 'postnl';
 
     const LINEITEM_PAYLOAD_WEIGHT_KEY = 'weight';
+    const LINEITEM_PAYLOAD_TARIFF_KEY = 'hsTariffCode';
+    const LINEITEM_PAYLOAD_ORIGIN_KEY = 'countryOfOrigin';
 
     const PRODUCT_MAILBOX_NL_NL = self::PRODUCT_MAILBOX_NL_NL_2928;
     const PRODUCT_SHIPPING_NL_NL = self::PRODUCT_SHIPPING_NL_NL_3085;
@@ -81,6 +83,6 @@ class Defaults
     // ParcelsEU, is actually 4944, but 4952 should be used
     const PRODUCT_SHIPPING_EU_4952 = "2e00df0d0e7146b5b16f955084792e05";
 
-    // GlobalPack, is actually 4945, but 4947 should be used
-    const PRODUCT_SHIPPING_GLOBAL_4947 = "2a4dae5c11634f28b8051fbe3d810b2d";
+    // GlobalPack
+    const PRODUCT_SHIPPING_GLOBAL_4945 = "2a4dae5c11634f28b8051fbe3d810b2d";
 }
