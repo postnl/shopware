@@ -3,7 +3,6 @@
 namespace PostNL\Shopware6\Service\PostNL;
 
 
-use Firstred\PostNL\Entity\Response\GenerateLabelResponse;
 use Firstred\PostNL\Exception\PostNLException;
 use Firstred\PostNL\PostNL;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
@@ -273,15 +272,14 @@ class ShipmentService
             $shipments[] = $this->shipmentBuilder->buildShipment($order, $context);
         }
 
-        /** @var GenerateLabelResponse[] $labelResponses */
-        $labelResponses = $apiClient->generateLabels(
+        $labelResponses = $apiClient->sendShipments(
             $shipments,
             $printerType,
             $confirm
         );
 
         if ($confirm) {
-        foreach ($orders as $order) {
+            foreach ($orders as $order) {
                 $this->orderService->updateOrderCustomFields($order->getId(), ['confirm' => $confirm], $context);
             }
         }
