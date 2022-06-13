@@ -5,6 +5,7 @@ namespace PostNL\Shopware6\Service\PostNL;
 
 use Firstred\PostNL\Exception\PostNLException;
 use Firstred\PostNL\PostNL;
+use PostNL\Shopware6\Defaults;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Builder\ShipmentBuilder;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
@@ -162,6 +163,7 @@ class ShipmentService
         */
 
         $printerType = 'GraphicFile|PDF';
+        $hasGlobalPackShipment = false;
 
         /** @var Label[] $labels */
         $labels = [];
@@ -179,6 +181,10 @@ class ShipmentService
                 /** @var OrderAttributeStruct $orderAttributes */
                 $orderAttributes = $this->attributeFactory->createFromEntity($salesChannelOrder, $context);
                 $product = $this->productService->getProduct($orderAttributes->getProductId(), $context);
+
+                if($product->getId() === Defaults::PRODUCT_SHIPPING_GLOBAL_4945) {
+                    $hasGlobalPackShipment = true;
+                }
 
                 if ($product->getDeliveryType() === DeliveryType::MAILBOX) {
                     $mailBoxOrders[] = $salesChannelOrder;
@@ -214,6 +220,9 @@ class ShipmentService
             case 'pdf':
                 //Merge to into one document
                 $format = $config->getPrinterFormat() === 'a4' ? LabelService::LABEL_FORMAT_A4 : LabelService::LABEL_FORMAT_A6;
+                if($hasGlobalPackShipment) {
+                    $format = LabelService::LABEL_FORMAT_A4;
+                }
                 return new MergedLabelResponse('pdf', $this->labelService->mergeLabels($labels, [], $format));
             case 'gif':
                 //Merge into one zip
