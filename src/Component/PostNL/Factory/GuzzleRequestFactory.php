@@ -24,7 +24,7 @@ final class GuzzleRequestFactory implements RequestFactoryInterface
      */
     public function createRequest($method, $uri)
     {
-        return (new Request($method, $uri, $this->headers));
+        return new Request($method, $uri, $this->headers);
     }
 
     /**

@@ -37,7 +37,7 @@ class CustomFieldFactory
      */
     protected $customFieldSetRepository;
 
-    /**(
+    /**
      * @var DefinitionInstanceRegistry
      */
     protected $definitionInstanceRegistry;
