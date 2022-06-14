@@ -1,0 +1,17 @@
+{
+  "$schema": "vendor/infection/infection/resources/schema.json",
+  "bootstrap": "./phpunit.autoload.php",
+  "minMsi": 0,
+  "minCoveredMsi": 20,
+  "source": {
+    "directories": [
+      "src"
+    ],
+    "excludes": [
+      "Resources"
+    ]
+  },
+  "mutators": {
+    "@default": true
+  }
+}

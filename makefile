@@ -33,8 +33,6 @@ clean-node: ## Removes node_modules
 
 # ------------------------------------------------------------------------------------------------------------
 
-phpunit: ## Starts all Tests
-	@XDEBUG_MODE=coverage php vendor/bin/phpunit --configuration=phpunit.xml --coverage-html ../../../public/.reports/postnl/coverage
 
 phpcheck: ## Starts the PHP syntax checks
 	@find . -name '*.php' -not -path "./vendor/*" -not -path "./tests/*" | xargs -n 1 -P4 php -l
@@ -45,12 +43,18 @@ phpmin: ## Starts the PHP compatibility checks
 csfix: ## Starts the PHP CS Fixer
 	@php vendor/bin/php-cs-fixer fix --config=./.php_cs.php --dry-run
 
+insights: ## Starts the PHPInsights Analyser
+	@php vendor/bin/phpinsights analyse --no-interaction
+
 phpstan: ## Starts the PHPStan Analyser
 	@php vendor/bin/phpstan analyse -c ./.phpstan.neon
 	@php vendor/bin/phpstan analyse -c ./.phpstan.lvl8.neon
 
-insights: ## Starts the PHPInsights Analyser
-	@php vendor/bin/phpinsights analyse --no-interaction
+phpunit: ## Starts all Tests
+	@XDEBUG_MODE=coverage php vendor/bin/phpunit --configuration=phpunit.xml --coverage-html ./.reports/postnl/coverage
+
+infection: ## Starts all Infection/Mutation tests
+	@phpdbg -qrr vendor/bin/infection --configuration=./.infection.json
 
 # ------------------------------------------------------------------------------------------------------------
 
@@ -60,6 +64,7 @@ pr: ## Prepares everything for a Pull Request
 	@make phpmin -B
 	@make phpstan -B
 	@make phpunit -B
+	@make infection -B
 
 release: ## Creates a new ZIP package
 	@cd .. && rm -rf PostNL-$(PLUGIN_VERSION).zip
