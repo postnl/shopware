@@ -8,7 +8,8 @@
     "optimize-autoloader": true,
     "prepend-autoloader": false,
     "allow-plugins": {
-      "composer/package-versions-deprecated": true
+      "composer/package-versions-deprecated": true,
+      "infection/extension-installer": false
     }
   },
   "autoload": {
@@ -42,7 +43,8 @@
     "phpstan/phpstan": "^0.12.82",
     "friendsofphp/php-cs-fixer": "^2.18",
     "phpcompatibility/php-compatibility": "^9.3",
-    "squizlabs/php_codesniffer": "^3.6"
+    "squizlabs/php_codesniffer": "^3.6",
+    "infection/infection": "0.25.6"
   },
   "scripts": {
     "post-install-cmd": [
