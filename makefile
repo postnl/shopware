@@ -33,18 +33,17 @@ clean-node: ## Removes node_modules
 
 # ------------------------------------------------------------------------------------------------------------
 
+insights: ## Starts the PHPInsights Analyser
+	@php vendor/bin/phpinsights analyse --no-interaction
+
+csfix: ## Starts the PHP CS Fixer
+	@php vendor/bin/php-cs-fixer fix --config=./.php_cs.php --dry-run
 
 phpcheck: ## Starts the PHP syntax checks
 	@find . -name '*.php' -not -path "./vendor/*" -not -path "./tests/*" | xargs -n 1 -P4 php -l
 
 phpmin: ## Starts the PHP compatibility checks
 	@php vendor/bin/phpcs -p --standard=PHPCompatibility --extensions=php --runtime-set testVersion 7.4 ./src
-
-csfix: ## Starts the PHP CS Fixer
-	@php vendor/bin/php-cs-fixer fix --config=./.php_cs.php --dry-run
-
-insights: ## Starts the PHPInsights Analyser
-	@php vendor/bin/phpinsights analyse --no-interaction
 
 phpstan: ## Starts the PHPStan Analyser
 	@php vendor/bin/phpstan analyse -c ./.phpstan.neon
