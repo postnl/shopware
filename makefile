@@ -63,8 +63,6 @@ pr: ## Prepares everything for a Pull Request
 	@make phpcheck -B
 	@make phpmin -B
 	@make phpstan -B
-	@make phpunit -B
-	@make infection -B
 
 release: ## Creates a new ZIP package
 	@cd .. && rm -rf PostNL-$(PLUGIN_VERSION).zip
