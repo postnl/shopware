@@ -8,3 +8,11 @@ parameters:
     - ./src/Resources/*
     - ./src/Service/*
     - ./src/Subscriber/*
+
+services:
+    - class: PostNL\Shopware6\PHPStan\Rules\NoManufacturerRule
+      tags:
+        - phpstan.rules.rule
+    - class: PostNL\Shopware6\PHPStan\Rules\StrictTypeRule
+      tags:
+        - phpstan.rules.rule

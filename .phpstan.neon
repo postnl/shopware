@@ -3,3 +3,8 @@ parameters:
   paths:
     - ./src
   excludes_analyse:
+
+services:
+    - class: PostNL\Shopware6\PHPStan\Rules\NoManufacturerRule
+      tags:
+        - phpstan.rules.rule
