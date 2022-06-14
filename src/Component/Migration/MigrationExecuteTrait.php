@@ -10,7 +10,7 @@ trait MigrationExecuteTrait
     /**
      * @param Connection $connection
      * @param string $sql
-     * @return int
+     * @return int|string
      * @throws \Doctrine\DBAL\Exception
      */
     protected function execute(Connection $connection, string $sql)
