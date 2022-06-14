@@ -3,6 +3,7 @@ parameters:
   paths:
     - ./src
   excludes_analyse:
+    - ./src/Component/PostNL/*
     - ./src/Controller/*
     - ./src/Resources/*
     - ./src/Service/*
