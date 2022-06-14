@@ -9,7 +9,8 @@
     "prepend-autoloader": false,
     "allow-plugins": {
       "composer/package-versions-deprecated": true,
-      "infection/extension-installer": false
+      "infection/extension-installer": false,
+      "dealerdirect/phpcodesniffer-composer-installer": false
     }
   },
   "autoload": {
@@ -41,10 +42,11 @@
     "shopware/storefront": "*",
     "phpunit/phpunit": "^9.5",
     "phpstan/phpstan": "^0.12.82",
-    "friendsofphp/php-cs-fixer": "^2.18",
+    "friendsofphp/php-cs-fixer": "^3",
     "phpcompatibility/php-compatibility": "^9.3",
     "squizlabs/php_codesniffer": "^3.6",
-    "infection/infection": "0.25.6"
+    "infection/infection": "0.25.6",
+    "nunomaduro/phpinsights": "^2.4"
   },
   "scripts": {
     "post-install-cmd": [

@@ -1,6 +1,6 @@
 <?php
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config)
     ->setUsingCache(false)
     ->setRules([
         'array_syntax' => ['syntax' => 'short'],
