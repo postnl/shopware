@@ -2,8 +2,6 @@
 
 namespace PostNL\Shopware6\Service\PostNL\Label;
 
-use PostNL\Shopware6\Service\PostNL\LabelService;
-
 /**
  * All titles are on a landscape page
  */
@@ -41,17 +39,17 @@ class A6OnA4LandscapeLabelConfiguration
 
     public function hasFreeSlots(string $labelFormat): bool
     {
-        if ($labelFormat == LabelService::LABEL_FORMAT_A6) {
+        if ($labelFormat == LabelDefaults::LABEL_FORMAT_A6) {
             return $this->topLeftFree || $this->topRightFree || $this->bottomLeftFree || $this->bottomRightFree;
         }
-        if ($labelFormat == LabelService::LABEL_FORMAT_A5) {
+        if ($labelFormat == LabelDefaults::LABEL_FORMAT_A5) {
             return $this->topLeftFree && $this->bottomLeftFree || $this->topRightFree && $this->bottomRightFree;
         }
     }
 
     public function getFreeSlot(string $labelFormat): ?string
     {
-        if ($labelFormat == LabelService::LABEL_FORMAT_A6) {
+        if ($labelFormat == LabelDefaults::LABEL_FORMAT_A6) {
             foreach ($this->getSlotsArray() as $slotName => $free) {
                 if ($free) {
                     return $slotName;
@@ -59,7 +57,7 @@ class A6OnA4LandscapeLabelConfiguration
             }
         }
 
-        if ($labelFormat == LabelService::LABEL_FORMAT_A5) {
+        if ($labelFormat == LabelDefaults::LABEL_FORMAT_A5) {
             if ($this->topLeftFree && $this->bottomLeftFree) {
                 return self::LEFT_FREE;
             }
@@ -72,8 +70,8 @@ class A6OnA4LandscapeLabelConfiguration
 
     public function fillSlot(string $slot, string $labelFormat)
     {
-        if ($labelFormat == LabelService::LABEL_FORMAT_A5) {
-            switch ($slot){
+        if ($labelFormat == LabelDefaults::LABEL_FORMAT_A5) {
+            switch ($slot) {
                 case self::LEFT_FREE:
                     $this->topLeftFree = false;
                     $this->bottomLeftFree = false;
@@ -84,7 +82,7 @@ class A6OnA4LandscapeLabelConfiguration
                     break;
             }
         }
-        if ($labelFormat == LabelService::LABEL_FORMAT_A6) {
+        if ($labelFormat == LabelDefaults::LABEL_FORMAT_A6) {
             switch ($slot) {
                 case self::TOP_LEFT_FREE:
                     $this->topLeftFree = false;
@@ -104,15 +102,15 @@ class A6OnA4LandscapeLabelConfiguration
 
     public static function getCoordinatesXYForSlot(string $slot, string $labelFormat)
     {
-        if ($labelFormat == LabelService::LABEL_FORMAT_A5) {
+        if ($labelFormat == LabelDefaults::LABEL_FORMAT_A5) {
             switch ($slot) {
                 case self::LEFT_FREE:
-                    return [0,0];
+                    return [0, 0];
                 case self::RIGHT_FREE:
                     return [148, 0];
             }
         }
-        if ($labelFormat == LabelService::LABEL_FORMAT_A6) {
+        if ($labelFormat == LabelDefaults::LABEL_FORMAT_A6) {
             switch ($slot) {
                 case self::TOP_LEFT_FREE:
                     return [0, 0];
@@ -128,15 +126,15 @@ class A6OnA4LandscapeLabelConfiguration
 
     public static function getRotatedCoordinatesXYForSlot(string $slot, string $labelFormat)
     {
-        if ($labelFormat == LabelService::LABEL_FORMAT_A5) {
+        if ($labelFormat == LabelDefaults::LABEL_FORMAT_A5) {
             switch ($slot) {
                 case self::LEFT_FREE:
-                    return [-210,0];
+                    return [-210, 0];
                 case self::RIGHT_FREE:
                     return [-210, 148];
             }
         }
-        if ($labelFormat == LabelService::LABEL_FORMAT_A6) {
+        if ($labelFormat == LabelDefaults::LABEL_FORMAT_A6) {
             switch ($slot) {
                 case self::TOP_LEFT_FREE:
                     return [-105, 0];

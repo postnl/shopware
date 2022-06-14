@@ -7,20 +7,11 @@ use Firstred\PostNL\Util\RFPdi;
 use Firstred\PostNL\Util\Util;
 use PostNL\Shopware6\Service\PostNL\Label\A6OnA4LandscapeLabelConfiguration;
 use PostNL\Shopware6\Service\PostNL\Label\Label;
+use PostNL\Shopware6\Service\PostNL\Label\LabelDefaults;
 use setasign\Fpdi\PdfParser\StreamReader;
 
 class LabelService
 {
-    const ORIENTATION_FORMAT_PORTRAIT = 'P';
-    const ORIENTATION_FORMAT_LANDSCAPE = 'L';
-    const LABEL_FORMAT_A4 = 'A4';
-    const LABEL_FORMAT_A5 = 'A5';
-    const LABEL_FORMAT_A6 = 'A6';
-    const A4_DIMENSIONS = [210, 297];
-    const A5_DIMENSIONS = [210, 148];
-    const A6_DIMENSIONS = [105, 148];
-
-
     /**
      * @param Label[] $labels
      * @param A6OnA4LandscapeLabelConfiguration[] $labelConfigurations
@@ -35,7 +26,7 @@ class LabelService
     public function mergeLabels(
         array  $labels,
         array  $labelConfigurations = [],
-        string $mergedFormat = self::LABEL_FORMAT_A4
+        string $mergedFormat = LabelDefaults::LABEL_FORMAT_A4
 
     ): string
     {
@@ -44,7 +35,7 @@ class LabelService
 
         //Start a new pdf
         //Disable header and footer
-        $pdf = new RFPdi(self::ORIENTATION_FORMAT_LANDSCAPE, 'mm', $mergedFormat === self::LABEL_FORMAT_A4 ? self::A4_DIMENSIONS : self::A6_DIMENSIONS);
+        $pdf = new RFPdi(LabelDefaults::ORIENTATION_FORMAT_LANDSCAPE, 'mm', $mergedFormat === LabelDefaults::LABEL_FORMAT_A4 ? self::A4_DIMENSIONS : self::A6_DIMENSIONS);
 
         foreach ($labels as $label) {
             $pdfContent = base64_decode($label->getContent());
@@ -60,18 +51,18 @@ class LabelService
                 $pdf->useTemplate($pdf->importPage(1));
             } else {
 
-                if ($labelFormat == self::LABEL_FORMAT_A4 && $mergedFormat == self::LABEL_FORMAT_A6) {
+                if ($labelFormat == LabelDefaults::LABEL_FORMAT_A4 && $mergedFormat == LabelDefaults::LABEL_FORMAT_A6) {
                     //No scaling implemented
                     throw new Exception('Destination size is smaller than origin');
                 }
 
-                if ($labelFormat == self::LABEL_FORMAT_A5 && $mergedFormat == self::LABEL_FORMAT_A6){
+                if ($labelFormat == LabelDefaults::LABEL_FORMAT_A5 && $mergedFormat == LabelDefaults::LABEL_FORMAT_A6) {
                     //No scaling implemented
                     throw new Exception('Destination size is smaller than origin');
                 }
 
                 //Discard if unusable
-                if (!empty($labelConfiguration)&&!$labelConfiguration->hasFreeSlots($labelFormat)) {
+                if (!empty($labelConfiguration) && !$labelConfiguration->hasFreeSlots($labelFormat)) {
                     array_shift($labelConfigurations);
                 }
 
@@ -96,14 +87,14 @@ class LabelService
                 //Import the page for usage
                 $importedPage = $pdf->importPage(1);
                 //Put a label in it (rotate if needed) (A5 is oriented differently)
-                if ($labelOrientation === self::ORIENTATION_FORMAT_PORTRAIT) {
+                if ($labelOrientation === LabelDefaults::ORIENTATION_FORMAT_PORTRAIT) {
                     //Rotate the document, paste the loaded pdf and rotate it back
-                    if ($labelFormat==self::LABEL_FORMAT_A5){
-                        $coordinates = A6OnA4LandscapeLabelConfiguration::getCoordinatesXYForSlot($freeSlot,$labelFormat);
+                    if ($labelFormat == LabelDefaults::LABEL_FORMAT_A5) {
+                        $coordinates = A6OnA4LandscapeLabelConfiguration::getCoordinatesXYForSlot($freeSlot, $labelFormat);
                         $pdf->useImportedPage($importedPage, $coordinates[0], $coordinates[1]);
-                    }else{
+                    } else {
                         $pdf->rotate(90, 0, 0);
-                        $coordinates = A6OnA4LandscapeLabelConfiguration::getRotatedCoordinatesXYForSlot($freeSlot,$labelFormat);
+                        $coordinates = A6OnA4LandscapeLabelConfiguration::getRotatedCoordinatesXYForSlot($freeSlot, $labelFormat);
                         $pdf->useImportedPage($importedPage, $coordinates[0], $coordinates[1]);
                         //Set the page back for un-rotated imports
                         $pdf->rotate(0, 0, 0);
@@ -111,20 +102,20 @@ class LabelService
 
 
                 } else {
-                    if ($labelFormat==self::LABEL_FORMAT_A5){
+                    if ($labelFormat == LabelDefaults::LABEL_FORMAT_A5) {
                         $pdf->rotate(90, 0, 0);
-                        $coordinates = A6OnA4LandscapeLabelConfiguration::getRotatedCoordinatesXYForSlot($freeSlot,$labelFormat);
+                        $coordinates = A6OnA4LandscapeLabelConfiguration::getRotatedCoordinatesXYForSlot($freeSlot, $labelFormat);
                         $pdf->useImportedPage($importedPage, $coordinates[0], $coordinates[1]);
                         //Set the page back for un-rotated imports
                         $pdf->rotate(0, 0, 0);
-                    }else {
+                    } else {
                         $coordinates = A6OnA4LandscapeLabelConfiguration::getCoordinatesXYForSlot($freeSlot, $labelFormat);
                         $pdf->useImportedPage($importedPage, $coordinates[0], $coordinates[1]);
                     }
                 }
 
                 //Mark slot as filled
-                $labelConfiguration->fillSlot($freeSlot,$labelFormat);
+                $labelConfiguration->fillSlot($freeSlot, $labelFormat);
 
             }
         }
@@ -146,28 +137,28 @@ class LabelService
             return 0;
         }
 
-        switch ($aSize){
-            case self::LABEL_FORMAT_A6:
-                if ($bSize == self::LABEL_FORMAT_A4){
+        switch ($aSize) {
+            case LabelDefaults::LABEL_FORMAT_A6:
+                if ($bSize == LabelDefaults::LABEL_FORMAT_A4) {
                     return 1;
                 }
-                if ($bSize == self::LABEL_FORMAT_A5){
+                if ($bSize == LabelDefaults::LABEL_FORMAT_A5) {
                     return 1;
                 }
                 break;
-            case self::LABEL_FORMAT_A5:
-                if ($bSize == self::LABEL_FORMAT_A4){
+            case LabelDefaults::LABEL_FORMAT_A5:
+                if ($bSize == LabelDefaults::LABEL_FORMAT_A4) {
                     return 1;
                 }
-                if ($bSize === self::LABEL_FORMAT_A6){
+                if ($bSize === LabelDefaults::LABEL_FORMAT_A6) {
                     return -1;
                 }
                 break;
-            case self::LABEL_FORMAT_A4:
-                if ($bSize == self::LABEL_FORMAT_A5){
+            case LabelDefaults::LABEL_FORMAT_A4:
+                if ($bSize == LabelDefaults::LABEL_FORMAT_A5) {
                     return -1;
                 }
-                if ($bSize == self::LABEL_FORMAT_A6){
+                if ($bSize == LabelDefaults::LABEL_FORMAT_A6) {
                     return -1;
                 }
                 break;
