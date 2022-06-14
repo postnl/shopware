@@ -5,15 +5,18 @@ namespace PostNL\Shopware6\Core\Rule;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\ZoneService;
 use Shopware\Core\Checkout\CheckoutRuleScope;
 use Shopware\Core\Framework\Rule\Exception\UnsupportedOperatorException;
+use Shopware\Core\Framework\Rule\Rule;
 use Shopware\Core\Framework\Rule\RuleScope;
 use Shopware\Core\Framework\Validation\Constraint\ArrayOfType;
+use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class PostNLZoneRule extends \Shopware\Core\Framework\Rule\Rule
+//TODO Move class out of Core folder
+class PostNLZoneRule extends Rule
 {
     /**
-     * @var string[]
+     * @var string[]|null
      */
     protected $postNLZones;
 
@@ -23,8 +26,8 @@ class PostNLZoneRule extends \Shopware\Core\Framework\Rule\Rule
     protected $operator;
 
     /**
-     * @param array|null $postNLZones
-     * @param string $operator
+     * @param string        $operator
+     * @param string[]|null $postNLZones
      */
     public function __construct(string $operator = self::OPERATOR_EQ, ?array $postNLZones = null)
     {
@@ -33,13 +36,18 @@ class PostNLZoneRule extends \Shopware\Core\Framework\Rule\Rule
         $this->operator = $operator;
     }
 
-
+    /**
+     * @return string
+     */
     public function getName(): string
     {
         return 'postnlZone';
     }
 
     /**
+     * @param RuleScope $scope
+     * @return bool
+     * @throws UnsupportedOperatorException
      * @throws \Exception
      */
     public function match(RuleScope $scope): bool
@@ -49,6 +57,10 @@ class PostNLZoneRule extends \Shopware\Core\Framework\Rule\Rule
         }
 
         if ($this->operator === self::OPERATOR_EMPTY) {
+            return false;
+        }
+
+        if (empty($this->postNLZones)) {
             return false;
         }
 
@@ -73,21 +85,30 @@ class PostNLZoneRule extends \Shopware\Core\Framework\Rule\Rule
         }
     }
 
+    /**
+     * @return array<string, Constraint[]>
+     */
     public function getConstraints(): array
     {
         $constraints = [
-            'operator' => [new NotBlank(), new Choice([
-                self::OPERATOR_EQ,
-                self::OPERATOR_NEQ,
-                self::OPERATOR_EMPTY
-            ])]
+            'operator' => [
+                new NotBlank(),
+                new Choice([
+                    self::OPERATOR_EQ,
+                    self::OPERATOR_NEQ,
+                    self::OPERATOR_EMPTY,
+                ]),
+            ],
         ];
 
         if ($this->operator === self::OPERATOR_EMPTY) {
             return $constraints;
         }
 
-        $constraints['postNLZones'] = [new NotBlank(), new ArrayOfType('string')];
+        $constraints['postNLZones'] = [
+            new NotBlank(),
+            new ArrayOfType('string'),
+        ];
 
         return $constraints;
     }

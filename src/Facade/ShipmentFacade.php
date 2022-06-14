@@ -115,7 +115,7 @@ class ShipmentFacade
      * @param string[] $orderIds
      * @param bool $confirmShipments
      * @param Context $context
-     * @return string
+     * @return MergedLabelResponse
      */
     public function shipOrders(
         array   $orderIds,

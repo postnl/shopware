@@ -14,6 +14,7 @@ class ZoneService
                 $sourceMapping = ZoneMapping::SOURCE_BE;
                 break;
             default:
+                // TODO exception
                 throw new \Exception('Shipping not supported for this source country');
         }
 
