@@ -12,6 +12,7 @@ use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shopware6\Service\PostNL\Label\Extractor\LabelExtractorInterface;
 use PostNL\Shopware6\Service\PostNL\Label\Label;
+use PostNL\Shopware6\Service\PostNL\Label\LabelDefaults;
 use PostNL\Shopware6\Service\PostNL\Label\MergedLabelResponse;
 use PostNL\Shopware6\Service\PostNL\Product\ProductService;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
@@ -182,7 +183,7 @@ class ShipmentService
                 $orderAttributes = $this->attributeFactory->createFromEntity($salesChannelOrder, $context);
                 $product = $this->productService->getProduct($orderAttributes->getProductId(), $context);
 
-                if($product->getId() === Defaults::PRODUCT_SHIPPING_GLOBAL_4945) {
+                if ($product->getId() === Defaults::PRODUCT_SHIPPING_GLOBAL_4945) {
                     $hasGlobalPackShipment = true;
                 }
 
@@ -219,9 +220,9 @@ class ShipmentService
             default:
             case 'pdf':
                 //Merge to into one document
-                $format = $config->getPrinterFormat() === 'a4' ? LabelService::LABEL_FORMAT_A4 : LabelService::LABEL_FORMAT_A6;
-                if($hasGlobalPackShipment) {
-                    $format = LabelService::LABEL_FORMAT_A4;
+                $format = $config->getPrinterFormat() === 'a4' ? LabelDefaults::LABEL_FORMAT_A4 : LabelDefaults::LABEL_FORMAT_A6;
+                if ($hasGlobalPackShipment) {
+                    $format = LabelDefaults::LABEL_FORMAT_A4;
                 }
                 return new MergedLabelResponse('pdf', $this->labelService->mergeLabels($labels, [], $format));
             case 'gif':

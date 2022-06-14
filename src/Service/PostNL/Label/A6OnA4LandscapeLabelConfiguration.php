@@ -45,6 +45,7 @@ class A6OnA4LandscapeLabelConfiguration
         if ($labelFormat == LabelDefaults::LABEL_FORMAT_A5) {
             return $this->topLeftFree && $this->bottomLeftFree || $this->topRightFree && $this->bottomRightFree;
         }
+        return false;
     }
 
     public function getFreeSlot(string $labelFormat): ?string
@@ -159,7 +160,7 @@ class A6OnA4LandscapeLabelConfiguration
             self::TOP_LEFT_FREE => $this->topLeftFree,
             self::TOP_RIGHT_FREE => $this->topRightFree,
             self::BOTTOM_LEFT_FREE => $this->bottomLeftFree,
-            self::BOTTOM_RIGHT_FREE => $this->bottomRightFree
+            self::BOTTOM_RIGHT_FREE => $this->bottomRightFree,
         ];
     }
 

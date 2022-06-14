@@ -13,9 +13,9 @@ use setasign\Fpdi\PdfParser\StreamReader;
 class LabelService
 {
     /**
-     * @param Label[] $labels
+     * @param Label[]                             $labels
      * @param A6OnA4LandscapeLabelConfiguration[] $labelConfigurations
-     * @param string $mergedFormat The format the labels will be returned as
+     * @param string                              $mergedFormat The format the labels will be returned as
      * @return string
      * @throws \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
      * @throws \setasign\Fpdi\PdfParser\Filter\FilterException
@@ -31,11 +31,11 @@ class LabelService
     ): string
     {
         //Sort the labels by size, big ones first
-        usort($labels, array($this, 'labelSizeSort'));
+        usort($labels, [$this, 'labelSizeSort']);
 
         //Start a new pdf
         //Disable header and footer
-        $pdf = new RFPdi(LabelDefaults::ORIENTATION_FORMAT_LANDSCAPE, 'mm', $mergedFormat === LabelDefaults::LABEL_FORMAT_A4 ? self::A4_DIMENSIONS : self::A6_DIMENSIONS);
+        $pdf = new RFPdi(LabelDefaults::ORIENTATION_FORMAT_LANDSCAPE, 'mm', $mergedFormat === LabelDefaults::LABEL_FORMAT_A4 ? LabelDefaults::A4_DIMENSIONS : LabelDefaults::A6_DIMENSIONS);
 
         foreach ($labels as $label) {
             $pdfContent = base64_decode($label->getContent());
