@@ -8,12 +8,12 @@
     "config": {
       "mandatoryFields": "Fields with an asterisk are mandatory.",
       "info": {
-        "title": "Hi {username}, welcome to the PostNL extension",
-        "onboardingStep1": "Find your API key at {mijnPostNLLink}. Or request an API key {mijnPostNLApiHere}.",
+        "title": "Hi {username}, welcome to the PostNL extension!",
+        "onboardingStep1": "Find your API key at {mijnPostNLLink}. Or request an API key here.",
         "mijnPostNL": "MijnPostNL",
         "mijnPostNLApiHere": "here",
         "onboardingStep2": "Activate PostNL's shipping options in Shopware's Shipping settings.",
-        "onboardingStep21": "Go to {shippingSettingsLink}.",
+        "onboardingStep21": "Go to {shippingSettingsLink}",
         "shippingSettings": "Shipping settings",
         "onboardingStep3": "Activate PostNL's shipping options per sales channel.",
         "onboardingStep31": "Go to your {salesChannels}",
