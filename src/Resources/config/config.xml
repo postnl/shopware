@@ -173,28 +173,41 @@
     <card>
         <title>Address check</title>
         <title lang="de-DE">Adressprüfung</title>
-        <title lang="nl-NL">Adrescontrole</title>
+        <title lang="nl-NL">Adrescheck</title>
+
+        <component name="postnl-config-description-text">
+            <name>addressCheckTitle</name>
+            <label>Based on the combination Postal Code and Housenumber, addresses customers fill in are validated</label>
+            <label lang="de-DE">Anhand der Kombination aus Postleitzahl und Hausnummer werden die von den Kunden eingegebenen Adressen überprüft.</label>
+            <label lang="nl-NL">Op basis van de combinatie postcode en huisnummer worden adressen die klanten invullen gevalideerd</label>
+        </component>
+
         <input-field type="bool">
             <name>addressCheck</name>
-            <label>Address check</label>
-            <label lang="de-DE">Adressprüfung</label>
-            <label lang="nl-NL">Adrescontrole</label>
-            <helpText>Based on the combination Postal Code and Housenumber, addresses customers fill in are validated</helpText>
-            <helpText lang="de-DE">Anhand der Kombination aus Postleitzahl und Hausnummer werden die von den Kunden eingegebenen Adressen überprüft.</helpText>
-            <helpText lang="nl-NL">Op basis van de combinatie postcode en huisnummer worden adressen die klanten invullen gevalideerd</helpText>
+            <label>Activate address check</label>
+            <label lang="de-DE">Adressprüfung aktivieren</label>
+            <label lang="nl-NL">Adrescheck activeren</label>
+
             <defaultValue>true</defaultValue>
         </input-field>
     </card>
 
     <card>
-        <title>Return label</title>
-        <title lang="de-DE">Rücksendeetikett</title>
-        <title lang="nl-NL">Retouretiket</title>
-        <input-field type="bool">
-            <name>returnLabelInTheBox</name>
+        <component name="postnl-config-description-text">
+            <name>returnLabelInTheBoxTitle</name>
             <label>Print return label directly when the shipping label is printed so that the return label can be put in the box.</label>
             <label lang="de-DE">Drucken Sie das Rücksendeetikett direkt beim Drucken des Versandetiketts, damit das Rücksendeetikett in den Karton gelegt werden kann.</label>
-            <label lang="nl-NL">Druk het retouretiket direct af wanneer het verzendetiket wordt afgedrukt, zodat het retouretiket in de doos kan worden gedaan.</label>
+            <label lang="nl-NL">Druk het retourlabel direct af wanneer het verzendlabel wordt afgedrukt, zodat het retouretiket in de doos kan worden gedaan.</label>
+        </component>
+
+        <title>Return label</title>
+        <title lang="de-DE">Rücksendeetikett</title>
+        <title lang="nl-NL">Retourlabel</title>
+        <input-field type="bool">
+            <name>returnLabelInTheBox</name>
+            <label>Print return label</label>
+            <label lang="de-DE">Rücksendeetikett drucken</label>
+            <label lang="nl-NL">Retourlabel afdrukken</label>
             <defaultValue>true</defaultValue>
         </input-field>
     </card>
@@ -202,7 +215,7 @@
     <card>
         <title>Label Format</title>
         <title lang="de-DE">Etikett Format</title>
-        <title lang="nl-NL">Etiketformaat</title>
+        <title lang="nl-NL">Labelformaat</title>
 <!--
         <input-field type="single-select">
             <name>printerFile</name>
