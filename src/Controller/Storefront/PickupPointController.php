@@ -33,7 +33,7 @@ class PickupPointController extends StorefrontController
         $pickupPointLocationCode = $data->get('pickupPointLocationCode');
 
         $this->cartService->addData([
-            'pickupPointLocationCode' => $pickupPointLocationCode
+            'pickupPointLocationCode' => (int)$pickupPointLocationCode
         ], $context);
 
         return $this->json(null, 204);

@@ -27,7 +27,7 @@ class OrderAttributeStruct extends EntityAttributeStruct
     protected $barCode;
 
     /**
-     * @var string|int|null
+     * @var int|null
      */
     protected $pickupPointLocationCode;
 
@@ -53,9 +53,9 @@ class OrderAttributeStruct extends EntityAttributeStruct
     }
 
     /**
-     * @return string|int|null
+     * @return int|null
      */
-    public function getPickupPointLocationCode()
+    public function getPickupPointLocationCode(): ?int
     {
         return $this->pickupPointLocationCode;
     }

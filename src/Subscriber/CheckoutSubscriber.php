@@ -171,7 +171,7 @@ class CheckoutSubscriber implements EventSubscriberInterface
 
         if (!$event->getPage()->getCart()->hasExtensionOfType(CartService::EXTENSION, ArrayStruct::class)) {
             $event->getPage()->setCart($this->cartService->addData([
-                'pickupPointLocationCode' => $locationCode,
+                'pickupPointLocationCode' => (int)$locationCode,
             ], $event->getSalesChannelContext()));
         }
 
@@ -184,7 +184,7 @@ class CheckoutSubscriber implements EventSubscriberInterface
 
         if (!in_array($existingLocationCode, $availableLocationCodes)) {
             $event->getPage()->setCart($this->cartService->addData([
-                'pickupPointLocationCode' => $locationCode,
+                'pickupPointLocationCode' => (int)$locationCode,
             ], $event->getSalesChannelContext()));
         }
 
