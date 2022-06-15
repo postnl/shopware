@@ -177,9 +177,9 @@
 
         <component name="postnl-config-description-text">
             <name>addressCheckTitle</name>
-            <label>Based on the combination Postal Code and Housenumber, addresses customers fill in are validated</label>
+            <label>Based on the combination Postal Code and Housenumber, addresses customers fill in are validated.</label>
             <label lang="de-DE">Anhand der Kombination aus Postleitzahl und Hausnummer werden die von den Kunden eingegebenen Adressen überprüft.</label>
-            <label lang="nl-NL">Op basis van de combinatie postcode en huisnummer worden adressen die klanten invullen gevalideerd</label>
+            <label lang="nl-NL">Op basis van de combinatie postcode en huisnummer worden adressen die klanten invullen gevalideerd.</label>
         </component>
 
         <input-field type="bool">
