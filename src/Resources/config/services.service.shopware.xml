@@ -40,8 +40,8 @@
             <argument type="service"
                       id="PostNL\Shopware6\Service\Shopware\ShippingMethod\ShippingMethodRouteDecorator.inner"/>
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\ConfigService"/>
-            <argument type="service" id="Shopware\Core\System\SalesChannel\Context\SalesChannelContextPersister"/>
             <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
+            <argument type="service" id="PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory"/>
         </service>
     </services>
 </container>
