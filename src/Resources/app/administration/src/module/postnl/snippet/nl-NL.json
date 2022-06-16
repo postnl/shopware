@@ -5,6 +5,10 @@
       "descriptionTextModule": "PostNL bestellingen",
       "ordersMenuItemGeneral": "PostNL bestellingen"
     },
+    "order_details": {
+      "btnEditShippingMethod": "Verzendmethode wijzigen",
+      "btnConfirmAndPrint": "Voormelden en labels printen"
+    },
     "config": {
       "mandatoryFields": "Velden met een asterisk zijn verplicht.",
       "info": {
@@ -92,7 +96,8 @@
         "confirmShipments": "Zending voormelden bij PostNL",
         "downloadLabels": "Verzendlabels downloaden",
         "cancel": "Annuleren",
-        "confirm": "Verzendingen aanmaken"
+        "confirm": "Verzendingen aanmaken",
+        "warning": "Kan verzendmethode niet veranderen"
       }
     },
     "productSelection": {
