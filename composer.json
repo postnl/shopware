@@ -4,13 +4,25 @@
   "type": "shopware-platform-plugin",
   "version": "1.0.0-dev",
   "license": "proprietary",
-  "config": {
-    "optimize-autoloader": true,
-    "prepend-autoloader": false,
-    "allow-plugins": {
-      "composer/package-versions-deprecated": true,
-      "infection/extension-installer": false,
-      "dealerdirect/phpcodesniffer-composer-installer": false
+  "authors": [
+    {
+      "name": "PostNL",
+      "homepage": "https://www.postnl.nl",
+      "role": "Manufacturer"
+    },
+    {
+      "name": "Memo ICT",
+      "homepage": "https://memo-ict.nl",
+      "role": "Developer"
+    }
+  ],
+  "extra": {
+    "shopware-plugin-class": "PostNL\\Shopware6\\PostNL",
+    "copyright": "(c) by PostNL",
+    "label": {
+      "de-DE": "PostNL",
+      "en-GB": "PostNL",
+      "nl-NL": "PostNL"
     }
   },
   "autoload": {
@@ -24,20 +36,12 @@
       "PostNL\\Shopware6\\PHPStan\\": "tests/PHPStan/"
     }
   },
-  "extra": {
-    "shopware-plugin-class": "PostNL\\Shopware6\\PostNL",
-    "label": {
-      "de-DE": "PostNL",
-      "en-GB": "PostNL",
-      "nl-NL": "PostNL"
-    }
-  },
   "require": {
     "composer-runtime-api": "^2.0",
     "firstred/postnl-api-php": "^v1.3.14"
   },
   "require-dev": {
-    "shopware/core": "*",
+    "shopware/core": "^6.4",
     "shopware/administration": "*",
     "shopware/storefront": "*",
     "phpunit/phpunit": "^9.5",
@@ -55,5 +59,14 @@
     "post-update-cmd": [
       "[ ! -f vendor/bin/phpcs ] || vendor/bin/phpcs --config-set installed_paths vendor/phpcompatibility/php-compatibility"
     ]
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "prepend-autoloader": false,
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true,
+      "infection/extension-installer": false,
+      "dealerdirect/phpcodesniffer-composer-installer": false
+    }
   }
 }
