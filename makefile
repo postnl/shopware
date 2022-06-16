@@ -53,7 +53,7 @@ phpunit: ## Starts all Tests
 	@XDEBUG_MODE=coverage php vendor/bin/phpunit --configuration=phpunit.xml --coverage-html ./.reports/postnl/coverage
 
 infection: ## Starts all Infection/Mutation tests
-	@phpdbg -qrr vendor/bin/infection --configuration=./.infection.json
+	@XDEBUG_MODE=coverage php vendor/bin/infection --configuration=./.infection.json
 
 # ------------------------------------------------------------------------------------------------------------
 
