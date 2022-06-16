@@ -213,7 +213,7 @@ class ShipmentBuilder
 
     /**
      * @param OrderEntity $order
-     * @param Context     $context
+     * @param Context $context
      * @return Address
      */
     public function buildPickupLocationAddress(OrderEntity $order, Context $context): Address
@@ -266,35 +266,38 @@ class ShipmentBuilder
 
     /**
      * @param OrderEntity $order
-     * @param Context     $context
+     * @param Context $context
      * @return Dimension
      */
     public function buildDimension(OrderEntity $order, Context $context): Dimension
     {
-        $totalWeight = 0.0;
+        $totalWeight = 0;
 
         // Calculate weight per line item payload.
+
         foreach ($order->getLineItems() as $lineItem) {
+
             if (empty($lineItem->getPayload()[Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY])) {
                 continue;
             }
-
-            $totalWeight += ($lineItem->getPayload()[Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY] * $lineItem->getQuantity());
+            //Convert to grams
+            $weightInGrams = $lineItem->getPayload()[Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY]*1000;
+            $totalWeight += ($weightInGrams * $lineItem->getQuantity());
         }
 
-        return new Dimension($totalWeight);
+        return new Dimension(intval(round($totalWeight)));
     }
 
     public function buildCustoms(OrderEntity $order, Context $context): Customs
     {
         $config = $this->configService->getConfiguration($order->getSalesChannelId(), $context);
 
-        $invoice = $order->getDocuments()->filter(function($document) {
+        $invoice = $order->getDocuments()->filter(function ($document) {
             /** @var DocumentEntity $document */
             return $document->getDocumentType()->getTechnicalName() === InvoiceGenerator::INVOICE;
         })->last();
 
-        if($invoice instanceof DocumentEntity) {
+        if ($invoice instanceof DocumentEntity) {
             $invoiceNumber = $invoice->getConfig()['documentNumber'];
         } else {
             $invoiceNumber = $order->getOrderNumber();
@@ -309,7 +312,7 @@ class ShipmentBuilder
 
         $contents = [];
         $i = 0;
-        foreach($order->getLineItems() as $lineItem) {
+        foreach ($order->getLineItems() as $lineItem) {
             $weight = 0.0;
 
             if (!empty($lineItem->getPayload()[Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY])) {
@@ -318,7 +321,7 @@ class ShipmentBuilder
 
             $tariffNr = '000000';
 
-            if(!empty($config->getFallbackHSCode())) {
+            if (!empty($config->getFallbackHSCode())) {
                 $tariffNr = $config->getFallbackHSCode();
             }
 
@@ -341,7 +344,7 @@ class ShipmentBuilder
             $content->setCountryOfOrigin($countryOfOrigin);
 
             $contents[] = $content;
-            if(++$i >= 5) {
+            if (++$i >= 5) {
                 break;
             }
         }
