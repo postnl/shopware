@@ -44,7 +44,7 @@
         "houseNr": "Huisnummer",
         "houseNrExt": "Huisnummer toevoeging",
         "zipcode": "Postcode",
-        "city": "Stad",
+        "city": "Plaats",
         "country": "Land"
       },
       "returnAddress": {
@@ -57,7 +57,7 @@
         "houseNr": "Huisnummer",
         "houseNrExt": "Huisnummer toevoeging",
         "zipcode": "Postcode",
-        "city": "Stad",
+        "city": "Plaats",
         "country": "Land",
         "returnCustomerCode": "Retour klantcode",
         "returnNumber": "Antwoordnummer",
