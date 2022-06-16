@@ -5,6 +5,10 @@
       "descriptionTextModule": "PostNL Bestellungen",
       "ordersMenuItemGeneral": "PostNL Bestellungen"
     },
+    "order_details": {
+      "btnEditShippingMethod": "Versandart ändern",
+      "btnConfirmAndPrint": "Vorregistrierung und Etikettendruck"
+    },
     "config": {
       "info": {
         "title": "Hallo {username}, willkommen bei der PostNL-Erweiterung!",
@@ -92,7 +96,8 @@
         "confirmShipments": "Bestätige Sendungen bei PostNL",
         "downloadLabels": "Versandetiketten herunterladen",
         "cancel": "Abbrechen",
-        "confirm": "Sendungen senden"
+        "confirm": "Sendungen senden",
+        "warning": "Versandart kann nicht geändert werden"
       }
     },
     "productSelection": {

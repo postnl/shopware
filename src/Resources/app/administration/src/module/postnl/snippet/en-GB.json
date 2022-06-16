@@ -5,6 +5,10 @@
       "descriptionTextModule": "PostNL Orders",
       "ordersMenuItemGeneral": "PostNL Orders"
     },
+    "order_details": {
+      "btnEditShippingMethod": "Edit shipping method",
+      "btnConfirmAndPrint": "Confirm shipment and print labels"
+    },
     "config": {
       "mandatoryFields": "Fields with an asterisk are mandatory.",
       "info": {
@@ -92,7 +96,8 @@
         "confirmShipments": "Confirm shipments at PostNL",
         "downloadLabels": "Download shipping labels",
         "cancel": "Cancel",
-        "confirm": "Send shipments"
+        "confirm": "Send shipments",
+        "warning": "Unable to change shipping method"
       }
     },
     "productSelection": {
