@@ -41,6 +41,7 @@ class ShippingMethodRouteDecorator extends AbstractShippingMethodRoute
         $this->decoratedService = $decoratedService;
         $this->configService = $configService;
         $this->cartService = $cartService;
+        $this->attributeFactory = $attributeFactory;
     }
 
     public function getDecorated(): AbstractShippingMethodRoute
