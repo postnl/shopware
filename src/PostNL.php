@@ -4,6 +4,8 @@ namespace PostNL\Shopware6;
 
 use PostNL\Shopware6\Service\PostNL\RuleCreatorService;
 use PostNL\Shopware6\Service\PostNL\ShippingMethodCreatorService;
+use PostNL\Shopware6\Service\PostNL\ShippingMethodPriceCreatorService;
+use PostNL\Shopware6\Service\PostNL\ShippingRulePriceCreatorService;
 use PostNL\Shopware6\Service\Shopware\CustomField\CustomFieldInstaller;
 use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
@@ -38,11 +40,25 @@ class PostNL extends Plugin
 
         /** @var ShippingMethodCreatorService $shippingMethodCreator */
         $shippingMethodCreator = $this->container->get(ShippingMethodCreatorService::class);
-        $shippingMethodCreator->create($activateContext,$this->container, $this->getPath());
+        $shippingMethodIDs = $shippingMethodCreator->create(
+            $activateContext,
+            $this->container,
+            $this->getPath()
+        );
 
         /** @var RuleCreatorService $ruleCreatorService */
         $ruleCreatorService = $this->container->get(RuleCreatorService::class);
-        $ruleCreatorService->create($activateContext,$this->container);
+        $ruleIDs = $ruleCreatorService->create($activateContext, $this->container);
+
+        /** @var ShippingRulePriceCreatorService $shippingMethodPriceCreator */
+        $shippingMethodPriceCreator = $this->container->get(ShippingRulePriceCreatorService::class);
+        $shippingMethodPriceCreator->create(
+            $shippingMethodIDs,
+            $ruleIDs,
+            $activateContext,
+            $this->container
+        );
+        dd('block');
     }
 
     public function uninstall(UninstallContext $uninstallContext): void

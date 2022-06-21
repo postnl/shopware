@@ -86,7 +86,7 @@ class ShippingMethodService
         $this->logger = $logger;
     }
 
-    public function createShippingMethods(string $pluginDir, Context $context): void
+    public function createShippingMethods(string $pluginDir, Context $context):array
     {
         try {
             $rule = $this->getCartAmountRule($context);
@@ -97,9 +97,12 @@ class ShippingMethodService
             throw $e;
         }
 
+        $shippingIDs = [];
         foreach (['shipment', 'pickup'] as $deliveryType) {
             $id = $this->createShippingMethod($deliveryType, $rule->getId(), $deliveryTime->getId(), $mediaId, $context);
+        $shippingIDs[$deliveryType] = $id;
         }
+        return $shippingIDs;
     }
 
     public function createShippingMethod(

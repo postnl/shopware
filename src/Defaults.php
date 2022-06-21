@@ -6,6 +6,11 @@ class Defaults
 {
     const CUSTOM_FIELDS_KEY = 'postnl';
 
+    const ZONE_ONLY_EUROPE = "PostNL zone only Europe";
+    const ZONE_ONLY_BELGIUM = "PostNL zone only Belgium";
+    const ZONE_ONLY_REST_OF_WORLD = "PostNL zone only rest of world";
+    const ZONE_ONLY_NETHERLANDS = "PostNL zone only Netherlands";
+
     const LINEITEM_PAYLOAD_WEIGHT_KEY = 'weight';
     const LINEITEM_PAYLOAD_TARIFF_KEY = 'hsTariffCode';
     const LINEITEM_PAYLOAD_ORIGIN_KEY = 'countryOfOrigin';
