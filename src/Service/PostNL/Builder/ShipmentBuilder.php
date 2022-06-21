@@ -281,11 +281,11 @@ class ShipmentBuilder
                 continue;
             }
             //Convert to grams
-            $weightInGrams = $lineItem->getPayload()[Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY]*1000;
+            $weightInGrams = $this->convertToGramsInteger($lineItem->getPayload()[Defaults::LINEITEM_PAYLOAD_WEIGHT_KEY]);
             $totalWeight += ($weightInGrams * $lineItem->getQuantity());
         }
 
-        return new Dimension(intval(round($totalWeight)));
+        return new Dimension($totalWeight);
     }
 
     public function buildCustoms(OrderEntity $order, Context $context): Customs
@@ -338,7 +338,7 @@ class ShipmentBuilder
             $content = new Content();
             $content->setDescription($lineItem->getLabel());
             $content->setQuantity((string)$lineItem->getQuantity());
-            $content->setWeight((string)$weight);
+            $content->setWeight((string)$this->convertToGramsInteger($weight));
             $content->setValue((string)$lineItem->getTotalPrice());
             $content->setHSTariffNr($tariffNr);
             $content->setCountryOfOrigin($countryOfOrigin);
@@ -354,4 +354,15 @@ class ShipmentBuilder
         return $customs;
     }
 
+    /**
+     * Converts g to kg
+     * @param float|int $weightInKG
+     * @return int
+     */
+    private function convertToGramsInteger($weightInKG):int
+    {
+        //Shopware only allows a precision of 3 digits
+        $weightInGrams = $weightInKG*1000;
+        return intval(round($weightInGrams));
+    }
 }
