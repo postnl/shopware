@@ -165,7 +165,7 @@
             <name>fallbackHSCode</name>
             <label>Default HS Tariff code</label>
             <label lang="de-DE">Standard-HS-Zolltarifcode</label>
-            <label lang="nl-NL">Standaard GS-tariefcode</label>
+            <label lang="nl-NL">Standaard GS-tariefcode (HS-tariefcode)</label>
             <helpText>Default HS rate code for shipments outside the EU, if not entered at product level. Please note that it is mandatory to set this data at product level. To do so, go to Catalog → Products → Specifications.</helpText>
             <helpText lang="nl-NL">Standaard GS-tariefcode (HS-tariefcode) voor zendingen buiten de EU, indien niet ingevuld op productniveau. Let op, het is verplicht om deze gegevens op product-niveau in te stellen. Ga daarvoor naar Catalogus → Producten → Specificaties.</helpText>
             <helpText lang="de-DE">Standard-HS-Code für Sendungen außerhalb der EU, falls nicht auf Produktebene angegeben. Bitte beachten Sie, dass diese Daten zwingend auf Produktebene festgelegt werden müssen. Gehen Sie dazu auf Katalog → Produkte → Spezifikationen.</helpText>
