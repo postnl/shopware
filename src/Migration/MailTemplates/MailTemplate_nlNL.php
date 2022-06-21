@@ -36,11 +36,13 @@ MAIL;
     {
         return <<<MAIL
 <div style="font-family:arial; font-size:12px;">
-    <p>
-Goed nieuws! Je bestelling met bestelnummer {ORDERNUMBER} is klaargemaakt en komt zo snel mogelijk met PostNL naar je toe. Binnen enkele uren kun je je bestelling volgen via onderstaande link:
-<br>
+<p>
+Goed nieuws! Je bestelling met bestelnummer {{order.orderNumber}} is klaargemaakt en komt zo snel mogelijk met PostNL naar je toe. Binnen enkele uren kun je je bestelling volgen via onderstaande link:
+</p>
+<p>
 <a href="{{postNL.trackAndTraceLink}}">{{postNL.trackAndTraceLink}}</a>
-<br>
+</p>
+<p>
 Houd de Track & Trace link in de gaten voor de meest actuele status van jouw pakket.
 </p>
 </div>

@@ -36,11 +36,13 @@ MAIL;
     {
         return <<<MAIL
 <div style="font-family:arial; font-size:12px;">
-    <p>
+<p>
 Gute Nachrichten! Ihre Bestellung mit der Bestellnummer {{order.orderNumber}} wurde vorbereitet und wird Ihnen so schnell wie möglich mit PostNL zugestellt. Innerhalb weniger Stunden können Sie Ihre Bestellung über den folgenden Link verfolgen:
-<br>
+</p>
+<p>
 <a href="{{postNL.trackAndTraceLink}}">{{postNL.trackAndTraceLink}}</a>
-<br>
+</p>
+<p>
 Behalten Sie den Track & Trace-Link im Auge, um den aktuellsten Status Ihres Pakets zu erhalten.
 </p>
 </div>
