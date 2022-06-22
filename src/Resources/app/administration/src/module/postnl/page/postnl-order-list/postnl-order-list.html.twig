@@ -81,7 +81,9 @@
     <postnl-create-shipment-modal
         v-if="isCreateShipmentModalId === item.id"
         :selection="{item: item}"
-        @close="isCreateShipmentModalId = null"/>
+        @close="isCreateShipmentModalId = null"
+        @create-shipment="onCreateShipment"
+    />
 {% endblock %}
 
 {% block sw_order_list_bulk_selected_actions_content %}
@@ -117,6 +119,7 @@
             v-if="isBulkCreateShipmentModalOpen"
             :selection="selection"
             @close="isBulkCreateShipmentModalOpen = false"
+            @create-shipment="onCreateShipment"
         />
     </template>
 {% endblock %}
