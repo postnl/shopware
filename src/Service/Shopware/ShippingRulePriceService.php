@@ -2,10 +2,16 @@
 
 namespace PostNL\Shopware6\Service\Shopware;
 
+use PostNL\Shopware6\Defaults as PostNLDefaults;
 use Psr\Log\LoggerInterface;
+use Shopware\Core\Checkout\Shipping\Aggregate\ShippingMethodPrice\ShippingMethodPriceEntity;
 use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\MultiFilter;
+use Shopware\Core\Framework\Uuid\Uuid;
 
 class ShippingRulePriceService
 {
@@ -36,32 +42,87 @@ class ShippingRulePriceService
      * @param Context $context
      * @return void
      */
-    public function createPricingMatrices(array $shippingMethodArray, array $ruleIds,Context $context)
+    public function createPricingMatrices(array $shippingMethodArray, array $ruleIds, Context $context)
     {
         foreach ($shippingMethodArray as $shippingMethod => $shippingMethodId) {
-            switch ($shippingMethod){
+            switch ($shippingMethod) {
                 case 'shipment':
+                    $this->createPricingMatrix($shippingMethodId, $ruleIds[PostNLDefaults::ZONE_ONLY_NETHERLANDS], $context);
+                    $this->createPricingMatrix($shippingMethodId, $ruleIds[PostNLDefaults::ZONE_ONLY_BELGIUM], $context);
+                    $this->createPricingMatrix($shippingMethodId, $ruleIds[PostNLDefaults::ZONE_ONLY_EUROPE], $context);
+                    $this->createPricingMatrix($shippingMethodId, $ruleIds[PostNLDefaults::ZONE_ONLY_REST_OF_WORLD], $context);
                     break;
                 case 'pickup':
+                    $this->createPricingMatrix($shippingMethodId, $ruleIds[PostNLDefaults::ZONE_ONLY_NETHERLANDS], $context);
+                    $this->createPricingMatrix($shippingMethodId, $ruleIds[PostNLDefaults::ZONE_ONLY_BELGIUM], $context);
                     break;
             }
         }
     }
 
-    public function createPricingMatrix(string $shippingMethodId,array $ruleIds,Context $context)
+    /**
+     * @param string $shippingMethodId
+     * @param string $ruleId
+     * @param Context $context
+     * @return string|null
+     */
+    public function createPricingMatrix(string $shippingMethodId, string $ruleId, Context $context): ?string
     {
-        foreach ( as $item) {
+        //Check if it does not already exist
+        $criteria = new Criteria();
+        $criteria->addFilter(
+            new MultiFilter(
+                MultiFilter::CONNECTION_AND,
+                [
+                    new EqualsFilter('shippingMethodId', $shippingMethodId),
+                    new EqualsFilter('ruleId', $ruleId)
+                ]
+            )
+        );
 
+        $result = $this->shippingMethodPricesRepository->search($criteria, $context);
+
+        if ($result->getTotal() > 0) {
+            /** @var ShippingMethodPriceEntity $entity */
+            $entity = $result->first();
+            return $entity->getId();
         }
-        $this->shippingMethodPricesRepository->create(
+
+        //It does not, create.
+        $id = Uuid::randomHex();
+        $currencyPrice =
+            ['c' . Defaults::CURRENCY => [
+                'net' => '0',
+                'gross' => '0',
+                'linked' => false,
+                'currencyId' => Defaults::CURRENCY
+            ]
+            ];
+
+        $result = $this->shippingMethodPricesRepository->create(
             [
                 [
-                    'calculation'=>2,
-                    'quantityStart'=>1,
-                    'currencyId'=>Defaults::CURRENCY,
+                    'id' => $id,
+                    'calculation' => 2,
+                    'quantityStart' => 1,
+                    'currencyPrice' => $currencyPrice,
                     'shippingMethodId' => $shippingMethodId,
-                    'ruleId' => ''
+                    'ruleId' => $ruleId,
+                    'price' => 0,
                 ]
-            ],$context);
+            ], $context);
+
+        if (empty($result->getErrors())) {
+            return $id;
+        } else {
+            $this->logger->error("Could not create Shipping method price",
+                [
+                    'shippingMethodId' => $shippingMethodId,
+                    'ruleId' => $ruleId,
+                    'result' => $result
+                ]);
+            return null;
+        }
+
     }
 }
