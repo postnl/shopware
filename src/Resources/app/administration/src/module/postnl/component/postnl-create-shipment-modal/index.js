@@ -1,10 +1,8 @@
 import template from './postnl-create-shipment-modal.html.twig';
 // import './postnl-shipping-modal.scss';
 
-import { object } from '../../../../core/service/util.service';
-
 // eslint-disable-next-line no-undef
-const {Component, Mixin, } = Shopware;
+const {Component, Mixin,} = Shopware;
 
 Component.register('postnl-create-shipment-modal', {
     template,
@@ -46,7 +44,7 @@ Component.register('postnl-create-shipment-modal', {
 
     methods: {
         closeModal() {
-            if(!this.isProcessing) {
+            if (!this.isProcessing) {
                 this.$emit('close');
             }
         },
@@ -59,7 +57,7 @@ Component.register('postnl-create-shipment-modal', {
             this.ShipmentService
                 .generateBarcodes(orderIds)
                 .catch(error => {
-                    if(error.message) {
+                    if (error.message) {
                         this.createNotificationError({
                             title: this.$tc('global.default.error'),
                             message: error.message,
@@ -73,7 +71,7 @@ Component.register('postnl-create-shipment-modal', {
                     this.downloadLabels,
                 ))
                 .then(response => {
-                    if (response.data) {
+                    if (response.data && this.downloadLabels) {
                         //const filename = response.headers['content-disposition'].split('filename=')[1];
                         const link = document.createElement('a');
                         link.href = URL.createObjectURL(response.data);
@@ -82,6 +80,16 @@ Component.register('postnl-create-shipment-modal', {
                         link.dispatchEvent(new MouseEvent('click'));
                         link.remove();
                     }
+                    this.createNotificationSuccess({
+                        title: this.$tc('global.default.success'),
+                        message: this.$tc('postnl.order.shippingModal.confirmedShipments'),
+                    });
+                })
+                .catch(() => {
+                    this.createNotificationError({
+                        title: this.$tc('global.default.error'),
+                        message: this.$tc('global.notification.unspecifiedSaveErrorMessage'),
+                    });
                 })
                 .finally(() => {
                     this.isProcessing = false;

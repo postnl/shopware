@@ -94,6 +94,7 @@
         "title": "Ship this order | Ship {count} orders",
         "overrideProduct": "Select different product",
         "confirmShipments": "Confirm shipments at PostNL",
+        "confirmedShipments": "Shipment confirmed at PostNL",
         "downloadLabels": "Download shipping labels",
         "cancel": "Cancel",
         "confirm": "Send shipments",

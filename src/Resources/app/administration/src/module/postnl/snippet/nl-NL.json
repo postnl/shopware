@@ -94,6 +94,7 @@
         "title": "Verzend deze order | Verzend {count} orders",
         "overrideProduct": "Selecteer ander product",
         "confirmShipments": "Zending voormelden bij PostNL",
+        "confirmedShipments": "Zending bevestigd bij PostNL",
         "downloadLabels": "Verzendlabels downloaden",
         "cancel": "Annuleren",
         "confirm": "Verzendingen aanmaken",
