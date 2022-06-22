@@ -190,6 +190,13 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
             this.isChangeShippingModalId = null;
 
             this.onRefresh();
+        },
+
+        onCreateShipment() {
+            this.isBulkCreateShipmentModalOpen = false;
+            this.isCreateShipmentModalId = null;
+
+            this.onRefresh();
         }
     }
 });

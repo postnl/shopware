@@ -1,10 +1,9 @@
 import template from './postnl-change-shipping-modal.html.twig';
 // import './postnl-shipping-modal.scss';
-
-import { object } from '../../../../core/service/util.service';
+import {object} from '../../../../core/service/util.service';
 
 // eslint-disable-next-line no-undef
-const {Component, Mixin, } = Shopware;
+const {Component, Mixin,} = Shopware;
 
 Component.register('postnl-change-shipping-modal', {
     template,
@@ -56,7 +55,7 @@ Component.register('postnl-change-shipping-modal', {
 
     methods: {
         createdComponent() {
-            if(!this.isBulk) {
+            if (!this.isBulk) {
                 this.overrideProductId = Object.values(this.selection)[0].customFields?.postnl?.productId;
                 this.isOverrideProduct = !!this.overrideProductId;
             }
@@ -65,7 +64,7 @@ Component.register('postnl-change-shipping-modal', {
         },
 
         closeModal() {
-            if(!this.isProcessing) {
+            if (!this.isProcessing) {
                 this.$emit('close');
             }
         },

@@ -80,10 +80,13 @@ Component.register('postnl-create-shipment-modal', {
                         link.dispatchEvent(new MouseEvent('click'));
                         link.remove();
                     }
-                    this.createNotificationSuccess({
-                        title: this.$tc('global.default.success'),
-                        message: this.$tc('postnl.order.shippingModal.confirmedShipments'),
-                    });
+                    this.isSuccess = true;
+                    if (this.confirmShipments) {
+                        this.createNotificationSuccess({
+                            title: this.$tc('global.default.success'),
+                            message: this.$tc('postnl.order.shippingModal.confirmedShipments'),
+                        });
+                    }
                 })
                 .catch(() => {
                     this.createNotificationError({
@@ -93,8 +96,12 @@ Component.register('postnl-create-shipment-modal', {
                 })
                 .finally(() => {
                     this.isProcessing = false;
-                    this.shipmentsSent = true;
+                    this.isSuccess = true;
                 })
+        },
+        processFinish() {
+            this.isSuccess = false;
+            this.$emit('create-shipment');
         }
     },
 });
