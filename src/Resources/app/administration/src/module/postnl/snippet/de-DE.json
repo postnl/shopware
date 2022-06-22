@@ -94,6 +94,7 @@
         "title": "Diese Bestellung versenden | {count} Bestellungen versenden",
         "overrideProduct": "Anderes Produkt auswählen",
         "confirmShipments": "Bestätige Sendungen bei PostNL",
+        "confirmedShipments": "Sendung bei PostNL bestätigt",
         "downloadLabels": "Versandetiketten herunterladen",
         "cancel": "Abbrechen",
         "confirm": "Sendungen senden",
