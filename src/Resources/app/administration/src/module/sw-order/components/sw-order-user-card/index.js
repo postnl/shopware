@@ -1,13 +1,12 @@
 import template from './sw-order-user-card.html.twig';
 
 const { Component } = Shopware;
-const { Criteria } = Shopware.Data;
 
 Component.override('sw-order-user-card', {
     template,
 
-    inject:[
-        'repositoryFactory'
+    inject: [
+        'ProductSelectionService'
     ],
 
     data() {
@@ -22,10 +21,6 @@ Component.override('sw-order-user-card', {
         isPostNLOrder() {
             return 'postnl' in this.currentOrder.customFields;
         },
-
-        productRepository() {
-            return this.repositoryFactory.create('postnl_product');
-        },
     },
 
     methods: {
@@ -37,13 +32,9 @@ Component.override('sw-order-user-card', {
         getPostNLProduct() {
             const id = this.currentOrder.customFields.postnl.productId;
 
-            const criteria = new Criteria();
-            criteria.setIds([id]);
-
-            return this.productRepository.search(criteria, Shopware.Context.api)
-                .then(result => {
-                    this.postnl.product = result.first();
-                });
+            return this.ProductSelectionService
+                .getProduct(id)
+                .then(result => this.postnl.product = result.product);
         }
     }
 });
