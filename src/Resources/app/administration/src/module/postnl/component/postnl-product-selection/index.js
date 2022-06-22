@@ -55,7 +55,7 @@ Component.register('postnl-product-selection', {
             required: false,
             default: true,
         },
-        showProductCode:{
+        showProductCode: {
             type: Boolean,
             required: false,
             default: false,
@@ -152,11 +152,11 @@ Component.register('postnl-product-selection', {
         onChangeDeliveryType() {
             return this.getAvailableFlags()
                 .then(() => {
-                    if(!this.hasProduct && this.productId) {
+                    if (!this.hasProduct && this.productId) {
                         return this.getProduct();
                     }
 
-                    if(!this.hasProduct || this.product.deliveryType !== this.actualDeliveryType) {
+                    if (!this.hasProduct || this.product.deliveryType !== this.actualDeliveryType) {
                         return this.getDefaultProduct();
                     }
                 })
@@ -173,9 +173,13 @@ Component.register('postnl-product-selection', {
         },
 
         onChangeProduct() {
+            this.isLoading = true;
             return this.ProductSelectionService
                 .getFlagsForProduct(this.productId)
                 .then(this.updateFlags)
+                .finally(() => {
+                    this.isLoading = false;
+                })
         },
 
         checkIfSourceZoneHasProducts() {
@@ -206,7 +210,7 @@ Component.register('postnl-product-selection', {
                             value: deliveryType
                         };
                     });
-                    if(!this.deliveryTypes.some(deliveryType => deliveryType.value === this.actualDeliveryType)) {
+                    if (!this.deliveryTypes.some(deliveryType => deliveryType.value === this.actualDeliveryType)) {
                         this.actualDeliveryType = this.deliveryTypes[0].value;
                     }
                 })
@@ -306,7 +310,7 @@ Component.register('postnl-product-selection', {
         },
 
         getFlagLabel(flag) {
-            if(flag) {
+            if (flag) {
                 return this.$tc('postnl.productSelection.flag.' + flag.name);
             }
             return '';
