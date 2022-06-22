@@ -17,7 +17,7 @@ class ShippingMethodCreatorService
         $this->mediaService = $mediaService;
     }
 
-    public function create(ActivateContext $activateContext, ContainerInterface $container,string $path)
+    public function create(ActivateContext $activateContext, ContainerInterface $container, string $path): array
     {
         /** @var ShippingMethodService $shippingMethodService */
         $shippingMethodService = new ShippingMethodService(
@@ -28,6 +28,6 @@ class ShippingMethodCreatorService
             $this->mediaService,
             $container->get('postnl.logger')
         );
-        $shippingMethodService->createShippingMethods($path, $activateContext->getContext());
+        return $shippingMethodService->createShippingMethods($path, $activateContext->getContext());
     }
 }
