@@ -58,7 +58,7 @@ class PostNL extends Plugin
             $activateContext,
             $this->container
         );
-        dd('block');
+
     }
 
     public function uninstall(UninstallContext $uninstallContext): void
