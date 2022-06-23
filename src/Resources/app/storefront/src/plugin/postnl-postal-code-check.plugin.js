@@ -201,7 +201,7 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
             //Clear the warnings
             this._showWarningAlert("")
 
-            let postalCode = data['PostalCodeResult'].at(0)
+            let postalCode = data['PostalCodeResult'][0]
             //Put the data in our fields
             this.cityElement.value = postalCode['city'];
             this.streetElement.value = postalCode['streetName'];
