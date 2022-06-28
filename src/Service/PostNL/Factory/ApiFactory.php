@@ -4,6 +4,7 @@ namespace PostNL\Shopware6\Service\PostNL\Factory;
 
 use Firstred\PostNL\Entity\Address;
 use Firstred\PostNL\Entity\Customer;
+use Firstred\PostNL\Entity\Warning;
 use Firstred\PostNL\Exception\InvalidArgumentException;
 use Firstred\PostNL\PostNL;
 use PostNL\Shopware6\Component\PostNL\Factory\GuzzleRequestFactory;
@@ -29,7 +30,7 @@ class ApiFactory
     private $logger;
 
     /**
-     * @param ConfigService $configService
+     * @param ConfigService   $configService
      * @param LoggerInterface $logger
      */
     public function __construct(ConfigService $configService, LoggerInterface $logger)
@@ -40,9 +41,9 @@ class ApiFactory
 
     public function createClient(
         string $apiKey,
-        bool $sandbox = false,
-        array $customerData = [],
-        array $senderAddress = []
+        bool   $sandbox = false,
+        array  $customerData = [],
+        array  $senderAddress = []
     ): PostNL
     {
         $this->logger->debug("Creating API client", [
@@ -66,8 +67,13 @@ class ApiFactory
             $client->setLabellingService(new LabellingService($client));
             $client->setShippingService(new ShippingService($client));
 
+            Warning::$defaultProperties['Shipping'] = [
+                'Code' => ShippingService::DOMAIN_NAMESPACE,
+                'Description' => ShippingService::DOMAIN_NAMESPACE,
+            ];
+
             return $client;
-        } catch(InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             $this->logger->critical($e->getMessage(), [
                 'apiKey' => $this->obfuscateApiKey($apiKey),
                 'sandbox' => $sandbox,
@@ -85,14 +91,14 @@ class ApiFactory
     }
 
     /**
-     * @param string $salesChannelId
+     * @param string  $salesChannelId
      * @param Context $context
      * @return PostNL
      */
     public function createClientForSalesChannel(string $salesChannelId, Context $context): PostNL
     {
         $this->logger->debug("Creating API client for saleschannel", [
-            'salesChannelId' => $salesChannelId
+            'salesChannelId' => $salesChannelId,
         ]);
 
         $config = $this->configService->getConfiguration($salesChannelId, $context);
