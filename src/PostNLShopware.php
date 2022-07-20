@@ -21,7 +21,7 @@ if (file_exists(dirname(__DIR__) . '/vendor/autoload.php')) {
     }
 }
 
-class PostNL extends Plugin
+class PostNLShopware extends Plugin
 {
 
     public function install(InstallContext $installContext): void

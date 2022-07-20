@@ -11,7 +11,7 @@ use Shopware\Core\System\SystemConfig\SystemConfigService;
 
 class ConfigService
 {
-    const DOMAIN = 'PostNL.config.';
+    const DOMAIN = 'PostNLShopware.config.';
 
     /**
      * @var SystemConfigService
@@ -41,7 +41,7 @@ class ConfigService
 
     /**
      * @param string|null $salesChannelId
-     * @param Context $context
+     * @param Context     $context
      * @return ConfigStruct
      */
     public function getConfiguration(?string $salesChannelId, Context $context): ConfigStruct
