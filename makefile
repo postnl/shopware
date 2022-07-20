@@ -5,7 +5,7 @@
 .PHONY: help
 .DEFAULT_GOAL := help
 
-PLUGIN_VERSION=`php -r 'echo json_decode(file_get_contents("PostNL/composer.json"))->version;'`
+PLUGIN_VERSION=`php -r 'echo json_decode(file_get_contents("PostNLShopware/composer.json"))->version;'`
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -58,11 +58,29 @@ infection: ## Starts all Infection/Mutation tests
 # ------------------------------------------------------------------------------------------------------------
 
 pr: ## Prepares everything for a Pull Request
+	@make dev
 	@php vendor/bin/php-cs-fixer fix --config=./.php_cs.php
 	@make phpcheck -B
 	@make phpmin -B
 	@make phpstan -B
 
-release: ## Creates a new ZIP package
-	@cd .. && rm -rf PostNL-$(PLUGIN_VERSION).zip
-	@cd .. && zip -qq -r -0 PostNL-$(PLUGIN_VERSION).zip PostNL/ -x '.editorconfig' '*.git*' '*.reports*' '*/tests*' '*/makefile' '*.DS_Store' '*/phpunit.xml' '*/.phpstan.neon' '*/.php_cs.php' '*/phpinsights.php' '*node_modules*' '*administration/build*' '*storefront/build*'
+build: ## Builds the package
+	@rm -rf src/Resources/app/storefront/dist
+	@cd ../../.. && php bin/console plugin:refresh
+	@cd ../../.. && php bin/console plugin:install PostNLShopware --activate --clearCache | true
+	@cd ../../.. && php bin/console plugin:refresh
+	@cd ../../.. && php bin/console theme:dump
+	@cd ../../.. && PUPPETEER_SKIP_DOWNLOAD=1 ./bin/build-js.sh
+	@cd ../../.. && php bin/console theme:refresh
+	@cd ../../.. && php bin/console theme:compile
+	@cd ../../.. && php bin/console theme:refresh
+
+release: ## Create a new release
+	@make clean
+	@make install
+	@make build
+	@make zip
+
+zip: ## Creates a new ZIP package
+	@cd .. && rm -rf PostNLShopware-$(PLUGIN_VERSION).zip
+	@cd .. && zip -qq -r -0 PostNLShopware-$(PLUGIN_VERSION).zip PostNLShopware/ -x '.editorconfig' '*.git*' '*.reports*' '*/tests*' '*/makefile' '*.DS_Store' '*/phpunit.xml' '*/.phpstan.neon' '*/.php_cs.php' '*/phpinsights.php' '*node_modules*' '*administration/build*' '*storefront/build*'

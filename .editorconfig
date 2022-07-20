@@ -3,3 +3,6 @@ indent_size = 2
 
 [*.neon]
 indent_size = 2
+
+[makefile]
+indent_style = tab
