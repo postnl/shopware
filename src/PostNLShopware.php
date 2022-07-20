@@ -4,7 +4,6 @@ namespace PostNL\Shopware6;
 
 use PostNL\Shopware6\Service\PostNL\RuleCreatorService;
 use PostNL\Shopware6\Service\PostNL\ShippingMethodCreatorService;
-use PostNL\Shopware6\Service\PostNL\ShippingMethodPriceCreatorService;
 use PostNL\Shopware6\Service\PostNL\ShippingRulePriceCreatorService;
 use PostNL\Shopware6\Service\Shopware\CustomField\CustomFieldInstaller;
 use Shopware\Core\Framework\Plugin;
@@ -50,9 +49,9 @@ class PostNLShopware extends Plugin
         $ruleCreatorService = $this->container->get(RuleCreatorService::class);
         $ruleIDs = $ruleCreatorService->create($activateContext, $this->container);
 
-        /** @var ShippingRulePriceCreatorService $shippingMethodPriceCreator */
-        $shippingMethodPriceCreator = $this->container->get(ShippingRulePriceCreatorService::class);
-        $shippingMethodPriceCreator->create(
+        /** @var ShippingRulePriceCreatorService $shippingRulePriceCreator */
+        $shippingRulePriceCreator = $this->container->get(ShippingRulePriceCreatorService::class);
+        $shippingRulePriceCreator->create(
             $shippingMethodIDs,
             $ruleIDs,
             $activateContext,
