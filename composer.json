@@ -20,9 +20,24 @@
     "shopware-plugin-class": "PostNL\\Shopware6\\PostNLShopware",
     "copyright": "(c) by PostNL",
     "label": {
-      "de-DE": "PostNL",
-      "en-GB": "PostNL",
-      "nl-NL": "PostNL"
+      "de-DE": "PostNL Shipping & Labels",
+      "en-GB": "PostNL Shipping & Labels",
+      "nl-NL": "PostNL Shipping & Labels"
+    },
+    "description": {
+      "de-DE": "Mit dieser Erweiterung k\u00f6nnen Sie Sendungen bei PostNL registrieren und die Etiketten mit einem Knopfdruck drucken. Ihre Kunden w\u00e4hlen aus, welche Lieferoption sie nutzen m\u00f6chten.",
+      "en-GB": "With this extension you can easily register shipments with PostNL and print shipping labels with the push of a button. Your customers choose which delivery option they want to use.",
+      "nl-NL": "Met deze extensie meld je eenvoudig zendingen aan bij PostNL en print je met \u00e9\u00e9n druk op de knop de verzendlabels. Jouw klanten kiezen zelf welke bezorgoptie zij willen gebruiken."
+    },
+    "manufacturerLink": {
+      "en-GB": "https://www.postnl.nl/en/",
+      "de-DE": "https://www.postnl.nl/en/",
+      "nl-NL": "https://www.postnl.nl"
+    },
+    "supportLink": {
+      "en-GB": "https://www.postnl.nl/en/customer-service/",
+      "de-DE": "https://www.postnl.nl/en/customer-service/",
+      "nl-NL": "https://www.postnl.nl/klantenservice/"
     }
   },
   "autoload": {
@@ -41,16 +56,16 @@
     "firstred/postnl-api-php": "^v1.3.14"
   },
   "require-dev": {
-    "shopware/core": "^6.4",
-    "shopware/administration": "*",
-    "shopware/storefront": "*",
     "phpunit/phpunit": "^9.5",
     "phpstan/phpstan": "^0.12.82",
     "friendsofphp/php-cs-fixer": "^3",
     "phpcompatibility/php-compatibility": "^9.3",
     "squizlabs/php_codesniffer": "^3.6",
     "infection/infection": "0.25.6",
-    "nunomaduro/phpinsights": "^2.4"
+    "nunomaduro/phpinsights": "^2.4",
+    "shopware/core": "^6.4.1",
+    "shopware/administration": "^6.4.1",
+    "shopware/storefront": "^6.4.1"
   },
   "scripts": {
     "post-install-cmd": [
