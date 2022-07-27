@@ -2,7 +2,7 @@ import template from './postnl-config-product-selection-base.html.twig';
 
 const { Component, Mixin } = Shopware;
 
-Component.extend('postnl-config-product-selection-base', 'memo-config', {
+Component.extend('postnl-config-product-selection-base', 'postnl-memo-config', {
     template,
 
     inject: [

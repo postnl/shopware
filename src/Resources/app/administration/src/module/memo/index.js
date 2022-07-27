@@ -1,2 +1,2 @@
 import './component/memo-collapse';
-import './component/memo-config';
+import './component/postnl-memo-config';

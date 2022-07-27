@@ -1,9 +1,9 @@
-import template from './memo-config.html.twig';
+import template from './postnl-memo-config.html.twig';
 
 const { Component, Mixin } = Shopware;
 const { string } = Shopware.Utils;
 
-Component.register('memo-config', {
+Component.register('postnl-memo-config', {
     template,
 
     mixins: [
