@@ -5,7 +5,7 @@ Shopware.Component.override('sw-system-config', {
                 ? element.config.componentName
                 : ""
 
-            if(componentName.startsWith('memo') || componentName.startsWith('postnl')) {
+            if(componentName.startsWith('postnl')) {
                 return true;
             }
 
