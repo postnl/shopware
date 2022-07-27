@@ -84,7 +84,7 @@ Component.register('postnl-create-shipment-modal', {
                     if (this.confirmShipments) {
                         this.createNotificationSuccess({
                             title: this.$tc('global.default.success'),
-                            message: this.$tc('postnl.order.shippingModal.confirmedShipments'),
+                            message: this.$tc('postnl.order.modal.createShipments.confirmedShipments'),
                         });
                     }
                 })

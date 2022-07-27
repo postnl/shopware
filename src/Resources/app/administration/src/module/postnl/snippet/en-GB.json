@@ -5,10 +5,6 @@
       "descriptionTextModule": "PostNL Orders",
       "ordersMenuItemGeneral": "PostNL Orders"
     },
-    "order_details": {
-      "btnEditShippingMethod": "Edit shipping method",
-      "btnConfirmAndPrint": "Confirm shipment and print labels"
-    },
     "config": {
       "mandatoryFields": "Fields with an asterisk are mandatory.",
       "info": {
@@ -82,23 +78,34 @@
     },
     "order": {
       "detail": {
-        "shippingProduct": "PostNL product"
+        "shippingProduct": "PostNL product",
+        "buttonChangeShipping": "Change shipping method",
+        "buttonCreateShipment": "Create and confirm shipments"
       },
       "list": {
         "columnShippingAddress": "Shipping address",
         "columnProduct": "PostNL product",
         "columnBarCode": "Barcode",
-        "columnConfirm": "Confirmed"
+        "columnConfirm": "Confirmed",
+        "buttonChangeShipping": "Change shipping method",
+        "buttonCreateShipment": "Create and confirm shipments"
       },
-      "shippingModal": {
-        "title": "Ship this order | Ship {count} orders",
-        "overrideProduct": "Select different product",
-        "confirmShipments": "Confirm shipments at PostNL",
-        "confirmedShipments": "Shipment confirmed at PostNL",
-        "downloadLabels": "Download shipping labels",
-        "cancel": "Cancel",
-        "confirm": "Send shipments",
-        "warning": "Unable to change shipping method"
+      "modal": {
+        "changeShipping": {
+          "title": "Change shipping method",
+          "warning": "Unable to change shipping method",
+          "cancel": "Cancel",
+          "confirm": "Change shipping method"
+        },
+        "createShipments": {
+          "title": "Ship this order | Ship {count} orders",
+          "overrideProduct": "Select different product",
+          "confirmShipments": "Confirm shipments at PostNL",
+          "confirmedShipments": "Shipment confirmed at PostNL",
+          "downloadLabels": "Download shipping labels",
+          "cancel": "Cancel",
+          "confirm": "Send shipments"
+        }
       }
     },
     "productSelection": {

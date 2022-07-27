@@ -55,14 +55,14 @@
         class="sw-order-list__order-ship-action"
         @click="isChangeShippingModalId = item.id"
         icon="postnl-ghost">
-        Verzendmethode wijzigen
+        {{ $tc('postnl.order.list.buttonChangeShipping') }}
     </sw-context-menu-item>
 
     <sw-context-menu-item
         class="sw-order-list__order-ship-action"
         @click="isCreateShipmentModalId = item.id"
         icon="postnl-ghost">
-        Voormelden en labels printen
+        {{ $tc('postnl.order.list.buttonChangeShipping') }}
     </sw-context-menu-item>
 
     <sw-context-menu-divider/>
@@ -93,7 +93,7 @@
                        size="x-small"
                        @click="isBulkChangeShippingModalOpen = true">
             <sw-icon name="postnl" multicolor></sw-icon>
-            Verzendmethode wijzigen
+            {{ $tc('postnl.order.list.buttonChangeShipping') }}
         </postnl-button>
 
         <postnl-button v-if="acl.can('order.editor')"
@@ -101,7 +101,7 @@
                        size="x-small"
                        @click="isBulkCreateShipmentModalOpen = true">
             <sw-icon name="postnl" multicolor></sw-icon>
-            Voormelden en labels printen
+            {{ $tc('postnl.order.list.buttonCreateShipment') }}
         </postnl-button>
     </template>
 {% endblock %}

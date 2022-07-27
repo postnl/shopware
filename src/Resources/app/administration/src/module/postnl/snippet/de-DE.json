@@ -5,10 +5,6 @@
       "descriptionTextModule": "PostNL Bestellungen",
       "ordersMenuItemGeneral": "PostNL Bestellungen"
     },
-    "order_details": {
-      "btnEditShippingMethod": "Versandart ändern",
-      "btnConfirmAndPrint": "Vorregistrierung und Etikettendruck"
-    },
     "config": {
       "info": {
         "title": "Hallo {username}, willkommen bei der PostNL-Erweiterung!",
@@ -82,23 +78,34 @@
     },
     "order": {
       "detail": {
-        "shippingProduct": "PostNL produkt"
+        "shippingProduct": "PostNL produkt",
+        "buttonChangeShipping": "Versandart ändern",
+        "buttonCreateShipment": "Vorregistrierung und Etikettendruck"
       },
       "list": {
         "columnShippingAddress": "Lieferadresse",
         "columnProduct": "PostNL-Produkt",
         "columnBarCode": "Strichcode",
-        "columnConfirm": "Bestätigt"
+        "columnConfirm": "Bestätigt",
+        "buttonChangeShipping": "Versandart ändern",
+        "buttonCreateShipment": "Vorregistrierung und Etikettendruck"
       },
-      "shippingModal": {
-        "title": "Diese Bestellung versenden | {count} Bestellungen versenden",
-        "overrideProduct": "Anderes Produkt auswählen",
-        "confirmShipments": "Bestätige Sendungen bei PostNL",
-        "confirmedShipments": "Sendung bei PostNL bestätigt",
-        "downloadLabels": "Versandetiketten herunterladen",
-        "cancel": "Abbrechen",
-        "confirm": "Sendungen senden",
-        "warning": "Versandart kann nicht geändert werden"
+      "modal": {
+        "changeShipping": {
+          "title": "Versandart ändern",
+          "warning": "Versandart kann nicht geändert werden",
+          "cancel": "Abbrechen",
+          "confirm": "CVersandart ändern"
+        },
+        "createShipments": {
+          "title": "Diese Bestellung versenden | {count} Bestellungen versenden",
+          "overrideProduct": "Anderes Produkt auswählen",
+          "confirmShipments": "Bestätige Sendungen bei PostNL",
+          "confirmedShipments": "Sendung bei PostNL bestätigt",
+          "downloadLabels": "Versandetiketten herunterladen",
+          "cancel": "Abbrechen",
+          "confirm": "Sendungen senden"
+        }
       }
     },
     "productSelection": {

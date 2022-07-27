@@ -1,16 +1,16 @@
 <sw-modal class="postnl-create-shipment-modal"
-          :title="$tc('postnl.order.shippingModal.title', selectionCount, {
+          :title="$tc('postnl.order.modal.createShipments.title', selectionCount, {
               count: selectionCount
           })"
           :closable="!isProcessing"
           @modal-close="closeModal">
     <sw-container columns="1fr 1fr" gap="16px">
         <sw-switch-field v-model="confirmShipments"
-                         :label="$tc('postnl.order.shippingModal.confirmShipments')"
+                         :label="$tc('postnl.order.modal.createShipments.confirmShipments')"
                          size="small"
                          noMarginTop/>
         <sw-switch-field v-model="downloadLabels"
-                         :label="$tc('postnl.order.shippingModal.downloadLabels')"
+                         :label="$tc('postnl.order.modal.createShipments.downloadLabels')"
                          size="small"
                          noMarginTop/>
     </sw-container>
@@ -19,7 +19,7 @@
         <sw-button size="small"
                    :disabled="isProcessing"
                    @click="closeModal">
-            {{ $tc('postnl.order.shippingModal.cancel') }}
+            {{ $tc('postnl.order.modal.createShipments.cancel') }}
         </sw-button>
         <sw-button-process size="small"
                            variant="primary"
@@ -28,7 +28,7 @@
                            :processSuccess="isSuccess"
                            @click="sendShipments"
                            @process-finish="processFinish">
-            {{ $tc('postnl.order.shippingModal.confirm') }}
+            {{ $tc('postnl.order.modal.createShipments.confirm') }}
         </sw-button-process>
     </template>
 </sw-modal>

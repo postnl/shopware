@@ -5,10 +5,6 @@
       "descriptionTextModule": "PostNL bestellingen",
       "ordersMenuItemGeneral": "PostNL bestellingen"
     },
-    "order_details": {
-      "btnEditShippingMethod": "Verzendmethode wijzigen",
-      "btnConfirmAndPrint": "Voormelden en labels printen"
-    },
     "config": {
       "mandatoryFields": "Velden met een asterisk zijn verplicht.",
       "info": {
@@ -82,23 +78,34 @@
     },
     "order": {
       "detail": {
-        "shippingProduct": "PostNL product"
+        "shippingProduct": "PostNL product",
+        "buttonChangeShipping": "Verzendmethode wijzigen",
+        "buttonCreateShipment": "Voormelden en labels printen"
       },
       "list": {
         "columnShippingAddress": "Verzendadres",
         "columnProduct": "PostNL product",
         "columnBarCode": "Barcode",
-        "columnConfirm": "Voorgemeld"
+        "columnConfirm": "Voorgemeld",
+        "buttonChangeShipping": "Verzendmethode wijzigen",
+        "buttonCreateShipment": "Voormelden en labels printen"
       },
-      "shippingModal": {
-        "title": "Verzend deze order | Verzend {count} orders",
-        "overrideProduct": "Selecteer ander product",
-        "confirmShipments": "Zending voormelden bij PostNL",
-        "confirmedShipments": "Zending bevestigd bij PostNL",
-        "downloadLabels": "Verzendlabels downloaden",
-        "cancel": "Annuleren",
-        "confirm": "Verzendingen aanmaken",
-        "warning": "Kan verzendmethode niet veranderen"
+      "modal": {
+        "changeShipping": {
+          "title": "Verzendmethode wijzigen",
+          "warning": "Kan verzendmethode niet veranderen",
+          "cancel": "Annuleren",
+          "confirm": "Verzendmethode wijzigen"
+        },
+        "createShipments": {
+          "title": "Verzend deze bestelling | Verzend {count} bestelling",
+          "overrideProduct": "Selecteer ander product",
+          "confirmShipments": "Zending voormelden bij PostNL",
+          "confirmedShipments": "Zending bevestigd bij PostNL",
+          "downloadLabels": "Verzendlabels downloaden",
+          "cancel": "Annuleren",
+          "confirm": "Verzendingen aanmaken"
+        }
       }
     },
     "productSelection": {
