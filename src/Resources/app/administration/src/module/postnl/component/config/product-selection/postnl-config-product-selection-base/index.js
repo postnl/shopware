@@ -10,7 +10,7 @@ Component.extend('postnl-config-product-selection-base', 'memo-config', {
     ],
 
     mixins: [
-        Mixin.getByName('memo-config-access'),
+        Mixin.getByName('postnl-memo-config-access'),
         Mixin.getByName('postnl-config-sender-country'),
     ],
 

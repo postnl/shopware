@@ -1,6 +1,6 @@
 const { Mixin } = Shopware;
 
-Mixin.register('memo-config-access', {
+Mixin.register('postnl-memo-config-access', {
     computed: {
         systemConfig() {
             let component = this;

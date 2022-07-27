@@ -3,7 +3,7 @@ const { Context, Mixin } = Shopware;
 Mixin.register('postnl-config-sender-country', {
 
     mixins: [
-        Mixin.getByName('memo-config-access'),
+        Mixin.getByName('postnl-memo-config-access'),
     ],
 
     inject: [

@@ -11,7 +11,7 @@ Component.extend('postnl-config-sender-address', 'memo-config', {
     ],
 
     mixins: [
-        Mixin.getByName('memo-grid-span')
+        Mixin.getByName('postnl-memo-grid-span')
     ],
 
     data() {

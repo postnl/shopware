@@ -1,6 +1,6 @@
 const { Mixin } = Shopware;
 
-Mixin.register('memo-grid-span', {
+Mixin.register('postnl-memo-grid-span', {
     methods: {
         span(columns) {
             return {

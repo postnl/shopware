@@ -12,7 +12,7 @@ Component.register('postnl-config-api-credentials-test', {
 
     mixins: [
         Mixin.getByName('notification'),
-        Mixin.getByName('memo-config-access'),
+        Mixin.getByName('postnl-memo-config-access'),
     ],
 
     data() {

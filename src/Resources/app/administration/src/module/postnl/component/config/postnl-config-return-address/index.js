@@ -6,7 +6,7 @@ Component.extend('postnl-config-return-address', 'memo-config', {
     template,
 
     mixins: [
-        Mixin.getByName('memo-grid-span'),
+        Mixin.getByName('postnl-memo-grid-span'),
         Mixin.getByName('postnl-config-sender-country'),
     ],
 
