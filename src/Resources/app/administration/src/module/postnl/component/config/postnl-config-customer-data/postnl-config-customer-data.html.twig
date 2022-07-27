@@ -1,5 +1,5 @@
 {% block memo_config_content %}
-    <memo-collapse :disabled="disabled">
+    <postnl-memo-collapse :disabled="disabled">
         <template #header>
             {{ content.customerNumber }} {{ content.customerCode }}
 
@@ -43,5 +43,5 @@
 
             <postnl-required-hint textAlign="right"/>
         </template>
-    </memo-collapse>
+    </postnl-memo-collapse>
 {% endblock %}

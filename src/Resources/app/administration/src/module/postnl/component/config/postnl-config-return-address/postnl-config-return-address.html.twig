@@ -1,5 +1,5 @@
 {% block memo_config_content %}
-    <memo-collapse :disabled="disabled" v-if="senderCountry?.iso === 'NL'">
+    <postnl-memo-collapse :disabled="disabled" v-if="senderCountry?.iso === 'NL'">
         <template #header>
             <sw-container rows="1fr 1fr" v-if="content.hasReturnContract">
                 <div>
@@ -63,9 +63,9 @@
                                :style="span(4)"/>
             </sw-container>
         </template>
-    </memo-collapse>
+    </postnl-memo-collapse>
 
-    <memo-collapse :disabled="disabled" v-else-if="senderCountry?.iso === 'BE'">
+    <postnl-memo-collapse :disabled="disabled" v-else-if="senderCountry?.iso === 'BE'">
         <template #header>
             <sw-container rows="1fr 1fr">
                 <div>
@@ -130,7 +130,7 @@
                                :style="span(4)"/>
             </sw-container>
         </template>
-    </memo-collapse>
+    </postnl-memo-collapse>
     <sw-alert v-else variant="warning" style="margin: 16px 12px;">
         {{ $tc('postnl.config.returnAddress.warning.country') }}
     </sw-alert>

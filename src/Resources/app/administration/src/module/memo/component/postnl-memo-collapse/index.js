@@ -1,9 +1,9 @@
-import template from './memo-collapse.html.twig';
-import './memo-collapse.scss';
+import template from './postnl-memo-collapse.html.twig';
+import './postnl-memo-collapse.scss';
 
 const { Component } = Shopware;
 
-Component.extend('memo-collapse', 'sw-collapse', {
+Component.extend('postnl-memo-collapse', 'sw-collapse', {
     template,
 
     props: {

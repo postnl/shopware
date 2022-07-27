@@ -8,7 +8,7 @@
                @inheritance-remove="$emit('inheritance-remove', $event)">
         <template #sw-field-input="{ identification, error, disabled, required }">
             {% block memo_config_content %}
-                <memo-collapse :disabled="disabled">
+                <postnl-memo-collapse :disabled="disabled">
                     <template #header>
                         <template v-if="isAlt">
 
@@ -77,7 +77,7 @@
                                                       :disabled="disabled"/>
                         </sw-container>
                     </template>
-                </memo-collapse>
+                </postnl-memo-collapse>
             {% endblock %}
         </template>
     </component>
