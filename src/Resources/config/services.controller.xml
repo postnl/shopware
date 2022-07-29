@@ -36,7 +36,6 @@
 
         <service id="PostNL\Shopware6\Controller\Storefront\PickupPointController">
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\CartService"/>
-<!--            <argument type="service" id="postnl.logger"/>-->
 
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
