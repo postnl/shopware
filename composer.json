@@ -1,87 +1,87 @@
 {
-  "name": "postnl/shopware6",
-  "description": "PostNL",
-  "type": "shopware-platform-plugin",
-  "version": "1.0.0-dev",
-  "license": "proprietary",
-  "authors": [
-    {
-      "name": "PostNL",
-      "homepage": "https://www.postnl.nl",
-      "role": "Manufacturer"
-    },
-    {
-      "name": "Memo ICT",
-      "homepage": "https://memo-ict.nl",
-      "role": "Developer"
-    }
-  ],
-  "extra": {
-    "shopware-plugin-class": "PostNL\\Shopware6\\PostNLShopware",
-    "copyright": "(c) by PostNL",
-    "label": {
-      "de-DE": "PostNL Shipping & Labels",
-      "en-GB": "PostNL Shipping & Labels",
-      "nl-NL": "PostNL Shipping & Labels"
-    },
-    "description": {
-      "de-DE": "Mit dieser Erweiterung können Sie Sendungen bei PostNL registrieren und die Etiketten mit einem Knopfdruck drucken. Ihre Kunden wählen aus, welche Lieferoption sie nutzen möchten.",
-      "en-GB": "With this extension you can easily register shipments with PostNL and print shipping labels with the push of a button. Your customers choose which delivery option they want to use.",
-      "nl-NL": "Met deze extensie meld je eenvoudig zendingen aan bij PostNL en print je met één druk op de knop de verzendlabels. Jouw klanten kiezen zelf welke bezorgoptie zij willen gebruiken."
-    },
-    "manufacturerLink": {
-      "en-GB": "https://www.postnl.nl/en/",
-      "de-DE": "https://www.postnl.nl/en/",
-      "nl-NL": "https://www.postnl.nl"
-    },
-    "supportLink": {
-      "en-GB": "https://www.postnl.nl/en/customer-service/",
-      "de-DE": "https://www.postnl.nl/en/customer-service/",
-      "nl-NL": "https://www.postnl.nl/klantenservice/"
-    }
-  },
-  "autoload": {
-    "psr-4": {
-      "PostNL\\Shopware6\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "PostNL\\Shopware6\\PHPUnit\\": "tests/PHPUnit/",
-      "PostNL\\Shopware6\\PHPStan\\": "tests/PHPStan/"
-    }
-  },
-  "require": {
-    "composer-runtime-api": "^2.0",
-    "firstred/postnl-api-php": "^v1.3.14"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^9.5",
-    "phpstan/phpstan": "^0.12.82",
-    "friendsofphp/php-cs-fixer": "^3",
-    "phpcompatibility/php-compatibility": "^9.3",
-    "squizlabs/php_codesniffer": "^3.6",
-    "infection/infection": "0.25.6",
-    "nunomaduro/phpinsights": "^2.4",
-    "shopware/core": "^6.4.1",
-    "shopware/administration": "^6.4.1",
-    "shopware/storefront": "^6.4.1"
-  },
-  "scripts": {
-    "post-install-cmd": [
-      "[ ! -f vendor/bin/phpcs ] || vendor/bin/phpcs --config-set installed_paths vendor/phpcompatibility/php-compatibility"
+    "name": "postnl/shopware6",
+    "description": "PostNL",
+    "type": "shopware-platform-plugin",
+    "version": "1.0.0-dev",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "PostNL",
+            "homepage": "https://www.postnl.nl",
+            "role": "Manufacturer"
+        },
+        {
+            "name": "Memo ICT",
+            "homepage": "https://memo-ict.nl",
+            "role": "Developer"
+        }
     ],
-    "post-update-cmd": [
-      "[ ! -f vendor/bin/phpcs ] || vendor/bin/phpcs --config-set installed_paths vendor/phpcompatibility/php-compatibility"
-    ]
-  },
-  "config": {
-    "optimize-autoloader": true,
-    "prepend-autoloader": false,
-    "allow-plugins": {
-      "composer/package-versions-deprecated": true,
-      "infection/extension-installer": false,
-      "dealerdirect/phpcodesniffer-composer-installer": false
+    "extra": {
+        "shopware-plugin-class": "PostNL\\Shopware6\\PostNLShopware",
+        "copyright": "(c) by PostNL",
+        "label": {
+            "de-DE": "PostNL Shipping & Labels",
+            "en-GB": "PostNL Shipping & Labels",
+            "nl-NL": "PostNL Shipping & Labels"
+        },
+        "description": {
+            "de-DE": "Mit dieser Erweiterung können Sie Sendungen bei PostNL registrieren und die Etiketten mit einem Knopfdruck drucken. Ihre Kunden wählen aus, welche Lieferoption sie nutzen möchten.",
+            "en-GB": "With this extension you can easily register shipments with PostNL and print shipping labels with the push of a button. Your customers choose which delivery option they want to use.",
+            "nl-NL": "Met deze extensie meld je eenvoudig zendingen aan bij PostNL en print je met één druk op de knop de verzendlabels. Jouw klanten kiezen zelf welke bezorgoptie zij willen gebruiken."
+        },
+        "manufacturerLink": {
+            "en-GB": "https://www.postnl.nl/en/",
+            "de-DE": "https://www.postnl.nl/en/",
+            "nl-NL": "https://www.postnl.nl"
+        },
+        "supportLink": {
+            "en-GB": "https://www.postnl.nl/en/customer-service/",
+            "de-DE": "https://www.postnl.nl/en/customer-service/",
+            "nl-NL": "https://www.postnl.nl/klantenservice/"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "PostNL\\Shopware6\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PostNL\\Shopware6\\PHPUnit\\": "tests/PHPUnit/",
+            "PostNL\\Shopware6\\PHPStan\\": "tests/PHPStan/"
+        }
+    },
+    "require": {
+        "composer-runtime-api": "^2.0",
+        "firstred/postnl-api-php": "^v1.3.14"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "phpstan/phpstan": "^0.12.82",
+        "friendsofphp/php-cs-fixer": "^3",
+        "phpcompatibility/php-compatibility": "^9.3",
+        "squizlabs/php_codesniffer": "^3.6",
+        "infection/infection": "0.25.6",
+        "nunomaduro/phpinsights": "^2.4",
+        "shopware/core": "^6.4.1",
+        "shopware/administration": "^6.4.1",
+        "shopware/storefront": "^6.4.1"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "[ ! -f vendor/bin/phpcs ] || vendor/bin/phpcs --config-set installed_paths vendor/phpcompatibility/php-compatibility"
+        ],
+        "post-update-cmd": [
+            "[ ! -f vendor/bin/phpcs ] || vendor/bin/phpcs --config-set installed_paths vendor/phpcompatibility/php-compatibility"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "prepend-autoloader": false,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "infection/extension-installer": false,
+            "dealerdirect/phpcodesniffer-composer-installer": false
+        }
     }
-  }
 }
