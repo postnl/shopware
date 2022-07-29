@@ -45,11 +45,19 @@ try {
     unset($composerContent['require-dev']['shopware/administration']);
     unset($composerContent['require-dev']['shopware/storefront']);
 
+    if(empty($composerContent['require'])) {
+        unset($composerContent['require']);
+    }
+
+    if(empty($composerContent['require-dev'])) {
+        unset($composerContent['require-dev']);
+    }
+
     $composerContent[$require]['shopware/core'] = $shopware;
     $composerContent[$require]['shopware/administration'] = $shopware;
     $composerContent[$require]['shopware/storefront'] = $shopware;
 
-    file_put_contents(__DIR__ . '/composer.json', json_encode($composerContent, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+    file_put_contents(__DIR__ . '/composer.json', json_encode($composerContent, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 
     $output->info(sprintf('Switched composer.json to %s requiring Shopware version %s', $env, $shopware));
 } catch (\Exception $e) {

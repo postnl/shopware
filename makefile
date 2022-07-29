@@ -85,5 +85,5 @@ zip: ## Creates a new ZIP package
 	@php update-composer-require.php --shopware=^6.4.1 --env=prod
 	@cd .. && echo "\nCreating Zip file PostNLShopware-$(PLUGIN_VERSION).zip\n"
 	@cd .. && rm -rf PostNLShopware-$(PLUGIN_VERSION).zip
-	@cd .. && zip -qq -r -0 PostNLShopware-$(PLUGIN_VERSION).zip PostNLShopware/ -x '.editorconfig' '*.git*' '*.reports*' '*/tests*' '*/makefile' '*.DS_Store' '*/phpunit.xml' '*/.phpstan.neon' '*/.php_cs.php' '*/phpinsights.php' '*node_modules*' '*administration/build*' '*storefront/build*' '*/update-composer-require.php'
+	@cd .. && zip -qq -r -0 PostNLShopware-$(PLUGIN_VERSION).zip PostNLShopware/ -x '*.editorconfig' '*.git*' '*.reports*' '*/tests*' '*/makefile' '*.DS_Store' '*/phpunit.xml' '*/.phpstan.neon' '*/.php_cs.php' '*/phpinsights.php' '*node_modules*' '*administration/build*' '*storefront/build*' '*/update-composer-require.php'
 	@php update-composer-require.php --shopware=^6.4.1 --env=dev
