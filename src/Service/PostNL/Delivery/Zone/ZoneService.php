@@ -15,7 +15,8 @@ class ZoneService
                 break;
             default:
                 // TODO exception
-                throw new \Exception('Shipping not supported for this source country');
+                return Zone::GLOBAL;
+//                throw new \Exception('Shipping not supported for this source country');
         }
 
         if(array_key_exists($destinationCountryIso, $sourceMapping)) {
