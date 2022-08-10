@@ -205,6 +205,25 @@ class CustomFieldFactory
         return $id;
     }
 
+    public function deleteSet(string $name, Context $context)
+    {
+        $setId =  $this->getSetByName($name,$context)->getId();
+        $this->customFieldSetRepository->delete([
+            [
+                'id'=>$setId
+            ]
+        ],$context);
+    }
+
+    public function deleteField(string $name, Context $context)
+    {
+        $fieldId = $this->getFieldByName($name,$context)->getId();
+        $this->customFieldRepository->delete([
+            [
+                'id'=>$fieldId
+            ]
+        ],$context);
+    }
     /**
      * @param string     $name
      * @param array      $options

@@ -66,7 +66,7 @@ class PostNLShopware extends Plugin
         if ($uninstallContext->keepUserData()) {
             return;
         }
-
+        CustomFieldInstaller::createFactory($this->container)->uninstall($uninstallContext->getContext());
         //TODO Figure out better lifecycle
         $uninstallContext->getMigrationCollection()->migrateDestructiveInPlace();
     }
