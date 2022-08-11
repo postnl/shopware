@@ -103,5 +103,7 @@ class CustomFieldInstaller
     private function uninstallHSFields(Context $context)
     {
         $this->factory->deleteSet(self::POSTNL_PRODUCT_SET_NAME,$context);
+        $this->factory->deleteFieldSnippet(self::POSTNL_PRODUCT_HS_CODE_FIELD_NAME,$context);
+        $this->factory->deleteFieldSnippet(self::POSTNL_PRODUCT_COUNTRY_OF_ORIGIN_FIELD_NAME,$context);
     }
 }

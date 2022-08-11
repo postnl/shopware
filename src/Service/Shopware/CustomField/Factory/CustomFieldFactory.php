@@ -23,7 +23,8 @@ class CustomFieldFactory
         return new self(
             $container->get('custom_field.repository'),
             $container->get('custom_field_set.repository'),
-            $container->get(DefinitionInstanceRegistry::class)
+            $container->get(DefinitionInstanceRegistry::class),
+            $container->get('snippet.repository')
         );
     }
 
@@ -43,19 +44,27 @@ class CustomFieldFactory
     protected $definitionInstanceRegistry;
 
     /**
-     * @param EntityRepositoryInterface  $customFieldRepository
-     * @param EntityRepositoryInterface  $customFieldSetRepository
+     * @var EntityRepositoryInterface
+     */
+    protected $snippetRepository;
+
+    /**
+     * @param EntityRepositoryInterface $customFieldRepository
+     * @param EntityRepositoryInterface $customFieldSetRepository
      * @param DefinitionInstanceRegistry $definitionInstanceRegistry
+     * @param EntityRepositoryInterface $snippetRepository
      */
     public function __construct(
         EntityRepositoryInterface  $customFieldRepository,
         EntityRepositoryInterface  $customFieldSetRepository,
-        DefinitionInstanceRegistry $definitionInstanceRegistry
+        DefinitionInstanceRegistry $definitionInstanceRegistry,
+        EntityRepositoryInterface  $snippetRepository
     )
     {
         $this->customFieldRepository = $customFieldRepository;
         $this->customFieldSetRepository = $customFieldSetRepository;
         $this->definitionInstanceRegistry = $definitionInstanceRegistry;
+        $this->snippetRepository = $snippetRepository;
     }
 
     /**
@@ -224,6 +233,21 @@ class CustomFieldFactory
             ]
         ],$context);
     }
+
+    public function deleteFieldSnippet(string $name, Context $context)
+    {
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('value',$name));
+        $snippets = $this->snippetRepository->search($criteria,$context);
+        if ($snippets->count()==0){
+            return;
+        }
+        $keys = array_map(function ($id) {
+            return ['id' => $id];
+        }, $snippets->getIds());
+        $this->snippetRepository->delete($keys,$context);
+    }
+
     /**
      * @param string     $name
      * @param array      $options
