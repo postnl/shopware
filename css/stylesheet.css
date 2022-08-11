@@ -2,9 +2,14 @@
     box-sizing: border-box;
 }
 
+@font-face {
+    font-family:"PostNL-Regular";
+    src: url("PostNL-Regular.ttf") format("truetype");
+}
+
 body {
     padding: 0;
-    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "PostNL-Regular","Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     line-height: 1.5;
     color: #606c71;
     position: relative;
@@ -251,7 +256,7 @@ color: #ed7000;
 .main-content p {
 margin-top: 0.1em;
 margin-bottom: 0.5em;
-text-align: justify;
+text-align: left;
 }
 
 .main-content code {
@@ -373,7 +378,7 @@ background-color: #eff0f1;
 border: 0;
 }
 .postnl_footer_logo{
-margin-left: 80%;
+margin-left: 85%;
 }
 
 .site-footer {
