@@ -237,11 +237,12 @@ class CustomFieldFactory
     public function deleteFieldSnippet(string $name, Context $context)
     {
         $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('value',$name));
+        $criteria->addFilter(new EqualsFilter('translationKey', 'customFields.'.$name));
         $snippets = $this->snippetRepository->search($criteria,$context);
         if ($snippets->count()==0){
             return;
         }
+    
         $keys = array_map(function ($id) {
             return ['id' => $id];
         }, $snippets->getIds());
