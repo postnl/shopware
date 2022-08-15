@@ -2,6 +2,7 @@
 
 namespace PostNL\Shopware6\Service\Shopware\ShippingMethod;
 
+use PostNL\Shopware6\Exception\PostNL\InvalidSourceCountryException;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
@@ -60,8 +61,7 @@ class ShippingMethodRouteDecorator extends AbstractShippingMethodRoute
                 $config->getSenderAddress()->getCountrycode(),
                 $context->getShippingLocation()->getCountry()->getIso()
             );
-        } catch (\Throwable $e) {
-            // TODO catch specific exception
+        } catch (InvalidSourceCountryException $e) {
             $shippingZone = null;
         }
 
