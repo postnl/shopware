@@ -25,9 +25,9 @@
             "nl-NL": "PostNL Shipping & Labels"
         },
         "description": {
-            "de-DE": "Mit dieser Erweiterung können Sie Sendungen bei PostNL registrieren und die Etiketten mit einem Knopfdruck drucken. Ihre Kunden wählen aus, welche Lieferoption sie nutzen möchten.",
-            "en-GB": "With this extension you can easily register shipments with PostNL and print shipping labels with the push of a button. Your customers choose which delivery option they want to use.",
-            "nl-NL": "Met deze extensie meld je eenvoudig zendingen aan bij PostNL en print je met één druk op de knop de verzendlabels. Jouw klanten kiezen zelf welke bezorgoptie zij willen gebruiken."
+            "de-DE": "Mit dieser Erweiterung können Sie Sendungen bei PostNL registrieren und die Versandetiketten mit einem Knopfdruck drucken. Kunden können wählen, wie sie ihre Sendung erhalten.",
+            "en-GB": "With this extension, you can register shipments with PostNL and print the shipping labels with one push of a button. Moreover, your customers choose how they want to receive the order.",
+            "nl-NL": "Met deze extensie meld je eenvoudig zendingen aan bij PostNL en print je met één druk op de knop de verzendlabels. Daarnaast kiezen jouw klanten hoe zij de bestelling willen ontvangen."
         },
         "manufacturerLink": {
             "en-GB": "https://www.postnl.nl/en/",
