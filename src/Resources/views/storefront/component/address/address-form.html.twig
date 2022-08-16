@@ -1,6 +1,6 @@
 {% sw_extends '@Storefront/storefront/component/address/address-form.html.twig' %}
 {% block component_address_form_address_fields %}
-    {% if not config('PostNL.config.addressCheck') %}
+    {% if not config('PostNLShopware.config.addressCheck') %}
         {{ parent() }}
     {% else %}
         {% if idPrefix is not defined %}

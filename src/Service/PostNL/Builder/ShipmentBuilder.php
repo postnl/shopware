@@ -102,10 +102,16 @@ class ShipmentBuilder
         $shipment->setProductCodeDelivery($product->getProductCodeDelivery());
         $shipment->setReference('Order ' . $order->getOrderNumber());
 
+
         //= Return label in the box ====
-        if ($config->isReturnLabelInTheBox() && $product->getId() !== Defaults::PRODUCT_SHIPPING_GLOBAL_4945) {
+        $returnCustomerCode = $config->getReturnAddress()->getReturnCustomerCode();
+        if (
+            $config->isReturnLabelInTheBox()
+            && $product->getId() !== Defaults::PRODUCT_SHIPPING_GLOBAL_4945
+            && !empty($returnCustomerCode)
+        ) {
             $returnCountryCode = $config->getReturnAddress()->getCountrycode();
-            $returnCustomerCode = $config->getReturnAddress()->getReturnCustomerCode();
+
 
             //Next 2 lines are a temp fix for non usage of returncode in SDK 2/3
             $originalCustomerCode = $apiClient->getCustomer()->getCustomerCode();
