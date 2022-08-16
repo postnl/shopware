@@ -26,6 +26,7 @@
                            :animationTimeout="2500"
                            :isLoading="isProcessing"
                            :processSuccess="isSuccess"
+                           :disabled="!hasActions"
                            @click="sendShipments"
                            @process-finish="processFinish">
             {{ $tc('postnl.order.modal.createShipments.confirm') }}

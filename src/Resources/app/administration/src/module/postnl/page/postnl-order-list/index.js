@@ -186,17 +186,23 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
         },
 
         onChangeShipping() {
-            this.isBulkChangeShippingModalOpen = false;
-            this.isChangeShippingModalId = null;
-
-            this.onRefresh();
+            new Promise(resolve => {
+                this.isBulkChangeShippingModalOpen = false;
+                this.isChangeShippingModalId = null;
+                resolve();
+            }).then(() => {
+                this.onRefresh();
+            });
         },
 
         onCreateShipment() {
-            this.isBulkCreateShipmentModalOpen = false;
-            this.isCreateShipmentModalId = null;
-
-            this.onRefresh();
+            new Promise(resolve => {
+                this.isBulkCreateShipmentModalOpen = false;
+                this.isCreateShipmentModalId = null;
+                resolve();
+            }).then(() => {
+                this.onRefresh();
+            })
         }
     }
 });

@@ -10,6 +10,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class CustomFieldInstaller
 {
+    const POSTNL_PRODUCT_SET_NAME = 'postnl_product';
+    const POSTNL_PRODUCT_HS_CODE_FIELD_NAME = 'postnl_product_hs_code';
+    const POSTNL_PRODUCT_COUNTRY_OF_ORIGIN_FIELD_NAME = 'postnl_product_country_of_origin';
+
     public static function createFactory(ContainerInterface $container)
     {
         return new self(
@@ -32,10 +36,15 @@ class CustomFieldInstaller
         $this->installHSFields($context);
     }
 
+    public function uninstall(Context $context): void
+    {
+        $this->uninstallHSFields($context);
+    }
+
     private function installHSFields(Context $context): void
     {
         $setId = $this->factory->createSet(
-            'postnl_product',
+            self::POSTNL_PRODUCT_SET_NAME,
             [
                 'en-GB' => 'PostNL',
                 'de-DE' => 'PostNL',
@@ -49,7 +58,7 @@ class CustomFieldInstaller
         );
 
         $hsFieldId = $this->factory->createTextField(
-            'postnl_product_hs_code',
+            self::POSTNL_PRODUCT_HS_CODE_FIELD_NAME,
             [
                 'en-GB' => 'HS Tariff Code',
                 'de-DE' => 'HS-Zolltarifcode',
@@ -65,7 +74,7 @@ class CustomFieldInstaller
         );
 
         $countryOriginFieldId = $this->factory->createEntitySelectField(
-            'postnl_product_country_of_origin',
+            self::POSTNL_PRODUCT_COUNTRY_OF_ORIGIN_FIELD_NAME,
             CountryDefinition::class,
             null,
             [
@@ -89,5 +98,12 @@ class CustomFieldInstaller
             ],
             $context
         );
+    }
+
+    private function uninstallHSFields(Context $context)
+    {
+        $this->factory->deleteSet(self::POSTNL_PRODUCT_SET_NAME,$context);
+        $this->factory->deleteFieldSnippet(self::POSTNL_PRODUCT_HS_CODE_FIELD_NAME,$context);
+        $this->factory->deleteFieldSnippet(self::POSTNL_PRODUCT_COUNTRY_OF_ORIGIN_FIELD_NAME,$context);
     }
 }

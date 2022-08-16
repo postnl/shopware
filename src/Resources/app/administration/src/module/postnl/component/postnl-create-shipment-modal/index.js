@@ -39,6 +39,9 @@ Component.register('postnl-create-shipment-modal', {
 
         selectionCount() {
             return Object.values(this.selection).length;
+        },
+        hasActions(){
+          return this.confirmShipments || this.downloadLabels;
         }
     },
 
