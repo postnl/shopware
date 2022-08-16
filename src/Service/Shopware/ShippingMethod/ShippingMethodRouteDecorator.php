@@ -55,10 +55,15 @@ class ShippingMethodRouteDecorator extends AbstractShippingMethodRoute
 
         $config = $this->configService->getConfiguration($context->getSalesChannelId(), $context->getContext());
 
-        $shippingZone = ZoneService::getDestinationZone(
-            $config->getSenderAddress()->getCountrycode(),
-            $context->getShippingLocation()->getCountry()->getIso()
-        );
+        try {
+            $shippingZone = ZoneService::getDestinationZone(
+                $config->getSenderAddress()->getCountrycode(),
+                $context->getShippingLocation()->getCountry()->getIso()
+            );
+        } catch (\Throwable $e) {
+            // TODO catch specific exception
+            $shippingZone = null;
+        }
 
         /**
          * @var string               $key
@@ -69,6 +74,11 @@ class ShippingMethodRouteDecorator extends AbstractShippingMethodRoute
             $shippingMethodAttributes = $this->attributeFactory->createFromEntity($shippingMethod, $context->getContext());
 
             if (is_null($shippingMethodAttributes->getDeliveryType())) {
+                continue;
+            }
+
+            if(empty($shippingZone)) {
+                $originalResult->getShippingMethods()->remove($key);
                 continue;
             }
 
