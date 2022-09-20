@@ -163,41 +163,39 @@ class ConversionSubscriber implements EventSubscriberInterface
         );
         $deliveryType = $shippingMethodAttributes->getDeliveryType();
 
-        switch ($destinationZone) {
+        switch($sourceZone) {
             case Zone::NL:
-                if ($sourceZone == Zone::NL) {
-                    switch ($deliveryType) {
-                        case DeliveryType::MAILBOX:
-                            return Defaults::PRODUCT_MAILBOX_NL_NL;
-                        case DeliveryType::SHIPMENT:
-                            $default = $config->getProductShipmentNlNlDefault();
-                            $alternative = $config->getProductShipmentNlNlAlternative();
-
-                            $id = $default->getId();
-
-                            if ($alternative->isEnabled() && $cart->getPrice()->getTotalPrice() >= $alternative->getCartAmount()) {
-                                $id = $alternative->getId();
-                            }
-
-                            if (empty($id)) {
-                                $id = Defaults::PRODUCT_SHIPPING_NL_NL;
-                            }
-                            return $id;
-                        case DeliveryType::PICKUP:
-                            $default = $config->getProductPickupNlNlDefault();
-
-                            $id = $default->getId();
-
-                            if (empty($id)) {
-                                $id = Defaults::PRODUCT_PICKUP_NL_NL;
-                            }
-                            return $id;
-                    }
-                }
-                break;
-            case Zone::BE:
-                switch ($sourceZone) {
+                switch($destinationZone) {
                     case Zone::NL:
+                        switch ($deliveryType) {
+                            case DeliveryType::MAILBOX:
+                                return Defaults::PRODUCT_MAILBOX_NL_NL;
+                            case DeliveryType::SHIPMENT:
+                                $default = $config->getProductShipmentNlNlDefault();
+                                $alternative = $config->getProductShipmentNlNlAlternative();
+
+                                $id = $default->getId();
+
+                                if ($alternative->isEnabled() && $cart->getPrice()->getTotalPrice() >= $alternative->getCartAmount()) {
+                                    $id = $alternative->getId();
+                                }
+
+                                if (empty($id)) {
+                                    $id = Defaults::PRODUCT_SHIPPING_NL_NL;
+                                }
+                                return $id;
+                            case DeliveryType::PICKUP:
+                                $default = $config->getProductPickupNlNlDefault();
+
+                                $id = $default->getId();
+
+                                if (empty($id)) {
+                                    $id = Defaults::PRODUCT_PICKUP_NL_NL;
+                                }
+                                return $id;
+                        }
+                        break;
+                    case Zone::BE:
                         switch ($deliveryType) {
                             case DeliveryType::SHIPMENT:
                                 $default = $config->getProductShipmentNlBeDefault();
@@ -224,15 +222,47 @@ class ConversionSubscriber implements EventSubscriberInterface
                                 return $id;
                         }
                         break;
-                    case Zone::BE:
-                        // Nothing available yet.
-                        break;
+                    case Zone::EU:
+                        return Defaults::PRODUCT_SHIPPING_NL_EU_4952;
+                    case Zone::GLOBAL:
+                        return Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4945;
                 }
                 break;
-            case Zone::EU:
-                return Defaults::PRODUCT_SHIPPING_NL_EU_4952;
-            case Zone::GLOBAL:
-                return Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4945;
+            case Zone::BE:
+                switch($destinationZone) {
+                    case Zone::BE:
+                        switch ($deliveryType) {
+                            case DeliveryType::SHIPMENT:
+                                $default = $config->getProductShipmentBeBeDefault();
+                                $alternative = $config->getProductShipmentBeBeAlternative();
+
+                                $id = $default->getId();
+
+                                if ($alternative->isEnabled() && $cart->getPrice()->getTotalPrice() >= $alternative->getCartAmount()) {
+                                    $id = $alternative->getId();
+                                }
+
+                                if (empty($id)) {
+                                    $id = Defaults::PRODUCT_SHIPPING_BE_BE;
+                                }
+                                return $id;
+                            case DeliveryType::PICKUP:
+                                $default = $config->getProductPickupBeBeDefault();
+
+                                $id = $default->getId();
+
+                                if (empty($id)) {
+                                    $id = Defaults::PRODUCT_PICKUP_BE_BE;
+                                }
+                                return $id;
+                        }
+                        break;
+                    case Zone::EU:
+                        return Defaults::PRODUCT_SHIPPING_BE_EU_4952;
+                    case Zone::GLOBAL:
+                        return Defaults::PRODUCT_SHIPPING_BE_GLOBAL_4947;
+                }
+                break;
         }
 
         return '';
