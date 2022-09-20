@@ -22,8 +22,8 @@ class Defaults
     const PRODUCT_SHIPPING_NL_BE = self::PRODUCT_SHIPPING_NL_BE_4946;
     const PRODUCT_PICKUP_NL_BE = self::PRODUCT_PICKUP_NL_BE_4936;
 
-    const PRODUCT_SHIPPING_BE_BE = null;
-    const PRODUCT_PICKUP_BE_BE = null;
+    const PRODUCT_SHIPPING_BE_BE = self::PRODUCT_SHIPPING_BE_BE_4960;
+    const PRODUCT_PICKUP_BE_BE = self::PRODUCT_PICKUP_BE_BE_4880;
 
     // NL->NL, Verzending
     const PRODUCT_SHIPPING_NL_NL_3085 = "01c8aeac08cd4d1b95de9ef6a18ae89d";
