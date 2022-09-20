@@ -183,7 +183,7 @@ class ShipmentService
                 $orderAttributes = $this->attributeFactory->createFromEntity($salesChannelOrder, $context);
                 $product = $this->productService->getProduct($orderAttributes->getProductId(), $context);
 
-                if ($product->getId() === Defaults::PRODUCT_SHIPPING_GLOBAL_4945) {
+                if ($product->getId() === Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4945) {
                     $hasGlobalPackShipment = true;
                 }
 

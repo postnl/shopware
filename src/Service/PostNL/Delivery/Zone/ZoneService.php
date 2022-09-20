@@ -12,10 +12,9 @@ class ZoneService
             case 'NL':
                 $sourceMapping = ZoneMapping::SOURCE_NL;
                 break;
-//            Disable Belgium as shipping country
-//            case 'BE':
-//                $sourceMapping = ZoneMapping::SOURCE_BE;
-//                break;
+            case 'BE':
+                $sourceMapping = ZoneMapping::SOURCE_BE;
+                break;
             default:
                 throw new InvalidSourceCountryException([
                     'sourceCountryIso' => $sourceCountryIso

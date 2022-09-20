@@ -74,6 +74,21 @@ class ConfigStruct extends AttributeStruct
      */
     protected $productPickupNlBeDefault;
 
+    /**
+     * @var ProductSelectionStruct
+     */
+    protected $productShipmentBeBeDefault;
+
+    /**
+     * @var ProductSelectionStruct
+     */
+    protected $productShipmentBeBeAlternative;
+
+    /**
+     * @var ProductSelectionStruct
+     */
+    protected $productPickupBeBeDefault;
+
     //====================================================================================================
 
     /**
@@ -239,6 +254,30 @@ class ConfigStruct extends AttributeStruct
     public function getProductPickupNlBeDefault(): ProductSelectionStruct
     {
         return $this->productPickupNlBeDefault;
+    }
+
+    /**
+     * @return ProductSelectionStruct
+     */
+    public function getProductShipmentBeBeDefault(): ProductSelectionStruct
+    {
+        return $this->productShipmentBeBeDefault;
+    }
+
+    /**
+     * @return ProductSelectionStruct
+     */
+    public function getProductShipmentBeBeAlternative(): ProductSelectionStruct
+    {
+        return $this->productShipmentBeBeAlternative;
+    }
+
+    /**
+     * @return ProductSelectionStruct
+     */
+    public function getProductPickupBeBeDefault(): ProductSelectionStruct
+    {
+        return $this->productPickupBeBeDefault;
     }
 
     //=========================================================================================================

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace PostNL\Shopware6\Service\PostNL\Product;
 
@@ -343,25 +343,23 @@ class ProductService
 
         $defaultProductId = null;
 
-        switch ($destinationZone) {
+        switch($sourceZone) {
             case Zone::NL:
-                if ($sourceZone == Zone::NL) {
-                    switch ($deliveryType) {
-                        case DeliveryType::MAILBOX:
-                            $defaultProductId = Defaults::PRODUCT_MAILBOX_NL_NL;
-                            break;
-                        case DeliveryType::SHIPMENT:
-                            $defaultProductId = Defaults::PRODUCT_SHIPPING_NL_NL;
-                            break;
-                        case DeliveryType::PICKUP:
-                            $defaultProductId = Defaults::PRODUCT_PICKUP_NL_NL;
-                            break;
-                    }
-                }
-                break;
-            case Zone::BE:
-                switch ($sourceZone) {
+                switch($destinationZone) {
                     case Zone::NL:
+                        switch ($deliveryType) {
+                            case DeliveryType::MAILBOX:
+                                $defaultProductId = Defaults::PRODUCT_MAILBOX_NL_NL;
+                                break;
+                            case DeliveryType::SHIPMENT:
+                                $defaultProductId = Defaults::PRODUCT_SHIPPING_NL_NL;
+                                break;
+                            case DeliveryType::PICKUP:
+                                $defaultProductId = Defaults::PRODUCT_PICKUP_NL_NL;
+                                break;
+                        }
+                        break;
+                    case Zone::BE:
                         switch ($deliveryType) {
                             case DeliveryType::SHIPMENT:
                                 $defaultProductId = Defaults::PRODUCT_SHIPPING_NL_BE;
@@ -371,16 +369,33 @@ class ProductService
                                 break;
                         }
                         break;
-                    case Zone::BE:
-                        // Nothing available yet.
+                    case Zone::EU:
+                        $defaultProductId = Defaults::PRODUCT_SHIPPING_NL_EU_4952;
+                        break;
+                    case Zone::GLOBAL:
+                        $defaultProductId = Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4945;
                         break;
                 }
                 break;
-            case Zone::EU:
-                $defaultProductId = Defaults::PRODUCT_SHIPPING_EU_4952;
-                break;
-            case Zone::GLOBAL:
-                $defaultProductId = Defaults::PRODUCT_SHIPPING_GLOBAL_4945;
+            case Zone::BE:
+                switch($destinationZone) {
+                    case Zone::BE:
+                        switch ($deliveryType) {
+                            case DeliveryType::SHIPMENT:
+                                $defaultProductId = Defaults::PRODUCT_SHIPPING_BE_BE;
+                                break;
+                            case DeliveryType::PICKUP:
+                                $defaultProductId = Defaults::PRODUCT_PICKUP_BE_BE;
+                                break;
+                        }
+                        break;
+                    case Zone::EU:
+                        $defaultProductId = Defaults::PRODUCT_SHIPPING_BE_EU_4952;
+                        break;
+                    case Zone::GLOBAL:
+                        $defaultProductId = Defaults::PRODUCT_SHIPPING_BE_GLOBAL_4947;
+                        break;
+                }
                 break;
         }
 

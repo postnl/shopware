@@ -97,6 +97,7 @@
             <label lang="de-DE">Standardversand, von NL nach NL</label>
             <label lang="nl-NL">Standaard zending, van NL naar NL</label>
         </component>
+
         <component name="postnl-config-product-selection-shipment-nl-nl-alternative">
             <name>productShipmentNlNlAlternative</name>
             <label>Standard shipment, from NL to NL - Alternative</label>
@@ -111,13 +112,13 @@
             <label lang="nl-NL">Ophalen bij een PostNL-punt, van NL naar NL</label>
         </component>
 
-
         <component name="postnl-config-product-selection-shipment-nl-be-default">
             <name>productShipmentNlBeDefault</name>
             <label>Standard shipment, from NL to BE</label>
             <label lang="de-DE">Standardversand, von NL nach BE</label>
             <label lang="nl-NL">Standaard zending, van NL naar BE</label>
         </component>
+
         <component name="postnl-config-product-selection-shipment-nl-be-alternative">
             <name>productShipmentNlBeAlternative</name>
             <label>Standard shipment, from NL to BE - Alternative</label>
@@ -130,6 +131,28 @@
             <label>Pick-up at PostNL location, from NL to BE</label>
             <label lang="de-DE">Abholung am PostNL-Standort, von NL nach BE</label>
             <label lang="nl-NL">Ophalen bij een PostNL-punt, van NL naar BE</label>
+        </component>
+
+
+        <component name="postnl-config-product-selection-shipment-be-be-default">
+            <name>productShipmentBeBeDefault</name>
+            <label>Standard shipment, from BE to BE</label>
+            <label lang="de-DE">Standardversand, von BE nach BE</label>
+            <label lang="nl-NL">Standaard zending, van BE naar BE</label>
+        </component>
+
+        <component name="postnl-config-product-selection-shipment-be-be-alternative">
+            <name>productShipmentBeBeAlternative</name>
+            <label>Standard shipment, from BE to BE - Alternative</label>
+            <label lang="de-DE">Standardversand, von BE nach BE - Alternativ</label>
+            <label lang="nl-NL">Standaard zending, van BE naar BE - Alternatief</label>
+        </component>
+
+        <component name="postnl-config-product-selection-pickup-be-be-default">
+            <name>productPickupBeBeDefault</name>
+            <label>Pick-up at PostNL location, from BE to BE</label>
+            <label lang="de-DE">Abholung am PostNL-Standort, von BE nach BE</label>
+            <label lang="nl-NL">Ophalen bij een PostNL-punt, van BE naar BE</label>
         </component>
 
         <input-field type="bool">

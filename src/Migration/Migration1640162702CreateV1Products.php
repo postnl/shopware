@@ -302,7 +302,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_EU_4952),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_EU_4952),
                 'product_code_delivery' => '4952',
                 'source_zone' => Zone::NL,
                 'destination_zone' => Zone::EU,
@@ -316,7 +316,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_GLOBAL_4945),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4945),
                 'product_code_delivery' => '4945',
                 'source_zone' => Zone::NL,
                 'destination_zone' => Zone::GLOBAL,
