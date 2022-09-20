@@ -230,9 +230,9 @@ class ConversionSubscriber implements EventSubscriberInterface
                 }
                 break;
             case Zone::EU:
-                return Defaults::PRODUCT_SHIPPING_EU_4952;
+                return Defaults::PRODUCT_SHIPPING_NL_EU_4952;
             case Zone::GLOBAL:
-                return Defaults::PRODUCT_SHIPPING_GLOBAL_4945;
+                return Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4945;
         }
 
         return '';

@@ -85,9 +85,9 @@ class Defaults
     // NL->BE, Verzending, verzekerd, handtekening
     const PRODUCT_SHIPPING_NL_BE_4914 = "75017f4f16b94b7ebe53e5df0b6ed691";
 
-    // ParcelsEU, is actually 4944, but 4952 should be used
-    const PRODUCT_SHIPPING_EU_4952 = "2e00df0d0e7146b5b16f955084792e05";
+    // NL->ParcelsEU, is actually 4944, but 4952 should be used.
+    const PRODUCT_SHIPPING_NL_EU_4952 = "2e00df0d0e7146b5b16f955084792e05";
 
-    // GlobalPack
-    const PRODUCT_SHIPPING_GLOBAL_4945 = "2a4dae5c11634f28b8051fbe3d810b2d";
+    // NL->GlobalPack
+    const PRODUCT_SHIPPING_NL_GLOBAL_4945 = "2a4dae5c11634f28b8051fbe3d810b2d";
 }

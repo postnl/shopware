@@ -107,7 +107,7 @@ class ShipmentBuilder
         $returnCustomerCode = $config->getReturnAddress()->getReturnCustomerCode();
         if (
             $config->isReturnLabelInTheBox()
-            && $product->getId() !== Defaults::PRODUCT_SHIPPING_GLOBAL_4945
+            && $product->getId() !== Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4945
             && !empty($returnCustomerCode)
         ) {
             $returnCountryCode = $config->getReturnAddress()->getCountrycode();
@@ -158,7 +158,7 @@ class ShipmentBuilder
         //= Dimension ====
         $shipment->setDimension($this->buildDimension($order, $context));
 
-        if ($product->getId() === Defaults::PRODUCT_SHIPPING_GLOBAL_4945) {
+        if ($product->getId() === Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4945) {
             $shipment->setCustoms($this->buildCustoms($order, $context));
         }
 
