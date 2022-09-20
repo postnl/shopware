@@ -90,4 +90,55 @@ class Defaults
 
     // NL->GlobalPack
     const PRODUCT_SHIPPING_NL_GLOBAL_4945 = "2a4dae5c11634f28b8051fbe3d810b2d";
+
+    /**
+     * V1.1
+     */
+    // BE->BE, Verzending, niet bij buren bezorgen
+    const PRODUCT_SHIPPING_BE_BE_4960 = "85195fa94d6a4c50a2ad2ab579820d2b";
+
+    // BE->BE, Verzending
+    const PRODUCT_SHIPPING_BE_BE_4961 = "15a561ba00a8441f8e791080354d1d51";
+
+    // BE->BE, Verzending, niet bij buren bezorgen, handtekening voor ontvangst
+    const PRODUCT_SHIPPING_BE_BE_4962 = "32eda40217554fd2a27eab564d6330ef";
+
+    // BE->BE, Verzending, handtekening voor ontvangst
+    const PRODUCT_SHIPPING_BE_BE_4963 = "8262bd7d13f84ddf8bf764c86910f1af";
+
+    // BE->BE, Verzending, niet bij buren bezorgen, verzekerd
+    const PRODUCT_SHIPPING_BE_BE_4965 = "76128ef0531645d4a93979f7e58be30f";
+
+    // BE->BE, Pickup,verzekerd
+    const PRODUCT_PICKUP_BE_BE_4878 = "7108d13a1c104ec3a3b0b661c9436186";
+
+    // BE->BE, Pickup
+    const PRODUCT_PICKUP_BE_BE_4880 = "674c471cdc524898a9c503bf5995447b";
+
+    // BE->ParcelsEU
+    const PRODUCT_SHIPPING_BE_EU_4952 = "12ee17b34fcb4808997f381dec3bd521";
+
+    // BE->GlobalPack
+    const PRODUCT_SHIPPING_BE_GLOBAL_4947 = "30914ec3db4749f1b050de8f0a12a20b";
+
+//    const PLACEHOLDER = "846dedd4b74e41c8b4d15b41fec6e166";
+//    const PLACEHOLDER = "cc790c0fdc014d4abc1fd8e8fea04d2d";
+//    const PLACEHOLDER = "882d315b86834c3db97b3b44c817ed28";
+//    const PLACEHOLDER = "918bb3b30a8c402c9f089672238e3d10";
+//    const PLACEHOLDER = "6b9edb204ab24ac296eaed5b6d02f4dd";
+//    const PLACEHOLDER = "58c6922504bd427cb58fec5631e5d3ad";
+//    const PLACEHOLDER = "8f18b46a4a0f446690de85ea236ebb0d";
+//    const PLACEHOLDER = "b7d9d225aa25420ba3beb559422aca0b";
+//    const PLACEHOLDER = "de9571485773424d91a036a9b90b8018";
+//    const PLACEHOLDER = "a0cd6266f7af4827a5c4f992fbbe018e";
+//    const PLACEHOLDER = "9a363d644cb04f2992b11532ca3423a1";
+//    const PLACEHOLDER = "aca0c58bb0c3458aa5cc73bf9b1193f5";
+//    const PLACEHOLDER = "d82b87a2c08a4c58aab43d634129d164";
+//    const PLACEHOLDER = "243372140df14282a33593aba308939d";
+//    const PLACEHOLDER = "b0e76c782e1a412f803009ec7e70f66c";
+//    const PLACEHOLDER = "b7faaef178e2496c8375b172fc7045b1";
+//    const PLACEHOLDER = "7c4fdd5ea8224573ab477fe7493939d0";
+//    const PLACEHOLDER = "34375f43be67429faa94ef2449f79762";
+//    const PLACEHOLDER = "092a6a11729b44db981903e292d0c67d";
+
 }
