@@ -147,7 +147,7 @@ abstract class ProductMigration extends MigrationStep
         }
 
         foreach(array_keys(ProductDefinition::ALL_FLAGS) as $flag) {
-            if ($product[$flag] === true) {
+            if (!!$product[$flag]) {
                 $parts[] = $translations[$locale][$flag];
             }
         }
