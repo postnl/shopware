@@ -119,7 +119,7 @@ class Defaults
     const PRODUCT_SHIPPING_BE_EU_4952 = "12ee17b34fcb4808997f381dec3bd521";
 
     // BE->GlobalPack
-    const PRODUCT_SHIPPING_BE_GLOBAL_4947 = "30914ec3db4749f1b050de8f0a12a20b";
+    const PRODUCT_SHIPPING_BE_GLOBAL_4945 = "30914ec3db4749f1b050de8f0a12a20b";
 
 //    const PLACEHOLDER = "846dedd4b74e41c8b4d15b41fec6e166";
 //    const PLACEHOLDER = "cc790c0fdc014d4abc1fd8e8fea04d2d";
