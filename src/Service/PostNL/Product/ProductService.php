@@ -393,7 +393,7 @@ class ProductService
                         $defaultProductId = Defaults::PRODUCT_SHIPPING_BE_EU_4952;
                         break;
                     case Zone::GLOBAL:
-                        $defaultProductId = Defaults::PRODUCT_SHIPPING_BE_GLOBAL_4947;
+                        $defaultProductId = Defaults::PRODUCT_SHIPPING_BE_GLOBAL_4945;
                         break;
                 }
                 break;
