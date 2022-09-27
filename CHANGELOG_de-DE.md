@@ -1,3 +1,10 @@
+# 1.1.0
+#### Belgische Release
+- Es wurden Produktcodes für den Versand aus Belgien hinzugefügt.
+
+#### Fehlerbehebungen
+- Behebt ein Problem, bei dem nach Eingabe einer ungültigen niederländischen Adresse und anschließendem Wechsel in ein anderes Land die Kundenregistrierung nicht abgeschlossen werden konnte.
+
 # 1.0.0
 #### Erstes Release
 - Melden Sie Ihre Sendungen einfach bei PostNL an.

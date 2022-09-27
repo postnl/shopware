@@ -14,13 +14,13 @@ help:
 
 install: ## Installs all production dependencies
 	@composer install --no-dev
-	@cd src/Resources/app/administration && npm install --production
-	@cd src/Resources/app/storefront && npm install --production
+	@cd src/Resources/app/administration && [ ! -f package.json ] || npm install --production
+	@cd src/Resources/app/storefront && [ ! -f package.json ] || npm install --production
 
 dev: ## Installs all dev dependencies
 	@composer install
-	@cd src/Resources/app/administration && npm install
-	@cd src/Resources/app/storefront && npm install
+	@cd src/Resources/app/administration && [ ! -f package.json ] || npm install
+	@cd src/Resources/app/storefront && [ ! -f package.json ] || npm install
 
 clean: ## Cleans all dependencies
 	rm -rf vendor
