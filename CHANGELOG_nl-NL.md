@@ -1,3 +1,10 @@
+# 1.1.0
+#### Belgische release
+- Productcodes voor het verzenden vanuit België zijn toegevoegd.
+
+#### Bugfixes
+- Lost een probleem op waarbij, na het invoeren van een ongeldig Nederlands adres en vervolgens overschakelen naar een ander land, de klantenregistratie niet kon worden voltooid.
+
 # 1.0.0
 #### Eerste release
 - Gemakkelijk zendingen aanmelden bij PostNL.
