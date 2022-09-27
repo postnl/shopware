@@ -129,6 +129,11 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     _updateRequired() {
+        //Reset the errors
+        this.zipcodeElement.setCustomValidity("");
+        this.houseNumberElement.setCustomValidity("");
+        this.houseNumberAdditionElement.setCustomValidity("");
+
         //Check which form is hidden, set required as needed
         if (this.postNLAddressRow.getAttribute('hidden') === 'hidden') {
             this._swapRequired(this.defaultAddressRow, this.postNLAddressRow)

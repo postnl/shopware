@@ -14,6 +14,7 @@ use Firstred\PostNL\Entity\Shipment;
 use PostNL\Shopware6\Defaults;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
+use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shopware6\Service\PostNL\Product\ProductService;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
@@ -107,11 +108,10 @@ class ShipmentBuilder
         $returnCustomerCode = $config->getReturnAddress()->getReturnCustomerCode();
         if (
             $config->isReturnLabelInTheBox()
-            && $product->getId() !== Defaults::PRODUCT_SHIPPING_GLOBAL_4945
             && !empty($returnCustomerCode)
+            && $product->getDestinationZone() !== Zone::GLOBAL
         ) {
             $returnCountryCode = $config->getReturnAddress()->getCountrycode();
-
 
             //Next 2 lines are a temp fix for non usage of returncode in SDK 2/3
             $originalCustomerCode = $apiClient->getCustomer()->getCustomerCode();
@@ -158,7 +158,7 @@ class ShipmentBuilder
         //= Dimension ====
         $shipment->setDimension($this->buildDimension($order, $context));
 
-        if ($product->getId() === Defaults::PRODUCT_SHIPPING_GLOBAL_4945) {
+        if ($product->getDestinationZone() === Zone::GLOBAL) {
             $shipment->setCustoms($this->buildCustoms($order, $context));
         }
 

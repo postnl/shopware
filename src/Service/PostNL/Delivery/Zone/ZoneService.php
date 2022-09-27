@@ -2,6 +2,8 @@
 
 namespace PostNL\Shopware6\Service\PostNL\Delivery\Zone;
 
+use PostNL\Shopware6\Exception\PostNL\InvalidSourceCountryException;
+
 class ZoneService
 {
     public static function getDestinationZone($sourceCountryIso, $destinationCountryIso): string
@@ -14,9 +16,9 @@ class ZoneService
                 $sourceMapping = ZoneMapping::SOURCE_BE;
                 break;
             default:
-                // TODO exception
-                return Zone::GLOBAL;
-//                throw new \Exception('Shipping not supported for this source country');
+                throw new InvalidSourceCountryException([
+                    'sourceCountryIso' => $sourceCountryIso
+                ]);
         }
 
         if(array_key_exists($destinationCountryIso, $sourceMapping)) {

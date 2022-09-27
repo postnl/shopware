@@ -2,6 +2,7 @@
 
 namespace PostNL\Shopware6\Service\Shopware\ShippingMethod;
 
+use PostNL\Shopware6\Exception\PostNL\InvalidSourceCountryException;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
@@ -55,10 +56,14 @@ class ShippingMethodRouteDecorator extends AbstractShippingMethodRoute
 
         $config = $this->configService->getConfiguration($context->getSalesChannelId(), $context->getContext());
 
-        $shippingZone = ZoneService::getDestinationZone(
-            $config->getSenderAddress()->getCountrycode(),
-            $context->getShippingLocation()->getCountry()->getIso()
-        );
+        try {
+            $shippingZone = ZoneService::getDestinationZone(
+                $config->getSenderAddress()->getCountrycode(),
+                $context->getShippingLocation()->getCountry()->getIso()
+            );
+        } catch (InvalidSourceCountryException $e) {
+            $shippingZone = null;
+        }
 
         /**
          * @var string               $key
@@ -69,6 +74,11 @@ class ShippingMethodRouteDecorator extends AbstractShippingMethodRoute
             $shippingMethodAttributes = $this->attributeFactory->createFromEntity($shippingMethod, $context->getContext());
 
             if (is_null($shippingMethodAttributes->getDeliveryType())) {
+                continue;
+            }
+
+            if(empty($shippingZone)) {
+                $originalResult->getShippingMethods()->remove($key);
                 continue;
             }
 

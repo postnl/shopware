@@ -1,3 +1,10 @@
+# 1.1.0
+#### Belgian release
+- Product codes for shipping from Belgium have been added.
+
+#### Bugfixes
+- Fixes an issue where, after entering an invalid Dutch address and then switching to another country, the customer registration could not be completed.
+
 # 1.0.0
 #### Initial release
 - Easily register shipments with PostNL.
