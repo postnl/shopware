@@ -139,6 +139,11 @@ class ConfigStruct extends AttributeStruct
 
     //====================================================================================================
 
+    /**
+     * @var string
+     */
+    protected $cutoffTime;
+
 
     /**
      * @return string
@@ -350,5 +355,21 @@ class ConfigStruct extends AttributeStruct
     public function getFallbackHSCode(): ?string
     {
         return $this->fallbackHSCode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCutoffTime(): string
+    {
+        return $this->cutoffTime;
+    }
+
+    /**
+     * @param string $cutoffTime
+     */
+    public function setCutoffTime(string $cutoffTime): void
+    {
+        $this->cutoffTime = $cutoffTime;
     }
 }
