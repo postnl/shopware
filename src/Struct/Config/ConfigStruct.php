@@ -139,6 +139,10 @@ class ConfigStruct extends AttributeStruct
 
     //====================================================================================================
 
+    /**
+     * @var array
+     */
+    protected $submitionDays;
 
     /**
      * @return string
@@ -350,5 +354,21 @@ class ConfigStruct extends AttributeStruct
     public function getFallbackHSCode(): ?string
     {
         return $this->fallbackHSCode;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSubmitionDays(): array
+    {
+        return $this->submitionDays;
+    }
+
+    /**
+     * @param array $submitionDays
+     */
+    public function setSubmitionDays(array $submitionDays): void
+    {
+        $this->submitionDays = $submitionDays;
     }
 }

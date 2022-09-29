@@ -67,6 +67,64 @@
     </card>
 
     <card>
+        <title>Delivery options</title>
+        <title lang="de-DE">Liefermöglichkeiten</title>
+        <title lang="nl-NL">Bezorgopties</title>
+        <input-field type="multi-select">
+            <name>submitionDays</name>
+            <label>Submition days</label>
+            <label lang="de-DE">Liefertage</label>
+            <label lang="nl-NL">Aanlever dagen</label>
+            <options>
+                <option>
+                    <id>monday</id>
+                    <name>Monday</name>
+                    <name lang="de-DE">Montag</name>
+                    <name lang="nl-NL">Maandag</name>
+                    <name>Monday</name>
+                </option>
+                <option>
+                    <id>tuesday</id>
+                    <name>Tuesday</name>
+                    <name lang="de-DE">Dienstag</name>
+                    <name lang="nl-NL">Dinsdag</name>
+                </option>
+                <option>
+                    <id>wednesday</id>
+                    <name>Wednesday</name>
+                    <name lang="de-DE">Mittwoch</name>
+                    <name lang="nl-NL">Woensdag</name>
+                </option>
+                <option>
+                    <id>thursday</id>
+                    <name>Thursday</name>
+                    <name lang="de-DE">Donnerstag</name>
+                    <name lang="nl-NL">Donderdag</name>
+                </option>
+                <option>
+                    <id>friday</id>
+                    <name>Friday</name>
+                    <name lang="de-DE">Freitag</name>
+                    <name lang="nl-NL">Vrijdag</name>
+                </option>
+                <option>
+                    <id>saturday</id>
+                    <name>Saturday</name>
+                    <name lang="de-DE">Samstag</name>
+                    <name lang="nl-NL">Zaterdag</name>
+                </option>
+                <option>
+                    <id>sunday</id>
+                    <name>Sunday</name>
+                    <name lang="de-DE">Sonntag</name>
+                    <name lang="nl-NL">Zondag</name>
+                </option>
+            </options>
+        </input-field>
+    </card>
+
+
+    <card>
         <title>Address details</title>
         <title lang="de-DE">Angaben zur Adresse</title>
         <title lang="nl-NL">Adresgegevens</title>
