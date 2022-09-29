@@ -139,6 +139,28 @@ class ConfigStruct extends AttributeStruct
 
     //====================================================================================================
 
+    /**
+     * @var int
+     */
+    protected $transitTime;
+
+    //====================================================================================================
+
+    /**
+     * @return int
+     */
+    public function getTransitTime(): int
+    {
+        return $this->transitTime;
+    }
+
+    /**
+     * @param int $transitTime
+     */
+    public function setTransitTime(int $transitTime): void
+    {
+        $this->transitTime = $transitTime;
+    }
 
     /**
      * @return string
