@@ -73,8 +73,8 @@
         <input-field type="time">
             <name>cutoffTime</name>
             <label>Cutoff time</label>
-            <label lang="de-DE">Uiterste tijd</label>
-            <label lang="nl-NL">Abschaltzeit</label>
+            <label lang="nl-NL">Uiterste tijd</label>
+            <label lang="de-DE">Abschaltzeit</label>
         </input-field>
     </card>
 
