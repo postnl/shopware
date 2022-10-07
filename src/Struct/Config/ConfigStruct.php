@@ -142,33 +142,19 @@ class ConfigStruct extends AttributeStruct
     /**
      * @var string
      */
-    protected $cutoffTime;
+    protected $cutOffTime;
+
     /**
      * @var int
      */
     protected $transitTime;
+
     /**
      * @var array
      */
-    protected $submitionDays;
+    protected $handoverDays;
 
     //====================================================================================================
-
-    /**
-     * @return int
-     */
-    public function getTransitTime(): int
-    {
-        return $this->transitTime;
-    }
-
-    /**
-     * @param int $transitTime
-     */
-    public function setTransitTime(int $transitTime): void
-    {
-        $this->transitTime = $transitTime;
-    }
 
     /**
      * @return string
@@ -382,35 +368,29 @@ class ConfigStruct extends AttributeStruct
         return $this->fallbackHSCode;
     }
 
+    //=======================================================================================================
+
     /**
      * @return string
      */
-    public function getCutoffTime(): string
+    public function getCutOffTime(): string
     {
-        return $this->cutoffTime;
+        return $this->cutOffTime;
     }
 
     /**
-     * @param string $cutoffTime
+     * @return int
      */
-    public function setCutoffTime(string $cutoffTime): void
+    public function getTransitTime(): int
     {
-        $this->cutoffTime = $cutoffTime;
+        return $this->transitTime;
     }
 
     /**
      * @return array
      */
-    public function getSubmitionDays(): array
+    public function getHandoverDays(): array
     {
-        return $this->submitionDays;
-    }
-
-    /**
-     * @param array $submitionDays
-     */
-    public function setSubmitionDays(array $submitionDays): void
-    {
-        $this->submitionDays = $submitionDays;
+        return $this->handoverDays;
     }
 }

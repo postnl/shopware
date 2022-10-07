@@ -71,11 +71,12 @@
         <title lang="de-DE">Liefermöglichkeiten</title>
         <title lang="nl-NL">Bezorgopties</title>
         <input-field type="time">
-            <name>cutoffTime</name>
-            <label>Cutoff time</label>
-            <label lang="nl-NL">Uiterste tijd</label>
+            <name>cutOffTime</name>
+            <label>Cut-off time</label>
             <label lang="de-DE">Abschaltzeit</label>
+            <label lang="nl-NL">Uiterste tijd</label>
         </input-field>
+
         <input-field type="int">
             <name>transitTime</name>
             <label>Transit time (in days)</label>
@@ -86,9 +87,10 @@
             <helpText lang="de-DE">Anzahl der Tage, die für die Zustellung der Sendung benötigt werden</helpText>
             <helpText lang="nl-NL">Aantal dagen dat het duurt om het poststuk te bezorgen</helpText>
         </input-field>
+
         <input-field type="multi-select">
-            <name>submitionDays</name>
-            <label>Submition days</label>
+            <name>handoverDays</name>
+            <label>Handover days</label>
             <label lang="de-DE">Liefertage</label>
             <label lang="nl-NL">Aanlever dagen</label>
             <options>
@@ -97,7 +99,6 @@
                     <name>Monday</name>
                     <name lang="de-DE">Montag</name>
                     <name lang="nl-NL">Maandag</name>
-                    <name>Monday</name>
                 </option>
                 <option>
                     <id>tuesday</id>
