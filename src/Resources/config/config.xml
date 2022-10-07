@@ -76,6 +76,16 @@
             <label lang="nl-NL">Uiterste tijd</label>
             <label lang="de-DE">Abschaltzeit</label>
         </input-field>
+        <input-field type="int">
+            <name>transitTime</name>
+            <label>Transit time (in days)</label>
+            <label lang="de-DE">Lieferfrist</label>
+            <label lang="nl-NL">Overkomstduur</label>
+            <placeholder>1</placeholder>
+            <helpText>Number of days it takes to deliver the mail item</helpText>
+            <helpText lang="de-DE">Anzahl der Tage, die für die Zustellung der Sendung benötigt werden</helpText>
+            <helpText lang="nl-NL">Aantal dagen dat het duurt om het poststuk te bezorgen</helpText>
+        </input-field>
     </card>
 
     <card>
