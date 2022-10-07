@@ -67,85 +67,6 @@
     </card>
 
     <card>
-        <title>Delivery options</title>
-        <title lang="de-DE">Liefermöglichkeiten</title>
-        <title lang="nl-NL">Bezorgopties</title>
-        <input-field type="time">
-            <name>cutOffTime</name>
-            <label>Cut-off time</label>
-            <label lang="de-DE">Abschaltzeit</label>
-            <label lang="nl-NL">Uiterste tijd</label>
-            <helpText>Latest time for handing packages over to PostNL.</helpText>
-            <helpText lang="de-DE">Spätester Zeitpunkt für die Ablieferung von Paketen an PostNL.</helpText>
-            <helpText lang="nl-NL">Uiterste tijd voor het overhandigen van pakketten aan PostNL.</helpText>
-            <placeholder>17:00</placeholder>
-        </input-field>
-
-        <input-field type="int">
-            <name>transitTime</name>
-            <label>Transit time (in days)</label>
-            <label lang="de-DE">Durchgangszeit (in Tagen)</label>
-            <label lang="nl-NL">Overkomstduur (in dagen)</label>
-            <helpText>Number of days it takes to deliver the package to the customer</helpText>
-            <helpText lang="de-DE">Anzahl der Tage, die für die Zustellung des Pakets an den Kunden benötigt werden</helpText>
-            <helpText lang="nl-NL">Aantal dagen dat het duurt om het pakket bij de klant af te leveren</helpText>
-            <placeholder>1</placeholder>
-            <defaultValue>1</defaultValue>
-        </input-field>
-
-        <input-field type="multi-select">
-            <name>handoverDays</name>
-            <label>Handover days</label>
-            <label lang="de-DE">Liefertage</label>
-            <label lang="nl-NL">Aanlever dagen</label>
-            <options>
-                <option>
-                    <id>monday</id>
-                    <name>Monday</name>
-                    <name lang="de-DE">Montag</name>
-                    <name lang="nl-NL">Maandag</name>
-                </option>
-                <option>
-                    <id>tuesday</id>
-                    <name>Tuesday</name>
-                    <name lang="de-DE">Dienstag</name>
-                    <name lang="nl-NL">Dinsdag</name>
-                </option>
-                <option>
-                    <id>wednesday</id>
-                    <name>Wednesday</name>
-                    <name lang="de-DE">Mittwoch</name>
-                    <name lang="nl-NL">Woensdag</name>
-                </option>
-                <option>
-                    <id>thursday</id>
-                    <name>Thursday</name>
-                    <name lang="de-DE">Donnerstag</name>
-                    <name lang="nl-NL">Donderdag</name>
-                </option>
-                <option>
-                    <id>friday</id>
-                    <name>Friday</name>
-                    <name lang="de-DE">Freitag</name>
-                    <name lang="nl-NL">Vrijdag</name>
-                </option>
-                <option>
-                    <id>saturday</id>
-                    <name>Saturday</name>
-                    <name lang="de-DE">Samstag</name>
-                    <name lang="nl-NL">Zaterdag</name>
-                </option>
-                <option>
-                    <id>sunday</id>
-                    <name>Sunday</name>
-                    <name lang="de-DE">Sonntag</name>
-                    <name lang="nl-NL">Zondag</name>
-                </option>
-            </options>
-        </input-field>
-    </card>
-
-    <card>
         <title>Address details</title>
         <title lang="de-DE">Angaben zur Adresse</title>
         <title lang="nl-NL">Adresgegevens</title>
@@ -272,6 +193,85 @@
             <helpText lang="nl-NL">Standaard GS-tariefcode (HS-tariefcode) voor zendingen buiten de EU, indien niet ingevuld op productniveau. Let op, het is verplicht om deze gegevens op product-niveau in te stellen. Ga daarvoor naar Catalogus → Producten → Specificaties.</helpText>
             <helpText lang="de-DE">Standard-HS-Zolltarifcode für Sendungen außerhalb der EU, falls nicht auf Produktebene angegeben. Bitte beachten Sie, dass diese Daten zwingend auf Produktebene festgelegt werden müssen. Gehen Sie dazu auf Katalog → Produkte → Spezifikationen.</helpText>
             <placeholder>000000</placeholder>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Delivery options</title>
+        <title lang="de-DE">Liefermöglichkeiten</title>
+        <title lang="nl-NL">Bezorgopties</title>
+        <input-field type="time">
+            <name>cutOffTime</name>
+            <label>Cut-off time</label>
+            <label lang="de-DE">Abschaltzeit</label>
+            <label lang="nl-NL">Uiterste tijd</label>
+            <helpText>Latest time for handing packages over to PostNL.</helpText>
+            <helpText lang="de-DE">Spätester Zeitpunkt für die Ablieferung von Paketen an PostNL.</helpText>
+            <helpText lang="nl-NL">Uiterste tijd voor het overhandigen van pakketten aan PostNL.</helpText>
+            <placeholder>17:00</placeholder>
+        </input-field>
+
+        <input-field type="int">
+            <name>transitTime</name>
+            <label>Transit time (in days)</label>
+            <label lang="de-DE">Durchgangszeit (in Tagen)</label>
+            <label lang="nl-NL">Overkomstduur (in dagen)</label>
+            <helpText>Number of days it takes to deliver the package to the customer</helpText>
+            <helpText lang="de-DE">Anzahl der Tage, die für die Zustellung des Pakets an den Kunden benötigt werden</helpText>
+            <helpText lang="nl-NL">Aantal dagen dat het duurt om het pakket bij de klant af te leveren</helpText>
+            <placeholder>1</placeholder>
+            <defaultValue>1</defaultValue>
+        </input-field>
+
+        <input-field type="multi-select">
+            <name>handoverDays</name>
+            <label>Handover days</label>
+            <label lang="de-DE">Liefertage</label>
+            <label lang="nl-NL">Aanlever dagen</label>
+            <options>
+                <option>
+                    <id>monday</id>
+                    <name>Monday</name>
+                    <name lang="de-DE">Montag</name>
+                    <name lang="nl-NL">Maandag</name>
+                </option>
+                <option>
+                    <id>tuesday</id>
+                    <name>Tuesday</name>
+                    <name lang="de-DE">Dienstag</name>
+                    <name lang="nl-NL">Dinsdag</name>
+                </option>
+                <option>
+                    <id>wednesday</id>
+                    <name>Wednesday</name>
+                    <name lang="de-DE">Mittwoch</name>
+                    <name lang="nl-NL">Woensdag</name>
+                </option>
+                <option>
+                    <id>thursday</id>
+                    <name>Thursday</name>
+                    <name lang="de-DE">Donnerstag</name>
+                    <name lang="nl-NL">Donderdag</name>
+                </option>
+                <option>
+                    <id>friday</id>
+                    <name>Friday</name>
+                    <name lang="de-DE">Freitag</name>
+                    <name lang="nl-NL">Vrijdag</name>
+                </option>
+                <option>
+                    <id>saturday</id>
+                    <name>Saturday</name>
+                    <name lang="de-DE">Samstag</name>
+                    <name lang="nl-NL">Zaterdag</name>
+                </option>
+                <option>
+                    <id>sunday</id>
+                    <name>Sunday</name>
+                    <name lang="de-DE">Sonntag</name>
+                    <name lang="nl-NL">Zondag</name>
+                </option>
+            </options>
         </input-field>
     </card>
 
