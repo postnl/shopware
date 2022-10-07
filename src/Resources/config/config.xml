@@ -75,17 +75,22 @@
             <label>Cut-off time</label>
             <label lang="de-DE">Abschaltzeit</label>
             <label lang="nl-NL">Uiterste tijd</label>
+            <helpText>Latest time for handing packages over to PostNL.</helpText>
+            <helpText lang="de-DE">Spätester Zeitpunkt für die Ablieferung von Paketen an PostNL.</helpText>
+            <helpText lang="nl-NL">Uiterste tijd voor het overhandigen van pakketten aan PostNL.</helpText>
+            <placeholder>17:00</placeholder>
         </input-field>
 
         <input-field type="int">
             <name>transitTime</name>
             <label>Transit time (in days)</label>
-            <label lang="de-DE">Lieferfrist</label>
-            <label lang="nl-NL">Overkomstduur</label>
+            <label lang="de-DE">Durchgangszeit (in Tagen)</label>
+            <label lang="nl-NL">Overkomstduur (in dagen)</label>
+            <helpText>Number of days it takes to deliver the package to the customer</helpText>
+            <helpText lang="de-DE">Anzahl der Tage, die für die Zustellung des Pakets an den Kunden benötigt werden</helpText>
+            <helpText lang="nl-NL">Aantal dagen dat het duurt om het pakket bij de klant af te leveren</helpText>
             <placeholder>1</placeholder>
-            <helpText>Number of days it takes to deliver the mail item</helpText>
-            <helpText lang="de-DE">Anzahl der Tage, die für die Zustellung der Sendung benötigt werden</helpText>
-            <helpText lang="nl-NL">Aantal dagen dat het duurt om het poststuk te bezorgen</helpText>
+            <defaultValue>1</defaultValue>
         </input-field>
 
         <input-field type="multi-select">
