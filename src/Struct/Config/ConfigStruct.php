@@ -147,6 +147,10 @@ class ConfigStruct extends AttributeStruct
      * @var int
      */
     protected $transitTime;
+    /**
+     * @var array
+     */
+    protected $submitionDays;
 
     //====================================================================================================
 
@@ -392,5 +396,21 @@ class ConfigStruct extends AttributeStruct
     public function setCutoffTime(string $cutoffTime): void
     {
         $this->cutoffTime = $cutoffTime;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSubmitionDays(): array
+    {
+        return $this->submitionDays;
+    }
+
+    /**
+     * @param array $submitionDays
+     */
+    public function setSubmitionDays(array $submitionDays): void
+    {
+        $this->submitionDays = $submitionDays;
     }
 }
