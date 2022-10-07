@@ -67,6 +67,18 @@
     </card>
 
     <card>
+        <title>Delivery options</title>
+        <title lang="de-DE">Liefermöglichkeiten</title>
+        <title lang="nl-NL">Bezorgopties</title>
+        <input-field type="time">
+            <name>cutoffTime</name>
+            <label>Cutoff time</label>
+            <label lang="nl-NL">Uiterste tijd</label>
+            <label lang="de-DE">Abschaltzeit</label>
+        </input-field>
+    </card>
+
+    <card>
         <title>Address details</title>
         <title lang="de-DE">Angaben zur Adresse</title>
         <title lang="nl-NL">Adresgegevens</title>
