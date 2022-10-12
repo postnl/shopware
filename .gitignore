@@ -4,6 +4,7 @@
 .reports
 .DS_Store
 /tests/Cypress/package-lock.json
+/tests/Cypress/node_modules
 
 src/Resources/app/administration/node_modules
 src/Resources/app/storefront/node_modules
