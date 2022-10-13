@@ -18,7 +18,7 @@ describe('Shipping Methods', () => {
         cy.get('#confirmFormSubmit').click()
     })
 
-    it.only('Should have pickup point in the order ', () => {
+    it('Should have pickup point in the order ', () => {
         cy.intercept('POST', '/checkout/configure').as('pickup-point')
 
         cy.get('input.checkout-confirm-tos-checkbox').click({force: true})
