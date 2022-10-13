@@ -1,15 +1,4 @@
-import AdminLoginAction from "Actions/admin/AdminLoginAction";
-import AdminPluginAction from "Actions/admin/AdminPluginAction";
-import ShopConfigurationAction from "Actions/admin/ShopConfigurationAction";
-import RegisterAction from "Actions/storefront/account/RegisterAction";
-import CheckoutAction from "Actions/storefront/checkout/CheckoutAction";
 import DummyBasketScenario from "Scenarios/DummyBasketScenario";
-
-const adminLogin = new AdminLoginAction();
-const pluginAction = new AdminPluginAction();
-const configAction = new ShopConfigurationAction();
-const register = new RegisterAction();
-const checkoutAction = new CheckoutAction();
 
 const scenarioDummyBasket = new DummyBasketScenario(1);
 
