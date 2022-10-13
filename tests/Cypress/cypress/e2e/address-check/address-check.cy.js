@@ -31,6 +31,12 @@ function lookUpAddress(type) {
     cy.get('[id^='+type+'AddressPostNLAddressHouseNumberAdditionDatalist-] > option').should('have.length', 13)
 }
 
+function checkSwitchBack(type) {
+    cy.get('#'+type+'AddressAddressStreet').should('have.value', 'Leidsestraatweg 107')
+    cy.get('#'+type+'AddressAddressZipcode').should('have.value', '3443BS')
+    cy.get('#'+type+'AddressAddressCity').should('have.value', 'WOERDEN')
+}
+
 function lookUpAddressError(type) {
 
     cy.fixture('user').then((user) => {
@@ -68,6 +74,13 @@ describe('Register page check', () => {
     it('Should look up an address', () => {
         cy.switchCountry('Netherlands')
         lookUpAddress('billing');
+    })
+
+    it('Should fill in values when switching back', () => {
+        cy.switchCountry('Netherlands')
+        lookUpAddress('billing');
+        cy.switchCountry('Germany')
+        checkSwitchBack('billing')
     })
 
     it('Should show an error on invalid address and unlock the fields', () => {
@@ -120,6 +133,13 @@ describe('Checkout page checks', () => {
         cy.get('#differentShippingAddress').check({force: true});
         switchShippingCountry('Netherlands');
         lookUpAddressError('shipping');
+    })
+
+    it('Should fill in values when switching back', () => {
+        cy.switchCountry('Netherlands')
+        lookUpAddress('billing');
+        cy.switchCountry('Germany')
+        checkSwitchBack('billing')
     })
 })
 
@@ -181,5 +201,24 @@ describe('Shipping page add address checks', () => {
         cy.get('#billing-address-create-new [id*=ostNLAddressRow-]').contains('No address has been found, check if your input is correct.')
         cy.get('#billing-address-create-new [id*=ostNLAddressStreet-]').should('not.be.disabled')
         cy.get('#billing-address-create-new [id*=ostNLAddressCity-]').should('not.be.disabled')
+    })
+
+    it('Should fill in values when switching back', () => {
+        cy.switchCountry('Netherlands')
+        cy.fixture('user').then((user) => {
+            cy.get('#billing-address-create-new [id*=ostNLAddressZipcode-]').type(user.zipcode);
+            cy.get('#billing-address-create-new [id*=ostNLAddressHouseNumber-]').type(user.housenumber);
+        })
+
+        cy.intercept('POST', '/widget/address/postnl/postalcode-check').as('postalcode-check')
+
+        cy.wait('@postalcode-check').its('response.statusCode').should('eq', 200)
+
+        cy.switchCountry('Germany')
+
+        cy.get('#billing-address-create-new #billing-addressAddressStreet').should('have.value', 'Leidsestraatweg 107')
+        cy.get('#billing-address-create-new #billing-addressAddressZipcode').should('have.value', '3443BS')
+        cy.get('#billing-address-create-new #billing-addressAddressCity').should('have.value', 'WOERDEN')
+
     })
 })
