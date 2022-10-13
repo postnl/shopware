@@ -121,24 +121,6 @@ describe('Checkout page checks', () => {
         switchShippingCountry('Netherlands');
         lookUpAddressError('shipping');
     })
-
-    it('should work on shipping address', function () {
-
-        cy.get('[id*=shippingAddresspostNLAddressRow-]').should('be.visible')
-
-        cy.fixture('user').then((user) => {
-            cy.get('[id^=shippingAddressPostNLAddressZipcode-]').type(user.zipcode);
-            cy.get('[id^=shippingAddressPostNLAddressHouseNumber-]').type(user.housenumber);
-        })
-
-        cy.intercept('POST', '/widget/address/postnl/postalcode-check').as('postalcode-check')
-
-        cy.wait('@postalcode-check').its('response.statusCode').should('eq', 200)
-
-        cy.get('[id^=shippingAddressPostNLAddressStreet-]').should('have.value', 'Leidsestraatweg')
-        cy.get('[id^=shippingAddressPostNLAddressCity-]').should('have.value', 'WOERDEN')
-        cy.get('[id^=shippingAddressPostNLAddressHouseNumberAdditionDatalist-] > option').should('have.length', 13)
-    });
 })
 
 describe('Shipping page add address checks', () => {
