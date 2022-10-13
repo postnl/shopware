@@ -12,9 +12,22 @@ describe('Shipping Methods', () => {
         cy.get('.shipping-method').should('have.length', 2);
     })
 
-    it.only('Has options for pickup point ', () => {
+    it('Has options for pickup point ', () => {
         cy.contains('PostNL Pickup point').click()
         cy.get('.postnl-shipping-method__pickup').children().should('have.length', 5).should('be.visible');
+        cy.get('#confirmFormSubmit').click()
+    })
+
+    it.only('Should have pickup point in the order ', () => {
+        cy.intercept('POST', '/checkout/configure').as('pickup-point')
+
+        cy.get('input.checkout-confirm-tos-checkbox').click({force: true})
+
+        cy.contains('PostNL Pickup point').click()
+
+        cy.wait('@pickup-point').its('response.statusCode').should('eq', 302)
+        cy.get('#confirmFormSubmit').click()
+        cy.contains('Shipping method: PostNL Pickup point').should('be.visible')
     })
 
     afterEach(()=>{
