@@ -103,7 +103,8 @@ describe('Checkout page checks', () => {
         checkDisabledFields('shipping');
     })
 
-    it.only('Should look up an address', () => {
+    it
+    ('Should look up an address', () => {
         cy.switchCountry('Netherlands')
         lookUpAddress('billing');
 
@@ -156,7 +157,7 @@ describe('Shipping page add address checks', () => {
 
     it('Should appear on Dutch addresses', () => {
         cy.switchCountry('Netherlands')
-        cy.get('#billing-address-create-new [id*=postNLAddressRow-]').should('be.visible')
+        cy.get('#billing-address-create-new [id*=postNLAddressRow-]').scrollIntoView().should('be.visible')
     })
 
     it('Should have disabled fields on Dutch addresses', () => {
