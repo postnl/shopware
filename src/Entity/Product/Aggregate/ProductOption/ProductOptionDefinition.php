@@ -67,6 +67,20 @@ class ProductOptionDefinition extends EntityDefinition
                 ProductOptionMappingDefinition::class,
                 'product_option_id',
                 'product_id'),
+
+            new ManyToManyAssociationField(
+                'required',
+                self::class,
+                ProductOptionRequirementMappingDefinition::class,
+                'product_option_id',
+                'required_id'),
+
+            new ManyToManyAssociationField(
+                'requiredBy',
+                self::class,
+                ProductOptionRequirementMappingDefinition::class,
+                'required_id',
+                'product_option_id'),
         ]);
     }
 }
