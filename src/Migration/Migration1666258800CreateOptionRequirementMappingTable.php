@@ -22,11 +22,11 @@ CREATE TABLE IF NOT EXISTS `postnl_product_option_requirement` (
     `product_option_id` BINARY(16) NOT NULL,
     `required_id` BINARY(16) NOT NULL,
     PRIMARY KEY (`product_option_id`,`required_id`),
-    KEY `fk.postnl_product_option_mapping.product_option_id` (`product_option_id`),
-    KEY `fk.postnl_product_option_mapping.required_id` (`required_id`),
-    CONSTRAINT `fk.postnl_product_option_mapping.product_option_id` FOREIGN KEY (`product_option_id`)
+    KEY `fk.postnl_product_option_requirement.product_option_id` (`product_option_id`),
+    KEY `fk.postnl_product_option_requirement.required_id` (`required_id`),
+    CONSTRAINT `fk.postnl_product_option_requirement.product_option_id` FOREIGN KEY (`product_option_id`)
         REFERENCES `postnl_product_option` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `fk.postnl_product_option_mapping.required_id` FOREIGN KEY (`required_id`)
+    CONSTRAINT `fk.postnl_product_option_requirement.required_id` FOREIGN KEY (`required_id`)
         REFERENCES `postnl_product_option` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 SQL;
