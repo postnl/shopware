@@ -14,5 +14,6 @@
         <service id="PostNL\Shopware6\Entity\Product\Aggregate\ProductOption\ProductOptionDefinition"/>
         <service id="PostNL\Shopware6\Entity\Product\Aggregate\ProductOptionTranslation\ProductOptionTranslationDefinition"/>
         <service id="PostNL\Shopware6\Entity\Product\Aggregate\ProductOption\ProductOptionMappingDefinition"/>
+        <service id="PostNL\Shopware6\Entity\Product\Aggregate\ProductOption\ProductOptionRequirementMappingDefinition"/>
     </services>
 </container>
