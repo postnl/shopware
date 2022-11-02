@@ -1,0 +1,15 @@
+{% block postnl_shipping_method_shipment %}
+    <div class="postnl-shipping-method__shipment">
+        <select name="postnl-shipping-delivery-time"
+                class="custom-select">
+            <option value="">Select a delivery day</option>
+            {% set days=['Mon','Tue','Wed','Thu','Fri','Sat'] %}
+            {% for day in days %}
+                <option>
+                    {{ day }}
+                </option>
+            {% endfor %}
+
+        </select>
+    </div>
+{% endblock %}
