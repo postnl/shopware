@@ -17,8 +17,10 @@
         </service>
 
         <service id="PostNL\Shopware6\Subscriber\ConversionSubscriber">
+            <argument type="service" id="PostNL\Shopware6\Service\PostNL\Factory\ApiFactory"/>
             <argument type="service" id="PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory"/>
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\ConfigService"/>
+            <argument type="service" id="PostNL\Shopware6\Service\Shopware\CountryService"/>
             <argument type="service" id="product.repository" />
             <tag name="kernel.event_subscriber"/>
         </service>
