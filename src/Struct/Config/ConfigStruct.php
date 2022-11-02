@@ -142,7 +142,7 @@ class ConfigStruct extends AttributeStruct
     /**
      * @var string
      */
-    protected $cutOffTime;
+    protected $cutOffTime = "17:00:00";
 
     /**
      * @var int

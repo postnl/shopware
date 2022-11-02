@@ -1,0 +1,226 @@
+<?php
+declare(strict_types=1);
+
+namespace PostNL\Shopware6\Facade;
+
+use DateTimeInterface;
+use Exception;
+use Firstred\PostNL\Entity\CutOffTime;
+use Firstred\PostNL\Entity\Request\GetDeliveryDate;
+use Firstred\PostNL\Entity\Request\GetTimeframes;
+use Firstred\PostNL\Entity\Timeframe;
+use Firstred\PostNL\Exception\InvalidArgumentException;
+use PostNL\Shopware6\Service\Shopware\ConfigService;
+use PostNL\Shopware6\Service\Shopware\DeliveryDateService;
+use PostNL\Shopware6\Service\Shopware\TimeframeService;
+use PostNL\Shopware6\Struct\Config\ConfigStruct;
+use Shopware\Core\Checkout\Customer\Aggregate\CustomerAddress\CustomerAddressEntity;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
+
+class CheckoutFacade
+{
+    protected DeliveryDateService $deliveryDateService;
+    private LoggerInterface $logger;
+    private ConfigService $configService;
+    private TimeframeService $timeframeService;
+
+    public function __construct(
+        DeliveryDateService $deliveryDateService,
+        TimeframeService    $timeframeService,
+        ConfigService       $configService,
+        LoggerInterface     $logger
+    )
+    {
+        $this->deliveryDateService = $deliveryDateService;
+        $this->timeframeService = $timeframeService;
+        $this->configService = $configService;
+        $this->logger = $logger;
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     * @throws Exception
+     */
+    public function getDeliveryDays(SalesChannelContext $context, CustomerAddressEntity $addressEntity): array
+    {
+        $this->logger->debug('Getting delivery days');
+
+        //Get config for DeliveryDateService & Timeframe
+        $config = $this->configService->getConfiguration($context->getSalesChannelId(), $context->getContext());
+        //Get cutoff times
+        $cutOffTimes = $this->getCutOffTimes($config);
+        $deliveryOptions = ['Daytime'];//Check Guidelines https://developer.postnl.nl/browse-apis/delivery-options/deliverydate-webservice/
+        $shippingDuration = $config->getTransitTime();
+        //Use DeliveryDateService
+        $getDeliveryDate = $this->getGetDeliveryDate(
+            $addressEntity,
+            $cutOffTimes,
+            $deliveryOptions,
+            $shippingDuration
+        );
+
+        $this->logger->debug('Getting delivery date', ['getDeliveryDate' => $getDeliveryDate]);
+        $getDeliveryDateResponse = $this->deliveryDateService->getDeliveryDate($context, $getDeliveryDate);
+
+        $deliveryDateStart = $getDeliveryDateResponse->getDeliveryDate();
+
+        if (!$deliveryDateStart instanceof DateTimeInterface) {
+            $this->logger->error('Could not find a start date', ['startDate' => $deliveryDateStart]);
+            throw new Exception('Could not find a start date');
+        }
+
+        $getTimeframes = $this->getGetTimeframes();
+        //Use TimeframeService
+        $this->timeframeService->getTimeframes($context,$getTimeframes);
+
+        //Return data
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function getGetTimeframes(CustomerAddressEntity $addressEntity,DateTimeInterface $startDate,array $deliveryOptions):GetTimeframes
+    {
+
+        $countryCode = $addressEntity->getCountry()->getIso();
+        if (!$countryCode) {
+            throw new Exception('Invalid country code');
+        }
+
+        $postalCode = $addressEntity->getZipcode();
+        if (!$postalCode) {
+            throw new Exception('Invalid postal code');
+        }
+
+        $timeFrameStartDate = null;
+        $timeFrameEndDate = null;
+
+
+        if ($startDate instanceof \DateTime){
+            $timeFrameStartDate = clone $startDate;
+            $timeFrameEndDate = clone $startDate;
+            $timeFrameEndDate->modify('+5 day');
+        }
+        if ($startDate instanceof \DateTimeImmutable){
+            $timeFrameStartDate = clone $startDate;
+            $timeFrameEndDate = $startDate->modify('+5 day');
+        }
+
+        if (empty($timeFrameStartDate)){
+            throw new Exception('Invalid start date');
+        }
+        if (empty($timeFrameEndDate)){
+            throw new Exception('Invalid End date');
+        }
+
+        $getTimeFrames = new GetTimeframes();
+        $timeframe = new Timeframe(
+            null,
+            $countryCode,
+            $timeFrameStartDate,
+            $timeFrameEndDate,
+            null,
+            null,
+            $deliveryOptions,
+            $postalCode,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+        );
+        $getTimeFrames->setTimeframe($timeframe);
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     * @throws Exception
+     */
+    private function getGetDeliveryDate(CustomerAddressEntity $addressEntity, array $cutOffTimes, array $deliveryOptions, int $shippingDuration): GetDeliveryDate
+    {
+        $city = $addressEntity->getCity();
+        if (!$city) {
+            throw new Exception('Invalid city');
+        }
+
+        $countryCode = $addressEntity->getCountry()->getIso();
+        if (!$countryCode) {
+            throw new Exception('Invalid country code');
+        }
+
+        $postalCode = $addressEntity->getZipcode();
+        if (!$postalCode) {
+            throw new Exception('Invalid postal code');
+        }
+
+        return new GetDeliveryDate(
+            true,
+            $city,
+            $countryCode,
+            $cutOffTimes,
+            null,
+            null,
+            $deliveryOptions,
+            null,
+            $postalCode,
+            date("d-m-Y h:m:s"),
+            $shippingDuration,
+            null,
+        );
+    }
+
+    private function getCutOffTimes(ConfigStruct $config): array
+    {
+        $cutoffTimes = [];
+        $cutoffTimeTime = $config->getCutOffTime();
+
+        //Generic cutoff time
+        $genericCutoffTime = new CutOffTime(null, $cutoffTimeTime, true);
+        $cutoffTimes += $genericCutoffTime;
+
+        //Get all cutoff days
+        $fullWeek = [
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday",
+            "saturday",
+            "sunday"
+        ];
+        $handoverDays = $config->getHandoverDays();
+        $offDays = array_diff($fullWeek, $handoverDays);
+
+        foreach ($offDays as $offDay) {
+            $dayCode = "00";
+            switch ($offDay) {
+                case 'monday':
+                    $dayCode = "01";
+                    break;
+                case 'tuesday':
+                    $dayCode = "02";
+                    break;
+                case 'wednesday':
+                    $dayCode = "03";
+                    break;
+                case 'thursday':
+                    $dayCode = "04";
+                    break;
+                case 'friday':
+                    $dayCode = "05";
+                    break;
+                case 'saturday':
+                    $dayCode = "06";
+                    break;
+                case 'sunday':
+                    $dayCode = "07";
+                    break;
+            }
+            $disabledCutoffTime = new CutOffTime($dayCode, null, false);
+            $cutoffTimes += $disabledCutoffTime;
+        }
+
+        return $cutoffTimes;
+    }
+}

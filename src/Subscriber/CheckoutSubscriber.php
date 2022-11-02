@@ -99,6 +99,8 @@ class CheckoutSubscriber implements EventSubscriberInterface
 
     protected function handleShipment(CheckoutConfirmPageLoadedEvent $event): void
     {
+        $address = $event->getPage()->getCart()->getDeliveries()->first()->getLocation()->getAddress();
+        //CheckoutFacade->GetDeliveryDays(info)
     }
 
     protected function handlePickup(CheckoutConfirmPageLoadedEvent $event): void
