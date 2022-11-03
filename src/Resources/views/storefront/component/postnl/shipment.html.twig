@@ -1,12 +1,17 @@
 {% block postnl_shipping_method_shipment %}
-    <div class="postnl-shipping-method__shipment">
+    {% set shipmentOptions = {
+        csrfToken: sw_csrf('frontend.checkout.postnl.shipping-date', {"mode": "token"})
+    } %}
+    <div class="postnl-shipping-method__shipment"
+         data-postnl-shipping-delivery-date="true"
+         data-postnl-shipping-delivery-date-options='{{ shipmentOptions | json_encode }}'
+    >
         <select name="postnl-shipping-delivery-time"
                 class="custom-select">
-            <option value="">Select a delivery day</option>
-            {% set days=['Mon','Tue','Wed','Thu','Fri','Sat'] %}
             {% for timeframe in context.shippingMethod.extensions.postnl_shipment.elements %}
-                <option>
-                    {{ timeframe.from |format_datetime('full', 'none')}} {{ timeframe.from |format_datetime('none', 'short')}} - {{ timeframe.to |format_datetime('none', 'short')}}
+                <option value="{{ timeframe.from |format_datetime() }}">
+                    {{ timeframe.from |format_datetime('full', 'none') }} {{ timeframe.from |format_datetime('none', 'short') }}
+                    - {{ timeframe.to |format_datetime('none', 'short') }}
                 </option>
             {% endfor %}
 
