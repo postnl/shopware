@@ -14,15 +14,16 @@ use PostNL\Shopware6\Service\Shopware\ConfigService;
 use PostNL\Shopware6\Service\Shopware\DeliveryDateService;
 use PostNL\Shopware6\Service\Shopware\TimeframeService;
 use PostNL\Shopware6\Struct\Config\ConfigStruct;
+use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Customer\Aggregate\CustomerAddress\CustomerAddressEntity;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 class CheckoutFacade
 {
     protected DeliveryDateService $deliveryDateService;
-    private LoggerInterface $logger;
-    private ConfigService $configService;
     private TimeframeService $timeframeService;
+    private ConfigService $configService;
+    private LoggerInterface $logger;
 
     public function __construct(
         DeliveryDateService $deliveryDateService,
@@ -47,10 +48,12 @@ class CheckoutFacade
 
         //Get config for DeliveryDateService & Timeframe
         $config = $this->configService->getConfiguration($context->getSalesChannelId(), $context->getContext());
+
         //Get cutoff times
         $cutOffTimes = $this->getCutOffTimes($config);
         $deliveryOptions = ['Daytime'];//Check Guidelines https://developer.postnl.nl/browse-apis/delivery-options/deliverydate-webservice/
         $shippingDuration = $config->getTransitTime();
+
         //Use DeliveryDateService
         $getDeliveryDate = $this->getGetDeliveryDate(
             $addressEntity,
@@ -69,17 +72,27 @@ class CheckoutFacade
             throw new Exception('Could not find a start date');
         }
 
-        $getTimeframes = $this->getGetTimeframes();
+        $getTimeframes = $this->getGetTimeframes(
+            $addressEntity,
+            $deliveryDateStart,
+            $deliveryOptions
+        );
         //Use TimeframeService
-        $this->timeframeService->getTimeframes($context,$getTimeframes);
+        $timeframes = $this->timeframeService->getTimeframes($context, $getTimeframes);
+
+        if (!$timeframes->getTimeframes()){
+            $this->logger->error('Could not get a timeframe', ['timeframes' => $timeframes]);
+            throw new Exception('Could not get a timeframe');
+        }
 
         //Return data
+        return $timeframes->getTimeframes();
     }
 
     /**
      * @throws Exception
      */
-    private function getGetTimeframes(CustomerAddressEntity $addressEntity,DateTimeInterface $startDate,array $deliveryOptions):GetTimeframes
+    private function getGetTimeframes(CustomerAddressEntity $addressEntity, DateTimeInterface $startDate, array $deliveryOptions): GetTimeframes
     {
 
         $countryCode = $addressEntity->getCountry()->getIso();
@@ -96,20 +109,20 @@ class CheckoutFacade
         $timeFrameEndDate = null;
 
 
-        if ($startDate instanceof \DateTime){
+        if ($startDate instanceof \DateTime) {
             $timeFrameStartDate = clone $startDate;
             $timeFrameEndDate = clone $startDate;
             $timeFrameEndDate->modify('+5 day');
         }
-        if ($startDate instanceof \DateTimeImmutable){
+        if ($startDate instanceof \DateTimeImmutable) {
             $timeFrameStartDate = clone $startDate;
             $timeFrameEndDate = $startDate->modify('+5 day');
         }
 
-        if (empty($timeFrameStartDate)){
+        if (empty($timeFrameStartDate)) {
             throw new Exception('Invalid start date');
         }
-        if (empty($timeFrameEndDate)){
+        if (empty($timeFrameEndDate)) {
             throw new Exception('Invalid End date');
         }
 
@@ -128,9 +141,10 @@ class CheckoutFacade
             null,
             null,
             null,
-            null,
+            $timeFrameStartDate,
         );
         $getTimeFrames->setTimeframe($timeframe);
+        return $getTimeFrames;
     }
 
     /**
@@ -167,6 +181,7 @@ class CheckoutFacade
             date("d-m-Y h:m:s"),
             $shippingDuration,
             null,
+            null
         );
     }
 
@@ -177,7 +192,7 @@ class CheckoutFacade
 
         //Generic cutoff time
         $genericCutoffTime = new CutOffTime(null, $cutoffTimeTime, true);
-        $cutoffTimes += $genericCutoffTime;
+        $cutoffTimes[] = $genericCutoffTime;
 
         //Get all cutoff days
         $fullWeek = [
@@ -218,7 +233,7 @@ class CheckoutFacade
                     break;
             }
             $disabledCutoffTime = new CutOffTime($dayCode, null, false);
-            $cutoffTimes += $disabledCutoffTime;
+            $cutoffTimes[] = $disabledCutoffTime;
         }
 
         return $cutoffTimes;

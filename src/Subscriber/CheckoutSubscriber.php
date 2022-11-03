@@ -6,20 +6,23 @@ use Firstred\PostNL\Entity\Location;
 use Firstred\PostNL\Entity\Request\GetNearestLocations;
 use Firstred\PostNL\Entity\Response\GetLocationsResult;
 use Firstred\PostNL\Entity\Response\ResponseLocation;
+use Firstred\PostNL\Exception\InvalidArgumentException;
 use Firstred\PostNL\Exception\PostNLException;
+use PostNL\Shopware6\Facade\CheckoutFacade;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shopware6\Service\Shopware\CartService;
 use PostNL\Shopware6\Struct\Attribute\ShippingMethodAttributeStruct;
+use PostNL\Shopware6\Struct\TimeframeCollection;
 use Psr\Log\LoggerInterface;
-use Shopware\Core\Checkout\Cart\Event\CheckoutOrderPlacedEvent;
 use Shopware\Core\Framework\Struct\ArrayStruct;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class CheckoutSubscriber implements EventSubscriberInterface
 {
+
     public static function getSubscribedEvents()
     {
         return [
@@ -43,26 +46,34 @@ class CheckoutSubscriber implements EventSubscriberInterface
     protected $cartService;
 
     /**
+     * @var CartService
+     */
+    protected $checkoutFacade;
+
+    /**
      * @var LoggerInterface
      */
     protected $logger;
 
     /**
-     * @param ApiFactory       $apiFactory
+     * @param ApiFactory $apiFactory
      * @param AttributeFactory $attributeFactory
-     * @param CartService      $cartService
-     * @param LoggerInterface  $logger
+     * @param CartService $cartService
+     * @param CheckoutFacade $checkoutFacade
+     * @param LoggerInterface $logger
      */
     public function __construct(
-        ApiFactory $apiFactory,
+        ApiFactory       $apiFactory,
         AttributeFactory $attributeFactory,
-        CartService $cartService,
-        LoggerInterface $logger
+        CartService      $cartService,
+        CheckoutFacade   $checkoutFacade,
+        LoggerInterface  $logger
     )
     {
         $this->apiFactory = $apiFactory;
         $this->attributeFactory = $attributeFactory;
         $this->cartService = $cartService;
+        $this->checkoutFacade = $checkoutFacade;
         $this->logger = $logger;
     }
 
@@ -100,7 +111,16 @@ class CheckoutSubscriber implements EventSubscriberInterface
     protected function handleShipment(CheckoutConfirmPageLoadedEvent $event): void
     {
         $address = $event->getPage()->getCart()->getDeliveries()->first()->getLocation()->getAddress();
-        //CheckoutFacade->GetDeliveryDays(info)
+        try {
+            $deliveryDays = $this->checkoutFacade->getDeliveryDays($event->getSalesChannelContext(), $address);
+            $timeframeCollection =  TimeframeCollection::createFromTimeframes($deliveryDays);
+            $event->getSalesChannelContext()->getShippingMethod()->addExtension('postnl_shipment', $timeframeCollection);
+        } catch (InvalidArgumentException $e) {
+            $this->logger->error('Could not get delivery days', [
+                'Address' => $address,
+                'exception' => $e,
+            ]);
+        }
     }
 
     protected function handlePickup(CheckoutConfirmPageLoadedEvent $event): void

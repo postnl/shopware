@@ -27,6 +27,6 @@ class DeliveryDateService
     {
         /** @var PostNLExtension $apiClient */
         $apiClient = $this->apiFactory->createClientForSalesChannel($context->getSalesChannelId(), $context->getContext());
-        return $apiClient->getDeliveryDate($getDeliveryDate);
+        return $apiClient->getDeliveryDate((new GetDeliveryDate())->setGetDeliveryDate($getDeliveryDate));
     }
 }
