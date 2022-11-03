@@ -4,9 +4,9 @@
                 class="custom-select">
             <option value="">Select a delivery day</option>
             {% set days=['Mon','Tue','Wed','Thu','Fri','Sat'] %}
-            {% for day in days %}
+            {% for timeframe in context.shippingMethod.extensions.postnl_shipment.elements %}
                 <option>
-                    {{ day }}
+                    {{ timeframe.from |format_datetime('full', 'none')}} {{ timeframe.from |format_datetime('none', 'short')}} - {{ timeframe.to |format_datetime('none', 'short')}}
                 </option>
             {% endfor %}
 
