@@ -24,14 +24,13 @@ class AddressSubscriber implements EventSubscriberInterface
         $inputData = $event->getInput();
         $outputData = $event->getOutput();
 
-        $postNL = [
-            'streetName'          => $inputData->get('streetName'),
-            'houseNumber'         => $inputData->get('houseNumber'),
-            'houseNumberAddition' => $inputData->get('houseNumberAddition'),
-        ];
-        $outputData['customFields'] = [
-            Defaults::CUSTOM_FIELDS_KEY => $postNL,
-        ];
+        $outputData['customFields'] = array_merge_recursive($outputData['customFields'], [
+            Defaults::CUSTOM_FIELDS_KEY => [
+                'streetName'          => $inputData->get('streetName'),
+                'houseNumber'         => $inputData->get('houseNumber'),
+                'houseNumberAddition' => $inputData->get('houseNumberAddition'),
+            ],
+        ]);
 
         $event->setOutput($outputData);
 
