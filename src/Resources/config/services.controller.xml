@@ -44,7 +44,6 @@
 
         <service id="PostNL\Shopware6\Controller\Storefront\ShippingController">
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\CartService"/>
-
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>

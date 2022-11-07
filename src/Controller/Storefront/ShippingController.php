@@ -7,12 +7,14 @@ use PostNL\Shopware6\Service\Shopware\CartService;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
+use Shopware\Storefront\Controller\StorefrontController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @RouteScope(scopes={"storefront"})
  */
-class ShippingController
+class ShippingController extends StorefrontController
 {
     protected $cartService;
 
@@ -29,12 +31,13 @@ class ShippingController
      */
     public function setPickupPoint(RequestDataBag $data, SalesChannelContext $context): JsonResponse
     {
-//        $pickupPointLocationCode = $data->get('pickupPointLocationCode');
-//
-//        $this->cartService->addData([
-//            'pickupPointLocationCode' => (int)$pickupPointLocationCode
-//        ], $context);
-//
-//        return $this->json(null, 204);
+
+        $deliveryDate = $data->get('deliveryDate');
+
+        $this->cartService->addData([
+            'deliveryDate' => $deliveryDate
+        ], $context);
+
+        return $this->json(null, 204);
     }
 }

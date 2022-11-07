@@ -17,11 +17,13 @@ export default class PostnlShippingDeliveryDatePlugin extends Plugin {
 
     onChangeDeliveryDate(e) {
         const data = this._getRequestData();
-        // data['pickupPointLocationCode'] = e.target.value;
-
-        console.log(e.target.value);
-
-        // this._client.post(this.options.url, JSON.stringify(data), content => this._parseRequest(JSON.parse(content)));
+        data['deliveryDate'] = e.target.value;
+        
+        ElementLoadingIndicatorUtil.create(this.el);
+        this._client.post(this.options.url, JSON.stringify(data), content => {
+            ElementLoadingIndicatorUtil.remove(this.el);
+            this._parseRequest(JSON.parse(content))
+        });
     }
 
     _registerEvents() {
