@@ -210,17 +210,18 @@ class ShipmentBuilder
      */
     public function buildReceiverAddress($order): Address
     {
-        $orderAddress = $this->orderDataExtractor->extractDeliveryAddress($order);
+        $addresses = $this->orderDataExtractor->extractAddresses($order);
+        $recipientAddress = $this->orderAddressDataExtractor->filterByAddressType($addresses, '01')->first();
 
         $address = new Address();
         $address->setAddressType('01');
-        $address->setFirstName($orderAddress->getFirstName());
-        $address->setName($orderAddress->getLastName());
-        $address->setCompanyName($orderAddress->getCompany());
-        $address->setStreetHouseNrExt($orderAddress->getStreet());
-        $address->setZipcode($orderAddress->getZipcode());
-        $address->setCity($orderAddress->getCity());
-        $address->setCountrycode($this->orderDataExtractor->extractDeliveryCountry($order)->getIso());
+        $address->setFirstName($recipientAddress->getFirstName());
+        $address->setName($recipientAddress->getLastName());
+        $address->setCompanyName($recipientAddress->getCompany());
+        $address->setStreetHouseNrExt($recipientAddress->getStreet());
+        $address->setZipcode($recipientAddress->getZipcode());
+        $address->setCity($recipientAddress->getCity());
+        $address->setCountrycode($this->orderAddressDataExtractor->extractCountry($recipientAddress)->getIso());
 
         return $address;
     }
