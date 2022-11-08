@@ -428,6 +428,7 @@ class ConversionSubscriber implements EventSubscriberInterface
                 'customFields' => [
                     Defaults::CUSTOM_FIELDS_KEY => [
                         'addressType' => '09',
+                        'originalDeliveryAddressId' => $deliveryAddressId,
                     ],
                 ],
             ];
