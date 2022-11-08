@@ -18,6 +18,7 @@ use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shopware6\Service\PostNL\Product\ProductService;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
+use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderAddressDataExtractor;
 use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor;
 use PostNL\Shopware6\Struct\Attribute\OrderAttributeStruct;
 use Psr\Log\LoggerInterface;
@@ -49,6 +50,11 @@ class ShipmentBuilder
     protected $orderDataExtractor;
 
     /**
+     * @var OrderAddressDataExtractor
+     */
+    protected $orderAddressDataExtractor;
+
+    /**
      * @var ProductService
      */
     protected $productService;
@@ -59,18 +65,20 @@ class ShipmentBuilder
     protected $logger;
 
     public function __construct(
-        ApiFactory         $apiFactory,
-        AttributeFactory   $attributeFactory,
-        ConfigService      $configService,
-        OrderDataExtractor $orderDataExtractor,
-        ProductService     $productService,
-        LoggerInterface    $logger
+        ApiFactory                $apiFactory,
+        AttributeFactory          $attributeFactory,
+        ConfigService             $configService,
+        OrderDataExtractor        $orderDataExtractor,
+        OrderAddressDataExtractor $orderAddressDataExtractor,
+        ProductService            $productService,
+        LoggerInterface           $logger
     )
     {
         $this->apiFactory = $apiFactory;
         $this->attributeFactory = $attributeFactory;
         $this->configService = $configService;
         $this->orderDataExtractor = $orderDataExtractor;
+        $this->orderAddressDataExtractor = $orderAddressDataExtractor;
         $this->productService = $productService;
         $this->logger = $logger;
     }
@@ -78,8 +86,8 @@ class ShipmentBuilder
     public function buildShipment(OrderEntity $order, Context $context): Shipment
     {
         $this->logger->debug('Building Shipment', [
-            'orderId' => $order->getId(),
-            'orderNumber' => $order->getOrderNumber(),
+            'orderId'           => $order->getId(),
+            'orderNumber'       => $order->getOrderNumber(),
             'orderCustomFields' => $order->getCustomFields(),
         ]);
 
@@ -219,7 +227,7 @@ class ShipmentBuilder
 
     /**
      * @param OrderEntity $order
-     * @param Context $context
+     * @param Context     $context
      * @return Address
      */
     public function buildPickupLocationAddress(OrderEntity $order, Context $context): Address
@@ -272,7 +280,7 @@ class ShipmentBuilder
 
     /**
      * @param OrderEntity $order
-     * @param Context $context
+     * @param Context     $context
      * @return Dimension
      */
     public function buildDimension(OrderEntity $order, Context $context): Dimension
@@ -362,13 +370,14 @@ class ShipmentBuilder
 
     /**
      * Converts g to kg
+     *
      * @param float|int $weightInKG
      * @return int
      */
-    private function convertToGramsInteger($weightInKG):int
+    private function convertToGramsInteger($weightInKG): int
     {
         //Shopware only allows a precision of 3 digits
-        $weightInGrams = $weightInKG*1000;
+        $weightInGrams = $weightInKG * 1000;
         return intval(round($weightInGrams));
     }
 }
