@@ -12,6 +12,10 @@ describe('Shipping Methods', () => {
         cy.get('.shipping-method').should('have.length', 2);
     })
 
+    it.only('should have at least one shipping time',  () => {
+        cy.get('.postnl-shipping-method__shipment > .custom-select').children().should('have.length.at.least', 1).should('be.visible');
+    });
+
     it('Has options for pickup point ', () => {
         cy.contains('Pickup at PostNL point').click()
         cy.get('.postnl-shipping-method__pickup').children().should('have.length', 5).should('be.visible');
