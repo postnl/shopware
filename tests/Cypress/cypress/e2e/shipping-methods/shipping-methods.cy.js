@@ -13,7 +13,7 @@ describe('Shipping Methods', () => {
     })
 
     it('Has options for pickup point ', () => {
-        cy.contains('PostNL Pickup point').click()
+        cy.contains('Pickup at PostNL point').click()
         cy.get('.postnl-shipping-method__pickup').children().should('have.length', 5).should('be.visible');
         cy.get('#confirmFormSubmit').click()
     })
@@ -23,11 +23,11 @@ describe('Shipping Methods', () => {
 
         cy.get('input.checkout-confirm-tos-checkbox').click({force: true})
 
-        cy.contains('PostNL Pickup point').click()
+        cy.contains('Pickup at PostNL point').click()
 
         cy.wait('@pickup-point').its('response.statusCode').should('eq', 302)
         cy.get('#confirmFormSubmit').click()
-        cy.contains('Shipping method: PostNL Pickup point').should('be.visible')
+        cy.contains('Shipping method: Pickup at PostNL point').should('be.visible')
     })
 
     afterEach(()=>{
