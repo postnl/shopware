@@ -73,7 +73,9 @@ class ApiFactory
             ];
 
             return $client;
+            // @codeCoverageIgnoreStart
         } catch (InvalidArgumentException $e) {
+
             $this->logger->critical($e->getMessage(), [
                 'apiKey' => $this->obfuscateApiKey($apiKey),
                 'sandbox' => $sandbox,
@@ -87,6 +89,7 @@ class ApiFactory
                 'customerData' => $customerData,
                 'senderAddress' => $senderAddress,
             ], $e);
+            // @codeCoverageIgnoreEnd
         }
     }
 

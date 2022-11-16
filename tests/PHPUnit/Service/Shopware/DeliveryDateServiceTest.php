@@ -3,30 +3,30 @@ declare(strict_types=1);
 
 namespace PostNL\tests\Service\Shopware;
 
-use Firstred\PostNL\Entity\Response\ResponseTimeframes;
+use Firstred\PostNL\Entity\Request\GetDeliveryDate;
+use Firstred\PostNL\Entity\Response\GetDeliveryDateResponse;
 use Firstred\PostNL\PostNL;
 use PHPUnit\Framework\TestCase;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
-use PostNL\Shopware6\Service\Shopware\TimeframeService;
+use PostNL\Shopware6\Service\Shopware\DeliveryDateService;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
-use Firstred\PostNL\Entity\Request\GetTimeframes;
 
 /**
- * @coversDefaultClass \PostNL\Shopware6\Service\Shopware\TimeframeService
+ * @coversDefaultClass \PostNL\Shopware6\Service\Shopware\DeliveryDateService
  */
-class TimeframeServiceTest extends TestCase
+class DeliveryDateServiceTest extends TestCase
 {
-    private TimeframeService $timeframeService;
+    private DeliveryDateService $deliveryDateService;
 
-    private function createTimeFrameService(?ApiFactory $apiFactory = null
+    private function createDeliveryDateService(?ApiFactory $apiFactory = null
     )
     {
         if (!$apiFactory) {
             $apiFactory = $this->createMock(ApiFactory::class);
         }
 
-        return $this->timeframeService = new TimeframeService($apiFactory);
+        return $this->deliveryDateService = new DeliveryDateService($apiFactory);
     }
 
     /**
@@ -36,25 +36,25 @@ class TimeframeServiceTest extends TestCase
     public function testConstruct()
     {
         $apiFactory = $this->createMock(ApiFactory::class);
-        $result = new TimeframeService($apiFactory);
-        $this->assertInstanceOf(TimeframeService::class,$result);
+        $result = new DeliveryDateService($apiFactory);
+        $this->assertInstanceOf(DeliveryDateService::class,$result);
     }
 
     /**
-     * @covers ::getTimeframes
+     * @covers ::getDeliveryDate
      * @return void
      */
-    public function testGetTimeframes()
+    public function testGetDeliveryDate()
     {
-        $getTimeframesResponse = $this->createMock(ResponseTimeframes::class);
-        $getTimeframes = $this->createMock(GetTimeframes::class);
+        $getDeliveryDateResponse = $this->createMock(GetDeliveryDateResponse::class);
+        $getDeliveryDate = $this->createMock(GetDeliveryDate::class);
 
 
         $apiClient = $this->createMock(PostNL::class);
         $apiClient->expects($this->once())
-            ->method('getTimeframes')
-            ->with($this->equalTo($getTimeframes))
-            ->willReturn($getTimeframesResponse);
+            ->method('getDeliveryDate')
+            ->with($this->isInstanceOf(GetDeliveryDate::class))
+            ->willReturn($getDeliveryDateResponse);
 
 
         $context = $this->createMock(Context::class);
@@ -74,10 +74,11 @@ class TimeframeServiceTest extends TestCase
             )
             ->willReturn($apiClient);
 
-        $this->createTimeFrameService($apiFactory);
+        $this->createDeliveryDateService($apiFactory);
 
-        $result = $this->timeframeService->getTimeframes($salesChannelContext, $getTimeframes);
+        $result = $this->deliveryDateService->getDeliveryDate($salesChannelContext, $getDeliveryDate);
 
-        $this->assertEquals($getTimeframesResponse, $result);
+
+        $this->assertEquals($getDeliveryDateResponse, $result);
     }
 }
