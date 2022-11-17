@@ -3,13 +3,18 @@ declare(strict_types=1);
 
 namespace PostNL\tests\Service\Shopware;
 
-use PostNL\Shopware6\Service\Attribute\AttributeStruct;
+use PostNL\Shopware6\Exception\Attribute\MissingAttributeStructException;
+use PostNL\Shopware6\Exception\Attribute\MissingPropertyAccessorMethodException;
+use PostNL\Shopware6\Exception\Attribute\MissingReturnTypeException;
+use PostNL\Shopware6\Exception\Attribute\MissingTypeHandlerException;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
 use PHPUnit\Framework\TestCase;
+
 use PostNL\Shopware6\Struct\Config\ConfigStruct;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\ShopwareHttpException;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 
 /**
@@ -64,7 +69,7 @@ class ConfigServiceTest extends TestCase
         $attributeFactory->expects($this->once())
             ->method('create')
             ->with(
-                $this->isInstanceOf(ConfigStruct::class),
+                $this->equalTo(ConfigStruct::class),
                 $this->equalTo(['mockKey' => 'mockValue']),
                 $this->equalTo($context)
             )
@@ -77,5 +82,40 @@ class ConfigServiceTest extends TestCase
         $this->createConfigService($configService, $attributeFactory, $logger);
         $result = $this->configService->getConfiguration($salesChannelId, $context);
         $this->assertEquals($mockConfigStruct, $result);
+    }
+
+    public function testAllGetConfigurationExceptions()
+    {
+        $this->testGetConfigurationExceptions(new MissingAttributeStructException());
+        $this->testGetConfigurationExceptions(new MissingPropertyAccessorMethodException());
+        $this->testGetConfigurationExceptions(new MissingReturnTypeException());
+        $this->testGetConfigurationExceptions(new MissingTypeHandlerException());
+    }
+
+    private function testGetConfigurationExceptions(ShopwareHttpException $exception)
+    {
+
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())
+            ->method('critical');
+
+        $context = $this->createMock(Context::class);
+
+        $attributeFactory = $this->createMock(AttributeFactory::class);
+        $attributeFactory->expects($this->once())
+            ->method('create')
+            ->with(
+                $this->equalTo(ConfigStruct::class),
+                $this->anything(),
+                $this->equalTo($context)
+            )
+            ->willThrowException($exception);
+
+        $this->createConfigService(null, $attributeFactory, $logger);
+
+        $this->expectExceptionObject($exception);
+
+        $salesChannelId = null;
+        $this->configService->getConfiguration($salesChannelId, $context);
     }
 }
