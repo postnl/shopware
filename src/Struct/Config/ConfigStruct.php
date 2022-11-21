@@ -402,7 +402,7 @@ class ConfigStruct extends AttributeStruct
     /**
      * @return bool
      */
-    public function isEveningDelivery(): bool
+    public function getEveningDelivery(): bool
     {
         return $this->eveningDelivery;
     }
