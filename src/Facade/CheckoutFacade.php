@@ -188,12 +188,13 @@ class CheckoutFacade
     private function getDeliveryOptions(ConfigStruct $config):array
     {
         //Check Development:GUIDELINES https://developer.postnl.nl/browse-apis/delivery-options/deliverydate-webservice/
+        //Options: Daytime | Evening | Morning | Noon | Today | Sunday | Sameday | Afternoon
+        //Only one of the options except for the Sameday/Evening combination
         $deliveryOptions = ['Daytime'];
 
         if ($config->getEveningDelivery()){
-            $deliveryOptions[] = 'Evening';
+            $deliveryOptions = ['Evening'];
         }
-
         return $deliveryOptions;
     }
 
