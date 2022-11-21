@@ -273,6 +273,15 @@
                 </option>
             </options>
         </input-field>
+
+        <input-field type="bool">
+            <name>eveningDelivery</name>
+            <label>Enable evening delivery</label>
+            <label lang="de-DE">Abendzustellung aktivieren</label>
+            <label lang="nl-NL">Avondlevering activeren</label>
+
+            <defaultValue>true</defaultValue>
+        </input-field>
     </card>
 
     <card>

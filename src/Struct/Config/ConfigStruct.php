@@ -154,6 +154,11 @@ class ConfigStruct extends AttributeStruct
      */
     protected $handoverDays;
 
+    /**
+     * @var bool
+     */
+    protected $eveningDelivery;
+
     //====================================================================================================
 
     /**
@@ -393,4 +398,14 @@ class ConfigStruct extends AttributeStruct
     {
         return $this->handoverDays;
     }
+
+    /**
+     * @return bool
+     */
+    public function isEveningDelivery(): bool
+    {
+        return $this->eveningDelivery;
+    }
+
+
 }
