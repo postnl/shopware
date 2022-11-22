@@ -31,8 +31,10 @@ class TimeframeCollection extends Collection
         }
 
         foreach ($timeframes as $timeframe) {
-
-            $self->add(TimeframeStruct::createFromTimeframe($timeframe));
+            $newTimeFrames = TimeframeStruct::createFromTimeframes($timeframe);
+            foreach ($newTimeFrames as $newTimeFrame) {
+                $self->add($newTimeFrame);
+            }
         }
 
         return $self;

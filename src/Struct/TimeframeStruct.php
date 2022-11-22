@@ -18,14 +18,17 @@ class TimeframeStruct extends Struct
     private ?array $sustainability;
 
     /**
+     * @returns TimeframeStruct[]
      * @throws Exception
      */
-    public static function createFromTimeframe(Timeframe $timeframe): TimeframeStruct
+    public static function createFromTimeframes(Timeframe $timeframe): array
     {
         if (!$timeframe->getDate()) {
             throw new Exception('No date in timeframe');
         }
+
         $date = $timeframe->getDate();
+
         if ($date instanceof \DateTime) {
             $date = clone $date;
         } else if ($date instanceof \DateTimeImmutable) {
@@ -34,20 +37,28 @@ class TimeframeStruct extends Struct
             throw new Exception('No date in timeframe');
         }
 
-        if (!$timeframe->getTimeframes()){
+        if (!$timeframe->getTimeframes()) {
             throw new Exception('No timeframes in timeframe');
         }
 
-        if (!isset($timeframe->getTimeframes()[0])){
+        if (!isset($timeframe->getTimeframes()[0])) {
             throw new Exception('No time frame in timeframes');
         }
+
+        $timeFramesArray = [];
+
         /** @var TimeframeTimeFrame $timeframeTimeFrame */
-        $timeframeTimeFrame =  $timeframe->getTimeframes()[0];
+        foreach ($timeframe->getTimeframes() as $timeframeTimeFrame) {
+            $from = new DateTime($date->format('Y-m-d') . ' ' . $timeframeTimeFrame->getFrom());
+            $to = new DateTime($date->format('Y-m-d') . ' ' . $timeframeTimeFrame->getTo());
 
-        $from = new DateTime($date->format('Y-m-d') .' ' .$timeframeTimeFrame->getFrom());
-        $to = new DateTime($date->format('Y-m-d') .' ' .$timeframeTimeFrame->getTo());
-
-        return new self(DateTimeImmutable::createFromMutable($from),DateTimeImmutable::createFromMutable($to),$timeframeTimeFrame->getOptions());
+            $timeFramesArray[] = new self(
+                DateTimeImmutable::createFromMutable($from),
+                DateTimeImmutable::createFromMutable($to),
+                $timeframeTimeFrame->getOptions()
+            );
+        }
+        return $timeFramesArray;
     }
 
     public function __construct(DateTimeImmutable $from, DateTimeImmutable $to, array $options = null, array $sustainability = null)

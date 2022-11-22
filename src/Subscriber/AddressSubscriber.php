@@ -24,7 +24,7 @@ class AddressSubscriber implements EventSubscriberInterface
         $inputData = $event->getInput();
         $outputData = $event->getOutput();
 
-        $outputData['customFields'] = array_merge_recursive($outputData['customFields'], [
+        $outputData['customFields'] = array_merge_recursive($outputData['customFields'] ?? [], [
             Defaults::CUSTOM_FIELDS_KEY => [
                 'streetName'          => $inputData->get('streetName'),
                 'houseNumber'         => $inputData->get('houseNumber'),

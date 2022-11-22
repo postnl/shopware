@@ -77,14 +77,14 @@ class CheckoutFacade
             $deliveryDateStart,
             $deliveryOptions
         );
+
         //Use TimeframeService
         $timeframes = $this->timeframeService->getTimeframes($context, $getTimeframes);
 
-        if (!$timeframes->getTimeframes()){
+        if (!$timeframes->getTimeframes()) {
             $this->logger->error('Could not get a timeframe', ['timeframes' => $timeframes]);
             throw new Exception('Could not get a timeframe');
         }
-
         //Return data
         return $timeframes->getTimeframes();
     }
@@ -144,6 +144,7 @@ class CheckoutFacade
             $timeFrameStartDate,
         );
         $getTimeFrames->setTimeframe($timeframe);
+
         return $getTimeFrames;
     }
 
@@ -185,15 +186,15 @@ class CheckoutFacade
         );
     }
 
-    private function getDeliveryOptions(ConfigStruct $config):array
+    private function getDeliveryOptions(ConfigStruct $config): array
     {
         //Check Development:GUIDELINES https://developer.postnl.nl/browse-apis/delivery-options/deliverydate-webservice/
         //Options: Daytime | Evening | Morning | Noon | Today | Sunday | Sameday | Afternoon
         //Only one of the options except for the Sameday/Evening combination
         $deliveryOptions = ['Daytime'];
 
-        if ($config->getEveningDelivery()){
-            $deliveryOptions = ['Evening'];
+        if ($config->getEveningDelivery()) {
+            $deliveryOptions[] = 'Evening';
         }
         return $deliveryOptions;
     }
