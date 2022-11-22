@@ -8,7 +8,7 @@
 >
 
     <testsuites>
-        <testsuite name="MolliePayments Tests">
+        <testsuite name="PostNL Tests">
             <directory>./tests/PHPUnit</directory>
         </testsuite>
     </testsuites>
@@ -18,5 +18,5 @@
             <directory>./src</directory>
         </include>
     </coverage>
-    
+
 </phpunit>

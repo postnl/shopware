@@ -15,6 +15,10 @@ use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEve
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult;
 
+
+/**
+ * @coversDefaultClass \PostNL\Shopware6\Service\Shopware\ShippingRulePriceService
+ */
 class ShippingRulePriceServiceTest extends TestCase
 {
 
@@ -34,6 +38,10 @@ class ShippingRulePriceServiceTest extends TestCase
         return new ShippingRulePriceService($shippingMethodPricesRepository, $logger);
     }
 
+    /**
+     * @covers ::__construct()
+     * @return void
+     */
     public function test__construct()
     {
         $logger = $this->createMock(LoggerInterface::class);
@@ -43,6 +51,10 @@ class ShippingRulePriceServiceTest extends TestCase
 
     }
 
+    /**
+     * @covers ::createPricingMatrix()
+     * @return void
+     */
     public function testCreatePricingMatrixExists()
     {
         $context = $this->createMock(Context::class);
@@ -75,6 +87,10 @@ class ShippingRulePriceServiceTest extends TestCase
         $this->assertEquals('existingMockId', $result);
     }
 
+    /**
+     * @covers ::createPricingMatrix()
+     * @return void
+     */
     public function testCreatePricingMatrixNew()
     {
         $context = $this->createMock(Context::class);
@@ -154,6 +170,10 @@ class ShippingRulePriceServiceTest extends TestCase
         $this->assertNull($result);
     }
 
+    /**
+     * @covers ::createPricingMatrices()
+     * @return void
+     */
     public function testCreatePricingMatrices()
     {
         $context = $this->createMock(Context::class);
