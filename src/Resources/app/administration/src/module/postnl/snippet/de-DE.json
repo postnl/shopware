@@ -80,7 +80,8 @@
       "detail": {
         "shippingProduct": "PostNL produkt",
         "buttonChangeShipping": "Versandart ändern",
-        "buttonCreateShipment": "Vorregistrierung und Etikettendruck"
+        "buttonCreateShipment": "Vorregistrierung und Etikettendruck",
+        "sentDate": "Versenden Sie vorher"
       },
       "list": {
         "columnShippingAddress": "Lieferadresse",

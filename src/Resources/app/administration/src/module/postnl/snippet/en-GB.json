@@ -80,7 +80,8 @@
       "detail": {
         "shippingProduct": "PostNL product",
         "buttonChangeShipping": "Change shipping method",
-        "buttonCreateShipment": "Create and confirm shipments"
+        "buttonCreateShipment": "Create and confirm shipments",
+        "sentDate": "Ship before"
       },
       "list": {
         "columnShippingAddress": "Shipping address",
