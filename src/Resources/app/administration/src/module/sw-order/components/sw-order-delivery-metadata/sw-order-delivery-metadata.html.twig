@@ -1,9 +1,5 @@
 {% block sw_order_delivery_metadata_slot %}
     {% parent %}
-
-    {% if order.customFields.postnl.sentDate != "" %}
-        <dt>{{ $tc('postnl.order.detail.sentDate') }}</dt>
-        <dd>{{ order.customFields.postnl.sentDate | date }}</dd>
-    {% endif %}
-
+    <dt v-if="order.customFields.postnl.sentDate">{{ $tc('postnl.order.detail.sentDate') }}</dt>
+    <dd v-if="order.customFields.postnl.sentDate">{{ order.customFields.postnl.sentDate | date }}</dd>
 {% endblock %}
