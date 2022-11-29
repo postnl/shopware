@@ -81,7 +81,7 @@
         "shippingProduct": "PostNL produkt",
         "buttonChangeShipping": "Versandart ändern",
         "buttonCreateShipment": "Vorregistrierung und Etikettendruck",
-        "sentDate": "Versenden Sie vorher"
+        "sentDate": "Vorher senden"
       },
       "list": {
         "columnShippingAddress": "Lieferadresse",
@@ -89,7 +89,8 @@
         "columnBarCode": "Strichcode",
         "columnConfirm": "Bestätigt",
         "buttonChangeShipping": "Versandart ändern",
-        "buttonCreateShipment": "Vorregistrierung und Etikettendruck"
+        "buttonCreateShipment": "Vorregistrierung und Etikettendruck",
+        "columnSentDate": "Vorher senden"
       },
       "modal": {
         "changeShipping": {

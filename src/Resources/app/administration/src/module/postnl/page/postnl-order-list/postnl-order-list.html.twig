@@ -39,6 +39,12 @@
             />
         </template>
     {% endblock %}
+
+    {% block sw_order_list_grid_columns_custom_fields_postnl_sent_date %}
+        <template #column-customFields.postnl.sentDate="{ item }">
+            {{ item.customFields.postnl.sentDate | date }}
+        </template>
+    {% endblock %}
 {% endblock %}
 
 {% block sw_order_list_grid_columns_actions_view %}

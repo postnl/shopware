@@ -89,7 +89,8 @@
         "columnBarCode": "Barcode",
         "columnConfirm": "Voorgemeld",
         "buttonChangeShipping": "Verzendmethode wijzigen",
-        "buttonCreateShipment": "Voormelden en labels printen"
+        "buttonCreateShipment": "Voormelden en labels printen",
+        "columnSentDate": "Verzend voor"
       },
       "modal": {
         "changeShipping": {
