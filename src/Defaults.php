@@ -5,6 +5,11 @@ namespace PostNL\Shopware6;
 class Defaults
 {
     const CUSTOM_FIELDS_KEY = 'postnl';
+    const CUSTOM_FIELDS_STREETNAME_KEY = 'streetName';
+    const CUSTOM_FIELDS_HOUSENUMBER_KEY = 'houseNumber';
+    const CUSTOM_FIELDS_HOUSENUMBER_ADDITION_KEY = 'houseNumberAddition';
+    const CUSTOM_FIELDS_DELIVERY_DATE_KEY = 'deliveryDate';
+    const CUSTOM_FIELDS_SENT_DATE_KEY = 'sentDate';
 
     const ZONE_ONLY_EUROPE = "PostNL zone only Europe";
     const ZONE_ONLY_BELGIUM = "PostNL zone only Belgium";

@@ -13,9 +13,9 @@ class AddressSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            CustomerEvents::MAPPING_REGISTER_ADDRESS_BILLING  => 'onMappingAddress',
+            CustomerEvents::MAPPING_REGISTER_ADDRESS_BILLING => 'onMappingAddress',
             CustomerEvents::MAPPING_REGISTER_ADDRESS_SHIPPING => 'onMappingAddress',
-            CustomerEvents::MAPPING_ADDRESS_CREATE            => 'onMappingAddress',
+            CustomerEvents::MAPPING_ADDRESS_CREATE => 'onMappingAddress',
         ];
     }
 
@@ -26,9 +26,9 @@ class AddressSubscriber implements EventSubscriberInterface
 
         $outputData['customFields'] = array_merge_recursive($outputData['customFields'] ?? [], [
             Defaults::CUSTOM_FIELDS_KEY => [
-                'streetName'          => $inputData->get('streetName'),
-                'houseNumber'         => $inputData->get('houseNumber'),
-                'houseNumberAddition' => $inputData->get('houseNumberAddition'),
+                Defaults::CUSTOM_FIELDS_STREETNAME_KEY => $inputData->get('streetName'),
+                Defaults::CUSTOM_FIELDS_HOUSENUMBER_KEY => $inputData->get('houseNumber'),
+                Defaults::CUSTOM_FIELDS_HOUSENUMBER_ADDITION_KEY => $inputData->get('houseNumberAddition'),
             ],
         ]);
 

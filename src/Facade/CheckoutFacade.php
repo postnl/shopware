@@ -51,7 +51,7 @@ class CheckoutFacade
 
         //Get cutoff times
         $cutOffTimes = $this->getCutOffTimes($config);
-        $deliveryOptions = $this->getDeliveryOptions($config);
+        $deliveryOptions = $config->getDeliveryOptions();
         $shippingDuration = $config->getTransitTime();
 
         //Use DeliveryDateService
@@ -186,18 +186,7 @@ class CheckoutFacade
         );
     }
 
-    private function getDeliveryOptions(ConfigStruct $config): array
-    {
-        //Check Development:GUIDELINES https://developer.postnl.nl/browse-apis/delivery-options/deliverydate-webservice/
-        //Options: Daytime | Evening | Morning | Noon | Today | Sunday | Sameday | Afternoon
-        //Only one of the options except for the Sameday/Evening combination
-        $deliveryOptions = ['Daytime'];
 
-        if ($config->getEveningDelivery()) {
-            $deliveryOptions[] = 'Evening';
-        }
-        return $deliveryOptions;
-    }
 
     private function getCutOffTimes(ConfigStruct $config): array
     {

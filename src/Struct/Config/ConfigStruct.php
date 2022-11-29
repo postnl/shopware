@@ -407,5 +407,16 @@ class ConfigStruct extends AttributeStruct
         return $this->eveningDelivery;
     }
 
+    public function getDeliveryOptions(): array
+    {
+        //Check Development:GUIDELINES https://developer.postnl.nl/browse-apis/delivery-options/deliverydate-webservice/
+        //Options: Daytime | Evening | Morning | Noon | Today | Sunday | Sameday | Afternoon
+        //Combinations work contrary to the documentation
+        $deliveryOptions = ['Daytime'];
 
+        if ($this->getEveningDelivery()) {
+            $deliveryOptions[] = 'Evening';
+        }
+        return $deliveryOptions;
+    }
 }
