@@ -126,6 +126,7 @@ class ConversionSubscriber implements EventSubscriberInterface
                 $shippingDuration,
             );
         } catch (InvalidArgumentException $e) {
+            dump($e);
             $this->logger->error($e->getMessage(), ['exception' => $e]);
             return;
         }
@@ -134,7 +135,7 @@ class ConversionSubscriber implements EventSubscriberInterface
         //Get data
         try {
             $sentDateResponse = $this->deliveryDateService->getSentDate($context, $getSentDate);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->logger->error($e->getMessage(), ['exception' => $e]);
             return;
         }
@@ -142,17 +143,16 @@ class ConversionSubscriber implements EventSubscriberInterface
 
         $sentDateTime = $sentDateResponse->getSentDate();
 
-        if (!$sentDateResponse instanceof DateTimeInterface)
-        {
+        if (!$sentDateTime instanceof DateTimeInterface) {
             $this->logger->error('Sent date time is not a DateTimeInterface', ['SentDateTime' => $sentDateTime]);
-           return;
+            return;
         }
-
+        //j M Y, h:i:s
         $convertedCart = $event->getConvertedCart();
         $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge(
             $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] ?? [],
             [
-                Defaults::CUSTOM_FIELDS_SENT_DATE_KEY => $sentDateTime,
+                Defaults::CUSTOM_FIELDS_SENT_DATE_KEY => date_format($sentDateTime,"j M Y, h:i:s"),
             ]
         );
 
