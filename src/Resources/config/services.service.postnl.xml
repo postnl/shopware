@@ -55,6 +55,7 @@
             <argument type="service" id="PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory"/>
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\ConfigService"/>
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor"/>
+            <argument type="service" id="PostNL\Shopware6\Service\Shopware\DataExtractor\OrderAddressDataExtractor"/>
             <argument type="service" id="PostNL\Shopware6\Service\PostNL\Product\ProductService"/>
             <argument type="service" id="postnl.logger"/>
         </service>

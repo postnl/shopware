@@ -1,3 +1,7 @@
+# 1.2.0
+- Addresses of pickup points are now stored as the shipping address when selecting a pickup point
+  - The original selected address is still available on the order entity
+
 # 1.1.0
 #### Belgian release
 - Product codes for shipping from Belgium have been added.

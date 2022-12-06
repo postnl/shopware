@@ -2,8 +2,6 @@
 
 namespace PostNL\Shopware6\Entity\Product\Aggregate\ProductOption;
 
-use PostNL\Shopware6\Entity\Product\ProductDefinition;
-use Shopware\Core\Framework\DataAbstractionLayer\Field\CreatedAtField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\FkField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\CascadeDelete;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
@@ -12,14 +10,14 @@ use Shopware\Core\Framework\DataAbstractionLayer\Field\ManyToOneAssociationField
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\MappingEntityDefinition;
 
-class ProductOptionMappingDefinition extends MappingEntityDefinition
+class ProductOptionRequirementMappingDefinition extends MappingEntityDefinition
 {
     /**
      * @return string
      */
     public function getEntityName(): string
     {
-        return 'postnl_product_option_mapping';
+        return 'postnl_product_option_requirement';
     }
 
     /**
@@ -30,7 +28,7 @@ class ProductOptionMappingDefinition extends MappingEntityDefinition
         return new FieldCollection([
             (new FkField('product_option_id', 'productOptionId', ProductOptionDefinition::class))
                 ->addFlags(new PrimaryKey(), new Required()),
-            (new FkField('product_id', 'productId', ProductDefinition::class))
+            (new FkField('required_id', 'requiredId', ProductOptionDefinition::class))
                 ->addFlags(new PrimaryKey(), new Required()),
 
             (new ManyToOneAssociationField(
@@ -40,9 +38,9 @@ class ProductOptionMappingDefinition extends MappingEntityDefinition
             ))->addFlags(new CascadeDelete()),
 
             (new ManyToOneAssociationField(
-                'product',
-                'product_id',
-                ProductDefinition::class
+                'required',
+                'required_id',
+                ProductOptionDefinition::class
             ))->addFlags(new CascadeDelete()),
         ]);
     }

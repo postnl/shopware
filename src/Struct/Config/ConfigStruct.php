@@ -139,6 +139,22 @@ class ConfigStruct extends AttributeStruct
 
     //====================================================================================================
 
+    /**
+     * @var string
+     */
+    protected $cutOffTime;
+
+    /**
+     * @var int
+     */
+    protected $transitTime;
+
+    /**
+     * @var array
+     */
+    protected $handoverDays;
+
+    //====================================================================================================
 
     /**
      * @return string
@@ -350,5 +366,31 @@ class ConfigStruct extends AttributeStruct
     public function getFallbackHSCode(): ?string
     {
         return $this->fallbackHSCode;
+    }
+
+    //=======================================================================================================
+
+    /**
+     * @return string
+     */
+    public function getCutOffTime(): string
+    {
+        return $this->cutOffTime;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTransitTime(): int
+    {
+        return $this->transitTime;
+    }
+
+    /**
+     * @return array
+     */
+    public function getHandoverDays(): array
+    {
+        return $this->handoverDays;
     }
 }

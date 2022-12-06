@@ -5,7 +5,8 @@
 .PHONY: help
 .DEFAULT_GOAL := help
 
-PLUGIN_VERSION=`php -r 'echo json_decode(file_get_contents("PostNLShopware/composer.json"))->version;'`
+PLUGIN_NAME=PostNLShopware
+PLUGIN_VERSION=`php -r 'echo json_decode(file_get_contents("$(PLUGIN_NAME)/composer.json"))->version;'`
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -14,13 +15,13 @@ help:
 
 install: ## Installs all production dependencies
 	@composer install --no-dev
-	@cd src/Resources/app/administration && [ ! -f package.json ] || npm install --production
-	@cd src/Resources/app/storefront && [ ! -f package.json ] || npm install --production
+	@{ [ -d src/Resources/app/administration ] && cd src/Resources/app/administration || exit 0; } && { [ -f package.json ] && npm install --production || exit 0; }
+	@{ [ -d src/Resources/app/storefront ] && cd src/Resources/app/storefront || exit 0; } && { [ -f package.json ] && npm install --production || exit 0; }
 
 dev: ## Installs all dev dependencies
 	@composer install
-	@cd src/Resources/app/administration && [ ! -f package.json ] || npm install
-	@cd src/Resources/app/storefront && [ ! -f package.json ] || npm install
+	@{ [ -d src/Resources/app/administration ] && cd src/Resources/app/administration || exit 0; } && { [ -f package.json ] && npm install || exit 0; }
+	@{ [ -d src/Resources/app/storefront ] && cd src/Resources/app/storefront || exit 0; } && { [ -f package.json ] && npm install || exit 0; }
 
 clean: ## Cleans all dependencies
 	rm -rf vendor
@@ -50,16 +51,16 @@ phpstan: ## Starts the PHPStan Analyser
 	@php vendor/bin/phpstan analyse -c ./.phpstan.lvl8.neon
 
 phpunit: ## Starts all Tests
-	@XDEBUG_MODE=coverage php vendor/bin/phpunit --configuration=phpunit.xml --coverage-html ./.reports/postnl/coverage
+	@phpdbg -qrr vendor/bin/phpunit --configuration=phpunit.xml --coverage-html ./.reports/$(PLUGIN_NAME)/coverage
 
 infection: ## Starts all Infection/Mutation tests
-	@XDEBUG_MODE=coverage php vendor/bin/infection --configuration=./.infection.json
+	@phpdbg -qrr vendor/bin/infection --configuration=./.infection.json
 
 # ------------------------------------------------------------------------------------------------------------
 
 pr: ## Prepares everything for a Pull Request
 	@make dev
-	@php vendor/bin/php-cs-fixer fix --config=./.php_cs.php
+	@make csfix
 	@make phpcheck -B
 	@make phpmin -B
 	@make phpstan -B
@@ -67,12 +68,11 @@ pr: ## Prepares everything for a Pull Request
 build: ## Builds the package
 	@rm -rf src/Resources/app/storefront/dist
 	@cd ../../.. && php bin/console plugin:refresh
-	@cd ../../.. && php bin/console plugin:install PostNLShopware --activate --clearCache | true
+	@cd ../../.. && php bin/console plugin:install $(PLUGIN_NAME) --activate --clearCache | true
 	@cd ../../.. && php bin/console plugin:refresh
 	@cd ../../.. && php bin/console theme:dump
-	@cd ../../.. && PUPPETEER_SKIP_DOWNLOAD=1 ./bin/build-js.sh
 	@cd ../../.. && php bin/console theme:refresh
-	@cd ../../.. && php bin/console theme:compile
+	@cd ../../.. && PUPPETEER_SKIP_DOWNLOAD=1 ./bin/build-js.sh
 	@cd ../../.. && php bin/console theme:refresh
 
 release: ## Create a new release
@@ -82,8 +82,8 @@ release: ## Create a new release
 	@make zip
 
 zip: ## Creates a new ZIP package
-	@php update-composer-require.php --shopware=^6.4.1 --env=prod
-	@cd .. && echo "\nCreating Zip file PostNLShopware-$(PLUGIN_VERSION).zip\n"
-	@cd .. && rm -rf PostNLShopware-$(PLUGIN_VERSION).zip
-	@cd .. && zip -qq -r -0 PostNLShopware-$(PLUGIN_VERSION).zip PostNLShopware/ -x '*.editorconfig' '*.git*' '*.reports*' '*/tests*' '*/makefile' '*.DS_Store' '*/phpunit.xml' '*/.phpstan.neon' '*/.php_cs.php' '*/phpinsights.php' '*node_modules*' '*administration/build*' '*storefront/build*' '*/update-composer-require.php'
-	@php update-composer-require.php --shopware=^6.4.1 --env=dev
+	@php update-composer-require.php --shopware=^6.4.1 --env=prod --admin --storefront
+	@cd .. && echo "Creating Zip file $(PLUGIN_NAME)-$(PLUGIN_VERSION).zip\n"
+	@cd .. && rm -rf $(PLUGIN_NAME)-$(PLUGIN_VERSION).zip
+	@cd .. && zip -qq -r -0 $(PLUGIN_NAME)-$(PLUGIN_VERSION).zip $(PLUGIN_NAME)/ -x '*.editorconfig' '*.git*' '*.reports*' '*/tests*' '*/makefile' '*.DS_Store' '*/phpunit.xml' '*/.phpstan.neon' '*/.php_cs.php' '*/phpinsights.php' '*node_modules*' '*administration/build*' '*storefront/build*' '*/update-composer-require.php'
+	@php update-composer-require.php --shopware=^6.4.1 --env=dev --admin --storefront

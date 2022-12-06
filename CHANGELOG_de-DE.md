@@ -1,3 +1,7 @@
+# 1.2.0
+- Adressen von Abholstellen werden jetzt als Lieferadresse gespeichert, wenn eine Abholstelle ausgewählt wird
+  - Die ursprünglich gewählte Lieferadresse ist immer noch auf der Bestellung verfügbar
+
 # 1.1.0
 #### Belgische Release
 - Es wurden Produktcodes für den Versand aus Belgien hinzugefügt.
