@@ -90,7 +90,8 @@
         "columnConfirm": "Confirmed",
         "buttonChangeShipping": "Change shipping method",
         "buttonCreateShipment": "Create and confirm shipments",
-        "columnSentDate": "Send before"
+        "columnSentDate": "Send before",
+        "columnDeliveryDate": "Expected on"
       },
       "modal": {
         "changeShipping": {

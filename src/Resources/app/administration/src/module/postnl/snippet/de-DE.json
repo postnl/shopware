@@ -90,7 +90,8 @@
         "columnConfirm": "Bestätigt",
         "buttonChangeShipping": "Versandart ändern",
         "buttonCreateShipment": "Vorregistrierung und Etikettendruck",
-        "columnSentDate": "Vorher senden"
+        "columnSentDate": "Vorher senden",
+        "columnDeliveryDate": "Erwartet am"
       },
       "modal": {
         "changeShipping": {

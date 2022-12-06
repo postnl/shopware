@@ -90,7 +90,8 @@
         "columnConfirm": "Voorgemeld",
         "buttonChangeShipping": "Verzendmethode wijzigen",
         "buttonCreateShipment": "Voormelden en labels printen",
-        "columnSentDate": "Verzend voor"
+        "columnSentDate": "Verzend voor",
+        "columnDeliveryDate": "Verwacht op"
       },
       "modal": {
         "changeShipping": {

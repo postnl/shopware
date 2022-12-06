@@ -42,7 +42,13 @@
 
     {% block sw_order_list_grid_columns_custom_fields_postnl_sent_date %}
         <template #column-customFields.postnl.sentDate="{ item }">
-            {{ item.customFields.postnl.sentDate | date }}
+            {{ item.customFields.postnl.sentDate | date("Y-m-d")}}
+        </template>
+    {% endblock %}
+
+    {% block sw_order_list_grid_columns_custom_fields_postnl_delivery_date %}
+        <template #column-customFields.postnl.deliveryDate="{ item }">
+            {{ item.customFields.postnl.deliveryDate | date("Y-m-d")}}
         </template>
     {% endblock %}
 {% endblock %}
