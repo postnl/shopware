@@ -2,12 +2,14 @@
 
 namespace PostNL\Shopware6\Subscriber;
 
+use DateTime;
 use Exception;
 use Firstred\PostNL\Entity\Location;
 use Firstred\PostNL\Entity\Request\GetNearestLocations;
 use Firstred\PostNL\Entity\Response\GetLocationsResult;
 use Firstred\PostNL\Entity\Response\ResponseLocation;
 use Firstred\PostNL\Exception\PostNLException;
+use PostNL\Shopware6\Defaults;
 use PostNL\Shopware6\Facade\CheckoutFacade;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
@@ -134,9 +136,12 @@ class CheckoutSubscriber implements EventSubscriberInterface
             return;
         }
 
+
+        $dateTime = $this->createUtcDateTime($timeFrame->getFrom());
+
         if (!$event->getPage()->getCart()->hasExtensionOfType(CartService::EXTENSION, ArrayStruct::class)) {
             $event->getPage()->setCart($this->cartService->addData([
-                'deliveryDate' => $timeFrame->getFrom(),
+                Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => date_format($dateTime,DATE_ATOM),
             ], $event->getSalesChannelContext()));
         }
 
@@ -149,12 +154,12 @@ class CheckoutSubscriber implements EventSubscriberInterface
 
         $availableDeliveryDates= $timeframeCollection->map(function ($timeFrame) {
             /** @var TimeframeStruct $timeFrame */
-            return $timeFrame->getFrom();
+            return $this->createUtcDateTime($timeFrame->getFrom());
         });
 
         if (!in_array($existingDeliveryDate, $availableDeliveryDates)) {
             $event->getPage()->setCart($this->cartService->addData([
-                'deliveryDate' => $timeFrame->getFrom(),
+                Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => date_format($dateTime,DATE_ATOM),
             ], $event->getSalesChannelContext()));
         }
 
@@ -257,6 +262,19 @@ class CheckoutSubscriber implements EventSubscriberInterface
 
     protected function handleMailbox(CheckoutConfirmPageLoadedEvent $event): void
     {
+    }
+
+    /**
+     * @param \DateTimeImmutable $dateTimeImmutable
+     * @return DateTime|false
+     * @throws Exception
+     */
+    private function createUtcDateTime(\DateTimeImmutable $dateTimeImmutable)
+    {
+        return new DateTime(
+            $dateTimeImmutable->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT),
+            new \DateTimeZone('UTC')
+        );
     }
 
 }

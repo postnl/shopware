@@ -83,6 +83,9 @@ class ConversionSubscriber implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * @throws \Exception
+     */
     public function addSendDate(CartConvertedEvent $event)
     {
         $cart = $event->getCart();
@@ -147,12 +150,17 @@ class ConversionSubscriber implements EventSubscriberInterface
             $this->logger->error('Sent date time is not a DateTimeInterface', ['SentDateTime' => $sentDateTime]);
             return;
         }
-        //j M Y, h:i:s
+
+        $sentDateTime = new \DateTime(
+            $sentDateTime->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT),
+            new \DateTimeZone('UTC')
+        );
+
         $convertedCart = $event->getConvertedCart();
         $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge(
             $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] ?? [],
             [
-                Defaults::CUSTOM_FIELDS_SENT_DATE_KEY => date_format($sentDateTime,"j M Y, h:i:s"),
+                Defaults::CUSTOM_FIELDS_SENT_DATE_KEY => date_format($sentDateTime, DATE_ATOM),
             ]
         );
 

@@ -29,14 +29,16 @@ class ShippingController extends StorefrontController
      * @param RequestDataBag $data
      * @param SalesChannelContext $context
      * @return JsonResponse
+     * @throws \Exception
      */
     public function setPickupPoint(RequestDataBag $data, SalesChannelContext $context): JsonResponse
     {
 
         $deliveryDate = $data->get('deliveryDate');
+        $dateDateTime = new \DateTime($deliveryDate,new \DateTimeZone("UTC"));//Even though its CET
 
         $this->cartService->addData([
-            Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => $deliveryDate
+            Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => date_format($dateDateTime,DATE_ATOM)
         ], $context);
 
         return $this->json(null, 204);
