@@ -1,3 +1,6 @@
+# 1.2.0
+- Adressen van afhaalpunten worden nu opgeslagen als verzendadres bij het selecteren van een afhaalpunt
+  - Het oorspronkelijk geselecteerde afleveradres is nog steeds beschikbaar op de bestelling
 # 1.1.0
 #### Belgische release
 - Productcodes voor het verzenden vanuit België zijn toegevoegd.
