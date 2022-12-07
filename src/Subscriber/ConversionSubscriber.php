@@ -129,7 +129,6 @@ class ConversionSubscriber implements EventSubscriberInterface
                 $shippingDuration,
             );
         } catch (InvalidArgumentException $e) {
-            dump($e);
             $this->logger->error($e->getMessage(), ['exception' => $e]);
             return;
         }

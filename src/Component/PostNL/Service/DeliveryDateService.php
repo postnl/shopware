@@ -13,9 +13,9 @@ class DeliveryDateService extends ApiDeliveryDateService
 
      $apiKey = $this->postnl->getRestApiKey();
      $this->setService($getSentDate);
-     dump($getSentDate);
+
      $sentDate = $getSentDate->getGetSentDate();
-     dump($sentDate->getDeliveryDate());
+
 
      $query = [
          'DeliveryDate' => date_format($sentDate->getDeliveryDate(),"d-m-Y")
@@ -36,10 +36,10 @@ class DeliveryDateService extends ApiDeliveryDateService
      if ($houseNrExt = $sentDate->getHouseNrExt()) {
          $query['HouseNrExt'] = $houseNrExt;
      }
-     dump($query);
+
 
      $endpoint = '/shipping?'.http_build_query($query, '', '&', PHP_QUERY_RFC3986);
-     dump($endpoint);
+
 
      return $this->postnl->getRequestFactory()->createRequest(
          'GET',
