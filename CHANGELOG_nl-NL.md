@@ -1,3 +1,6 @@
+# 1.2.1
+- Lost een probleem op met custom fields op het geselecteerde verzendadres (Met dank aan Mitchel van Vliet en Robbert de Smit @ DutchDrops)
+
 # 1.2.0
 - Adressen van afhaalpunten worden nu opgeslagen als verzendadres bij het selecteren van een afhaalpunt
   - Het oorspronkelijk geselecteerde afleveradres is nog steeds beschikbaar op de bestelling
