@@ -363,7 +363,7 @@ class ConversionSubscriber implements EventSubscriberInterface
         $shippingAddresses = array_column($convertedCart['deliveries'], 'shippingOrderAddress');
 
         $addresses = array_map(function (array $shippingAddress) {
-            $shippingAddress['customFields'] = array_merge_recursive($shippingAddress['customFields'], [
+            $shippingAddress['customFields'] = array_merge_recursive($shippingAddress['customFields'] ?? [], [
                 Defaults::CUSTOM_FIELDS_KEY => [
                     'addressType' => '01',
                 ],
