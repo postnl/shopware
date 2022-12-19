@@ -1,3 +1,6 @@
+# 1.2.1
+- Behebt ein Problem mit benutzerdefinierten Feldern auf die ausgewählte Lieferadresse (Vielen Dank Mitchel van Vliet und Robbert de Smit @ DutchDrops)
+
 # 1.2.0
 - Adressen von Abholstellen werden jetzt als Lieferadresse gespeichert, wenn eine Abholstelle ausgewählt wird
   - Die ursprünglich gewählte Lieferadresse ist immer noch auf der Bestellung verfügbar

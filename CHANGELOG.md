@@ -1,3 +1,6 @@
+# 1.2.1
+- Fixes an issue with custom fields on the selected shipping address (Thank you Mitchel van Vliet and Robbert de Smit @ DutchDrops)
+
 # 1.2.0
 - Addresses of pickup points are now stored as the shipping address when selecting a pickup point
   - The original selected address is still available on the order entity
