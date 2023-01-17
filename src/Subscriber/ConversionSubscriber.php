@@ -156,7 +156,7 @@ class ConversionSubscriber implements EventSubscriberInterface
         );
 
         $convertedCart = $event->getConvertedCart();
-        $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge(
+        $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge_recursive(
             $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] ?? [],
             [
                 Defaults::CUSTOM_FIELDS_SENT_DATE_KEY => date_format($sentDateTime, DATE_ATOM),
@@ -394,7 +394,7 @@ class ConversionSubscriber implements EventSubscriberInterface
         $data = $cart->getExtensionOfType(CartService::EXTENSION, ArrayStruct::class);
 
         $convertedCart = $event->getConvertedCart();
-        $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge(
+        $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge_recursive(
             $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] ?? [],
             $data->all()
         );
