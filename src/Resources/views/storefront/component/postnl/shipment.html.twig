@@ -8,8 +8,8 @@
     >
         <select name="postnl-shipping-delivery-time"
                 class="custom-select">
-            {% for timeframe in context.shippingMethod.extensions.postnl_shipment.elements %}
-                <option value="{{ timeframe.from |format_datetime() }}">
+            {% for timeframe in context.shippingMethod.extensions.postnl_shipment %}
+                <option value="{{ timeframe | json_encode }}">
                     {{ timeframe.from |format_datetime('full', 'none') }} {{ timeframe.from |format_datetime('none', 'short') }}
                     - {{ timeframe.to |format_datetime('none', 'short') }}
                 </option>

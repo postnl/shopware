@@ -12,10 +12,10 @@ use Shopware\Core\Framework\Struct\Struct;
 
 class TimeframeStruct extends Struct
 {
-    private DateTimeImmutable $from;
-    private DateTimeImmutable $to;
-    private ?array $options;
-    private ?array $sustainability;
+    protected DateTimeImmutable $from;
+    protected DateTimeImmutable $to;
+    protected ?array $options;
+    protected ?array $sustainability;
 
     /**
      * @returns TimeframeStruct[]

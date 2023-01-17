@@ -5,6 +5,7 @@ namespace PostNL\Shopware6\Controller\Storefront;
 
 use PostNL\Shopware6\Defaults;
 use PostNL\Shopware6\Service\Shopware\CartService;
+use PostNL\Shopware6\Struct\TimeframeStruct;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
@@ -31,14 +32,23 @@ class ShippingController extends StorefrontController
      * @return JsonResponse
      * @throws \Exception
      */
-    public function setPickupPoint(RequestDataBag $data, SalesChannelContext $context): JsonResponse
+    public function setDeliveryTimeframe(RequestDataBag $data, SalesChannelContext $context): JsonResponse
     {
-
-        $deliveryDate = $data->get('deliveryDate');
-        $dateDateTime = new \DateTime($deliveryDate,new \DateTimeZone("UTC"));//Even though its CET
+        try {
+            $timeframeData = json_decode($data->get('timeframe'));
+            $timeframe = new TimeframeStruct(
+                new \DateTimeImmutable($timeframeData->from),
+                new \DateTimeImmutable($timeframeData->to),
+                $timeframeData->options,
+                $timeframeData->sustainability
+            );
+        } catch(\Exception $e) {
+            return $this->json(null, 500);
+        }
 
         $this->cartService->addData([
-            Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => date_format($dateDateTime,DATE_ATOM)
+            Defaults::CUSTOM_FIELDS_TIMEFRAME_KEY => $timeframe,
+            Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => $timeframe->getFrom()->format(DATE_ATOM)
         ], $context);
 
         return $this->json(null, 204);

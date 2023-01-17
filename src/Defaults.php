@@ -8,6 +8,7 @@ class Defaults
     const CUSTOM_FIELDS_STREETNAME_KEY = 'streetName';
     const CUSTOM_FIELDS_HOUSENUMBER_KEY = 'houseNumber';
     const CUSTOM_FIELDS_HOUSENUMBER_ADDITION_KEY = 'houseNumberAddition';
+    const CUSTOM_FIELDS_TIMEFRAME_KEY = 'timeframe';
     const CUSTOM_FIELDS_DELIVERY_DATE_KEY = 'deliveryDate';
     const CUSTOM_FIELDS_SENT_DATE_KEY = 'sentDate';
 
