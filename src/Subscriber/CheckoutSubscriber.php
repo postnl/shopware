@@ -136,7 +136,6 @@ class CheckoutSubscriber implements EventSubscriberInterface
             return;
         }
 
-
         $dateTime = $this->createUtcDateTime($timeFrame->getFrom());
 
         if (!$event->getPage()->getCart()->hasExtensionOfType(CartService::EXTENSION, ArrayStruct::class)) {

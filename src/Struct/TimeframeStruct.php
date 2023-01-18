@@ -61,6 +61,17 @@ class TimeframeStruct extends Struct
         return $timeFramesArray;
     }
 
+    public static function createFromJson(string $json): self
+    {
+        $timeframeData = json_decode($json);
+        return new self(
+            new \DateTimeImmutable($timeframeData->from),
+            new \DateTimeImmutable($timeframeData->to),
+            $timeframeData->options,
+            $timeframeData->sustainability
+        );
+    }
+
     public function __construct(DateTimeImmutable $from, DateTimeImmutable $to, array $options = null, array $sustainability = null)
     {
         $this->from = $from;

@@ -35,13 +35,7 @@ class ShippingController extends StorefrontController
     public function setDeliveryTimeframe(RequestDataBag $data, SalesChannelContext $context): JsonResponse
     {
         try {
-            $timeframeData = json_decode($data->get('timeframe'));
-            $timeframe = new TimeframeStruct(
-                new \DateTimeImmutable($timeframeData->from),
-                new \DateTimeImmutable($timeframeData->to),
-                $timeframeData->options,
-                $timeframeData->sustainability
-            );
+            $timeframe = TimeframeStruct::createFromJson($data->get('timeframe'));
         } catch(\Exception $e) {
             return $this->json(null, 500);
         }
