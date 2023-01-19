@@ -18,15 +18,15 @@ class Migration1674128775CreateOptionRequirementMappingTable extends MigrationSt
     public function update(Connection $connection): void
     {
         $sql = <<<SQL
-CREATE TABLE IF NOT EXISTS `postnl_option_requirement` (
+CREATE TABLE IF NOT EXISTS `postnl_option_requirement_mapping` (
     `option_id` BINARY(16) NOT NULL,
     `required_id` BINARY(16) NOT NULL,
     PRIMARY KEY (`option_id`,`required_id`),
-    KEY `fk.postnl_option_requirement.option_id` (`option_id`),
-    KEY `fk.postnl_option_requirement.required_id` (`required_id`),
-    CONSTRAINT `fk.postnl_option_requirement.option_id` FOREIGN KEY (`option_id`)
+    KEY `fk.postnl_option_requirement_mapping.option_id` (`option_id`),
+    KEY `fk.postnl_option_requirement_mapping.required_id` (`required_id`),
+    CONSTRAINT `fk.postnl_option_requirement_mapping.option_id` FOREIGN KEY (`option_id`)
         REFERENCES `postnl_option` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `fk.postnl_option_requirement.required_id` FOREIGN KEY (`required_id`)
+    CONSTRAINT `fk.postnl_option_requirement_mapping.required_id` FOREIGN KEY (`required_id`)
         REFERENCES `postnl_option` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 SQL;
