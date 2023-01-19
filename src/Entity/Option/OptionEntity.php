@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace PostNL\Shopware6\Entity\Product\Aggregate\ProductOption;
+namespace PostNL\Shopware6\Entity\Option;
 
 use Firstred\PostNL\Entity\ProductOption;
-use PostNL\Shopware6\Entity\Product\Aggregate\ProductOptionTranslation\ProductOptionTranslationCollection;
+use PostNL\Shopware6\Entity\Option\Aggregate\OptionTranslation\OptionTranslationCollection;
 use PostNL\Shopware6\Entity\Product\ProductDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 
-class ProductOptionEntity extends Entity
+class OptionEntity extends Entity
 {
     use EntityIdTrait;
 
@@ -26,7 +26,7 @@ class ProductOptionEntity extends Entity
     /** @var string */
     protected $option;
 
-    /** @var ProductOptionTranslationCollection */
+    /** @var OptionTranslationCollection */
     protected $translations;
 
     /** @var ProductDefinition|null */
@@ -97,17 +97,17 @@ class ProductOptionEntity extends Entity
     }
 
     /**
-     * @return ProductOptionTranslationCollection
+     * @return OptionTranslationCollection
      */
-    public function getTranslations(): ProductOptionTranslationCollection
+    public function getTranslations(): OptionTranslationCollection
     {
         return $this->translations;
     }
 
     /**
-     * @param ProductOptionTranslationCollection $translations
+     * @param OptionTranslationCollection $translations
      */
-    public function setTranslations(ProductOptionTranslationCollection $translations): void
+    public function setTranslations(OptionTranslationCollection $translations): void
     {
         $this->translations = $translations;
     }

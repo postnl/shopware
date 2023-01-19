@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shopware6\Entity\Product\Aggregate\ProductOption;
+namespace PostNL\Shopware6\Entity\Option;
 
 use PostNL\Shopware6\Entity\Product\ProductDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\CreatedAtField;
@@ -12,7 +12,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\Field\ManyToOneAssociationField
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\MappingEntityDefinition;
 
-class ProductOptionMappingDefinition extends MappingEntityDefinition
+class OptionMappingDefinition extends MappingEntityDefinition
 {
     /**
      * @return string
@@ -28,7 +28,7 @@ class ProductOptionMappingDefinition extends MappingEntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new FkField('product_option_id', 'productOptionId', ProductOptionDefinition::class))
+            (new FkField('product_option_id', 'productOptionId', OptionDefinition::class))
                 ->addFlags(new PrimaryKey(), new Required()),
             (new FkField('product_id', 'productId', ProductDefinition::class))
                 ->addFlags(new PrimaryKey(), new Required()),
@@ -36,7 +36,7 @@ class ProductOptionMappingDefinition extends MappingEntityDefinition
             (new ManyToOneAssociationField(
                 'productOption',
                 'product_option_id',
-                ProductOptionDefinition::class
+                OptionDefinition::class
             ))->addFlags(new CascadeDelete()),
 
             (new ManyToOneAssociationField(

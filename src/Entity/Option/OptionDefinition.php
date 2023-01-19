@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PostNL\Shopware6\Entity\Product\Aggregate\ProductOption;
+namespace PostNL\Shopware6\Entity\Option;
 
-use PostNL\Shopware6\Entity\Product\Aggregate\ProductOptionTranslation\ProductOptionTranslationDefinition;
+use PostNL\Shopware6\Entity\Option\Aggregate\OptionTranslation\OptionTranslationDefinition;
 use PostNL\Shopware6\Entity\Product\ProductDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
@@ -16,9 +16,9 @@ use Shopware\Core\Framework\DataAbstractionLayer\Field\TranslatedField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\TranslationsAssociationField;
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 
-class ProductOptionDefinition extends EntityDefinition
+class OptionDefinition extends EntityDefinition
 {
-    const ENTITY_NAME = 'postnl_product_option';
+    const ENTITY_NAME = 'postnl_option';
 
     /**
      * @return string
@@ -33,7 +33,7 @@ class ProductOptionDefinition extends EntityDefinition
      */
     public function getEntityClass(): string
     {
-        return ProductOptionEntity::class;
+        return OptionEntity::class;
     }
 
     /**
@@ -41,7 +41,7 @@ class ProductOptionDefinition extends EntityDefinition
      */
     public function getCollectionClass(): string
     {
-        return ProductOptionCollection::class;
+        return OptionCollection::class;
     }
 
     /**
@@ -59,26 +59,26 @@ class ProductOptionDefinition extends EntityDefinition
             (new StringField('option', 'option', 3))
                 ->addFlags(new Required()),
 
-            new TranslationsAssociationField(ProductOptionTranslationDefinition::class, 'product_option_id'),
+            new TranslationsAssociationField(OptionTranslationDefinition::class, 'product_option_id'),
 
             new ManyToManyAssociationField(
                 'products',
                 ProductDefinition::class,
-                ProductOptionMappingDefinition::class,
+                OptionMappingDefinition::class,
                 'product_option_id',
                 'product_id'),
 
             new ManyToManyAssociationField(
                 'required',
                 self::class,
-                ProductOptionRequirementMappingDefinition::class,
+                OptionRequirementMappingDefinition::class,
                 'product_option_id',
                 'required_id'),
 
             new ManyToManyAssociationField(
                 'requiredBy',
                 self::class,
-                ProductOptionRequirementMappingDefinition::class,
+                OptionRequirementMappingDefinition::class,
                 'required_id',
                 'product_option_id'),
         ]);

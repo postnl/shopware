@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PostNL\Shopware6\Entity\Product;
 
-use PostNL\Shopware6\Entity\Product\Aggregate\ProductOption\ProductOptionCollection;
+use PostNL\Shopware6\Entity\Option\OptionCollection;
 use PostNL\Shopware6\Entity\Product\Aggregate\ProductTranslation\ProductTranslationCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
@@ -22,7 +22,7 @@ class ProductEntity extends Entity
     /** @var string */
     protected $productCodeDelivery;
 
-    /** @var ProductOptionCollection */
+    /** @var OptionCollection */
     protected $productOptions;
 
     /** @var string */
@@ -104,17 +104,17 @@ class ProductEntity extends Entity
     }
 
     /**
-     * @return ProductOptionCollection
+     * @return OptionCollection
      */
-    public function getProductOptions(): ProductOptionCollection
+    public function getProductOptions(): OptionCollection
     {
         return $this->productOptions;
     }
 
     /**
-     * @param ProductOptionCollection $productOptions
+     * @param OptionCollection $productOptions
      */
-    public function setProductOptions(ProductOptionCollection $productOptions): void
+    public function setProductOptions(OptionCollection $productOptions): void
     {
         $this->productOptions = $productOptions;
     }

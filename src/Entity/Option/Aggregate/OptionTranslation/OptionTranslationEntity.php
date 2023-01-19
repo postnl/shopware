@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PostNL\Shopware6\Entity\Product\Aggregate\ProductOptionTranslation;
+namespace PostNL\Shopware6\Entity\Option\Aggregate\OptionTranslation;
 
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 use Shopware\Core\Framework\DataAbstractionLayer\TranslationEntity;
 
-class ProductOptionTranslationEntity extends TranslationEntity
+class OptionTranslationEntity extends TranslationEntity
 {
     use EntityIdTrait;
 
