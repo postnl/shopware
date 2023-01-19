@@ -6,13 +6,13 @@ use Doctrine\DBAL\Connection;
 use PostNL\Shopware6\Component\Migration\MigrationExecuteTrait;
 use Shopware\Core\Framework\Migration\MigrationStep;
 
-class Migration1666258800CreateOptionRequirementMappingTable extends MigrationStep
+class Migration1674128775CreateOptionRequirementMappingTable extends MigrationStep
 {
     use MigrationExecuteTrait;
 
     public function getCreationTimestamp(): int
     {
-        return 1666258800;
+        return 1674128775;
     }
 
     public function update(Connection $connection): void
