@@ -3,9 +3,10 @@
 namespace PostNL\Shopware6\Migration;
 
 use Doctrine\DBAL\Connection;
+use PostNL\Shopware6\Component\Migration\OptionMigration;
 use Shopware\Core\Framework\Migration\MigrationStep;
 
-class Migration1674138063AddProductOptions extends MigrationStep
+class Migration1674138063CreateV2_0Options extends OptionMigration
 {
     public function getCreationTimestamp(): int
     {
@@ -14,7 +15,9 @@ class Migration1674138063AddProductOptions extends MigrationStep
 
     public function update(Connection $connection): void
     {
-        // implement update
+        $options = [
+
+        ];
     }
 
     public function updateDestructive(Connection $connection): void
