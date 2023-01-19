@@ -114,14 +114,19 @@ class CheckoutSubscriber implements EventSubscriberInterface
     protected function handleShipment(CheckoutConfirmPageLoadedEvent $event): void
     {
         $address = $event->getPage()->getCart()->getDeliveries()->first()->getLocation()->getAddress();
+
+        if(!in_array($address->getCountry()->getIso(), ['NL', 'BE'])) {
+            return;
+        }
+
         try {
             $deliveryDays = $this->checkoutFacade->getDeliveryDays($event->getSalesChannelContext(), $address);
             $timeframeCollection = TimeframeCollection::createFromTimeframes($deliveryDays);
 
         } catch (Exception $e) {
             $this->logger->error('Could not get delivery days', [
-                'Address' => $address,
-                'exception' => $e,
+                'address' => $address,
+                'exception' => $e->getMessage(),
             ]);
             return;
         }
@@ -136,11 +141,9 @@ class CheckoutSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $dateTime = $this->createUtcDateTime($timeFrame->getFrom());
-
         if (!$event->getPage()->getCart()->hasExtensionOfType(CartService::EXTENSION, ArrayStruct::class)) {
             $event->getPage()->setCart($this->cartService->addData([
-                Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => date_format($dateTime,DATE_ATOM),
+                Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => $timeFrame->getFrom()->format(DATE_ATOM),
             ], $event->getSalesChannelContext()));
         }
 
@@ -151,14 +154,14 @@ class CheckoutSubscriber implements EventSubscriberInterface
 
         $existingDeliveryDate = $this->cartService->getByKey('deliveryDate', $event->getSalesChannelContext());
 
-        $availableDeliveryDates= $timeframeCollection->map(function ($timeFrame) {
+        $availableDeliveryDates = $timeframeCollection->map(function ($timeFrame) {
             /** @var TimeframeStruct $timeFrame */
-            return $this->createUtcDateTime($timeFrame->getFrom());
+            return $timeFrame->getFrom();
         });
 
         if (!in_array($existingDeliveryDate, $availableDeliveryDates)) {
             $event->getPage()->setCart($this->cartService->addData([
-                Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => date_format($dateTime,DATE_ATOM),
+                Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => $timeFrame->getFrom()->format(DATE_ATOM),
             ], $event->getSalesChannelContext()));
         }
 
@@ -262,18 +265,4 @@ class CheckoutSubscriber implements EventSubscriberInterface
     protected function handleMailbox(CheckoutConfirmPageLoadedEvent $event): void
     {
     }
-
-    /**
-     * @param \DateTimeImmutable $dateTimeImmutable
-     * @return DateTime|false
-     * @throws Exception
-     */
-    private function createUtcDateTime(\DateTimeImmutable $dateTimeImmutable)
-    {
-        return new DateTime(
-            $dateTimeImmutable->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT),
-            new \DateTimeZone('UTC')
-        );
-    }
-
 }
