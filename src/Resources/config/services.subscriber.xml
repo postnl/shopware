@@ -18,8 +18,10 @@
         </service>
 
         <service id="PostNL\Shopware6\Subscriber\ConversionSubscriber">
+            <argument type="service" id="PostNL\Shopware6\Service\PostNL\Factory\ApiFactory"/>
             <argument type="service" id="PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory"/>
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\ConfigService"/>
+            <argument type="service" id="PostNL\Shopware6\Service\Shopware\CountryService"/>
             <argument type="service" id="product.repository" />
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\DeliveryDateService"/>
             <argument type="service" id="postnl.logger"/>

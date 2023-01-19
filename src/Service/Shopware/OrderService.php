@@ -21,6 +21,7 @@ class OrderService
     public function getOrders(array $orderIds, Context $context): OrderCollection
     {
         $criteria = new Criteria($orderIds);
+        $criteria->addAssociation('addresses.country');
         $criteria->addAssociation('currency');
         $criteria->addAssociation('deliveries.shippingMethod');
         $criteria->addAssociation('deliveries.shippingOrderAddress.country');

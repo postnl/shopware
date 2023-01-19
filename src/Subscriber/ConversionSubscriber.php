@@ -3,15 +3,19 @@
 namespace PostNL\Shopware6\Subscriber;
 
 use DateTimeInterface;
+use Firstred\PostNL\Entity\Request\GetLocation;
 use Firstred\PostNL\Entity\Request\GetSentDate;
+use Firstred\PostNL\Entity\Response\ResponseLocation;
 use Firstred\PostNL\Exception\InvalidArgumentException;
 use PostNL\Shopware6\Defaults;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\ZoneService;
+use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shopware6\Service\Shopware\CartService;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
+use PostNL\Shopware6\Service\Shopware\CountryService;
 use PostNL\Shopware6\Service\Shopware\DeliveryDateService;
 use PostNL\Shopware6\Struct\Attribute\ProductAttributeStruct;
 use PostNL\Shopware6\Struct\Attribute\ShippingMethodAttributeStruct;
@@ -21,13 +25,21 @@ use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Shopware\Core\Checkout\Cart\Order\CartConvertedEvent;
 use Shopware\Core\Content\Product\ProductEntity;
+use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\Struct\ArrayStruct;
+use Shopware\Core\Framework\Uuid\Uuid;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ConversionSubscriber implements EventSubscriberInterface
 {
+    /**
+     * @var ApiFactory
+     */
+    protected $apiFactory;
+
     /**
      * @var AttributeFactory
      */
@@ -37,6 +49,11 @@ class ConversionSubscriber implements EventSubscriberInterface
      * @var ConfigService
      */
     protected $configService;
+
+    /**
+     * @var CountryService
+     */
+    protected $countryService;
 
     /**
      * @var EntityRepositoryInterface
@@ -54,15 +71,19 @@ class ConversionSubscriber implements EventSubscriberInterface
     private LoggerInterface $logger;
 
     public function __construct(
+        ApiFactory                $apiFactory,
         AttributeFactory          $attributeFactory,
         ConfigService             $configService,
+        CountryService            $countryService,
         EntityRepositoryInterface $productRepository,
         DeliveryDateService       $deliveryDateService,
         LoggerInterface           $logger
     )
     {
+        $this->apiFactory = $apiFactory;
         $this->attributeFactory = $attributeFactory;
         $this->configService = $configService;
+        $this->countryService = $countryService;
         $this->productRepository = $productRepository;
         $this->deliveryDateService = $deliveryDateService;
         $this->logger = $logger;
@@ -79,6 +100,7 @@ class ConversionSubscriber implements EventSubscriberInterface
                 ['addShopwareProductData', 400],
                 ['addSendDate', 600],
                 ['addDeliveryTypeData', 100],
+                ['addPickupPointAddress', 100],
             ],
         ];
     }
@@ -227,7 +249,8 @@ class ConversionSubscriber implements EventSubscriberInterface
         try {
             /** @var ShippingMethodAttributeStruct $attributes */
             $attributes = $this->attributeFactory->createFromEntity($cart->getDeliveries()->first()->getShippingMethod(), $event->getContext());
-        } catch (\Throwable $e) {
+        }
+        catch (\Throwable $e) {
             return;
         }
 
@@ -382,7 +405,8 @@ class ConversionSubscriber implements EventSubscriberInterface
         try {
             /** @var ShippingMethodAttributeStruct $attributes */
             $attributes = $this->attributeFactory->createFromEntity($cart->getDeliveries()->first()->getShippingMethod(), $event->getContext());
-        } catch (\Throwable $e) {
+        }
+        catch (\Throwable $e) {
             return;
         }
 
@@ -400,5 +424,122 @@ class ConversionSubscriber implements EventSubscriberInterface
         );
 
         $event->setConvertedCart($convertedCart);
+    }
+
+    public function addPickupPointAddress(CartConvertedEvent $event)
+    {
+        $cart = $event->getCart();
+
+        try {
+            /** @var ShippingMethodAttributeStruct $attributes */
+            $attributes = $this->attributeFactory->createFromEntity($cart->getDeliveries()->first()->getShippingMethod(), $event->getContext());
+        }
+        catch (\Throwable $e) {
+            return;
+        }
+
+        if (is_null($attributes->getDeliveryType())) {
+            return;
+        }
+
+        /** @var ArrayStruct $cartData */
+        $cartData = $cart->getExtensionOfType(CartService::EXTENSION, ArrayStruct::class);
+
+        $convertedCart = $event->getConvertedCart();
+        $convertedCart = $this->setAddresses($convertedCart);
+
+
+        if ($attributes->getDeliveryType() === DeliveryType::PICKUP && $cartData->has('pickupPointLocationCode')) {
+            $pickupPoint = $this->getPickupPoint(
+                $cartData->get('pickupPointLocationCode'),
+                $event->getSalesChannelContext()
+            );
+
+            $convertedCart = $this->setPickupPointAsDeliveryAddresses($convertedCart, $pickupPoint, $event->getContext());
+        }
+
+        $event->setConvertedCart($convertedCart);
+    }
+
+    protected function setAddresses(array $convertedCart): array
+    {
+        $shippingAddresses = array_column($convertedCart['deliveries'], 'shippingOrderAddress');
+
+        $addresses = array_map(function (array $shippingAddress) {
+            $shippingAddress['customFields'] = array_merge_recursive($shippingAddress['customFields'] ?? [], [
+                Defaults::CUSTOM_FIELDS_KEY => [
+                    'addressType' => '01',
+                ],
+            ]);
+
+            return $shippingAddress;
+        }, $shippingAddresses);
+
+        if (array_key_exists('addresses', $convertedCart)) {
+            $addresses += $convertedCart['addresses'];
+        }
+
+        foreach ($convertedCart['deliveries'] as &$delivery) {
+            $delivery['shippingOrderAddressId'] = $delivery['shippingOrderAddress']['id'];
+            unset($delivery['shippingOrderAddress']);
+        }
+
+        $convertedCart['addresses'] = $addresses;
+
+        return $convertedCart;
+    }
+
+    protected function getPickupPoint(
+        int                 $locationCode,
+        SalesChannelContext $context
+    ): ResponseLocation
+    {
+        $apiClient = $this->apiFactory->createClientForSalesChannel($context->getSalesChannelId(), $context->getContext());
+
+        $locationResult = $apiClient->getLocation(new GetLocation($locationCode));
+        return $locationResult->getGetLocationsResult()->getResponseLocation()[0];
+    }
+
+    protected function setPickupPointAsDeliveryAddresses(
+        array            $convertedCart,
+        ResponseLocation $pickupPoint,
+        Context          $context
+    )
+    {
+        foreach ($convertedCart['deliveries'] as &$delivery) {
+            $deliveryAddressId = $delivery['shippingOrderAddressId'];
+            $deliveryAddress = array_filter($convertedCart['addresses'], function (array $address) use ($deliveryAddressId) {
+                return $address['id'] === $deliveryAddressId;
+            })[0];
+
+            $pickupPointAddress = [
+                'id'           => Uuid::randomHex(),
+                'salutationId' => $deliveryAddress['salutationId'],
+                'firstName'    => $deliveryAddress['firstName'],
+                'lastName'     => $deliveryAddress['lastName'],
+                'company'      => $pickupPoint->getName(),
+                'street'       => $pickupPoint->getAddress()->getStreetHouseNrExt() ??
+                    sprintf(
+                        '%s %s%s',
+                        $pickupPoint->getAddress()->getStreet(),
+                        $pickupPoint->getAddress()->getHouseNr(),
+                        $pickupPoint->getAddress()->getHouseNrExt()
+                    ),
+                'zipcode'      => $pickupPoint->getAddress()->getZipcode(),
+                'city'         => $pickupPoint->getAddress()->getCity(),
+                'countryId'    => $this->countryService->getCountryByIso($pickupPoint->getAddress()->getCountrycode(), $context)->getId(),
+                'customFields' => [
+                    Defaults::CUSTOM_FIELDS_KEY => [
+                        'addressType' => '09',
+                        'originalDeliveryAddressId' => $deliveryAddressId,
+                    ],
+                ],
+            ];
+
+            $convertedCart['addresses'][] = $pickupPointAddress;
+            $delivery['shippingOrderAddressId'] = $pickupPointAddress['id'];
+        }
+
+        return $convertedCart;
     }
 }
