@@ -11,7 +11,7 @@
 
         <service id="PostNL\Shopware6\Entity\Product\ProductDefinition"/>
         <service id="PostNL\Shopware6\Entity\Product\Aggregate\ProductTranslation\ProductTranslationDefinition"/>
-        
+
         <service id="PostNL\Shopware6\Entity\Option\OptionDefinition"/>
         <service id="PostNL\Shopware6\Entity\Option\Aggregate\OptionTranslation\OptionTranslationDefinition"/>
     </services>

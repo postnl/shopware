@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace PostNL\Shopware6\Entity\Product;
 
+use PostNL\Shopware6\Entity\Option\OptionDefinition;
+use PostNL\Shopware6\Entity\Option\ProductOptionOptionalMappingDefinition;
+use PostNL\Shopware6\Entity\Option\ProductOptionRequiredMappingDefinition;
 use PostNL\Shopware6\Entity\Product\Aggregate\ProductTranslation\ProductTranslationDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\BoolField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\IdField;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\ManyToManyAssociationField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\StringField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\TranslatedField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\TranslationsAssociationField;
@@ -94,13 +98,20 @@ class ProductDefinition extends EntityDefinition
 
             new TranslationsAssociationField(ProductTranslationDefinition::class, 'product_id'),
 
-            //            new ManyToManyAssociationField(
-            //                'productOptions',
-            //                ProductOptionDefinition::class,
-            //                ProductOptionMappingDefinition::class,
-            //                'product_id',
-            //                'product_option_id'
-            //            ),
+            new ManyToManyAssociationField(
+                'requiredOptions',
+                OptionDefinition::class,
+                ProductOptionRequiredMappingDefinition::class,
+                'product_id',
+                'option_id'
+            ),
+            new ManyToManyAssociationField(
+                'optionalOptions',
+                OptionDefinition::class,
+                ProductOptionOptionalMappingDefinition::class,
+                'product_id',
+                'option_id'
+            ),
         ]);
     }
 }

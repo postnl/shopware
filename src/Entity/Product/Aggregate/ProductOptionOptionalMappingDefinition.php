@@ -12,14 +12,14 @@ use Shopware\Core\Framework\DataAbstractionLayer\Field\ManyToOneAssociationField
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\MappingEntityDefinition;
 
-class OptionMappingDefinition extends MappingEntityDefinition
+class ProductOptionOptionalMappingDefinition extends MappingEntityDefinition
 {
     /**
      * @return string
      */
     public function getEntityName(): string
     {
-        return 'postnl_product_option_mapping';
+        return 'postnl_product_option_optional_mapping';
     }
 
     /**
@@ -28,21 +28,21 @@ class OptionMappingDefinition extends MappingEntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new FkField('product_option_id', 'productOptionId', OptionDefinition::class))
-                ->addFlags(new PrimaryKey(), new Required()),
             (new FkField('product_id', 'productId', ProductDefinition::class))
                 ->addFlags(new PrimaryKey(), new Required()),
-
-            (new ManyToOneAssociationField(
-                'productOption',
-                'product_option_id',
-                OptionDefinition::class
-            ))->addFlags(new CascadeDelete()),
+            (new FkField('option_id', 'optionId', OptionDefinition::class))
+                ->addFlags(new PrimaryKey(), new Required()),
 
             (new ManyToOneAssociationField(
                 'product',
                 'product_id',
                 ProductDefinition::class
+            ))->addFlags(new CascadeDelete()),
+
+            (new ManyToOneAssociationField(
+                'option',
+                'option_id',
+                OptionDefinition::class
             ))->addFlags(new CascadeDelete()),
         ]);
     }

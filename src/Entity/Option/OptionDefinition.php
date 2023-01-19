@@ -62,25 +62,35 @@ class OptionDefinition extends EntityDefinition
             new TranslationsAssociationField(OptionTranslationDefinition::class, 'product_option_id'),
 
             new ManyToManyAssociationField(
-                'products',
+                'requiredByProduct',
                 ProductDefinition::class,
-                OptionMappingDefinition::class,
-                'product_option_id',
-                'product_id'),
+                ProductOptionRequiredMappingDefinition::class,
+                'option_id',
+                'product_id'
+            ),
+            new ManyToManyAssociationField(
+                'optionalForProduct',
+                ProductDefinition::class,
+                ProductOptionOptionalMappingDefinition::class,
+                'option_id',
+                'product_id'
+            ),
 
             new ManyToManyAssociationField(
                 'required',
                 self::class,
                 OptionRequirementMappingDefinition::class,
-                'product_option_id',
-                'required_id'),
+                'option_id',
+                'required_id'
+            ),
 
             new ManyToManyAssociationField(
                 'requiredBy',
                 self::class,
                 OptionRequirementMappingDefinition::class,
                 'required_id',
-                'product_option_id'),
+                'option_id'
+            ),
         ]);
     }
 }
