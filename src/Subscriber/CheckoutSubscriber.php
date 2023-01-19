@@ -2,13 +2,10 @@
 
 namespace PostNL\Shopware6\Subscriber;
 
-use DateTime;
-use Exception;
 use Firstred\PostNL\Entity\Location;
 use Firstred\PostNL\Entity\Request\GetNearestLocations;
 use Firstred\PostNL\Entity\Response\GetLocationsResult;
 use Firstred\PostNL\Entity\Response\ResponseLocation;
-use Firstred\PostNL\Exception\PostNLException;
 use PostNL\Shopware6\Defaults;
 use PostNL\Shopware6\Facade\CheckoutFacade;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
@@ -123,7 +120,7 @@ class CheckoutSubscriber implements EventSubscriberInterface
             $deliveryDays = $this->checkoutFacade->getDeliveryDays($event->getSalesChannelContext(), $address);
             $timeframeCollection = TimeframeCollection::createFromTimeframes($deliveryDays);
 
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             $this->logger->error('Could not get delivery days', [
                 'address' => $address,
                 'exception' => $e->getMessage(),
@@ -194,15 +191,9 @@ class CheckoutSubscriber implements EventSubscriberInterface
         try {
             $locationRequest = new GetNearestLocations($address->getCountry()->getIso(), new Location($address->getZipcode()));
             $locationResponse = $apiClient->getNearestLocations($locationRequest);
-        } catch (PostNLException $e) {
-            $this->logger->error('Could not fetch nearest pickup points', [
-                'exception' => $e,
-                'address' => $address
-            ]);
-            return;
         } catch (\Throwable $e) {
             $this->logger->error('Could not fetch nearest pickup points', [
-                'exception' => $e,
+                'exception' => $e->getMessage(),
                 'address' => $address
             ]);
             return;
