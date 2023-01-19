@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shopware6\Entity\Option;
+namespace PostNL\Shopware6\Entity\Product\Aggregate;
 
+use PostNL\Shopware6\Entity\Option\OptionDefinition;
 use PostNL\Shopware6\Entity\Product\ProductDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\CreatedAtField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\FkField;

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace PostNL\Shopware6\Entity\Product;
 
 use PostNL\Shopware6\Entity\Option\OptionDefinition;
-use PostNL\Shopware6\Entity\Option\ProductOptionOptionalMappingDefinition;
-use PostNL\Shopware6\Entity\Option\ProductOptionRequiredMappingDefinition;
+use PostNL\Shopware6\Entity\Product\Aggregate\ProductOptionOptionalMappingDefinition;
+use PostNL\Shopware6\Entity\Product\Aggregate\ProductOptionRequiredMappingDefinition;
 use PostNL\Shopware6\Entity\Product\Aggregate\ProductTranslation\ProductTranslationDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\BoolField;
