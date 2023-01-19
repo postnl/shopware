@@ -17,7 +17,6 @@ class Migration1674128763RenameOptionTables extends MigrationStep
 
     public function update(Connection $connection): void
     {
-
         $sql = <<<SQL
     RENAME TABLE `postnl_product_option` TO `postnl_option`;
     RENAME TABLE `postnl_product_option_translation` TO `postnl_option_translation`;
@@ -25,13 +24,11 @@ class Migration1674128763RenameOptionTables extends MigrationStep
 
     ALTER TABLE `postnl_option_translation` CHANGE `postnl_product_option_id` `postnl_option_id` BINARY(16) NOT NULL;
     ALTER TABLE `postnl_option_translation` RENAME INDEX `fk.postnl_product_option_translation.product_option_id` TO `fk.postnl_option_translation.postnl_option_id`;
+    ALTER TABLE `postnl_option_translation` RENAME INDEX `fk.postnl_product_option_translation.language_id` TO `fk.postnl_option_translation.language_id`;
 
     ALTER TABLE `postnl_product_option_required_mapping` CHANGE `product_option_id` `option_id` BINARY(16) NOT NULL;
     ALTER TABLE `postnl_product_option_required_mapping` RENAME INDEX `fk.postnl_product_option_mapping.product_id` TO `fk.postnl_product_option_required_mapping.product_id`;
     ALTER TABLE `postnl_product_option_required_mapping` RENAME INDEX `fk.postnl_product_option_mapping.product_option_id` TO `fk.postnl_product_option_required_mapping.option_id`;
-
-
-
 SQL;
 
         $this->execute($connection, $sql);
