@@ -6,6 +6,8 @@ namespace PostNL\Shopware6\Entity\Option;
 
 use PostNL\Shopware6\Entity\Option\Aggregate\OptionRequirementMappingDefinition;
 use PostNL\Shopware6\Entity\Option\Aggregate\OptionTranslation\OptionTranslationDefinition;
+use PostNL\Shopware6\Entity\Product\Aggregate\ProductOptionOptionalMappingDefinition;
+use PostNL\Shopware6\Entity\Product\Aggregate\ProductOptionRequiredMappingDefinition;
 use PostNL\Shopware6\Entity\Product\ProductDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
@@ -60,17 +62,17 @@ class OptionDefinition extends EntityDefinition
             (new StringField('option', 'option', 3))
                 ->addFlags(new Required()),
 
-            new TranslationsAssociationField(OptionTranslationDefinition::class, 'product_option_id'),
+            new TranslationsAssociationField(OptionTranslationDefinition::class, 'option_id'),
 
             new ManyToManyAssociationField(
-                'requiredByProduct',
+                'requiredByProducts',
                 ProductDefinition::class,
                 ProductOptionRequiredMappingDefinition::class,
                 'option_id',
                 'product_id'
             ),
             new ManyToManyAssociationField(
-                'optionalForProduct',
+                'optionalForProducts',
                 ProductDefinition::class,
                 ProductOptionOptionalMappingDefinition::class,
                 'option_id',

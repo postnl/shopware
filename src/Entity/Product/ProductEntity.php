@@ -23,7 +23,10 @@ class ProductEntity extends Entity
     protected $productCodeDelivery;
 
     /** @var OptionCollection */
-    protected $productOptions;
+    protected $requiredOptions;
+
+    /** @var OptionCollection */
+    protected $optionalOptions;
 
     /** @var string */
     protected $sourceZone;
@@ -106,17 +109,33 @@ class ProductEntity extends Entity
     /**
      * @return OptionCollection
      */
-    public function getProductOptions(): OptionCollection
+    public function getRequiredOptions(): OptionCollection
     {
-        return $this->productOptions;
+        return $this->requiredOptions;
     }
 
     /**
-     * @param OptionCollection $productOptions
+     * @param OptionCollection $requiredOptions
      */
-    public function setProductOptions(OptionCollection $productOptions): void
+    public function setRequiredOptions(OptionCollection $requiredOptions): void
     {
-        $this->productOptions = $productOptions;
+        $this->requiredOptions = $requiredOptions;
+    }
+
+    /**
+     * @return OptionCollection
+     */
+    public function getOptionalOptions(): OptionCollection
+    {
+        return $this->optionalOptions;
+    }
+
+    /**
+     * @param OptionCollection $optionalOptions
+     */
+    public function setOptionalOptions(OptionCollection $optionalOptions): void
+    {
+        $this->optionalOptions = $optionalOptions;
     }
 
     /**

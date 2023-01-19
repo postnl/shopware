@@ -48,7 +48,8 @@ class ProductService
             'criteria' => $criteria,
         ]);
 
-        $criteria->addAssociation('options');
+        $criteria->addAssociation('requiredOptions.required');
+        $criteria->addAssociation('optionalOptions.required');
 
         /** @var ProductCollection $products */
         $products = $this->productRepository->search($criteria, $context)->getEntities();

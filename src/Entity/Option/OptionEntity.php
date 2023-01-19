@@ -6,6 +6,7 @@ namespace PostNL\Shopware6\Entity\Option;
 
 use Firstred\PostNL\Entity\ProductOption;
 use PostNL\Shopware6\Entity\Option\Aggregate\OptionTranslation\OptionTranslationCollection;
+use PostNL\Shopware6\Entity\Product\ProductCollection;
 use PostNL\Shopware6\Entity\Product\ProductDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
@@ -29,8 +30,17 @@ class OptionEntity extends Entity
     /** @var OptionTranslationCollection */
     protected $translations;
 
-    /** @var ProductDefinition|null */
-    protected $products;
+    /** @var ProductCollection */
+    protected $requiredByProducts;
+
+    /** @var ProductCollection */
+    protected $optionalForProducts;
+
+    /** @var OptionCollection */
+    protected $required;
+
+    /** @var OptionCollection */
+    protected $requiredBy;
 
     /**
      * @return string
@@ -113,19 +123,67 @@ class OptionEntity extends Entity
     }
 
     /**
-     * @return ProductDefinition|null
+     * @return ProductCollection
      */
-    public function getProducts(): ?ProductDefinition
+    public function getRequiredByProducts(): ProductCollection
     {
-        return $this->products;
+        return $this->requiredByProducts;
     }
 
     /**
-     * @param ProductDefinition|null $products
+     * @param ProductCollection $requiredByProducts
      */
-    public function setProducts(?ProductDefinition $products): void
+    public function setRequiredByProducts(ProductCollection $requiredByProducts): void
     {
-        $this->products = $products;
+        $this->requiredByProducts = $requiredByProducts;
+    }
+
+    /**
+     * @return ProductCollection
+     */
+    public function getOptionalForProducts(): ProductCollection
+    {
+        return $this->optionalForProducts;
+    }
+
+    /**
+     * @param ProductCollection $optionalForProducts
+     */
+    public function setOptionalForProducts(ProductCollection $optionalForProducts): void
+    {
+        $this->optionalForProducts = $optionalForProducts;
+    }
+
+    /**
+     * @return OptionCollection
+     */
+    public function getRequired(): OptionCollection
+    {
+        return $this->required;
+    }
+
+    /**
+     * @param OptionCollection $required
+     */
+    public function setRequired(OptionCollection $required): void
+    {
+        $this->required = $required;
+    }
+
+    /**
+     * @return OptionCollection
+     */
+    public function getRequiredBy(): OptionCollection
+    {
+        return $this->requiredBy;
+    }
+
+    /**
+     * @param OptionCollection $requiredBy
+     */
+    public function setRequiredBy(OptionCollection $requiredBy): void
+    {
+        $this->requiredBy = $requiredBy;
     }
 
     public function getApiEntity(): ProductOption
