@@ -128,6 +128,11 @@ class TimeframeStruct extends Struct
         $this->options = $options;
     }
 
+    public function hasOption(string $option): bool
+    {
+        return in_array($option, $this->options);
+    }
+
     /**
      * @return array|null
      */

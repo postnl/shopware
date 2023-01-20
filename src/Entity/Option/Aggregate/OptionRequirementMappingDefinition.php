@@ -13,7 +13,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\MappingEntityDefinition;
 
 class OptionRequirementMappingDefinition extends MappingEntityDefinition
 {
-    const ENTITY_NAME = 'postnl_option_requirement';
+    const ENTITY_NAME = 'postnl_option_requirement_mapping';
 
     /**
      * @return string
