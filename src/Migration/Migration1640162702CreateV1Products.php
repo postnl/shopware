@@ -10,7 +10,7 @@ use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
 use Shopware\Core\Framework\Uuid\Uuid;
 
-class Migration1640162702CreateV1_0Products extends ProductMigration
+class Migration1640162702CreateV1Products extends ProductMigration
 {
     public function getCreationTimestamp(): int
     {
