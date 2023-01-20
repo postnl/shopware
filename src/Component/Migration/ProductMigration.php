@@ -36,7 +36,7 @@ abstract class ProductMigration extends MigrationStep
                     unset($product['name']);
                 }
 
-                if (!array_key_exists('created_at', $option)) {
+                if (!array_key_exists('created_at', $product)) {
                     $product['created_at'] = (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT);
                 }
 
