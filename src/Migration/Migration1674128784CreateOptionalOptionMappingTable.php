@@ -21,7 +21,6 @@ class Migration1674128784CreateOptionalOptionMappingTable extends MigrationStep
 CREATE TABLE IF NOT EXISTS `postnl_product_option_optional_mapping` (
     `product_id` BINARY(16) NOT NULL,
     `option_id` BINARY(16) NOT NULL,
-    `created_at` DATETIME(3) NOT NULL,
     PRIMARY KEY (`product_id`,`option_id`),
     KEY `fk.postnl_product_option_optional_mapping.product_id` (`product_id`),
     KEY `fk.postnl_product_option_optional_mapping.option_id` (`option_id`),
