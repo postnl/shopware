@@ -7,11 +7,13 @@ use PostNL\Shopware6\Entity\Product\Aggregate\ProductTranslation\ProductTranslat
 use PostNL\Shopware6\Entity\Product\ProductDefinition;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
+use Shopware\Core\Defaults as ShopwareDefaults;
 use Shopware\Core\Framework\Migration\MigrationStep;
 
 abstract class ProductMigration extends MigrationStep
 {
     use MigrationLocaleTrait;
+    use MigrationQuoteTrait;
 
     /**
      * @param Connection $connection
@@ -34,16 +36,20 @@ abstract class ProductMigration extends MigrationStep
                     unset($product['name']);
                 }
 
-                $connection->insert(ProductDefinition::ENTITY_NAME, $product);
+                if (!array_key_exists('created_at', $option)) {
+                    $product['created_at'] = (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT);
+                }
+
+                $connection->insert(ProductDefinition::ENTITY_NAME, $this->quote($connection, $product));
 
                 foreach ($languages as $locale => $language) {
-                    $connection->insert(ProductTranslationDefinition::ENTITY_NAME, [
+                    $connection->insert(ProductTranslationDefinition::ENTITY_NAME, $this->quote($connection, [
                         'name' => $name ?? $this->buildProductDescription($product, $locale),
                         'description' => $this->buildProductDescription($product, $locale),
                         'language_id' => $language['id'],
                         $productCodeIdField => $product['id'],
                         'created_at' => $product['created_at'],
-                    ]);
+                    ]));
                 }
             }
 
