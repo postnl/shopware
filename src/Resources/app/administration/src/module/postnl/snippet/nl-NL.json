@@ -80,7 +80,8 @@
       "detail": {
         "shippingProduct": "PostNL product",
         "buttonChangeShipping": "Verzendmethode wijzigen",
-        "buttonCreateShipment": "Voormelden en labels printen"
+        "buttonCreateShipment": "Voormelden en labels printen",
+        "sentDate": "Verzend voor"
       },
       "list": {
         "columnShippingAddress": "Verzendadres",
@@ -88,7 +89,9 @@
         "columnBarCode": "Barcode",
         "columnConfirm": "Voorgemeld",
         "buttonChangeShipping": "Verzendmethode wijzigen",
-        "buttonCreateShipment": "Voormelden en labels printen"
+        "buttonCreateShipment": "Voormelden en labels printen",
+        "columnSentDate": "Verzend voor",
+        "columnDeliveryDate": "Verwacht op"
       },
       "modal": {
         "changeShipping": {

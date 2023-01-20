@@ -37,6 +37,11 @@ class OrderAttributeStruct extends EntityAttributeStruct
     protected $confirm;
 
     /**
+     * @var array|null
+     */
+    protected $timeframe;
+
+    /**
      * @return string|null
      */
     public function getProductId(): ?string
@@ -67,4 +72,13 @@ class OrderAttributeStruct extends EntityAttributeStruct
     {
         return $this->confirm;
     }
+
+    /**
+     * @return array|null
+     */
+    public function getTimeframe(): ?array
+    {
+        return $this->timeframe;
+    }
+
 }

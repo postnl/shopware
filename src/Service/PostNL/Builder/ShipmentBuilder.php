@@ -9,6 +9,7 @@ use Firstred\PostNL\Entity\Contact;
 use Firstred\PostNL\Entity\Content;
 use Firstred\PostNL\Entity\Customs;
 use Firstred\PostNL\Entity\Dimension;
+use Firstred\PostNL\Entity\ProductOption;
 use Firstred\PostNL\Entity\Request\GetLocation;
 use Firstred\PostNL\Entity\Shipment;
 use PostNL\Shopware6\Defaults;
@@ -21,6 +22,7 @@ use PostNL\Shopware6\Service\Shopware\ConfigService;
 use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderAddressDataExtractor;
 use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor;
 use PostNL\Shopware6\Struct\Attribute\OrderAttributeStruct;
+use PostNL\Shopware6\Struct\TimeframeStruct;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Document\DocumentEntity;
 use Shopware\Core\Checkout\Document\DocumentGenerator\InvoiceGenerator;
@@ -145,6 +147,12 @@ class ShipmentBuilder
             $shipment->setDeliveryDate(date_create()->format('d-m-Y 15:00:00'));
         }
 
+        if($orderAttributes->getTimeframe()) {
+            $shipment->setDeliveryDate(
+                (new \DateTimeImmutable($orderAttributes->getTimeframe()['to']))
+                    ->format('d-m-Y H:i:s')
+            );
+        }
 
         //= Addresses ====
         $addresses[] = $this->buildReceiverAddress($order);
@@ -173,6 +181,9 @@ class ShipmentBuilder
         $shipment->setAddresses($addresses);
         $shipment->setAmounts($amounts);
         $shipment->setContacts($contacts);
+
+        //= Product Options ====
+        $shipment->setProductOptions($this->buildProductOptions($order, $context));
 
         return $shipment;
     }
@@ -301,6 +312,35 @@ class ShipmentBuilder
         }
 
         return new Dimension($totalWeight);
+    }
+
+    public function buildProductOptions(OrderEntity $order, Context $context): array
+    {
+        /** @var OrderAttributeStruct $orderAttributes */
+        $orderAttributes = $this->attributeFactory->createFromEntity($order, $context);
+
+        if (!$orderAttributes->getTimeframe()) {
+            // TODO throw exception
+            return [];
+        }
+
+        $productOptions = [];
+
+        $timeframeArray = $orderAttributes->getTimeframe();
+
+        $timeframe = new TimeframeStruct(
+            new \DateTimeImmutable($timeframeArray['to']),
+            new \DateTimeImmutable($timeframeArray['from']),
+            $timeframeArray['options'],
+            $timeframeArray['sustainability']
+        );
+
+        if($timeframe->hasOption('Evening')) {
+            // TODO improve this
+            $productOptions[] = new ProductOption('118', '006');
+        }
+
+        return $productOptions;
     }
 
     public function buildCustoms(OrderEntity $order, Context $context): Customs

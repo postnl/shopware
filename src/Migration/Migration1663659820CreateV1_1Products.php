@@ -33,7 +33,6 @@ class Migration1663659820CreateV1_1Products extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => 0,
                 ProductDefinition::STOR_AGE_CHECK => 0,
                 ProductDefinition::STOR_NOTIFICATION => null,
-                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_BE_4961),
@@ -47,7 +46,6 @@ class Migration1663659820CreateV1_1Products extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => 0,
                 ProductDefinition::STOR_AGE_CHECK => 0,
                 ProductDefinition::STOR_NOTIFICATION => null,
-                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_BE_4962),
@@ -61,7 +59,6 @@ class Migration1663659820CreateV1_1Products extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => 1,
                 ProductDefinition::STOR_AGE_CHECK => 0,
                 ProductDefinition::STOR_NOTIFICATION => null,
-                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_BE_4963),
@@ -75,7 +72,6 @@ class Migration1663659820CreateV1_1Products extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => 1,
                 ProductDefinition::STOR_AGE_CHECK => 0,
                 ProductDefinition::STOR_NOTIFICATION => null,
-                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_BE_4965),
@@ -89,7 +85,6 @@ class Migration1663659820CreateV1_1Products extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => 0,
                 ProductDefinition::STOR_AGE_CHECK => 0,
                 ProductDefinition::STOR_NOTIFICATION => null,
-                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_PICKUP_BE_BE_4878),
@@ -103,7 +98,6 @@ class Migration1663659820CreateV1_1Products extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => 0,
                 ProductDefinition::STOR_AGE_CHECK => 0,
                 ProductDefinition::STOR_NOTIFICATION => 0,
-                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_PICKUP_BE_BE_4880),
@@ -117,7 +111,6 @@ class Migration1663659820CreateV1_1Products extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => 0,
                 ProductDefinition::STOR_AGE_CHECK => 0,
                 ProductDefinition::STOR_NOTIFICATION => 0,
-                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_EU_4952),
@@ -131,7 +124,6 @@ class Migration1663659820CreateV1_1Products extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => null,
                 ProductDefinition::STOR_AGE_CHECK => null,
                 ProductDefinition::STOR_NOTIFICATION => null,
-                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_GLOBAL_4945),
@@ -145,7 +137,6 @@ class Migration1663659820CreateV1_1Products extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => null,
                 ProductDefinition::STOR_AGE_CHECK => null,
                 ProductDefinition::STOR_NOTIFICATION => null,
-                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
         ];
 
@@ -154,6 +145,5 @@ class Migration1663659820CreateV1_1Products extends ProductMigration
 
     public function updateDestructive(Connection $connection): void
     {
-        // implement update destructive
     }
 }

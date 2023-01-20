@@ -43,5 +43,13 @@
             <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
             <argument type="service" id="PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory"/>
         </service>
+
+        <service id="PostNL\Shopware6\Service\Shopware\DeliveryDateService">
+            <argument type="service" id="PostNL\Shopware6\Service\PostNL\Factory\ApiFactory"/>
+        </service>
+
+        <service id="PostNL\Shopware6\Service\Shopware\TimeframeService">
+            <argument type="service" id="PostNL\Shopware6\Service\PostNL\Factory\ApiFactory"/>
+        </service>
     </services>
 </container>

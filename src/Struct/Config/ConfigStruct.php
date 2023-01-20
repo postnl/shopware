@@ -142,7 +142,7 @@ class ConfigStruct extends AttributeStruct
     /**
      * @var string
      */
-    protected $cutOffTime;
+    protected $cutOffTime = "17:00:00";
 
     /**
      * @var int
@@ -153,6 +153,11 @@ class ConfigStruct extends AttributeStruct
      * @var array
      */
     protected $handoverDays;
+
+    /**
+     * @var bool
+     */
+    protected $eveningDelivery;
 
     //====================================================================================================
 
@@ -392,5 +397,26 @@ class ConfigStruct extends AttributeStruct
     public function getHandoverDays(): array
     {
         return $this->handoverDays;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getEveningDelivery(): bool
+    {
+        return $this->eveningDelivery;
+    }
+
+    public function getDeliveryOptions(): array
+    {
+        //Check Development:GUIDELINES https://developer.postnl.nl/browse-apis/delivery-options/deliverydate-webservice/
+        //Options: Daytime | Evening | Morning | Noon | Today | Sunday | Sameday | Afternoon
+        //Combinations work contrary to the documentation
+        $deliveryOptions = ['Daytime'];
+
+        if ($this->getEveningDelivery()) {
+            $deliveryOptions[] = 'Evening';
+        }
+        return $deliveryOptions;
     }
 }
