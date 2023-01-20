@@ -14,12 +14,14 @@ use Shopware\Core\Framework\DataAbstractionLayer\MappingEntityDefinition;
 
 class ProductOptionRequiredMappingDefinition extends MappingEntityDefinition
 {
+    const ENTITY_NAME = 'postnl_product_option_required_mapping';
+
     /**
      * @return string
      */
     public function getEntityName(): string
     {
-        return 'postnl_product_option_required_mapping';
+        return self::ENTITY_NAME;
     }
 
     /**
