@@ -3,12 +3,11 @@
 namespace PostNL\Shopware6\Migration;
 
 use Doctrine\DBAL\Connection;
+use PostNL\Shopware6\Component\Migration\MappingMigration;
 use PostNL\Shopware6\Defaults;
 use PostNL\Shopware6\Entity\Product\Aggregate\ProductOptionOptionalMappingDefinition;
-use Shopware\Core\Framework\Migration\MigrationStep;
-use Shopware\Core\Framework\Uuid\Uuid;
 
-class Migration1674219692CreateV2_0Mappings extends MigrationStep
+class Migration1674219692CreateV2_0Mappings extends MappingMigration
 {
     public function getCreationTimestamp(): int
     {
@@ -75,21 +74,6 @@ class Migration1674219692CreateV2_0Mappings extends MigrationStep
                 'option_id'  => Defaults::OPTION_118_006,
             ],
         ]);
-    }
-
-    protected function insert(Connection $connection, string $table, array $data)
-    {
-        $connection->transactional(function ($connection) use ($table, $data) {
-            $connection->executeStatement('SET foreign_key_checks = 0');
-
-            foreach ($data as $entry) {
-                $connection->insert($table, array_map(function($id) {
-                    return Uuid::fromHexToBytes($id);
-                }, $entry));
-            }
-
-            $connection->executeStatement('SET foreign_key_checks = 1');
-        });
     }
 
     public function updateDestructive(Connection $connection): void
