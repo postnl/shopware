@@ -8,7 +8,7 @@ import ElementLoadingIndicatorUtil from 'src/utility/loading-indicator/element-l
 export default class PostnlPostalCodeCheckPlugin extends Plugin {
     static options = {
         url: window.router['frontend.address.postnl.postal-code-check'],
-        csrfToken: 'put token here',
+        csrfToken: null,
         countries: [],
         concatPrefix: "",
     }
@@ -96,7 +96,7 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         DomAccess.querySelectorAll(this.el, '.country-select').forEach(input => {
             input.addEventListener('change', this.onChangeSelectedCountry.bind(this));
         });
-        const debouceLookup = Debouncer.debounce(this._lookupAddress.bind(this), 1500);
+        const debounceLookup = Debouncer.debounce(this._lookupAddress.bind(this), 500);
 
         //shopware field copiers
         this.streetElement.addEventListener('change', this._fillStreetFields.bind(this));
@@ -104,9 +104,9 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this.houseNumberAdditionElement.addEventListener('change', this._fillStreetFields.bind(this));
 
         //Address fields
-        this.zipcodeElement.addEventListener('keyup', debouceLookup)
-        this.houseNumberElement.addEventListener('keyup', debouceLookup)
-        this.houseNumberAdditionElement.addEventListener('keyup', debouceLookup)
+        this.zipcodeElement.addEventListener('keyup', debounceLookup)
+        this.houseNumberElement.addEventListener('keyup', debounceLookup)
+        this.houseNumberAdditionElement.addEventListener('keyup', debounceLookup)
 
         //Form submit
         // const submitForm = this.submitForm.bind(this);
