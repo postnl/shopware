@@ -68,8 +68,8 @@
                                    class="form-control{% if violationPath %} is-invalid{% endif %}"
                                    id="{{ idPrefix ~ prefix }}PostNLAddressHouseNumber"
                                    placeholder="{{ "postnl.address.houseNumberPlaceholder"|trans|striptags }}"
-                                   name="{{ prefix }}[houseNumber]"
-                                   value="{{ data.customFields.postNL.houseNumber }}"
+                                   name="{{ prefix }}[postnl][houseNumber]"
+                                   value="{{ data.customFields.postnl.houseNumber }}"
                                    required="required"
                             >
                         </div>
@@ -85,8 +85,8 @@
                                    class="form-control{% if violationPath %} is-invalid{% endif %}"
                                    id="{{ idPrefix ~ prefix }}PostNLAddressHouseNumberAddition"
                                    placeholder="{{ "postnl.address.houseNumberAdditionPlaceholder"|trans|striptags }}"
-                                   name="{{ prefix }}[houseNumberAddition]"
-                                   value="{{ data.customFields.postNL.houseNumberAddition }}"
+                                   name="{{ prefix }}[postnl][houseNumberAddition]"
+                                   value="{{ data.customFields.postnl.houseNumberAddition }}"
                                    list="{{ idPrefix ~ prefix }}PostNLAddressHouseNumberAdditionDatalist"
                             >
                             <datalist id="{{ idPrefix ~ prefix }}PostNLAddressHouseNumberAdditionDatalist"></datalist>
@@ -105,10 +105,10 @@
                                    class="form-control{% if violationPath %} is-invalid{% endif %}"
                                    id="{{ idPrefix ~ prefix }}PostNLAddressStreet"
                                    placeholder="{{ "postnl.address.streetPlaceholder"|trans|striptags }}"
-                                   name="{{ prefix }}[streetName]"
-                                   value="{{ data.customFields.postNL.streetName }}"
+                                   name="{{ prefix }}[postnl][streetName]"
+                                   value="{{ data.customFields.postnl.streetName }}"
                                    required="required"
-                                   {% if not data.customFields.postNL.streetName %}disabled="disabled"{% endif %}
+                                   {% if not data.customFields.postnl.streetName %}disabled="disabled"{% endif %}
                             >
                         </div>
                     {% endblock %}
