@@ -86,6 +86,6 @@ class TrackAndTraceMailDataService extends AbstractMailService
             return $this->getDecorated()->send($data, $context, $templateData);
         }
 
-        return $this->mailService->send($data, $context, $templateData);
+        return $this->getDecorated()->send($data, $context, $templateData);
     }
 }
