@@ -373,7 +373,9 @@ class ConversionSubscriber implements EventSubscriberInterface
         }, $shippingAddresses);
 
         if (array_key_exists('addresses', $convertedCart)) {
-            $addresses += $convertedCart['addresses'];
+            foreach($convertedCart['addresses'] as $existingAddress) {
+                $addresses[] = $existingAddress;
+            }
         }
 
         foreach ($convertedCart['deliveries'] as &$delivery) {
