@@ -1,3 +1,7 @@
+# 1.2.2
+- Lost een probleem op met adressen wanneer het verzendadres verschilt van het factuuradres.
+- Lost een probleem op waarbij e-mails niet konden worden verzonden als er geen bestelgegevens waren (bijv. wachtwoordherstel)
+
 # 1.2.1
 - Lost een probleem op met custom fields op het geselecteerde verzendadres (Met dank aan Mitchel van Vliet en Robbert de Smit @ DutchDrops)
 
