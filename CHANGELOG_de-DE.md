@@ -1,3 +1,7 @@
+# 1.2.2
+- Behebt ein Problem mit Adressen, wenn die Lieferadresse nicht mit der Rechnungsadresse übereinstimmt.
+- Behebt ein Problem, bei dem E-Mails nicht gesendet werden konnten, wenn keine Bestelldaten vorlagen (z. B. Passwort-Wiederherstellung).
+
 # 1.2.1
 - Behebt ein Problem mit benutzerdefinierten Feldern auf die ausgewählte Lieferadresse (Vielen Dank Mitchel van Vliet und Robbert de Smit @ DutchDrops)
 

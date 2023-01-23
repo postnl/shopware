@@ -1,3 +1,7 @@
+# 1.2.2
+- Fixes an issue with addresses when shipping address is different from billing address.
+- Fixes an issue where emails could not be sent if there was no order data (e.g. Password recovery)
+
 # 1.2.1
 - Fixes an issue with custom fields on the selected shipping address (Thank you Mitchel van Vliet and Robbert de Smit @ DutchDrops)
 
