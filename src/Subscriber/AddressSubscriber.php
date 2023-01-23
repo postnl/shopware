@@ -5,6 +5,7 @@ namespace PostNL\Shopware6\Subscriber;
 use PostNL\Shopware6\Defaults;
 use Shopware\Core\Checkout\Customer\CustomerEvents;
 use Shopware\Core\Framework\Event\DataMappingEvent;
+use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class AddressSubscriber implements EventSubscriberInterface
@@ -19,21 +20,25 @@ class AddressSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onMappingAddress(DataMappingEvent $event): bool
+    public function onMappingAddress(DataMappingEvent $event): void
     {
         $inputData = $event->getInput();
         $outputData = $event->getOutput();
 
+        $postnlData = $inputData->get(Defaults::CUSTOM_FIELDS_KEY);
+
+        if(!$postnlData instanceof RequestDataBag) {
+            return;
+        }
+
         $outputData['customFields'] = array_merge_recursive($outputData['customFields'] ?? [], [
             Defaults::CUSTOM_FIELDS_KEY => [
-                'streetName'          => $inputData->get('streetName'),
-                'houseNumber'         => $inputData->get('houseNumber'),
-                'houseNumberAddition' => $inputData->get('houseNumberAddition'),
+                Defaults::CUSTOM_FIELDS_STREETNAME_KEY => $postnlData->get('streetName'),
+                Defaults::CUSTOM_FIELDS_HOUSENUMBER_KEY => $postnlData->get('houseNumber'),
+                Defaults::CUSTOM_FIELDS_HOUSENUMBER_ADDITION_KEY => $postnlData->get('houseNumberAddition'),
             ],
         ]);
 
         $event->setOutput($outputData);
-
-        return true;
     }
 }
