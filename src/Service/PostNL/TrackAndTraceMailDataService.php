@@ -68,6 +68,10 @@ class TrackAndTraceMailDataService extends AbstractMailService
         $orderAttributes = $this->attributeFactory->createFromEntity($order, $context);
         $barcode = $orderAttributes->getBarCode();
 
+        // If the email template uses the track and trace variable, then Shopware might break when it cannot replace
+        // that variable. So always set it to an empty string first and set it to the correct link if we have all data.
+        $templateData['postNL']['trackAndTraceLink'] = '';
+
         if (is_null($barcode)) {
             return $this->getDecorated()->send($data, $context, $templateData);
         }
