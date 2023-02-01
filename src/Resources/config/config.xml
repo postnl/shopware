@@ -204,10 +204,10 @@
             <name>cutOffTime</name>
             <label>Cut-off time</label>
             <label lang="de-DE">Abschaltzeit</label>
-            <label lang="nl-NL">Uiterste tijd</label>
-            <helpText>Latest time for handing packages over to PostNL.</helpText>
-            <helpText lang="de-DE">Spätester Zeitpunkt für die Ablieferung von Paketen an PostNL.</helpText>
-            <helpText lang="nl-NL">Uiterste tijd voor het overhandigen van pakketten aan PostNL.</helpText>
+            <label lang="nl-NL">Cut-off tijd</label>
+            <helpText>Orders placed after this time will be subject to an additional one day in addition to the delivery time</helpText>
+            <helpText lang="de-DE">Für Bestellungen, die nach dieser Zeit aufgegeben werden, wird ein Tag zusätzlich zur Lieferzeit berechnet.</helpText>
+            <helpText lang="nl-NL">Voor bestellingen die na dit tijdstip worden geplaatst wordt één dag extra bovenop de overkomstduur gerekend</helpText>
             <placeholder>17:00</placeholder>
         </input-field>
 
