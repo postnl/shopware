@@ -24,6 +24,7 @@ class TimeframeCollection extends Collection
     public static function createFromTimeframes(array $timeframes): TimeframeCollection
     {
         try {
+            /** @var TimeframeCollection $self */
             $self = (new \ReflectionClass(static::class))
                 ->newInstanceWithoutConstructor();
         } catch (\ReflectionException $exception) {
