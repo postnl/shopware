@@ -22,6 +22,15 @@
 
         &-option {
             margin: .5rem 0;
+
+            .custom-control-label {
+                width: 100%;
+            }
+
+            &--inner {
+                display: flex;
+                justify-content: space-between;
+            }
         }
     }
 }

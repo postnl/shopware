@@ -140,7 +140,7 @@ class CheckoutSubscriber implements EventSubscriberInterface
 
         if (!$event->getPage()->getCart()->hasExtensionOfType(CartService::EXTENSION, ArrayStruct::class)) {
             $event->getPage()->setCart($this->cartService->addData([
-                Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => $timeFrame->getFrom()->format(DATE_ATOM),
+                Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => $timeFrame->getFrom(),
             ], $event->getSalesChannelContext()));
         }
 
@@ -158,7 +158,7 @@ class CheckoutSubscriber implements EventSubscriberInterface
 
         if (!in_array($existingDeliveryDate, $availableDeliveryDates)) {
             $event->getPage()->setCart($this->cartService->addData([
-                Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => $timeFrame->getFrom()->format(DATE_ATOM),
+                Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => $timeFrame->getFrom(),
             ], $event->getSalesChannelContext()));
         }
 

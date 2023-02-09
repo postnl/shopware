@@ -1,5 +1,8 @@
 {% block postnl_shipping_method_shipment %}
     {% if context.shippingMethod.extensions.postnl_shipment %}
+
+        {% set deliveryDate = page.cart.getExtension('postnl-data').get(constant('PostNL\\Shopware6\\Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY')) %}
+
         {% set shipmentOptions = {
             csrfToken: sw_csrf('frontend.checkout.postnl.shipping-date', {"mode": "token"})
         } %}
@@ -24,12 +27,20 @@
                     <input type="radio"
                            class="custom-control-input"
                            id="postnl-shipping-method__shipment--delivery-option-{{ loop.index }}"
+                           {% if deliveryDate == timeframe.from %}checked{% endif %}
                            name="postnl-shipping-delivery-time"
                            value="{{ timeframe | json_encode }}"/>
 
                     <label class="custom-control-label"
                            for="postnl-shipping-method__shipment--delivery-option-{{ loop.index }}">
-                        {{ timeframe.from |format_datetime('none', 'short') }} - {{ timeframe.to |format_datetime('none', 'short') }}
+                        <div class="postnl-shipping-method__shipment--delivery-option--inner">
+                            <div class="postnl-shipping-method__shipment--delivery-option--inner-left">
+                                {{ timeframe.from|format_datetime('none', 'short') }} - {{ timeframe.to|format_datetime('none', 'short') }}
+                            </div>
+                            <div class="postnl-shipping-method__shipment--delivery-option--inner-right">
+                                + 2,00
+                            </div>
+                        </div>
                     </label>
                 </div>
             {% endfor %}
