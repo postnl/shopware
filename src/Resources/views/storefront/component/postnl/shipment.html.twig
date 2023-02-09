@@ -8,17 +8,31 @@
              data-postnl-shipping-delivery-date="true"
              data-postnl-shipping-delivery-date-options='{{ shipmentOptions | json_encode }}'
         >
-            <select name="postnl-shipping-delivery-time"
-                    class="custom-select">
+            {% set lastDay = null %}
 
-                {% for timeframe in context.shippingMethod.extensions.postnl_shipment %}
-                    <option value="{{ timeframe | json_encode }}">
-                        {{ timeframe.from |format_datetime('full', 'none') }} {{ timeframe.from |format_datetime('none', 'short') }}
-                        - {{ timeframe.to |format_datetime('none', 'short') }}
-                    </option>
-                {% endfor %}
+            {% for timeframe in context.shippingMethod.extensions.postnl_shipment %}
+                {% set currentDay = timeframe.from|format_datetime('full', 'none') %}
 
-            </select>
+                {% if currentDay != lastDay %}
+                    <div class="postnl-shipping-method__shipment--delivery">
+                        {{ currentDay }}
+                    </div>
+                    {% set lastDay = currentDay %}
+                {% endif %}
+
+                <div class="custom-control custom-radio postnl-shipping-method__shipment--delivery-option">
+                    <input type="radio"
+                           class="custom-control-input"
+                           id="postnl-shipping-method__shipment--delivery-option-{{ loop.index }}"
+                           name="postnl-shipping-delivery-time"
+                           value="{{ timeframe | json_encode }}"/>
+
+                    <label class="custom-control-label"
+                           for="postnl-shipping-method__shipment--delivery-option-{{ loop.index }}">
+                        {{ timeframe.from |format_datetime('none', 'short') }} - {{ timeframe.to |format_datetime('none', 'short') }}
+                    </label>
+                </div>
+            {% endfor %}
         </div>
     {% endif %}
 {% endblock %}
