@@ -13,7 +13,7 @@ class TimeframeStruct extends Struct
     protected \DateTimeImmutable $from;
     protected \DateTimeImmutable $to;
     protected ?array $options;
-    protected ?array $sustainability;
+    protected bool $sustainability;
 
     /**
      * @returns TimeframeStruct[]
@@ -38,7 +38,8 @@ class TimeframeStruct extends Struct
             $timeFramesArray[] = new self(
                 $date->add(self::convertTimeToDateInterval($timeframeTimeFrame->getFrom())),
                 $date->add(self::convertTimeToDateInterval($timeframeTimeFrame->getTo())),
-                $timeframeTimeFrame->getOptions()
+                $timeframeTimeFrame->getOptions(),
+                false // SDK doesn't return sustainability information...
             );
         }
         return $timeFramesArray;
@@ -71,7 +72,7 @@ class TimeframeStruct extends Struct
         return new \DateInterval($interval);
     }
 
-    public function __construct(\DateTimeImmutable $from, \DateTimeImmutable $to, array $options = null, array $sustainability = null)
+    public function __construct(\DateTimeImmutable $from, \DateTimeImmutable $to, array $options = null, bool $sustainability = false)
     {
         $this->from = $from;
         $this->to = $to;
@@ -133,17 +134,17 @@ class TimeframeStruct extends Struct
     }
 
     /**
-     * @return array|null
+     * @return bool
      */
-    public function getSustainability(): ?array
+    public function getSustainability(): bool
     {
         return $this->sustainability;
     }
 
     /**
-     * @param array|null $sustainability
+     * @param bool$sustainability
      */
-    public function setSustainability(?array $sustainability): void
+    public function setSustainability(bool $sustainability): void
     {
         $this->sustainability = $sustainability;
     }
