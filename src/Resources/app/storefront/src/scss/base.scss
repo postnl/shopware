@@ -20,16 +20,11 @@
 
         border-bottom: 1px solid $sw-border-color;
 
-        &-option {
+        &-date {
             margin: .5rem 0;
 
             .custom-control-label {
                 width: 100%;
-            }
-
-            &--inner {
-                display: flex;
-                justify-content: space-between;
             }
         }
     }

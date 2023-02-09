@@ -23,23 +23,36 @@
                     {% set lastDay = currentDay %}
                 {% endif %}
 
-                <div class="custom-control custom-radio postnl-shipping-method__shipment--delivery-option">
+                <div class="custom-control custom-radio postnl-shipping-method__shipment--delivery-date">
                     <input type="radio"
                            class="custom-control-input"
-                           id="postnl-shipping-method__shipment--delivery-option-{{ loop.index }}"
+                           id="postnl-shipping-method__shipment--delivery-date-{{ loop.index }}"
                            {% if deliveryDate == timeframe.from %}checked{% endif %}
                            name="postnl-shipping-delivery-time"
                            value="{{ timeframe | json_encode }}"/>
 
                     <label class="custom-control-label"
-                           for="postnl-shipping-method__shipment--delivery-option-{{ loop.index }}">
-                        <div class="postnl-shipping-method__shipment--delivery-option--inner">
-                            <div class="postnl-shipping-method__shipment--delivery-option--inner-left">
+                           for="postnl-shipping-method__shipment--delivery-date-{{ loop.index }}">
+                        <div class="d-flex justify-content-between">
+
+                            <div>
                                 {{ timeframe.from|format_datetime('none', 'short') }} - {{ timeframe.to|format_datetime('none', 'short') }}
                             </div>
-                            <div class="postnl-shipping-method__shipment--delivery-option--inner-right">
-                                + 2,00
+
+                            <div class="d-flex">
+                                {% for option in timeframe.options %}
+                                    {% if option|lower != "daytime" %}
+                                        <span class="mr-2">
+                                            {{ 'some.snippet.' ~ (option|lower)|trans }}
+                                        </span>
+                                    {% endif %}
+                                {% endfor %}
+
+                                <span>
+                                    + 2.00
+                                </span>
                             </div>
+
                         </div>
                     </label>
                 </div>
