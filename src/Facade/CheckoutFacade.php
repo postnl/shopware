@@ -75,7 +75,8 @@ class CheckoutFacade
         $getTimeframes = $this->getGetTimeframes(
             $addressEntity,
             $deliveryDateStart,
-            $deliveryOptions
+            $deliveryOptions,
+            in_array('sunday', $config->getHandoverDays())
         );
 
         //Use TimeframeService
@@ -92,7 +93,12 @@ class CheckoutFacade
     /**
      * @throws Exception
      */
-    private function getGetTimeframes(CustomerAddressEntity $addressEntity, DateTimeInterface $startDate, array $deliveryOptions): GetTimeframes
+    private function getGetTimeframes(
+        CustomerAddressEntity $addressEntity,
+        \DateTimeImmutable $startDate,
+        array $deliveryOptions,
+        bool $sundaySorting
+    ): GetTimeframes
     {
 
         $countryCode = $addressEntity->getCountry()->getIso();
@@ -137,7 +143,7 @@ class CheckoutFacade
             $deliveryOptions,
             $postalCode,
             null,
-            null,
+            $sundaySorting,
             null,
             null,
             null,
