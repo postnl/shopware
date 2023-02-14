@@ -12,6 +12,7 @@ use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shopware6\Service\Shopware\CartService;
+use PostNL\Shopware6\Service\Shopware\ConfigService;
 use PostNL\Shopware6\Struct\Attribute\ShippingMethodAttributeStruct;
 use PostNL\Shopware6\Struct\TimeframeCollection;
 use PostNL\Shopware6\Struct\TimeframeStruct;
@@ -51,22 +52,29 @@ class CheckoutSubscriber implements EventSubscriberInterface
     protected $checkoutFacade;
 
     /**
+     * @var ConfigService
+     */
+    protected $configService;
+
+    /**
      * @var LoggerInterface
      */
     protected $logger;
 
     /**
-     * @param ApiFactory $apiFactory
+     * @param ApiFactory       $apiFactory
      * @param AttributeFactory $attributeFactory
-     * @param CartService $cartService
-     * @param CheckoutFacade $checkoutFacade
-     * @param LoggerInterface $logger
+     * @param CartService      $cartService
+     * @param CheckoutFacade   $checkoutFacade
+     * @param ConfigService    $configService
+     * @param LoggerInterface  $logger
      */
     public function __construct(
         ApiFactory       $apiFactory,
         AttributeFactory $attributeFactory,
         CartService      $cartService,
         CheckoutFacade   $checkoutFacade,
+        ConfigService $configService,
         LoggerInterface  $logger
     )
     {
@@ -74,6 +82,7 @@ class CheckoutSubscriber implements EventSubscriberInterface
         $this->attributeFactory = $attributeFactory;
         $this->cartService = $cartService;
         $this->checkoutFacade = $checkoutFacade;
+        $this->configService = $configService;
         $this->logger = $logger;
     }
 
@@ -119,6 +128,9 @@ class CheckoutSubscriber implements EventSubscriberInterface
         try {
             $deliveryDays = $this->checkoutFacade->getDeliveryDays($event->getSalesChannelContext(), $address);
             $timeframeCollection = TimeframeCollection::createFromTimeframes($deliveryDays);
+
+            $config = $this->configService->getConfiguration($event->getSalesChannelContext()->getSalesChannelId(), $event->getContext());
+
 
         } catch (\Throwable $e) {
             $this->logger->error('Could not get delivery days', [
