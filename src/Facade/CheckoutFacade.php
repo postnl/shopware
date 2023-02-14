@@ -67,7 +67,7 @@ class CheckoutFacade
 
         $deliveryDateStart = $getDeliveryDateResponse->getDeliveryDate();
 
-        if (!$deliveryDateStart instanceof DateTimeInterface) {
+        if (!$deliveryDateStart instanceof \DateTimeImmutable) {
             $this->logger->error('Could not find a start date', ['startDate' => $deliveryDateStart]);
             throw new Exception('Could not find a start date');
         }
@@ -114,15 +114,9 @@ class CheckoutFacade
         $timeFrameStartDate = null;
         $timeFrameEndDate = null;
 
-
-        if ($startDate instanceof \DateTime) {
-            $timeFrameStartDate = clone $startDate;
-            $timeFrameEndDate = clone $startDate;
-            $timeFrameEndDate->modify('+5 day');
-        }
         if ($startDate instanceof \DateTimeImmutable) {
             $timeFrameStartDate = clone $startDate;
-            $timeFrameEndDate = $startDate->modify('+5 day');
+            $timeFrameEndDate = $startDate->modify('+7 day');
         }
 
         if (empty($timeFrameStartDate)) {
