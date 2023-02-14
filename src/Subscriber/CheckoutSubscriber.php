@@ -131,6 +131,8 @@ class CheckoutSubscriber implements EventSubscriberInterface
 
             $config = $this->configService->getConfiguration($event->getSalesChannelContext()->getSalesChannelId(), $event->getContext());
 
+            $timeframeCollection->filterByConfig($config);
+dd($config, $timeframeCollection);
 
         } catch (\Throwable $e) {
             $this->logger->error('Could not get delivery days', [
