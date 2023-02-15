@@ -59,7 +59,9 @@ class CheckoutFacade
             $addressEntity,
             $cutOffTimes,
             $deliveryOptions,
-            $shippingDuration
+            $shippingDuration,
+            in_array('sunday', $config->getHandoverDays()),
+            $config->getSenderAddress()->getCountrycode()
         );
 
         $this->logger->debug('Getting delivery date', ['getDeliveryDate' => $getDeliveryDate]);
@@ -152,7 +154,14 @@ class CheckoutFacade
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    private function getGetDeliveryDate(CustomerAddressEntity $addressEntity, array $cutOffTimes, array $deliveryOptions, int $shippingDuration): GetDeliveryDate
+    private function getGetDeliveryDate(
+        CustomerAddressEntity $addressEntity,
+        array $cutOffTimes,
+        array $deliveryOptions,
+        int $shippingDuration,
+        bool $sundaySorting = false,
+        string $originCountryCode = 'NL'
+    ): GetDeliveryDate
     {
         $city = $addressEntity->getCity();
         if (!$city) {
@@ -170,16 +179,16 @@ class CheckoutFacade
         }
 
         return new GetDeliveryDate(
-            true,
+            $sundaySorting,
             $city,
             $countryCode,
             $cutOffTimes,
             null,
             null,
             $deliveryOptions,
-            null,
+            $originCountryCode,
             $postalCode,
-            date("d-m-Y h:m:s"),
+            (new \DateTime("now", new \DateTimeZone('Europe/Amsterdam')))->format('d-m-Y H:i:s'),
             $shippingDuration,
             null,
             null
@@ -194,7 +203,7 @@ class CheckoutFacade
         $cutoffTimeTime = $config->getCutOffTime();
 
         //Generic cutoff time
-        $genericCutoffTime = new CutOffTime(null, $cutoffTimeTime, true);
+        $genericCutoffTime = new CutOffTime('00', $cutoffTimeTime, true);
         $cutoffTimes[] = $genericCutoffTime;
 
         //Get all cutoff days
@@ -208,7 +217,9 @@ class CheckoutFacade
             "sunday"
         ];
         $handoverDays = $config->getHandoverDays();
-        $offDays = array_diff($fullWeek, $handoverDays);
+
+        // TODO Disabled for now because the SDK doesnt care about availability, just whether the day has been specified
+        $offDays = $handoverDays;//array_diff($fullWeek, $handoverDays);
 
         foreach ($offDays as $offDay) {
             $dayCode = "00";
@@ -235,7 +246,7 @@ class CheckoutFacade
                     $dayCode = "07";
                     break;
             }
-            $disabledCutoffTime = new CutOffTime($dayCode, null, false);
+            $disabledCutoffTime = new CutOffTime($dayCode, $cutoffTimeTime, false);
             $cutoffTimes[] = $disabledCutoffTime;
         }
 
