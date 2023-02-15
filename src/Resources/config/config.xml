@@ -228,6 +228,9 @@
             <label>Handover days</label>
             <label lang="de-DE">Liefertage</label>
             <label lang="nl-NL">Aanlever dagen</label>
+            <helpText>Do you deliver your packages to PostNL on Sundays? Make sure it is contractually agreed that PostNL will sort your packages on Sunday. Only then will the packages also be delivered on Monday.</helpText>
+            <helpText lang="de-DE">Liefern Sie Ihre Pakete auch sonntags an PostNL? Achten Sie dann darauf, dass vertraglich vereinbart ist, dass PostNL Ihre Pakete sonntags sortiert. Nur dann werden die Pakete auch am Montag zugestellt.</helpText>
+            <helpText lang="nl-NL">Lever jij op zondag jouw pakketten in bij PostNL? Zorg dan ook dat er contractueel is vastgelegd dat PostNL jouw pakketten op zondag sorteerd. Alleen dan worden de pakketten ook op maandag bezorgd.</helpText>
             <options>
                 <option>
                     <id>monday</id>
