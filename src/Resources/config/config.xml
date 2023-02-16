@@ -285,6 +285,11 @@
 
             <defaultValue>false</defaultValue>
         </input-field>
+
+        <component name="postnl-currency-field">
+            <name>eveningSurcharge</name>
+            <label>Evening delivery surcharge</label>
+        </component>
     </card>
 
     <card>

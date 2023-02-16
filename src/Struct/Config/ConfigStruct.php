@@ -157,7 +157,12 @@ class ConfigStruct extends AttributeStruct
     /**
      * @var bool
      */
-    protected $eveningDelivery;
+    protected $eveningDelivery = false;
+
+    /**
+     * @var float
+     */
+    protected $eveningSurcharge = 0.0;
 
     //====================================================================================================
 
@@ -405,6 +410,14 @@ class ConfigStruct extends AttributeStruct
     public function getEveningDelivery(): bool
     {
         return $this->eveningDelivery;
+    }
+
+    /**
+     * @return float
+     */
+    public function getEveningSurcharge(): float
+    {
+        return $this->eveningSurcharge;
     }
 
     public function getDeliveryOptions(): array
