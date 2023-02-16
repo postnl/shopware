@@ -46,6 +46,10 @@
                                             {{ ('postnl.shipment.option.' ~ option|lower)|trans }}
                                         </span>
                                     {% endif %}
+
+                                    {% if option|lower == "evening" %}
+                                        <span>+ {{ config('PostNLShopware.config.eveningSurcharge')|currency }}</span>
+                                    {% endif %}
                                 {% endfor %}
                             </div>
 
