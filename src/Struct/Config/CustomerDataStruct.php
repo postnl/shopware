@@ -19,11 +19,6 @@ class CustomerDataStruct extends ApiCompatibleStruct
     /**
      * @var string
      */
-    protected $collectionLocation = '';
-
-    /**
-     * @var string
-     */
     protected $globalPackCustomerCode = '';
 
     /**
@@ -45,14 +40,6 @@ class CustomerDataStruct extends ApiCompatibleStruct
     public function getCustomerCode(): string
     {
         return $this->customerCode;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCollectionLocation(): string
-    {
-        return $this->collectionLocation;
     }
 
     /**
