@@ -62,7 +62,7 @@ final class NoManufacturerRule implements \PHPStan\Rules\Rule
         foreach ($this->manufacturers as $manufacturer) {
             if ($this->hasNodeManufacturer($manufacturer, $node)) {
                 return [
-                    'Found Plugin Manufacturer: "' . $manufacturer . '"! Please remove this and keep a Mollie branding!',
+                    'Found Plugin Manufacturer: "' . $manufacturer . '"! Please remove this and keep PostNL branding!',
                 ];
             }
         }
