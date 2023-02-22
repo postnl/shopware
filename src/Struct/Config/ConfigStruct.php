@@ -150,7 +150,7 @@ class ConfigStruct extends AttributeStruct
     protected $transitTime;
 
     /**
-     * @var array
+     * @var array<string>
      */
     protected $handoverDays;
 
@@ -392,7 +392,7 @@ class ConfigStruct extends AttributeStruct
     }
 
     /**
-     * @return array
+     * @return array<string>
      */
     public function getHandoverDays(): array
     {
