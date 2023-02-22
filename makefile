@@ -56,6 +56,16 @@ phpunit: ## Starts all Tests
 infection: ## Starts all Infection/Mutation tests
 	@phpdbg -qrr vendor/bin/infection --configuration=./.infection.json
 
+
+snippet-check: ## Tests and verifies all plugin snippets
+	@php vendor/bin/phpunuhi validate --report-format=junit --report-output=./.reports/phpunuhi/junit.xml
+
+snippet-export: ## Exports all snippets
+	@php vendor/bin/phpunuhi export --dir=./.reports/phpunuhi
+
+snippet-import: ## Imports the provided snippet set [set=xyz file=xz.csv]
+	@php vendor/bin/phpunuhi import --set=$(set) --file=$(file) --intent=1
+
 # ------------------------------------------------------------------------------------------------------------
 
 pr: ## Prepares everything for a Pull Request
@@ -64,6 +74,7 @@ pr: ## Prepares everything for a Pull Request
 	@make phpcheck -B
 	@make phpmin -B
 	@make phpstan -B
+	@make snippetcheck -B
 
 build: ## Builds the package
 	@rm -rf src/Resources/app/storefront/dist
