@@ -55,6 +55,7 @@ class ApiFactory
 
         try {
             $customer = Customer::create($customerData);
+            $customer->setCollectionLocation('123456');
             $customer->setAddress((Address::create($senderAddress))->setAddressType('02'));
 
             $requestFactory = new GuzzleRequestFactory();
