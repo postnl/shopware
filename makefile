@@ -74,7 +74,7 @@ pr: ## Prepares everything for a Pull Request
 	@make phpcheck -B
 	@make phpmin -B
 	@make phpstan -B
-	@make snippetcheck -B
+	@make snippet-check -B
 
 build: ## Builds the package
 	@rm -rf src/Resources/app/storefront/dist
