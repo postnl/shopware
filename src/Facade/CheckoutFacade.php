@@ -118,7 +118,7 @@ class CheckoutFacade
 
         if ($startDate instanceof \DateTimeImmutable) {
             $timeFrameStartDate = clone $startDate;
-            $timeFrameEndDate = $startDate->modify('+7 day');
+            $timeFrameEndDate = $startDate->modify('+2 week');
         }
 
         if (empty($timeFrameStartDate)) {
