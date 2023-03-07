@@ -200,53 +200,28 @@ class CheckoutFacade
     private function getCutOffTimes(ConfigStruct $config): array
     {
         $cutoffTimes = [];
-        $cutoffTimeTime = $config->getCutOffTime();
+        $cutoffTime = $config->getCutOffTime();
 
-        //Generic cutoff time
-        $genericCutoffTime = new CutOffTime('00', $cutoffTimeTime, true);
-        $cutoffTimes[] = $genericCutoffTime;
+        $cutoffTimes[] = new CutOffTime('00', $cutoffTime, true);
 
-        //Get all cutoff days
-        $fullWeek = [
-            "monday",
-            "tuesday",
-            "wednesday",
-            "thursday",
-            "friday",
-            "saturday",
-            "sunday"
-        ];
-        $handoverDays = $config->getHandoverDays();
+        /**
+         * Conforms to the N format character for dates
+         * @see https://www.php.net/manual/en/datetime.format.php
+         */
+        $fullWeek = range(1, 7); //Monday = 1, Tuesday = 2, etc, Sunday = 7
 
-        // TODO Disabled for now because the SDK doesnt care about availability, just whether the day has been specified
-        $offDays = $dropoffDays;//array_diff($fullWeek, $dropoffDays);
+        $dropoffDays = $config->getDropoffDays();
 
-        foreach ($offDays as $offDay) {
-            $dayCode = "00";
-            switch ($offDay) {
-                case 'monday':
-                    $dayCode = "01";
-                    break;
-                case 'tuesday':
-                    $dayCode = "02";
-                    break;
-                case 'wednesday':
-                    $dayCode = "03";
-                    break;
-                case 'thursday':
-                    $dayCode = "04";
-                    break;
-                case 'friday':
-                    $dayCode = "05";
-                    break;
-                case 'saturday':
-                    $dayCode = "06";
-                    break;
-                case 'sunday':
-                    $dayCode = "07";
-                    break;
-            }
-            $disabledCutoffTime = new CutOffTime($dayCode, $cutoffTimeTime, false);
+        /**
+         * TODO Disabled for now because the SDK doesnt care about availability, just whether the day has been specified.
+         * If a cutoff time has been specified for a date, it is set to available regardless of true or false,
+         * If it hasn't been specified for a date, it is always set to false by the SDK.
+         */
+        $unavailable = $dropoffDays;//array_diff($fullWeek, $dropoffDays);
+
+        foreach ($unavailable as $offDay) {
+            $dayCode = str_pad($offDay, 2, '0', STR_PAD_LEFT);
+            $disabledCutoffTime = new CutOffTime($dayCode, $cutoffTime, false);
             $cutoffTimes[] = $disabledCutoffTime;
         }
 

@@ -239,43 +239,43 @@
             <helpText lang="nl-NL">Lever jij op zondag jouw pakketten in bij PostNL? Zorg dan ook dat er contractueel is vastgelegd dat PostNL jouw pakketten op zondag sorteerd. Alleen dan worden de pakketten ook op maandag bezorgd.</helpText>
             <options>
                 <option>
-                    <id>monday</id>
+                    <id>1</id>
                     <name>Monday</name>
                     <name lang="de-DE">Montag</name>
                     <name lang="nl-NL">Maandag</name>
                 </option>
                 <option>
-                    <id>tuesday</id>
+                    <id>2</id>
                     <name>Tuesday</name>
                     <name lang="de-DE">Dienstag</name>
                     <name lang="nl-NL">Dinsdag</name>
                 </option>
                 <option>
-                    <id>wednesday</id>
+                    <id>3</id>
                     <name>Wednesday</name>
                     <name lang="de-DE">Mittwoch</name>
                     <name lang="nl-NL">Woensdag</name>
                 </option>
                 <option>
-                    <id>thursday</id>
+                    <id>4</id>
                     <name>Thursday</name>
                     <name lang="de-DE">Donnerstag</name>
                     <name lang="nl-NL">Donderdag</name>
                 </option>
                 <option>
-                    <id>friday</id>
+                    <id>5</id>
                     <name>Friday</name>
                     <name lang="de-DE">Freitag</name>
                     <name lang="nl-NL">Vrijdag</name>
                 </option>
                 <option>
-                    <id>saturday</id>
+                    <id>6</id>
                     <name>Saturday</name>
                     <name lang="de-DE">Samstag</name>
                     <name lang="nl-NL">Zaterdag</name>
                 </option>
                 <option>
-                    <id>sunday</id>
+                    <id>7</id>
                     <name>Sunday</name>
                     <name lang="de-DE">Sonntag</name>
                     <name lang="nl-NL">Zondag</name>
