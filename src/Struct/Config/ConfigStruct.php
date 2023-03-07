@@ -147,7 +147,7 @@ class ConfigStruct extends AttributeStruct
     /**
      * @var int
      */
-    protected $shippingDuration;
+    protected $shippingDuration = 1;
 
     /**
      * @var array<string>
