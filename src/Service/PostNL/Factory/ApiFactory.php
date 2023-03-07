@@ -9,6 +9,7 @@ use Firstred\PostNL\Exception\InvalidArgumentException;
 use Firstred\PostNL\PostNL;
 use PostNL\Shopware6\Component\PostNL\Factory\GuzzleRequestFactory;
 use PostNL\Shopware6\Component\PostNL\Service\BarcodeService;
+use PostNL\Shopware6\Component\PostNL\Service\DeliveryDateService;
 use PostNL\Shopware6\Component\PostNL\Service\LabellingService;
 use PostNL\Shopware6\Component\PostNL\Service\ShippingService;
 use PostNL\Shopware6\Exception\PostNL\ClientCreationException;
@@ -66,6 +67,7 @@ class ApiFactory
             $client->setBarcodeService(new BarcodeService($client));
             $client->setLabellingService(new LabellingService($client));
             $client->setShippingService(new ShippingService($client));
+            $client->setDeliveryDateService(new DeliveryDateService($client));
 
             Warning::$defaultProperties['Shipping'] = [
                 'Code' => ShippingService::DOMAIN_NAMESPACE,
@@ -73,7 +75,9 @@ class ApiFactory
             ];
 
             return $client;
+            // @codeCoverageIgnoreStart
         } catch (InvalidArgumentException $e) {
+
             $this->logger->critical($e->getMessage(), [
                 'apiKey' => $this->obfuscateApiKey($apiKey),
                 'sandbox' => $sandbox,
@@ -87,6 +91,7 @@ class ApiFactory
                 'customerData' => $customerData,
                 'senderAddress' => $senderAddress,
             ], $e);
+            // @codeCoverageIgnoreEnd
         }
     }
 

@@ -113,6 +113,17 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
                     label: 'postnl.order.list.columnConfirm',
                     align: 'center',
                 },
+                {
+                    property: 'customFields.postnl.sentDate',
+                    dataIndex: 'customFields.postnl.sentDate',
+                    label: 'postnl.order.list.columnSentDate',
+                    align: 'center',
+                },{
+                    property: 'customFields.postnl.deliveryDate',
+                    dataIndex: 'customFields.postnl.deliveryDate',
+                    label: 'postnl.order.list.columnDeliveryDate',
+                    align: 'center',
+                },
             ];
 
             extraColumns.forEach(column => {
@@ -135,6 +146,8 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
                 columnMap['customFields-postnl-productId'],
                 columnMap['customFields-postnl-barCode'],
                 columnMap['customFields-postnl-confirm'],
+                columnMap['customFields-postnl-sentDate'],
+                columnMap['customFields-postnl-deliveryDate'],
                 columnMap['stateMachineState-name'],
                 columnMap['transactions-stateMachineState-name'],
                 columnMap['deliveries-stateMachineState-name'],

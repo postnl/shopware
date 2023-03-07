@@ -8,6 +8,9 @@ class Defaults
     const CUSTOM_FIELDS_STREETNAME_KEY = 'streetName';
     const CUSTOM_FIELDS_HOUSENUMBER_KEY = 'houseNumber';
     const CUSTOM_FIELDS_HOUSENUMBER_ADDITION_KEY = 'houseNumberAddition';
+    const CUSTOM_FIELDS_TIMEFRAME_KEY = 'timeframe';
+    const CUSTOM_FIELDS_DELIVERY_DATE_KEY = 'deliveryDate';
+    const CUSTOM_FIELDS_SENT_DATE_KEY = 'sentDate';
 
     const ZONE_ONLY_EUROPE = "PostNL zone only Europe";
     const ZONE_ONLY_BELGIUM = "PostNL zone only Belgium";
@@ -124,7 +127,12 @@ class Defaults
     // BE->GlobalPack
     const PRODUCT_SHIPPING_BE_GLOBAL_4945 = "30914ec3db4749f1b050de8f0a12a20b";
 
-//    const PLACEHOLDER = "846dedd4b74e41c8b4d15b41fec6e166";
+    /**
+     * V2.0
+     */
+    // Avondbezorging
+    const OPTION_118_006 = "846dedd4b74e41c8b4d15b41fec6e166";
+
 //    const PLACEHOLDER = "cc790c0fdc014d4abc1fd8e8fea04d2d";
 //    const PLACEHOLDER = "882d315b86834c3db97b3b44c817ed28";
 //    const PLACEHOLDER = "918bb3b30a8c402c9f089672238e3d10";

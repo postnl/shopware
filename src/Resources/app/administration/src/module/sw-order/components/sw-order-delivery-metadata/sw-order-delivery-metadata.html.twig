@@ -1,0 +1,11 @@
+{% block sw_order_delivery_metadata_delivery_date %}
+    <dt>{{ $tc('sw-order.detailDeliveries.labelDeliveryDate') }}</dt>
+    <dd>{{ order.customFields.postnl.deliveryDate | date }}</dd>
+{% endblock %}
+{% block sw_order_delivery_metadata_slot %}
+    {% parent %}
+    {% block postnl_sw_order_delivery_metadata_sent_date %}
+        <dt v-if="order.customFields.postnl.sentDate">{{ $tc('postnl.order.detail.sentDate') }}</dt>
+        <dd v-if="order.customFields.postnl.sentDate">{{ order.customFields.postnl.sentDate | date }}</dd>
+    {% endblock %}
+{% endblock %}

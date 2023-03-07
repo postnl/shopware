@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PostNL\Shopware6\Entity\Product;
 
-use PostNL\Shopware6\Entity\Product\Aggregate\ProductOption\ProductOptionCollection;
+use PostNL\Shopware6\Entity\Option\OptionCollection;
 use PostNL\Shopware6\Entity\Product\Aggregate\ProductTranslation\ProductTranslationCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
@@ -22,8 +22,11 @@ class ProductEntity extends Entity
     /** @var string */
     protected $productCodeDelivery;
 
-    /** @var ProductOptionCollection */
-    protected $productOptions;
+    /** @var OptionCollection */
+    protected $requiredOptions;
+
+    /** @var OptionCollection */
+    protected $optionalOptions;
 
     /** @var string */
     protected $sourceZone;
@@ -104,19 +107,35 @@ class ProductEntity extends Entity
     }
 
     /**
-     * @return ProductOptionCollection
+     * @return OptionCollection
      */
-    public function getProductOptions(): ProductOptionCollection
+    public function getRequiredOptions(): OptionCollection
     {
-        return $this->productOptions;
+        return $this->requiredOptions;
     }
 
     /**
-     * @param ProductOptionCollection $productOptions
+     * @param OptionCollection $requiredOptions
      */
-    public function setProductOptions(ProductOptionCollection $productOptions): void
+    public function setRequiredOptions(OptionCollection $requiredOptions): void
     {
-        $this->productOptions = $productOptions;
+        $this->requiredOptions = $requiredOptions;
+    }
+
+    /**
+     * @return OptionCollection
+     */
+    public function getOptionalOptions(): OptionCollection
+    {
+        return $this->optionalOptions;
+    }
+
+    /**
+     * @param OptionCollection $optionalOptions
+     */
+    public function setOptionalOptions(OptionCollection $optionalOptions): void
+    {
+        $this->optionalOptions = $optionalOptions;
     }
 
     /**
