@@ -212,7 +212,13 @@
         </input-field>
 
         <input-field type="int">
-            <name>transitTime</name>
+            <!--
+            This option does not represent the time it takes for PostNL to deliver the package to the customer, as the
+            description would suggest, rather it's the number of drop-off days the merchant needs to deliver their
+            package to PostNL. The minimum and default value for this is 1, which means the merchant will drop the
+            package off on the same day the order is placed.
+            -->
+            <name>shippingDuration</name>
             <label>Transit time (in days)</label>
             <label lang="de-DE">Durchgangszeit (in Tagen)</label>
             <label lang="nl-NL">Overkomstduur (in dagen)</label>
@@ -224,8 +230,8 @@
         </input-field>
 
         <input-field type="multi-select">
-            <name>handoverDays</name>
-            <label>Handover days</label>
+            <name>dropoffDays</name>
+            <label>Drop-off days</label>
             <label lang="de-DE">Liefertage</label>
             <label lang="nl-NL">Aanlever dagen</label>
             <helpText>Do you deliver your packages to PostNL on Sundays? Make sure it is contractually agreed that PostNL will sort your packages on Sunday. Only then will the packages also be delivered on Monday.</helpText>

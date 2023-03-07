@@ -52,7 +52,7 @@ class CheckoutFacade
         //Get cutoff times
         $cutOffTimes = $this->getCutOffTimes($config);
         $deliveryOptions = $config->getDeliveryOptions();
-        $shippingDuration = $config->getTransitTime();
+        $shippingDuration = $config->getShippingDuration();
 
         //Use DeliveryDateService
         $getDeliveryDate = $this->getGetDeliveryDate(
@@ -60,7 +60,7 @@ class CheckoutFacade
             $cutOffTimes,
             $deliveryOptions,
             $shippingDuration,
-            in_array('sunday', $config->getHandoverDays()),
+            in_array('sunday', $config->getDropoffDays()),
             $config->getSenderAddress()->getCountrycode()
         );
 
@@ -78,7 +78,7 @@ class CheckoutFacade
             $addressEntity,
             $deliveryDateStart,
             $deliveryOptions,
-            in_array('sunday', $config->getHandoverDays())
+            in_array('sunday', $config->getDropoffDays())
         );
 
         //Use TimeframeService
@@ -219,7 +219,7 @@ class CheckoutFacade
         $handoverDays = $config->getHandoverDays();
 
         // TODO Disabled for now because the SDK doesnt care about availability, just whether the day has been specified
-        $offDays = $handoverDays;//array_diff($fullWeek, $handoverDays);
+        $offDays = $dropoffDays;//array_diff($fullWeek, $dropoffDays);
 
         foreach ($offDays as $offDay) {
             $dayCode = "00";

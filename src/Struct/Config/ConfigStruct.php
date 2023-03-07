@@ -147,12 +147,12 @@ class ConfigStruct extends AttributeStruct
     /**
      * @var int
      */
-    protected $transitTime;
+    protected $shippingDuration;
 
     /**
-     * @var array
+     * @var array<string>
      */
-    protected $handoverDays;
+    protected $dropoffDays;
 
     /**
      * @var bool
@@ -391,17 +391,17 @@ class ConfigStruct extends AttributeStruct
     /**
      * @return int
      */
-    public function getTransitTime(): int
+    public function getShippingDuration(): int
     {
-        return $this->transitTime;
+        return $this->shippingDuration;
     }
 
     /**
      * @return array
      */
-    public function getHandoverDays(): array
+    public function getDropoffDays(): array
     {
-        return $this->handoverDays;
+        return $this->dropoffDays;
     }
 
     /**
