@@ -420,6 +420,11 @@ class ConfigStruct extends AttributeStruct
         return $this->eveningSurcharge;
     }
 
+    public function getAllowSundaySorting(): bool
+    {
+        return in_array(7, $this->getDropoffDays());
+    }
+
     public function getDeliveryOptions(): array
     {
         //Check Development:GUIDELINES https://developer.postnl.nl/browse-apis/delivery-options/deliverydate-webservice/

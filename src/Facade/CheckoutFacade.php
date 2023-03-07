@@ -60,7 +60,7 @@ class CheckoutFacade
             $cutOffTimes,
             $deliveryOptions,
             $shippingDuration,
-            in_array('sunday', $config->getDropoffDays()),
+            $config->getAllowSundaySorting(),
             $config->getSenderAddress()->getCountrycode()
         );
 
@@ -78,7 +78,7 @@ class CheckoutFacade
             $addressEntity,
             $deliveryDateStart,
             $deliveryOptions,
-            in_array('sunday', $config->getDropoffDays())
+            $config->getAllowSundaySorting()
         );
 
         //Use TimeframeService
