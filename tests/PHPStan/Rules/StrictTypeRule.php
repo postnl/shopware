@@ -3,6 +3,9 @@
 namespace PostNL\Shopware6\PHPStan\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Stmt\Declare_;
+use PhpParser\Node\Stmt\InlineHTML;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\FileNode;
 use PHPStan\Rules\Rule;
@@ -20,9 +23,10 @@ final class StrictTypeRule implements Rule
     }
 
     /**
-     * @param Node $node
+     * @param Node  $node
      * @param Scope $scope
-     * @return array|string[]
+     * @return string[]
+     * @throws ShouldNotHappenException
      */
     public function processNode(Node $node, Scope $scope): array
     {
@@ -43,18 +47,18 @@ final class StrictTypeRule implements Rule
         $firstNode = \array_shift($nodes);
 
         if (
-            $firstNode instanceof Node\Stmt\InlineHTML
+            $firstNode instanceof InlineHTML
             && 2 === $firstNode->getEndLine()
             && 0 === \mb_strpos($firstNode->value, '#!')
         ) {
             $firstNode = \array_shift($nodes);
         }
 
-        if ($firstNode instanceof Node\Stmt\Declare_) {
+        if ($firstNode instanceof Declare_) {
             foreach ($firstNode->declares as $declare) {
                 if (
                     'strict_types' === $declare->key->toLowerString()
-                    && $declare->value instanceof Node\Scalar\LNumber
+                    && $declare->value instanceof LNumber
                     && 1 === $declare->value->value
                 ) {
                     return [];
@@ -66,5 +70,4 @@ final class StrictTypeRule implements Rule
             'File has no "declare(strict_types=1)" declaration. This is required for this project!',
         ];
     }
-
 }
