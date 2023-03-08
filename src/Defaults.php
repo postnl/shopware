@@ -133,14 +133,34 @@ class Defaults
     // Avondbezorging
     const OPTION_118_006 = "846dedd4b74e41c8b4d15b41fec6e166";
 
-//    const PLACEHOLDER = "cc790c0fdc014d4abc1fd8e8fea04d2d";
-//    const PLACEHOLDER = "882d315b86834c3db97b3b44c817ed28";
-//    const PLACEHOLDER = "918bb3b30a8c402c9f089672238e3d10";
-//    const PLACEHOLDER = "6b9edb204ab24ac296eaed5b6d02f4dd";
-//    const PLACEHOLDER = "58c6922504bd427cb58fec5631e5d3ad";
-//    const PLACEHOLDER = "8f18b46a4a0f446690de85ea236ebb0d";
-//    const PLACEHOLDER = "b7d9d225aa25420ba3beb559422aca0b";
-//    const PLACEHOLDER = "de9571485773424d91a036a9b90b8018";
+    // International Products 2023
+
+    // NL->Parcel EU
+    const PRODUCT_SHIPPING_NL_EU_4907 = "cc790c0fdc014d4abc1fd8e8fea04d2d";
+
+    // BE->Parcel EU
+    const PRODUCT_SHIPPING_BE_EU_4907 = "882d315b86834c3db97b3b44c817ed28";
+
+    // NL->Parcel non-EU (GlobalPack)
+    const PRODUCT_SHIPPING_NL_GLOBAL_4909 = "918bb3b30a8c402c9f089672238e3d10";
+
+    // BE->Parcel non-EU (GlobalPack)
+    const PRODUCT_SHIPPING_BE_GLOBAL_4909 = "6b9edb204ab24ac296eaed5b6d02f4dd";
+
+    // -> ParcelEU Required
+    const OPTION_101_012 = "58c6922504bd427cb58fec5631e5d3ad";
+
+    // Track and Trace Uninsured
+    const OPTION_005_025 = "8f18b46a4a0f446690de85ea236ebb0d";
+
+    // Track and Trace Insured
+    const OPTION_004_015 = "b7d9d225aa25420ba3beb559422aca0b";
+
+    // Track and Trace Insured Plus
+    const OPTION_004_016 = "de9571485773424d91a036a9b90b8018";
+
+    // New Mailbox parcels
+
 //    const PLACEHOLDER = "a0cd6266f7af4827a5c4f992fbbe018e";
 //    const PLACEHOLDER = "9a363d644cb04f2992b11532ca3423a1";
 //    const PLACEHOLDER = "aca0c58bb0c3458aa5cc73bf9b1193f5";
