@@ -10,10 +10,13 @@ use PostNL\Shopware6\Entity\Product\Aggregate\ProductOptionRequiredMappingDefini
 use PostNL\Shopware6\Entity\Product\Aggregate\ProductTranslation\ProductTranslationDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\BoolField;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\FkField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\IdField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\ManyToManyAssociationField;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\ManyToOneAssociationField;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\OneToManyAssociationField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\StringField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\TranslatedField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\TranslationsAssociationField;
@@ -78,6 +81,7 @@ class ProductDefinition extends EntityDefinition
         return new FieldCollection([
             (new IdField('id', 'id'))
                 ->addFlags(new Required(), new PrimaryKey()),
+            new FkField('replaced_by_id', 'replacedById', self::class),
             new TranslatedField('name'),
             new TranslatedField('description'),
             (new StringField('product_code_delivery', 'productCodeDelivery', 255))
@@ -97,6 +101,9 @@ class ProductDefinition extends EntityDefinition
             new BoolField(self::STOR_NOTIFICATION, self::PROP_NOTIFICATION),
 
             new TranslationsAssociationField(ProductTranslationDefinition::class, 'product_id'),
+
+            new ManyToOneAssociationField('replacedBy', 'replaced_by_id', self::class),
+            new OneToManyAssociationField('replaces', self::class, 'replace_by_id'),
 
             new ManyToManyAssociationField(
                 'requiredOptions',
