@@ -2,6 +2,7 @@
 
 namespace PostNL\Shopware6;
 
+use Doctrine\DBAL\Connection;
 use PostNL\Shopware6\Service\PostNL\RuleCreatorService;
 use PostNL\Shopware6\Service\PostNL\ShippingMethodCreatorService;
 use PostNL\Shopware6\Service\PostNL\ShippingRulePriceCreatorService;
@@ -67,8 +68,20 @@ class PostNLShopware extends Plugin
             return;
         }
         CustomFieldInstaller::createFactory($this->container)->uninstall($uninstallContext->getContext());
-        //TODO Figure out better lifecycle
-        $uninstallContext->getMigrationCollection()->migrateDestructiveInPlace();
+
+
+        /** @var Connection $connection */
+        $connection = $this->container->get(Connection::class);
+
+        $connection->transactional(function(Connection $connection) {
+            $connection->executeStatement("DROP TABLE `postnl_option`");
+            $connection->executeStatement("DROP TABLE `postnl_option_requirement_mapping`");
+            $connection->executeStatement("DROP TABLE `postnl_option_translation`");
+            $connection->executeStatement("DROP TABLE `postnl_product`");
+            $connection->executeStatement("DROP TABLE `postnl_product_option_optional_mapping`");
+            $connection->executeStatement("DROP TABLE `postnl_product_option_required_mapping`");
+            $connection->executeStatement("DROP TABLE `postnl_product_translation`");
+        });
     }
 }
 
