@@ -177,11 +177,67 @@
             </helpText>
         </input-field>
 
+        <input-field type="single-select">
+            <name>sendToEUTrackAndTrace</name>
+            <label>Track &amp; Trace for shipments to Europe</label>
+            <label lang="de-DE">Track &amp; Trace für Sendungen nach Europa</label>
+            <label lang="nl-NL">Track &amp; Trace voor zendingen naar Europa</label>
+            <defaultValue>8f18b46a4a0f446690de85ea236ebb0d</defaultValue>
+            <options>
+                <option>
+                    <id>8f18b46a4a0f446690de85ea236ebb0d</id>
+                    <name>Track &amp; Trace</name>
+                    <name lang="de-DE">Track &amp; Trace</name>
+                    <name lang="nl-NL">Track &amp; Trace</name>
+                </option>
+                <option>
+                    <id>b7d9d225aa25420ba3beb559422aca0b</id>
+                    <name>Track &amp; Trace Insured</name>
+                    <name lang="de-DE">Track &amp; Trace Versichert</name>
+                    <name lang="nl-NL">Track &amp; Trace Verzekerd</name>
+                </option>
+                <option>
+                    <id>de9571485773424d91a036a9b90b8018</id>
+                    <name>Track &amp; Trace Insured Plus</name>
+                    <name lang="de-DE">Track &amp; Trace Versichert Plus</name>
+                    <name lang="nl-NL">Track &amp; Trace Verzekerd Plus</name>
+                </option>
+            </options>
+        </input-field>
+
         <input-field type="bool">
             <name>sendToWorld</name>
             <label>Enable shipments to the rest of the world</label>
             <label lang="de-DE">Sendungen zum Rest der Welt aktivieren</label>
             <label lang="nl-NL">Zendingen naar de rest van de wereld inschakelen</label>
+        </input-field>
+
+        <input-field type="single-select">
+            <name>sendToWorldTrackAndTrace</name>
+            <label>Track &amp; Trace for shipments to the rest of the world</label>
+            <label lang="de-DE">Track &amp; Trace für Sendungen zum Rest der Welt</label>
+            <label lang="nl-NL">Track &amp; Trace voor zendingen naar de rest van de wereld</label>
+            <defaultValue>8f18b46a4a0f446690de85ea236ebb0d</defaultValue>
+            <options>
+                <option>
+                    <id>8f18b46a4a0f446690de85ea236ebb0d</id>
+                    <name>Track &amp; Trace</name>
+                    <name lang="de-DE">Track &amp; Trace</name>
+                    <name lang="nl-NL">Track &amp; Trace</name>
+                </option>
+                <option>
+                    <id>b7d9d225aa25420ba3beb559422aca0b</id>
+                    <name>Track &amp; Trace Insured</name>
+                    <name lang="de-DE">Track &amp; Trace Versichert</name>
+                    <name lang="nl-NL">Track &amp; Trace Verzekerd</name>
+                </option>
+                <option>
+                    <id>de9571485773424d91a036a9b90b8018</id>
+                    <name>Track &amp; Trace Insured Plus</name>
+                    <name lang="de-DE">Track &amp; Trace Versichert Plus</name>
+                    <name lang="nl-NL">Track &amp; Trace Verzekerd Plus</name>
+                </option>
+            </options>
         </input-field>
 
         <input-field type="text">
