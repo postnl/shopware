@@ -13,10 +13,10 @@ class ProductEntity extends Entity
 {
     use EntityIdTrait;
 
-    /** @var string */
+    /** @var ?string */
     protected $replacedById;
 
-    /** @var self */
+    /** @var ?self */
     protected $replacedBy;
 
     /** @var ProductCollection */
@@ -68,33 +68,33 @@ class ProductEntity extends Entity
     protected $translations;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getReplacedById(): string
+    public function getReplacedById(): ?string
     {
         return $this->replacedById;
     }
 
     /**
-     * @param string $replacedById
+     * @param string|null $replacedById
      */
-    public function setReplacedById(string $replacedById): void
+    public function setReplacedById(?string $replacedById): void
     {
         $this->replacedById = $replacedById;
     }
 
     /**
-     * @return ProductEntity
+     * @return ProductEntity|null
      */
-    public function getReplacedBy(): ProductEntity
+    public function getReplacedBy(): ?ProductEntity
     {
         return $this->replacedBy;
     }
 
     /**
-     * @param ProductEntity $replacedBy
+     * @param ProductEntity|null $replacedBy
      */
-    public function setReplacedBy(ProductEntity $replacedBy): void
+    public function setReplacedBy(?ProductEntity $replacedBy): void
     {
         $this->replacedBy = $replacedBy;
     }
