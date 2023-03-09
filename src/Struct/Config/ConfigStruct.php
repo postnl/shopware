@@ -128,9 +128,18 @@ class ConfigStruct extends AttributeStruct
     protected $sendToEU = false;
 
     /**
+     * @var string
+     */
+    protected $sendToEUTrackAndTrace;
+
+    /**
      * @var bool
      */
     protected $sendToWorld = false;
+    /**
+     * @var string
+     */
+    protected $sendToWorldTrackAndTrace;
 
     /**
      * @var string|null
@@ -363,11 +372,27 @@ class ConfigStruct extends AttributeStruct
     }
 
     /**
+     * @return string
+     */
+    public function getSendToEUTrackAndTrace(): string
+    {
+        return $this->sendToEUTrackAndTrace;
+    }
+
+    /**
      * @return bool
      */
     public function isSendToWorld(): bool
     {
         return $this->sendToWorld;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSendToWorldTrackAndTrace(): string
+    {
+        return $this->sendToWorldTrackAndTrace;
     }
 
     /**
