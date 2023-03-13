@@ -371,10 +371,24 @@ class ProductService
                         }
                         break;
                     case Zone::EU:
-                        $defaultProductId = Defaults::PRODUCT_SHIPPING_NL_EU_4952;
+                        switch ($deliveryType) {
+                            case DeliveryType::MAILBOX:
+                                $defaultProductId = Defaults::PRODUCT_MAILBOX_NL_EU_6440;
+                                break;
+                            case DeliveryType::SHIPMENT:
+                                $defaultProductId = Defaults::PRODUCT_SHIPPING_NL_EU_4907_005_025;
+                                break;
+                        }
                         break;
                     case Zone::GLOBAL:
-                        $defaultProductId = Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4945;
+                        switch ($deliveryType) {
+                            case DeliveryType::MAILBOX:
+                                $defaultProductId = Defaults::PRODUCT_MAILBOX_NL_GLOBAL_6440;
+                                break;
+                            case DeliveryType::SHIPMENT:
+                                $defaultProductId = Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4909_005_025;
+                                break;
+                        }
                         break;
                 }
                 break;
@@ -391,10 +405,10 @@ class ProductService
                         }
                         break;
                     case Zone::EU:
-                        $defaultProductId = Defaults::PRODUCT_SHIPPING_BE_EU_4952;
+                        $defaultProductId = Defaults::PRODUCT_SHIPPING_BE_EU_4907_005_025;
                         break;
                     case Zone::GLOBAL:
-                        $defaultProductId = Defaults::PRODUCT_SHIPPING_BE_GLOBAL_4945;
+                        $defaultProductId = Defaults::PRODUCT_SHIPPING_BE_GLOBAL_4909_005_025;
                         break;
                 }
                 break;
@@ -423,6 +437,7 @@ class ProductService
         string $deliveryType
     ): array
     {
+        // TODO, needs updating?
         if (in_array($destinationZone, [Zone::EU, Zone::GLOBAL])) {
             return [];
         }

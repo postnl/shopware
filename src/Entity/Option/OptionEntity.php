@@ -27,6 +27,9 @@ class OptionEntity extends Entity
     /** @var string */
     protected $option;
 
+    /** @var bool */
+    protected $hidden;
+
     /** @var OptionTranslationCollection */
     protected $translations;
 
@@ -104,6 +107,22 @@ class OptionEntity extends Entity
     public function setOption(string $option): void
     {
         $this->option = $option;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isHidden(): bool
+    {
+        return $this->hidden;
+    }
+
+    /**
+     * @param bool $hidden
+     */
+    public function setHidden(bool $hidden): void
+    {
+        $this->hidden = $hidden;
     }
 
     /**

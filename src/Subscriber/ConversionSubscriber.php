@@ -349,9 +349,21 @@ class ConversionSubscriber implements EventSubscriberInterface
                         }
                         break;
                     case Zone::EU:
-                        return Defaults::PRODUCT_SHIPPING_NL_EU_4952;
+                        switch ($deliveryType) {
+                            case DeliveryType::MAILBOX:
+                                return Defaults::PRODUCT_MAILBOX_NL_EU_6440;
+                            case DeliveryType::SHIPMENT:
+                                return Defaults::PRODUCT_SHIPPING_NL_EU_4907_005_025;
+                        }
+                        break;
                     case Zone::GLOBAL:
-                        return Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4945;
+                        switch ($deliveryType) {
+                            case DeliveryType::MAILBOX:
+                                return Defaults::PRODUCT_MAILBOX_NL_GLOBAL_6440;
+                            case DeliveryType::SHIPMENT:
+                                return Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4909_005_025;
+                        }
+                        break;
                 }
                 break;
             case Zone::BE:
@@ -384,9 +396,9 @@ class ConversionSubscriber implements EventSubscriberInterface
                         }
                         break;
                     case Zone::EU:
-                        return Defaults::PRODUCT_SHIPPING_BE_EU_4952;
+                        return Defaults::PRODUCT_SHIPPING_BE_EU_4907_005_025;
                     case Zone::GLOBAL:
-                        return Defaults::PRODUCT_SHIPPING_BE_GLOBAL_4945;
+                        return Defaults::PRODUCT_SHIPPING_BE_GLOBAL_4909_005_025;
                 }
                 break;
         }

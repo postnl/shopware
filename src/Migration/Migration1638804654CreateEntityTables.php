@@ -97,15 +97,5 @@ SQL;
 
     public function updateDestructive(Connection $connection): void
     {
-        $sql = <<<SQL
-DROP TABLE IF EXISTS
-    `postnl_product_option_mapping`,
-    `postnl_product_option_translation`,
-    `postnl_product_option`,
-    `postnl_product_translation`,
-    `postnl_product`;
-SQL;
-
-        $this->execute($connection, $sql);
     }
 }

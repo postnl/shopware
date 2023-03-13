@@ -121,9 +121,12 @@
         "homeAlone": "Alleen huisadres",
         "returnIfNotHome": "Retour bij geen gehoor",
         "insurance": "Verhoogd aansprakelijkheid",
+        "insurancePlus": "Verhoogd aansprakelijkheid Plus",
         "signature": "Handtekening voor ontvangst",
         "ageCheck": "Leeftijdscontrole",
-        "notification": "Notificatie"
+        "notification": "Notificatie",
+        "trackAndTrace": "Track & Trace",
+        "mailboxLargerPackage": "Doos pakje"
       }
     },
     "rules": {

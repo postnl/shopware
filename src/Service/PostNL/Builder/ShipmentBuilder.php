@@ -13,6 +13,8 @@ use Firstred\PostNL\Entity\ProductOption;
 use Firstred\PostNL\Entity\Request\GetLocation;
 use Firstred\PostNL\Entity\Shipment;
 use PostNL\Shopware6\Defaults;
+use PostNL\Shopware6\Entity\Option\OptionEntity;
+use PostNL\Shopware6\Entity\Product\ProductEntity;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
@@ -183,7 +185,7 @@ class ShipmentBuilder
         $shipment->setContacts($contacts);
 
         //= Product Options ====
-        $shipment->setProductOptions($this->buildProductOptions($order, $context));
+        $shipment->setProductOptions($this->buildProductOptions($order, $product, $context));
 
         return $shipment;
     }
@@ -314,30 +316,33 @@ class ShipmentBuilder
         return new Dimension($totalWeight);
     }
 
-    public function buildProductOptions(OrderEntity $order, Context $context): array
+    public function buildProductOptions(OrderEntity $order, ProductEntity $product, Context $context): array
     {
+        $productOptions = [];
+
+        $config = $this->configService->getConfiguration($order->getSalesChannelId(), $context);
+
         /** @var OrderAttributeStruct $orderAttributes */
         $orderAttributes = $this->attributeFactory->createFromEntity($order, $context);
 
-        if (!$orderAttributes->getTimeframe()) {
-            // TODO throw exception
-            return [];
+        if ($product->getDestinationZone() == Zone::NL && !empty($orderAttributes->getTimeframe())) {
+            $timeframeArray = $orderAttributes->getTimeframe();
+
+            $timeframe = new TimeframeStruct(
+                new \DateTimeImmutable($timeframeArray['to']),
+                new \DateTimeImmutable($timeframeArray['from']),
+                $timeframeArray['options'],
+                $timeframeArray['sustainability']
+            );
+
+            if($timeframe->hasOption('Evening')) {
+                // TODO improve this
+                $productOptions[] = new ProductOption('118', '006');
+            }
         }
 
-        $productOptions = [];
-
-        $timeframeArray = $orderAttributes->getTimeframe();
-
-        $timeframe = new TimeframeStruct(
-            new \DateTimeImmutable($timeframeArray['to']),
-            new \DateTimeImmutable($timeframeArray['from']),
-            $timeframeArray['options'],
-            $timeframeArray['sustainability']
-        );
-
-        if($timeframe->hasOption('Evening')) {
-            // TODO improve this
-            $productOptions[] = new ProductOption('118', '006');
+        foreach($product->getRequiredOptions() as $requiredOption) {
+            $productOptions[] = new ProductOption($requiredOption->getCharacteristic(), $requiredOption->getOption());
         }
 
         return $productOptions;
