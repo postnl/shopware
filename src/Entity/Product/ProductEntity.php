@@ -56,6 +56,9 @@ class ProductEntity extends Entity
     protected $insurance;
 
     /** @var bool|null */
+    protected $insurancePlus;
+
+    /** @var bool|null */
     protected $signature;
 
     /** @var bool|null */
@@ -63,6 +66,12 @@ class ProductEntity extends Entity
 
     /** @var bool|null */
     protected $notification;
+
+    /** @var bool|null */
+    protected $trackAndTrace;
+
+    /** @var bool|null */
+    protected $mailboxLargerPackage;
 
     /** @var ProductTranslationCollection */
     protected $translations;
@@ -294,6 +303,22 @@ class ProductEntity extends Entity
     /**
      * @return bool|null
      */
+    public function getInsurancePlus(): ?bool
+    {
+        return $this->insurancePlus;
+    }
+
+    /**
+     * @param bool|null $insurancePlus
+     */
+    public function setInsurancePlus(?bool $insurancePlus): void
+    {
+        $this->insurancePlus = $insurancePlus;
+    }
+
+    /**
+     * @return bool|null
+     */
     public function getSignature(): ?bool
     {
         return $this->signature;
@@ -338,6 +363,39 @@ class ProductEntity extends Entity
     {
         $this->notification = $notification;
     }
+
+    /**
+     * @return bool|null
+     */
+    public function getTrackAndTrace(): ?bool
+    {
+        return $this->trackAndTrace;
+    }
+
+    /**
+     * @param bool|null $trackAndTrace
+     */
+    public function setTrackAndTrace(?bool $trackAndTrace): void
+    {
+        $this->trackAndTrace = $trackAndTrace;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getMailboxLargerPackage(): ?bool
+    {
+        return $this->mailboxLargerPackage;
+    }
+
+    /**
+     * @param bool|null $mailboxLargerPackage
+     */
+    public function setMailboxLargerPackage(?bool $mailboxLargerPackage): void
+    {
+        $this->mailboxLargerPackage = $mailboxLargerPackage;
+    }
+
 
     /**
      * @return ProductTranslationCollection
