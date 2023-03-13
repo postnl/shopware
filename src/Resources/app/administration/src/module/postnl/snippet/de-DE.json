@@ -121,9 +121,12 @@
         "homeAlone": "Nur an die angegebene Adresse liefern",
         "returnIfNotHome": "Zurück, wenn nicht zu Hause sein",
         "insurance": "Zusätzliche Abdeckung",
+        "insurancePlus": "Zusätzliche Abdeckung Plus",
         "signature": "Unterschrift bei Lieferung",
         "ageCheck": "Altersprüfung",
-        "notification": "Benachrichtigung"
+        "notification": "Benachrichtigung",
+        "trackAndTrace": "Track & Trace",
+        "mailboxLargerPackage": "Box-Paket"
       }
     },
     "rules": {
