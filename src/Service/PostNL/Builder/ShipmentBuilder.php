@@ -345,7 +345,7 @@ class ShipmentBuilder
             $productOptions[] = new ProductOption($requiredOption->getCharacteristic(), $requiredOption->getOption());
         }
 
-        if(in_array($product->getId(), [Defaults::PRODUCT_SHIPPING_NL_EU_4907, Defaults::PRODUCT_SHIPPING_BE_EU_4907])) {
+        if(in_array($product->getId(), [Defaults::PRODUCT_SHIPPING_NL_EU_4907_005_025, Defaults::PRODUCT_SHIPPING_BE_EU_4907_005_025])) {
             $tntOption = $product->getOptionalOptions()->filterByProperty('id', $config->getSendToEUTrackAndTrace())->first();
 
             if($tntOption instanceof OptionEntity) {
@@ -353,7 +353,7 @@ class ShipmentBuilder
             }
         }
 
-        if(in_array($product->getId(), [Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4909, Defaults::PRODUCT_SHIPPING_BE_GLOBAL_4909])) {
+        if(in_array($product->getId(), [Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4909_005_025, Defaults::PRODUCT_SHIPPING_BE_GLOBAL_4909_005_025])) {
             $tntOption = $product->getOptionalOptions()->filterByProperty('id', $config->getSendToWorldTrackAndTrace())->first();
 
             if($tntOption instanceof OptionEntity) {
