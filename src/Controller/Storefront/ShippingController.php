@@ -42,7 +42,7 @@ class ShippingController extends StorefrontController
 
         $this->cartService->addData([
             Defaults::CUSTOM_FIELDS_TIMEFRAME_KEY => $timeframe,
-            Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => $timeframe->getFrom()->format(DATE_ATOM)
+            Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => $timeframe->getFrom()
         ], $context);
 
         return $this->json(null, 204);

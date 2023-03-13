@@ -11,7 +11,6 @@ export default class PostnlShippingDeliveryDatePlugin extends Plugin {
 
     init() {
         this._client = new HttpClient();
-        console.log(this.options);
         this._registerEvents();
     }
 

@@ -17,12 +17,12 @@ class CartService
     {
         $this->cartService = $cartService;
     }
-    
+
     public function hasData(SalesChannelContext $context, ?string $key = null): bool
     {
         $cart = $this->cartService->getCart($context->getToken(), $context);
 
-        $hasData = $cart->hasExtensionOfType('postnl-data', ArrayStruct::class);
+        $hasData = $cart->hasExtensionOfType(self::EXTENSION, ArrayStruct::class);
 
         if(empty($key)) {
             return $hasData;
@@ -33,7 +33,7 @@ class CartService
         }
 
         /** @var ArrayStruct $data */
-        $data = $cart->getExtensionOfType('postnl-data', ArrayStruct::class);
+        $data = $cart->getExtensionOfType(self::EXTENSION, ArrayStruct::class);
 
         return $data->has($key);
     }

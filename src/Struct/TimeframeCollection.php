@@ -5,6 +5,7 @@ namespace PostNL\Shopware6\Struct;
 
 use Exception;
 use Firstred\PostNL\Entity\Timeframe;
+use PostNL\Shopware6\Struct\Config\ConfigStruct;
 use Shopware\Core\Framework\Struct\Collection;
 
 /**
@@ -24,9 +25,11 @@ class TimeframeCollection extends Collection
     public static function createFromTimeframes(array $timeframes): TimeframeCollection
     {
         try {
+            /** @var TimeframeCollection $self */
             $self = (new \ReflectionClass(static::class))
                 ->newInstanceWithoutConstructor();
-        } catch (\ReflectionException $exception) {
+        }
+        catch (\ReflectionException $exception) {
             throw new \InvalidArgumentException($exception->getMessage());
         }
 
@@ -38,5 +41,39 @@ class TimeframeCollection extends Collection
         }
 
         return $self;
+    }
+
+    public function filterByDropoffDays(ConfigStruct $config): self
+    {
+        $dropoffDays = $config->getDropoffDays();
+
+        if(empty($dropoffDays)) {
+            $dropoffDays = range(1, 6);
+        }
+
+        return $this->filter(function(TimeframeStruct $timeframe) use ($dropoffDays) {
+            return in_array($timeframe->getFrom()->sub(new \DateInterval('P1D'))->format('N'), $dropoffDays);
+        });
+    }
+
+    public function filterByMaximumDaysShown(ConfigStruct $config): self
+    {
+        $maximumDays = max(5, 1); // TODO Make config option?
+
+        $shownDates = [];
+
+        foreach($this->getElements() as $timeframe) {
+            if(!in_array($timeframe->getFrom()->format('Ymd'), $shownDates)) {
+                $shownDates[] = $timeframe->getFrom()->format('Ymd');
+            }
+
+            if(count($shownDates) === $maximumDays) {
+                break;
+            }
+        }
+
+        return $this->filter(function(TimeframeStruct $timeframe) use ($shownDates) {
+            return in_array($timeframe->getFrom()->format('Ymd'), $shownDates);
+        });
     }
 }

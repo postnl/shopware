@@ -4,19 +4,15 @@ namespace PostNL\Shopware6\PHPStan\Rules;
 
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
-use PhpParser\Node\Expr;
-use PhpParser\Node\InClassNode;
 use PHPStan\Analyser\Scope;
-use PHPStan\Node\FileNode;
 use PHPStan\Node\InClassMethodNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
-use PHPStan\PhpDocParser\Lexer\Lexer;
-use PHPStan\PhpDocParser\Parser\PhpDocParser;
-use PHPStan\PhpDocParser\Parser\TokenIterator;
-use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\Node\InClassNode;
+use PHPStan\Node\InClosureNode;
+use PHPStan\Node\InFunctionNode;
+use PHPStan\Rules\Rule;
 
 
-final class NoManufacturerRule implements \PHPStan\Rules\Rule
+final class NoManufacturerRule implements Rule
 {
 
     /**
@@ -30,6 +26,7 @@ final class NoManufacturerRule implements \PHPStan\Rules\Rule
     public function __construct()
     {
         $this->manufacturers = [
+            'memo'
         ];
     }
 
@@ -45,15 +42,15 @@ final class NoManufacturerRule implements \PHPStan\Rules\Rule
     /**
      * @param Node $node
      * @param Scope $scope
-     * @return array|string[]
+     * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
         if (
-            !$node instanceof \PHPStan\Node\InClassNode &&
-            !$node instanceof \PHPStan\Node\InClassMethodNode &&
-            !$node instanceof \PHPStan\Node\InClosureNode &&
-            !$node instanceof \PHPStan\Node\InFunctionNode
+            !$node instanceof InClassNode &&
+            !$node instanceof InClassMethodNode &&
+            !$node instanceof InClosureNode &&
+            !$node instanceof InFunctionNode
         ) {
             return [];
         }
@@ -78,35 +75,20 @@ final class NoManufacturerRule implements \PHPStan\Rules\Rule
     private function hasNodeManufacturer($manufacturer, Node $node)
     {
         if ($node->getDocComment() !== null) {
-
             $comment = $node->getDocComment()->getText();
 
-            if ($this->stringContains(strtolower($manufacturer), strtolower($comment))) {
+            if (str_contains(strtolower($comment), strtolower($manufacturer))) {
                 return true;
             }
         }
 
         /** @var Doc $comment */
         foreach ($node->getComments() as $comment) {
-
-            if ($this->stringContains(strtolower($manufacturer), strtolower($comment->getText()))) {
+            if (str_contains(strtolower($comment->getText()), strtolower($manufacturer))) {
                 return true;
             }
         }
 
         return false;
     }
-
-    /**
-     * @param $search
-     * @param $text
-     * @return bool
-     */
-    private function stringContains($search, $text)
-    {
-        $pos = strpos($text, $search);
-
-        return ($pos !== false);
-    }
-
 }

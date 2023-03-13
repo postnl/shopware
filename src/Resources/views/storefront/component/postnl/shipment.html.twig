@@ -1,5 +1,8 @@
 {% block postnl_shipping_method_shipment %}
     {% if context.shippingMethod.extensions.postnl_shipment %}
+
+        {% set deliveryDate = page.cart.getExtension('postnl-data').get(constant('PostNL\\Shopware6\\Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY')) %}
+
         {% set shipmentOptions = {
             csrfToken: sw_csrf('frontend.checkout.postnl.shipping-date', {"mode": "token"})
         } %}
@@ -8,17 +11,52 @@
              data-postnl-shipping-delivery-date="true"
              data-postnl-shipping-delivery-date-options='{{ shipmentOptions | json_encode }}'
         >
-            <select name="postnl-shipping-delivery-time"
-                    class="custom-select">
+            {% set lastDay = null %}
 
-                {% for timeframe in context.shippingMethod.extensions.postnl_shipment %}
-                    <option value="{{ timeframe | json_encode }}">
-                        {{ timeframe.from |format_datetime('full', 'none') }} {{ timeframe.from |format_datetime('none', 'short') }}
-                        - {{ timeframe.to |format_datetime('none', 'short') }}
-                    </option>
-                {% endfor %}
+            {% for timeframe in context.shippingMethod.extensions.postnl_shipment %}
+                {% set currentDay = timeframe.from|format_datetime('full', 'none') %}
 
-            </select>
+                {% if currentDay != lastDay %}
+                    <div class="postnl-shipping-method__shipment--delivery">
+                        {{ currentDay }}
+                    </div>
+                    {% set lastDay = currentDay %}
+                {% endif %}
+
+                <div class="custom-control custom-radio postnl-shipping-method__shipment--delivery-date">
+                    <input type="radio"
+                           class="custom-control-input shipping-method-input"
+                           id="postnl-shipping-method__shipment--delivery-date-{{ loop.index }}"
+                           {% if deliveryDate == timeframe.from %}checked{% endif %}
+                           name="postnl-shipping-delivery-time"
+                           value="{{ timeframe | json_encode }}"/>
+
+                    <label class="custom-control-label"
+                           for="postnl-shipping-method__shipment--delivery-date-{{ loop.index }}">
+                        <div class="d-flex justify-content-between">
+
+                            <div>
+                                {{ timeframe.from|format_datetime('none', 'short') }} - {{ timeframe.to|format_datetime('none', 'short') }}
+                            </div>
+
+                            <div class="d-flex">
+                                {% for option in timeframe.options %}
+                                    {% if option|lower != "daytime" %}
+                                        <span class="mr-2">
+                                            {{ ('postnl.shipment.option.' ~ option|lower)|trans }}
+                                        </span>
+                                    {% endif %}
+
+                                    {% if option|lower == "evening" %}
+                                        <span>+ {{ config('PostNLShopware.config.eveningSurcharge')|currency }}</span>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+
+                        </div>
+                    </label>
+                </div>
+            {% endfor %}
         </div>
     {% endif %}
 {% endblock %}

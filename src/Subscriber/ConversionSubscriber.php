@@ -135,7 +135,7 @@ class ConversionSubscriber implements EventSubscriberInterface
         $cartExtension = $cart->getExtension(CartService::EXTENSION);
         $deliveryDate = $cartExtension[Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY];
 
-        $shippingDuration = $config->getTransitTime();
+        $shippingDuration = $config->getShippingDuration();
 
         try {
             $getSentDate = new GetSentDate(

@@ -52,14 +52,16 @@ class CheckoutFacade
         //Get cutoff times
         $cutOffTimes = $this->getCutOffTimes($config);
         $deliveryOptions = $config->getDeliveryOptions();
-        $shippingDuration = $config->getTransitTime();
+        $shippingDuration = $config->getShippingDuration();
 
         //Use DeliveryDateService
         $getDeliveryDate = $this->getGetDeliveryDate(
             $addressEntity,
             $cutOffTimes,
             $deliveryOptions,
-            $shippingDuration
+            $shippingDuration,
+            $config->getAllowSundaySorting(),
+            $config->getSenderAddress()->getCountrycode()
         );
 
         $this->logger->debug('Getting delivery date', ['getDeliveryDate' => $getDeliveryDate]);
@@ -67,7 +69,7 @@ class CheckoutFacade
 
         $deliveryDateStart = $getDeliveryDateResponse->getDeliveryDate();
 
-        if (!$deliveryDateStart instanceof DateTimeInterface) {
+        if (!$deliveryDateStart instanceof \DateTimeImmutable) {
             $this->logger->error('Could not find a start date', ['startDate' => $deliveryDateStart]);
             throw new Exception('Could not find a start date');
         }
@@ -75,7 +77,8 @@ class CheckoutFacade
         $getTimeframes = $this->getGetTimeframes(
             $addressEntity,
             $deliveryDateStart,
-            $deliveryOptions
+            $deliveryOptions,
+            $config->getAllowSundaySorting()
         );
 
         //Use TimeframeService
@@ -92,7 +95,12 @@ class CheckoutFacade
     /**
      * @throws Exception
      */
-    private function getGetTimeframes(CustomerAddressEntity $addressEntity, DateTimeInterface $startDate, array $deliveryOptions): GetTimeframes
+    private function getGetTimeframes(
+        CustomerAddressEntity $addressEntity,
+        \DateTimeImmutable $startDate,
+        array $deliveryOptions,
+        bool $sundaySorting
+    ): GetTimeframes
     {
 
         $countryCode = $addressEntity->getCountry()->getIso();
@@ -108,15 +116,9 @@ class CheckoutFacade
         $timeFrameStartDate = null;
         $timeFrameEndDate = null;
 
-
-        if ($startDate instanceof \DateTime) {
-            $timeFrameStartDate = clone $startDate;
-            $timeFrameEndDate = clone $startDate;
-            $timeFrameEndDate->modify('+5 day');
-        }
         if ($startDate instanceof \DateTimeImmutable) {
             $timeFrameStartDate = clone $startDate;
-            $timeFrameEndDate = $startDate->modify('+5 day');
+            $timeFrameEndDate = $startDate->modify('+2 week');
         }
 
         if (empty($timeFrameStartDate)) {
@@ -137,7 +139,7 @@ class CheckoutFacade
             $deliveryOptions,
             $postalCode,
             null,
-            null,
+            $sundaySorting,
             null,
             null,
             null,
@@ -152,7 +154,14 @@ class CheckoutFacade
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    private function getGetDeliveryDate(CustomerAddressEntity $addressEntity, array $cutOffTimes, array $deliveryOptions, int $shippingDuration): GetDeliveryDate
+    private function getGetDeliveryDate(
+        CustomerAddressEntity $addressEntity,
+        array $cutOffTimes,
+        array $deliveryOptions,
+        int $shippingDuration,
+        bool $sundaySorting = false,
+        string $originCountryCode = 'NL'
+    ): GetDeliveryDate
     {
         $city = $addressEntity->getCity();
         if (!$city) {
@@ -170,16 +179,16 @@ class CheckoutFacade
         }
 
         return new GetDeliveryDate(
-            true,
+            $sundaySorting,
             $city,
             $countryCode,
             $cutOffTimes,
             null,
             null,
             $deliveryOptions,
-            null,
+            $originCountryCode,
             $postalCode,
-            date("d-m-Y h:m:s"),
+            (new \DateTime("now", new \DateTimeZone('Europe/Amsterdam')))->format('d-m-Y H:i:s'),
             $shippingDuration,
             null,
             null
@@ -191,51 +200,28 @@ class CheckoutFacade
     private function getCutOffTimes(ConfigStruct $config): array
     {
         $cutoffTimes = [];
-        $cutoffTimeTime = $config->getCutOffTime();
+        $cutoffTime = $config->getCutOffTime();
 
-        //Generic cutoff time
-        $genericCutoffTime = new CutOffTime(null, $cutoffTimeTime, true);
-        $cutoffTimes[] = $genericCutoffTime;
+        $cutoffTimes[] = new CutOffTime('00', $cutoffTime, true);
 
-        //Get all cutoff days
-        $fullWeek = [
-            "monday",
-            "tuesday",
-            "wednesday",
-            "thursday",
-            "friday",
-            "saturday",
-            "sunday"
-        ];
-        $handoverDays = $config->getHandoverDays();
-        $offDays = array_diff($fullWeek, $handoverDays);
+        /**
+         * Conforms to the N format character for dates
+         * @see https://www.php.net/manual/en/datetime.format.php
+         */
+        $fullWeek = range(1, 7); //Monday = 1, Tuesday = 2, etc, Sunday = 7
 
-        foreach ($offDays as $offDay) {
-            $dayCode = "00";
-            switch ($offDay) {
-                case 'monday':
-                    $dayCode = "01";
-                    break;
-                case 'tuesday':
-                    $dayCode = "02";
-                    break;
-                case 'wednesday':
-                    $dayCode = "03";
-                    break;
-                case 'thursday':
-                    $dayCode = "04";
-                    break;
-                case 'friday':
-                    $dayCode = "05";
-                    break;
-                case 'saturday':
-                    $dayCode = "06";
-                    break;
-                case 'sunday':
-                    $dayCode = "07";
-                    break;
-            }
-            $disabledCutoffTime = new CutOffTime($dayCode, null, false);
+        $dropoffDays = $config->getDropoffDays();
+
+        /**
+         * TODO Disabled for now because the SDK doesnt care about availability, just whether the day has been specified.
+         * If a cutoff time has been specified for a date, it is set to available regardless of true or false,
+         * If it hasn't been specified for a date, it is always set to false by the SDK.
+         */
+        $unavailable = $dropoffDays;//array_diff($fullWeek, $dropoffDays);
+
+        foreach ($unavailable as $offDay) {
+            $dayCode = str_pad($offDay, 2, '0', STR_PAD_LEFT);
+            $disabledCutoffTime = new CutOffTime($dayCode, $cutoffTime, false);
             $cutoffTimes[] = $disabledCutoffTime;
         }
 

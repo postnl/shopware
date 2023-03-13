@@ -9,3 +9,21 @@
 .postnl-pickup-point:not(:last-child) {
     margin-bottom: 8px;
 }
+
+.postnl-shipping-method__shipment {
+    &--delivery {
+        &:not(:first-child) {
+            margin-top: .8rem;
+        }
+
+        border-bottom: 1px solid $sw-border-color;
+
+        &-date {
+            margin: .5rem 0;
+
+            .custom-control-label {
+                width: 100%;
+            }
+        }
+    }
+}
