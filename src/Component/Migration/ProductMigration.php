@@ -104,55 +104,64 @@ abstract class ProductMigration extends MigrationStep
     {
         $translations = [
             'en-GB' => [
-                'destination_zone'                         => [
+                'destination_zone'                             => [
                     Zone::EU     => 'Parcel EU',
                     Zone::GLOBAL => 'GlobalPack',
                 ],
-                'delivery_type'                            => [
+                'delivery_type'                                => [
                     DeliveryType::SHIPMENT => 'Standard Shipment',
                     DeliveryType::PICKUP   => 'Pick-up at PostNL location',
                     DeliveryType::MAILBOX  => 'Mailbox parcel',
                 ],
-                ProductDefinition::STOR_HOME_ALONE         => 'Deliver to stated address only',
-                ProductDefinition::STOR_RETURN_IF_NOT_HOME => 'Return when not home',
-                ProductDefinition::STOR_INSURANCE          => 'Extra Cover',
-                ProductDefinition::STOR_SIGNATURE          => 'Signature on delivery',
-                ProductDefinition::STOR_AGE_CHECK          => 'Age check',
-                ProductDefinition::STOR_NOTIFICATION       => 'Notification',
+                ProductDefinition::STOR_HOME_ALONE             => 'Deliver to stated address only',
+                ProductDefinition::STOR_RETURN_IF_NOT_HOME     => 'Return when not home',
+                ProductDefinition::STOR_INSURANCE              => 'Extra Cover',
+                ProductDefinition::STOR_INSURANCE_PLUS         => 'Extra Cover Plus',
+                ProductDefinition::STOR_SIGNATURE              => 'Signature on delivery',
+                ProductDefinition::STOR_AGE_CHECK              => 'Age check',
+                ProductDefinition::STOR_NOTIFICATION           => 'Notification',
+                ProductDefinition::STOR_TRACK_AND_TRACE        => 'Track and Trace',
+                ProductDefinition::STOR_MAILBOX_LARGER_PACKAGE => 'Box package',
             ],
             'de-DE' => [
-                'destination_zone'                         => [
+                'destination_zone'                             => [
                     Zone::EU     => 'EU paket',
                     Zone::GLOBAL => 'GlobalPack',
                 ],
-                'delivery_type'                            => [
+                'delivery_type'                                => [
                     DeliveryType::SHIPMENT => 'Standardversand',
                     DeliveryType::PICKUP   => 'Abholung am PostNL-Standort',
                     DeliveryType::MAILBOX  => 'Briefkasten-Paket',
                 ],
-                ProductDefinition::STOR_HOME_ALONE         => 'Nur an die angegebene Adresse liefern',
-                ProductDefinition::STOR_RETURN_IF_NOT_HOME => 'Zurück, wenn nicht zu Hause sein',
-                ProductDefinition::STOR_INSURANCE          => 'Zusätzliche Abdeckung',
-                ProductDefinition::STOR_SIGNATURE          => 'Unterschrift bei Lieferung',
-                ProductDefinition::STOR_AGE_CHECK          => 'Altersprüfung',
-                ProductDefinition::STOR_NOTIFICATION       => 'Benachrichtigung',
+                ProductDefinition::STOR_HOME_ALONE             => 'Nur an die angegebene Adresse liefern',
+                ProductDefinition::STOR_RETURN_IF_NOT_HOME     => 'Zurück, wenn nicht zu Hause sein',
+                ProductDefinition::STOR_INSURANCE              => 'Zusätzliche Abdeckung',
+                ProductDefinition::STOR_INSURANCE_PLUS         => 'Zusätzliche Abdeckung Plus',
+                ProductDefinition::STOR_SIGNATURE              => 'Unterschrift bei Lieferung',
+                ProductDefinition::STOR_AGE_CHECK              => 'Altersprüfung',
+                ProductDefinition::STOR_NOTIFICATION           => 'Benachrichtigung',
+                ProductDefinition::STOR_TRACK_AND_TRACE        => 'Track and Trace',
+                ProductDefinition::STOR_MAILBOX_LARGER_PACKAGE => 'Box-Paket',
             ],
             'nl-NL' => [
-                'destination_zone'                         => [
+                'destination_zone'                             => [
                     Zone::EU     => 'EU pakket',
                     Zone::GLOBAL => 'GlobalPack',
                 ],
-                'delivery_type'                            => [
+                'delivery_type'                                => [
                     DeliveryType::SHIPMENT => 'Standaard zending',
                     DeliveryType::PICKUP   => 'Ophalen bij een PostNL-punt',
                     DeliveryType::MAILBOX  => 'Brievenbuspakje',
                 ],
-                ProductDefinition::STOR_HOME_ALONE         => 'Alleen huisadres',
-                ProductDefinition::STOR_RETURN_IF_NOT_HOME => 'Retour bij geen gehoor',
-                ProductDefinition::STOR_INSURANCE          => 'Verhoogd aansprakelijkheid',
-                ProductDefinition::STOR_SIGNATURE          => 'Handtekening voor ontvangst',
-                ProductDefinition::STOR_AGE_CHECK          => 'Leeftijdscontrole',
-                ProductDefinition::STOR_NOTIFICATION       => 'Notificatie',
+                ProductDefinition::STOR_HOME_ALONE             => 'Alleen huisadres',
+                ProductDefinition::STOR_RETURN_IF_NOT_HOME     => 'Retour bij geen gehoor',
+                ProductDefinition::STOR_INSURANCE              => 'Verhoogd aansprakelijkheid',
+                ProductDefinition::STOR_INSURANCE_PLUS         => 'Verhoogd aansprakelijkheid Plus',
+                ProductDefinition::STOR_SIGNATURE              => 'Handtekening voor ontvangst',
+                ProductDefinition::STOR_AGE_CHECK              => 'Leeftijdscontrole',
+                ProductDefinition::STOR_NOTIFICATION           => 'Notificatie',
+                ProductDefinition::STOR_TRACK_AND_TRACE        => 'Track and Trace',
+                ProductDefinition::STOR_MAILBOX_LARGER_PACKAGE => 'Doos pakje',
             ],
         ];
 
