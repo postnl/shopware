@@ -19,17 +19,24 @@ Component.override('sw-order-user-card', {
 
     computed: {
         isPostNLOrder() {
-            return 'postnl' in this.currentOrder.customFields;
+            return this.currentOrder.customFields !== null && 'postnl' in this.currentOrder.customFields;
         },
     },
 
     methods: {
         reload() {
             this.$super('reload');
-            this.getPostNLProduct();
+
+            if(this.isPostNLOrder) {
+                this.getPostNLProduct();
+            }
         },
 
         getPostNLProduct() {
+            if(!this.isPostNLOrder) {
+                return null;
+            }
+
             const id = this.currentOrder.customFields.postnl.productId;
 
             return this.ProductSelectionService
