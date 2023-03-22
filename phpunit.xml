@@ -8,7 +8,7 @@
 >
 
     <testsuites>
-        <testsuite name="PostNL Tests">
+        <testsuite name="Unit Tests">
             <directory>./tests/PHPUnit</directory>
         </testsuite>
     </testsuites>

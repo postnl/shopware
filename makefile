@@ -50,13 +50,13 @@ phpstan: ## Starts the PHPStan Analyser
 	@php vendor/bin/phpstan analyse -c ./.phpstan.neon
 	@php vendor/bin/phpstan analyse -c ./.phpstan.lvl8.neon
 
-phpunit: ## Starts all Tests
+phpunit: ## Starts all Unit Tests
 	@XDEBUG_MODE=coverage php vendor/bin/phpunit --configuration=phpunit.xml
 
 infection: ## Starts all Infection/Mutation tests
 	@XDEBUG_MODE=coverage php vendor/bin/infection --configuration=./.infection.json
 
-infection-covered: ## Starts all Infection/Mutation tests
+infection-covered: ## Starts covered Infection/Mutation tests
 	@XDEBUG_MODE=coverage php vendor/bin/infection --configuration=./.infection.json --only-covered
 
 snippet-check: ## Tests and verifies all plugin snippets
@@ -80,6 +80,7 @@ pr: ## Prepares everything for a Pull Request
 
 build: ## Builds the package
 	@rm -rf src/Resources/app/storefront/dist
+	@mkdir -p src/Resources/app/storefront/dist
 	@cd ../../.. && php bin/console plugin:refresh
 	@cd ../../.. && php bin/console plugin:install $(PLUGIN_NAME) --activate --clearCache | true
 	@cd ../../.. && php bin/console plugin:refresh
