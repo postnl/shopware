@@ -98,5 +98,5 @@ zip: ## Creates a new ZIP package
 	@php update-composer-require.php --shopware=^6.4.1 --env=prod --admin --storefront
 	@cd .. && echo "Creating Zip file $(PLUGIN_NAME)-$(PLUGIN_VERSION).zip\n"
 	@cd .. && rm -rf $(PLUGIN_NAME)-$(PLUGIN_VERSION).zip
-	@cd .. && zip -qq -r -0 $(PLUGIN_NAME)-$(PLUGIN_VERSION).zip $(PLUGIN_NAME)/ -x '*.editorconfig' '*.git*' '*.reports*' '*/tests*' '*/makefile' '*.DS_Store' '*/phpunit.xml' '*/.phpstan.neon' '*/.php_cs.php' '*/phpinsights.php' '*node_modules*' '*administration/build*' '*storefront/build*' '*/update-composer-require.php'
+	@cd .. && zip -qq -r -0 $(PLUGIN_NAME)-$(PLUGIN_VERSION).zip $(PLUGIN_NAME)/ -x@$(PLUGIN_NAME)/zip.exclude.lst
 	@php update-composer-require.php --shopware=^6.4.1 --env=dev --admin --storefront
