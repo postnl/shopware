@@ -56,6 +56,9 @@ phpunit: ## Starts all Tests
 infection: ## Starts all Infection/Mutation tests
 	@XDEBUG_MODE=coverage php vendor/bin/infection --configuration=./.infection.json
 
+infection-covered: ## Starts all Infection/Mutation tests
+	@XDEBUG_MODE=coverage php vendor/bin/infection --configuration=./.infection.json --only-covered
+
 snippet-check: ## Tests and verifies all plugin snippets
 	@php vendor/bin/phpunuhi validate --report-format=junit --report-output=./.reports/phpunuhi/junit.xml
 
