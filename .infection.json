@@ -13,5 +13,8 @@
   },
   "mutators": {
     "@default": true
+  },
+  "logs": {
+    "html": "./.reports/infection.html"
   }
 }

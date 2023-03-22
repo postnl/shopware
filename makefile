@@ -51,11 +51,10 @@ phpstan: ## Starts the PHPStan Analyser
 	@php vendor/bin/phpstan analyse -c ./.phpstan.lvl8.neon
 
 phpunit: ## Starts all Tests
-	@phpdbg -qrr vendor/bin/phpunit --configuration=phpunit.xml --coverage-html ./.reports/$(PLUGIN_NAME)/coverage
+	@XDEBUG_MODE=coverage php vendor/bin/phpunit --configuration=phpunit.xml
 
 infection: ## Starts all Infection/Mutation tests
-	@phpdbg -qrr vendor/bin/infection --configuration=./.infection.json
-
+	@XDEBUG_MODE=coverage php vendor/bin/infection --configuration=./.infection.json
 
 snippet-check: ## Tests and verifies all plugin snippets
 	@php vendor/bin/phpunuhi validate --report-format=junit --report-output=./.reports/phpunuhi/junit.xml
