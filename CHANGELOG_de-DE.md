@@ -1,3 +1,7 @@
+# 1.2.3
+- Es wurde ein Problem behoben, bei dem nicht obligatorische Felder obligatorisch wurden, wenn bei der Registrierung ein anderes Land als die Niederlande ausgewählt wurde.
+- Es wurde ein Fehler behoben, bei dem bestimmte Karten auf der Bestellungsdetailseite in der Verwaltung nicht angezeigt werden, wenn eine Bestellung geöffnet wird, die nicht aus den Niederlanden stammt.
+
 # 1.2.2
 - Behebt ein Problem mit Adressen, wenn die Lieferadresse nicht mit der Rechnungsadresse übereinstimmt.
 - Behebt ein Problem, bei dem E-Mails nicht gesendet werden konnten, wenn keine Bestelldaten vorlagen (z. B. Passwort-Wiederherstellung).
