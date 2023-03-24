@@ -1,3 +1,7 @@
+# 1.2.3
+- Lost een probleem op waarbij niet-verplichte velden verplicht worden bij het selecteren van een ander land dan Nederland tijdens de registratie.
+- Een bug waarbij bepaalde kaarten niet worden getoond op de order detail pagina in de administratie bij het openen van een niet-PostNL order is verholpen.
+
 # 1.2.2
 - Lost een probleem op met adressen wanneer het verzendadres verschilt van het factuuradres.
 - Lost een probleem op waarbij e-mails niet konden worden verzonden als er geen bestelgegevens waren (bijv. wachtwoordherstel)
