@@ -1,3 +1,7 @@
+# 1.2.3
+- Fixes non-required fields becoming required when selecting a country other than Netherlands during registration.
+- Fixes certain cards not displaying on the order detail page in the administration when opening a non-PostNL order.
+
 # 1.2.2
 - Fixes an issue with addresses when shipping address is different from billing address.
 - Fixes an issue where emails could not be sent if there was no order data (e.g. Password recovery)
