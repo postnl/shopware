@@ -9,7 +9,7 @@
       "mandatoryFields": "Velden met een asterisk zijn verplicht.",
       "info": {
         "title": "Hi {username}, welkom bij de PostNL extensie!",
-        "onboardingStep1": "Bekijk jouw API key in {mijnPostNLLink}. Of vraag hier een API key aan",
+        "onboardingStep1": "Bekijk jouw API key in {mijnPostNLLink}. Of vraag hier een API key aan.",
         "mijnPostNL": "MijnPostNL",
         "mijnPostNLApiHere": "hier",
         "onboardingStep2": "Activeer de verzendopties van PostNL in de Shipping instellingen van Shopware.",
