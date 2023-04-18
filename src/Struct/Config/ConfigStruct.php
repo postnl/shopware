@@ -151,7 +151,7 @@ class ConfigStruct extends AttributeStruct
     /**
      * @var string
      */
-    protected $cutOffTime = "17:00:00";
+    protected $cutOffTime;
 
     /**
      * @var int
@@ -410,7 +410,7 @@ class ConfigStruct extends AttributeStruct
      */
     public function getCutOffTime(): string
     {
-        return $this->cutOffTime;
+        return $this->cutOffTime ?: '17:00:00';
     }
 
     /**

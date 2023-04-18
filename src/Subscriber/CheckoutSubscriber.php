@@ -62,19 +62,19 @@ class CheckoutSubscriber implements EventSubscriberInterface
     protected $logger;
 
     /**
-     * @param ApiFactory       $apiFactory
+     * @param ApiFactory $apiFactory
      * @param AttributeFactory $attributeFactory
-     * @param CartService      $cartService
-     * @param CheckoutFacade   $checkoutFacade
-     * @param ConfigService    $configService
-     * @param LoggerInterface  $logger
+     * @param CartService $cartService
+     * @param CheckoutFacade $checkoutFacade
+     * @param ConfigService $configService
+     * @param LoggerInterface $logger
      */
     public function __construct(
         ApiFactory       $apiFactory,
         AttributeFactory $attributeFactory,
         CartService      $cartService,
         CheckoutFacade   $checkoutFacade,
-        ConfigService $configService,
+        ConfigService    $configService,
         LoggerInterface  $logger
     )
     {
@@ -121,7 +121,7 @@ class CheckoutSubscriber implements EventSubscriberInterface
     {
         $address = $event->getPage()->getCart()->getDeliveries()->first()->getLocation()->getAddress();
 
-        if(!in_array($address->getCountry()->getIso(), ['NL', 'BE'])) {
+        if (!in_array($address->getCountry()->getIso(), ['NL', 'BE'])) {
             return;
         }
 
