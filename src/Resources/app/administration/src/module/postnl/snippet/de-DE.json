@@ -12,10 +12,10 @@
         "mijnPostNL": "MijnPostNL",
         "mijnPostNLApiHere": "hier",
         "onboardingStep2": "Aktivieren Sie die Versandoptionen von PostNL in den Versandeinstellungen von Shopware.",
-        "onboardingStep21": "Gehen Sie zu den {shippingSettingsLink}",
+        "onboardingStep21": "Gehen Sie zu den {shippingSettingsLink}.",
         "shippingSettings": "Versandeinstellungen",
         "onboardingStep3": "Aktivieren Sie die Versandoptionen von PostNL pro Vertriebskanal.",
-        "onboardingStep31": "Gehen Sie zu Ihren {salesChannels}",
+        "onboardingStep31": "Gehen Sie zu Ihren {salesChannels}.",
         "salesChannels": "Vertriebskanälen",
         "btnManual": "Manuell",
         "btnSupport": "Unterstützung"
