@@ -203,9 +203,9 @@
 
         <input-field type="bool">
             <name>showDeliveryDays</name>
-            <label>Allow customer delivery day choice</label>
-            <label lang="de-DE">Wahl des Zustellungsdatums durch den Kunden zulassen</label>
-            <label lang="nl-NL">Laat de klant de bezorgdag kiezen</label>
+            <label>Activate delivery days</label>
+            <label lang="de-DE">Liefertage aktivieren</label>
+            <label lang="nl-NL">Bezorgdagen activeren</label>
 
             <defaultValue>false</defaultValue>
         </input-field>
