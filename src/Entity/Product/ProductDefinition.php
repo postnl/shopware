@@ -44,7 +44,6 @@ class ProductDefinition extends EntityDefinition
     const PROP_AGE_CHECK              = 'ageCheck';
     const PROP_NOTIFICATION           = 'notification';
     const PROP_TRACK_AND_TRACE        = 'trackAndTrace';
-    const PROP_MAILBOX_LARGER_PACKAGE = 'mailboxLargerPackage';
 
     const ALL_FLAGS = [
         self::STOR_HOME_ALONE             => self::PROP_HOME_ALONE,
@@ -55,7 +54,6 @@ class ProductDefinition extends EntityDefinition
         self::STOR_AGE_CHECK              => self::PROP_AGE_CHECK,
         self::STOR_NOTIFICATION           => self::PROP_NOTIFICATION,
         self::STOR_TRACK_AND_TRACE        => self::PROP_TRACK_AND_TRACE,
-        self::STOR_MAILBOX_LARGER_PACKAGE => self::PROP_MAILBOX_LARGER_PACKAGE,
     ];
 
     /**
@@ -110,7 +108,6 @@ class ProductDefinition extends EntityDefinition
             new BoolField(self::STOR_AGE_CHECK, self::PROP_AGE_CHECK),
             new BoolField(self::STOR_NOTIFICATION, self::PROP_NOTIFICATION),
             new BoolField(self::STOR_TRACK_AND_TRACE, self::PROP_TRACK_AND_TRACE),
-            new BoolField(self::STOR_MAILBOX_LARGER_PACKAGE, self::PROP_MAILBOX_LARGER_PACKAGE),
 
             new TranslationsAssociationField(ProductTranslationDefinition::class, 'product_id'),
 

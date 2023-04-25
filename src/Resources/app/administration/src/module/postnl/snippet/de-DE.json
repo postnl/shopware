@@ -125,8 +125,7 @@
         "signature": "Unterschrift bei Lieferung",
         "ageCheck": "Altersprüfung",
         "notification": "Benachrichtigung",
-        "trackAndTrace": "Track & Trace",
-        "mailboxLargerPackage": "Box-Paket"
+        "trackAndTrace": "Track & Trace"
       }
     },
     "rules": {

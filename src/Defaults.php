@@ -167,6 +167,7 @@ class Defaults
     // Track and Trace Insured Plus
     const OPTION_004_016 = "de9571485773424d91a036a9b90b8018";
 
+
     // New Mailbox parcels
 
     // Boxable Packet NL->EU
@@ -175,29 +176,32 @@ class Defaults
     // Boxable Packet Track and Trace NL->EU
     const PRODUCT_MAILBOX_NL_EU_6972 = "092a6a11729b44db981903e292d0c67d";
 
-    // Packet NL->EU
-    const PRODUCT_MAILBOX_NL_EU_6405 = "02388c7bd54245bc919b04752821fbc2";
-
-    // Packet Track and Trace NL->EU
-    const PRODUCT_MAILBOX_NL_EU_6350 = "5cc233a0e410421f819f9351acc659c3";
-
-    // Packet Track and Trace Insurance NL->EU
-    const PRODUCT_MAILBOX_NL_EU_6906 = "5224fb01bae44f4aae2c0f3967e0485e";
-
     // Boxable Packet NL->GLOBAL
     const PRODUCT_MAILBOX_NL_GLOBAL_6440 = "daa270d50c074289bc57bfbd9f6e3a3d";
 
     // Boxable Packet Track and Trace NL->GLOBAL
     const PRODUCT_MAILBOX_NL_GLOBAL_6972 = "519069ee8027453ebc097817ee46b287";
 
+
+    // These were first labeled as Mailbox packages, but are actually a new international type.
+
+    // Packet NL->EU
+    const PRODUCT_PACKAGE_NL_EU_6405 = "02388c7bd54245bc919b04752821fbc2";
+
+    // Packet Track and Trace NL->EU
+    const PRODUCT_PACKAGE_NL_EU_6350 = "5cc233a0e410421f819f9351acc659c3";
+
+    // Packet Track and Trace Insurance NL->EU
+    const PRODUCT_PACKAGE_NL_EU_6906 = "5224fb01bae44f4aae2c0f3967e0485e";
+
     // Packet NL->GLOBAL
-    const PRODUCT_MAILBOX_NL_GLOBAL_6405 = "7fe60652bc474895b9c5c3de36ec8d89";
+    const PRODUCT_PACKAGE_NL_GLOBAL_6405 = "7fe60652bc474895b9c5c3de36ec8d89";
 
     // Packet Track and Trace NL->GLOBAL
-    const PRODUCT_MAILBOX_NL_GLOBAL_6350 = "69f41991990e47b58ddc0dc7991843ba";
+    const PRODUCT_PACKAGE_NL_GLOBAL_6350 = "69f41991990e47b58ddc0dc7991843ba";
 
     // Packet Track and Trace Insurance NL->GLOBAL
-    const PRODUCT_MAILBOX_NL_GLOBAL_6906 = "b9ee042530ce4009a82671c52362b51b";
+    const PRODUCT_PACKAGE_NL_GLOBAL_6906 = "b9ee042530ce4009a82671c52362b51b";
 
 
 //    const PLACEHOLDER = "45432c40e63f4ec79aa230c0bed4c0e2";

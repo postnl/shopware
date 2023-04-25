@@ -33,7 +33,6 @@ ALTER TABLE `postnl_product` CHANGE `notification` `notification` TINYINT(1) NUL
 
 ALTER TABLE `postnl_product` ADD `insurance_plus` TINYINT(1) NULL DEFAULT NULL AFTER `insurance`;
 ALTER TABLE `postnl_product` ADD `track_and_trace` TINYINT(1) NULL DEFAULT NULL AFTER `notification`;
-ALTER TABLE `postnl_product` ADD `mailbox_larger_package` TINYINT(1) NULL DEFAULT NULL AFTER `track_and_trace`;
 
 ALTER TABLE `postnl_option` ADD `hidden` BOOLEAN NOT NULL DEFAULT FALSE AFTER `option`;
 UPDATE `postnl_option` SET `hidden` = '1';

@@ -125,8 +125,7 @@
         "signature": "Handtekening voor ontvangst",
         "ageCheck": "Leeftijdscontrole",
         "notification": "Notificatie",
-        "trackAndTrace": "Track & Trace",
-        "mailboxLargerPackage": "Doos pakje"
+        "trackAndTrace": "Track & Trace"
       }
     },
     "rules": {
