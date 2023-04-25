@@ -1,5 +1,5 @@
 {% block postnl_shipping_method_shipment %}
-    {% if context.shippingMethod.extensions.postnl_shipment %}
+    {% if config('PostNLShopware.config.showDeliveryDays') and context.shippingMethod.extensions.postnl_shipment %}
 
         {% set deliveryDate = page.cart.getExtension('postnl-data').get(constant('PostNL\\Shopware6\\Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY')) %}
 

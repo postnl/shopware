@@ -200,6 +200,16 @@
         <title>Delivery options</title>
         <title lang="de-DE">Liefermöglichkeiten</title>
         <title lang="nl-NL">Bezorgopties</title>
+
+        <input-field type="bool">
+            <name>showDeliveryDays</name>
+            <label>Activate delivery days</label>
+            <label lang="de-DE">Liefertage aktivieren</label>
+            <label lang="nl-NL">Bezorgdagen activeren</label>
+
+            <defaultValue>false</defaultValue>
+        </input-field>
+
         <input-field type="time">
             <name>cutOffTime</name>
             <label>Cut-off time</label>
