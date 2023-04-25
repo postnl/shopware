@@ -115,7 +115,8 @@
       "deliveryType": {
         "shipment": "Standaard zending",
         "pickup": "Ophalen bij een PostNL-punt",
-        "mailbox": "Brievenbuspakje"
+        "mailbox": "Brievenbuspakje",
+        "package": "Pakje"
       },
       "flag": {
         "homeAlone": "Alleen huisadres",

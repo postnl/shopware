@@ -115,7 +115,8 @@
       "deliveryType": {
         "shipment": "Standardversand",
         "pickup": "Abholung am PostNL-Standort",
-        "mailbox": "Briefkasten Paket"
+        "mailbox": "Briefkasten Paket",
+        "package": "Paket"
       },
       "flag": {
         "homeAlone": "Nur an die angegebene Adresse liefern",
