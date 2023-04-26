@@ -17,6 +17,10 @@
         <include>
             <directory>./src</directory>
         </include>
+
+        <report>
+            <html outputDirectory="./.reports/phpunit" lowUpperBound="50" highLowerBound="90"/>
+        </report>
     </coverage>
 
 </phpunit>

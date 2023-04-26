@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shopware6\Entity\Product\Aggregate\ProductOption;
+namespace PostNL\Shopware6\Entity\Option\Aggregate;
 
+use PostNL\Shopware6\Entity\Option\OptionDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\FkField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\CascadeDelete;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
@@ -10,14 +11,16 @@ use Shopware\Core\Framework\DataAbstractionLayer\Field\ManyToOneAssociationField
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\MappingEntityDefinition;
 
-class ProductOptionRequirementMappingDefinition extends MappingEntityDefinition
+class OptionRequirementMappingDefinition extends MappingEntityDefinition
 {
+    const ENTITY_NAME = 'postnl_option_requirement_mapping';
+
     /**
      * @return string
      */
     public function getEntityName(): string
     {
-        return 'postnl_product_option_requirement';
+        return self::ENTITY_NAME;
     }
 
     /**
@@ -26,21 +29,21 @@ class ProductOptionRequirementMappingDefinition extends MappingEntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new FkField('product_option_id', 'productOptionId', ProductOptionDefinition::class))
+            (new FkField('option_id', 'optionId', OptionDefinition::class))
                 ->addFlags(new PrimaryKey(), new Required()),
-            (new FkField('required_id', 'requiredId', ProductOptionDefinition::class))
+            (new FkField('required_id', 'requiredId', OptionDefinition::class))
                 ->addFlags(new PrimaryKey(), new Required()),
 
             (new ManyToOneAssociationField(
-                'productOption',
-                'product_option_id',
-                ProductOptionDefinition::class
+                'option',
+                'option_id',
+                OptionDefinition::class
             ))->addFlags(new CascadeDelete()),
 
             (new ManyToOneAssociationField(
                 'required',
                 'required_id',
-                ProductOptionDefinition::class
+                OptionDefinition::class
             ))->addFlags(new CascadeDelete()),
         ]);
     }

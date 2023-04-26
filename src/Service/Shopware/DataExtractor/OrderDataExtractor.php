@@ -3,6 +3,7 @@
 namespace PostNL\Shopware6\Service\Shopware\DataExtractor;
 
 use Shopware\Core\Checkout\Cart\Delivery\Struct\DeliveryCollection;
+use Shopware\Core\Checkout\Order\Aggregate\OrderAddress\OrderAddressCollection;
 use Shopware\Core\Checkout\Order\Aggregate\OrderAddress\OrderAddressEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderCustomer\OrderCustomerEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderDelivery\OrderDeliveryCollection;
@@ -17,6 +18,18 @@ class OrderDataExtractor
     public function __construct(OrderDeliveryDataExtractor $orderDeliveryDataExtractor)
     {
         $this->orderDeliveryDataExtractor = $orderDeliveryDataExtractor;
+    }
+
+    public function extractAddresses(OrderEntity $order): OrderAddressCollection
+    {
+        $addresses = $order->getAddresses();
+
+        if ($addresses instanceof OrderAddressCollection) {
+            return $addresses;
+        }
+
+        // TODO Exception
+        throw new \Exception('Could not extract addresses from order');
     }
 
     public function extractCustomer(OrderEntity $order): OrderCustomerEntity

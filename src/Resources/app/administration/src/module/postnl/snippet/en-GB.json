@@ -80,7 +80,8 @@
       "detail": {
         "shippingProduct": "PostNL product",
         "buttonChangeShipping": "Change shipping method",
-        "buttonCreateShipment": "Create and confirm shipments"
+        "buttonCreateShipment": "Create and confirm shipments",
+        "sentDate": "Shipping date"
       },
       "list": {
         "columnShippingAddress": "Shipping address",
@@ -88,7 +89,9 @@
         "columnBarCode": "Barcode",
         "columnConfirm": "Confirmed",
         "buttonChangeShipping": "Change shipping method",
-        "buttonCreateShipment": "Create and confirm shipments"
+        "buttonCreateShipment": "Create and confirm shipments",
+        "columnSentDate": "Shipping date",
+        "columnDeliveryDate": "Delivery date"
       },
       "modal": {
         "changeShipping": {

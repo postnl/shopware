@@ -2,17 +2,17 @@
 
 namespace PostNL\Shopware6\Subscriber;
 
-use Exception;
 use Firstred\PostNL\Entity\Location;
 use Firstred\PostNL\Entity\Request\GetNearestLocations;
 use Firstred\PostNL\Entity\Response\GetLocationsResult;
 use Firstred\PostNL\Entity\Response\ResponseLocation;
-use Firstred\PostNL\Exception\PostNLException;
+use PostNL\Shopware6\Defaults;
 use PostNL\Shopware6\Facade\CheckoutFacade;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shopware6\Service\Shopware\CartService;
+use PostNL\Shopware6\Service\Shopware\ConfigService;
 use PostNL\Shopware6\Struct\Attribute\ShippingMethodAttributeStruct;
 use PostNL\Shopware6\Struct\TimeframeCollection;
 use PostNL\Shopware6\Struct\TimeframeStruct;
@@ -52,22 +52,29 @@ class CheckoutSubscriber implements EventSubscriberInterface
     protected $checkoutFacade;
 
     /**
+     * @var ConfigService
+     */
+    protected $configService;
+
+    /**
      * @var LoggerInterface
      */
     protected $logger;
 
     /**
-     * @param ApiFactory $apiFactory
+     * @param ApiFactory       $apiFactory
      * @param AttributeFactory $attributeFactory
-     * @param CartService $cartService
-     * @param CheckoutFacade $checkoutFacade
-     * @param LoggerInterface $logger
+     * @param CartService      $cartService
+     * @param CheckoutFacade   $checkoutFacade
+     * @param ConfigService    $configService
+     * @param LoggerInterface  $logger
      */
     public function __construct(
         ApiFactory       $apiFactory,
         AttributeFactory $attributeFactory,
         CartService      $cartService,
         CheckoutFacade   $checkoutFacade,
+        ConfigService $configService,
         LoggerInterface  $logger
     )
     {
@@ -75,6 +82,7 @@ class CheckoutSubscriber implements EventSubscriberInterface
         $this->attributeFactory = $attributeFactory;
         $this->cartService = $cartService;
         $this->checkoutFacade = $checkoutFacade;
+        $this->configService = $configService;
         $this->logger = $logger;
     }
 
@@ -112,14 +120,22 @@ class CheckoutSubscriber implements EventSubscriberInterface
     protected function handleShipment(CheckoutConfirmPageLoadedEvent $event): void
     {
         $address = $event->getPage()->getCart()->getDeliveries()->first()->getLocation()->getAddress();
+
+        if(!in_array($address->getCountry()->getIso(), ['NL', 'BE'])) {
+            return;
+        }
+
         try {
             $deliveryDays = $this->checkoutFacade->getDeliveryDays($event->getSalesChannelContext(), $address);
             $timeframeCollection = TimeframeCollection::createFromTimeframes($deliveryDays);
 
-        } catch (Exception $e) {
+            $config = $this->configService->getConfiguration($event->getSalesChannelContext()->getSalesChannelId(), $event->getContext());
+
+            $timeframeCollection = $timeframeCollection->filterByDropoffDays($config)->filterByMaximumDaysShown($config);
+        } catch (\Throwable $e) {
             $this->logger->error('Could not get delivery days', [
-                'Address' => $address,
-                'exception' => $e,
+                'address' => $address,
+                'exception' => $e->getMessage(),
             ]);
             return;
         }
@@ -136,7 +152,7 @@ class CheckoutSubscriber implements EventSubscriberInterface
 
         if (!$event->getPage()->getCart()->hasExtensionOfType(CartService::EXTENSION, ArrayStruct::class)) {
             $event->getPage()->setCart($this->cartService->addData([
-                'deliveryDate' => $timeFrame->getFrom(),
+                Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => $timeFrame->getFrom(),
             ], $event->getSalesChannelContext()));
         }
 
@@ -147,14 +163,14 @@ class CheckoutSubscriber implements EventSubscriberInterface
 
         $existingDeliveryDate = $this->cartService->getByKey('deliveryDate', $event->getSalesChannelContext());
 
-        $availableDeliveryDates= $timeframeCollection->map(function ($timeFrame) {
+        $availableDeliveryDates = $timeframeCollection->map(function ($timeFrame) {
             /** @var TimeframeStruct $timeFrame */
             return $timeFrame->getFrom();
         });
 
         if (!in_array($existingDeliveryDate, $availableDeliveryDates)) {
             $event->getPage()->setCart($this->cartService->addData([
-                'deliveryDate' => $timeFrame->getFrom(),
+                Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => $timeFrame->getFrom(),
             ], $event->getSalesChannelContext()));
         }
 
@@ -187,15 +203,9 @@ class CheckoutSubscriber implements EventSubscriberInterface
         try {
             $locationRequest = new GetNearestLocations($address->getCountry()->getIso(), new Location($address->getZipcode()));
             $locationResponse = $apiClient->getNearestLocations($locationRequest);
-        } catch (PostNLException $e) {
-            $this->logger->error('Could not fetch nearest pickup points', [
-                'exception' => $e,
-                'address' => $address
-            ]);
-            return;
         } catch (\Throwable $e) {
             $this->logger->error('Could not fetch nearest pickup points', [
-                'exception' => $e,
+                'exception' => $e->getMessage(),
                 'address' => $address
             ]);
             return;
@@ -258,5 +268,4 @@ class CheckoutSubscriber implements EventSubscriberInterface
     protected function handleMailbox(CheckoutConfirmPageLoadedEvent $event): void
     {
     }
-
 }

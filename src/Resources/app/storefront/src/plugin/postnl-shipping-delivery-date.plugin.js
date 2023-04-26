@@ -11,15 +11,15 @@ export default class PostnlShippingDeliveryDatePlugin extends Plugin {
 
     init() {
         this._client = new HttpClient();
-        console.log(this.options);
         this._registerEvents();
     }
 
     onChangeDeliveryDate(e) {
         const data = this._getRequestData();
-        data['deliveryDate'] = e.target.value;
-        
+        data['timeframe'] = e.target.value;
+
         ElementLoadingIndicatorUtil.create(this.el);
+
         this._client.post(this.options.url, JSON.stringify(data), content => {
             ElementLoadingIndicatorUtil.remove(this.el);
             this._parseRequest(JSON.parse(content))

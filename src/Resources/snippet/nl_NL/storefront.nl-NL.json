@@ -1,5 +1,10 @@
 {
   "postnl": {
+    "shipment": {
+      "option": {
+        "evening": "Avond"
+      }
+    },
     "address": {
       "streetLabel": "Straatnaam",
       "streetPlaceholder": "Voer straatnaam in...",

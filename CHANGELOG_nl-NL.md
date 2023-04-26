@@ -1,3 +1,17 @@
+# 1.2.3
+- Lost een probleem op waarbij niet-verplichte velden verplicht worden bij het selecteren van een ander land dan Nederland tijdens de registratie.
+- Een bug waarbij bepaalde kaarten niet worden getoond op de order detail pagina in de administratie bij het openen van een niet-PostNL order is verholpen.
+
+# 1.2.2
+- Lost een probleem op met adressen wanneer het verzendadres verschilt van het factuuradres.
+- Lost een probleem op waarbij e-mails niet konden worden verzonden als er geen bestelgegevens waren (bijv. wachtwoordherstel)
+
+# 1.2.1
+- Lost een probleem op met custom fields op het geselecteerde verzendadres (Met dank aan Mitchel van Vliet en Robbert de Smit @ DutchDrops)
+
+# 1.2.0
+- Adressen van afhaalpunten worden nu opgeslagen als verzendadres bij het selecteren van een afhaalpunt
+  - Het oorspronkelijk geselecteerde afleveradres is nog steeds beschikbaar op de bestelling
 # 1.1.0
 #### Belgische release
 - Productcodes voor het verzenden vanuit België zijn toegevoegd.

@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace PostNL\Shopware6\Entity\Product\Aggregate\ProductOptionTranslation;
+namespace PostNL\Shopware6\Entity\Option\Aggregate\OptionTranslation;
 
-use PostNL\Shopware6\Entity\Product\Aggregate\ProductOption\ProductOptionDefinition;
+use PostNL\Shopware6\Entity\Option\OptionDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityTranslationDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\StringField;
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 
-class ProductOptionTranslationDefinition extends EntityTranslationDefinition
+class OptionTranslationDefinition extends EntityTranslationDefinition
 {
-    const ENTITY_NAME = 'postnl_product_option_translation';
+    const ENTITY_NAME = 'postnl_option_translation';
 
     /**
      * @return string
@@ -27,7 +27,7 @@ class ProductOptionTranslationDefinition extends EntityTranslationDefinition
      */
     public function getEntityClass(): string
     {
-        return ProductOptionTranslationEntity::class;
+        return OptionTranslationEntity::class;
     }
 
     /**
@@ -35,7 +35,7 @@ class ProductOptionTranslationDefinition extends EntityTranslationDefinition
      */
     public function getCollectionClass(): string
     {
-        return ProductOptionTranslationCollection::class;
+        return OptionTranslationCollection::class;
     }
 
     /**
@@ -43,7 +43,7 @@ class ProductOptionTranslationDefinition extends EntityTranslationDefinition
      */
     public function getParentDefinitionClass(): string
     {
-        return ProductOptionDefinition::class;
+        return OptionDefinition::class;
     }
 
     /**

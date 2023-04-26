@@ -2,6 +2,10 @@
 
 namespace PostNL\Shopware6\Service\PostNL;
 
+use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
+use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderAddressDataExtractor;
+use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor;
+use PostNL\Shopware6\Struct\Attribute\OrderAttributeStruct;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Content\Mail\Service\AbstractMailService;
 use Shopware\Core\Framework\Context;
@@ -13,11 +17,34 @@ class TrackAndTraceMailDataService extends AbstractMailService
     /**
      * @var AbstractMailService
      */
-    private AbstractMailService $mailService;
+    protected AbstractMailService $mailService;
 
-    public function __construct(AbstractMailService $mailService)
+    /**
+     * @var AttributeFactory
+     */
+    protected AttributeFactory $attributeFactory;
+
+    /**
+     * @var OrderDataExtractor
+     */
+    protected OrderDataExtractor $orderDataExtractor;
+
+    /**
+     * @var OrderAddressDataExtractor
+     */
+    protected OrderAddressDataExtractor $orderAddressDataExtractor;
+
+    public function __construct(
+        AbstractMailService $mailService,
+        AttributeFactory $attributeFactory,
+        OrderDataExtractor $orderDataExtractor,
+        OrderAddressDataExtractor $orderAddressDataExtractor
+    )
     {
         $this->mailService = $mailService;
+        $this->attributeFactory = $attributeFactory;
+        $this->orderDataExtractor = $orderDataExtractor;
+        $this->orderAddressDataExtractor = $orderAddressDataExtractor;
     }
 
     public function getDecorated(): AbstractMailService
@@ -27,14 +54,42 @@ class TrackAndTraceMailDataService extends AbstractMailService
 
     public function send(array $data, Context $context, array $templateData = []): ?Email
     {
-        /** @var OrderEntity $order */
-        $order = $templateData['order'];
-        if (isset($order->getCustomFields()['postnl']['barCode'])) {
-            $barcode = $order->getCustomFields()['postnl']['barCode'];
-            $zipCode = $order->getDeliveries()->first()->getShippingOrderAddress()->getZipcode();
-            $countryCode = $order->getDeliveries()->first()->getShippingOrderAddress()->getCountry()->getIso();
-            $templateData['postNL']['trackAndTraceLink'] = sprintf('http://postnl.nl/tracktrace/?B=%s&P=%s&D=%s&T=C', $barcode, $zipCode, $countryCode);
+        if(!array_key_exists('order', $templateData)) {
+            return $this->getDecorated()->send($data, $context, $templateData);
         }
-        return $this->mailService->send($data, $context, $templateData);
+
+        $order = $templateData['order'];
+
+        if(!$order instanceof OrderEntity) {
+            return $this->getDecorated()->send($data, $context, $templateData);
+        }
+
+        /** @var OrderAttributeStruct $orderAttributes */
+        $orderAttributes = $this->attributeFactory->createFromEntity($order, $context);
+        $barcode = $orderAttributes->getBarCode();
+
+        // If the email template uses the track and trace variable, then Shopware might break when it cannot replace
+        // that variable. So always set it to an empty string first and set it to the correct link if we have all data.
+        $templateData['postNL']['trackAndTraceLink'] = '';
+
+        if (is_null($barcode)) {
+            return $this->getDecorated()->send($data, $context, $templateData);
+        }
+
+        try {
+            $shippingAddress = $this->orderDataExtractor->extractDeliveryAddress($order);
+            $shippingCountry = $this->orderDataExtractor->extractDeliveryCountry($order);
+
+            $templateData['postNL']['trackAndTraceLink'] = sprintf(
+                'http://postnl.nl/tracktrace/?B=%s&P=%s&D=%s&T=C',
+                $barcode,
+                $shippingAddress->getZipcode(),
+                $shippingCountry->getIso()
+            );
+        } catch(\Throwable $e) {
+            return $this->getDecorated()->send($data, $context, $templateData);
+        }
+
+        return $this->getDecorated()->send($data, $context, $templateData);
     }
 }

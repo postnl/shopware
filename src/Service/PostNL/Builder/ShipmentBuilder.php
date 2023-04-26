@@ -9,6 +9,7 @@ use Firstred\PostNL\Entity\Contact;
 use Firstred\PostNL\Entity\Content;
 use Firstred\PostNL\Entity\Customs;
 use Firstred\PostNL\Entity\Dimension;
+use Firstred\PostNL\Entity\ProductOption;
 use Firstred\PostNL\Entity\Request\GetLocation;
 use Firstred\PostNL\Entity\Shipment;
 use PostNL\Shopware6\Defaults;
@@ -18,8 +19,10 @@ use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shopware6\Service\PostNL\Product\ProductService;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
+use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderAddressDataExtractor;
 use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor;
 use PostNL\Shopware6\Struct\Attribute\OrderAttributeStruct;
+use PostNL\Shopware6\Struct\TimeframeStruct;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Document\DocumentEntity;
 use Shopware\Core\Checkout\Document\DocumentGenerator\InvoiceGenerator;
@@ -49,6 +52,11 @@ class ShipmentBuilder
     protected $orderDataExtractor;
 
     /**
+     * @var OrderAddressDataExtractor
+     */
+    protected $orderAddressDataExtractor;
+
+    /**
      * @var ProductService
      */
     protected $productService;
@@ -59,18 +67,20 @@ class ShipmentBuilder
     protected $logger;
 
     public function __construct(
-        ApiFactory         $apiFactory,
-        AttributeFactory   $attributeFactory,
-        ConfigService      $configService,
-        OrderDataExtractor $orderDataExtractor,
-        ProductService     $productService,
-        LoggerInterface    $logger
+        ApiFactory                $apiFactory,
+        AttributeFactory          $attributeFactory,
+        ConfigService             $configService,
+        OrderDataExtractor        $orderDataExtractor,
+        OrderAddressDataExtractor $orderAddressDataExtractor,
+        ProductService            $productService,
+        LoggerInterface           $logger
     )
     {
         $this->apiFactory = $apiFactory;
         $this->attributeFactory = $attributeFactory;
         $this->configService = $configService;
         $this->orderDataExtractor = $orderDataExtractor;
+        $this->orderAddressDataExtractor = $orderAddressDataExtractor;
         $this->productService = $productService;
         $this->logger = $logger;
     }
@@ -78,8 +88,8 @@ class ShipmentBuilder
     public function buildShipment(OrderEntity $order, Context $context): Shipment
     {
         $this->logger->debug('Building Shipment', [
-            'orderId' => $order->getId(),
-            'orderNumber' => $order->getOrderNumber(),
+            'orderId'           => $order->getId(),
+            'orderNumber'       => $order->getOrderNumber(),
             'orderCustomFields' => $order->getCustomFields(),
         ]);
 
@@ -137,6 +147,12 @@ class ShipmentBuilder
             $shipment->setDeliveryDate(date_create()->format('d-m-Y 15:00:00'));
         }
 
+        if($orderAttributes->getTimeframe()) {
+            $shipment->setDeliveryDate(
+                (new \DateTimeImmutable($orderAttributes->getTimeframe()['to']))
+                    ->format('d-m-Y H:i:s')
+            );
+        }
 
         //= Addresses ====
         $addresses[] = $this->buildReceiverAddress($order);
@@ -165,6 +181,9 @@ class ShipmentBuilder
         $shipment->setAddresses($addresses);
         $shipment->setAmounts($amounts);
         $shipment->setContacts($contacts);
+
+        //= Product Options ====
+        $shipment->setProductOptions($this->buildProductOptions($order, $context));
 
         return $shipment;
     }
@@ -202,24 +221,25 @@ class ShipmentBuilder
      */
     public function buildReceiverAddress($order): Address
     {
-        $orderAddress = $this->orderDataExtractor->extractDeliveryAddress($order);
+        $addresses = $this->orderDataExtractor->extractAddresses($order);
+        $recipientAddress = $this->orderAddressDataExtractor->filterByAddressType($addresses, '01')->first();
 
         $address = new Address();
         $address->setAddressType('01');
-        $address->setFirstName($orderAddress->getFirstName());
-        $address->setName($orderAddress->getLastName());
-        $address->setCompanyName($orderAddress->getCompany());
-        $address->setStreetHouseNrExt($orderAddress->getStreet());
-        $address->setZipcode($orderAddress->getZipcode());
-        $address->setCity($orderAddress->getCity());
-        $address->setCountrycode($this->orderDataExtractor->extractDeliveryCountry($order)->getIso());
+        $address->setFirstName($recipientAddress->getFirstName());
+        $address->setName($recipientAddress->getLastName());
+        $address->setCompanyName($recipientAddress->getCompany());
+        $address->setStreetHouseNrExt($recipientAddress->getStreet());
+        $address->setZipcode($recipientAddress->getZipcode());
+        $address->setCity($recipientAddress->getCity());
+        $address->setCountrycode($this->orderAddressDataExtractor->extractCountry($recipientAddress)->getIso());
 
         return $address;
     }
 
     /**
      * @param OrderEntity $order
-     * @param Context $context
+     * @param Context     $context
      * @return Address
      */
     public function buildPickupLocationAddress(OrderEntity $order, Context $context): Address
@@ -272,7 +292,7 @@ class ShipmentBuilder
 
     /**
      * @param OrderEntity $order
-     * @param Context $context
+     * @param Context     $context
      * @return Dimension
      */
     public function buildDimension(OrderEntity $order, Context $context): Dimension
@@ -292,6 +312,35 @@ class ShipmentBuilder
         }
 
         return new Dimension($totalWeight);
+    }
+
+    public function buildProductOptions(OrderEntity $order, Context $context): array
+    {
+        /** @var OrderAttributeStruct $orderAttributes */
+        $orderAttributes = $this->attributeFactory->createFromEntity($order, $context);
+
+        if (!$orderAttributes->getTimeframe()) {
+            // TODO throw exception
+            return [];
+        }
+
+        $productOptions = [];
+
+        $timeframeArray = $orderAttributes->getTimeframe();
+
+        $timeframe = new TimeframeStruct(
+            new \DateTimeImmutable($timeframeArray['to']),
+            new \DateTimeImmutable($timeframeArray['from']),
+            $timeframeArray['options'],
+            $timeframeArray['sustainability']
+        );
+
+        if($timeframe->hasOption('Evening')) {
+            // TODO improve this
+            $productOptions[] = new ProductOption('118', '006');
+        }
+
+        return $productOptions;
     }
 
     public function buildCustoms(OrderEntity $order, Context $context): Customs
@@ -362,13 +411,14 @@ class ShipmentBuilder
 
     /**
      * Converts g to kg
+     *
      * @param float|int $weightInKG
      * @return int
      */
-    private function convertToGramsInteger($weightInKG):int
+    private function convertToGramsInteger($weightInKG): int
     {
         //Shopware only allows a precision of 3 digits
-        $weightInGrams = $weightInKG*1000;
+        $weightInGrams = $weightInKG * 1000;
         return intval(round($weightInGrams));
     }
 }
