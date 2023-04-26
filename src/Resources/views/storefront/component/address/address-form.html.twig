@@ -147,7 +147,7 @@
                     {% endblock %}
 
                     {% block postnl_component_address_form_alerts %}
-                        <div class="postnl-alerts form-group col-md-12">
+                        <div class="postnl-alerts col-md-12">
                             {% sw_include '@Storefront/storefront/utilities/alert.html.twig' with {
                                 content: '',
                                 type: "warning"
@@ -165,7 +165,8 @@
                 {% block component_address_form_zipcode_city %}
                     {{ parent() }}
                 {% endblock %}
-
+            </div>
+            <div class="form-row">
                 {% block component_address_form_additional_field1 %}
                     {{ parent() }}
                 {% endblock %}
