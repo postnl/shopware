@@ -35,7 +35,6 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
                 ProductDefinition::STOR_AGE_CHECK              => null,
                 ProductDefinition::STOR_NOTIFICATION           => null,
                 ProductDefinition::STOR_TRACK_AND_TRACE        => null,
-                ProductDefinition::STOR_MAILBOX_LARGER_PACKAGE => null,
             ],
             [
                 'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_EU_4907_004_015),
@@ -51,7 +50,6 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
                 ProductDefinition::STOR_AGE_CHECK              => null,
                 ProductDefinition::STOR_NOTIFICATION           => null,
                 ProductDefinition::STOR_TRACK_AND_TRACE        => null,
-                ProductDefinition::STOR_MAILBOX_LARGER_PACKAGE => null,
             ],
             [
                 'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_EU_4907_004_016),
@@ -67,7 +65,6 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
                 ProductDefinition::STOR_AGE_CHECK              => null,
                 ProductDefinition::STOR_NOTIFICATION           => null,
                 ProductDefinition::STOR_TRACK_AND_TRACE        => null,
-                ProductDefinition::STOR_MAILBOX_LARGER_PACKAGE => null,
             ],
             // BE->EU
             [
@@ -84,7 +81,6 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
                 ProductDefinition::STOR_AGE_CHECK              => null,
                 ProductDefinition::STOR_NOTIFICATION           => null,
                 ProductDefinition::STOR_TRACK_AND_TRACE        => null,
-                ProductDefinition::STOR_MAILBOX_LARGER_PACKAGE => null,
             ],
             [
                 'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_EU_4907_004_015),
@@ -100,7 +96,6 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
                 ProductDefinition::STOR_AGE_CHECK              => null,
                 ProductDefinition::STOR_NOTIFICATION           => null,
                 ProductDefinition::STOR_TRACK_AND_TRACE        => null,
-                ProductDefinition::STOR_MAILBOX_LARGER_PACKAGE => null,
             ],
             [
                 'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_EU_4907_004_016),
@@ -116,7 +111,6 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
                 ProductDefinition::STOR_AGE_CHECK              => null,
                 ProductDefinition::STOR_NOTIFICATION           => null,
                 ProductDefinition::STOR_TRACK_AND_TRACE        => null,
-                ProductDefinition::STOR_MAILBOX_LARGER_PACKAGE => null,
             ],
             // NL->GLOBAL
             [
@@ -133,7 +127,6 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
                 ProductDefinition::STOR_AGE_CHECK              => null,
                 ProductDefinition::STOR_NOTIFICATION           => null,
                 ProductDefinition::STOR_TRACK_AND_TRACE        => null,
-                ProductDefinition::STOR_MAILBOX_LARGER_PACKAGE => null,
             ],
             [
                 'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4909_004_015),
@@ -149,7 +142,6 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
                 ProductDefinition::STOR_AGE_CHECK              => null,
                 ProductDefinition::STOR_NOTIFICATION           => null,
                 ProductDefinition::STOR_TRACK_AND_TRACE        => null,
-                ProductDefinition::STOR_MAILBOX_LARGER_PACKAGE => null,
             ],
             [
                 'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4909_004_016),
@@ -165,7 +157,6 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
                 ProductDefinition::STOR_AGE_CHECK              => null,
                 ProductDefinition::STOR_NOTIFICATION           => null,
                 ProductDefinition::STOR_TRACK_AND_TRACE        => null,
-                ProductDefinition::STOR_MAILBOX_LARGER_PACKAGE => null,
             ],
             // BE->GLOBAL
             [
@@ -182,7 +173,6 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
                 ProductDefinition::STOR_AGE_CHECK              => null,
                 ProductDefinition::STOR_NOTIFICATION           => null,
                 ProductDefinition::STOR_TRACK_AND_TRACE        => null,
-                ProductDefinition::STOR_MAILBOX_LARGER_PACKAGE => null,
             ],
             [
                 'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_GLOBAL_4909_004_015),
@@ -198,7 +188,6 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
                 ProductDefinition::STOR_AGE_CHECK              => null,
                 ProductDefinition::STOR_NOTIFICATION           => null,
                 ProductDefinition::STOR_TRACK_AND_TRACE        => null,
-                ProductDefinition::STOR_MAILBOX_LARGER_PACKAGE => null,
             ],
             [
                 'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_GLOBAL_4909_004_016),
@@ -214,7 +203,6 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
                 ProductDefinition::STOR_AGE_CHECK              => null,
                 ProductDefinition::STOR_NOTIFICATION           => null,
                 ProductDefinition::STOR_TRACK_AND_TRACE        => null,
-                ProductDefinition::STOR_MAILBOX_LARGER_PACKAGE => null,
             ],
         ];
 

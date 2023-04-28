@@ -115,7 +115,8 @@
       "deliveryType": {
         "shipment": "Standaard zending",
         "pickup": "Ophalen bij een PostNL-punt",
-        "mailbox": "Brievenbuspakje"
+        "mailbox": "Brievenbuspakje",
+        "package": "Pakje"
       },
       "flag": {
         "homeAlone": "Alleen huisadres",
@@ -125,8 +126,7 @@
         "signature": "Handtekening voor ontvangst",
         "ageCheck": "Leeftijdscontrole",
         "notification": "Notificatie",
-        "trackAndTrace": "Track & Trace",
-        "mailboxLargerPackage": "Doos pakje"
+        "trackAndTrace": "Track & Trace"
       }
     },
     "rules": {

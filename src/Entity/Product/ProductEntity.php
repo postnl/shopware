@@ -70,9 +70,6 @@ class ProductEntity extends Entity
     /** @var bool|null */
     protected $trackAndTrace;
 
-    /** @var bool|null */
-    protected $mailboxLargerPackage;
-
     /** @var ProductTranslationCollection */
     protected $translations;
 
@@ -379,23 +376,6 @@ class ProductEntity extends Entity
     {
         $this->trackAndTrace = $trackAndTrace;
     }
-
-    /**
-     * @return bool|null
-     */
-    public function getMailboxLargerPackage(): ?bool
-    {
-        return $this->mailboxLargerPackage;
-    }
-
-    /**
-     * @param bool|null $mailboxLargerPackage
-     */
-    public function setMailboxLargerPackage(?bool $mailboxLargerPackage): void
-    {
-        $this->mailboxLargerPackage = $mailboxLargerPackage;
-    }
-
 
     /**
      * @return ProductTranslationCollection

@@ -77,17 +77,22 @@ class ProductFacade
             $context
         );
 
-        $productFlags = [
-            ProductDefinition::PROP_HOME_ALONE             => $product->getHomeAlone(),
-            ProductDefinition::PROP_RETURN_IF_NOT_HOME     => $product->getReturnIfNotHome(),
-            ProductDefinition::PROP_INSURANCE              => $product->getInsurance(),
-            ProductDefinition::PROP_INSURANCE_PLUS         => $product->getInsurancePlus(),
-            ProductDefinition::PROP_SIGNATURE              => $product->getSignature(),
-            ProductDefinition::PROP_AGE_CHECK              => $product->getAgeCheck(),
-            ProductDefinition::PROP_NOTIFICATION           => $product->getNotification(),
-            ProductDefinition::PROP_TRACK_AND_TRACE        => $product->getTrackAndTrace(),
-            ProductDefinition::PROP_MAILBOX_LARGER_PACKAGE => $product->getMailboxLargerPackage(),
-        ];
+        $productFlags = [];
+
+        foreach(ProductDefinition::ALL_FLAGS as $flag) {
+            try {
+                $productFlags[$flag] = $product->get($flag);
+            } catch(\InvalidArgumentException $e) {
+                $this->logger->critical(
+                    $e->getMessage(),
+                    [
+                        'flag' => $flag
+                    ]
+                );
+
+                throw $e;
+            }
+        }
 
         // Only pass in flags that are true
         $filteredFlags = array_filter($productFlags, function ($value) {
