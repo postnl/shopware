@@ -145,7 +145,7 @@ class ShipmentBuilder
         }
 
         //= Mailbox ====
-        if ($product->getDeliveryType() === DeliveryType::MAILBOX) {
+        if ($product->getDeliveryType() === DeliveryType::MAILBOX && $product->getDestinationZone() === Zone::NL) {
             $shipment->setDeliveryDate(date_create()->format('d-m-Y 15:00:00'));
         }
 
