@@ -369,7 +369,7 @@ class ShipmentService
         foreach ($orders as $order) {
             $shipments[] = $this->shipmentBuilder->buildShipment($order, $context);
         }
-        
+
         $labelResponses = $apiClient->sendShipments(
             $shipments,
             $printerType,
