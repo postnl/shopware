@@ -204,7 +204,7 @@ class ProductService
         $filteredFlags = $this->getProductFilterFlagsByChangeSet($products, $changeSet);
         $filteredProducts = $this->filterProductsByFlags($products, $filteredFlags);
 
-        $unfilteredFlags = array_diff($this->requiredFlags($destinationZone, $deliveryType), array_keys($filteredFlags));
+        $unfilteredFlags = array_diff($this->getRequiredFlagsFromProducts($filteredProducts), array_keys($filteredFlags));
 
         foreach($unfilteredFlags as $flag) {
             $availableValues = $filteredProducts->reduceToProperty($flag);
@@ -428,6 +428,27 @@ class ProductService
     }
 
     /**
+     * @param ProductCollection $products
+     * @return string[]
+     */
+    public function getRequiredFlagsFromProducts(ProductCollection $products): array
+    {
+        $requiredFlags = [];
+
+        foreach(ProductDefinition::ALL_FLAGS as $flag) {
+            $propValues = $products->reduceToProperty($flag);
+
+            if(in_array(true, $propValues, true) || in_array(false, $propValues, true)) {
+                $requiredFlags[] = $flag;
+            }
+        }
+
+        return $requiredFlags;
+    }
+
+
+    /**
+     * @deprecated 
      * @param string $destinationZone
      * @param string $deliveryType
      * @return string[]
