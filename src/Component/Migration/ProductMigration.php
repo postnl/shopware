@@ -105,10 +105,8 @@ abstract class ProductMigration extends MigrationStep
         $translations = [
             'en-GB' => [
                 'destination_zone'                         => [
-                    Zone::NL     => 'Netherlands',
-                    Zone::BE     => 'Belgium',
-                    Zone::EU     => 'Europe',
-                    Zone::GLOBAL => 'International',
+                    Zone::EU     => 'Parcel EU',
+                    Zone::GLOBAL => 'Parcel non-EU',
                 ],
                 'delivery_type'                            => [
                     DeliveryType::SHIPMENT => 'Standard Shipment',
@@ -127,10 +125,8 @@ abstract class ProductMigration extends MigrationStep
             ],
             'de-DE' => [
                 'destination_zone'                         => [
-                    Zone::NL     => 'Niederlande',
-                    Zone::BE     => 'Belgien',
-                    Zone::EU     => 'Europa',
-                    Zone::GLOBAL => 'International',
+                    Zone::EU     => 'EU Paket',
+                    Zone::GLOBAL => 'Nicht-EU-Paket',
                 ],
                 'delivery_type'                            => [
                     DeliveryType::SHIPMENT => 'Standardversand',
@@ -149,16 +145,14 @@ abstract class ProductMigration extends MigrationStep
             ],
             'nl-NL' => [
                 'destination_zone'                         => [
-                    Zone::NL     => "Nederland",
-                    Zone::BE     => "België",
-                    Zone::EU     => "Europa",
-                    Zone::GLOBAL => "Internationaal",
+                    Zone::EU     => "EU Pakket",
+                    Zone::GLOBAL => "Non-EU Pakket",
                 ],
                 'delivery_type'                            => [
                     DeliveryType::SHIPMENT => 'Standaard zending',
                     DeliveryType::PICKUP   => 'Ophalen bij een PostNL-punt',
                     DeliveryType::MAILBOX  => 'Brievenbuspakje',
-                    DeliveryType::PACKAGE  => 'Pakje',
+                    DeliveryType::PACKAGE  => 'Pakket',
                 ],
                 ProductDefinition::STOR_HOME_ALONE         => 'Alleen huisadres',
                 ProductDefinition::STOR_RETURN_IF_NOT_HOME => 'Retour bij geen gehoor',
