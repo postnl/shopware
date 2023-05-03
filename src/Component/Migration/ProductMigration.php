@@ -64,6 +64,54 @@ abstract class ProductMigration extends MigrationStep
         }
     }
 
+    public function updateProductTranslations(Connection $connection, array $products)
+    {
+        $productIdField = ProductDefinition::ENTITY_NAME . '_id';
+
+        $connection->beginTransaction();
+
+        try {
+            foreach ($products as $product) {
+                $locale = $product['code'];
+                unset($product['code']);
+
+                if (array_key_exists('name', $product)) {
+                    $name = $product['name'];
+                    unset($product['name']);
+                }
+
+                if (array_key_exists('description', $product)) {
+                    $description = $product['description'];
+                    unset($product['description']);
+                }
+
+                if (!array_key_exists('updated_at', $product)) {
+                    $product['updated_at'] = (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT);
+                }
+
+                $connection->update(
+                    ProductTranslationDefinition::ENTITY_NAME,
+                    $this->quote($connection, [
+                        'name'          => $name ?? $this->buildProductDescription($product, $locale),
+                        'description'   => $description ?? $this->buildProductDescription($product, $locale),
+                        'updated_at'    => $product['updated_at'],
+                    ]),
+                    $this->quote($connection, [
+                        'language_id'   => $product['language_id'],
+                        $productIdField => $product['id'],
+                    ])
+                );
+            }
+
+
+            $connection->commit();
+        }
+        catch (\Exception $e) {
+            $connection->rollBack();
+            throw $e;
+        }
+    }
+
     /**
      * @param Connection            $connection
      * @param array<string, string> $deleteIds
