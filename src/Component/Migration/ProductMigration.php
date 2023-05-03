@@ -28,7 +28,7 @@ abstract class ProductMigration extends MigrationStep
     public function insertProducts(Connection $connection, array $products): void
     {
         $languages = $this->getOrCreateLanguages($connection);
-        $productCodeIdField = ProductDefinition::ENTITY_NAME . '_id';
+        $productIdField = ProductDefinition::ENTITY_NAME . '_id';
 
         $connection->beginTransaction();
 
@@ -47,11 +47,11 @@ abstract class ProductMigration extends MigrationStep
 
                 foreach ($languages as $locale => $language) {
                     $connection->insert(ProductTranslationDefinition::ENTITY_NAME, $this->quote($connection, [
-                        'name'              => $name ?? $this->buildProductDescription($product, $locale),
-                        'description'       => $this->buildProductDescription($product, $locale),
-                        'language_id'       => $language['id'],
-                        $productCodeIdField => $product['id'],
-                        'created_at'        => $product['created_at'],
+                        'name'          => $name ?? $this->buildProductDescription($product, $locale),
+                        'description'   => $this->buildProductDescription($product, $locale),
+                        'language_id'   => $language['id'],
+                        $productIdField => $product['id'],
+                        'created_at'    => $product['created_at'],
                     ]));
                 }
             }
@@ -127,7 +127,7 @@ abstract class ProductMigration extends MigrationStep
             ],
             'de-DE' => [
                 'destination_zone'                         => [
-                    Zone::EU     => 'EU Paket',
+                    Zone::EU     => 'EU-Paket',
                     Zone::GLOBAL => 'Nicht-EU-Paket',
                 ],
                 'delivery_type'                            => [
@@ -169,11 +169,11 @@ abstract class ProductMigration extends MigrationStep
 
         $parts = [];
 
-        if(in_array($product['destination_zone'], $translations[$locale]['destination_zone'])) {
+        if (in_array($product['destination_zone'], $translations[$locale]['destination_zone'])) {
             $parts[] = $translations[$locale]['destination_zone'][$product['destination_zone']];
         }
 
-        if(in_array($product['delivery_type'], $translations[$locale]['delivery_type'])) {
+        if (in_array($product['delivery_type'], $translations[$locale]['delivery_type'])) {
             $parts[] = $translations[$locale]['delivery_type'][$product['delivery_type']];
         }
 
@@ -191,15 +191,15 @@ abstract class ProductMigration extends MigrationStep
      * @return array<array<string, mixed>>
      * @throws \Doctrine\DBAL\Exception
      */
-    private function getProducts(Connection $connection): array
+    private function getProductTranslations(Connection $connection): array
     {
         $ppFields = array_map(function($field) use ($connection) {
             return $connection->quoteIdentifier('pp') . '.' . $connection->quoteIdentifier($field);
-        }, ['product_code_delivery', 'source_zone', 'destination_zone', 'delivery_type', ...array_keys(ProductDefinition::ALL_FLAGS)]);
+        }, ['id', 'product_code_delivery', 'source_zone', 'destination_zone', 'delivery_type', ...array_keys(ProductDefinition::ALL_FLAGS)]);
 
         $pptFields = array_map(function($field) use ($connection) {
             return $connection->quoteIdentifier('ppt') . '.' . $connection->quoteIdentifier($field);
-        }, ['postnl_product_id', 'language_id', 'name', 'description']);
+        }, ['language_id', 'name', 'description']);
 
         $locFields = array_map(function($field) use ($connection) {
             return $connection->quoteIdentifier('loc') . '.' . $connection->quoteIdentifier($field);
@@ -208,7 +208,7 @@ abstract class ProductMigration extends MigrationStep
         $builder = $connection->createQueryBuilder();
 
         $builder
-            ->select(...$pptFields, ...$locFields, ...$ppFields)
+            ->select(...$ppFields, ...$locFields, ...$pptFields)
             ->from(
                 $connection->quoteIdentifier(ProductTranslationDefinition::ENTITY_NAME),
                 $connection->quoteIdentifier('ppt')
