@@ -191,7 +191,7 @@ abstract class ProductMigration extends MigrationStep
      * @return array<array<string, mixed>>
      * @throws \Doctrine\DBAL\Exception
      */
-    private function getProductTranslations(Connection $connection): array
+    protected function getProductTranslations(Connection $connection): array
     {
         $ppFields = array_map(function($field) use ($connection) {
             return $connection->quoteIdentifier('pp') . '.' . $connection->quoteIdentifier($field);
@@ -213,43 +213,39 @@ abstract class ProductMigration extends MigrationStep
                 $connection->quoteIdentifier(ProductTranslationDefinition::ENTITY_NAME),
                 $connection->quoteIdentifier('ppt')
             )
-            ->join(
-                $connection->quoteIdentifier('ppt'),
-                $connection->quoteIdentifier(ProductDefinition::ENTITY_NAME),
-                $connection->quoteIdentifier('pp'),
-                sprintf(
-                    '%s.%s = %s.%s',
-                    $connection->quoteIdentifier('ppt'),
-                    $connection->quoteIdentifier('postnl_product_id'),
-                    $connection->quoteIdentifier('pp'),
-                    $connection->quoteIdentifier('id'),
-                )
-            )
-            ->join(
-                $connection->quoteIdentifier('ppt'),
-                $connection->quoteIdentifier(LanguageDefinition::ENTITY_NAME),
-                $connection->quoteIdentifier('lang'),
-                sprintf(
-                    '%s.%s = %s.%s',
-                    $connection->quoteIdentifier('ppt'),
-                    $connection->quoteIdentifier('language_id'),
-                    $connection->quoteIdentifier('lang'),
-                    $connection->quoteIdentifier('id'),
-                )
-            )
-            ->join(
-                $connection->quoteIdentifier('lang'),
-                $connection->quoteIdentifier(LocaleDefinition::ENTITY_NAME),
-                $connection->quoteIdentifier('loc'),
-                sprintf(
-                    '%s.%s = %s.%s',
-                    $connection->quoteIdentifier('lang'),
-                    $connection->quoteIdentifier('translation_code_id'),
-                    $connection->quoteIdentifier('loc'),
-                    $connection->quoteIdentifier('id'),
-                )
-            );
+            ->join(...$this->createQuotedJoinParts(
+                $connection, 'ppt', ProductDefinition::ENTITY_NAME, 'pp', 'postnl_product_id', 'id'
+            ))
+            ->join(...$this->createQuotedJoinParts(
+                $connection, 'ppt', LanguageDefinition::ENTITY_NAME, 'lang', 'language_id', 'id'
+            ))
+            ->join(...$this->createQuotedJoinParts(
+                $connection, 'lang', LocaleDefinition::ENTITY_NAME, 'loc', 'translation_code_id', 'id'
+            ));
+
 
         return $connection->fetchAllAssociative($builder->getSQL());
+    }
+
+    private function createQuotedJoinParts(
+        Connection $connection,
+        string $leftAlias,
+        string $rightTable,
+        string $rightAlias,
+        string $leftOnField,
+        string $rightOnField
+    ): array {
+        return [
+            $connection->quoteIdentifier($leftAlias),
+            $connection->quoteIdentifier($rightTable),
+            $connection->quoteIdentifier($rightAlias),
+            sprintf(
+                '%s.%s = %s.%s',
+                $connection->quoteIdentifier($leftAlias),
+                $connection->quoteIdentifier($leftOnField),
+                $connection->quoteIdentifier($rightAlias),
+                $connection->quoteIdentifier($rightOnField),
+            )
+        ];
     }
 }
