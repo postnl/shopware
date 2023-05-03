@@ -10,6 +10,8 @@ use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
 use Shopware\Core\Defaults as ShopwareDefaults;
 use Shopware\Core\Framework\Migration\MigrationStep;
 use Shopware\Core\Framework\Uuid\Uuid;
+use Shopware\Core\System\Language\LanguageDefinition;
+use Shopware\Core\System\Locale\LocaleDefinition;
 
 abstract class ProductMigration extends MigrationStep
 {
@@ -182,5 +184,72 @@ abstract class ProductMigration extends MigrationStep
         }
 
         return implode(', ', $parts);
+    }
+
+    /**
+     * @param Connection $connection
+     * @return array<array<string, mixed>>
+     * @throws \Doctrine\DBAL\Exception
+     */
+    private function getProducts(Connection $connection): array
+    {
+        $ppFields = array_map(function($field) use ($connection) {
+            return $connection->quoteIdentifier('pp') . '.' . $connection->quoteIdentifier($field);
+        }, ['product_code_delivery', 'source_zone', 'destination_zone', 'delivery_type', ...array_keys(ProductDefinition::ALL_FLAGS)]);
+
+        $pptFields = array_map(function($field) use ($connection) {
+            return $connection->quoteIdentifier('ppt') . '.' . $connection->quoteIdentifier($field);
+        }, ['postnl_product_id', 'language_id', 'name', 'description']);
+
+        $locFields = array_map(function($field) use ($connection) {
+            return $connection->quoteIdentifier('loc') . '.' . $connection->quoteIdentifier($field);
+        }, ['code']);
+
+        $builder = $connection->createQueryBuilder();
+
+        $builder
+            ->select(...$pptFields, ...$locFields, ...$ppFields)
+            ->from(
+                $connection->quoteIdentifier(ProductTranslationDefinition::ENTITY_NAME),
+                $connection->quoteIdentifier('ppt')
+            )
+            ->join(
+                $connection->quoteIdentifier('ppt'),
+                $connection->quoteIdentifier(ProductDefinition::ENTITY_NAME),
+                $connection->quoteIdentifier('pp'),
+                sprintf(
+                    '%s.%s = %s.%s',
+                    $connection->quoteIdentifier('ppt'),
+                    $connection->quoteIdentifier('postnl_product_id'),
+                    $connection->quoteIdentifier('pp'),
+                    $connection->quoteIdentifier('id'),
+                )
+            )
+            ->join(
+                $connection->quoteIdentifier('ppt'),
+                $connection->quoteIdentifier(LanguageDefinition::ENTITY_NAME),
+                $connection->quoteIdentifier('lang'),
+                sprintf(
+                    '%s.%s = %s.%s',
+                    $connection->quoteIdentifier('ppt'),
+                    $connection->quoteIdentifier('language_id'),
+                    $connection->quoteIdentifier('lang'),
+                    $connection->quoteIdentifier('id'),
+                )
+            )
+            ->join(
+                $connection->quoteIdentifier('lang'),
+                $connection->quoteIdentifier(LocaleDefinition::ENTITY_NAME),
+                $connection->quoteIdentifier('loc'),
+                sprintf(
+                    '%s.%s = %s.%s',
+                    $connection->quoteIdentifier('lang'),
+                    $connection->quoteIdentifier('translation_code_id'),
+                    $connection->quoteIdentifier('loc'),
+                    $connection->quoteIdentifier('id'),
+                )
+            );
+
+        return $connection->fetchAllAssociative($builder->getSQL());
     }
 }
