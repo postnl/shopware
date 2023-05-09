@@ -216,11 +216,11 @@ abstract class ProductMigration extends MigrationStep
 
         $parts = [];
 
-        if (in_array($product['destination_zone'], $translations[$locale]['destination_zone'])) {
+        if (array_key_exists($product['destination_zone'], $translations[$locale]['destination_zone'])) {
             $parts[] = $translations[$locale]['destination_zone'][$product['destination_zone']];
         }
 
-        if (in_array($product['delivery_type'], $translations[$locale]['delivery_type'])) {
+        if (array_key_exists($product['delivery_type'], $translations[$locale]['delivery_type'])) {
             $parts[] = $translations[$locale]['delivery_type'][$product['delivery_type']];
         }
 
