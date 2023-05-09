@@ -103,7 +103,6 @@ abstract class ProductMigration extends MigrationStep
                 );
             }
 
-
             $connection->commit();
         }
         catch (\Exception $e) {
