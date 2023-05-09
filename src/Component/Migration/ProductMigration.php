@@ -241,19 +241,16 @@ abstract class ProductMigration extends MigrationStep
      */
     protected function getProductTranslations(Connection $connection): array
     {
-        $ppFields = array_map(function($field) use ($connection) {
-            return $connection->quoteIdentifier('pp') . '.' . $connection->quoteIdentifier($field);
-        }, ['id', 'product_code_delivery', 'source_zone', 'destination_zone', 'delivery_type', ...array_keys(ProductDefinition::ALL_FLAGS)]);
-
-        $pptFields = array_map(function($field) use ($connection) {
-            return $connection->quoteIdentifier('ppt') . '.' . $connection->quoteIdentifier($field);
-        }, ['language_id', 'name', 'description']);
-
-        $locFields = array_map(function($field) use ($connection) {
-            return $connection->quoteIdentifier('loc') . '.' . $connection->quoteIdentifier($field);
-        }, ['code']);
-
         $builder = $connection->createQueryBuilder();
+
+        $ppFields = $this->createQuotedFields(
+            $connection,
+            ['id', 'product_code_delivery', 'source_zone', 'destination_zone', 'delivery_type', ...array_keys(ProductDefinition::ALL_FLAGS)],
+            'pp'
+        );
+
+        $pptFields = $this->createQuotedFields($connection, ['language_id', 'name', 'description'], 'ppt');
+        $locFields = $this->createQuotedFields($connection, ['code'], 'loc');
 
         $builder
             ->select(...$ppFields, ...$locFields, ...$pptFields)
@@ -271,29 +268,6 @@ abstract class ProductMigration extends MigrationStep
                 $connection, 'lang', LocaleDefinition::ENTITY_NAME, 'loc', 'translation_code_id', 'id'
             ));
 
-
         return $connection->fetchAllAssociative($builder->getSQL());
-    }
-
-    private function createQuotedJoinParts(
-        Connection $connection,
-        string $leftAlias,
-        string $rightTable,
-        string $rightAlias,
-        string $leftOnField,
-        string $rightOnField
-    ): array {
-        return [
-            $connection->quoteIdentifier($leftAlias),
-            $connection->quoteIdentifier($rightTable),
-            $connection->quoteIdentifier($rightAlias),
-            sprintf(
-                '%s.%s = %s.%s',
-                $connection->quoteIdentifier($leftAlias),
-                $connection->quoteIdentifier($leftOnField),
-                $connection->quoteIdentifier($rightAlias),
-                $connection->quoteIdentifier($rightOnField),
-            )
-        ];
     }
 }
