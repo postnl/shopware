@@ -17,6 +17,16 @@ class Migration1683105992UpdateV2_0ProductNaming extends ProductMigration
     {
         $products = $this->getProductTranslations($connection);
 
+        $products = array_map(function (array $product) {
+            if($product['name'] === $product['description']) {
+                unset($product['name']);
+            }
+
+            unset($product['description']);
+
+            return $product;
+        }, $products);
+
         $this->updateProductTranslations(
             $connection,
             $products
