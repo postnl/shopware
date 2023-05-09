@@ -4,7 +4,7 @@
             {{ content.customerNumber }} {{ content.customerCode }}
 
             <template v-if="content.globalPackCustomerCode || content.globalPackBarcodeType">
-                &mdash; GlobalPack: {{ content.globalPackCustomerCode }} {{ content.globalPackBarcodeType }}
+                &mdash; {{ $tc('postnl.config.customerData.globalPack') }}: {{ content.globalPackBarcodeType }} {{ content.globalPackCustomerCode }}
             </template>
         </template>
         <template #content="{ disabled }">
@@ -19,16 +19,16 @@
                                :label="$tc('postnl.config.customerData.customerCode')"
                                :disabled="disabled"/>
 
-                <sw-text-field v-model="content.globalPackCustomerCode"
-                               required
-                               :label="$tc('postnl.config.customerData.globalPackCustomerCode')"
-                               :disabled="disabled"/>
-
                 <sw-text-field v-model="content.globalPackBarcodeType"
                                required
                                :label="$tc('postnl.config.customerData.globalPackBarcodeType')"
                                :disabled="disabled"
-                               />
+                />
+
+                <sw-text-field v-model="content.globalPackCustomerCode"
+                               required
+                               :label="$tc('postnl.config.customerData.globalPackCustomerCode')"
+                               :disabled="disabled"/>
             </sw-container>
 
             <postnl-required-hint textAlign="right"/>
