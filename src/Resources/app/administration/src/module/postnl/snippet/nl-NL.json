@@ -9,14 +9,14 @@
       "mandatoryFields": "Velden met een asterisk zijn verplicht.",
       "info": {
         "title": "Hi {username}, welkom bij de PostNL extensie!",
-        "onboardingStep1": "Bekijk jouw API key in {mijnPostNLLink}. Of vraag hier een API key aan.",
+        "onboardingStep1": "Bekijk jouw API key in {link}. Of vraag hier een API key aan.",
         "mijnPostNL": "MijnPostNL",
         "mijnPostNLApiHere": "hier",
-        "onboardingStep2": "Activeer de verzendopties van PostNL in de Shipping instellingen van Shopware.",
-        "onboardingStep21": "Ga naar {shippingSettingsLink}.",
-        "shippingSettings": "Shipping instellingen",
+        "onboardingStep2": "Activeer de verzendopties van PostNL in de Verzending instellingen van Shopware.",
+        "onboardingStep21": "Ga naar {link}.",
+        "shippingSettings": "Verzending instellingen",
         "onboardingStep3": "Activeer de verzendopties van PostNL per verkoop kanaal.",
-        "onboardingStep31": "Ga naar mijn {salesChannels}.",
+        "onboardingStep31": "Ga naar mijn {link}.",
         "salesChannels": "Verkoopkanalen",
         "btnManual": "Handleiding",
         "btnSupport": "Support"
@@ -33,8 +33,9 @@
         "customerNumber": "Klantnummer (bvb. '11223344')",
         "customerCode": "Klantcode (bvb. 'DEVC')",
         "collectionLocation": "Locatiecode (bvb. '123456') ",
-        "globalPackCustomerCode": "Klantcode Global Pack (bvb. '1234')",
-        "globalPackBarcodeType": "Type Barcode GlobalPack (bvb. 'CD')"
+        "globalPack": "Non-EU",
+        "globalPackCustomerCode": "Klantcode non-EU pakket (bvb. '1234')",
+        "globalPackBarcodeType": "Type Barcode non-EU pakket (bvb. 'CD')"
       },
       "senderAddress": {
         "companyName": "Bedrijfsnaam",

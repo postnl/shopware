@@ -8,14 +8,14 @@
     "config": {
       "info": {
         "title": "Hallo {username}, willkommen bei der PostNL-Erweiterung!",
-        "onboardingStep1": "Finden Sie Ihren API-Schlüssel unter {mijnPostNLLink}. Oder fordern Sie hier einen API-Schlüssel an.",
+        "onboardingStep1": "Finden Sie Ihren API-Schlüssel unter {link}. Oder fordern Sie hier einen API-Schlüssel an.",
         "mijnPostNL": "MijnPostNL",
         "mijnPostNLApiHere": "hier",
         "onboardingStep2": "Aktivieren Sie die Versandoptionen von PostNL in den Versandeinstellungen von Shopware.",
-        "onboardingStep21": "Gehen Sie zu den {shippingSettingsLink}.",
+        "onboardingStep21": "Gehen Sie zu den {link}.",
         "shippingSettings": "Versandeinstellungen",
         "onboardingStep3": "Aktivieren Sie die Versandoptionen von PostNL pro Vertriebskanal.",
-        "onboardingStep31": "Gehen Sie zu Ihren {salesChannels}.",
+        "onboardingStep31": "Gehen Sie zu Ihren {link}.",
         "salesChannels": "Vertriebskanälen",
         "btnManual": "Manuell",
         "btnSupport": "Unterstützung"
@@ -33,8 +33,9 @@
         "customerNumber": "Kundennummer (z.B. '11223344')",
         "customerCode": "Kundencode (z.B. 'DEVC')",
         "collectionLocation": "Ort-Code (z.B. '123456')",
-        "globalPackCustomerCode": "GlobalPack-Kundencode (z.B. '1234')",
-        "globalPackBarcodeType": "Global Pack Barcode-Typ (z.B. 'CD')"
+        "globalPack": "Nicht-EU",
+        "globalPackCustomerCode": "Kundencode Nicht-EU-Paket (z.B. '1234')",
+        "globalPackBarcodeType": "Barcode Typ Nicht-EU-Paket (z.B. 'CD')"
       },
       "senderAddress": {
         "companyName": "Firmenname",

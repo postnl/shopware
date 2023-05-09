@@ -9,14 +9,14 @@
       "mandatoryFields": "Fields with an asterisk are mandatory.",
       "info": {
         "title": "Hi {username}, welcome to the PostNL extension!",
-        "onboardingStep1": "Find your API key at {mijnPostNLLink}. Or request an API key here.",
+        "onboardingStep1": "Find your API key at {link}. Or request an API key here.",
         "mijnPostNL": "MijnPostNL",
         "mijnPostNLApiHere": "here",
         "onboardingStep2": "Activate PostNL's shipping options in Shopware's Shipping settings.",
-        "onboardingStep21": "Go to {shippingSettingsLink}.",
+        "onboardingStep21": "Go to {link}.",
         "shippingSettings": "Shipping settings",
         "onboardingStep3": "Activate PostNL's shipping options per sales channel.",
-        "onboardingStep31": "Go to your {salesChannels}.",
+        "onboardingStep31": "Go to your {link}.",
         "salesChannels": "Sales channels",
         "btnManual": "Manual",
         "btnSupport": "Support"
@@ -33,8 +33,9 @@
         "customerNumber": "Customer number (e.g. '11223344')",
         "customerCode": "Customer code (e.g. 'DEVC')",
         "collectionLocation": "Location code (e.g. '123456')",
-        "globalPackCustomerCode": "Global Pack customer code (e.g. '1234')",
-        "globalPackBarcodeType": "Global Pack barcode type(e.g. 'CD')"
+        "globalPack": "Non-EU",
+        "globalPackCustomerCode": "Parcel non-EU customer code (e.g. '1234')",
+        "globalPackBarcodeType": "Parcel non-EU barcode type(e.g. 'CD')"
       },
       "senderAddress": {
         "companyName": "Company name",
