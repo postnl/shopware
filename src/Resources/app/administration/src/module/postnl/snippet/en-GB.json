@@ -117,7 +117,7 @@
         "shipment": "Standard Shipment",
         "pickup": "Pick-up at PostNL location",
         "mailbox": "Mailbox parcel",
-        "package": "Package"
+        "parcel": "Parcel"
       },
       "flag": {
         "homeAlone": "Deliver to stated address only",
