@@ -353,7 +353,7 @@ class ProductService
                                 $defaultProductId = Defaults::PRODUCT_MAILBOX_NL_NL;
                                 break;
                             case DeliveryType::SHIPMENT:
-                                $defaultProductId = Defaults::PRODUCT_SHIPPING_NL_NL;
+                                $defaultProductId = Defaults::PRODUCT_SHIPMENT_NL_NL;
                                 break;
                             case DeliveryType::PICKUP:
                                 $defaultProductId = Defaults::PRODUCT_PICKUP_NL_NL;
@@ -363,7 +363,7 @@ class ProductService
                     case Zone::BE:
                         switch ($deliveryType) {
                             case DeliveryType::SHIPMENT:
-                                $defaultProductId = Defaults::PRODUCT_SHIPPING_NL_BE;
+                                $defaultProductId = Defaults::PRODUCT_SHIPMENT_NL_BE;
                                 break;
                             case DeliveryType::PICKUP:
                                 $defaultProductId = Defaults::PRODUCT_PICKUP_NL_BE;
@@ -397,7 +397,7 @@ class ProductService
                     case Zone::BE:
                         switch ($deliveryType) {
                             case DeliveryType::SHIPMENT:
-                                $defaultProductId = Defaults::PRODUCT_SHIPPING_BE_BE;
+                                $defaultProductId = Defaults::PRODUCT_SHIPMENT_BE_BE;
                                 break;
                             case DeliveryType::PICKUP:
                                 $defaultProductId = Defaults::PRODUCT_PICKUP_BE_BE;
@@ -448,7 +448,7 @@ class ProductService
 
 
     /**
-     * @deprecated 
+     * @deprecated
      * @param string $destinationZone
      * @param string $deliveryType
      * @return string[]

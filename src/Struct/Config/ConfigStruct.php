@@ -49,6 +49,7 @@ class ConfigStruct extends AttributeStruct
      * @var ProductSelectionStruct
      */
     protected $productShipmentNlNlDefault;
+
     /**
      * @var ProductSelectionStruct
      */

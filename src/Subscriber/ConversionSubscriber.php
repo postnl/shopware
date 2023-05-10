@@ -307,7 +307,7 @@ class ConversionSubscriber implements EventSubscriberInterface
                                 }
 
                                 if (empty($id)) {
-                                    $id = Defaults::PRODUCT_SHIPPING_NL_NL;
+                                    $id = Defaults::PRODUCT_SHIPMENT_NL_NL;
                                 }
                                 return $id;
                             case DeliveryType::PICKUP:
@@ -334,7 +334,7 @@ class ConversionSubscriber implements EventSubscriberInterface
                                 }
 
                                 if (empty($id)) {
-                                    $id = Defaults::PRODUCT_SHIPPING_NL_BE;
+                                    $id = Defaults::PRODUCT_SHIPMENT_NL_BE;
                                 }
                                 return $id;
                             case DeliveryType::PICKUP:
@@ -381,7 +381,7 @@ class ConversionSubscriber implements EventSubscriberInterface
                                 }
 
                                 if (empty($id)) {
-                                    $id = Defaults::PRODUCT_SHIPPING_BE_BE;
+                                    $id = Defaults::PRODUCT_SHIPMENT_BE_BE;
                                 }
                                 return $id;
                             case DeliveryType::PICKUP:

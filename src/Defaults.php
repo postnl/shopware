@@ -4,6 +4,8 @@ namespace PostNL\Shopware6;
 
 class Defaults
 {
+    //region Constants
+    //region Custom Fields
     const CUSTOM_FIELDS_KEY = 'postnl';
     const CUSTOM_FIELDS_STREETNAME_KEY = 'streetName';
     const CUSTOM_FIELDS_HOUSENUMBER_KEY = 'houseNumber';
@@ -11,26 +13,50 @@ class Defaults
     const CUSTOM_FIELDS_TIMEFRAME_KEY = 'timeframe';
     const CUSTOM_FIELDS_DELIVERY_DATE_KEY = 'deliveryDate';
     const CUSTOM_FIELDS_SENT_DATE_KEY = 'sentDate';
-
+    //endregion
+    //region Zone
     const ZONE_ONLY_EUROPE = "PostNL zone only Europe";
     const ZONE_ONLY_BELGIUM = "PostNL zone only Belgium";
     const ZONE_ONLY_REST_OF_WORLD = "PostNL zone only rest of world";
     const ZONE_ONLY_NETHERLANDS = "PostNL zone only Netherlands";
-
+    //endregion
+    //region Lineitem
     const LINEITEM_PAYLOAD_WEIGHT_KEY = 'weight';
     const LINEITEM_PAYLOAD_TARIFF_KEY = 'hsTariffCode';
     const LINEITEM_PAYLOAD_ORIGIN_KEY = 'countryOfOrigin';
+    //endregion
+    //endregion
 
-    const PRODUCT_MAILBOX_NL_NL = self::PRODUCT_MAILBOX_NL_NL_2928;
-    const PRODUCT_SHIPPING_NL_NL = self::PRODUCT_SHIPPING_NL_NL_3085;
-    const PRODUCT_PICKUP_NL_NL = self::PRODUCT_PICKUP_NL_NL_3533;
+    //region Category Defaults
+    /**
+     * These act as the default for their category
+     */
+    const PRODUCT_SHIPMENT_NL_NL = self::PRODUCT_SHIPPING_NL_NL_3085;
+    const PRODUCT_PICKUP_NL_NL   = self::PRODUCT_PICKUP_NL_NL_3533;
+    const PRODUCT_MAILBOX_NL_NL  = self::PRODUCT_MAILBOX_NL_NL_2928;
 
-    const PRODUCT_SHIPPING_NL_BE = self::PRODUCT_SHIPPING_NL_BE_4946;
-    const PRODUCT_PICKUP_NL_BE = self::PRODUCT_PICKUP_NL_BE_4936;
+    const PRODUCT_SHIPMENT_NL_BE = self::PRODUCT_SHIPPING_NL_BE_4946;
+    const PRODUCT_PICKUP_NL_BE   = self::PRODUCT_PICKUP_NL_BE_4936;
 
-    const PRODUCT_SHIPPING_BE_BE = self::PRODUCT_SHIPPING_BE_BE_4960;
-    const PRODUCT_PICKUP_BE_BE = self::PRODUCT_PICKUP_BE_BE_4880;
+    const PRODUCT_SHIPMENT_NL_EU = self::PRODUCT_SHIPPING_NL_EU_4907_005_025;
+    const PRODUCT_MAILBOX_NL_EU = self::PRODUCT_MAILBOX_NL_EU_6440;
+    const PRODUCT_PACKAGE_NL_EU = self::PRODUCT_PACKAGE_NL_EU_6405;
 
+    const PRODUCT_SHIPMENT_NL_GLOBAL = self::PRODUCT_SHIPPING_NL_GLOBAL_4909_005_025;
+    const PRODUCT_MAILBOX_NL_GLOBAL = self::PRODUCT_MAILBOX_NL_GLOBAL_6440;
+    const PRODUCT_PACKAGE_NL_GLOBAL = self::PRODUCT_PACKAGE_NL_GLOBAL_6405;
+
+    const PRODUCT_SHIPMENT_BE_BE = self::PRODUCT_SHIPPING_BE_BE_4960;
+    const PRODUCT_PICKUP_BE_BE   = self::PRODUCT_PICKUP_BE_BE_4880;
+
+    const PRODUCT_SHIPMENT_BE_EU = self::PRODUCT_SHIPPING_BE_EU_4907_005_025;
+    const PRODUCT_SHIPMENT_BE_GLOBAL = self::PRODUCT_SHIPPING_BE_GLOBAL_4909_005_025;
+    //endregion
+
+    //region V1.0 Identifiers
+    /**
+     * V1.0
+     */
     // NL->NL, Verzending
     const PRODUCT_SHIPPING_NL_NL_3085 = "01c8aeac08cd4d1b95de9ef6a18ae89d";
 
@@ -96,7 +122,9 @@ class Defaults
 
     // NL->GlobalPack
     const PRODUCT_SHIPPING_NL_GLOBAL_4945 = "2a4dae5c11634f28b8051fbe3d810b2d";
+    //endregion
 
+    //region V1.1 Identifiers
     /**
      * V1.1
      */
@@ -126,15 +154,16 @@ class Defaults
 
     // BE->GlobalPack
     const PRODUCT_SHIPPING_BE_GLOBAL_4945 = "30914ec3db4749f1b050de8f0a12a20b";
+    //endregion
 
+    //region V2.0 Identifiers
     /**
      * V2.0
      */
     // Avondbezorging
     const OPTION_118_006 = "846dedd4b74e41c8b4d15b41fec6e166";
 
-    // International Products 2023
-
+    //region International Products 2023
     // NL->Parcel EU
     const PRODUCT_SHIPPING_NL_EU_4907_005_025 = "cc790c0fdc014d4abc1fd8e8fea04d2d";
     const PRODUCT_SHIPPING_NL_EU_4907_004_015 = "a0cd6266f7af4827a5c4f992fbbe018e";
@@ -166,10 +195,9 @@ class Defaults
 
     // Track and Trace Insured Plus
     const OPTION_004_016 = "de9571485773424d91a036a9b90b8018";
+    //endregion
 
-
-    // New Mailbox parcels
-
+    //region New Mailbox parcels
     // Boxable Packet NL->EU
     const PRODUCT_MAILBOX_NL_EU_6440 = "34375f43be67429faa94ef2449f79762";
 
@@ -181,8 +209,9 @@ class Defaults
 
     // Boxable Packet Track and Trace NL->GLOBAL
     const PRODUCT_MAILBOX_NL_GLOBAL_6972 = "519069ee8027453ebc097817ee46b287";
+    //endregion
 
-
+    //region New EU/Global package type identifiers
     // These were first labeled as Mailbox packages, but are actually a new international type.
 
     // Packet NL->EU
@@ -202,8 +231,10 @@ class Defaults
 
     // Packet Track and Trace Insurance NL->GLOBAL
     const PRODUCT_PACKAGE_NL_GLOBAL_6906 = "b9ee042530ce4009a82671c52362b51b";
+    //endregion
+    //endregion
 
-
+    //region Placeholder identifiers
 //    const PLACEHOLDER = "45432c40e63f4ec79aa230c0bed4c0e2";
 //    const PLACEHOLDER = "6014c5955e0c448ab27c37142f0bfdac";
 //    const PLACEHOLDER = "be49eed381bc4b7e935a39926273717c";
@@ -246,5 +277,11 @@ class Defaults
 //    const PLACEHOLDER = "fe38c17b41cc420c9af34dec308080c4";
 //    const PLACEHOLDER = "4b6f788e034c4900b44fdefe98031b27";
 //    const PLACEHOLDER = "d3c7414a99d2447e859588894d9d75be";
+    //endregion
 
+    public static function getConstants(): array
+    {
+        $reflection = new \ReflectionClass(self::class);
+        return $reflection->getConstants();
+    }
 }
