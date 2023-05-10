@@ -123,14 +123,14 @@ class ShipmentService
                 return !in_array($order->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY]['productId'] ?? '', [
                     Defaults::PRODUCT_MAILBOX_NL_EU_6440,
                     Defaults::PRODUCT_MAILBOX_NL_EU_6972,
-                    Defaults::PRODUCT_PACKAGE_NL_EU_6405,
-                    Defaults::PRODUCT_PACKAGE_NL_EU_6350,
-                    Defaults::PRODUCT_PACKAGE_NL_EU_6906,
+                    Defaults::PRODUCT_PARCEL_NL_EU_6405,
+                    Defaults::PRODUCT_PARCEL_NL_EU_6350,
+                    Defaults::PRODUCT_PARCEL_NL_EU_6906,
                     Defaults::PRODUCT_MAILBOX_NL_GLOBAL_6440,
                     Defaults::PRODUCT_MAILBOX_NL_GLOBAL_6972,
-                    Defaults::PRODUCT_PACKAGE_NL_GLOBAL_6405,
-                    Defaults::PRODUCT_PACKAGE_NL_GLOBAL_6350,
-                    Defaults::PRODUCT_PACKAGE_NL_GLOBAL_6906,
+                    Defaults::PRODUCT_PARCEL_NL_GLOBAL_6405,
+                    Defaults::PRODUCT_PARCEL_NL_GLOBAL_6350,
+                    Defaults::PRODUCT_PARCEL_NL_GLOBAL_6906,
                 ]);
             });
 
@@ -138,14 +138,14 @@ class ShipmentService
                 return in_array($order->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY]['productId'] ?? '', [
                     Defaults::PRODUCT_MAILBOX_NL_EU_6440,
                     Defaults::PRODUCT_MAILBOX_NL_EU_6972,
-                    Defaults::PRODUCT_PACKAGE_NL_EU_6405,
-                    Defaults::PRODUCT_PACKAGE_NL_EU_6350,
-                    Defaults::PRODUCT_PACKAGE_NL_EU_6906,
+                    Defaults::PRODUCT_PARCEL_NL_EU_6405,
+                    Defaults::PRODUCT_PARCEL_NL_EU_6350,
+                    Defaults::PRODUCT_PARCEL_NL_EU_6906,
                     Defaults::PRODUCT_MAILBOX_NL_GLOBAL_6440,
                     Defaults::PRODUCT_MAILBOX_NL_GLOBAL_6972,
-                    Defaults::PRODUCT_PACKAGE_NL_GLOBAL_6405,
-                    Defaults::PRODUCT_PACKAGE_NL_GLOBAL_6350,
-                    Defaults::PRODUCT_PACKAGE_NL_GLOBAL_6906,
+                    Defaults::PRODUCT_PARCEL_NL_GLOBAL_6405,
+                    Defaults::PRODUCT_PARCEL_NL_GLOBAL_6350,
+                    Defaults::PRODUCT_PARCEL_NL_GLOBAL_6906,
                 ]);
             });
 
@@ -198,18 +198,18 @@ class ShipmentService
                     break;
                 case Defaults::PRODUCT_MAILBOX_NL_EU_6440:
                 case Defaults::PRODUCT_MAILBOX_NL_GLOBAL_6440:
-                case Defaults::PRODUCT_PACKAGE_NL_EU_6405:
-                case Defaults::PRODUCT_PACKAGE_NL_GLOBAL_6405:
+                case Defaults::PRODUCT_PARCEL_NL_EU_6405:
+                case Defaults::PRODUCT_PARCEL_NL_GLOBAL_6405:
                     $type = 'UE';
                     break;
                 case Defaults::PRODUCT_MAILBOX_NL_EU_6972:
-                case Defaults::PRODUCT_PACKAGE_NL_EU_6350:
+                case Defaults::PRODUCT_PARCEL_NL_EU_6350:
                 case Defaults::PRODUCT_MAILBOX_NL_GLOBAL_6972:
-                case Defaults::PRODUCT_PACKAGE_NL_GLOBAL_6350:
+                case Defaults::PRODUCT_PARCEL_NL_GLOBAL_6350:
                     $type = 'LA';
                     break;
-                case Defaults::PRODUCT_PACKAGE_NL_EU_6906:
-                case Defaults::PRODUCT_PACKAGE_NL_GLOBAL_6906:
+                case Defaults::PRODUCT_PARCEL_NL_EU_6906:
+                case Defaults::PRODUCT_PARCEL_NL_GLOBAL_6906:
                     $type = 'RI';
                     break;
             }

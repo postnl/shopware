@@ -40,11 +40,11 @@ class Defaults
 
     const PRODUCT_SHIPMENT_NL_EU = self::PRODUCT_SHIPMENT_NL_EU_4907_005_025;
     const PRODUCT_MAILBOX_NL_EU = self::PRODUCT_MAILBOX_NL_EU_6440;
-    const PRODUCT_PACKAGE_NL_EU = self::PRODUCT_PACKAGE_NL_EU_6405;
+    const PRODUCT_PARCEL_NL_EU  = self::PRODUCT_PARCEL_NL_EU_6405;
 
     const PRODUCT_SHIPMENT_NL_GLOBAL = self::PRODUCT_SHIPMENT_NL_GLOBAL_4909_005_025;
     const PRODUCT_MAILBOX_NL_GLOBAL = self::PRODUCT_MAILBOX_NL_GLOBAL_6440;
-    const PRODUCT_PACKAGE_NL_GLOBAL = self::PRODUCT_PACKAGE_NL_GLOBAL_6405;
+    const PRODUCT_PARCEL_NL_GLOBAL  = self::PRODUCT_PARCEL_NL_GLOBAL_6405;
 
     const PRODUCT_SHIPMENT_BE_BE = self::PRODUCT_SHIPMENT_BE_BE_4960;
     const PRODUCT_PICKUP_BE_BE   = self::PRODUCT_PICKUP_BE_BE_4880;
@@ -214,23 +214,23 @@ class Defaults
     //region New EU/Global package type identifiers
     // These were first labeled as Mailbox packages, but are actually a new international type.
 
-    // Packet NL->EU
-    const PRODUCT_PACKAGE_NL_EU_6405 = "02388c7bd54245bc919b04752821fbc2";
+    // Parcel NL->EU
+    const PRODUCT_PARCEL_NL_EU_6405 = "02388c7bd54245bc919b04752821fbc2";
 
-    // Packet Track and Trace NL->EU
-    const PRODUCT_PACKAGE_NL_EU_6350 = "5cc233a0e410421f819f9351acc659c3";
+    // Parcel Track and Trace NL->EU
+    const PRODUCT_PARCEL_NL_EU_6350 = "5cc233a0e410421f819f9351acc659c3";
 
-    // Packet Track and Trace Insurance NL->EU
-    const PRODUCT_PACKAGE_NL_EU_6906 = "5224fb01bae44f4aae2c0f3967e0485e";
+    // Parcel Track and Trace Insurance NL->EU
+    const PRODUCT_PARCEL_NL_EU_6906 = "5224fb01bae44f4aae2c0f3967e0485e";
 
-    // Packet NL->GLOBAL
-    const PRODUCT_PACKAGE_NL_GLOBAL_6405 = "7fe60652bc474895b9c5c3de36ec8d89";
+    // Parcel NL->GLOBAL
+    const PRODUCT_PARCEL_NL_GLOBAL_6405 = "7fe60652bc474895b9c5c3de36ec8d89";
 
-    // Packet Track and Trace NL->GLOBAL
-    const PRODUCT_PACKAGE_NL_GLOBAL_6350 = "69f41991990e47b58ddc0dc7991843ba";
+    // Parcel Track and Trace NL->GLOBAL
+    const PRODUCT_PARCEL_NL_GLOBAL_6350 = "69f41991990e47b58ddc0dc7991843ba";
 
-    // Packet Track and Trace Insurance NL->GLOBAL
-    const PRODUCT_PACKAGE_NL_GLOBAL_6906 = "b9ee042530ce4009a82671c52362b51b";
+    // Parcel Track and Trace Insurance NL->GLOBAL
+    const PRODUCT_PARCEL_NL_GLOBAL_6906 = "b9ee042530ce4009a82671c52362b51b";
     //endregion
     //endregion
 
