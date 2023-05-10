@@ -4,6 +4,7 @@ namespace PostNL\Shopware6\Facade;
 
 use PostNL\Shopware6\Entity\Product\ProductDefinition;
 use PostNL\Shopware6\Entity\Product\ProductEntity;
+use PostNL\Shopware6\Service\PostNL\Product\DefaultProductService;
 use PostNL\Shopware6\Service\PostNL\Product\ProductService;
 use PostNL\Shopware6\Struct\ProductFlagStruct;
 use Psr\Log\LoggerInterface;
@@ -17,15 +18,22 @@ class ProductFacade
     protected $productService;
 
     /**
+     * @var DefaultProductService
+     */
+    protected $defaultProductService;
+
+    /**
      * @var LoggerInterface
      */
     protected $logger;
 
     public function __construct(
         ProductService  $productService,
+        DefaultProductService $defaultProductService,
         LoggerInterface $logger
     )
     {
+        $this->defaultProductService = $defaultProductService;
         $this->productService = $productService;
         $this->logger = $logger;
     }
@@ -150,7 +158,8 @@ class ProductFacade
         Context $context
     ): ProductEntity
     {
-        $productId = $this->productService->getDefaultProductId($sourceZone, $destinationZone, $deliveryType);
+        $productId = $this->defaultProductService->getFallback($sourceZone, $destinationZone, $deliveryType);
+
         return $this->getProduct($productId, $context);
     }
 
