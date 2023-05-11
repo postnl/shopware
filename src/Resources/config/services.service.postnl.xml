@@ -19,6 +19,11 @@
             <argument type="service" id="postnl.logger"/>
         </service>
 
+        <service id="PostNL\Shopware6\Service\PostNL\Product\DefaultProductService">
+            <argument type="service" id="PostNL\Shopware6\Service\Shopware\ConfigService"/>
+            <argument type="service" id="postnl.logger"/>
+        </service>
+
         <service id="PostNL\Shopware6\Service\PostNL\ShippingMethodCreatorService">
             <argument type="service" id="Shopware\Core\Content\Media\MediaService"/>
         </service>

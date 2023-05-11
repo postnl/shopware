@@ -14,6 +14,7 @@
 
         <service id="PostNL\Shopware6\Facade\ProductFacade">
             <argument type="service" id="PostNL\Shopware6\Service\PostNL\Product\ProductService"/>
+            <argument type="service" id="PostNL\Shopware6\Service\PostNL\Product\DefaultProductService"/>
             <argument type="service" id="postnl.logger"/>
         </service>
 

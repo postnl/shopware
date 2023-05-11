@@ -47,7 +47,7 @@ Component.register('postnl-product-selection', {
             default: 'shipment',
             validator: function (value) {
                 // The value must match one of these strings
-                return ['shipment', 'pickup', 'mailbox', 'package'].indexOf(value) !== -1;
+                return ['shipment', 'pickup', 'mailbox', 'parcel'].indexOf(value) !== -1;
             },
         },
         showDeliveryType: {

@@ -4,6 +4,8 @@ namespace PostNL\Shopware6;
 
 class Defaults
 {
+    //region Constants
+    //region Custom Fields
     const CUSTOM_FIELDS_KEY = 'postnl';
     const CUSTOM_FIELDS_STREETNAME_KEY = 'streetName';
     const CUSTOM_FIELDS_HOUSENUMBER_KEY = 'houseNumber';
@@ -11,55 +13,79 @@ class Defaults
     const CUSTOM_FIELDS_TIMEFRAME_KEY = 'timeframe';
     const CUSTOM_FIELDS_DELIVERY_DATE_KEY = 'deliveryDate';
     const CUSTOM_FIELDS_SENT_DATE_KEY = 'sentDate';
-
+    //endregion
+    //region Zone
     const ZONE_ONLY_EUROPE = "PostNL zone only Europe";
     const ZONE_ONLY_BELGIUM = "PostNL zone only Belgium";
     const ZONE_ONLY_REST_OF_WORLD = "PostNL zone only rest of world";
     const ZONE_ONLY_NETHERLANDS = "PostNL zone only Netherlands";
-
+    //endregion
+    //region Lineitem
     const LINEITEM_PAYLOAD_WEIGHT_KEY = 'weight';
     const LINEITEM_PAYLOAD_TARIFF_KEY = 'hsTariffCode';
     const LINEITEM_PAYLOAD_ORIGIN_KEY = 'countryOfOrigin';
+    //endregion
+    //endregion
 
-    const PRODUCT_MAILBOX_NL_NL = self::PRODUCT_MAILBOX_NL_NL_2928;
-    const PRODUCT_SHIPPING_NL_NL = self::PRODUCT_SHIPPING_NL_NL_3085;
-    const PRODUCT_PICKUP_NL_NL = self::PRODUCT_PICKUP_NL_NL_3533;
+    //region Category Defaults
+    /**
+     * These act as the default for their category
+     */
+    const PRODUCT_SHIPMENT_NL_NL = self::PRODUCT_SHIPMENT_NL_NL_3085;
+    const PRODUCT_PICKUP_NL_NL   = self::PRODUCT_PICKUP_NL_NL_3533;
+    const PRODUCT_MAILBOX_NL_NL  = self::PRODUCT_MAILBOX_NL_NL_2928;
 
-    const PRODUCT_SHIPPING_NL_BE = self::PRODUCT_SHIPPING_NL_BE_4946;
-    const PRODUCT_PICKUP_NL_BE = self::PRODUCT_PICKUP_NL_BE_4936;
+    const PRODUCT_SHIPMENT_NL_BE = self::PRODUCT_SHIPMENT_NL_BE_4946;
+    const PRODUCT_PICKUP_NL_BE   = self::PRODUCT_PICKUP_NL_BE_4936;
 
-    const PRODUCT_SHIPPING_BE_BE = self::PRODUCT_SHIPPING_BE_BE_4960;
-    const PRODUCT_PICKUP_BE_BE = self::PRODUCT_PICKUP_BE_BE_4880;
+    const PRODUCT_SHIPMENT_NL_EU = self::PRODUCT_SHIPMENT_NL_EU_4907_005_025;
+    const PRODUCT_MAILBOX_NL_EU = self::PRODUCT_MAILBOX_NL_EU_6440;
+    const PRODUCT_PARCEL_NL_EU  = self::PRODUCT_PARCEL_NL_EU_6405;
 
+    const PRODUCT_SHIPMENT_NL_GLOBAL = self::PRODUCT_SHIPMENT_NL_GLOBAL_4909_005_025;
+    const PRODUCT_MAILBOX_NL_GLOBAL = self::PRODUCT_MAILBOX_NL_GLOBAL_6440;
+    const PRODUCT_PARCEL_NL_GLOBAL  = self::PRODUCT_PARCEL_NL_GLOBAL_6405;
+
+    const PRODUCT_SHIPMENT_BE_BE = self::PRODUCT_SHIPMENT_BE_BE_4960;
+    const PRODUCT_PICKUP_BE_BE   = self::PRODUCT_PICKUP_BE_BE_4880;
+
+    const PRODUCT_SHIPMENT_BE_EU = self::PRODUCT_SHIPMENT_BE_EU_4907_005_025;
+    const PRODUCT_SHIPMENT_BE_GLOBAL = self::PRODUCT_SHIPMENT_BE_GLOBAL_4909_005_025;
+    //endregion
+
+    //region V1.0 Identifiers
+    /**
+     * V1.0
+     */
     // NL->NL, Verzending
-    const PRODUCT_SHIPPING_NL_NL_3085 = "01c8aeac08cd4d1b95de9ef6a18ae89d";
+    const PRODUCT_SHIPMENT_NL_NL_3085 = "01c8aeac08cd4d1b95de9ef6a18ae89d";
 
     // NL->NL, Verzending, niet bij buren bezorgen
-    const PRODUCT_SHIPPING_NL_NL_3385 = "6aa1d2225d724416bea415e2454de832";
+    const PRODUCT_SHIPMENT_NL_NL_3385 = "6aa1d2225d724416bea415e2454de832";
 
     // NL->NL, Verzending, retour b.g.g.
-    const PRODUCT_SHIPPING_NL_NL_3090 = "ed587b9fa00b421f94e98a0c85df4124";
+    const PRODUCT_SHIPMENT_NL_NL_3090 = "ed587b9fa00b421f94e98a0c85df4124";
 
     // NL->NL, Verzending, niet bij buren bezorgen, retour b.g.g.
-    const PRODUCT_SHIPPING_NL_NL_3390 = "79120b803f6d46e29c300ab46d695c6e";
+    const PRODUCT_SHIPMENT_NL_NL_3390 = "79120b803f6d46e29c300ab46d695c6e";
 
     // NL->NL, Verzending, verzekerd
-    const PRODUCT_SHIPPING_NL_NL_3087 = "70c07296123e463cbb19cedfad9c6f02";
+    const PRODUCT_SHIPMENT_NL_NL_3087 = "70c07296123e463cbb19cedfad9c6f02";
 
     // NL->NL, Verzending, verzekerd, retour b.g.g.
-    const PRODUCT_SHIPPING_NL_NL_3094 = "ad98fc8e8165466eb5485edcfdaa6b6c";
+    const PRODUCT_SHIPMENT_NL_NL_3094 = "ad98fc8e8165466eb5485edcfdaa6b6c";
 
     // NL->NL, Verzending, handtekening, niet bij buren bezorgen
-    const PRODUCT_SHIPPING_NL_NL_3089 = "6b4a2b10b13e4b44a7a4db94d8f4736e";
+    const PRODUCT_SHIPMENT_NL_NL_3089 = "6b4a2b10b13e4b44a7a4db94d8f4736e";
 
     // NL->NL, Verzending, handtekening, niet bij buren bezorgen, retour b.g.g.
-    const PRODUCT_SHIPPING_NL_NL_3096 = "75583df93af54e368449cac960089142";
+    const PRODUCT_SHIPMENT_NL_NL_3096 = "75583df93af54e368449cac960089142";
 
     // NL->NL, Verzending, handtekening
-    const PRODUCT_SHIPPING_NL_NL_3189 = "ebee6dfe35394d429c3126842f391183";
+    const PRODUCT_SHIPMENT_NL_NL_3189 = "ebee6dfe35394d429c3126842f391183";
 
     // NL->NL, Verzending, handtekening, retour b.g.g.
-    const PRODUCT_SHIPPING_NL_NL_3389 = "8cca6f28f4fd421a8128645266dc780a";
+    const PRODUCT_SHIPMENT_NL_NL_3389 = "8cca6f28f4fd421a8128645266dc780a";
 
     // NL->NL, Pickup, handtekening
     const PRODUCT_PICKUP_NL_NL_3533 = "99280b9c174947a5894ac5cdd26c7ae8";
@@ -76,44 +102,46 @@ class Defaults
     // NL->NL, Brievenbuspakje
     const PRODUCT_MAILBOX_NL_NL_2928 = "62e456542fa843d3b3140622ea9b3547";
 
+    // NL->BE, Verzending, niet bij buren bezorgen
+    const PRODUCT_SHIPMENT_NL_BE_4941 = "00dfac1c0dbd4b7480dc519e864e04b0";
+
+    // NL->BE, Verzending
+    const PRODUCT_SHIPMENT_NL_BE_4946 = "7f68f71067214ad4899862d87ac85950";
+
+    // NL->BE, Verzending, handtekening
+    const PRODUCT_SHIPMENT_NL_BE_4912 = "9fcfd4a14219437a8680117010227a26";
+
+    // NL->BE, Verzending, verzekerd, handtekening
+    const PRODUCT_SHIPMENT_NL_BE_4914 = "75017f4f16b94b7ebe53e5df0b6ed691";
+
     // NL->BE, Pickup
     const PRODUCT_PICKUP_NL_BE_4936 = "5a1d77cf89ec416f8c92f440ba961c6b";
 
-    // NL->BE, Verzending, niet bij buren bezorgen
-    const PRODUCT_SHIPPING_NL_BE_4941 = "00dfac1c0dbd4b7480dc519e864e04b0";
-
-    // NL->BE, Verzending
-    const PRODUCT_SHIPPING_NL_BE_4946 = "7f68f71067214ad4899862d87ac85950";
-
-    // NL->BE, Verzending, handtekening
-    const PRODUCT_SHIPPING_NL_BE_4912 = "9fcfd4a14219437a8680117010227a26";
-
-    // NL->BE, Verzending, verzekerd, handtekening
-    const PRODUCT_SHIPPING_NL_BE_4914 = "75017f4f16b94b7ebe53e5df0b6ed691";
-
     // NL->ParcelsEU, is actually 4944, but 4952 should be used.
-    const PRODUCT_SHIPPING_NL_EU_4952 = "2e00df0d0e7146b5b16f955084792e05";
+    const PRODUCT_SHIPMENT_NL_EU_4952 = "2e00df0d0e7146b5b16f955084792e05";
 
     // NL->GlobalPack
-    const PRODUCT_SHIPPING_NL_GLOBAL_4945 = "2a4dae5c11634f28b8051fbe3d810b2d";
+    const PRODUCT_SHIPMENT_NL_GLOBAL_4945 = "2a4dae5c11634f28b8051fbe3d810b2d";
+    //endregion
 
+    //region V1.1 Identifiers
     /**
      * V1.1
      */
     // BE->BE, Verzending, niet bij buren bezorgen
-    const PRODUCT_SHIPPING_BE_BE_4960 = "85195fa94d6a4c50a2ad2ab579820d2b";
+    const PRODUCT_SHIPMENT_BE_BE_4960 = "85195fa94d6a4c50a2ad2ab579820d2b";
 
     // BE->BE, Verzending
-    const PRODUCT_SHIPPING_BE_BE_4961 = "15a561ba00a8441f8e791080354d1d51";
+    const PRODUCT_SHIPMENT_BE_BE_4961 = "15a561ba00a8441f8e791080354d1d51";
 
     // BE->BE, Verzending, niet bij buren bezorgen, handtekening voor ontvangst
-    const PRODUCT_SHIPPING_BE_BE_4962 = "32eda40217554fd2a27eab564d6330ef";
+    const PRODUCT_SHIPMENT_BE_BE_4962 = "32eda40217554fd2a27eab564d6330ef";
 
     // BE->BE, Verzending, handtekening voor ontvangst
-    const PRODUCT_SHIPPING_BE_BE_4963 = "8262bd7d13f84ddf8bf764c86910f1af";
+    const PRODUCT_SHIPMENT_BE_BE_4963 = "8262bd7d13f84ddf8bf764c86910f1af";
 
     // BE->BE, Verzending, niet bij buren bezorgen, verzekerd
-    const PRODUCT_SHIPPING_BE_BE_4965 = "76128ef0531645d4a93979f7e58be30f";
+    const PRODUCT_SHIPMENT_BE_BE_4965 = "76128ef0531645d4a93979f7e58be30f";
 
     // BE->BE, Pickup,verzekerd
     const PRODUCT_PICKUP_BE_BE_4878 = "7108d13a1c104ec3a3b0b661c9436186";
@@ -122,38 +150,39 @@ class Defaults
     const PRODUCT_PICKUP_BE_BE_4880 = "674c471cdc524898a9c503bf5995447b";
 
     // BE->ParcelsEU
-    const PRODUCT_SHIPPING_BE_EU_4952 = "12ee17b34fcb4808997f381dec3bd521";
+    const PRODUCT_SHIPMENT_BE_EU_4952 = "12ee17b34fcb4808997f381dec3bd521";
 
     // BE->GlobalPack
-    const PRODUCT_SHIPPING_BE_GLOBAL_4945 = "30914ec3db4749f1b050de8f0a12a20b";
+    const PRODUCT_SHIPMENT_BE_GLOBAL_4945 = "30914ec3db4749f1b050de8f0a12a20b";
+    //endregion
 
+    //region V2.0 Identifiers
     /**
      * V2.0
      */
     // Avondbezorging
     const OPTION_118_006 = "846dedd4b74e41c8b4d15b41fec6e166";
 
-    // International Products 2023
-
+    //region International Products 2023
     // NL->Parcel EU
-    const PRODUCT_SHIPPING_NL_EU_4907_005_025 = "cc790c0fdc014d4abc1fd8e8fea04d2d";
-    const PRODUCT_SHIPPING_NL_EU_4907_004_015 = "a0cd6266f7af4827a5c4f992fbbe018e";
-    const PRODUCT_SHIPPING_NL_EU_4907_004_016 = "9a363d644cb04f2992b11532ca3423a1";
+    const PRODUCT_SHIPMENT_NL_EU_4907_005_025 = "cc790c0fdc014d4abc1fd8e8fea04d2d";
+    const PRODUCT_SHIPMENT_NL_EU_4907_004_015 = "a0cd6266f7af4827a5c4f992fbbe018e";
+    const PRODUCT_SHIPMENT_NL_EU_4907_004_016 = "9a363d644cb04f2992b11532ca3423a1";
 
     // BE->Parcel EU
-    const PRODUCT_SHIPPING_BE_EU_4907_005_025 = "882d315b86834c3db97b3b44c817ed28";
-    const PRODUCT_SHIPPING_BE_EU_4907_004_015 = "aca0c58bb0c3458aa5cc73bf9b1193f5";
-    const PRODUCT_SHIPPING_BE_EU_4907_004_016 = "d82b87a2c08a4c58aab43d634129d164";
+    const PRODUCT_SHIPMENT_BE_EU_4907_005_025 = "882d315b86834c3db97b3b44c817ed28";
+    const PRODUCT_SHIPMENT_BE_EU_4907_004_015 = "aca0c58bb0c3458aa5cc73bf9b1193f5";
+    const PRODUCT_SHIPMENT_BE_EU_4907_004_016 = "d82b87a2c08a4c58aab43d634129d164";
 
     // NL->Parcel non-EU (GlobalPack)
-    const PRODUCT_SHIPPING_NL_GLOBAL_4909_005_025 = "918bb3b30a8c402c9f089672238e3d10";
-    const PRODUCT_SHIPPING_NL_GLOBAL_4909_004_015 = "243372140df14282a33593aba308939d";
-    const PRODUCT_SHIPPING_NL_GLOBAL_4909_004_016 = "b0e76c782e1a412f803009ec7e70f66c";
+    const PRODUCT_SHIPMENT_NL_GLOBAL_4909_005_025 = "918bb3b30a8c402c9f089672238e3d10";
+    const PRODUCT_SHIPMENT_NL_GLOBAL_4909_004_015 = "243372140df14282a33593aba308939d";
+    const PRODUCT_SHIPMENT_NL_GLOBAL_4909_004_016 = "b0e76c782e1a412f803009ec7e70f66c";
 
     // BE->Parcel non-EU (GlobalPack)
-    const PRODUCT_SHIPPING_BE_GLOBAL_4909_005_025 = "6b9edb204ab24ac296eaed5b6d02f4dd";
-    const PRODUCT_SHIPPING_BE_GLOBAL_4909_004_015 = "b7faaef178e2496c8375b172fc7045b1";
-    const PRODUCT_SHIPPING_BE_GLOBAL_4909_004_016 = "7c4fdd5ea8224573ab477fe7493939d0";
+    const PRODUCT_SHIPMENT_BE_GLOBAL_4909_005_025 = "6b9edb204ab24ac296eaed5b6d02f4dd";
+    const PRODUCT_SHIPMENT_BE_GLOBAL_4909_004_015 = "b7faaef178e2496c8375b172fc7045b1";
+    const PRODUCT_SHIPMENT_BE_GLOBAL_4909_004_016 = "7c4fdd5ea8224573ab477fe7493939d0";
 
     // -> ParcelEU Required
     const OPTION_101_012 = "58c6922504bd427cb58fec5631e5d3ad";
@@ -166,10 +195,9 @@ class Defaults
 
     // Track and Trace Insured Plus
     const OPTION_004_016 = "de9571485773424d91a036a9b90b8018";
+    //endregion
 
-
-    // New Mailbox parcels
-
+    //region New Mailbox parcels
     // Boxable Packet NL->EU
     const PRODUCT_MAILBOX_NL_EU_6440 = "34375f43be67429faa94ef2449f79762";
 
@@ -181,29 +209,32 @@ class Defaults
 
     // Boxable Packet Track and Trace NL->GLOBAL
     const PRODUCT_MAILBOX_NL_GLOBAL_6972 = "519069ee8027453ebc097817ee46b287";
+    //endregion
 
-
+    //region New EU/Global package type identifiers
     // These were first labeled as Mailbox packages, but are actually a new international type.
 
-    // Packet NL->EU
-    const PRODUCT_PACKAGE_NL_EU_6405 = "02388c7bd54245bc919b04752821fbc2";
+    // Parcel NL->EU
+    const PRODUCT_PARCEL_NL_EU_6405 = "02388c7bd54245bc919b04752821fbc2";
 
-    // Packet Track and Trace NL->EU
-    const PRODUCT_PACKAGE_NL_EU_6350 = "5cc233a0e410421f819f9351acc659c3";
+    // Parcel Track and Trace NL->EU
+    const PRODUCT_PARCEL_NL_EU_6350 = "5cc233a0e410421f819f9351acc659c3";
 
-    // Packet Track and Trace Insurance NL->EU
-    const PRODUCT_PACKAGE_NL_EU_6906 = "5224fb01bae44f4aae2c0f3967e0485e";
+    // Parcel Track and Trace Insurance NL->EU
+    const PRODUCT_PARCEL_NL_EU_6906 = "5224fb01bae44f4aae2c0f3967e0485e";
 
-    // Packet NL->GLOBAL
-    const PRODUCT_PACKAGE_NL_GLOBAL_6405 = "7fe60652bc474895b9c5c3de36ec8d89";
+    // Parcel NL->GLOBAL
+    const PRODUCT_PARCEL_NL_GLOBAL_6405 = "7fe60652bc474895b9c5c3de36ec8d89";
 
-    // Packet Track and Trace NL->GLOBAL
-    const PRODUCT_PACKAGE_NL_GLOBAL_6350 = "69f41991990e47b58ddc0dc7991843ba";
+    // Parcel Track and Trace NL->GLOBAL
+    const PRODUCT_PARCEL_NL_GLOBAL_6350 = "69f41991990e47b58ddc0dc7991843ba";
 
-    // Packet Track and Trace Insurance NL->GLOBAL
-    const PRODUCT_PACKAGE_NL_GLOBAL_6906 = "b9ee042530ce4009a82671c52362b51b";
+    // Parcel Track and Trace Insurance NL->GLOBAL
+    const PRODUCT_PARCEL_NL_GLOBAL_6906 = "b9ee042530ce4009a82671c52362b51b";
+    //endregion
+    //endregion
 
-
+    //region Placeholder identifiers
 //    const PLACEHOLDER = "45432c40e63f4ec79aa230c0bed4c0e2";
 //    const PLACEHOLDER = "6014c5955e0c448ab27c37142f0bfdac";
 //    const PLACEHOLDER = "be49eed381bc4b7e935a39926273717c";
@@ -246,5 +277,11 @@ class Defaults
 //    const PLACEHOLDER = "fe38c17b41cc420c9af34dec308080c4";
 //    const PLACEHOLDER = "4b6f788e034c4900b44fdefe98031b27";
 //    const PLACEHOLDER = "d3c7414a99d2447e859588894d9d75be";
+    //endregion
 
+    public static function getConstants(): array
+    {
+        $reflection = new \ReflectionClass(self::class);
+        return $reflection->getConstants();
+    }
 }

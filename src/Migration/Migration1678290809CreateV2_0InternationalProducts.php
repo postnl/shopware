@@ -22,7 +22,7 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
         $products = [
             // NL->EU
             [
-                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_EU_4907_005_025),
+                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_EU_4907_005_025),
                 'product_code_delivery'                        => '4907',
                 'source_zone'                                  => Zone::NL,
                 'destination_zone'                             => Zone::EU,
@@ -37,7 +37,7 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
                 ProductDefinition::STOR_TRACK_AND_TRACE        => null,
             ],
             [
-                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_EU_4907_004_015),
+                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_EU_4907_004_015),
                 'product_code_delivery'                        => '4907',
                 'source_zone'                                  => Zone::NL,
                 'destination_zone'                             => Zone::EU,
@@ -52,7 +52,7 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
                 ProductDefinition::STOR_TRACK_AND_TRACE        => null,
             ],
             [
-                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_EU_4907_004_016),
+                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_EU_4907_004_016),
                 'product_code_delivery'                        => '4907',
                 'source_zone'                                  => Zone::NL,
                 'destination_zone'                             => Zone::EU,
@@ -68,7 +68,7 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
             ],
             // BE->EU
             [
-                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_EU_4907_005_025),
+                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_BE_EU_4907_005_025),
                 'product_code_delivery'                        => '4907',
                 'source_zone'                                  => Zone::BE,
                 'destination_zone'                             => Zone::EU,
@@ -83,7 +83,7 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
                 ProductDefinition::STOR_TRACK_AND_TRACE        => null,
             ],
             [
-                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_EU_4907_004_015),
+                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_BE_EU_4907_004_015),
                 'product_code_delivery'                        => '4907',
                 'source_zone'                                  => Zone::BE,
                 'destination_zone'                             => Zone::EU,
@@ -98,7 +98,7 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
                 ProductDefinition::STOR_TRACK_AND_TRACE        => null,
             ],
             [
-                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_EU_4907_004_016),
+                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_BE_EU_4907_004_016),
                 'product_code_delivery'                        => '4907',
                 'source_zone'                                  => Zone::BE,
                 'destination_zone'                             => Zone::EU,
@@ -114,7 +114,7 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
             ],
             // NL->GLOBAL
             [
-                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4909_005_025),
+                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_GLOBAL_4909_005_025),
                 'product_code_delivery'                        => '4909',
                 'source_zone'                                  => Zone::NL,
                 'destination_zone'                             => Zone::GLOBAL,
@@ -129,7 +129,7 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
                 ProductDefinition::STOR_TRACK_AND_TRACE        => null,
             ],
             [
-                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4909_004_015),
+                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_GLOBAL_4909_004_015),
                 'product_code_delivery'                        => '4909',
                 'source_zone'                                  => Zone::NL,
                 'destination_zone'                             => Zone::GLOBAL,
@@ -144,7 +144,7 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
                 ProductDefinition::STOR_TRACK_AND_TRACE        => null,
             ],
             [
-                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4909_004_016),
+                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_GLOBAL_4909_004_016),
                 'product_code_delivery'                        => '4909',
                 'source_zone'                                  => Zone::NL,
                 'destination_zone'                             => Zone::GLOBAL,
@@ -160,7 +160,7 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
             ],
             // BE->GLOBAL
             [
-                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_GLOBAL_4909_005_025),
+                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_BE_GLOBAL_4909_005_025),
                 'product_code_delivery'                        => '4909',
                 'source_zone'                                  => Zone::BE,
                 'destination_zone'                             => Zone::GLOBAL,
@@ -175,7 +175,7 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
                 ProductDefinition::STOR_TRACK_AND_TRACE        => null,
             ],
             [
-                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_GLOBAL_4909_004_015),
+                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_BE_GLOBAL_4909_004_015),
                 'product_code_delivery'                        => '4909',
                 'source_zone'                                  => Zone::BE,
                 'destination_zone'                             => Zone::GLOBAL,
@@ -190,7 +190,7 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
                 ProductDefinition::STOR_TRACK_AND_TRACE        => null,
             ],
             [
-                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_GLOBAL_4909_004_016),
+                'id'                                           => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_BE_GLOBAL_4909_004_016),
                 'product_code_delivery'                        => '4909',
                 'source_zone'                                  => Zone::BE,
                 'destination_zone'                             => Zone::GLOBAL,
@@ -209,10 +209,10 @@ class Migration1678290809CreateV2_0InternationalProducts extends ProductMigratio
         $this->insertProducts($connection, $products);
 
         $this->deprecateProducts($connection, [
-            Defaults::PRODUCT_SHIPPING_NL_EU_4952     => Defaults::PRODUCT_SHIPPING_NL_EU_4907_005_025,
-            Defaults::PRODUCT_SHIPPING_BE_EU_4952     => Defaults::PRODUCT_SHIPPING_BE_EU_4907_005_025,
-            Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4945 => Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4909_005_025,
-            Defaults::PRODUCT_SHIPPING_BE_GLOBAL_4945 => Defaults::PRODUCT_SHIPPING_BE_GLOBAL_4909_005_025,
+            Defaults::PRODUCT_SHIPMENT_NL_EU_4952     => Defaults::PRODUCT_SHIPMENT_NL_EU_4907_005_025,
+            Defaults::PRODUCT_SHIPMENT_BE_EU_4952     => Defaults::PRODUCT_SHIPMENT_BE_EU_4907_005_025,
+            Defaults::PRODUCT_SHIPMENT_NL_GLOBAL_4945 => Defaults::PRODUCT_SHIPMENT_NL_GLOBAL_4909_005_025,
+            Defaults::PRODUCT_SHIPMENT_BE_GLOBAL_4945 => Defaults::PRODUCT_SHIPMENT_BE_GLOBAL_4909_005_025,
         ]);
     }
 
