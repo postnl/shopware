@@ -272,7 +272,7 @@ class ConversionSubscriber implements EventSubscriberInterface
             $event->getSalesChannelContext()->getSalesChannelId(),
             $event->getContext()
         );
-dd($productId);
+
         $convertedCart = $event->getConvertedCart();
         $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge(
             $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] ?? [],
