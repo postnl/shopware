@@ -323,7 +323,7 @@ class ProductService
     }
 
     /**
-     * @deprecated 
+     * @deprecated
      * @param string $sourceZone
      * @param string $destinationZone
      * @param string $deliveryType

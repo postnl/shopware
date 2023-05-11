@@ -13,6 +13,7 @@ use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\ZoneService;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
+use PostNL\Shopware6\Service\PostNL\Product\DefaultProductService;
 use PostNL\Shopware6\Service\Shopware\CartService;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
 use PostNL\Shopware6\Service\Shopware\CountryService;
@@ -63,12 +64,17 @@ class ConversionSubscriber implements EventSubscriberInterface
     /**
      * @var DeliveryDateService
      */
-    private $deliveryDateService;
+    protected $deliveryDateService;
+
+    /**
+     * @var DefaultProductService
+     */
+    protected $defaultProductService;
 
     /**
      * @var LoggerInterface
      */
-    private LoggerInterface $logger;
+    protected LoggerInterface $logger;
 
     public function __construct(
         ApiFactory                $apiFactory,
@@ -77,6 +83,7 @@ class ConversionSubscriber implements EventSubscriberInterface
         CountryService            $countryService,
         EntityRepositoryInterface $productRepository,
         DeliveryDateService       $deliveryDateService,
+        DefaultProductService     $defaultProductService,
         LoggerInterface           $logger
     )
     {
@@ -86,6 +93,7 @@ class ConversionSubscriber implements EventSubscriberInterface
         $this->countryService = $countryService;
         $this->productRepository = $productRepository;
         $this->deliveryDateService = $deliveryDateService;
+        $this->defaultProductService = $defaultProductService;
         $this->logger = $logger;
     }
 
@@ -258,13 +266,13 @@ class ConversionSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $config = $this->configService->getConfiguration(
+        $productId = $this->getPostNLProductId(
+            $cart,
+            $attributes,
             $event->getSalesChannelContext()->getSalesChannelId(),
             $event->getContext()
         );
-
-        $productId = $this->getPostNLProductId($cart, $config, $attributes);
-
+dd($productId);
         $convertedCart = $event->getConvertedCart();
         $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge(
             $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] ?? [],
@@ -278,10 +286,13 @@ class ConversionSubscriber implements EventSubscriberInterface
 
     protected function getPostNLProductId(
         Cart                          $cart,
-        ConfigStruct                  $config,
-        ShippingMethodAttributeStruct $shippingMethodAttributes
+        ShippingMethodAttributeStruct $shippingMethodAttributes,
+        string $salesChannelId,
+        Context $context
     ): string
     {
+        $config = $this->configService->getConfiguration($salesChannelId, $context);
+
         $sourceZone = $config->getSenderAddress()->getCountrycode();
         $destinationZone = ZoneService::getDestinationZone(
             $sourceZone,
@@ -289,121 +300,42 @@ class ConversionSubscriber implements EventSubscriberInterface
         );
         $deliveryType = $shippingMethodAttributes->getDeliveryType();
 
-        switch ($sourceZone) {
-            case Zone::NL:
-                switch ($destinationZone) {
-                    case Zone::NL:
-                        switch ($deliveryType) {
-                            case DeliveryType::MAILBOX:
-                                return Defaults::PRODUCT_MAILBOX_NL_NL;
-                            case DeliveryType::SHIPMENT:
-                                $default = $config->getProductShipmentNlNlDefault();
-                                $alternative = $config->getProductShipmentNlNlAlternative();
+        try {
+            $alternative = $this->defaultProductService->getConfigValue(
+                $sourceZone,
+                $destinationZone,
+                $deliveryType,
+                true,
+                $context,
+                $salesChannelId
+            );
 
-                                $id = $default->getId();
-
-                                if ($alternative->isEnabled() && $cart->getPrice()->getTotalPrice() >= $alternative->getCartAmount()) {
-                                    $id = $alternative->getId();
-                                }
-
-                                if (empty($id)) {
-                                    $id = Defaults::PRODUCT_SHIPMENT_NL_NL;
-                                }
-                                return $id;
-                            case DeliveryType::PICKUP:
-                                $default = $config->getProductPickupNlNlDefault();
-
-                                $id = $default->getId();
-
-                                if (empty($id)) {
-                                    $id = Defaults::PRODUCT_PICKUP_NL_NL;
-                                }
-                                return $id;
-                        }
-                        break;
-                    case Zone::BE:
-                        switch ($deliveryType) {
-                            case DeliveryType::SHIPMENT:
-                                $default = $config->getProductShipmentNlBeDefault();
-                                $alternative = $config->getProductShipmentNlBeAlternative();
-
-                                $id = $default->getId();
-
-                                if ($alternative->isEnabled() && $cart->getPrice()->getTotalPrice() >= $alternative->getCartAmount()) {
-                                    $id = $alternative->getId();
-                                }
-
-                                if (empty($id)) {
-                                    $id = Defaults::PRODUCT_SHIPMENT_NL_BE;
-                                }
-                                return $id;
-                            case DeliveryType::PICKUP:
-                                $default = $config->getProductPickupNlBeDefault();
-
-                                $id = $default->getId();
-
-                                if (empty($id)) {
-                                    $id = Defaults::PRODUCT_PICKUP_NL_BE;
-                                }
-                                return $id;
-                        }
-                        break;
-                    case Zone::EU:
-                        switch ($deliveryType) {
-                            case DeliveryType::MAILBOX:
-                                return Defaults::PRODUCT_MAILBOX_NL_EU_6440;
-                            case DeliveryType::SHIPMENT:
-                                return Defaults::PRODUCT_SHIPMENT_NL_EU_4907_005_025;
-                        }
-                        break;
-                    case Zone::GLOBAL:
-                        switch ($deliveryType) {
-                            case DeliveryType::MAILBOX:
-                                return Defaults::PRODUCT_MAILBOX_NL_GLOBAL_6440;
-                            case DeliveryType::SHIPMENT:
-                                return Defaults::PRODUCT_SHIPMENT_NL_GLOBAL_4909_005_025;
-                        }
-                        break;
-                }
-                break;
-            case Zone::BE:
-                switch ($destinationZone) {
-                    case Zone::BE:
-                        switch ($deliveryType) {
-                            case DeliveryType::SHIPMENT:
-                                $default = $config->getProductShipmentBeBeDefault();
-                                $alternative = $config->getProductShipmentBeBeAlternative();
-
-                                $id = $default->getId();
-
-                                if ($alternative->isEnabled() && $cart->getPrice()->getTotalPrice() >= $alternative->getCartAmount()) {
-                                    $id = $alternative->getId();
-                                }
-
-                                if (empty($id)) {
-                                    $id = Defaults::PRODUCT_SHIPMENT_BE_BE;
-                                }
-                                return $id;
-                            case DeliveryType::PICKUP:
-                                $default = $config->getProductPickupBeBeDefault();
-
-                                $id = $default->getId();
-
-                                if (empty($id)) {
-                                    $id = Defaults::PRODUCT_PICKUP_BE_BE;
-                                }
-                                return $id;
-                        }
-                        break;
-                    case Zone::EU:
-                        return Defaults::PRODUCT_SHIPMENT_BE_EU_4907_005_025;
-                    case Zone::GLOBAL:
-                        return Defaults::PRODUCT_SHIPMENT_BE_GLOBAL_4909_005_025;
-                }
-                break;
+            if($alternative->isEnabled() && $cart->getPrice()->getTotalPrice() >= $alternative->getCartAmount()) {
+                return $alternative->getId();
+            }
+        } catch(\Exception $e) {
+            // There probably isn't an alternative available, so only log as a debug message.
+            $this->logger->debug($e->getMessage());
         }
 
-        return '';
+        try {
+            $default = $this->defaultProductService->getConfigValue(
+                $sourceZone,
+                $destinationZone,
+                $deliveryType,
+                false,
+                $context,
+                $salesChannelId
+            );
+
+            return $default->getId();
+        } catch(\Exception $e) {
+            // There isn't a default config available, which is possible, so only log as a debug message.
+            $this->logger->debug($e->getMessage());
+        }
+
+        // At this point there is no default nor an available alternative. Use the fallback ID.
+        return $this->defaultProductService->getFallback($sourceZone, $destinationZone, $deliveryType);
     }
 
     public function addDeliveryTypeData(CartConvertedEvent $event)
