@@ -178,14 +178,14 @@
         </input-field>
 
         <component name="postnl-config-product-selection-shipment-nl-eu-default">
-            <name>productShippingNlEuDefault</name>
+            <name>productShipmentNlEuDefault</name>
             <label>Standard shipment, from NL to EU</label>
             <label lang="de-DE">Standardversand, von NL nach EU</label>
             <label lang="nl-NL">Standaard zending, van NL naar EU</label>
         </component>
 
         <component name="postnl-config-product-selection-shipment-be-eu-default">
-            <name>productShippingBeEuDefault</name>
+            <name>productShipmentBeEuDefault</name>
             <label>Standard shipment, from BE to EU</label>
             <label lang="de-DE">Standardversand, von BE nach EU</label>
             <label lang="nl-NL">Standaard zending, van BE naar EU</label>
@@ -199,14 +199,14 @@
         </input-field>
 
         <component name="postnl-config-product-selection-shipment-nl-global-default">
-            <name>productShippingNlGlobalDefault</name>
+            <name>productShipmentNlGlobalDefault</name>
             <label>Standard shipment, from NL to rest of the world</label>
             <label lang="de-DE">Standardversand, von NL nach Rest der Welt</label>
             <label lang="nl-NL">Standaard zending, van NL naar rest van de wereld</label>
         </component>
 
         <component name="postnl-config-product-selection-shipment-be-global-default">
-            <name>productShippingBeGlobalDefault</name>
+            <name>productShipmentBeGlobalDefault</name>
             <label>Standard shipment, from BE to rest of the world</label>
             <label lang="de-DE">Standardversand, von BE nach Rest der Welt</label>
             <label lang="nl-NL">Standaard zending, van BE naar rest van de wereld</label>
