@@ -10,7 +10,6 @@ use Firstred\PostNL\Exception\InvalidArgumentException;
 use PostNL\Shopware6\Defaults;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
-use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\ZoneService;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shopware6\Service\PostNL\Product\DefaultProductService;
@@ -20,7 +19,6 @@ use PostNL\Shopware6\Service\Shopware\CountryService;
 use PostNL\Shopware6\Service\Shopware\DeliveryDateService;
 use PostNL\Shopware6\Struct\Attribute\ProductAttributeStruct;
 use PostNL\Shopware6\Struct\Attribute\ShippingMethodAttributeStruct;
-use PostNL\Shopware6\Struct\Config\ConfigStruct;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
@@ -158,7 +156,8 @@ class ConversionSubscriber implements EventSubscriberInterface
                 $street,
                 $shippingDuration,
             );
-        } catch (InvalidArgumentException $e) {
+        }
+        catch (InvalidArgumentException $e) {
             $this->logger->error($e->getMessage(), ['exception' => $e]);
             return;
         }
@@ -167,7 +166,8 @@ class ConversionSubscriber implements EventSubscriberInterface
         //Get data
         try {
             $sentDateResponse = $this->deliveryDateService->getSentDate($context, $getSentDate);
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             $this->logger->error($e->getMessage(), ['exception' => $e]);
             return;
         }
@@ -272,7 +272,7 @@ class ConversionSubscriber implements EventSubscriberInterface
             $event->getSalesChannelContext()->getSalesChannelId(),
             $event->getContext()
         );
-
+        
         $convertedCart = $event->getConvertedCart();
         $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge(
             $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] ?? [],
@@ -287,8 +287,8 @@ class ConversionSubscriber implements EventSubscriberInterface
     protected function getPostNLProductId(
         Cart                          $cart,
         ShippingMethodAttributeStruct $shippingMethodAttributes,
-        string $salesChannelId,
-        Context $context
+        string                        $salesChannelId,
+        Context                       $context
     ): string
     {
         $config = $this->configService->getConfiguration($salesChannelId, $context);
@@ -310,10 +310,11 @@ class ConversionSubscriber implements EventSubscriberInterface
                 $salesChannelId
             );
 
-            if($alternative->isEnabled() && $cart->getPrice()->getTotalPrice() >= $alternative->getCartAmount()) {
+            if ($alternative->isEnabled() && $cart->getPrice()->getTotalPrice() >= $alternative->getCartAmount()) {
                 return $alternative->getId();
             }
-        } catch(\Exception $e) {
+        }
+        catch (\Exception $e) {
             // There probably isn't an alternative available, so only log as a debug message.
             $this->logger->debug($e->getMessage());
         }
@@ -329,7 +330,8 @@ class ConversionSubscriber implements EventSubscriberInterface
             );
 
             return $default->getId();
-        } catch(\Exception $e) {
+        }
+        catch (\Exception $e) {
             // There isn't a default config available, which is possible, so only log as a debug message.
             $this->logger->debug($e->getMessage());
         }
@@ -420,7 +422,7 @@ class ConversionSubscriber implements EventSubscriberInterface
         }, $shippingAddresses);
 
         if (array_key_exists('addresses', $convertedCart)) {
-            foreach($convertedCart['addresses'] as $existingAddress) {
+            foreach ($convertedCart['addresses'] as $existingAddress) {
                 $addresses[] = $existingAddress;
             }
         }
@@ -476,7 +478,7 @@ class ConversionSubscriber implements EventSubscriberInterface
                 'countryId'    => $this->countryService->getCountryByIso($pickupPoint->getAddress()->getCountrycode(), $context)->getId(),
                 'customFields' => [
                     Defaults::CUSTOM_FIELDS_KEY => [
-                        'addressType' => '09',
+                        'addressType'               => '09',
                         'originalDeliveryAddressId' => $deliveryAddressId,
                     ],
                 ],
