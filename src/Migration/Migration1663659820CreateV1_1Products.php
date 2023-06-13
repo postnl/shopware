@@ -22,7 +22,7 @@ class Migration1663659820CreateV1_1Products extends ProductMigration
     {
         $products = [
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_BE_4960),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_BE_BE_4960),
                 'product_code_delivery' => '4960',
                 'source_zone' => Zone::BE,
                 'destination_zone' => Zone::BE,
@@ -33,10 +33,9 @@ class Migration1663659820CreateV1_1Products extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => 0,
                 ProductDefinition::STOR_AGE_CHECK => 0,
                 ProductDefinition::STOR_NOTIFICATION => null,
-                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_BE_4961),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_BE_BE_4961),
                 'product_code_delivery' => '4961',
                 'source_zone' => Zone::BE,
                 'destination_zone' => Zone::BE,
@@ -47,10 +46,9 @@ class Migration1663659820CreateV1_1Products extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => 0,
                 ProductDefinition::STOR_AGE_CHECK => 0,
                 ProductDefinition::STOR_NOTIFICATION => null,
-                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_BE_4962),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_BE_BE_4962),
                 'product_code_delivery' => '4962',
                 'source_zone' => Zone::BE,
                 'destination_zone' => Zone::BE,
@@ -61,10 +59,9 @@ class Migration1663659820CreateV1_1Products extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => 1,
                 ProductDefinition::STOR_AGE_CHECK => 0,
                 ProductDefinition::STOR_NOTIFICATION => null,
-                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_BE_4963),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_BE_BE_4963),
                 'product_code_delivery' => '4963',
                 'source_zone' => Zone::BE,
                 'destination_zone' => Zone::BE,
@@ -75,10 +72,9 @@ class Migration1663659820CreateV1_1Products extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => 1,
                 ProductDefinition::STOR_AGE_CHECK => 0,
                 ProductDefinition::STOR_NOTIFICATION => null,
-                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_BE_4965),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_BE_BE_4965),
                 'product_code_delivery' => '4965',
                 'source_zone' => Zone::BE,
                 'destination_zone' => Zone::BE,
@@ -89,7 +85,6 @@ class Migration1663659820CreateV1_1Products extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => 0,
                 ProductDefinition::STOR_AGE_CHECK => 0,
                 ProductDefinition::STOR_NOTIFICATION => null,
-                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_PICKUP_BE_BE_4878),
@@ -103,7 +98,6 @@ class Migration1663659820CreateV1_1Products extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => 0,
                 ProductDefinition::STOR_AGE_CHECK => 0,
                 ProductDefinition::STOR_NOTIFICATION => 0,
-                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_PICKUP_BE_BE_4880),
@@ -117,10 +111,9 @@ class Migration1663659820CreateV1_1Products extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => 0,
                 ProductDefinition::STOR_AGE_CHECK => 0,
                 ProductDefinition::STOR_NOTIFICATION => 0,
-                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_EU_4952),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_BE_EU_4952),
                 'product_code_delivery' => '4952',
                 'source_zone' => Zone::BE,
                 'destination_zone' => Zone::EU,
@@ -131,10 +124,9 @@ class Migration1663659820CreateV1_1Products extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => null,
                 ProductDefinition::STOR_AGE_CHECK => null,
                 ProductDefinition::STOR_NOTIFICATION => null,
-                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_BE_GLOBAL_4945),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_BE_GLOBAL_4945),
                 'product_code_delivery' => '4945',
                 'source_zone' => Zone::BE,
                 'destination_zone' => Zone::GLOBAL,
@@ -145,7 +137,6 @@ class Migration1663659820CreateV1_1Products extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => null,
                 ProductDefinition::STOR_AGE_CHECK => null,
                 ProductDefinition::STOR_NOTIFICATION => null,
-                'created_at' => (new \DateTime())->format(ShopwareDefaults::STORAGE_DATE_TIME_FORMAT)
             ],
         ];
 
@@ -154,6 +145,5 @@ class Migration1663659820CreateV1_1Products extends ProductMigration
 
     public function updateDestructive(Connection $connection): void
     {
-        // implement update destructive
     }
 }

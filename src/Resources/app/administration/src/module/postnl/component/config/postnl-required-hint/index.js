@@ -6,7 +6,7 @@ Shopware.Component.register('postnl-required-hint', {
 
     props: {
         textAlign: {
-            type: 'String',
+            type: String,
             required: false,
             default: 'left'
         }

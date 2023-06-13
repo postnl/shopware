@@ -4,6 +4,7 @@ namespace PostNL\Shopware6\Facade;
 
 use PostNL\Shopware6\Entity\Product\ProductDefinition;
 use PostNL\Shopware6\Entity\Product\ProductEntity;
+use PostNL\Shopware6\Service\PostNL\Product\DefaultProductService;
 use PostNL\Shopware6\Service\PostNL\Product\ProductService;
 use PostNL\Shopware6\Struct\ProductFlagStruct;
 use Psr\Log\LoggerInterface;
@@ -17,21 +18,28 @@ class ProductFacade
     protected $productService;
 
     /**
+     * @var DefaultProductService
+     */
+    protected $defaultProductService;
+
+    /**
      * @var LoggerInterface
      */
     protected $logger;
 
     public function __construct(
         ProductService  $productService,
+        DefaultProductService $defaultProductService,
         LoggerInterface $logger
     )
     {
+        $this->defaultProductService = $defaultProductService;
         $this->productService = $productService;
         $this->logger = $logger;
     }
 
     /**
-     * @param string $sourceZone
+     * @param string  $sourceZone
      * @param Context $context
      * @return bool
      */
@@ -41,8 +49,8 @@ class ProductFacade
     }
 
     /**
-     * @param string $sourceZone
-     * @param string $destinationZone
+     * @param string  $sourceZone
+     * @param string  $destinationZone
      * @param Context $context
      * @return string[]
      * @throws \Exception
@@ -61,7 +69,7 @@ class ProductFacade
     }
 
     /**
-     * @param string $productId
+     * @param string  $productId
      * @param Context $context
      * @return array<string, ProductFlagStruct>
      * @throws \Exception
@@ -77,17 +85,25 @@ class ProductFacade
             $context
         );
 
-        $productFlags = [
-            ProductDefinition::PROP_HOME_ALONE => $product->getHomeAlone(),
-            ProductDefinition::PROP_RETURN_IF_NOT_HOME => $product->getReturnIfNotHome(),
-            ProductDefinition::PROP_INSURANCE => $product->getInsurance(),
-            ProductDefinition::PROP_SIGNATURE => $product->getSignature(),
-            ProductDefinition::PROP_AGE_CHECK => $product->getAgeCheck(),
-            ProductDefinition::PROP_NOTIFICATION => $product->getNotification(),
-        ];
+        $productFlags = [];
+
+        foreach(ProductDefinition::ALL_FLAGS as $flag) {
+            try {
+                $productFlags[$flag] = $product->get($flag);
+            } catch(\InvalidArgumentException $e) {
+                $this->logger->critical(
+                    $e->getMessage(),
+                    [
+                        'flag' => $flag
+                    ]
+                );
+
+                throw $e;
+            }
+        }
 
         // Only pass in flags that are true
-        $filteredFlags = array_filter($productFlags, function($value) {
+        $filteredFlags = array_filter($productFlags, function ($value) {
             return is_bool($value) && $value;
         });
 
@@ -97,9 +113,9 @@ class ProductFacade
     }
 
     /**
-     * @param string $sourceZone
-     * @param string $destinationZone
-     * @param string $deliveryType
+     * @param string  $sourceZone
+     * @param string  $destinationZone
+     * @param string  $deliveryType
      * @param Context $context
      * @return array<string, ProductFlagStruct>
      * @throws \Exception
@@ -117,7 +133,7 @@ class ProductFacade
     }
 
     /**
-     * @param string $productId
+     * @param string  $productId
      * @param Context $context
      * @return ProductEntity
      * @throws \Exception
@@ -128,9 +144,9 @@ class ProductFacade
     }
 
     /**
-     * @param string $sourceZone
-     * @param string $destinationZone
-     * @param string $deliveryType
+     * @param string  $sourceZone
+     * @param string  $destinationZone
+     * @param string  $deliveryType
      * @param Context $context
      * @return ProductEntity
      * @throws \Exception
@@ -142,17 +158,18 @@ class ProductFacade
         Context $context
     ): ProductEntity
     {
-        $productId =  $this->productService->getDefaultProductId($sourceZone, $destinationZone, $deliveryType);
+        $productId = $this->defaultProductService->getFallback($sourceZone, $destinationZone, $deliveryType);
+
         return $this->getProduct($productId, $context);
     }
 
     /**
-     * @param string $sourceZone
-     * @param string $destinationZone
-     * @param string $deliveryType
-     * @param array<string, bool> $flags
+     * @param string                 $sourceZone
+     * @param string                 $destinationZone
+     * @param string                 $deliveryType
+     * @param array<string, bool>    $flags
      * @param array<string, mixed>[] $changeSet
-     * @param Context $context
+     * @param Context                $context
      * @return ProductEntity
      * @throws \Exception
      */
@@ -188,7 +205,7 @@ class ProductFacade
 
         $product = $filteredProducts->first();
 
-        if($product instanceof ProductEntity) {
+        if ($product instanceof ProductEntity) {
             return $product;
         }
 
@@ -198,14 +215,14 @@ class ProductFacade
 
     /**
      * @param array<string, mixed> $flags
-     * @param string[] $keys
+     * @param string[]             $keys
      * @return array<string, mixed>
      */
     protected function fixBoolean(array $flags, array $keys = []): array
     {
         $fixed = [];
         foreach ($flags as $key => $value) {
-            if(empty($keys) || in_array($key, $keys)) {
+            if (empty($keys) || in_array($key, $keys)) {
                 $fixed[$key] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
             } else {
                 $fixed[$key] = $value;

@@ -14,9 +14,9 @@ class AddressSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            CustomerEvents::MAPPING_REGISTER_ADDRESS_BILLING  => 'onMappingAddress',
+            CustomerEvents::MAPPING_REGISTER_ADDRESS_BILLING => 'onMappingAddress',
             CustomerEvents::MAPPING_REGISTER_ADDRESS_SHIPPING => 'onMappingAddress',
-            CustomerEvents::MAPPING_ADDRESS_CREATE            => 'onMappingAddress',
+            CustomerEvents::MAPPING_ADDRESS_CREATE => 'onMappingAddress',
         ];
     }
 

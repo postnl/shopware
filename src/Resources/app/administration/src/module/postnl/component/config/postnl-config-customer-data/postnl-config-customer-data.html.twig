@@ -3,16 +3,12 @@
         <template #header>
             {{ content.customerNumber }} {{ content.customerCode }}
 
-            <template v-if="content.collectionLocation">
-            , {{ content.collectionLocation }}
-            </template>
-
             <template v-if="content.globalPackCustomerCode || content.globalPackBarcodeType">
-                &mdash; GlobalPack: {{ content.globalPackCustomerCode }} {{ content.globalPackBarcodeType }}
+                &mdash; {{ $tc('postnl.config.customerData.globalPack') }}: {{ content.globalPackBarcodeType }} {{ content.globalPackCustomerCode }}
             </template>
         </template>
         <template #content="{ disabled }">
-            <sw-container columns="repeat(3, 1fr)" gap="0 16px">
+            <sw-container columns="repeat(2, 1fr)" gap="0 16px">
                 <sw-text-field v-model="content.customerNumber"
                                required
                                :label="$tc('postnl.config.customerData.customerNumber')"
@@ -23,22 +19,16 @@
                                :label="$tc('postnl.config.customerData.customerCode')"
                                :disabled="disabled"/>
 
-                <sw-text-field v-model="content.collectionLocation"
-                               required
-                               :label="$tc('postnl.config.customerData.collectionLocation')"
-                               :disabled="disabled"/>
-
-                <sw-text-field v-model="content.globalPackCustomerCode"
-                               required
-                               :label="$tc('postnl.config.customerData.globalPackCustomerCode')"
-                               :disabled="disabled"
-                               :style="span(2)"/>
-
                 <sw-text-field v-model="content.globalPackBarcodeType"
                                required
                                :label="$tc('postnl.config.customerData.globalPackBarcodeType')"
                                :disabled="disabled"
-                               />
+                />
+
+                <sw-text-field v-model="content.globalPackCustomerCode"
+                               required
+                               :label="$tc('postnl.config.customerData.globalPackCustomerCode')"
+                               :disabled="disabled"/>
             </sw-container>
 
             <postnl-required-hint textAlign="right"/>

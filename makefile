@@ -50,11 +50,23 @@ phpstan: ## Starts the PHPStan Analyser
 	@php vendor/bin/phpstan analyse -c ./.phpstan.neon
 	@php vendor/bin/phpstan analyse -c ./.phpstan.lvl8.neon
 
-phpunit: ## Starts all Tests
-	@phpdbg -qrr vendor/bin/phpunit --configuration=phpunit.xml --coverage-html ./.reports/$(PLUGIN_NAME)/coverage
+phpunit: ## Starts all Unit Tests
+	@XDEBUG_MODE=coverage php vendor/bin/phpunit --configuration=phpunit.xml
 
 infection: ## Starts all Infection/Mutation tests
-	@phpdbg -qrr vendor/bin/infection --configuration=./.infection.json
+	@XDEBUG_MODE=coverage php vendor/bin/infection --configuration=./.infection.json
+
+infection-covered: ## Starts covered Infection/Mutation tests
+	@XDEBUG_MODE=coverage php vendor/bin/infection --configuration=./.infection.json --only-covered
+
+snippet-check: ## Tests and verifies all plugin snippets
+	@php vendor/bin/phpunuhi validate --report-format=junit --report-output=./.reports/phpunuhi/junit.xml
+
+snippet-export: ## Exports all snippets
+	@php vendor/bin/phpunuhi export --dir=./.reports/phpunuhi
+
+snippet-import: ## Imports the provided snippet set [set=xyz file=xz.csv]
+	@php vendor/bin/phpunuhi import --set=$(set) --file=$(file) --intent=1
 
 # ------------------------------------------------------------------------------------------------------------
 
@@ -64,9 +76,11 @@ pr: ## Prepares everything for a Pull Request
 	@make phpcheck -B
 	@make phpmin -B
 	@make phpstan -B
+	@make snippet-check -B
 
 build: ## Builds the package
 	@rm -rf src/Resources/app/storefront/dist
+	@mkdir -p src/Resources/app/storefront/dist
 	@cd ../../.. && php bin/console plugin:refresh
 	@cd ../../.. && php bin/console plugin:install $(PLUGIN_NAME) --activate --clearCache | true
 	@cd ../../.. && php bin/console plugin:refresh
@@ -85,5 +99,5 @@ zip: ## Creates a new ZIP package
 	@php update-composer-require.php --shopware=^6.4.1 --env=prod --admin --storefront
 	@cd .. && echo "Creating Zip file $(PLUGIN_NAME)-$(PLUGIN_VERSION).zip\n"
 	@cd .. && rm -rf $(PLUGIN_NAME)-$(PLUGIN_VERSION).zip
-	@cd .. && zip -qq -r -0 $(PLUGIN_NAME)-$(PLUGIN_VERSION).zip $(PLUGIN_NAME)/ -x '*.editorconfig' '*.git*' '*.reports*' '*/tests*' '*/makefile' '*.DS_Store' '*/phpunit.xml' '*/.phpstan.neon' '*/.php_cs.php' '*/phpinsights.php' '*node_modules*' '*administration/build*' '*storefront/build*' '*/update-composer-require.php'
+	@cd .. && zip -qq -r -0 $(PLUGIN_NAME)-$(PLUGIN_VERSION).zip $(PLUGIN_NAME)/ -x@$(PLUGIN_NAME)/zip.exclude.lst
 	@php update-composer-require.php --shopware=^6.4.1 --env=dev --admin --storefront

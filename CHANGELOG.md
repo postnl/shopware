@@ -1,3 +1,10 @@
+# 2.0.0
+#### New features
+- Added delivery date selection in the checkout, including evening delivery.
+  - Configure these in the plugin's settings.
+- New European and international shipping options have been added.
+  - GlobalPack has been replaced.
+
 # 1.2.3
 - Fixes non-required fields becoming required when selecting a country other than Netherlands during registration.
 - Fixes certain cards not displaying on the order detail page in the administration when opening a non-PostNL order.

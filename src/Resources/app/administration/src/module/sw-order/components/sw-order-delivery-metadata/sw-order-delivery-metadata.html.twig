@@ -1,0 +1,20 @@
+<template v-if="isPostNLOrder">
+    {% block sw_order_delivery_metadata_delivery_date %}
+        <template v-if="postNLDeliveryDate">
+            <dt>{{ $tc('sw-order.detailDeliveries.labelDeliveryDate') }}</dt>
+            <dd>{{ postNLDeliveryDate | date }}</dd>
+        </template>
+    {% endblock %}
+
+    {% block sw_order_delivery_metadata_slot %}
+        {% parent %}
+
+        {% block postnl_sw_order_delivery_metadata_sent_date %}
+            <template v-if="postNLSentDate">
+                    <dt>{{ $tc('postnl.order.detail.sentDate') }}</dt>
+                    <dd>{{ postNLSentDate | date }}</dd>
+            </template>
+        {% endblock %}
+    {% endblock %}
+</template>
+

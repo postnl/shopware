@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PostNL\Shopware6\Entity\Product;
 
-use PostNL\Shopware6\Entity\Product\Aggregate\ProductOption\ProductOptionCollection;
+use PostNL\Shopware6\Entity\Option\OptionCollection;
 use PostNL\Shopware6\Entity\Product\Aggregate\ProductTranslation\ProductTranslationCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
@@ -12,6 +12,15 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 class ProductEntity extends Entity
 {
     use EntityIdTrait;
+
+    /** @var ?string */
+    protected $replacedById;
+
+    /** @var ?self */
+    protected $replacedBy;
+
+    /** @var ProductCollection */
+    protected $replaces;
 
     /** @var string */
     protected $name;
@@ -22,8 +31,11 @@ class ProductEntity extends Entity
     /** @var string */
     protected $productCodeDelivery;
 
-    /** @var ProductOptionCollection */
-    protected $productOptions;
+    /** @var OptionCollection */
+    protected $requiredOptions;
+
+    /** @var OptionCollection */
+    protected $optionalOptions;
 
     /** @var string */
     protected $sourceZone;
@@ -44,6 +56,9 @@ class ProductEntity extends Entity
     protected $insurance;
 
     /** @var bool|null */
+    protected $insurancePlus;
+
+    /** @var bool|null */
     protected $signature;
 
     /** @var bool|null */
@@ -52,8 +67,59 @@ class ProductEntity extends Entity
     /** @var bool|null */
     protected $notification;
 
+    /** @var bool|null */
+    protected $trackAndTrace;
+
     /** @var ProductTranslationCollection */
     protected $translations;
+
+    /**
+     * @return string|null
+     */
+    public function getReplacedById(): ?string
+    {
+        return $this->replacedById;
+    }
+
+    /**
+     * @param string|null $replacedById
+     */
+    public function setReplacedById(?string $replacedById): void
+    {
+        $this->replacedById = $replacedById;
+    }
+
+    /**
+     * @return ProductEntity|null
+     */
+    public function getReplacedBy(): ?ProductEntity
+    {
+        return $this->replacedBy;
+    }
+
+    /**
+     * @param ProductEntity|null $replacedBy
+     */
+    public function setReplacedBy(?ProductEntity $replacedBy): void
+    {
+        $this->replacedBy = $replacedBy;
+    }
+
+    /**
+     * @return ProductCollection
+     */
+    public function getReplaces(): ProductCollection
+    {
+        return $this->replaces;
+    }
+
+    /**
+     * @param ProductCollection $replaces
+     */
+    public function setReplaces(ProductCollection $replaces): void
+    {
+        $this->replaces = $replaces;
+    }
 
     /**
      * @return string
@@ -104,19 +170,35 @@ class ProductEntity extends Entity
     }
 
     /**
-     * @return ProductOptionCollection
+     * @return OptionCollection
      */
-    public function getProductOptions(): ProductOptionCollection
+    public function getRequiredOptions(): OptionCollection
     {
-        return $this->productOptions;
+        return $this->requiredOptions;
     }
 
     /**
-     * @param ProductOptionCollection $productOptions
+     * @param OptionCollection $requiredOptions
      */
-    public function setProductOptions(ProductOptionCollection $productOptions): void
+    public function setRequiredOptions(OptionCollection $requiredOptions): void
     {
-        $this->productOptions = $productOptions;
+        $this->requiredOptions = $requiredOptions;
+    }
+
+    /**
+     * @return OptionCollection
+     */
+    public function getOptionalOptions(): OptionCollection
+    {
+        return $this->optionalOptions;
+    }
+
+    /**
+     * @param OptionCollection $optionalOptions
+     */
+    public function setOptionalOptions(OptionCollection $optionalOptions): void
+    {
+        $this->optionalOptions = $optionalOptions;
     }
 
     /**
@@ -218,6 +300,22 @@ class ProductEntity extends Entity
     /**
      * @return bool|null
      */
+    public function getInsurancePlus(): ?bool
+    {
+        return $this->insurancePlus;
+    }
+
+    /**
+     * @param bool|null $insurancePlus
+     */
+    public function setInsurancePlus(?bool $insurancePlus): void
+    {
+        $this->insurancePlus = $insurancePlus;
+    }
+
+    /**
+     * @return bool|null
+     */
     public function getSignature(): ?bool
     {
         return $this->signature;
@@ -261,6 +359,22 @@ class ProductEntity extends Entity
     public function setNotification(?bool $notification): void
     {
         $this->notification = $notification;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getTrackAndTrace(): ?bool
+    {
+        return $this->trackAndTrace;
+    }
+
+    /**
+     * @param bool|null $trackAndTrace
+     */
+    public function setTrackAndTrace(?bool $trackAndTrace): void
+    {
+        $this->trackAndTrace = $trackAndTrace;
     }
 
     /**

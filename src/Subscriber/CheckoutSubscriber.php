@@ -6,20 +6,24 @@ use Firstred\PostNL\Entity\Location;
 use Firstred\PostNL\Entity\Request\GetNearestLocations;
 use Firstred\PostNL\Entity\Response\GetLocationsResult;
 use Firstred\PostNL\Entity\Response\ResponseLocation;
-use Firstred\PostNL\Exception\PostNLException;
+use PostNL\Shopware6\Defaults;
+use PostNL\Shopware6\Facade\CheckoutFacade;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shopware6\Service\Shopware\CartService;
+use PostNL\Shopware6\Service\Shopware\ConfigService;
 use PostNL\Shopware6\Struct\Attribute\ShippingMethodAttributeStruct;
+use PostNL\Shopware6\Struct\TimeframeCollection;
+use PostNL\Shopware6\Struct\TimeframeStruct;
 use Psr\Log\LoggerInterface;
-use Shopware\Core\Checkout\Cart\Event\CheckoutOrderPlacedEvent;
 use Shopware\Core\Framework\Struct\ArrayStruct;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class CheckoutSubscriber implements EventSubscriberInterface
 {
+
     public static function getSubscribedEvents()
     {
         return [
@@ -43,26 +47,42 @@ class CheckoutSubscriber implements EventSubscriberInterface
     protected $cartService;
 
     /**
+     * @var CartService
+     */
+    protected $checkoutFacade;
+
+    /**
+     * @var ConfigService
+     */
+    protected $configService;
+
+    /**
      * @var LoggerInterface
      */
     protected $logger;
 
     /**
-     * @param ApiFactory       $apiFactory
+     * @param ApiFactory $apiFactory
      * @param AttributeFactory $attributeFactory
-     * @param CartService      $cartService
-     * @param LoggerInterface  $logger
+     * @param CartService $cartService
+     * @param CheckoutFacade $checkoutFacade
+     * @param ConfigService $configService
+     * @param LoggerInterface $logger
      */
     public function __construct(
-        ApiFactory $apiFactory,
+        ApiFactory       $apiFactory,
         AttributeFactory $attributeFactory,
-        CartService $cartService,
-        LoggerInterface $logger
+        CartService      $cartService,
+        CheckoutFacade   $checkoutFacade,
+        ConfigService    $configService,
+        LoggerInterface  $logger
     )
     {
         $this->apiFactory = $apiFactory;
         $this->attributeFactory = $attributeFactory;
         $this->cartService = $cartService;
+        $this->checkoutFacade = $checkoutFacade;
+        $this->configService = $configService;
         $this->logger = $logger;
     }
 
@@ -99,6 +119,62 @@ class CheckoutSubscriber implements EventSubscriberInterface
 
     protected function handleShipment(CheckoutConfirmPageLoadedEvent $event): void
     {
+        $address = $event->getPage()->getCart()->getDeliveries()->first()->getLocation()->getAddress();
+
+        if (!in_array($address->getCountry()->getIso(), ['NL', 'BE'])) {
+            return;
+        }
+
+        try {
+            $deliveryDays = $this->checkoutFacade->getDeliveryDays($event->getSalesChannelContext(), $address);
+            $timeframeCollection = TimeframeCollection::createFromTimeframes($deliveryDays);
+
+            $config = $this->configService->getConfiguration($event->getSalesChannelContext()->getSalesChannelId(), $event->getContext());
+
+            $timeframeCollection = $timeframeCollection->filterByDropoffDays($config)->filterByMaximumDaysShown($config);
+        } catch (\Throwable $e) {
+            $this->logger->error('Could not get delivery days', [
+                'address' => $address,
+                'exception' => $e->getMessage(),
+            ]);
+            return;
+        }
+
+        //is there a first one?
+        $timeFrame = $timeframeCollection->first();
+
+        if (!$timeFrame instanceof TimeframeStruct) {
+            $this->logger->error('Get timeframes service: API returned an unexpected result', [
+                'result' => $timeframeCollection
+            ]);
+            return;
+        }
+
+        if (!$event->getPage()->getCart()->hasExtensionOfType(CartService::EXTENSION, ArrayStruct::class)) {
+            $event->getPage()->setCart($this->cartService->addData([
+                Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => $timeFrame->getFrom(),
+            ], $event->getSalesChannelContext()));
+        }
+
+        $this->logger->debug('Fetched timeframes for address', [
+            'address' => $address,
+            'result' => $timeframeCollection,
+        ]);
+
+        $existingDeliveryDate = $this->cartService->getByKey('deliveryDate', $event->getSalesChannelContext());
+
+        $availableDeliveryDates = $timeframeCollection->map(function ($timeFrame) {
+            /** @var TimeframeStruct $timeFrame */
+            return $timeFrame->getFrom();
+        });
+
+        if (!in_array($existingDeliveryDate, $availableDeliveryDates)) {
+            $event->getPage()->setCart($this->cartService->addData([
+                Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => $timeFrame->getFrom(),
+            ], $event->getSalesChannelContext()));
+        }
+
+        $event->getSalesChannelContext()->getShippingMethod()->addExtension('postnl_shipment', $timeframeCollection);
     }
 
     protected function handlePickup(CheckoutConfirmPageLoadedEvent $event): void
@@ -127,15 +203,9 @@ class CheckoutSubscriber implements EventSubscriberInterface
         try {
             $locationRequest = new GetNearestLocations($address->getCountry()->getIso(), new Location($address->getZipcode()));
             $locationResponse = $apiClient->getNearestLocations($locationRequest);
-        } catch (PostNLException $e) {
-            $this->logger->error('Could not fetch nearest pickup points', [
-                'exception' => $e,
-                'address' => $address
-            ]);
-            return;
         } catch (\Throwable $e) {
             $this->logger->error('Could not fetch nearest pickup points', [
-                'exception' => $e,
+                'exception' => $e->getMessage(),
                 'address' => $address
             ]);
             return;
@@ -198,5 +268,4 @@ class CheckoutSubscriber implements EventSubscriberInterface
     protected function handleMailbox(CheckoutConfirmPageLoadedEvent $event): void
     {
     }
-
 }

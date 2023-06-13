@@ -9,9 +9,12 @@ use Firstred\PostNL\Entity\Contact;
 use Firstred\PostNL\Entity\Content;
 use Firstred\PostNL\Entity\Customs;
 use Firstred\PostNL\Entity\Dimension;
+use Firstred\PostNL\Entity\ProductOption;
 use Firstred\PostNL\Entity\Request\GetLocation;
 use Firstred\PostNL\Entity\Shipment;
 use PostNL\Shopware6\Defaults;
+use PostNL\Shopware6\Entity\Option\OptionEntity;
+use PostNL\Shopware6\Entity\Product\ProductEntity;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
@@ -21,6 +24,7 @@ use PostNL\Shopware6\Service\Shopware\ConfigService;
 use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderAddressDataExtractor;
 use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor;
 use PostNL\Shopware6\Struct\Attribute\OrderAttributeStruct;
+use PostNL\Shopware6\Struct\TimeframeStruct;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Document\DocumentEntity;
 use Shopware\Core\Checkout\Document\DocumentGenerator\InvoiceGenerator;
@@ -141,10 +145,16 @@ class ShipmentBuilder
         }
 
         //= Mailbox ====
-        if ($product->getDeliveryType() === DeliveryType::MAILBOX) {
+        if ($product->getDeliveryType() === DeliveryType::MAILBOX && $product->getDestinationZone() === Zone::NL) {
             $shipment->setDeliveryDate(date_create()->format('d-m-Y 15:00:00'));
         }
 
+        if($orderAttributes->getTimeframe()) {
+            $shipment->setDeliveryDate(
+                (new \DateTimeImmutable($orderAttributes->getTimeframe()['to']))
+                    ->format('d-m-Y H:i:s')
+            );
+        }
 
         //= Addresses ====
         $addresses[] = $this->buildReceiverAddress($order);
@@ -173,6 +183,9 @@ class ShipmentBuilder
         $shipment->setAddresses($addresses);
         $shipment->setAmounts($amounts);
         $shipment->setContacts($contacts);
+
+        //= Product Options ====
+        $shipment->setProductOptions($this->buildProductOptions($order, $product, $context));
 
         return $shipment;
     }
@@ -301,6 +314,38 @@ class ShipmentBuilder
         }
 
         return new Dimension($totalWeight);
+    }
+
+    public function buildProductOptions(OrderEntity $order, ProductEntity $product, Context $context): array
+    {
+        $productOptions = [];
+
+        $config = $this->configService->getConfiguration($order->getSalesChannelId(), $context);
+
+        /** @var OrderAttributeStruct $orderAttributes */
+        $orderAttributes = $this->attributeFactory->createFromEntity($order, $context);
+
+        if ($product->getDestinationZone() == Zone::NL && !empty($orderAttributes->getTimeframe())) {
+            $timeframeArray = $orderAttributes->getTimeframe();
+
+            $timeframe = new TimeframeStruct(
+                new \DateTimeImmutable($timeframeArray['to']),
+                new \DateTimeImmutable($timeframeArray['from']),
+                $timeframeArray['options'],
+                $timeframeArray['sustainability']
+            );
+
+            if($timeframe->hasOption('Evening')) {
+                // TODO improve this
+                $productOptions[] = new ProductOption('118', '006');
+            }
+        }
+
+        foreach($product->getRequiredOptions() as $requiredOption) {
+            $productOptions[] = new ProductOption($requiredOption->getCharacteristic(), $requiredOption->getOption());
+        }
+
+        return $productOptions;
     }
 
     public function buildCustoms(OrderEntity $order, Context $context): Customs

@@ -40,12 +40,28 @@ Component.register('postnl-create-shipment-modal', {
         selectionCount() {
             return Object.values(this.selection).length;
         },
+
         hasActions(){
-          return this.confirmShipments || this.downloadLabels;
+          return (this.confirmShipments || this.downloadLabels) && this.selectionHasProducts;
+        },
+
+        selectionHasProducts() {
+            return !Object.values(this.selection)
+                .map(order => order?.customFields?.postnl?.productId)
+                .some(productId => [undefined, null, ""].includes(productId))
         }
     },
 
+
+    created() {
+        this.createdComponent();
+    },
+
     methods: {
+        createdComponent() {
+            console.log(this.selectionHasProducts);
+        },
+
         closeModal() {
             if (!this.isProcessing) {
                 this.$emit('close');

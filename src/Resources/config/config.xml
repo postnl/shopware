@@ -177,12 +177,40 @@
             </helpText>
         </input-field>
 
+        <component name="postnl-config-product-selection-shipment-nl-eu-default">
+            <name>productShipmentNlEuDefault</name>
+            <label>Standard shipment, from NL to EU</label>
+            <label lang="de-DE">Standardversand, von NL nach EU</label>
+            <label lang="nl-NL">Standaard zending, van NL naar EU</label>
+        </component>
+
+        <component name="postnl-config-product-selection-shipment-be-eu-default">
+            <name>productShipmentBeEuDefault</name>
+            <label>Standard shipment, from BE to EU</label>
+            <label lang="de-DE">Standardversand, von BE nach EU</label>
+            <label lang="nl-NL">Standaard zending, van BE naar EU</label>
+        </component>
+
         <input-field type="bool">
             <name>sendToWorld</name>
             <label>Enable shipments to the rest of the world</label>
             <label lang="de-DE">Sendungen zum Rest der Welt aktivieren</label>
             <label lang="nl-NL">Zendingen naar de rest van de wereld inschakelen</label>
         </input-field>
+
+        <component name="postnl-config-product-selection-shipment-nl-global-default">
+            <name>productShipmentNlGlobalDefault</name>
+            <label>Standard shipment, from NL to rest of the world</label>
+            <label lang="de-DE">Standardversand, von NL nach Rest der Welt</label>
+            <label lang="nl-NL">Standaard zending, van NL naar rest van de wereld</label>
+        </component>
+
+        <component name="postnl-config-product-selection-shipment-be-global-default">
+            <name>productShipmentBeGlobalDefault</name>
+            <label>Standard shipment, from BE to rest of the world</label>
+            <label lang="de-DE">Standardversand, von BE nach Rest der Welt</label>
+            <label lang="nl-NL">Standaard zending, van BE naar rest van de wereld</label>
+        </component>
 
         <input-field type="text">
             <name>fallbackHSCode</name>
@@ -194,6 +222,120 @@
             <helpText lang="de-DE">Standard-HS-Zolltarifcode für Sendungen außerhalb der EU, falls nicht auf Produktebene angegeben. Bitte beachten Sie, dass diese Daten zwingend auf Produktebene festgelegt werden müssen. Gehen Sie dazu auf Katalog → Produkte → Spezifikationen.</helpText>
             <placeholder>000000</placeholder>
         </input-field>
+    </card>
+
+    <card>
+        <title>Delivery options</title>
+        <title lang="de-DE">Liefermöglichkeiten</title>
+        <title lang="nl-NL">Bezorgopties</title>
+
+        <input-field type="bool">
+            <name>showDeliveryDays</name>
+            <label>Activate delivery days</label>
+            <label lang="de-DE">Liefertage aktivieren</label>
+            <label lang="nl-NL">Bezorgdagen activeren</label>
+
+            <defaultValue>false</defaultValue>
+        </input-field>
+
+        <input-field type="time">
+            <name>cutOffTime</name>
+            <label>Cut-off time</label>
+            <label lang="de-DE">Abschaltzeit</label>
+            <label lang="nl-NL">Cut-off tijd</label>
+            <helpText>Orders placed after this time will be subject to an additional one day in addition to the delivery time.</helpText>
+            <helpText lang="de-DE">Für Bestellungen, die nach dieser Zeit aufgegeben werden, wird ein Tag zusätzlich zur Lieferzeit berechnet.</helpText>
+            <helpText lang="nl-NL">Voor bestellingen die na dit tijdstip worden geplaatst wordt één dag extra bovenop de overkomstduur gerekend.</helpText>
+            <placeholder>17:00</placeholder>
+        </input-field>
+
+        <input-field type="int">
+            <!--
+            This option does not represent the time it takes for PostNL to deliver the package to the customer, as the
+            description would suggest, rather it's the number of drop-off days the merchant needs to deliver their
+            package to PostNL. The minimum and default value for this is 1, which means the merchant will drop the
+            package off on the same day the order is placed.
+            -->
+            <name>shippingDuration</name>
+            <label>Transit time (in days)</label>
+            <label lang="de-DE">Durchgangszeit (in Tagen)</label>
+            <label lang="nl-NL">Overkomstduur (in dagen)</label>
+            <helpText>Number of days it takes to deliver the package to the customer.</helpText>
+            <helpText lang="de-DE">Anzahl der Tage, die für die Zustellung des Pakets an den Kunden benötigt werden.</helpText>
+            <helpText lang="nl-NL">Aantal dagen dat het duurt om het pakket bij de klant af te leveren.</helpText>
+            <placeholder>1</placeholder>
+            <defaultValue>1</defaultValue>
+        </input-field>
+
+        <input-field type="multi-select">
+            <name>dropoffDays</name>
+            <label>Drop-off days</label>
+            <label lang="de-DE">Liefertage</label>
+            <label lang="nl-NL">Aanlever dagen</label>
+            <helpText>Do you deliver your packages to PostNL on Sundays? Make sure it is contractually agreed that PostNL will sort your packages on Sunday. Only then will the packages also be delivered on Monday.</helpText>
+            <helpText lang="de-DE">Liefern Sie Ihre Pakete auch sonntags an PostNL? Achten Sie dann darauf, dass vertraglich vereinbart ist, dass PostNL Ihre Pakete sonntags sortiert. Nur dann werden die Pakete auch am Montag zugestellt.</helpText>
+            <helpText lang="nl-NL">Lever jij op zondag jouw pakketten in bij PostNL? Zorg dan ook dat er contractueel is vastgelegd dat PostNL jouw pakketten op zondag sorteerd. Alleen dan worden de pakketten ook op maandag bezorgd.</helpText>
+            <options>
+                <option>
+                    <id>1</id>
+                    <name>Monday</name>
+                    <name lang="de-DE">Montag</name>
+                    <name lang="nl-NL">Maandag</name>
+                </option>
+                <option>
+                    <id>2</id>
+                    <name>Tuesday</name>
+                    <name lang="de-DE">Dienstag</name>
+                    <name lang="nl-NL">Dinsdag</name>
+                </option>
+                <option>
+                    <id>3</id>
+                    <name>Wednesday</name>
+                    <name lang="de-DE">Mittwoch</name>
+                    <name lang="nl-NL">Woensdag</name>
+                </option>
+                <option>
+                    <id>4</id>
+                    <name>Thursday</name>
+                    <name lang="de-DE">Donnerstag</name>
+                    <name lang="nl-NL">Donderdag</name>
+                </option>
+                <option>
+                    <id>5</id>
+                    <name>Friday</name>
+                    <name lang="de-DE">Freitag</name>
+                    <name lang="nl-NL">Vrijdag</name>
+                </option>
+                <option>
+                    <id>6</id>
+                    <name>Saturday</name>
+                    <name lang="de-DE">Samstag</name>
+                    <name lang="nl-NL">Zaterdag</name>
+                </option>
+                <option>
+                    <id>7</id>
+                    <name>Sunday</name>
+                    <name lang="de-DE">Sonntag</name>
+                    <name lang="nl-NL">Zondag</name>
+                </option>
+            </options>
+        </input-field>
+
+        <input-field type="bool">
+            <name>eveningDelivery</name>
+            <label>Enable evening delivery</label>
+            <label lang="de-DE">Abendzustellung aktivieren</label>
+            <label lang="nl-NL">Avondlevering activeren</label>
+
+            <defaultValue>false</defaultValue>
+        </input-field>
+
+        <component name="postnl-currency-field">
+            <name>eveningSurcharge</name>
+            <label>Evening delivery surcharge</label>
+            <label lang="de-DE">Abendzustellungszuschlag</label>
+            <label lang="nl-NL">Toeslag avondbezorging</label>
+        </component>
     </card>
 
     <card>
@@ -294,13 +436,13 @@
             <label lang="de-DE">Papierformat</label>
             <label lang="nl-NL">Papierformaat</label>
             <helpText>Labels are always printed in A6. When selecting A4 you can print 4 labels on one page. Labels for
-                Global Pack shipments are always printed in A4
+                Global Pack shipments are always printed in A4.
             </helpText>
             <helpText lang="de-DE">Labels werden immer in A6 gedruckt. Wenn Sie A4 wählen, können Sie 4 Labels auf eine
                 Seite drucken. Labels für Global Pack Sendungen werden immer in A4 gedruckt.
             </helpText>
             <helpText lang="nl-NL">Labels worden altijd in A6 afgedrukt. Als u A4 selecteert, kunt u 4 etiketten op één
-                pagina afdrukken. Labels voor Global Pack zendingen worden altijd afgedrukt in A4
+                pagina afdrukken. Labels voor Global Pack zendingen worden altijd afgedrukt in A4.
             </helpText>
             <defaultValue>a4</defaultValue>
             <options>
@@ -326,12 +468,12 @@
             <label>Debug mode</label>
             <label lang="de-DE">Debug-Modus</label>
             <label lang="nl-NL">Debug modus</label>
-            <helpText>Debug mode logs more data. This can be used to diagnose possible problems</helpText>
+            <helpText>Debug mode logs more data. This can be used to diagnose possible problems.</helpText>
             <helpText lang="de-DE">Im Debug-Modus werden mehr Daten erfasst. Dies kann zur Diagnose möglicher Probleme
-                verwendet werden
+                verwendet werden.
             </helpText>
             <helpText lang="nl-NL">De Debug-modus logt meer gegevens. Dit kan worden gebruikt om mogelijke problemen te
-                diagnosticeren
+                diagnosticeren.
             </helpText>
             <defaultValue>false</defaultValue>
         </input-field>

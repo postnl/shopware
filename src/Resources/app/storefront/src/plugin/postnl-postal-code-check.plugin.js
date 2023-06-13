@@ -65,7 +65,7 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this.defaultAddressRow = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'defaultAddressRow');
 
         //Alert blocks
-        this.postnlWarningAlert = DomAccess.querySelector(this.el, '.postnl-alerts .alert-warning');
+        this.postnlWarningAlert = DomAccess.querySelector(this.el, '.postnl-alerts');
 
         //Parent form
         this.addressForm = this.zipcodeElement.closest('form');

@@ -48,7 +48,8 @@ class ProductService
             'criteria' => $criteria,
         ]);
 
-        $criteria->addAssociation('options');
+        $criteria->addAssociation('requiredOptions.required');
+        $criteria->addAssociation('optionalOptions.required');
 
         /** @var ProductCollection $products */
         $products = $this->productRepository->search($criteria, $context)->getEntities();
@@ -203,7 +204,7 @@ class ProductService
         $filteredFlags = $this->getProductFilterFlagsByChangeSet($products, $changeSet);
         $filteredProducts = $this->filterProductsByFlags($products, $filteredFlags);
 
-        $unfilteredFlags = array_diff($this->requiredFlags($destinationZone, $deliveryType), array_keys($filteredFlags));
+        $unfilteredFlags = array_diff($this->getRequiredFlagsFromProducts($filteredProducts), array_keys($filteredFlags));
 
         foreach($unfilteredFlags as $flag) {
             $availableValues = $filteredProducts->reduceToProperty($flag);
@@ -322,6 +323,7 @@ class ProductService
     }
 
     /**
+     * @deprecated
      * @param string $sourceZone
      * @param string $destinationZone
      * @param string $deliveryType
@@ -352,7 +354,7 @@ class ProductService
                                 $defaultProductId = Defaults::PRODUCT_MAILBOX_NL_NL;
                                 break;
                             case DeliveryType::SHIPMENT:
-                                $defaultProductId = Defaults::PRODUCT_SHIPPING_NL_NL;
+                                $defaultProductId = Defaults::PRODUCT_SHIPMENT_NL_NL;
                                 break;
                             case DeliveryType::PICKUP:
                                 $defaultProductId = Defaults::PRODUCT_PICKUP_NL_NL;
@@ -362,7 +364,7 @@ class ProductService
                     case Zone::BE:
                         switch ($deliveryType) {
                             case DeliveryType::SHIPMENT:
-                                $defaultProductId = Defaults::PRODUCT_SHIPPING_NL_BE;
+                                $defaultProductId = Defaults::PRODUCT_SHIPMENT_NL_BE;
                                 break;
                             case DeliveryType::PICKUP:
                                 $defaultProductId = Defaults::PRODUCT_PICKUP_NL_BE;
@@ -370,10 +372,24 @@ class ProductService
                         }
                         break;
                     case Zone::EU:
-                        $defaultProductId = Defaults::PRODUCT_SHIPPING_NL_EU_4952;
+                        switch ($deliveryType) {
+                            case DeliveryType::MAILBOX:
+                                $defaultProductId = Defaults::PRODUCT_MAILBOX_NL_EU_6440;
+                                break;
+                            case DeliveryType::SHIPMENT:
+                                $defaultProductId = Defaults::PRODUCT_SHIPMENT_NL_EU_4907_005_025;
+                                break;
+                        }
                         break;
                     case Zone::GLOBAL:
-                        $defaultProductId = Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4945;
+                        switch ($deliveryType) {
+                            case DeliveryType::MAILBOX:
+                                $defaultProductId = Defaults::PRODUCT_MAILBOX_NL_GLOBAL_6440;
+                                break;
+                            case DeliveryType::SHIPMENT:
+                                $defaultProductId = Defaults::PRODUCT_SHIPMENT_NL_GLOBAL_4909_005_025;
+                                break;
+                        }
                         break;
                 }
                 break;
@@ -382,7 +398,7 @@ class ProductService
                     case Zone::BE:
                         switch ($deliveryType) {
                             case DeliveryType::SHIPMENT:
-                                $defaultProductId = Defaults::PRODUCT_SHIPPING_BE_BE;
+                                $defaultProductId = Defaults::PRODUCT_SHIPMENT_BE_BE;
                                 break;
                             case DeliveryType::PICKUP:
                                 $defaultProductId = Defaults::PRODUCT_PICKUP_BE_BE;
@@ -390,10 +406,10 @@ class ProductService
                         }
                         break;
                     case Zone::EU:
-                        $defaultProductId = Defaults::PRODUCT_SHIPPING_BE_EU_4952;
+                        $defaultProductId = Defaults::PRODUCT_SHIPMENT_BE_EU_4907_005_025;
                         break;
                     case Zone::GLOBAL:
-                        $defaultProductId = Defaults::PRODUCT_SHIPPING_BE_GLOBAL_4945;
+                        $defaultProductId = Defaults::PRODUCT_SHIPMENT_BE_GLOBAL_4909_005_025;
                         break;
                 }
                 break;
@@ -413,6 +429,27 @@ class ProductService
     }
 
     /**
+     * @param ProductCollection $products
+     * @return string[]
+     */
+    public function getRequiredFlagsFromProducts(ProductCollection $products): array
+    {
+        $requiredFlags = [];
+
+        foreach(ProductDefinition::ALL_FLAGS as $flag) {
+            $propValues = $products->reduceToProperty($flag);
+
+            if(in_array(true, $propValues, true) || in_array(false, $propValues, true)) {
+                $requiredFlags[] = $flag;
+            }
+        }
+
+        return $requiredFlags;
+    }
+
+
+    /**
+     * @deprecated
      * @param string $destinationZone
      * @param string $deliveryType
      * @return string[]
@@ -422,6 +459,7 @@ class ProductService
         string $deliveryType
     ): array
     {
+        // TODO, needs updating?
         if (in_array($destinationZone, [Zone::EU, Zone::GLOBAL])) {
             return [];
         }

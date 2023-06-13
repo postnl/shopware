@@ -9,15 +9,15 @@
       "mandatoryFields": "Fields with an asterisk are mandatory.",
       "info": {
         "title": "Hi {username}, welcome to the PostNL extension!",
-        "onboardingStep1": "Find your API key at {mijnPostNLLink}. Or request an API key here.",
+        "onboardingStep1": "Find your API key at {link}. Or request an API key here.",
         "mijnPostNL": "MijnPostNL",
         "mijnPostNLApiHere": "here",
         "onboardingStep2": "Activate PostNL's shipping options in Shopware's Shipping settings.",
-        "onboardingStep21": "Go to {shippingSettingsLink}",
+        "onboardingStep21": "Go to {link}.",
         "shippingSettings": "Shipping settings",
         "onboardingStep3": "Activate PostNL's shipping options per sales channel.",
-        "onboardingStep31": "Go to your {salesChannels}",
-        "salesChannels": "sales channels",
+        "onboardingStep31": "Go to your {link}.",
+        "salesChannels": "Sales channels",
         "btnManual": "Manual",
         "btnSupport": "Support"
       },
@@ -33,8 +33,9 @@
         "customerNumber": "Customer number (e.g. '11223344')",
         "customerCode": "Customer code (e.g. 'DEVC')",
         "collectionLocation": "Location code (e.g. '123456')",
-        "globalPackCustomerCode": "Global Pack customer code (e.g. '1234')",
-        "globalPackBarcodeType": "Global Pack barcode type(e.g. 'CD')"
+        "globalPack": "Non-EU",
+        "globalPackCustomerCode": "Parcel non-EU customer code (e.g. '1234')",
+        "globalPackBarcodeType": "Parcel non-EU barcode type(e.g. 'CD')"
       },
       "senderAddress": {
         "companyName": "Company name",
@@ -80,7 +81,8 @@
       "detail": {
         "shippingProduct": "PostNL product",
         "buttonChangeShipping": "Change shipping method",
-        "buttonCreateShipment": "Create and confirm shipments"
+        "buttonCreateShipment": "Create and confirm shipments",
+        "sentDate": "Shipping date"
       },
       "list": {
         "columnShippingAddress": "Shipping address",
@@ -88,12 +90,15 @@
         "columnBarCode": "Barcode",
         "columnConfirm": "Confirmed",
         "buttonChangeShipping": "Change shipping method",
-        "buttonCreateShipment": "Create and confirm shipments"
+        "buttonCreateShipment": "Create and confirm shipments",
+        "columnSentDate": "Shipping date",
+        "columnDeliveryDate": "Delivery date",
+        "missingProductId": "No PostNL shipping method assigned, please select one first"
       },
       "modal": {
         "changeShipping": {
           "title": "Change shipping method",
-          "warning": "Unable to change shipping method",
+          "warning": "Unable to change shipping method when the selected orders have a mix of destination zones (NL, BE, EU, World)",
           "cancel": "Cancel",
           "confirm": "Change shipping method"
         },
@@ -104,7 +109,9 @@
           "confirmedShipments": "Shipment confirmed at PostNL",
           "downloadLabels": "Download shipping labels",
           "cancel": "Cancel",
-          "confirm": "Send shipments"
+          "confirm": "Send shipments",
+          "missingProductIdMany": "One or more selected orders is missing a PostNL shipping method. Please select one first.",
+          "missingProductIdSingle": "The selected order is missing a PostNL shipping method. Please select one first."
         }
       }
     },
@@ -112,15 +119,18 @@
       "deliveryType": {
         "shipment": "Standard Shipment",
         "pickup": "Pick-up at PostNL location",
-        "mailbox": "Mailbox parcel"
+        "mailbox": "Mailbox parcel",
+        "parcel": "Parcel"
       },
       "flag": {
         "homeAlone": "Deliver to stated address only",
         "returnIfNotHome": "Return when not home",
         "insurance": "Extra Cover",
-        "signature": "Signature on delivery\n\n",
+        "insurancePlus": "Extra Cover Plus",
+        "signature": "Signature on delivery",
         "ageCheck": "Age check",
-        "notification": "Notification"
+        "notification": "Notification",
+        "trackAndTrace": "Track & Trace"
       }
     },
     "rules": {

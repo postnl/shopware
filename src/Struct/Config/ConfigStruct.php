@@ -49,6 +49,7 @@ class ConfigStruct extends AttributeStruct
      * @var ProductSelectionStruct
      */
     protected $productShipmentNlNlDefault;
+
     /**
      * @var ProductSelectionStruct
      */
@@ -94,6 +95,42 @@ class ConfigStruct extends AttributeStruct
     /**
      * @var bool
      */
+    protected $sendToEU = false;
+
+    /**
+     * @var ProductSelectionStruct
+     */
+    protected $productShipmentNlEuDefault;
+
+    /**
+     * @var ProductSelectionStruct
+     */
+    protected $productShipmentBeEuDefault;
+
+    /**
+     * @var bool
+     */
+    protected $sendToWorld = false;
+
+    /**
+     * @var ProductSelectionStruct
+     */
+    protected $productShipmentNlGlobalDefault;
+
+    /**
+     * @var ProductSelectionStruct
+     */
+    protected $productShipmentBeGlobalDefault;
+
+    //====================================================================================================
+
+    /**
+     * @var string|null
+     */
+    protected $fallbackHSCode;
+    /**
+     * @var bool
+     */
     protected $returnLabelInTheBox;
 
     //====================================================================================================
@@ -113,29 +150,6 @@ class ConfigStruct extends AttributeStruct
      */
     protected $printerDPI;
 
-    //====================================================================================================
-
-    /**
-     * @var bool
-     */
-    protected $debugMode = false;
-
-    //====================================================================================================
-
-    /**
-     * @var bool
-     */
-    protected $sendToEU = false;
-
-    /**
-     * @var bool
-     */
-    protected $sendToWorld = false;
-
-    /**
-     * @var string|null
-     */
-    protected $fallbackHSCode;
 
     //====================================================================================================
 
@@ -147,12 +161,29 @@ class ConfigStruct extends AttributeStruct
     /**
      * @var int
      */
-    protected $transitTime;
+    protected $shippingDuration = 1;
 
     /**
-     * @var array
+     * @var array<string>
      */
-    protected $handoverDays;
+    protected $dropoffDays;
+
+    /**
+     * @var bool
+     */
+    protected $eveningDelivery = false;
+
+    /**
+     * @var float
+     */
+    protected $eveningSurcharge = 0.0;
+
+    //====================================================================================================
+
+    /**
+     * @var bool
+     */
+    protected $debugMode = false;
 
     //====================================================================================================
 
@@ -301,6 +332,64 @@ class ConfigStruct extends AttributeStruct
     /**
      * @return bool
      */
+    public function isSendToEU(): bool
+    {
+        return $this->sendToEU;
+    }
+
+    /**
+     * @return ProductSelectionStruct
+     */
+    public function getProductShipmentNlEuDefault(): ProductSelectionStruct
+    {
+        return $this->productShipmentNlEuDefault;
+    }
+
+    /**
+     * @return ProductSelectionStruct
+     */
+    public function getProductShipmentBeEuDefault(): ProductSelectionStruct
+    {
+        return $this->productShipmentBeEuDefault;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSendToWorld(): bool
+    {
+        return $this->sendToWorld;
+    }
+
+    /**
+     * @return ProductSelectionStruct
+     */
+    public function getProductShipmentNlGlobalDefault(): ProductSelectionStruct
+    {
+        return $this->productShipmentNlGlobalDefault;
+    }
+
+    /**
+     * @return ProductSelectionStruct
+     */
+    public function getProductShipmentBeGlobalDefault(): ProductSelectionStruct
+    {
+        return $this->productShipmentBeGlobalDefault;
+    }
+
+    //=========================================================================================================
+
+    /**
+     * @return string|null
+     */
+    public function getFallbackHSCode(): ?string
+    {
+        return $this->fallbackHSCode;
+    }
+
+    /**
+     * @return bool
+     */
     public function isReturnLabelInTheBox(): bool
     {
         return $this->returnLabelInTheBox;
@@ -332,7 +421,7 @@ class ConfigStruct extends AttributeStruct
         return $this->printerDPI;
     }
 
-    //=======================================================================================================
+    //=========================================================================================================
 
     /**
      * @return bool
@@ -342,55 +431,64 @@ class ConfigStruct extends AttributeStruct
         return $this->debugMode;
     }
 
-    //=======================================================================================================
 
-    /**
-     * @return bool
-     */
-    public function isSendToEU(): bool
-    {
-        return $this->sendToEU;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isSendToWorld(): bool
-    {
-        return $this->sendToWorld;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getFallbackHSCode(): ?string
-    {
-        return $this->fallbackHSCode;
-    }
-
-    //=======================================================================================================
+    //=========================================================================================================
 
     /**
      * @return string
      */
     public function getCutOffTime(): string
     {
-        return $this->cutOffTime;
+        return $this->cutOffTime ?: '17:00:00';
     }
 
     /**
      * @return int
      */
-    public function getTransitTime(): int
+    public function getShippingDuration(): int
     {
-        return $this->transitTime;
+        return $this->shippingDuration;
     }
 
     /**
-     * @return array
+     * @return array<string>
      */
-    public function getHandoverDays(): array
+    public function getDropoffDays(): array
     {
-        return $this->handoverDays;
+        return $this->dropoffDays;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getEveningDelivery(): bool
+    {
+        return $this->eveningDelivery;
+    }
+
+    /**
+     * @return float
+     */
+    public function getEveningSurcharge(): float
+    {
+        return $this->eveningSurcharge;
+    }
+
+    public function getAllowSundaySorting(): bool
+    {
+        return in_array(7, $this->getDropoffDays());
+    }
+
+    public function getDeliveryOptions(): array
+    {
+        //Check Development:GUIDELINES https://developer.postnl.nl/browse-apis/delivery-options/deliverydate-webservice/
+        //Options: Daytime | Evening | Morning | Noon | Today | Sunday | Sameday | Afternoon
+        //Combinations work contrary to the documentation
+        $deliveryOptions = ['Daytime'];
+
+        if ($this->getEveningDelivery()) {
+            $deliveryOptions[] = 'Evening';
+        }
+        return $deliveryOptions;
     }
 }
