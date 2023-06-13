@@ -110,8 +110,8 @@
           "downloadLabels": "Versandetiketten herunterladen",
           "cancel": "Abbrechen",
           "confirm": "Sendungen senden",
-          "missingProductIdMany": "Eine oder mehrere Bestellungen haben keine PostNL Versandart. Bitte wählen Sie zuerst eine über "Versandart ändern"",
-          "missingProductIdSingle": "Die ausgewählten Bestellungen haben keine PostNL-Versandart. Bitte wählen Sie zuerst eine über "Change Shipping Method" aus."
+          "missingProductIdMany": "Eine oder mehrere Bestellungen haben keine PostNL Versandart. Bitte wählen Sie zuerst eine über \"Versandart ändern\"",
+          "missingProductIdSingle": "Die ausgewählten Bestellungen haben keine PostNL-Versandart. Bitte wählen Sie zuerst eine über \"Versandart ändern\" aus."
         }
       }
     },
