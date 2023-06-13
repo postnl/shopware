@@ -92,12 +92,13 @@
         "buttonChangeShipping": "Change shipping method",
         "buttonCreateShipment": "Create and confirm shipments",
         "columnSentDate": "Shipping date",
-        "columnDeliveryDate": "Delivery date"
+        "columnDeliveryDate": "Delivery date",
+        "missingProductId": "No PostNL shipping method assigned, please select one first"
       },
       "modal": {
         "changeShipping": {
           "title": "Change shipping method",
-          "warning": "Unable to change shipping method",
+          "warning": "Unable to change shipping method when the selected orders have a mix of destination zones (NL, BE, EU, World)",
           "cancel": "Cancel",
           "confirm": "Change shipping method"
         },
@@ -108,7 +109,9 @@
           "confirmedShipments": "Shipment confirmed at PostNL",
           "downloadLabels": "Download shipping labels",
           "cancel": "Cancel",
-          "confirm": "Send shipments"
+          "confirm": "Send shipments",
+          "missingProductIdMany": "One or more selected orders is missing a PostNL shipping method. Please select one first.",
+          "missingProductIdSingle": "The selected order is missing a PostNL shipping method. Please select one first."
         }
       }
     },
