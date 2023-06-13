@@ -195,7 +195,11 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
             const product = Array.from(this.products).find(product =>
                 product.id === item.customFields.postnl.productId);
 
-            return product.name;
+            return product?.name || '';
+        },
+
+        orderHasProduct(item) {
+            return !!item?.customFields?.postnl?.productId || false;
         },
 
         onChangeShipping() {

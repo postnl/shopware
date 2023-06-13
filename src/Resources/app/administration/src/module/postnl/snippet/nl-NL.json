@@ -92,12 +92,13 @@
         "buttonChangeShipping": "Verzendmethode wijzigen",
         "buttonCreateShipment": "Voormelden en labels printen",
         "columnSentDate": "Verzenddatum",
-        "columnDeliveryDate": "Bezorgdatum"
+        "columnDeliveryDate": "Bezorgdatum",
+        "missingProductId": "Geen PostNL verzendmethode toegewezen, selecteer er eerst een."
       },
       "modal": {
         "changeShipping": {
           "title": "Verzendmethode wijzigen",
-          "warning": "Kan verzendmethode niet veranderen",
+          "warning": "Kan verzendmethode niet veranderen als de geselecteerde bestellingen een mix van bezorgzones bevatten (NL, BE, EU, Wereld)",
           "cancel": "Annuleren",
           "confirm": "Verzendmethode wijzigen"
         },
@@ -108,7 +109,9 @@
           "confirmedShipments": "Zending bevestigd bij PostNL",
           "downloadLabels": "Verzendlabels downloaden",
           "cancel": "Annuleren",
-          "confirm": "Verzendingen aanmaken"
+          "confirm": "Verzendingen aanmaken",
+          "missingProductIdMany": "Eén of meerdere bestellingen heeft geen PostNL verzendmethode. Selecteer er a.u.b. eerst een via \"Verzendmethode wijzigen\"",
+          "missingProductIdSingle": "De geselecteerde bestellingen heeft geen PostNL verzendmethode. Selecteer er a.u.b. eerst een via \"Verzendmethode wijzigen\""
         }
       }
     },

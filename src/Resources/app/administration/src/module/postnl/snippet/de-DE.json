@@ -92,14 +92,15 @@
         "buttonChangeShipping": "Versandart ändern",
         "buttonCreateShipment": "Vorregistrierung und Etikettendruck",
         "columnSentDate": "Versanddatum",
-        "columnDeliveryDate": "Liefertermin"
+        "columnDeliveryDate": "Liefertermin",
+        "missingProductId": "Keine PostNL-Versandmethode zugewiesen, bitte wählen Sie zuerst eine aus."
       },
       "modal": {
         "changeShipping": {
           "title": "Versandart ändern",
-          "warning": "Versandart kann nicht geändert werden",
+          "warning": "Die Versandart kann nicht geändert werden, wenn die ausgewählten Bestellungen eine Mischung von Lieferzonen enthalten (NL, BE, EU, Welt)",
           "cancel": "Abbrechen",
-          "confirm": "CVersandart ändern"
+          "confirm": "Versandart ändern"
         },
         "createShipments": {
           "title": "Diese Bestellung versenden | {count} Bestellungen versenden",
@@ -108,7 +109,9 @@
           "confirmedShipments": "Sendung bei PostNL bestätigt",
           "downloadLabels": "Versandetiketten herunterladen",
           "cancel": "Abbrechen",
-          "confirm": "Sendungen senden"
+          "confirm": "Sendungen senden",
+          "missingProductIdMany": "Eine oder mehrere Bestellungen haben keine PostNL Versandart. Bitte wählen Sie zuerst eine über "Versandart ändern"",
+          "missingProductIdSingle": "Die ausgewählten Bestellungen haben keine PostNL-Versandart. Bitte wählen Sie zuerst eine über "Change Shipping Method" aus."
         }
       }
     },
