@@ -8,14 +8,14 @@
     "config": {
       "info": {
         "title": "Hallo {username}, willkommen bei der PostNL-Erweiterung!",
-        "onboardingStep1": "Finden Sie Ihren API-Schlüssel unter {mijnPostNLLink}. Oder fordern Sie hier einen API-Schlüssel an.",
+        "onboardingStep1": "Finden Sie Ihren API-Schlüssel unter {link}. Oder fordern Sie hier einen API-Schlüssel an.",
         "mijnPostNL": "MijnPostNL",
         "mijnPostNLApiHere": "hier",
         "onboardingStep2": "Aktivieren Sie die Versandoptionen von PostNL in den Versandeinstellungen von Shopware.",
-        "onboardingStep21": "Gehen Sie zu den {shippingSettingsLink}",
+        "onboardingStep21": "Gehen Sie zu den {link}.",
         "shippingSettings": "Versandeinstellungen",
         "onboardingStep3": "Aktivieren Sie die Versandoptionen von PostNL pro Vertriebskanal.",
-        "onboardingStep31": "Gehen Sie zu Ihren {salesChannels}",
+        "onboardingStep31": "Gehen Sie zu Ihren {link}.",
         "salesChannels": "Vertriebskanälen",
         "btnManual": "Manuell",
         "btnSupport": "Unterstützung"
@@ -33,8 +33,9 @@
         "customerNumber": "Kundennummer (z.B. '11223344')",
         "customerCode": "Kundencode (z.B. 'DEVC')",
         "collectionLocation": "Ort-Code (z.B. '123456')",
-        "globalPackCustomerCode": "GlobalPack-Kundencode (z.B. '1234')",
-        "globalPackBarcodeType": "Global Pack Barcode-Typ (z.B. 'CD')"
+        "globalPack": "Nicht-EU",
+        "globalPackCustomerCode": "Kundencode Nicht-EU-Paket (z.B. '1234')",
+        "globalPackBarcodeType": "Barcode Typ Nicht-EU-Paket (z.B. 'CD')"
       },
       "senderAddress": {
         "companyName": "Firmenname",
@@ -91,14 +92,15 @@
         "buttonChangeShipping": "Versandart ändern",
         "buttonCreateShipment": "Vorregistrierung und Etikettendruck",
         "columnSentDate": "Versanddatum",
-        "columnDeliveryDate": "Liefertermin"
+        "columnDeliveryDate": "Liefertermin",
+        "missingProductId": "Keine PostNL-Versandmethode zugewiesen, bitte wählen Sie zuerst eine aus."
       },
       "modal": {
         "changeShipping": {
           "title": "Versandart ändern",
-          "warning": "Versandart kann nicht geändert werden",
+          "warning": "Die Versandart kann nicht geändert werden, wenn die ausgewählten Bestellungen eine Mischung von Lieferzonen enthalten (NL, BE, EU, Welt)",
           "cancel": "Abbrechen",
-          "confirm": "CVersandart ändern"
+          "confirm": "Versandart ändern"
         },
         "createShipments": {
           "title": "Diese Bestellung versenden | {count} Bestellungen versenden",
@@ -107,7 +109,9 @@
           "confirmedShipments": "Sendung bei PostNL bestätigt",
           "downloadLabels": "Versandetiketten herunterladen",
           "cancel": "Abbrechen",
-          "confirm": "Sendungen senden"
+          "confirm": "Sendungen senden",
+          "missingProductIdMany": "Eine oder mehrere Bestellungen haben keine PostNL Versandart. Bitte wählen Sie zuerst eine über \"Versandart ändern\"",
+          "missingProductIdSingle": "Die ausgewählten Bestellungen haben keine PostNL-Versandart. Bitte wählen Sie zuerst eine über \"Versandart ändern\" aus."
         }
       }
     },
@@ -115,15 +119,18 @@
       "deliveryType": {
         "shipment": "Standardversand",
         "pickup": "Abholung am PostNL-Standort",
-        "mailbox": "Briefkasten Paket"
+        "mailbox": "Briefkasten Paket",
+        "parcel": "Paket"
       },
       "flag": {
         "homeAlone": "Nur an die angegebene Adresse liefern",
         "returnIfNotHome": "Zurück, wenn nicht zu Hause sein",
         "insurance": "Zusätzliche Abdeckung",
+        "insurancePlus": "Zusätzliche Abdeckung Plus",
         "signature": "Unterschrift bei Lieferung",
         "ageCheck": "Altersprüfung",
-        "notification": "Benachrichtigung"
+        "notification": "Benachrichtigung",
+        "trackAndTrace": "Track & Trace"
       }
     },
     "rules": {

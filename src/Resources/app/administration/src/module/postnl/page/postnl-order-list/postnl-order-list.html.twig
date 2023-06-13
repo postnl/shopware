@@ -17,7 +17,13 @@
 
     {% block sw_order_list_grid_columns_custom_fields_postnl_product_id %}
         <template #column-customFields.postnl.productId="{ item }">
-            {{ getProductName(item) }}
+            <template v-if="orderHasProduct(item)">
+                {{ getProductName(item) }}
+            </template>
+            <template v-else>
+                <sw-icon name="default-badge-warning" color="#ed7000" small/>&nbsp;
+                {{ $tc('postnl.order.list.missingProductId') }}
+            </template>
         </template>
     {% endblock %}
 

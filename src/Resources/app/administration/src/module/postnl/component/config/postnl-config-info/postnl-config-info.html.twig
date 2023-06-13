@@ -12,7 +12,7 @@
             <ol class="list">
                 <li class="list-item">
                     <i18n path="postnl.config.info.onboardingStep1">
-                        <template #mijnPostNLLink>
+                        <template #link>
                             <sw-external-link
                                 href="https://mijn.postnl.nl/c/BP2_Mod_Login.app?inresponseto=&RelayState=&startURL=%2F">
                                 {{ $tc('postnl.config.info.mijnPostNL') }}
@@ -24,7 +24,7 @@
                     <i18n path="postnl.config.info.onboardingStep2"/>
                     <br>
                     <i18n path="postnl.config.info.onboardingStep21">
-                        <template #shippingSettingsLink>
+                        <template #link>
                             <sw-internal-link inline :routerLink="{ name:'sw.settings.shipping.index'}">
                                 {{ $tc('postnl.config.info.shippingSettings') }}
                             </sw-internal-link>
@@ -35,7 +35,7 @@
                     <i18n path="postnl.config.info.onboardingStep3"/>
                     <br>
                     <i18n path="postnl.config.info.onboardingStep31">
-                        <template #salesChannels>
+                        <template #link>
                             <sw-internal-link inline :routerLink="{ name:'sw.sales.channel.list'}">
                                 {{ $tc('postnl.config.info.salesChannels') }}
                             </sw-internal-link>

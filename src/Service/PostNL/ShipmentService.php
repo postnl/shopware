@@ -9,6 +9,7 @@ use PostNL\Shopware6\Defaults;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Builder\ShipmentBuilder;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
+use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shopware6\Service\PostNL\Label\Extractor\LabelExtractorInterface;
 use PostNL\Shopware6\Service\PostNL\Label\Label;
@@ -118,24 +119,111 @@ class ShipmentService
 
             $salesChannelOrders = $orders->filterBySalesChannelId($salesChannelId);
 
-            $isoCodes = $salesChannelOrders->map(function (OrderEntity $order) {
-                return $this->orderDataExtractor->extractDeliveryCountry($order)->getIso();
+            $regularOrders = $salesChannelOrders->filter(function (OrderEntity $order) {
+                return !in_array($order->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY]['productId'] ?? '', [
+                    Defaults::PRODUCT_MAILBOX_NL_EU_6440,
+                    Defaults::PRODUCT_MAILBOX_NL_EU_6972,
+                    Defaults::PRODUCT_PARCEL_NL_EU_6405,
+                    Defaults::PRODUCT_PARCEL_NL_EU_6350,
+                    Defaults::PRODUCT_PARCEL_NL_EU_6906,
+                    Defaults::PRODUCT_MAILBOX_NL_GLOBAL_6440,
+                    Defaults::PRODUCT_MAILBOX_NL_GLOBAL_6972,
+                    Defaults::PRODUCT_PARCEL_NL_GLOBAL_6405,
+                    Defaults::PRODUCT_PARCEL_NL_GLOBAL_6350,
+                    Defaults::PRODUCT_PARCEL_NL_GLOBAL_6906,
+                ]);
             });
 
-            $barCodes = $apiClient->generateBarcodesByCountryCodes(array_count_values($isoCodes));
+            $specialOrders = $salesChannelOrders->filter(function (OrderEntity $order) {
+                return in_array($order->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY]['productId'] ?? '', [
+                    Defaults::PRODUCT_MAILBOX_NL_EU_6440,
+                    Defaults::PRODUCT_MAILBOX_NL_EU_6972,
+                    Defaults::PRODUCT_PARCEL_NL_EU_6405,
+                    Defaults::PRODUCT_PARCEL_NL_EU_6350,
+                    Defaults::PRODUCT_PARCEL_NL_EU_6906,
+                    Defaults::PRODUCT_MAILBOX_NL_GLOBAL_6440,
+                    Defaults::PRODUCT_MAILBOX_NL_GLOBAL_6972,
+                    Defaults::PRODUCT_PARCEL_NL_GLOBAL_6405,
+                    Defaults::PRODUCT_PARCEL_NL_GLOBAL_6350,
+                    Defaults::PRODUCT_PARCEL_NL_GLOBAL_6906,
+                ]);
+            });
 
-            foreach ($salesChannelOrders as $order) {
-                $iso = $this->orderDataExtractor->extractDeliveryCountry($order)->getIso();
-                $barCode = array_pop($barCodes[$iso]);
-
-                $barCodesAssigned[$order->getId()] = $barCode;
-
-                $this->orderService->updateOrderCustomFields($order->getId(), ['barCode' => $barCode], $context);
-            }
+            $barCodesAssigned = array_merge(
+                $barCodesAssigned,
+                $this->generateRegularBarcodes($regularOrders, $apiClient, $context),
+                $this->generateSpecialBarcodes($specialOrders, $apiClient, $context),
+            );
         }
 
         return $barCodesAssigned;
     }
+
+    protected function generateRegularBarcodes(OrderCollection $orders, PostNL $apiClient, Context $context): array
+    {
+        $barCodesAssigned = [];
+
+        $isoCodes = $orders->map(function (OrderEntity $order) {
+            return $this->orderDataExtractor->extractDeliveryCountry($order)->getIso();
+        });
+
+        $barCodes = $apiClient->generateBarcodesByCountryCodes(array_count_values($isoCodes));
+
+        foreach ($orders as $order) {
+            $iso = $this->orderDataExtractor->extractDeliveryCountry($order)->getIso();
+            $barCode = array_pop($barCodes[$iso]);
+
+            $barCodesAssigned[$order->getId()] = $barCode;
+
+            $this->orderService->updateOrderCustomFields($order->getId(), ['barCode' => $barCode], $context);
+        }
+
+        return $barCodesAssigned;
+    }
+
+    protected function generateSpecialBarcodes(OrderCollection $orders, PostNL $apiClient, Context $context): array
+    {
+        $barCodesAssigned = [];
+
+        foreach ($orders as $order) {
+            $productId = $order->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY]['productId'] ?? '';
+
+            if (empty($productId)) {
+                continue;
+            }
+
+            switch ($productId) {
+                default:
+                    $type = null;
+                    break;
+                case Defaults::PRODUCT_MAILBOX_NL_EU_6440:
+                case Defaults::PRODUCT_MAILBOX_NL_GLOBAL_6440:
+                case Defaults::PRODUCT_PARCEL_NL_EU_6405:
+                case Defaults::PRODUCT_PARCEL_NL_GLOBAL_6405:
+                    $type = 'UE';
+                    break;
+                case Defaults::PRODUCT_MAILBOX_NL_EU_6972:
+                case Defaults::PRODUCT_PARCEL_NL_EU_6350:
+                case Defaults::PRODUCT_MAILBOX_NL_GLOBAL_6972:
+                case Defaults::PRODUCT_PARCEL_NL_GLOBAL_6350:
+                    $type = 'LA';
+                    break;
+                case Defaults::PRODUCT_PARCEL_NL_EU_6906:
+                case Defaults::PRODUCT_PARCEL_NL_GLOBAL_6906:
+                    $type = 'RI';
+                    break;
+            }
+
+            $barCode = $apiClient->generateBarcode($type);
+
+            $barCodesAssigned[$order->getId()] = $barCode;
+
+            $this->orderService->updateOrderCustomFields($order->getId(), ['barCode' => $barCode], $context);
+        }
+
+        return $barCodesAssigned;
+    }
+
 
     /**
      * @throws \Firstred\PostNL\Exception\HttpClientException
@@ -183,7 +271,7 @@ class ShipmentService
                 $orderAttributes = $this->attributeFactory->createFromEntity($salesChannelOrder, $context);
                 $product = $this->productService->getProduct($orderAttributes->getProductId(), $context);
 
-                if ($product->getId() === Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4945) {
+                if ($product->getDestinationZone() === Zone::GLOBAL) {
                     $hasGlobalPackShipment = true;
                 }
 

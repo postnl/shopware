@@ -18,59 +18,59 @@ class Migration1674219692CreateV2_0Mappings extends MappingMigration
     {
         $this->insert($connection, ProductOptionOptionalMappingDefinition::ENTITY_NAME, [
             [
-                'product_id' => Defaults::PRODUCT_SHIPPING_NL_NL_3085,
+                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_NL_3085,
                 'option_id'  => Defaults::OPTION_118_006,
             ],
             [
-                'product_id' => Defaults::PRODUCT_SHIPPING_NL_NL_3087,
+                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_NL_3087,
                 'option_id'  => Defaults::OPTION_118_006,
             ],
             [
-                'product_id' => Defaults::PRODUCT_SHIPPING_NL_NL_3089,
+                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_NL_3089,
                 'option_id'  => Defaults::OPTION_118_006,
             ],
             [
-                'product_id' => Defaults::PRODUCT_SHIPPING_NL_NL_3090,
+                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_NL_3090,
                 'option_id'  => Defaults::OPTION_118_006,
             ],
             [
-                'product_id' => Defaults::PRODUCT_SHIPPING_NL_NL_3094,
+                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_NL_3094,
                 'option_id'  => Defaults::OPTION_118_006,
             ],
             [
-                'product_id' => Defaults::PRODUCT_SHIPPING_NL_NL_3096,
+                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_NL_3096,
                 'option_id'  => Defaults::OPTION_118_006,
             ],
             [
-                'product_id' => Defaults::PRODUCT_SHIPPING_NL_NL_3189,
+                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_NL_3189,
                 'option_id'  => Defaults::OPTION_118_006,
             ],
             [
-                'product_id' => Defaults::PRODUCT_SHIPPING_NL_NL_3385,
+                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_NL_3385,
                 'option_id'  => Defaults::OPTION_118_006,
             ],
             [
-                'product_id' => Defaults::PRODUCT_SHIPPING_NL_NL_3389,
+                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_NL_3389,
                 'option_id'  => Defaults::OPTION_118_006,
             ],
             [
-                'product_id' => Defaults::PRODUCT_SHIPPING_NL_NL_3390,
+                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_NL_3390,
                 'option_id'  => Defaults::OPTION_118_006,
             ],
             [
-                'product_id' => Defaults::PRODUCT_SHIPPING_NL_BE_4912,
+                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_BE_4912,
                 'option_id'  => Defaults::OPTION_118_006,
             ],
             [
-                'product_id' => Defaults::PRODUCT_SHIPPING_NL_BE_4914,
+                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_BE_4914,
                 'option_id'  => Defaults::OPTION_118_006,
             ],
             [
-                'product_id' => Defaults::PRODUCT_SHIPPING_NL_BE_4941,
+                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_BE_4941,
                 'option_id'  => Defaults::OPTION_118_006,
             ],
             [
-                'product_id' => Defaults::PRODUCT_SHIPPING_NL_BE_4946,
+                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_BE_4946,
                 'option_id'  => Defaults::OPTION_118_006,
             ],
         ]);

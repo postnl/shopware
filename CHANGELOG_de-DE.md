@@ -1,3 +1,10 @@
+# 2.0.0
+#### Neue Funktionen
+- Auswahl des Lieferdatums in der Kaufabwicklung hinzugefügt, einschließlich Abendlieferung.
+  - Konfigurieren Sie diese in den Einstellungen des Plugins.
+- Neue europäische und internationale Versandoptionen wurden hinzugefügt.
+  - GlobalPack wurde ersetzt.
+
 # 1.2.3
 - Es wurde ein Problem behoben, bei dem nicht obligatorische Felder obligatorisch wurden, wenn bei der Registrierung ein anderes Land als die Niederlande ausgewählt wurde.
 - Ein Fehler, bei dem bestimmte Karten nicht auf der Bestellungsdetailseite in der Verwaltung angezeigt wurden, wenn eine Nicht-PostNL-Bestellung geöffnet wurde, ist behoben worden.

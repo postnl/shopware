@@ -13,6 +13,15 @@ class ProductEntity extends Entity
 {
     use EntityIdTrait;
 
+    /** @var ?string */
+    protected $replacedById;
+
+    /** @var ?self */
+    protected $replacedBy;
+
+    /** @var ProductCollection */
+    protected $replaces;
+
     /** @var string */
     protected $name;
 
@@ -47,6 +56,9 @@ class ProductEntity extends Entity
     protected $insurance;
 
     /** @var bool|null */
+    protected $insurancePlus;
+
+    /** @var bool|null */
     protected $signature;
 
     /** @var bool|null */
@@ -55,8 +67,59 @@ class ProductEntity extends Entity
     /** @var bool|null */
     protected $notification;
 
+    /** @var bool|null */
+    protected $trackAndTrace;
+
     /** @var ProductTranslationCollection */
     protected $translations;
+
+    /**
+     * @return string|null
+     */
+    public function getReplacedById(): ?string
+    {
+        return $this->replacedById;
+    }
+
+    /**
+     * @param string|null $replacedById
+     */
+    public function setReplacedById(?string $replacedById): void
+    {
+        $this->replacedById = $replacedById;
+    }
+
+    /**
+     * @return ProductEntity|null
+     */
+    public function getReplacedBy(): ?ProductEntity
+    {
+        return $this->replacedBy;
+    }
+
+    /**
+     * @param ProductEntity|null $replacedBy
+     */
+    public function setReplacedBy(?ProductEntity $replacedBy): void
+    {
+        $this->replacedBy = $replacedBy;
+    }
+
+    /**
+     * @return ProductCollection
+     */
+    public function getReplaces(): ProductCollection
+    {
+        return $this->replaces;
+    }
+
+    /**
+     * @param ProductCollection $replaces
+     */
+    public function setReplaces(ProductCollection $replaces): void
+    {
+        $this->replaces = $replaces;
+    }
 
     /**
      * @return string
@@ -237,6 +300,22 @@ class ProductEntity extends Entity
     /**
      * @return bool|null
      */
+    public function getInsurancePlus(): ?bool
+    {
+        return $this->insurancePlus;
+    }
+
+    /**
+     * @param bool|null $insurancePlus
+     */
+    public function setInsurancePlus(?bool $insurancePlus): void
+    {
+        $this->insurancePlus = $insurancePlus;
+    }
+
+    /**
+     * @return bool|null
+     */
     public function getSignature(): ?bool
     {
         return $this->signature;
@@ -280,6 +359,22 @@ class ProductEntity extends Entity
     public function setNotification(?bool $notification): void
     {
         $this->notification = $notification;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getTrackAndTrace(): ?bool
+    {
+        return $this->trackAndTrace;
+    }
+
+    /**
+     * @param bool|null $trackAndTrace
+     */
+    public function setTrackAndTrace(?bool $trackAndTrace): void
+    {
+        $this->trackAndTrace = $trackAndTrace;
     }
 
     /**

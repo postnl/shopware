@@ -21,7 +21,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
     {
         $products = [
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_NL_3085),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_NL_3085),
                 'product_code_delivery' => '3085',
                 'source_zone' => Zone::NL,
                 'destination_zone' => Zone::NL,
@@ -34,7 +34,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 ProductDefinition::STOR_NOTIFICATION => null,
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_NL_3385),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_NL_3385),
                 'product_code_delivery' => '3385',
                 'source_zone' => Zone::NL,
                 'destination_zone' => Zone::NL,
@@ -47,7 +47,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 ProductDefinition::STOR_NOTIFICATION => null,
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_NL_3090),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_NL_3090),
                 'product_code_delivery' => '3090',
                 'source_zone' => Zone::NL,
                 'destination_zone' => Zone::NL,
@@ -60,7 +60,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 ProductDefinition::STOR_NOTIFICATION => null,
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_NL_3390),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_NL_3390),
                 'product_code_delivery' => '3390',
                 'source_zone' => Zone::NL,
                 'destination_zone' => Zone::NL,
@@ -73,7 +73,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 ProductDefinition::STOR_NOTIFICATION => null,
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_NL_3087),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_NL_3087),
                 'product_code_delivery' => '3087',
                 'source_zone' => Zone::NL,
                 'destination_zone' => Zone::NL,
@@ -86,7 +86,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 ProductDefinition::STOR_NOTIFICATION => null,
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_NL_3094),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_NL_3094),
                 'product_code_delivery' => '3094',
                 'source_zone' => Zone::NL,
                 'destination_zone' => Zone::NL,
@@ -99,7 +99,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 ProductDefinition::STOR_NOTIFICATION => null,
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_NL_3089),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_NL_3089),
                 'product_code_delivery' => '3089',
                 'source_zone' => Zone::NL,
                 'destination_zone' => Zone::NL,
@@ -112,7 +112,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 ProductDefinition::STOR_NOTIFICATION => null,
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_NL_3096),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_NL_3096),
                 'product_code_delivery' => '3096',
                 'source_zone' => Zone::NL,
                 'destination_zone' => Zone::NL,
@@ -125,7 +125,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 ProductDefinition::STOR_NOTIFICATION => null,
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_NL_3189),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_NL_3189),
                 'product_code_delivery' => '3189',
                 'source_zone' => Zone::NL,
                 'destination_zone' => Zone::NL,
@@ -138,7 +138,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 ProductDefinition::STOR_NOTIFICATION => null,
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_NL_3389),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_NL_3389),
                 'product_code_delivery' => '3389',
                 'source_zone' => Zone::NL,
                 'destination_zone' => Zone::NL,
@@ -229,7 +229,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 ProductDefinition::STOR_NOTIFICATION => 0,
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_BE_4941),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_BE_4941),
                 'product_code_delivery' => '4941',
                 'source_zone' => Zone::NL,
                 'destination_zone' => Zone::BE,
@@ -242,7 +242,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 ProductDefinition::STOR_NOTIFICATION => null,
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_BE_4946),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_BE_4946),
                 'product_code_delivery' => '4946',
                 'source_zone' => Zone::NL,
                 'destination_zone' => Zone::BE,
@@ -255,7 +255,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 ProductDefinition::STOR_NOTIFICATION => null,
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_BE_4912),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_BE_4912),
                 'product_code_delivery' => '4912',
                 'source_zone' => Zone::NL,
                 'destination_zone' => Zone::BE,
@@ -268,7 +268,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 ProductDefinition::STOR_NOTIFICATION => null,
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_BE_4914),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_BE_4914),
                 'product_code_delivery' => '4914',
                 'source_zone' => Zone::NL,
                 'destination_zone' => Zone::BE,
@@ -281,7 +281,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 ProductDefinition::STOR_NOTIFICATION => null,
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_EU_4952),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_EU_4952),
                 'product_code_delivery' => '4952',
                 'source_zone' => Zone::NL,
                 'destination_zone' => Zone::EU,
@@ -294,7 +294,7 @@ class Migration1640162702CreateV1Products extends ProductMigration
                 ProductDefinition::STOR_NOTIFICATION => null,
             ],
             [
-                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPPING_NL_GLOBAL_4945),
+                'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_GLOBAL_4945),
                 'product_code_delivery' => '4945',
                 'source_zone' => Zone::NL,
                 'destination_zone' => Zone::GLOBAL,

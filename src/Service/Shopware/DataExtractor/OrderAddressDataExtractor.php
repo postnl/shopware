@@ -25,7 +25,8 @@ class OrderAddressDataExtractor
     {
         /** @var OrderAddressCollection */
         return $addresses->filter(function(OrderAddressEntity $address) use ($addressType) {
-            return $address->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY]['addressType'] === $addressType;
+            return array_key_exists('addressType', $address->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY]) &&
+                $address->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY]['addressType'] === $addressType;
         });
     }
 }

@@ -116,14 +116,18 @@ class CheckoutFacade
         $timeFrameStartDate = null;
         $timeFrameEndDate = null;
 
+        // FIXME Remove? Should always be a DateTimeImmutable as that's what the method expects.
         if ($startDate instanceof \DateTimeImmutable) {
             $timeFrameStartDate = clone $startDate;
             $timeFrameEndDate = $startDate->modify('+2 week');
         }
 
+        /** @phpstan-ignore-next-line  */
         if (empty($timeFrameStartDate)) {
             throw new Exception('Invalid start date');
         }
+
+        /** @phpstan-ignore-next-line  */
         if (empty($timeFrameEndDate)) {
             throw new Exception('Invalid End date');
         }

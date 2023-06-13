@@ -14,8 +14,7 @@
 */update-composer-require.php
 */zip.*.lst
 
-*node_modules*
-*administration/build*
-*storefront/build*
+*administration/node_modules*
+*storefront/node_modules*
 
 */assets/*

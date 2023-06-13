@@ -4,16 +4,29 @@
           })"
           :closable="!isProcessing"
           @modal-close="closeModal">
-    <sw-container columns="1fr 1fr" gap="16px">
-        <sw-switch-field v-model="confirmShipments"
-                         :label="$tc('postnl.order.modal.createShipments.confirmShipments')"
-                         size="small"
-                         noMarginTop/>
-        <sw-switch-field v-model="downloadLabels"
-                         :label="$tc('postnl.order.modal.createShipments.downloadLabels')"
-                         size="small"
-                         noMarginTop/>
+    <sw-container columns="1fr" gap="16px">
+        <sw-container columns="1fr 1fr" gap="16px">
+            <sw-switch-field v-model="confirmShipments"
+                             :label="$tc('postnl.order.modal.createShipments.confirmShipments')"
+                             size="small"
+                             noMarginTop/>
+            <sw-switch-field v-model="downloadLabels"
+                             :label="$tc('postnl.order.modal.createShipments.downloadLabels')"
+                             size="small"
+                             noMarginTop/>
+
+        </sw-container>
+
+        <template v-if="!selectionHasProducts">
+            <sw-alert v-if="selectionCount === 1" variant="error">
+                {{ $tc('postnl.order.modal.createShipments.missingProductIdSingle') }}
+            </sw-alert>
+            <sw-alert v-if="selectionCount > 1" variant="error">
+                {{ $tc('postnl.order.modal.createShipments.missingProductIdMany') }}
+            </sw-alert>
+        </template>
     </sw-container>
+
 
     <template #modal-footer>
         <sw-button size="small"

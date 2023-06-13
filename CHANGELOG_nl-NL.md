@@ -1,3 +1,10 @@
+# 2.0.0
+#### Nieuwe functies
+- Bezorgdatumselectie toegevoegd in de checkout, inclusief avondlevering.
+  - Configureer deze in de instellingen van de plugin.
+- Nieuwe Europese en internationale verzendopties toegevoegd.
+  - GlobalPack is vervangen.
+
 # 1.2.3
 - Lost een probleem op waarbij niet-verplichte velden verplicht worden bij het selecteren van een ander land dan Nederland tijdens de registratie.
 - Een bug waarbij bepaalde kaarten niet worden getoond op de order detail pagina in de administratie bij het openen van een niet-PostNL order is verholpen.

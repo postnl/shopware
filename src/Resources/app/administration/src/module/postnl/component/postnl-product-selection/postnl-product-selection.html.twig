@@ -6,23 +6,27 @@
         {{ product.name }}
     </sw-label>
 
-    <sw-single-select v-if="showDeliveryType"
-                      v-model="actualDeliveryType"
-                      size="medium"
-                      :options="deliveryTypes"
-                      :disabled="disabled || (deliveryTypes.length == 0)"
-                      @change="onChangeDeliveryType"/>
+    <sw-single-select
+        v-if="showDeliveryType"
+        v-model="actualDeliveryType"
+        size="medium"
+        :options="deliveryTypes"
+        :disabled="disabled || (deliveryTypes.length == 0)"
+        @change="onChangeDeliveryType"
+    />
 
     <sw-container columns="1fr 1fr" gap="0 16px">
-        <sw-switch-field v-for="flag in flags"
-                         v-if="flag.visible"
-                         v-model="flag.selected"
-                         :key="flag.name"
-                         :label="getFlagLabel(flag)"
-                         :disabled="disabled || flag.disabled"
-                         @change="onChangeFlag(flag.name)"
-                         size="small"
-                         noMarginTop/>
+        <sw-switch-field
+            v-for="flag in flags"
+            v-if="flag.visible"
+            v-model="flag.selected"
+            size="small"
+            noMarginTop
+            :key="flag.name"
+            :label="getFlagLabel(flag)"
+            :disabled="disabled || flag.disabled"
+            @change="onChangeFlag(flag.name)"
+        />
     </sw-container>
 
     <sw-loader v-if="isLoading"/>
