@@ -13,6 +13,9 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         concatPrefix: "",
     }
 
+    /**
+     * Init
+     */
     init() {
         this._client = new HttpClient();
         const array = new Uint32Array(1);
@@ -25,12 +28,21 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this.houseNumberAdditionElement.setAttribute('list', this.houseNumberAdditionDatalistElement.id);
 
         this._showWarningAlert("");
+
         this._registerEvents();
+
+        this._registerNonRequiredElements(this.defaultAddressRow);
+        this._registerNonRequiredElements(this.postNLAddressRow);
+
         this._updateRequired();
         this._setupLinkedFields();
         this._prepareFormWithExistingData();
     }
 
+    /**
+     * Register all the elements for later use
+     * @private
+     */
     _registerElements() {
         //Custom form elements
         this.zipcodeElement = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'PostNLAddressZipcode');
@@ -45,8 +57,8 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         //Country selector
         this.countrySelectorElement = DomAccess.querySelector(this.el, '.country-select');
 
-        //Excluded elements
-        this.excludedElements = [this.houseNumberAdditionElement];
+        //Non Required elements
+        this.nonRequiredElements = [];
 
         //Rows to hide
         this.postNLAddressRow = DomAccess.querySelector(this.el, '#' + this.options.concatPrefix + 'postNLAddressRow');
@@ -64,6 +76,10 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this.cityElementSW = DomAccess.querySelector(this.addressForm, '#' + this.options.concatPrefix + 'AddressCity');
     }
 
+    /**
+     * Makes all the elements unique for lookup
+     * @private
+     */
     _makeElementsUnique() {
         this._makeElementUnique(this.zipcodeElement);
         this._makeElementUnique(this.houseNumberElement);
@@ -74,14 +90,21 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this._makeElementUnique(this.postNLAddressRow);
         this._makeElementUnique(this.defaultAddressRow);
         this._makeElementUnique(this.postnlWarningAlert);
-        this._makeElementUnique(this.postNLAddressRow);
-        this._makeElementUnique(this.defaultAddressRow);
     }
 
+    /**
+     *
+     * @param element
+     * @private
+     */
     _makeElementUnique(element) {
         element.id += '-' + this.random
     }
 
+    /**
+     *
+     * @private
+     */
     _registerEvents() {
         //Checkbox remove required
         const jsToggle = document.querySelector('#differentShippingAddress');
@@ -113,6 +136,10 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         // this.addressForm.addEventListener('submit', submitForm);
     }
 
+    /**
+     *
+     * @private
+     */
     _prepareFormWithExistingData() {
         //Setup if filled in
         let selectedCountryValue = this.countrySelectorElement.value
@@ -128,6 +155,23 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         }
     }
 
+    /**
+     * Collects all elements that do not have the required property
+     * @param elementsNode
+     * @private
+     */
+    _registerNonRequiredElements(elementsNode) {
+        DomAccess.querySelectorAll(elementsNode, 'input,select').forEach(input => {
+            if (!input.hasAttribute('required')){
+                this.nonRequiredElements.push(input);
+            }
+        });
+    }
+
+    /**
+     *
+     * @private
+     */
     _updateRequired() {
         //Reset the errors
         this.zipcodeElement.setCustomValidity("");
@@ -138,6 +182,7 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         if (this.postNLAddressRow.getAttribute('hidden') === 'hidden') {
             this._swapRequired(this.defaultAddressRow, this.postNLAddressRow)
         }
+
         if (this.defaultAddressRow.getAttribute('hidden') === 'hidden') {
             this._swapRequired(this.postNLAddressRow, this.defaultAddressRow)
         }
@@ -150,21 +195,37 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         }
     }
 
+    /**
+     *
+     * @param required
+     * @param notRequired
+     * @private
+     */
     _swapRequired(required, notRequired) {
+
         DomAccess.querySelectorAll(notRequired, 'input,select').forEach(input => {
             input.removeAttribute('required');
         });
+
         DomAccess.querySelectorAll(required, 'input,select').forEach(input => {
-            //Unless it is excluded
-            let found = this.excludedElements.find(element => {
-                return element.id !== input.id
+            //Unless it is required
+            let found = this.nonRequiredElements.find(element => {
+                return element.id === input.id
             });
-            if (found) {
+
+            if (!found) {
                 input.setAttribute('required', 'required');
             }
         });
     }
 
+    /**
+     *
+     * @param zipcodeValue
+     * @param houseNumberValue
+     * @param houseNumberAdditionValue
+     * @private
+     */
     _checkPostalCode(zipcodeValue, houseNumberValue, houseNumberAdditionValue) {
 
         const data = this._getRequestData();
@@ -178,6 +239,11 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         });
     }
 
+    /**
+     *
+     * @param innerHTML
+     * @private
+     */
     _showWarningAlert(innerHTML) {
         if (innerHTML === "") {
             this.postnlWarningAlert.setAttribute('hidden', 'hidden');
@@ -189,12 +255,21 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
 
     }
 
+    /**
+     *
+     * @private
+     */
     _unlockFormFields() {
         //Unlock the fields
         this.streetElement.removeAttribute('disabled');
         this.cityElement.removeAttribute('disabled');
     }
 
+    /**
+     *
+     * @param data
+     * @private
+     */
     _parseRequest(data) {
         this._unlockFormFields();
         //Reset the errors
@@ -261,6 +336,11 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         }
     }
 
+    /**
+     *
+     * @returns {{}}
+     * @private
+     */
     _getRequestData() {
         const data = {};
         if (window.csrf.enabled && window.csrf.mode === 'twig') {
@@ -269,6 +349,11 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         return data;
     }
 
+    /**
+     *
+     * @param countryId
+     * @private
+     */
     _adaptFormToSelectedCountryId(countryId) {
         if (this.options.countries[countryId] != null) {
             this._showCustomForm(true);
@@ -277,6 +362,11 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         }
     }
 
+    /**
+     *
+     * @param show
+     * @private
+     */
     _showCustomForm(show) {
         if (show) {
             this.postNLAddressRow.removeAttribute('hidden');
@@ -288,6 +378,10 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this._updateRequired();
     }
 
+    /**
+     *
+     * @private
+     */
     _setupLinkedFields() {
         //Postal code
         this._linkFields(this.zipcodeElementSW, this.zipcodeElement)
@@ -299,21 +393,42 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
 
     }
 
+    /**
+     *
+     * @param field1Element
+     * @param field2Element
+     * @private
+     */
     _linkFields(field1Element, field2Element) {
         field1Element.addEventListener('change', this.copyValue.bind(this, field1Element, field2Element));
     }
 
+    /**
+     *
+     * @private
+     */
     _fillStreetFields() {
         //Fill this with street + house number + house number addition
         let elementArray = [this.streetElement.value, this.houseNumberElement.value, this.houseNumberAdditionElement.value];
         this.streetElementSW.value = elementArray.filter((element) => element.trim() !== "").join(" ");
     }
 
+    /**
+     *
+     * @param sender
+     * @param receiver
+     */
     copyValue(sender, receiver) {
         receiver.value = sender.value
     }
 
+    /**
+     *
+     * @param e
+     */
     onChangeSelectedCountry(e) {
         this._adaptFormToSelectedCountryId(e.target.value)
     }
+
+
 }
