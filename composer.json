@@ -64,9 +64,9 @@
         "infection/infection": "^0.26",
         "nunomaduro/phpinsights": "^2.8",
         "boxblinkracer/phpunuhi": "^1",
-        "shopware/core": "^6.4.1",
-        "shopware/administration": "^6.4.1",
-        "shopware/storefront": "^6.4.1"
+        "shopware/core": ">=6.4.1 <6.5",
+        "shopware/administration": ">=6.4.1 <6.5",
+        "shopware/storefront": ">=6.4.1 <6.5"
     },
     "scripts": {
         "post-install-cmd": [
