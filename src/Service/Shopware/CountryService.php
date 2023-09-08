@@ -14,7 +14,7 @@ use Shopware\Core\System\Country\CountryEntity;
 class CountryService
 {
     /**
-     * @var EntityRepositoryInterface
+     * @var EntityRepositoryInterface|EntityRepository
      */
     protected $countryRepository;
 
@@ -23,9 +23,13 @@ class CountryService
      */
     protected $logger;
 
+    /**
+     * @param EntityRepositoryInterface|EntityRepository $countryRepository
+     * @param LoggerInterface                            $logger
+     */
     public function __construct(
-        EntityRepositoryInterface $countryRepository,
-        LoggerInterface           $logger
+        $countryRepository,
+        LoggerInterface $logger
     )
     {
         $this->countryRepository = $countryRepository;

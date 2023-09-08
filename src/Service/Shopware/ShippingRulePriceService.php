@@ -16,7 +16,7 @@ use Shopware\Core\Framework\Uuid\Uuid;
 class ShippingRulePriceService
 {
     /**
-     * @var EntityRepositoryInterface
+     * @var EntityRepositoryInterface|EntityRepository
      */
     private $shippingMethodPricesRepository;
 
@@ -26,10 +26,10 @@ class ShippingRulePriceService
     private $logger;
 
     /**
-     * @param EntityRepositoryInterface $shippingMethodPricesRepository
+     * @param EntityRepositoryInterface|EntityRepository $shippingMethodPricesRepository
      * @param LoggerInterface $logger
      */
-    public function __construct(EntityRepositoryInterface $shippingMethodPricesRepository, LoggerInterface $logger)
+    public function __construct($shippingMethodPricesRepository, LoggerInterface $logger)
     {
         $this->shippingMethodPricesRepository = $shippingMethodPricesRepository;
         $this->logger = $logger;

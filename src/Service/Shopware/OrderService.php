@@ -6,14 +6,21 @@ use PostNL\Shopware6\Defaults;
 use Shopware\Core\Checkout\Order\OrderCollection;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 
 class OrderService
 {
+    /**
+     * @var EntityRepositoryInterface|EntityRepository
+     */
     protected $orderRepository;
 
-    public function __construct(EntityRepositoryInterface $orderRepository)
+    /**
+     * @param EntityRepositoryInterface|EntityRepository $orderRepository
+     */
+    public function __construct($orderRepository)
     {
         $this->orderRepository = $orderRepository;
     }

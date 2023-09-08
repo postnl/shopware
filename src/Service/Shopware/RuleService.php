@@ -16,7 +16,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class RuleService
 {
     /**
-     * @var EntityRepositoryInterface
+     * @var EntityRepositoryInterface|EntityRepository
      */
     private $ruleRepository;
 
@@ -26,11 +26,11 @@ class RuleService
     private $logger;
 
     /**
-     * @param EntityRepositoryInterface $ruleRepository
+     * @param EntityRepositoryInterface|EntityRepository $ruleRepository
      * @param LoggerInterface $logger
      * @param TranslatorInterface $translator
      */
-    public function __construct(EntityRepositoryInterface $ruleRepository, LoggerInterface $logger)
+    public function __construct($ruleRepository, LoggerInterface $logger)
     {
         $this->ruleRepository = $ruleRepository;
         $this->logger = $logger;

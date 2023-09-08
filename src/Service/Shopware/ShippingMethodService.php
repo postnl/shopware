@@ -11,6 +11,7 @@ use Shopware\Core\Content\Media\MediaService;
 use Shopware\Core\Content\Rule\RuleDefinition;
 use Shopware\Core\Content\Rule\RuleEntity;
 use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
@@ -39,22 +40,22 @@ class ShippingMethodService
     ];
 
     /**
-     * @var EntityRepositoryInterface
+     * @var EntityRepositoryInterface|EntityRepository
      */
     private $deliveryTimeRepository;
 
     /**
-     * @var EntityRepositoryInterface
+     * @var EntityRepositoryInterface|EntityRepository
      */
     private $mediaRepository;
 
     /**
-     * @var EntityRepositoryInterface
+     * @var EntityRepositoryInterface|EntityRepository
      */
     private $ruleRepository;
 
     /**
-     * @var EntityRepositoryInterface
+     * @var EntityRepositoryInterface|EntityRepository
      */
     private $shippingMethodRepository;
 
@@ -70,10 +71,10 @@ class ShippingMethodService
 
 
     public function __construct(
-        EntityRepositoryInterface $deliveryTimeRepository,
-        EntityRepositoryInterface $mediaRepository,
-        EntityRepositoryInterface $ruleRepository,
-        EntityRepositoryInterface $shippingMethodRepository,
+         $deliveryTimeRepository,
+         $mediaRepository,
+         $ruleRepository,
+         $shippingMethodRepository,
         MediaService              $mediaService,
         LoggerInterface           $logger
     )
