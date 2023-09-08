@@ -8,6 +8,10 @@ use Firstred\PostNL\Service\ShippingService as ApiShippingService;
 class ShippingService extends ApiShippingService
 {
     /**
+     * This class contains one change with respect to the SDK, this line has been marked with comments.
+     */
+
+    /**
      * @inheritDoc
      */
     public function buildSendShipmentRequestREST(SendShipment $sendShipment, $confirm = true)
@@ -18,7 +22,7 @@ class ShippingService extends ApiShippingService
         return $this->postnl->getRequestFactory()->createRequest(
             'POST',
             ($this->postnl->getSandbox() ? static::SANDBOX_ENDPOINT : static::LIVE_ENDPOINT).'?'.http_build_query([
-                'confirm' => $confirm ? 'true' : 'false',
+                'confirm' => $confirm ? 'true' : 'false', // Was modified with respect to SDK 1.4.3
             ], '', '&', PHP_QUERY_RFC3986)
         )
             ->withHeader('apikey', $apiKey)

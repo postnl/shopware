@@ -11,6 +11,9 @@ use Psr\Http\Message\RequestInterface;
 
 class DeliveryDateService extends ApiDeliveryDateService
 {
+    /**
+     * This class contains three changes with respect to the SDK, these lines have been marked with comments.
+     */
 
     /**
      * Build the GetDeliveryDate request for the REST API.
@@ -28,7 +31,7 @@ class DeliveryDateService extends ApiDeliveryDateService
         $deliveryDate = $getDeliveryDate->getGetDeliveryDate();
 
         $query = [
-            'AllowSundaySorting' => in_array($deliveryDate->getAllowSundaySorting(), [true, 'true', 1], true) ? 'true' : 'false',
+            'AllowSundaySorting' => in_array($deliveryDate->getAllowSundaySorting(), [true, 'true', 1], true) ? 'true' : 'false', // Was added with respect to SDK 1.4.3
             'ShippingDate' => $deliveryDate->getShippingDate()->format('d-m-Y H:i:s'),
             'Options'      => 'Daytime',
         ];
@@ -55,8 +58,7 @@ class DeliveryDateService extends ApiDeliveryDateService
         if (count($times) > 1) {
             foreach (range(1, 7) as $day) {
                 $dayName = date('l', strtotime("Sunday +{$day} days"));
-
-                $key = array_search(str_pad((string) $day, 2, '0', STR_PAD_LEFT), array_map(function ($time) {
+                $key = array_search(str_pad((string) $day, 2, '0', STR_PAD_LEFT), array_map(function ($time) { // Was modified with respect to SDK 1.4.3
                     /* @var CutOffTime $time */
                     return $time->getDay();
                 }, $times));
@@ -118,7 +120,7 @@ class DeliveryDateService extends ApiDeliveryDateService
 
 
         $query = [
-            'DeliveryDate' => date_format($sentDate->getDeliveryDate(), "d-m-Y"),
+            'DeliveryDate' => date_format($sentDate->getDeliveryDate(), "d-m-Y"), // Was modified with respect to SDK 1.4.3
         ];
         $query['CountryCode'] = $sentDate->getCountryCode();
         if ($duration = $sentDate->getShippingDuration()) {
