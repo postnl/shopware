@@ -2,36 +2,38 @@
 
 namespace PostNL\Shopware6\Service\Monolog\Processor;
 
+use Monolog\LogRecord;
 use Monolog\Processor\ProcessorInterface;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Exception\SessionNotFoundException;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class SessionProcessor implements ProcessorInterface
 {
-    /**
-     * @var string
-     */
-    private $sessionId;
+    private string $sessionId;
 
-    public function __construct(Session $session)
+    /**
+     * @param RequestStack $requestStack
+     */
+    public function __construct(RequestStack $requestStack)
     {
-        $this->sessionId = trim($session->getId());
+        try {
+            $this->sessionId = trim($requestStack->getSession()->getId());
+        }
+        catch (SessionNotFoundException $e) {
+        }
     }
 
-    public function __invoke(array $record)
+    /**
+     * @param LogRecord $record
+     * @return LogRecord
+     */
+    public function __invoke(LogRecord $record): LogRecord
     {
         if (empty($this->sessionId)) {
             return $record;
         }
 
-        $sessionPart = substr($this->sessionId, 0, 4) . '...';
-
-        $record['message'] .= ' (Session: ' . $sessionPart . ')';
-        $record['extra'] = array_merge(
-            $record['extra'],
-            [
-                'session' => $this->sessionId,
-            ]
-        );
+        $record['extra']['session'] = $this->sessionId;
 
         return $record;
     }
