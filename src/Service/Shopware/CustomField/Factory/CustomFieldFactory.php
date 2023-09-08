@@ -8,6 +8,7 @@ use PostNL\Shopware6\Exception\CustomField\CustomFieldSetNotExistsException;
 use Shopware\Core\Checkout\Customer\CustomerDefinition;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
@@ -29,36 +30,36 @@ class CustomFieldFactory
     }
 
     /**
-     * @var EntityRepositoryInterface
+     * @var EntityRepositoryInterface|EntityRepository
      */
     protected $customFieldRepository;
 
     /**
-     * @var EntityRepositoryInterface
+     * @var EntityRepositoryInterface|EntityRepository
      */
     protected $customFieldSetRepository;
 
     /**
-     * @var DefinitionInstanceRegistry
+     * @var EntityRepositoryInterface|EntityRepository
      */
     protected $definitionInstanceRegistry;
 
     /**
-     * @var EntityRepositoryInterface
+     * @var EntityRepositoryInterface|EntityRepository
      */
     protected $snippetRepository;
 
     /**
-     * @param EntityRepositoryInterface $customFieldRepository
-     * @param EntityRepositoryInterface $customFieldSetRepository
-     * @param DefinitionInstanceRegistry $definitionInstanceRegistry
-     * @param EntityRepositoryInterface $snippetRepository
+     * @param EntityRepositoryInterface|EntityRepository $customFieldRepository
+     * @param EntityRepositoryInterface|EntityRepository $customFieldSetRepository
+     * @param DefinitionInstanceRegistry                 $definitionInstanceRegistry
+     * @param EntityRepositoryInterface|EntityRepository $snippetRepository
      */
     public function __construct(
-        EntityRepositoryInterface  $customFieldRepository,
-        EntityRepositoryInterface  $customFieldSetRepository,
+        $customFieldRepository,
+        $customFieldSetRepository,
         DefinitionInstanceRegistry $definitionInstanceRegistry,
-        EntityRepositoryInterface  $snippetRepository
+        $snippetRepository
     )
     {
         $this->customFieldRepository = $customFieldRepository;
@@ -216,37 +217,37 @@ class CustomFieldFactory
 
     public function deleteSet(string $name, Context $context)
     {
-        $setId =  $this->getSetByName($name,$context)->getId();
+        $setId = $this->getSetByName($name, $context)->getId();
         $this->customFieldSetRepository->delete([
             [
-                'id'=>$setId
-            ]
-        ],$context);
+                'id' => $setId,
+            ],
+        ], $context);
     }
 
     public function deleteField(string $name, Context $context)
     {
-        $fieldId = $this->getFieldByName($name,$context)->getId();
+        $fieldId = $this->getFieldByName($name, $context)->getId();
         $this->customFieldRepository->delete([
             [
-                'id'=>$fieldId
-            ]
-        ],$context);
+                'id' => $fieldId,
+            ],
+        ], $context);
     }
 
     public function deleteFieldSnippet(string $name, Context $context)
     {
         $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('translationKey', 'customFields.'.$name));
-        $snippets = $this->snippetRepository->search($criteria,$context);
-        if ($snippets->count()==0){
+        $criteria->addFilter(new EqualsFilter('translationKey', 'customFields.' . $name));
+        $snippets = $this->snippetRepository->search($criteria, $context);
+        if ($snippets->count() == 0) {
             return;
         }
-    
+
         $keys = array_map(function ($id) {
             return ['id' => $id];
         }, $snippets->getIds());
-        $this->snippetRepository->delete($keys,$context);
+        $this->snippetRepository->delete($keys, $context);
     }
 
     /**
