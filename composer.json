@@ -53,7 +53,7 @@
     },
     "require": {
         "composer-runtime-api": "^2.0",
-        "firstred/postnl-api-php": "^v1.3.14"
+        "firstred/postnl-api-php": "^v2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.6",
@@ -64,9 +64,9 @@
         "infection/infection": "^0.26",
         "nunomaduro/phpinsights": "^2.8",
         "boxblinkracer/phpunuhi": "^1",
-        "shopware/core": ">=6.4.1 <6.5",
-        "shopware/administration": ">=6.4.1 <6.5",
-        "shopware/storefront": ">=6.4.1 <6.5"
+        "shopware/core": ">=6.5.2 <6.6",
+        "shopware/administration": ">=6.5.2 <6.6",
+        "shopware/storefront": ">=6.5.2 <6.6"
     },
     "scripts": {
         "post-install-cmd": [
@@ -82,7 +82,9 @@
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
             "infection/extension-installer": false,
-            "dealerdirect/phpcodesniffer-composer-installer": false
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "php-http/discovery": true,
+            "symfony/runtime": true
         }
     }
 }

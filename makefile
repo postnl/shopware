@@ -96,8 +96,8 @@ release: ## Create a new release
 	@make zip
 
 zip: ## Creates a new ZIP package
-	@php update-composer-require.php --shopware=">=6.4.1 <6.5" --env=prod --admin --storefront
+	@php update-composer-require.php --shopware=">=6.5.2 <6.6" --env=prod --admin --storefront
 	@cd .. && echo "Creating Zip file $(PLUGIN_NAME)-$(PLUGIN_VERSION).zip\n"
 	@cd .. && rm -rf $(PLUGIN_NAME)-$(PLUGIN_VERSION).zip
 	@cd .. && zip -qq -r -0 $(PLUGIN_NAME)-$(PLUGIN_VERSION).zip $(PLUGIN_NAME)/ -x@$(PLUGIN_NAME)/zip.exclude.lst
-	@php update-composer-require.php --shopware=">=6.4.1 <6.5" --env=dev --admin --storefront
+	@php update-composer-require.php --shopware=">=6.5.2 <6.6" --env=dev --admin --storefront
