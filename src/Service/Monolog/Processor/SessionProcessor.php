@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class SessionProcessor implements ProcessorInterface
 {
-    private string $sessionId;
+    private string $sessionId = '';
 
     /**
      * @param RequestStack $requestStack
