@@ -15,13 +15,13 @@
         <div data-postnl-postal-code-check="true"
              data-postnl-postal-code-check-options='{{ codecheckOptions | json_encode }}'>
 
-            <div class="form-row country-and-state-form-elements" data-country-state-select="true">
+            <div class="row g-2 country-and-state-form-elements" data-country-state-select="true">
                 {% block component_address_form_country %}
                     {{ parent() }}
                 {% endblock %}
             </div>
 
-            <div class="form-row" id="{{ idPrefix ~ prefix }}postNLAddressRow" hidden="hidden">
+            <div class="row g-2" id="{{ idPrefix ~ prefix }}postNLAddressRow" hidden="hidden">
                 {% block postnl_component_adress_form_zipcode_house_number_house_number_addition %}
                     {% block postnl_component_address_form_zipcode %}
                         <div class="form-group col-sm-6">
@@ -156,7 +156,7 @@
                 {% endblock %}
             </div>
 
-            <div class="form-row" id="{{ idPrefix ~ prefix }}defaultAddressRow">
+            <div class="row g-2" id="{{ idPrefix ~ prefix }}defaultAddressRow">
                 {% block component_address_form_street %}
                     {{ parent() }}
                 {% endblock %}
@@ -165,7 +165,7 @@
                     {{ parent() }}
                 {% endblock %}
             </div>
-            <div class="form-row">
+            <div class="row g-2">
                 {% block component_address_form_additional_field1 %}
                     {{ parent() }}
                 {% endblock %}
@@ -175,7 +175,7 @@
                 {% endblock %}
             </div>
 
-            <div class="form-row">
+            <div class="row g-2">
                 {% block component_address_form_phone_number %}
                     {{ parent() }}
                 {% endblock %}
