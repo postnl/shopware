@@ -16,15 +16,15 @@
                     {% set lastDay = currentDay %}
                 {% endif %}
 
-                <div class="custom-control custom-radio postnl-shipping-method__shipment--delivery-date">
+                <div class="form-check postnl-shipping-method__shipment--delivery-date">
                     <input type="radio"
-                           class="custom-control-input shipping-method-input"
+                           class="form-check-input shipping-method-input"
                            id="postnl-shipping-method__shipment--delivery-date-{{ loop.index }}"
                            {% if deliveryDate == timeframe.from %}checked{% endif %}
                            name="postnl-shipping-delivery-time"
                            value="{{ timeframe | json_encode }}"/>
 
-                    <label class="custom-control-label"
+                    <label class="form-check-label"
                            for="postnl-shipping-method__shipment--delivery-date-{{ loop.index }}">
                         <div class="d-flex justify-content-between">
 

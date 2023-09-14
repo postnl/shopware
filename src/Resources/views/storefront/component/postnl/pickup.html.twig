@@ -6,15 +6,15 @@
 
         {% for pickup in context.shippingMethod.extensions.postnl_pickup.all %}
             <div class="postnl-pickup-point">
-                <div class="custom-control custom-radio">
+                <div class="form-check">
                     <input type="radio"
-                           class="custom-control-input postnl-pickup-point-input"
+                           class="form-check-input postnl-pickup-point-input"
                            id="postnlPickupPoint{{ pickup.getLocationCode() }}"
                            {% if locationCode == pickup.getLocationCode() %}checked{% endif %}
                            name="postnlPickupPoint"
                            value="{{ pickup.getLocationCode() }}"/>
 
-                    <label class="custom-control-label"
+                    <label class="form-check-label"
                            for="postnlPickupPoint{{ pickup.getLocationCode() }}">
 
                         <div>{{ pickup.getName() }}</div>
