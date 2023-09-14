@@ -60,7 +60,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/api/_action/postnl/product/flags/availabl', name: 'api.action.postnl.product.flags.available', defaults: ['auth_enabled' => true], methods: ['GET'])]
+    #[Route(path: '/api/_action/postnl/product/flags/available', name: 'api.action.postnl.product.flags.available', defaults: ['auth_enabled' => true], methods: ['GET'])]
     public function availableFlags(QueryDataBag $query, Context $context): JsonResponse
     {
         $sourceZone = $query->get('sourceZone');
