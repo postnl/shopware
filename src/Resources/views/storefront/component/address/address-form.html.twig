@@ -8,7 +8,6 @@
         {% endif %}
         {% set allowedCountries =  page.countries.elements|filter(country => country.iso == "NL") %}
         {% set codecheckOptions = {
-            csrfToken: sw_csrf('frontend.address.postnl.postal-code-check', {"mode": "token"}),
             countries: allowedCountries,
             concatPrefix : idPrefix ~ prefix
         } %}

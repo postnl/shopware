@@ -3,14 +3,7 @@
 
         {% set deliveryDate = page.cart.getExtension('postnl-data').get(constant('PostNL\\Shopware6\\Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY')) %}
 
-        {% set shipmentOptions = {
-            csrfToken: sw_csrf('frontend.checkout.postnl.shipping-date', {"mode": "token"})
-        } %}
-
-        <div class="postnl-shipping-method__shipment"
-             data-postnl-shipping-delivery-date="true"
-             data-postnl-shipping-delivery-date-options='{{ shipmentOptions | json_encode }}'
-        >
+        <div class="postnl-shipping-method__shipment" data-postnl-shipping-delivery-date="true">
             {% set lastDay = null %}
 
             {% for timeframe in context.shippingMethod.extensions.postnl_shipment %}

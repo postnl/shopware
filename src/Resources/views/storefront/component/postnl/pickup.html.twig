@@ -1,14 +1,8 @@
 {% block postnl_shipping_method_pickup %}
 
-    {% set pickupOptions = {
-        csrfToken: sw_csrf('frontend.checkout.postnl.pickup-point', {"mode": "token"})
-    } %}
-
     {% set locationCode = page.cart.getExtension('postnl-data').get('pickupPointLocationCode') %}
 
-    <div class="postnl-shipping-method__pickup"
-         data-postnl-pickup-points="true"
-         data-postnl-pickup-points-options='{{ pickupOptions | json_encode }}'>
+    <div class="postnl-shipping-method__pickup" data-postnl-pickup-points="true">
 
         {% for pickup in context.shippingMethod.extensions.postnl_pickup.all %}
             <div class="postnl-pickup-point">

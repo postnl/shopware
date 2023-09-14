@@ -8,7 +8,6 @@ import ElementLoadingIndicatorUtil from 'src/utility/loading-indicator/element-l
 export default class PostnlPostalCodeCheckPlugin extends Plugin {
     static options = {
         url: window.router['frontend.address.postnl.postal-code-check'],
-        csrfToken: null,
         countries: [],
         concatPrefix: "",
     }
@@ -130,10 +129,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this.zipcodeElement.addEventListener('keyup', debounceLookup)
         this.houseNumberElement.addEventListener('keyup', debounceLookup)
         this.houseNumberAdditionElement.addEventListener('keyup', debounceLookup)
-
-        //Form submit
-        // const submitForm = this.submitForm.bind(this);
-        // this.addressForm.addEventListener('submit', submitForm);
     }
 
     /**
@@ -228,7 +223,7 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
      */
     _checkPostalCode(zipcodeValue, houseNumberValue, houseNumberAdditionValue) {
 
-        const data = this._getRequestData();
+        const data = {};
         data['postalCode'] = zipcodeValue;
         data['houseNumber'] = houseNumberValue;
         data['houseNumberAddition'] = houseNumberAdditionValue;
@@ -334,19 +329,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
             this.zipcodeElement.reportValidity();
             this.houseNumberElement.reportValidity();
         }
-    }
-
-    /**
-     *
-     * @returns {{}}
-     * @private
-     */
-    _getRequestData() {
-        const data = {};
-        if (window.csrf.enabled && window.csrf.mode === 'twig') {
-            data['_csrf_token'] = this.options.csrfToken;
-        }
-        return data;
     }
 
     /**
