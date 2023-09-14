@@ -7,18 +7,17 @@ use Shopware\Core\Checkout\Order\OrderCollection;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 
 class OrderService
 {
     /**
-     * @var EntityRepositoryInterface|EntityRepository
+     * @var EntityRepository
      */
     protected $orderRepository;
 
     /**
-     * @param EntityRepositoryInterface|EntityRepository $orderRepository
+     * @param EntityRepository $orderRepository
      */
     public function __construct($orderRepository)
     {
@@ -63,8 +62,8 @@ class OrderService
                 'id' => $order->getId(),
                 'customFields' => [
                     Defaults::CUSTOM_FIELDS_KEY => $customFields,
-                ]
-            ]
+                ],
+            ],
         ], $context);
     }
 }

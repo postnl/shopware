@@ -9,7 +9,6 @@ use Shopware\Core\Checkout\Customer\CustomerDefinition;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
@@ -30,30 +29,30 @@ class CustomFieldFactory
     }
 
     /**
-     * @var EntityRepositoryInterface|EntityRepository
+     * @var EntityRepository
      */
     protected $customFieldRepository;
 
     /**
-     * @var EntityRepositoryInterface|EntityRepository
+     * @var EntityRepository
      */
     protected $customFieldSetRepository;
 
     /**
-     * @var EntityRepositoryInterface|EntityRepository
+     * @var EntityRepository
      */
     protected $definitionInstanceRegistry;
 
     /**
-     * @var EntityRepositoryInterface|EntityRepository
+     * @var EntityRepository
      */
     protected $snippetRepository;
 
     /**
-     * @param EntityRepositoryInterface|EntityRepository $customFieldRepository
-     * @param EntityRepositoryInterface|EntityRepository $customFieldSetRepository
-     * @param DefinitionInstanceRegistry                 $definitionInstanceRegistry
-     * @param EntityRepositoryInterface|EntityRepository $snippetRepository
+     * @param EntityRepository           $customFieldRepository
+     * @param EntityRepository           $customFieldSetRepository
+     * @param DefinitionInstanceRegistry $definitionInstanceRegistry
+     * @param EntityRepository           $snippetRepository
      */
     public function __construct(
         $customFieldRepository,

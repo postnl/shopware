@@ -12,7 +12,6 @@ use Shopware\Core\Content\Rule\RuleDefinition;
 use Shopware\Core\Content\Rule\RuleEntity;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
@@ -40,22 +39,22 @@ class ShippingMethodService
     ];
 
     /**
-     * @var EntityRepositoryInterface|EntityRepository
+     * @var EntityRepository
      */
     private $deliveryTimeRepository;
 
     /**
-     * @var EntityRepositoryInterface|EntityRepository
+     * @var EntityRepository
      */
     private $mediaRepository;
 
     /**
-     * @var EntityRepositoryInterface|EntityRepository
+     * @var EntityRepository
      */
     private $ruleRepository;
 
     /**
-     * @var EntityRepositoryInterface|EntityRepository
+     * @var EntityRepository
      */
     private $shippingMethodRepository;
 
@@ -71,12 +70,12 @@ class ShippingMethodService
 
 
     public function __construct(
-         $deliveryTimeRepository,
-         $mediaRepository,
-         $ruleRepository,
-         $shippingMethodRepository,
-        MediaService              $mediaService,
-        LoggerInterface           $logger
+        $deliveryTimeRepository,
+        $mediaRepository,
+        $ruleRepository,
+        $shippingMethodRepository,
+        MediaService $mediaService,
+        LoggerInterface $logger
     )
     {
         $this->deliveryTimeRepository = $deliveryTimeRepository;
@@ -87,7 +86,7 @@ class ShippingMethodService
         $this->logger = $logger;
     }
 
-    public function createShippingMethods(string $pluginDir, Context $context):array
+    public function createShippingMethods(string $pluginDir, Context $context): array
     {
         try {
             $rule = $this->getCartAmountRule($context);
@@ -101,7 +100,7 @@ class ShippingMethodService
         $shippingIDs = [];
         foreach (['shipment', 'pickup'] as $deliveryType) {
             $id = $this->createShippingMethod($deliveryType, $rule->getId(), $deliveryTime->getId(), $mediaId, $context);
-        $shippingIDs[$deliveryType] = $id;
+            $shippingIDs[$deliveryType] = $id;
         }
         return $shippingIDs;
     }
@@ -138,13 +137,13 @@ class ShippingMethodService
                         'currencyId' => $context->getCurrencyId(),
                         'price' => 0.0,
                         'quantityStart' => 1,
-                    ]
+                    ],
                 ],
                 'customFields' => [
                     Defaults::CUSTOM_FIELDS_KEY => [
-                        'deliveryType' => $deliveryType
-                    ]
-                ]
+                        'deliveryType' => $deliveryType,
+                    ],
+                ],
             ],
         ], $context);
 
@@ -160,7 +159,7 @@ class ShippingMethodService
     }
 
     /**
-     * @param string $deliveryType
+     * @param string  $deliveryType
      * @param Context $context
      * @return ShippingMethodEntity
      * @throws \Exception
@@ -211,11 +210,11 @@ class ShippingMethodService
                             'type' => (new CartAmountRule())->getName(),
                             'value' => [
                                 'amount' => 0,
-                                'operator' => CartAmountRule::OPERATOR_GTE
-                            ]
-                        ]
-                    ]
-                ]
+                                'operator' => CartAmountRule::OPERATOR_GTE,
+                            ],
+                        ],
+                    ],
+                ],
             ],
             $context
         )->getEventByEntityName(RuleDefinition::ENTITY_NAME);
@@ -254,7 +253,7 @@ class ShippingMethodService
                     'min' => 1,
                     'max' => 3,
                     'unit' => 'day',
-                ]
+                ],
             ],
             $context
         )->getEventByEntityName(DeliveryTimeDefinition::ENTITY_NAME);
@@ -295,7 +294,7 @@ class ShippingMethodService
             $pluginDir,
             'Resources',
             'config',
-            'plugin.png'
+            'plugin.png',
         ]));
         $iconBlob = file_get_contents($iconPath);
 

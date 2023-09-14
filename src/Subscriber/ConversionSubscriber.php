@@ -25,7 +25,7 @@ use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Shopware\Core\Checkout\Cart\Order\CartConvertedEvent;
 use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\Struct\ArrayStruct;
 use Shopware\Core\Framework\Uuid\Uuid;
@@ -55,7 +55,7 @@ class ConversionSubscriber implements EventSubscriberInterface
     protected $countryService;
 
     /**
-     * @var EntityRepositoryInterface
+     * @var EntityRepository
      */
     protected $productRepository;
 
@@ -75,14 +75,14 @@ class ConversionSubscriber implements EventSubscriberInterface
     protected LoggerInterface $logger;
 
     public function __construct(
-        ApiFactory                $apiFactory,
-        AttributeFactory          $attributeFactory,
-        ConfigService             $configService,
-        CountryService            $countryService,
-        EntityRepositoryInterface $productRepository,
-        DeliveryDateService       $deliveryDateService,
-        DefaultProductService     $defaultProductService,
-        LoggerInterface           $logger
+        ApiFactory            $apiFactory,
+        AttributeFactory      $attributeFactory,
+        ConfigService         $configService,
+        CountryService        $countryService,
+        EntityRepository      $productRepository,
+        DeliveryDateService   $deliveryDateService,
+        DefaultProductService $defaultProductService,
+        LoggerInterface       $logger
     )
     {
         $this->apiFactory = $apiFactory;
@@ -156,8 +156,7 @@ class ConversionSubscriber implements EventSubscriberInterface
                 $street,
                 $shippingDuration,
             );
-        }
-        catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             $this->logger->error($e->getMessage(), ['exception' => $e]);
             return;
         }
@@ -166,8 +165,7 @@ class ConversionSubscriber implements EventSubscriberInterface
         //Get data
         try {
             $sentDateResponse = $this->deliveryDateService->getSentDate($context, $getSentDate);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->error($e->getMessage(), ['exception' => $e]);
             return;
         }
@@ -257,8 +255,7 @@ class ConversionSubscriber implements EventSubscriberInterface
         try {
             /** @var ShippingMethodAttributeStruct $attributes */
             $attributes = $this->attributeFactory->createFromEntity($cart->getDeliveries()->first()->getShippingMethod(), $event->getContext());
-        }
-        catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             return;
         }
 
@@ -313,8 +310,7 @@ class ConversionSubscriber implements EventSubscriberInterface
             if ($alternative->isEnabled() && $cart->getPrice()->getTotalPrice() >= $alternative->getCartAmount()) {
                 return $alternative->getId();
             }
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             // There probably isn't an alternative available, so only log as a debug message.
             $this->logger->debug($e->getMessage());
         }
@@ -330,8 +326,7 @@ class ConversionSubscriber implements EventSubscriberInterface
             );
 
             return $default->getId();
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             // There isn't a default config available, which is possible, so only log as a debug message.
             $this->logger->debug($e->getMessage());
         }
@@ -351,8 +346,7 @@ class ConversionSubscriber implements EventSubscriberInterface
         try {
             /** @var ShippingMethodAttributeStruct $attributes */
             $attributes = $this->attributeFactory->createFromEntity($cart->getDeliveries()->first()->getShippingMethod(), $event->getContext());
-        }
-        catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             return;
         }
 
@@ -379,8 +373,7 @@ class ConversionSubscriber implements EventSubscriberInterface
         try {
             /** @var ShippingMethodAttributeStruct $attributes */
             $attributes = $this->attributeFactory->createFromEntity($cart->getDeliveries()->first()->getShippingMethod(), $event->getContext());
-        }
-        catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             return;
         }
 
@@ -461,24 +454,24 @@ class ConversionSubscriber implements EventSubscriberInterface
             })[0];
 
             $pickupPointAddress = [
-                'id'           => Uuid::randomHex(),
+                'id' => Uuid::randomHex(),
                 'salutationId' => $deliveryAddress['salutationId'],
-                'firstName'    => $deliveryAddress['firstName'],
-                'lastName'     => $deliveryAddress['lastName'],
-                'company'      => $pickupPoint->getName(),
-                'street'       => $pickupPoint->getAddress()->getStreetHouseNrExt() ??
+                'firstName' => $deliveryAddress['firstName'],
+                'lastName' => $deliveryAddress['lastName'],
+                'company' => $pickupPoint->getName(),
+                'street' => $pickupPoint->getAddress()->getStreetHouseNrExt() ??
                     sprintf(
                         '%s %s%s',
                         $pickupPoint->getAddress()->getStreet(),
                         $pickupPoint->getAddress()->getHouseNr(),
                         $pickupPoint->getAddress()->getHouseNrExt()
                     ),
-                'zipcode'      => $pickupPoint->getAddress()->getZipcode(),
-                'city'         => $pickupPoint->getAddress()->getCity(),
-                'countryId'    => $this->countryService->getCountryByIso($pickupPoint->getAddress()->getCountrycode(), $context)->getId(),
+                'zipcode' => $pickupPoint->getAddress()->getZipcode(),
+                'city' => $pickupPoint->getAddress()->getCity(),
+                'countryId' => $this->countryService->getCountryByIso($pickupPoint->getAddress()->getCountrycode(), $context)->getId(),
                 'customFields' => [
                     Defaults::CUSTOM_FIELDS_KEY => [
-                        'addressType'               => '09',
+                        'addressType' => '09',
                         'originalDeliveryAddressId' => $deliveryAddressId,
                     ],
                 ],
