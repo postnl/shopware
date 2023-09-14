@@ -5,26 +5,17 @@ namespace PostNL\Shopware6\Controller\Api;
 use PostNL\Shopware6\Facade\ProductFacade;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\Framework\Validation\DataBag\QueryDataBag;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @RouteScope(scopes={"api"})
- */
+#[Route(defaults: ['_routeScope' => ['api']])]
 class ProductController extends AbstractController
 {
-    /**
-     * @var ProductFacade
-     */
-    protected $productFacade;
+    protected ProductFacade $productFacade;
 
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
+    protected LoggerInterface $logger;
 
     public function __construct(
         ProductFacade   $productFacade,
@@ -35,14 +26,7 @@ class ProductController extends AbstractController
         $this->logger = $logger;
     }
 
-    /**
-     * @Route("/api/_action/postnl/product/source-zone",
-     *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.source", methods={"GET"})
-     *
-     * @param QueryDataBag $query
-     * @param Context $context
-     * @return JsonResponse
-     */
+    #[Route(path: '/api/_action/postnl/product/source-zone', name: 'api.action.postnl.product.source', defaults: ['auth_enabled' => true], methods: ['GET'])]
     public function sourceZoneHasProducts(QueryDataBag $query, Context $context)
     {
         $sourceZone = $query->get('sourceZone');
@@ -51,18 +35,11 @@ class ProductController extends AbstractController
         //TODO catch errors
 
         return $this->json([
-            'hasProducts' => $this->productFacade->sourceZoneHasProducts($sourceZone, $context)
+            'hasProducts' => $this->productFacade->sourceZoneHasProducts($sourceZone, $context),
         ]);
     }
 
-    /**
-     * @Route("/api/_action/postnl/product/delivery-types",
-     *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.delivery-types", methods={"GET"})
-     *
-     * @param QueryDataBag $query
-     * @param Context $context
-     * @return JsonResponse
-     */
+    #[Route(path: '/api/_action/postnl/product/delivery-types', name: 'api.action.postnl.product.delivery-types', defaults: ['auth_enabled' => true], methods: ['GET'])]
     public function getDeliveryTypes(QueryDataBag $query, Context $context)
     {
         $sourceZone = $query->get('sourceZone');
@@ -71,15 +48,7 @@ class ProductController extends AbstractController
         return $this->json($this->productFacade->getDeliveryTypes($sourceZone, $destinationZone, $context));
     }
 
-    /**
-     * @Route("/api/_action/postnl/product/flags",
-     *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.flags", methods={"GET"})
-     *
-     * @param QueryDataBag $query
-     * @param Context $context
-     * @return JsonResponse
-     * @throws \Exception
-     */
+    #[Route(path: '/api/_action/postnl/product/flags', name: 'api.action.postnl.product.flags', defaults: ['auth_enabled' => true], methods: ['GET'])]
     public function flags(QueryDataBag $query, Context $context): JsonResponse
     {
         $productId = $query->get('productId');
@@ -91,15 +60,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/api/_action/postnl/product/flags/available",
-     *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.flags.available", methods={"GET"})
-     *
-     * @param QueryDataBag $query
-     * @param Context $context
-     * @return JsonResponse
-     * @throws \Exception
-     */
+    #[Route(path: '/api/_action/postnl/product/flags/availabl', name: 'api.action.postnl.product.flags.available', defaults: ['auth_enabled' => true], methods: ['GET'])]
     public function availableFlags(QueryDataBag $query, Context $context): JsonResponse
     {
         $sourceZone = $query->get('sourceZone');
@@ -113,15 +74,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/api/_action/postnl/product",
-     *         defaults={"auth_enabled"=true}, name="api.action.postnl.product", methods={"GET"})
-     *
-     * @param QueryDataBag $query
-     * @param Context $context
-     * @return JsonResponse
-     * @throws \Exception
-     */
+    #[Route(path: '/api/_action/postnl/product', name: 'api.action.postnl.product', defaults: ['auth_enabled' => true], methods: ['GET'])]
     public function product(QueryDataBag $query, Context $context): JsonResponse
     {
         $productId = $query->get('productId');
@@ -133,14 +86,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/api/_action/postnl/product/default",
-     *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.default", methods={"GET"})
-     *
-     * @param QueryDataBag $query
-     * @param Context $context
-     * @return JsonResponse
-     */
+    #[Route(path: '/api/_action/postnl/product/default', name: 'api.action.postnl.product.default', defaults: ['auth_enabled' => true], methods: ['GET'])]
     public function defaultProduct(QueryDataBag $query, Context $context)
     {
         $sourceZone = $query->get('sourceZone');
@@ -154,15 +100,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/api/_action/postnl/product/select",
-     *         defaults={"auth_enabled"=true}, name="api.action.postnl.product.select", methods={"GET"})
-     *
-     * @param QueryDataBag $query
-     * @param Context $context
-     * @return JsonResponse
-     * @throws \Exception
-     */
+    #[Route(path: '/api/_action/postnl/product/select', name: 'api.action.postnl.product.select', defaults: ['auth_enabled' => true], methods: ['GET'])]
     public function selectProduct(QueryDataBag $query, Context $context)
     {
         $sourceZone = $query->get('sourceZone');

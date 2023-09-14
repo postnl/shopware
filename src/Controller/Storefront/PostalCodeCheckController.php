@@ -9,16 +9,13 @@ use PostNL\Shopware6\Facade\PostalCodeFacade;
 use PostNL\Shopware6\Service\PostNL\ApiExtension\Exception\AddressNotFoundException;
 use PostNL\Shopware6\Service\PostNL\ApiExtension\Exception\InvalidAddressException;
 use Psr\Log\LoggerInterface;
-use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Storefront\Controller\StorefrontController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @RouteScope(scopes={"storefront"})
- */
+#[Route(defaults: ['_routeScope' => ['storefront']])]
 class PostalCodeCheckController extends StorefrontController
 {
     private PostalCodeFacade $postalCodeFacade;
@@ -32,12 +29,7 @@ class PostalCodeCheckController extends StorefrontController
 
     }
 
-    /**
-     * @Route("/widget/address/postnl/postalcode-check", name="frontend.address.postnl.postal-code-check", options={"seo"=false}, methods={"POST"}, defaults={"XmlHttpRequest"=true, "csrf_protected"=true})
-     * @param RequestDataBag $data
-     * @param SalesChannelContext $context
-     * @return JsonResponse
-     */
+    #[Route(path: '/widget/address/postnl/postalcode-check', name: 'frontend.address.postnl.postal-code-check', options: ['seo' => false], defaults: ['XmlHttpRequest' => true], methods: ['POST'])]
     public function getPostcodeCheck(RequestDataBag $data, SalesChannelContext $context): JsonResponse
     {
         $postalCode = $data->get('postalCode');

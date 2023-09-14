@@ -4,26 +4,16 @@ namespace PostNL\Shopware6\Controller\Api;
 
 use PostNL\Shopware6\Facade\CredentialsFacade;
 use Psr\Log\LoggerInterface;
-use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @RouteScope(scopes={"api"})
- */
+#[Route(defaults: ['_routeScope' => ['api']])]
 class CredentialsController extends AbstractController
 {
-    /**
-     * @var CredentialsFacade
-     */
-    protected $credentialsFacade;
-
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
+    protected CredentialsFacade $credentialsFacade;
+    protected LoggerInterface $logger;
 
     public function __construct(
         CredentialsFacade $credentialsFacade,
@@ -34,13 +24,7 @@ class CredentialsController extends AbstractController
         $this->logger = $logger;
     }
 
-    /**
-     * @Route("/api/_action/postnl/credentials/test",
-     *         defaults={"auth_enabled"=true}, name="api.action.postnl.credentials.test", methods={"POST"})
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
+    #[Route(path: '/api/_action/postnl/credentials/test', name: 'api.action.postnl.credentials.test', defaults: ['auth_enabled' => true], methods: ['POST'])]
     public function test(Request $request): JsonResponse
     {
         $apiKey = $request->get('apiKey');
