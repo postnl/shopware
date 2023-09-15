@@ -30,9 +30,7 @@ Shopware.Module.register('postnl-order', {
             component: 'postnl-order-detail',
             path: 'detail/:id',
             redirect: {
-                name: Shopware.Feature.isActive('FEATURE_NEXT_7530')
-                    ? 'postnl.order.detail.general'
-                    : 'postnl.order.detail.base',
+                name: 'postnl.order.detail.general',
             },
             meta: {
                 privilege: 'order.viewer',
@@ -63,44 +61,32 @@ Shopware.Module.register('postnl-order', {
 
 
 function orderDetailChildren() {
-    if (Shopware.Feature.isActive('FEATURE_NEXT_7530')) {
-        return {
-            general: {
-                component: 'sw-order-detail-general',
-                path: 'general',
-                meta: {
-                    parentPath: 'postnl.order.index',
-                    privilege: 'order.viewer',
-                },
-            },
-            details: {
-                component: 'sw-order-detail-details',
-                path: 'details',
-                meta: {
-                    parentPath: 'postnl.order.index',
-                    privilege: 'order.viewer',
-                },
-            },
-            documents: {
-                component: 'sw-order-detail-documents',
-                path: 'documents',
-                meta: {
-                    parentPath: 'postnl.order.index',
-                    privilege: 'order.viewer',
-                },
-            },
-        };
-    }
-
     return {
-        base: {
-            component: 'sw-order-detail-base',
-            path: 'base',
+        general: {
+            component: 'sw-order-detail-general',
+            path: 'general',
+            meta: {
+                parentPath: 'postnl.order.index',
+                privilege: 'order.viewer',
+            },
+        },
+        details: {
+            component: 'sw-order-detail-details',
+            path: 'details',
+            meta: {
+                parentPath: 'postnl.order.index',
+                privilege: 'order.viewer',
+            },
+        },
+        documents: {
+            component: 'sw-order-detail-documents',
+            path: 'documents',
             meta: {
                 parentPath: 'postnl.order.index',
                 privilege: 'order.viewer',
             },
         },
     };
+
 }
 
