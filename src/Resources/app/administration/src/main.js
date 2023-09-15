@@ -1,3 +1,4 @@
+import './app';
 import './core';
 import './init';
 import './mixin';
