@@ -10,7 +10,7 @@ use PostNL\Shopware6\Service\PostNL\Api\Exception\AddressNotFoundException;
 use PostNL\Shopware6\Service\PostNL\Api\Service\PostalCodeCheckService;
 use PostNL\Shopware6\Service\PostNL\Api\Service\PostalCodeCheckServiceInterface;
 
-class PostNLExtension extends PostNL
+class PostNL extends PostNL
 {
     /** @var PostalCodeCheckServiceInterface */
     protected $postalCodeCheckService;

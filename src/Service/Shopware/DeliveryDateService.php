@@ -8,7 +8,7 @@ use Firstred\PostNL\Entity\Request\GetSentDate;
 use Firstred\PostNL\Entity\Request\GetSentDateRequest;
 use Firstred\PostNL\Entity\Response\GetDeliveryDateResponse;
 use Firstred\PostNL\Entity\Response\GetSentDateResponse;
-use PostNL\Shopware6\Service\PostNL\Api\PostNLExtension;
+use PostNL\Shopware6\Service\PostNL\Api\PostNL;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
@@ -28,14 +28,14 @@ class DeliveryDateService
 
     public function getDeliveryDate(SalesChannelContext $context, GetDeliveryDate $getDeliveryDate): GetDeliveryDateResponse
     {
-        /** @var PostNLExtension $apiClient */
+        /** @var PostNL $apiClient */
         $apiClient = $this->apiFactory->createClientForSalesChannel($context->getSalesChannelId(), $context->getContext());
         return $apiClient->getDeliveryDate((new GetDeliveryDate())->setGetDeliveryDate($getDeliveryDate));
     }
 
     public function getSentDate(SalesChannelContext $context, GetSentDate $getSentDate): GetSentDateResponse
     {
-        /** @var PostNLExtension $apiClient */
+        /** @var PostNL $apiClient */
         $apiClient = $this->apiFactory->createClientForSalesChannel($context->getSalesChannelId(), $context->getContext());
 
         return $apiClient->getSentDate(new GetSentDateRequest($getSentDate));

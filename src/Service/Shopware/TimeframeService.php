@@ -5,7 +5,7 @@ namespace PostNL\Shopware6\Service\Shopware;
 
 use Firstred\PostNL\Entity\Request\GetTimeframes;
 use Firstred\PostNL\Entity\Response\ResponseTimeframes;
-use PostNL\Shopware6\Service\PostNL\Api\PostNLExtension;
+use PostNL\Shopware6\Service\PostNL\Api\PostNL;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
@@ -25,7 +25,7 @@ class TimeframeService
 
     public function getTimeframes(SalesChannelContext $context, GetTimeframes $getTimeframes): ResponseTimeframes
     {
-        /** @var PostNLExtension $apiClient */
+        /** @var PostNL $apiClient */
         $apiClient = $this->apiFactory->createClientForSalesChannel($context->getSalesChannelId(), $context->getContext());
         return $apiClient->getTimeframes($getTimeframes);
     }

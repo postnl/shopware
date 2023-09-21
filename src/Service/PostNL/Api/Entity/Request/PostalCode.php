@@ -19,6 +19,7 @@ use PostNL\Shopware6\Service\PostNL\PostalCodeService;
  */
 class PostalCode extends AbstractEntity
 {
+    const DOMAIN_NAMESPACE = 'http://postnl.nl/cif/domain/PostalCodeService/';
 
     /** @var string */
     protected string $postalcode;
@@ -29,9 +30,9 @@ class PostalCode extends AbstractEntity
 
     public static $defaultProperties = [
         'PostalCodeCheck' => [
-            'postalcode' => PostalCodeService::DOMAIN_NAMESPACE,
-            'housenumber' => PostalCodeService::DOMAIN_NAMESPACE,
-            'housenumberaddition' => PostalCodeService::DOMAIN_NAMESPACE
+            'postalcode' => self::DOMAIN_NAMESPACE,
+            'housenumber' => self::DOMAIN_NAMESPACE,
+            'housenumberaddition' => self::DOMAIN_NAMESPACE
         ]
     ];
 
