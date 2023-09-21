@@ -19,6 +19,7 @@ use Firstred\PostNL\Service\ResponseProcessor\BarcodeServiceResponseProcessorInt
 use Firstred\PostNL\Service\ResponseProcessor\ResponseProcessorSettersTrait;
 use Firstred\PostNL\Service\ResponseProcessor\Rest\BarcodeServiceRestResponseProcessor;
 use ParagonIE\HiddenString\HiddenString;
+use PostNL\Shopware6\Component\PostNL\Entity\Request\PostalCode;
 use PostNL\Shopware6\Component\PostNL\Service\RequestBuilder\PostalcodeCheckServiceRequestBuilderInterface;
 use PostNL\Shopware6\Component\PostNL\Service\RequestBuilder\Rest\PostalcodeCheckServiceRestRequestBuilder;
 use PostNL\Shopware6\Component\PostNL\Service\ResponseProcessor\PostalcodeCheckServiceResponseProcessorInterface;
@@ -67,6 +68,15 @@ class PostalcodeCheckService extends AbstractService implements PostalCodeCheckS
             streamFactory: $this->getStreamFactory(),
         );
         $this->responseProcessor = new PostalcodeCheckServiceRestResponseProcessor();
+    }
+
+    public function postalcodeCheck(PostalCode $postalCode): string
+    {
+        $response = $this
+            ->getHttpClient()
+            ->doRequest(request: $this->requestBuilder->buildPostalcodeCheckRequest(postalCode: $postalCode));
+
+        return $this->responseProcessor->processPostalcodeCheckResponse(response: $response);
     }
 
 

@@ -23,7 +23,7 @@ use Psr\Http\Message\ResponseInterface;
 class PostalcodeCheckServiceRestResponseProcessor extends AbstractRestResponseProcessor implements PostalcodeCheckServiceResponseProcessorInterface
 {
     /**
-     * Process the 'generate barcode' server response.
+     * Process the 'postalcode check' server response.
      *
      * @param ResponseInterface $response
      *
@@ -37,7 +37,7 @@ class PostalcodeCheckServiceRestResponseProcessor extends AbstractRestResponsePr
      *
      * @since 2.0.0
      */
-    public function processGenerateBarcodeResponse(ResponseInterface $response): string
+    public function processPostalcodeCheckResponse(ResponseInterface $response): string
     {
         $this->validateResponse(response: $response);
         $responseContent = $this->getResponseText(response: $response);
