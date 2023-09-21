@@ -122,22 +122,22 @@ class ConversionSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $deliveryAdress = $cart->getDeliveries()->first()->getLocation()->getAddress();
+        $deliveryAddress = $cart->getDeliveries()->first()->getLocation()->getAddress();
 
         $context = $event->getSalesChannelContext();
         $config = $this->configService->getConfiguration($context->getSalesChannelId(), $context->getContext());
 
         $allowSundaySorting = true;//TODO: from config?
-        $city = $deliveryAdress->getCity();
-        $countryCode = $deliveryAdress->getCountry()->getIso();
+        $city = $deliveryAddress->getCity();
+        $countryCode = $deliveryAddress->getCountry()->getIso();
 
-        $customFields = $deliveryAdress->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY];
-        $houseNumber = $customFields[Defaults::CUSTOM_FIELDS_HOUSENUMBER_KEY];
-        $houseNumberExt = $customFields[Defaults::CUSTOM_FIELDS_HOUSENUMBER_ADDITION_KEY];
-        $street = $customFields[Defaults::CUSTOM_FIELDS_STREETNAME_KEY];
+//        $customFields = $deliveryAddress->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY];
+//        $houseNumber = $customFields[Defaults::CUSTOM_FIELDS_HOUSENUMBER_KEY];
+//        $houseNumberExt = $customFields[Defaults::CUSTOM_FIELDS_HOUSENUMBER_ADDITION_KEY];
+//        $street = $customFields[Defaults::CUSTOM_FIELDS_STREETNAME_KEY];
 
         $deliveryOptions = $config->getDeliveryOptions();
-        $postalCode = $deliveryAdress->getZipcode();
+        $postalCode = $deliveryAddress->getZipcode();
         $cartExtension = $cart->getExtension(CartService::EXTENSION);
         $deliveryDate = $cartExtension[Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY];
 
@@ -148,12 +148,12 @@ class ConversionSubscriber implements EventSubscriberInterface
                 $allowSundaySorting,
                 $city,
                 $countryCode,
-                $houseNumber,
-                $houseNumberExt,
+                $houseNumber ?? null,
+                $houseNumberExt ?? null,
                 $deliveryOptions,
                 $postalCode,
                 $deliveryDate,
-                $street,
+                $street?? null,
                 $shippingDuration,
             );
         } catch (InvalidArgumentException $e) {
