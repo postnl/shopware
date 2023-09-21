@@ -1,14 +1,14 @@
 <?php
 
-namespace PostNL\Shopware6\Service\PostNL\ApiExtension;
+namespace PostNL\Shopware6\Service\PostNL\Api;
 
 use Firstred\PostNL\PostNL;
 
-use PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Request\PostalCode;
-use PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Response\PostalCodeResponse;
-use PostNL\Shopware6\Service\PostNL\ApiExtension\Exception\AddressNotFoundException;
-use PostNL\Shopware6\Service\PostNL\ApiExtension\Service\PostalCodeCheckService;
-use PostNL\Shopware6\Service\PostNL\ApiExtension\Service\PostalCodeCheckServiceInterface;
+use PostNL\Shopware6\Service\PostNL\Api\Entity\Request\PostalCode;
+use PostNL\Shopware6\Service\PostNL\Api\Entity\Response\PostalCodeResponse;
+use PostNL\Shopware6\Service\PostNL\Api\Exception\AddressNotFoundException;
+use PostNL\Shopware6\Service\PostNL\Api\Service\PostalCodeCheckService;
+use PostNL\Shopware6\Service\PostNL\Api\Service\PostalCodeCheckServiceInterface;
 
 class PostNLExtension extends PostNL
 {

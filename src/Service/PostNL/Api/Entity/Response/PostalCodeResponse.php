@@ -1,6 +1,6 @@
 <?php
 
-namespace PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Response;
+namespace PostNL\Shopware6\Service\PostNL\Api\Entity\Response;
 
 use Firstred\PostNL\Entity\AbstractEntity;
 use PostNL\Shopware6\Service\PostNL\PostalCodeService;

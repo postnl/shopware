@@ -2,9 +2,9 @@
 
 namespace PostNL\Shopware6\Facade;
 
-use PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Response\PostalCodeResponse;
-use PostNL\Shopware6\Service\PostNL\ApiExtension\Exception\AddressNotFoundException;
-use PostNL\Shopware6\Service\PostNL\ApiExtension\Exception\InvalidAddressException;
+use PostNL\Shopware6\Service\PostNL\Api\Entity\Response\PostalCodeResponse;
+use PostNL\Shopware6\Service\PostNL\Api\Exception\AddressNotFoundException;
+use PostNL\Shopware6\Service\PostNL\Api\Exception\InvalidAddressException;
 use PostNL\Shopware6\Service\PostNL\PostalCodeService;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;

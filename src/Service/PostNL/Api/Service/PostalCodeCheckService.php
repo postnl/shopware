@@ -1,6 +1,6 @@
 <?php
 
-namespace PostNL\Shopware6\Service\PostNL\ApiExtension\Service;
+namespace PostNL\Shopware6\Service\PostNL\Api\Service;
 
 use Exception;
 use Firstred\PostNL\Exception\CifDownException;
@@ -11,11 +11,11 @@ use Firstred\PostNL\Exception\NotFoundException;
 use Firstred\PostNL\Exception\ResponseException;
 use Firstred\PostNL\Service\AbstractService;
 use GuzzleHttp\Psr7\Message as PsrMessage;
-use PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Request\PostalCode;
-use PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Response\PostalCodeResponse;
-use PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Response\PostalCodeResult;
-use PostNL\Shopware6\Service\PostNL\ApiExtension\Exception\AddressNotFoundException;
-use PostNL\Shopware6\Service\PostNL\ApiExtension\Exception\InvalidAddressException;
+use PostNL\Shopware6\Service\PostNL\Api\Entity\Request\PostalCode;
+use PostNL\Shopware6\Service\PostNL\Api\Entity\Response\PostalCodeResponse;
+use PostNL\Shopware6\Service\PostNL\Api\Entity\Response\PostalCodeResult;
+use PostNL\Shopware6\Service\PostNL\Api\Exception\AddressNotFoundException;
+use PostNL\Shopware6\Service\PostNL\Api\Exception\InvalidAddressException;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
