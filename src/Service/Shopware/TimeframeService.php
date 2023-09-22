@@ -5,7 +5,7 @@ namespace PostNL\Shopware6\Service\Shopware;
 
 use Firstred\PostNL\Entity\Request\GetTimeframes;
 use Firstred\PostNL\Entity\Response\ResponseTimeframes;
-use PostNL\Shopware6\Service\PostNL\Api\PostNL;
+use PostNL\Shopware6\Component\PostNL\PostNL;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 

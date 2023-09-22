@@ -1,9 +1,9 @@
 <?php
 
-namespace PostNL\Shopware6\Service\PostNL\Api\Entity\Response;
+declare(strict_types=1);
 
+namespace PostNL\Shopware6\Component\PostNL\Entity\Response;
 
-//
 class PostalCodeResult
 {
 
@@ -21,7 +21,7 @@ class PostalCodeResult
     protected array $formattedAddress;
 
     /**
-     * SendShipmentResponse constructor.
+     * PostalCodeResult constructor.
      *
      * @param string $city
      * @param string $postalCode

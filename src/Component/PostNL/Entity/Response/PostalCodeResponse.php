@@ -12,9 +12,9 @@ class PostalCodeResponse
 
     /**
      *
-     * @param array|null $PostalCodeResult
+     * @param array $PostalCodeResult
      */
-    public function __construct(array $PostalCodeResult = null)
+    public function __construct(array $PostalCodeResult = [])
     {
         $this->setPostalCodeResult($PostalCodeResult);
     }

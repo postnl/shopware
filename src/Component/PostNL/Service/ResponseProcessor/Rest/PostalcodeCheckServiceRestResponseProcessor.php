@@ -12,6 +12,8 @@ use Firstred\PostNL\Exception\ResponseException;
 use Firstred\PostNL\Service\ResponseProcessor\BarcodeServiceResponseProcessorInterface;
 use Firstred\PostNL\Service\ResponseProcessor\Rest\AbstractRestResponseProcessor;
 use JsonException;
+use PostNL\Shopware6\Component\PostNL\Entity\Response\PostalCodeResponse;
+use PostNL\Shopware6\Component\PostNL\Entity\Response\PostalCodeResult;
 use PostNL\Shopware6\Component\PostNL\Service\ResponseProcessor\PostalcodeCheckServiceResponseProcessorInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -37,7 +39,7 @@ class PostalcodeCheckServiceRestResponseProcessor extends AbstractRestResponsePr
      *
      * @since 2.0.0
      */
-    public function processPostalcodeCheckResponse(ResponseInterface $response): string
+    public function processPostalcodeCheckResponse(ResponseInterface $response): PostalCodeResponse
     {
         $this->validateResponse(response: $response);
         $responseContent = $this->getResponseText(response: $response);
@@ -48,10 +50,23 @@ class PostalcodeCheckServiceRestResponseProcessor extends AbstractRestResponsePr
             throw new ResponseException(message: 'Invalid API Response', previous: $e, response: $response);
         }
 
-        if (!isset($json->Barcode)) {
-            throw new ResponseException(message: 'Invalid API Response', response: $response);
+        if(empty($json)) {
+            return new PostalCodeResponse();
         }
 
-        return $json->Barcode;
+        $results = [];
+
+        foreach($json as $result) {
+            $results[] = new PostalCodeResult(
+                city: $result->city,
+                postalCode: $result->postalCode,
+                streetName: $result->streetName,
+                houseNumber: $result->houseNumber,
+                formattedAddress: $result->formattedAddress,
+                houseNumberAddition: $result->houseNumberAddition,
+            );
+        }
+
+        return new PostalCodeResponse($results);
     }
 }

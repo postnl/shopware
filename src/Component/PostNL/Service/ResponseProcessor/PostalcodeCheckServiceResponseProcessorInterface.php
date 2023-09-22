@@ -9,6 +9,7 @@ use Firstred\PostNL\Exception\CifException;
 use Firstred\PostNL\Exception\HttpClientException;
 use Firstred\PostNL\Exception\InvalidConfigurationException;
 use Firstred\PostNL\Exception\ResponseException;
+use PostNL\Shopware6\Component\PostNL\Entity\Response\PostalCodeResponse;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -33,5 +34,5 @@ interface PostalcodeCheckServiceResponseProcessorInterface
      *
      * @since 2.0.0
      */
-    public function processPostalcodeCheckResponse(ResponseInterface $response): string;
+    public function processPostalcodeCheckResponse(ResponseInterface $response): PostalCodeResponse;
 }

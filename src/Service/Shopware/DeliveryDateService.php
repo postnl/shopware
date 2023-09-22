@@ -8,7 +8,7 @@ use Firstred\PostNL\Entity\Request\GetSentDate;
 use Firstred\PostNL\Entity\Request\GetSentDateRequest;
 use Firstred\PostNL\Entity\Response\GetDeliveryDateResponse;
 use Firstred\PostNL\Entity\Response\GetSentDateResponse;
-use PostNL\Shopware6\Service\PostNL\Api\PostNL;
+use PostNL\Shopware6\Component\PostNL\PostNL;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 

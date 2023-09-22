@@ -12,6 +12,7 @@ use Firstred\PostNL\Exception\InvalidConfigurationException;
 use Firstred\PostNL\Exception\ResponseException;
 use Firstred\PostNL\Service\ServiceInterface;
 use PostNL\Shopware6\Component\PostNL\Entity\Request\PostalCode;
+use PostNL\Shopware6\Component\PostNL\Entity\Response\PostalCodeResponse;
 
 interface PostalcodeCheckServiceInterface extends ServiceInterface
 {
@@ -25,5 +26,5 @@ interface PostalcodeCheckServiceInterface extends ServiceInterface
      * @throws InvalidConfigurationException
      * @throws InvalidArgumentException
      */
-    public function postalcodeCheck(PostalCode $postalCode): string;
+    public function postalcodeCheck(PostalCode $postalCode): PostalCodeResponse;
 }

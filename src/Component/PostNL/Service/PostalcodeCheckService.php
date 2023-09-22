@@ -4,22 +4,12 @@ declare(strict_types=1);
 
 namespace PostNL\Shopware6\Component\PostNL\Service;
 
-use Firstred\PostNL\Entity\Request\GenerateBarcode;
-use Firstred\PostNL\Exception\CifDownException;
-use Firstred\PostNL\Exception\CifException;
-use Firstred\PostNL\Exception\HttpClientException;
-use Firstred\PostNL\Exception\InvalidArgumentException;
-use Firstred\PostNL\Exception\InvalidConfigurationException;
-use Firstred\PostNL\Exception\ResponseException;
 use Firstred\PostNL\HttpClient\HttpClientInterface;
 use Firstred\PostNL\Service\AbstractService;
-use Firstred\PostNL\Service\RequestBuilder\BarcodeServiceRequestBuilderInterface;
-use Firstred\PostNL\Service\RequestBuilder\Rest\BarcodeServiceRestRequestBuilder;
-use Firstred\PostNL\Service\ResponseProcessor\BarcodeServiceResponseProcessorInterface;
 use Firstred\PostNL\Service\ResponseProcessor\ResponseProcessorSettersTrait;
-use Firstred\PostNL\Service\ResponseProcessor\Rest\BarcodeServiceRestResponseProcessor;
 use ParagonIE\HiddenString\HiddenString;
 use PostNL\Shopware6\Component\PostNL\Entity\Request\PostalCode;
+use PostNL\Shopware6\Component\PostNL\Entity\Response\PostalCodeResponse;
 use PostNL\Shopware6\Component\PostNL\Service\RequestBuilder\PostalcodeCheckServiceRequestBuilderInterface;
 use PostNL\Shopware6\Component\PostNL\Service\RequestBuilder\Rest\PostalcodeCheckServiceRestRequestBuilder;
 use PostNL\Shopware6\Component\PostNL\Service\ResponseProcessor\PostalcodeCheckServiceResponseProcessorInterface;
@@ -32,7 +22,7 @@ use Psr\Http\Message\StreamFactoryInterface;
  *
  * @internal
  */
-class PostalcodeCheckService extends AbstractService implements PostalCodeCheckServiceInterface
+class PostalcodeCheckService extends AbstractService implements PostalcodeCheckServiceInterface
 {
     use ResponseProcessorSettersTrait;
 
@@ -40,19 +30,20 @@ class PostalcodeCheckService extends AbstractService implements PostalCodeCheckS
     protected PostalcodeCheckServiceResponseProcessorInterface $responseProcessor;
 
     /**
-     * @param HiddenString                            $apiKey
-     * @param bool                                    $sandbox
-     * @param HttpClientInterface                     $httpClient
-     * @param RequestFactoryInterface                 $requestFactory
-     * @param StreamFactoryInterface                  $streamFactory
+     * @param HiddenString            $apiKey
+     * @param bool                    $sandbox
+     * @param HttpClientInterface     $httpClient
+     * @param RequestFactoryInterface $requestFactory
+     * @param StreamFactoryInterface  $streamFactory
      */
     public function __construct(
-        HiddenString $apiKey,
-        bool $sandbox,
-        HttpClientInterface $httpClient,
+        HiddenString            $apiKey,
+        bool                    $sandbox,
+        HttpClientInterface     $httpClient,
         RequestFactoryInterface $requestFactory,
-        StreamFactoryInterface $streamFactory,
-    ) {
+        StreamFactoryInterface  $streamFactory,
+    )
+    {
         parent::__construct(
             apiKey: $apiKey,
             sandbox: $sandbox,
@@ -70,7 +61,7 @@ class PostalcodeCheckService extends AbstractService implements PostalCodeCheckS
         $this->responseProcessor = new PostalcodeCheckServiceRestResponseProcessor();
     }
 
-    public function postalcodeCheck(PostalCode $postalCode): string
+    public function postalcodeCheck(PostalCode $postalCode): PostalCodeResponse
     {
         $response = $this
             ->getHttpClient()
