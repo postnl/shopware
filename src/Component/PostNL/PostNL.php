@@ -4,10 +4,17 @@ declare(strict_types=1);
 
 namespace PostNL\Shopware6\Component\PostNL;
 
+use Firstred\PostNL\Exception\CifDownException;
+use Firstred\PostNL\Exception\CifException;
+use Firstred\PostNL\Exception\HttpClientException;
+use Firstred\PostNL\Exception\InvalidArgumentException;
+use Firstred\PostNL\Exception\InvalidConfigurationException;
+use Firstred\PostNL\Exception\ResponseException;
 use Firstred\PostNL\HttpClient\HttpClientInterface;
 use Firstred\PostNL\PostNL as BaseClient;
 use ParagonIE\HiddenString\HiddenString;
 use PostNL\Shopware6\Component\PostNL\Entity\Request\PostalCode;
+use PostNL\Shopware6\Component\PostNL\Entity\Response\PostalCodeResponse;
 use PostNL\Shopware6\Component\PostNL\Service\PostalcodeCheckService;
 use PostNL\Shopware6\Component\PostNL\Service\PostalcodeCheckServiceInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -49,15 +56,15 @@ class PostNL extends BaseClient
      * @param string      $postalCode
      * @param int         $houseNumber
      * @param string|null $houseNumberAddition
-     * @return string
-     * @throws \Firstred\PostNL\Exception\CifDownException
-     * @throws \Firstred\PostNL\Exception\CifException
-     * @throws \Firstred\PostNL\Exception\HttpClientException
-     * @throws \Firstred\PostNL\Exception\InvalidArgumentException
-     * @throws \Firstred\PostNL\Exception\InvalidConfigurationException
-     * @throws \Firstred\PostNL\Exception\ResponseException
+     * @return PostalCodeResponse
+     * @throws CifDownException
+     * @throws CifException
+     * @throws HttpClientException
+     * @throws InvalidArgumentException
+     * @throws InvalidConfigurationException
+     * @throws ResponseException
      */
-    public function getPostalCode(string $postalCode, int $houseNumber, string $houseNumberAddition = null)
+    public function getPostalCode(string $postalCode, int $houseNumber, string $houseNumberAddition = null): PostalCodeResponse
     {
         return $this->getPostalcodeCheckService()->postalcodeCheck(postalCode: new PostalCode(postalCode: $postalCode, houseNumber: $houseNumber, houseNumberAddition: $houseNumberAddition));
     }
