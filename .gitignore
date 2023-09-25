@@ -13,3 +13,4 @@ src/Resources/app/storefront/dist/
 src/Resources/public/administration/
 
 **/*LICENSE.txt
+src/Resources/public/static/js/*
