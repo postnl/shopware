@@ -8,7 +8,6 @@ import ElementLoadingIndicatorUtil from 'src/utility/loading-indicator/element-l
 export default class PostnlPostalCodeCheckPlugin extends Plugin {
     static options = {
         url: window.router['frontend.address.postnl.postal-code-check'],
-        csrfToken: null,
         countries: [],
         concatPrefix: "",
     }
@@ -93,7 +92,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @param element
      * @private
      */
@@ -102,7 +100,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @private
      */
     _registerEvents() {
@@ -130,14 +127,9 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         this.zipcodeElement.addEventListener('keyup', debounceLookup)
         this.houseNumberElement.addEventListener('keyup', debounceLookup)
         this.houseNumberAdditionElement.addEventListener('keyup', debounceLookup)
-
-        //Form submit
-        // const submitForm = this.submitForm.bind(this);
-        // this.addressForm.addEventListener('submit', submitForm);
     }
 
     /**
-     *
      * @private
      */
     _prepareFormWithExistingData() {
@@ -169,7 +161,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @private
      */
     _updateRequired() {
@@ -196,7 +187,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @param required
      * @param notRequired
      * @private
@@ -220,7 +210,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @param zipcodeValue
      * @param houseNumberValue
      * @param houseNumberAdditionValue
@@ -228,19 +217,18 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
      */
     _checkPostalCode(zipcodeValue, houseNumberValue, houseNumberAdditionValue) {
 
-        const data = this._getRequestData();
+        const data = {};
         data['postalCode'] = zipcodeValue;
         data['houseNumber'] = houseNumberValue;
         data['houseNumberAddition'] = houseNumberAdditionValue;
         ElementLoadingIndicatorUtil.create(this.el);
-        this._client.post(this.options.url, JSON.stringify(data), content => {
+        this._client.post(this.options.url, JSON.stringify(data), (content, response) => {
             ElementLoadingIndicatorUtil.remove(this.el);
-            this._parseRequest(JSON.parse(content))
+            this._parseRequest(JSON.parse(content), response);
         });
     }
 
     /**
-     *
      * @param innerHTML
      * @private
      */
@@ -252,11 +240,9 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
             this.postnlWarningAlert.removeAttribute('hidden');
             this.postnlWarningAlert.querySelector('.alert-content').innerHTML = innerHTML
         }
-
     }
 
     /**
-     *
      * @private
      */
     _unlockFormFields() {
@@ -266,91 +252,86 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @param data
+     * @param response
      * @private
      */
-    _parseRequest(data) {
+    _parseRequest(data, response) {
         this._unlockFormFields();
         //Reset the errors
         this.zipcodeElement.setCustomValidity("");
         this.houseNumberElement.setCustomValidity("");
-        this.houseNumberAdditionElement.setCustomValidity("");
 
-        if (data['PostalCodeResult'] && Array.isArray(data['PostalCodeResult'])) {
-            //Clear the warnings
-            this._showWarningAlert("")
-
-            let postalCode = data['PostalCodeResult'][0]
-            //Put the data in our fields
-            this.cityElement.value = postalCode['city'];
-            this.streetElement.value = postalCode['streetName'];
-
-            //Refill the existing fields with the results
-            this.zipcodeElement.value = postalCode['postalCode'];
-            this.houseNumberElement.value = postalCode['houseNumber'];
-            if (postalCode['houseNumberAddition']) {
-                //Is there more than one? Fill the datalist with options
-                if (data['PostalCodeResult'].length > 1) {
-                    data['PostalCodeResult'].forEach(result => {
-                        let option = document.createElement('option');
-                        option.value = result['houseNumberAddition'];
-                        this.houseNumberAdditionDatalistElement.appendChild(option);
-                    });
-                } else {
-                    this.houseNumberAdditionElement.value = postalCode['houseNumberAddition'];
-                }
-
-            }
-
-            //Put the data in shopware fields (street+house number+addition, zipcode, city)
-            this._fillStreetFields();
-            this.zipcodeElementSW.value = this.zipcodeElement.value;
-            this.cityElementSW.value = this.cityElement.value;
-
+        if(response.status < 400) {
+            this._handleSuccess(data, response);
         } else {
-            //No result, so it is an error
-            if (data['errorType'] === "AddressNotFoundException") {
-                this._showWarningAlert(data['errorMessage'])
-            } else if (data['errorType'] === "InvalidAddressException") {
-                //Known errors with a field connected to it
-                if (data['errorField']) {
-                    switch (data['errorField']) {
-                        case 'postalcode':
-                            this.zipcodeElement.setCustomValidity(data['errorMessage']);
-                            break;
-                        case 'housenumber':
-                            this.houseNumberElement.setCustomValidity(data['errorMessage']);
-                            break;
-                    }
-                } else {
-                    //Unknown errors with a message connected to it
-                    this._showWarningAlert(data['errorMessage'])
-                }
-            } else if (!data['errorMessage']) {
-                this._showWarningAlert(data);
+            this._handleError(data, response);
+        }
+
+    }
+
+    _handleSuccess(data, response) {//Clear the warnings
+        this._showWarningAlert("")
+
+        const postalCode = data[0];
+
+        //Put the data in our fields
+        this.cityElement.value = postalCode['city'];
+        this.streetElement.value = postalCode['streetName'];
+
+        //Refill the existing fields with the results
+        this.zipcodeElement.value = postalCode['postalCode'];
+        this.houseNumberElement.value = postalCode['houseNumber'];
+        if (postalCode['houseNumberAddition']) {
+            //Is there more than one? Fill the datalist with options
+            if (data.length > 1) {
+                data.forEach(result => {
+                    let option = document.createElement('option');
+                    option.value = result['houseNumberAddition'];
+                    this.houseNumberAdditionDatalistElement.appendChild(option);
+                });
+            } else {
+                this.houseNumberAdditionElement.value = postalCode['houseNumberAddition'];
             }
-
-            this.zipcodeElement.reportValidity();
-            this.houseNumberElement.reportValidity();
         }
+
+        //Put the data in shopware fields (street+house number+addition, zipcode, city)
+        this._fillStreetFields();
+        this.zipcodeElementSW.value = this.zipcodeElement.value;
+        this.cityElementSW.value = this.cityElement.value;
+    }
+
+    _handleError(data, response) {
+        //No result, so it is an error
+        if (data['type'] === "NotFoundException") {
+            this._showWarningAlert(data['message'])
+        }
+        else if (data['type'] === "InvalidArgumentException") {
+            //Known errors with a field connected to it
+            if (data['field']) {
+                switch (data['field']) {
+                    case 'postalcode':
+                        this.zipcodeElement.setCustomValidity(data['message']);
+                        break;
+                    case 'housenumber':
+                        this.houseNumberElement.setCustomValidity(data['message']);
+                        break;
+                }
+            }
+            else {
+                //Unknown errors with a message connected to it
+                this._showWarningAlert(data['message'])
+            }
+        }
+        else if (!data['message']) {
+            this._showWarningAlert(data);
+        }
+
+        this.zipcodeElement.reportValidity();
+        this.houseNumberElement.reportValidity();
     }
 
     /**
-     *
-     * @returns {{}}
-     * @private
-     */
-    _getRequestData() {
-        const data = {};
-        if (window.csrf.enabled && window.csrf.mode === 'twig') {
-            data['_csrf_token'] = this.options.csrfToken;
-        }
-        return data;
-    }
-
-    /**
-     *
      * @param countryId
      * @private
      */
@@ -363,7 +344,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @param show
      * @private
      */
@@ -379,7 +359,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @private
      */
     _setupLinkedFields() {
@@ -390,11 +369,9 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         //City
         this._linkFields(this.cityElement, this.cityElementSW)
         this._linkFields(this.cityElementSW, this.cityElement)
-
     }
 
     /**
-     *
      * @param field1Element
      * @param field2Element
      * @private
@@ -404,7 +381,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @private
      */
     _fillStreetFields() {
@@ -414,7 +390,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @param sender
      * @param receiver
      */
@@ -423,7 +398,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @param e
      */
     onChangeSelectedCountry(e) {

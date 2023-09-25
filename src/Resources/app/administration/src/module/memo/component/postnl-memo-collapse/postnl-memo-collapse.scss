@@ -3,7 +3,7 @@
 $postnl-memo-collapse-color-disabled: $color-gray-100;
 $postnl-memo-collapse-color-divider: $color-gray-300;
 $postnl-memo-collapse-color-title: $color-darkgray-200;
-$postnl-memo-collapse-font-size-title: $font-size-small;
+$postnl-memo-collapse-font-size-title: $font-size-s;
 
 .postnl-memo-collapse {
     &__header {
@@ -28,6 +28,7 @@ $postnl-memo-collapse-font-size-title: $font-size-small;
     &__button {
         width: 16px;
         height: 16px;
+        padding: 3px;
 
         &.is--hidden {
             display: none;

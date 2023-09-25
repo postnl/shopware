@@ -2,7 +2,7 @@
     margin: .5rem 0 .5rem 1.5rem;
 }
 
-.custom-control-input:checked ~ .postnl-shipping-method {
+.form-check-input:checked ~ .postnl-shipping-method {
     display: block;
 }
 
@@ -21,7 +21,7 @@
         &-date {
             margin: .5rem 0;
 
-            .custom-control-label {
+            .form-check-label {
                 width: 100%;
             }
         }

@@ -3,14 +3,7 @@
 
         {% set deliveryDate = page.cart.getExtension('postnl-data').get(constant('PostNL\\Shopware6\\Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY')) %}
 
-        {% set shipmentOptions = {
-            csrfToken: sw_csrf('frontend.checkout.postnl.shipping-date', {"mode": "token"})
-        } %}
-
-        <div class="postnl-shipping-method__shipment"
-             data-postnl-shipping-delivery-date="true"
-             data-postnl-shipping-delivery-date-options='{{ shipmentOptions | json_encode }}'
-        >
+        <div class="postnl-shipping-method__shipment" data-postnl-shipping-delivery-date="true">
             {% set lastDay = null %}
 
             {% for timeframe in context.shippingMethod.extensions.postnl_shipment %}
@@ -23,15 +16,15 @@
                     {% set lastDay = currentDay %}
                 {% endif %}
 
-                <div class="custom-control custom-radio postnl-shipping-method__shipment--delivery-date">
+                <div class="form-check postnl-shipping-method__shipment--delivery-date">
                     <input type="radio"
-                           class="custom-control-input shipping-method-input"
+                           class="form-check-input shipping-method-input"
                            id="postnl-shipping-method__shipment--delivery-date-{{ loop.index }}"
                            {% if deliveryDate == timeframe.from %}checked{% endif %}
                            name="postnl-shipping-delivery-time"
                            value="{{ timeframe | json_encode }}"/>
 
-                    <label class="custom-control-label"
+                    <label class="form-check-label"
                            for="postnl-shipping-method__shipment--delivery-date-{{ loop.index }}">
                         <div class="d-flex justify-content-between">
 
@@ -42,7 +35,7 @@
                             <div class="d-flex">
                                 {% for option in timeframe.options %}
                                     {% if option|lower != "daytime" %}
-                                        <span class="mr-2">
+                                        <span class="me-2">
                                             {{ ('postnl.shipment.option.' ~ option|lower)|trans }}
                                         </span>
                                     {% endif %}

@@ -23,7 +23,7 @@ class PostNLZoneRule extends Rule
     /**
      * @var string
      */
-    protected $operator;
+    protected string $operator;
 
     /**
      * @param string        $operator

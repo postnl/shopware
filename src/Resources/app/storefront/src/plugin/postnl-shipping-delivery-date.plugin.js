@@ -15,7 +15,7 @@ export default class PostnlShippingDeliveryDatePlugin extends Plugin {
     }
 
     onChangeDeliveryDate(e) {
-        const data = this._getRequestData();
+        const data = {}
         data['timeframe'] = e.target.value;
 
         ElementLoadingIndicatorUtil.create(this.el);
@@ -30,15 +30,5 @@ export default class PostnlShippingDeliveryDatePlugin extends Plugin {
         DomAccess.querySelectorAll(this.el, '[name="postnl-shipping-delivery-time"]').forEach(input => {
             input.addEventListener('change', this.onChangeDeliveryDate.bind(this));
         });
-    }
-
-    _getRequestData() {
-        const data = {};
-
-        if (window.csrf.enabled && window.csrf.mode === 'twig') {
-            data['_csrf_token'] = this.options.csrfToken;
-        }
-
-        return data;
     }
 }
