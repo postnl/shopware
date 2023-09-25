@@ -12,6 +12,7 @@ use Firstred\PostNL\Exception\InvalidConfigurationException;
 use Firstred\PostNL\Exception\ResponseException;
 use PostNL\Shopware6\Component\PostNL\Entity\Response\PostalCodeResponse;
 use PostNL\Shopware6\Service\PostNL\PostalCodeService;
+use PostNL\Shopware6\Struct\PostalCodeCollection;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
@@ -41,7 +42,7 @@ class PostalCodeFacade
      * @param string              $postalCode
      * @param int                 $houseNumber
      * @param string|null         $houseNumberAddition
-     * @return PostalCodeResponse
+     * @return PostalCodeCollection
      * @throws CifDownException
      * @throws CifException
      * @throws HttpClientException
@@ -49,7 +50,7 @@ class PostalCodeFacade
      * @throws InvalidConfigurationException
      * @throws ResponseException
      */
-    public function checkPostalCode(SalesChannelContext $context, string $postalCode, int $houseNumber, string $houseNumberAddition = null): PostalCodeResponse
+    public function checkPostalCode(SalesChannelContext $context, string $postalCode, int $houseNumber, string $houseNumberAddition = null): PostalCodeCollection
     {
         $this->logger->debug("Checking postal code", [
             'postal code' => $postalCode,

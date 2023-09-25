@@ -8,8 +8,8 @@ use Firstred\PostNL\Exception\CifDownException;
 use Firstred\PostNL\Exception\CifException;
 use Firstred\PostNL\Exception\HttpClientException;
 use Firstred\PostNL\Exception\InvalidConfigurationException;
+use Firstred\PostNL\Exception\NotFoundException;
 use Firstred\PostNL\Exception\ResponseException;
-use Firstred\PostNL\Service\ResponseProcessor\BarcodeServiceResponseProcessorInterface;
 use Firstred\PostNL\Service\ResponseProcessor\Rest\AbstractRestResponseProcessor;
 use JsonException;
 use PostNL\Shopware6\Component\PostNL\Entity\Response\PostalCodeResponse;
@@ -50,20 +50,20 @@ class PostalcodeCheckServiceRestResponseProcessor extends AbstractRestResponsePr
             throw new ResponseException(message: 'Invalid API Response', previous: $e, response: $response);
         }
 
-        if(empty($json)) {
-            return new PostalCodeResponse();
+        if (empty($json)) {
+            throw new NotFoundException();
         }
 
         $results = [];
 
-        foreach($json as $result) {
+        foreach ($json as $result) {
             $results[] = new PostalCodeResult(
                 city: $result->city,
                 postalCode: $result->postalCode,
                 streetName: $result->streetName,
                 houseNumber: $result->houseNumber,
                 formattedAddress: $result->formattedAddress,
-                houseNumberAddition: $result->houseNumberAddition,
+                houseNumberAddition: $result->houseNumberAddition ?? null,
             );
         }
 

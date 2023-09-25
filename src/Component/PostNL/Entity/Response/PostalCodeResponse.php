@@ -2,9 +2,6 @@
 
 namespace PostNL\Shopware6\Component\PostNL\Entity\Response;
 
-use PostNL\Shopware6\Service\PostNL\Api\Entity\Response\PostalCodeResult;
-
-
 class PostalCodeResponse
 {
     /** @var PostalCodeResult[] */

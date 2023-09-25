@@ -10,6 +10,7 @@ use Firstred\PostNL\Exception\InvalidConfigurationException;
 use Firstred\PostNL\Exception\ResponseException;
 use PostNL\Shopware6\Component\PostNL\Entity\Response\PostalCodeResponse;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
+use PostNL\Shopware6\Struct\PostalCodeCollection;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 class PostalCodeService
@@ -29,7 +30,7 @@ class PostalCodeService
      * @param string              $postalCode
      * @param int                 $houseNumber
      * @param string|null         $houseNumberAddition
-     * @return PostalCodeResponse
+     * @return PostalCodeCollection
      * @throws CifDownException
      * @throws CifException
      * @throws HttpClientException
@@ -37,10 +38,12 @@ class PostalCodeService
      * @throws InvalidConfigurationException
      * @throws ResponseException
      */
-    public function checkPostalCode(SalesChannelContext $context, string $postalCode, int $houseNumber, string $houseNumberAddition = null): PostalCodeResponse
+    public function checkPostalCode(SalesChannelContext $context, string $postalCode, int $houseNumber, string $houseNumberAddition = null): PostalCodeCollection
     {
         $apiClient = $this->apiFactory->createClientForSalesChannel($context->getSalesChannelId(), $context->getContext());
 
-        return $apiClient->getPostalCode($postalCode, $houseNumber, $houseNumberAddition);
+        $response = $apiClient->getPostalCode($postalCode, $houseNumber, $houseNumberAddition);
+
+        return PostalCodeCollection::createFromPostalCodeResponse($response);
     }
 }
