@@ -40,7 +40,7 @@ class PostalCodeCheckController extends StorefrontController
 
         try {
             if(!is_numeric($houseNumber)) {
-                throw new InvalidArgumentException("Input field 'house number' must be a number.");
+                throw new InvalidArgumentException("Input field 'housenumber' must be a number.");
             }
 
             $response = $this->postalCodeFacade->checkPostalCode($context, $postalCode, $houseNumber, $houseNumberAddition);
@@ -49,21 +49,22 @@ class PostalCodeCheckController extends StorefrontController
             $this->logger->error($e->getMessage(), ['exception' => $e]);
 
             return $this->json([
-                'errorType' => $this->postNLErrorTypeCreator($e),
-                'errorMessage' => $this->trans("postnl.errors.addressNotFound"),
+                'type' => $this->postNLErrorTypeCreator($e),
+                'message' => $this->trans("postnl.errors.addressNotFound"),
             ], 400);
         } catch (InvalidArgumentException $e) {
             $this->logger->error($e->getMessage(), ['exception' => $e]);
 
             return $this->json([
-                'errorType' => $this->postNLErrorTypeCreator($e),
-                'errorMessage' => $e->getMessage(),
+                'type' => $this->postNLErrorTypeCreator($e),
+                'message' => $e->getMessage(),
+                'field' => $this->errorFieldCreator($e->getMessage()),
             ], 400);
         } catch (PostNLException|\Throwable $e) {
             $this->logger->error($e->getMessage(), ['exception' => $e]);
             return $this->json([
-                'errorType' => $this->postNLErrorTypeCreator($e),
-                'errorMessage' => $this->trans("postnl.errors.internalServerError"),
+                'type' => $this->postNLErrorTypeCreator($e),
+                'message' => $this->trans("postnl.errors.internalServerError"),
             ], 500);
         }
     }

@@ -257,71 +257,78 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
      * @private
      */
     _parseRequest(data, response) {
-
-        console.log(data, response, 'test');
-        return;
         this._unlockFormFields();
         //Reset the errors
         this.zipcodeElement.setCustomValidity("");
         this.houseNumberElement.setCustomValidity("");
-        this.houseNumberAdditionElement.setCustomValidity("");
 
-        if (data['PostalCodeResult'] && Array.isArray(data['PostalCodeResult'])) {
-            //Clear the warnings
-            this._showWarningAlert("")
-
-            let postalCode = data['PostalCodeResult'][0]
-            //Put the data in our fields
-            this.cityElement.value = postalCode['city'];
-            this.streetElement.value = postalCode['streetName'];
-
-            //Refill the existing fields with the results
-            this.zipcodeElement.value = postalCode['postalCode'];
-            this.houseNumberElement.value = postalCode['houseNumber'];
-            if (postalCode['houseNumberAddition']) {
-                //Is there more than one? Fill the datalist with options
-                if (data['PostalCodeResult'].length > 1) {
-                    data['PostalCodeResult'].forEach(result => {
-                        let option = document.createElement('option');
-                        option.value = result['houseNumberAddition'];
-                        this.houseNumberAdditionDatalistElement.appendChild(option);
-                    });
-                } else {
-                    this.houseNumberAdditionElement.value = postalCode['houseNumberAddition'];
-                }
-            }
-
-            //Put the data in shopware fields (street+house number+addition, zipcode, city)
-            this._fillStreetFields();
-            this.zipcodeElementSW.value = this.zipcodeElement.value;
-            this.cityElementSW.value = this.cityElement.value;
-
+        if(response.status < 400) {
+            this._handleSuccess(data, response);
         } else {
-            //No result, so it is an error
-            if (data['errorType'] === "AddressNotFoundException") {
-                this._showWarningAlert(data['errorMessage'])
-            } else if (data['errorType'] === "InvalidAddressException") {
-                //Known errors with a field connected to it
-                if (data['errorField']) {
-                    switch (data['errorField']) {
-                        case 'postalcode':
-                            this.zipcodeElement.setCustomValidity(data['errorMessage']);
-                            break;
-                        case 'housenumber':
-                            this.houseNumberElement.setCustomValidity(data['errorMessage']);
-                            break;
-                    }
-                } else {
-                    //Unknown errors with a message connected to it
-                    this._showWarningAlert(data['errorMessage'])
-                }
-            } else if (!data['errorMessage']) {
-                this._showWarningAlert(data);
-            }
-
-            this.zipcodeElement.reportValidity();
-            this.houseNumberElement.reportValidity();
+            this._handleError(data, response);
         }
+
+    }
+
+    _handleSuccess(data, response) {//Clear the warnings
+        this._showWarningAlert("")
+
+        const postalCode = data[0];
+
+        //Put the data in our fields
+        this.cityElement.value = postalCode['city'];
+        this.streetElement.value = postalCode['streetName'];
+
+        //Refill the existing fields with the results
+        this.zipcodeElement.value = postalCode['postalCode'];
+        this.houseNumberElement.value = postalCode['houseNumber'];
+        if (postalCode['houseNumberAddition']) {
+            //Is there more than one? Fill the datalist with options
+            if (data.length > 1) {
+                data.forEach(result => {
+                    let option = document.createElement('option');
+                    option.value = result['houseNumberAddition'];
+                    this.houseNumberAdditionDatalistElement.appendChild(option);
+                });
+            } else {
+                this.houseNumberAdditionElement.value = postalCode['houseNumberAddition'];
+            }
+        }
+
+        //Put the data in shopware fields (street+house number+addition, zipcode, city)
+        this._fillStreetFields();
+        this.zipcodeElementSW.value = this.zipcodeElement.value;
+        this.cityElementSW.value = this.cityElement.value;
+    }
+
+    _handleError(data, response) {
+        //No result, so it is an error
+        if (data['type'] === "NotFoundException") {
+            this._showWarningAlert(data['message'])
+        }
+        else if (data['type'] === "InvalidArgumentException") {
+            //Known errors with a field connected to it
+            if (data['field']) {
+                switch (data['field']) {
+                    case 'postalcode':
+                        this.zipcodeElement.setCustomValidity(data['message']);
+                        break;
+                    case 'housenumber':
+                        this.houseNumberElement.setCustomValidity(data['message']);
+                        break;
+                }
+            }
+            else {
+                //Unknown errors with a message connected to it
+                this._showWarningAlert(data['message'])
+            }
+        }
+        else if (!data['message']) {
+            this._showWarningAlert(data);
+        }
+
+        this.zipcodeElement.reportValidity();
+        this.houseNumberElement.reportValidity();
     }
 
     /**
