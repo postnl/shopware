@@ -4,6 +4,7 @@ namespace PostNL\Shopware6\Controller\Storefront;
 
 
 use Exception;
+use Firstred\PostNL\Exception\InvalidArgumentException;
 use Firstred\PostNL\Exception\NotFoundException;
 use Firstred\PostNL\Exception\PostNLException;
 use PostNL\Shopware6\Facade\PostalCodeFacade;
@@ -38,6 +39,10 @@ class PostalCodeCheckController extends StorefrontController
         $houseNumberAddition = $data->get('houseNumberAddition');
 
         try {
+            if(!is_numeric($houseNumber)) {
+                throw new InvalidArgumentException("Input field 'house number' must be a number.");
+            }
+            
             $response = $this->postalCodeFacade->checkPostalCode($context, $postalCode, $houseNumber, $houseNumberAddition);
             return $this->json($response);
         } catch (NotFoundException $e) {
@@ -46,14 +51,24 @@ class PostalCodeCheckController extends StorefrontController
             return $this->json([
                 'errorType' => $this->postNLErrorTypeCreator($e),
                 'errorMessage' => $this->trans("postnl.errors.addressNotFound"),
-            ]);
-        } catch (PostNLException|Exception $e) {
+            ], 400);
+        } catch (InvalidArgumentException $e) {
             $this->logger->error($e->getMessage(), ['exception' => $e]);
-            return $this->json($this->trans("postnl.errors.internalServerError"), 501);
+
+            return $this->json([
+                'errorType' => $this->postNLErrorTypeCreator($e),
+                'errorMessage' => $e->getMessage(),
+            ], 400);
+        } catch (PostNLException|\Throwable $e) {
+            $this->logger->error($e->getMessage(), ['exception' => $e]);
+            return $this->json([
+                'errorType' => $this->postNLErrorTypeCreator($e),
+                'errorMessage' => $this->trans("postnl.errors.internalServerError"),
+            ], 500);
         }
     }
 
-    private function postNLErrorTypeCreator(Exception $exception): string
+    private function postNLErrorTypeCreator(\Throwable $exception): string
     {
         $explode = explode('\\', get_class($exception));
         return end($explode);

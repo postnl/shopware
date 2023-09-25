@@ -7,6 +7,7 @@ namespace PostNL\Shopware6\Component\PostNL\Service\ResponseProcessor\Rest;
 use Firstred\PostNL\Exception\CifDownException;
 use Firstred\PostNL\Exception\CifException;
 use Firstred\PostNL\Exception\HttpClientException;
+use Firstred\PostNL\Exception\InvalidArgumentException;
 use Firstred\PostNL\Exception\InvalidConfigurationException;
 use Firstred\PostNL\Exception\NotFoundException;
 use Firstred\PostNL\Exception\ResponseException;
@@ -68,5 +69,22 @@ class PostalcodeCheckServiceRestResponseProcessor extends AbstractRestResponsePr
         }
 
         return new PostalCodeResponse($results);
+    }
+
+    protected function validateResponse(ResponseInterface $response): bool
+    {
+        parent::validateResponse($response);
+
+        try {
+            $body = json_decode(json: (string) $response->getBody(), flags: JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
+            throw new ResponseException(message: 'Invalid API response', previous: $e, response: $response);
+        }
+
+        if (!empty($body->errors)) {
+            throw new InvalidArgumentException($body->errors[0]->detail);
+        }
+
+        return true;
     }
 }
