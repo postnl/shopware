@@ -42,7 +42,7 @@ class PostalCodeCheckController extends StorefrontController
             if(!is_numeric($houseNumber)) {
                 throw new InvalidArgumentException("Input field 'house number' must be a number.");
             }
-            
+
             $response = $this->postalCodeFacade->checkPostalCode($context, $postalCode, $houseNumber, $houseNumberAddition);
             return $this->json($response);
         } catch (NotFoundException $e) {

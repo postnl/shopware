@@ -92,7 +92,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @param element
      * @private
      */
@@ -101,7 +100,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @private
      */
     _registerEvents() {
@@ -132,7 +130,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @private
      */
     _prepareFormWithExistingData() {
@@ -164,7 +161,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @private
      */
     _updateRequired() {
@@ -191,7 +187,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @param required
      * @param notRequired
      * @private
@@ -215,7 +210,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @param zipcodeValue
      * @param houseNumberValue
      * @param houseNumberAdditionValue
@@ -228,14 +222,13 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         data['houseNumber'] = houseNumberValue;
         data['houseNumberAddition'] = houseNumberAdditionValue;
         ElementLoadingIndicatorUtil.create(this.el);
-        this._client.post(this.options.url, JSON.stringify(data), content => {
+        this._client.post(this.options.url, JSON.stringify(data), (content, response) => {
             ElementLoadingIndicatorUtil.remove(this.el);
-            this._parseRequest(JSON.parse(content))
+            this._parseRequest(JSON.parse(content), response);
         });
     }
 
     /**
-     *
      * @param innerHTML
      * @private
      */
@@ -247,11 +240,9 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
             this.postnlWarningAlert.removeAttribute('hidden');
             this.postnlWarningAlert.querySelector('.alert-content').innerHTML = innerHTML
         }
-
     }
 
     /**
-     *
      * @private
      */
     _unlockFormFields() {
@@ -261,11 +252,14 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @param data
+     * @param response
      * @private
      */
-    _parseRequest(data) {
+    _parseRequest(data, response) {
+
+        console.log(data, response, 'test');
+        return;
         this._unlockFormFields();
         //Reset the errors
         this.zipcodeElement.setCustomValidity("");
@@ -295,7 +289,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
                 } else {
                     this.houseNumberAdditionElement.value = postalCode['houseNumberAddition'];
                 }
-
             }
 
             //Put the data in shopware fields (street+house number+addition, zipcode, city)
@@ -332,7 +325,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @param countryId
      * @private
      */
@@ -345,7 +337,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @param show
      * @private
      */
@@ -361,7 +352,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @private
      */
     _setupLinkedFields() {
@@ -372,11 +362,9 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         //City
         this._linkFields(this.cityElement, this.cityElementSW)
         this._linkFields(this.cityElementSW, this.cityElement)
-
     }
 
     /**
-     *
      * @param field1Element
      * @param field2Element
      * @private
@@ -386,7 +374,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @private
      */
     _fillStreetFields() {
@@ -396,7 +383,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @param sender
      * @param receiver
      */
@@ -405,7 +391,6 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     }
 
     /**
-     *
      * @param e
      */
     onChangeSelectedCountry(e) {
