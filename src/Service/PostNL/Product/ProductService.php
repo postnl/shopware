@@ -11,14 +11,14 @@ use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
 use PostNL\Shopware6\Struct\ProductFlagStruct;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 
 class ProductService
 {
     /**
-     * @var EntityRepositoryInterface
+     * @var EntityRepository
      */
     protected $productRepository;
 
@@ -28,7 +28,7 @@ class ProductService
     protected $logger;
 
     public function __construct(
-        EntityRepositoryInterface $productRepository,
+        EntityRepository $productRepository,
         LoggerInterface           $logger
     )
     {

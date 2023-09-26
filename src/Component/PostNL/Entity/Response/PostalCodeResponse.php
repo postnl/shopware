@@ -1,11 +1,6 @@
 <?php
 
-namespace PostNL\Shopware6\Service\PostNL\ApiExtension\Entity\Response;
-
-use Firstred\PostNL\Entity\AbstractEntity;
-use PostNL\Shopware6\Service\PostNL\PostalCodeService;
-
-
+namespace PostNL\Shopware6\Component\PostNL\Entity\Response;
 
 class PostalCodeResponse
 {
@@ -14,9 +9,9 @@ class PostalCodeResponse
 
     /**
      *
-     * @param array|null $PostalCodeResult
+     * @param array $PostalCodeResult
      */
-    public function __construct(array $PostalCodeResult = null)
+    public function __construct(array $PostalCodeResult = [])
     {
         $this->setPostalCodeResult($PostalCodeResult);
     }

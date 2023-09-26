@@ -13,7 +13,7 @@ class ProductSelectionStruct extends AttributeStruct
     protected $cartAmount;
 
     /** @var string */
-    protected $id;
+    protected $id = '';
 
     /**
      * @return bool

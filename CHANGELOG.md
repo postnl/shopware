@@ -1,3 +1,14 @@
+# 3.0.0
+#### Shopware compatibility update
+- This version is compatible with Shopware 6.5.2 and higher.
+
+#### Fixes
+- Fixed an issue where no default product was selected during checkout.
+- Fixed an issue whereby shipping date and chosen delivery date were not displayed in the administration.
+
+#### Known issues
+- In Shopware versions lower than 6.5.5.0 the PostNL icons are not available in the administration. This is a cosmetic issue only, and does not affect functionality. 
+
 # 2.0.0
 #### New features
 - Added delivery date selection in the checkout, including evening delivery.
@@ -6,7 +17,7 @@
   - GlobalPack has been replaced.
 
 # 1.2.3
-- Fixes non-required fields becoming required when selecting a country other than Netherlands during registration.
+- Fixes non-required fields becoming required when selecting a country other than the Netherlands during registration.
 - Fixes certain cards not displaying on the order detail page in the administration when opening a non-PostNL order.
 
 # 1.2.2

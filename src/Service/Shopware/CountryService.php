@@ -6,7 +6,7 @@ use PostNL\Shopware6\Exception\Shopware\InvalidCountryIdException;
 use PostNL\Shopware6\Exception\Shopware\InvalidCountryIsoException;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\System\Country\CountryEntity;
@@ -14,7 +14,7 @@ use Shopware\Core\System\Country\CountryEntity;
 class CountryService
 {
     /**
-     * @var EntityRepositoryInterface
+     * @var EntityRepository
      */
     protected $countryRepository;
 
@@ -23,9 +23,13 @@ class CountryService
      */
     protected $logger;
 
+    /**
+     * @param EntityRepository $countryRepository
+     * @param LoggerInterface  $logger
+     */
     public function __construct(
-        EntityRepositoryInterface $countryRepository,
-        LoggerInterface           $logger
+        $countryRepository,
+        LoggerInterface $logger
     )
     {
         $this->countryRepository = $countryRepository;
