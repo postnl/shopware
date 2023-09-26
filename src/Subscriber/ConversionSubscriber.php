@@ -127,7 +127,6 @@ class ConversionSubscriber implements EventSubscriberInterface
         $context = $event->getSalesChannelContext();
         $config = $this->configService->getConfiguration($context->getSalesChannelId(), $context->getContext());
 
-        $allowSundaySorting = true;//TODO: from config?
         $city = $deliveryAddress->getCity();
         $countryCode = $deliveryAddress->getCountry()->getIso();
 
@@ -145,7 +144,7 @@ class ConversionSubscriber implements EventSubscriberInterface
 
         try {
             $getSentDate = new GetSentDate(
-                $allowSundaySorting,
+                null,
                 $city,
                 $countryCode,
                 $houseNumber ?? null,
@@ -169,7 +168,6 @@ class ConversionSubscriber implements EventSubscriberInterface
             $this->logger->error($e->getMessage(), ['exception' => $e]);
             return;
         }
-
 
         $sentDateTime = $sentDateResponse->getSentDate();
 
