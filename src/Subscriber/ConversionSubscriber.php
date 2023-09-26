@@ -307,7 +307,8 @@ class ConversionSubscriber implements EventSubscriberInterface
                 $salesChannelId
             );
 
-            if ($alternative->isEnabled() && $cart->getPrice()->getTotalPrice() >= $alternative->getCartAmount()) {
+            if ($alternative->isEnabled() && !empty($alternative->getId() &&
+                $cart->getPrice()->getTotalPrice() >= $alternative->getCartAmount())) {
                 return $alternative->getId();
             }
         } catch (\Exception $e) {
@@ -325,7 +326,9 @@ class ConversionSubscriber implements EventSubscriberInterface
                 $salesChannelId
             );
 
-            return $default->getId();
+            if(!empty($default->getId())) {
+                return $default->getId();
+            }
         } catch (\Exception $e) {
             // There isn't a default config available, which is possible, so only log as a debug message.
             $this->logger->debug($e->getMessage());
