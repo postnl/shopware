@@ -130,10 +130,10 @@ class ConversionSubscriber implements EventSubscriberInterface
         $city = $deliveryAddress->getCity();
         $countryCode = $deliveryAddress->getCountry()->getIso();
 
-//        $customFields = $deliveryAddress->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY];
-//        $houseNumber = $customFields[Defaults::CUSTOM_FIELDS_HOUSENUMBER_KEY];
-//        $houseNumberExt = $customFields[Defaults::CUSTOM_FIELDS_HOUSENUMBER_ADDITION_KEY];
-//        $street = $customFields[Defaults::CUSTOM_FIELDS_STREETNAME_KEY];
+        $customFields = $deliveryAddress->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY] ?? [];
+        $houseNumber = $customFields[Defaults::CUSTOM_FIELDS_HOUSENUMBER_KEY] ?? null;
+        $houseNumberExt = $customFields[Defaults::CUSTOM_FIELDS_HOUSENUMBER_ADDITION_KEY] ?? null;
+        $street = $customFields[Defaults::CUSTOM_FIELDS_STREETNAME_KEY] ?? null;
 
         $deliveryOptions = $config->getDeliveryOptions();
         $postalCode = $deliveryAddress->getZipcode();
@@ -147,12 +147,12 @@ class ConversionSubscriber implements EventSubscriberInterface
                 null,
                 $city,
                 $countryCode,
-                $houseNumber ?? null,
-                $houseNumberExt ?? null,
+                $houseNumber,
+                $houseNumberExt,
                 $deliveryOptions,
                 $postalCode,
                 $deliveryDate,
-                $street?? null,
+                $street,
                 $shippingDuration,
             );
         } catch (InvalidArgumentException $e) {
