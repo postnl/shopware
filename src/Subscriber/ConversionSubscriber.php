@@ -178,6 +178,15 @@ class ConversionSubscriber implements EventSubscriberInterface
             return;
         }
 
+        try {
+            $cutOffTimeParts = explode(':', $config->getCutOffTime());
+        } catch (\Throwable $e) {
+            $cutOffTimeParts = [0, 0];
+        }
+
+        $sentDateTime = \DateTime::createFromFormat(DATE_ATOM, $sentDateTime->format(DATE_ATOM));
+        $sentDateTime->setTime(...$cutOffTimeParts);
+
         $convertedCart = $event->getConvertedCart();
         $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge(
             $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] ?? [],
