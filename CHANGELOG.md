@@ -4,6 +4,7 @@
 
 #### Fixes
 - Fixed an issue where no default product was selected during checkout.
+- Fixed an issue whereby shipping date and chosen delivery date were not displayed in the administration.
 
 #### Known issues
 - In Shopware versions lower than 6.5.5.0 the PostNL icons are not available in the administration. This is a cosmetic issue only, and does not affect functionality. 

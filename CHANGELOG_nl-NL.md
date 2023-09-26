@@ -4,6 +4,7 @@
 
 #### Oplossingen
 - Probleem verholpen waarbij geen standaardproduct werd geselecteerd tijdens het afrekenen.
+- Probleem verholpen waarbij de verzenddatum en de gekozen leverdatum niet werden weergegeven in de administratie.
 
 #### Bekende problemen
 - In Shopware versies lager dan 6.5.5.0 zijn de PostNL iconen niet beschikbaar in de administratie. Dit is alleen een cosmetisch probleem en heeft geen invloed op de functionaliteit.
