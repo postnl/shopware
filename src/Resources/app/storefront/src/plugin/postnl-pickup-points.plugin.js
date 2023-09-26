@@ -6,20 +6,17 @@ import ElementLoadingIndicatorUtil from 'src/utility/loading-indicator/element-l
 export default class PostnlPickupPointsPlugin extends Plugin {
     static options = {
         url: window.router['frontend.checkout.postnl.pickup-point'],
-        csrfToken: ''
     }
 
     init() {
         this._client = new HttpClient();
-        console.log(this.options);
+
         this._registerEvents();
     }
 
     onChangePickupPoint(e) {
-        const data = this._getRequestData();
+        const data = {}
         data['pickupPointLocationCode'] = e.target.value;
-
-        console.log(data, this.options);
 
         this._client.post(this.options.url, JSON.stringify(data), content => this._parseRequest(JSON.parse(content)));
     }
@@ -31,15 +28,5 @@ export default class PostnlPickupPointsPlugin extends Plugin {
     }
 
     _parseRequest(data) {
-    }
-
-    _getRequestData() {
-        const data = {};
-
-        if (window.csrf.enabled && window.csrf.mode === 'twig') {
-            data['_csrf_token'] = this.options.csrfToken;
-        }
-
-        return data;
     }
 }

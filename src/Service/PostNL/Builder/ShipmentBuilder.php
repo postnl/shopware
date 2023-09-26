@@ -13,7 +13,6 @@ use Firstred\PostNL\Entity\ProductOption;
 use Firstred\PostNL\Entity\Request\GetLocation;
 use Firstred\PostNL\Entity\Shipment;
 use PostNL\Shopware6\Defaults;
-use PostNL\Shopware6\Entity\Option\OptionEntity;
 use PostNL\Shopware6\Entity\Product\ProductEntity;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
@@ -27,7 +26,7 @@ use PostNL\Shopware6\Struct\Attribute\OrderAttributeStruct;
 use PostNL\Shopware6\Struct\TimeframeStruct;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Document\DocumentEntity;
-use Shopware\Core\Checkout\Document\DocumentGenerator\InvoiceGenerator;
+use Shopware\Core\Checkout\Document\Renderer\InvoiceRenderer;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
 
@@ -313,7 +312,7 @@ class ShipmentBuilder
             $totalWeight += ($weightInGrams * $lineItem->getQuantity());
         }
 
-        return new Dimension($totalWeight);
+        return new Dimension((string)$totalWeight);
     }
 
     public function buildProductOptions(OrderEntity $order, ProductEntity $product, Context $context): array
@@ -354,7 +353,7 @@ class ShipmentBuilder
 
         $invoice = $order->getDocuments()->filter(function ($document) {
             /** @var DocumentEntity $document */
-            return $document->getDocumentType()->getTechnicalName() === InvoiceGenerator::INVOICE;
+            return $document->getDocumentType()->getTechnicalName() === InvoiceRenderer::TYPE;
         })->last();
 
         if ($invoice instanceof DocumentEntity) {

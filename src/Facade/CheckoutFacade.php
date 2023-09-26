@@ -143,7 +143,7 @@ class CheckoutFacade
             $deliveryOptions,
             $postalCode,
             null,
-            $sundaySorting,
+            $sundaySorting ? 'true' : 'false',
             null,
             null,
             null,
@@ -193,7 +193,7 @@ class CheckoutFacade
             $originCountryCode,
             $postalCode,
             (new \DateTime("now", new \DateTimeZone('Europe/Amsterdam')))->format('d-m-Y H:i:s'),
-            $shippingDuration,
+            (string)$shippingDuration,
             null,
             null
         );

@@ -63,7 +63,7 @@
 
         <service id="postnl.logger.processor.session"
                  class="PostNL\Shopware6\Service\Monolog\Processor\SessionProcessor">
-            <argument type="service" id="session"/>
+            <argument type="service" id="request_stack"/>
         </service>
     </services>
 </container>

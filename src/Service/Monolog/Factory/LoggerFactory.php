@@ -3,8 +3,10 @@
 namespace PostNL\Shopware6\Service\Monolog\Factory;
 
 use Monolog\Handler\RotatingFileHandler;
+use Monolog\Level;
 use Monolog\Logger;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
+use Psr\Log\LogLevel;
 use Shopware\Core\Framework\Log\Monolog\DoctrineSQLHandler;
 use Shopware\Core\Kernel;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
@@ -41,21 +43,22 @@ class LoggerFactory
      */
     public function createSQLHandler(): DoctrineSQLHandler
     {
-        return new DoctrineSQLHandler(Kernel::getConnection(), Logger::INFO);
+        return new DoctrineSQLHandler(Kernel::getConnection(), Level::Info);
     }
 
     /**
-     * @return int
+     * @return int|string|Level|LogLevel
      */
-    private function getConfigurationBasedLogLevel(): int
+    private function getConfigurationBasedLogLevel()
     {
         try {
             if ($this->systemConfigService->getBool(ConfigService::DOMAIN . 'debugMode')) {
-                return Logger::DEBUG;
+                return Level::Debug;
             }
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
         }
 
-        return Logger::INFO;
+        return Level::Info;
     }
 }

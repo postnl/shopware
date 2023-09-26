@@ -4,10 +4,8 @@ namespace PostNL\Shopware6\Controller\Api;
 
 use Firstred\PostNL\Exception\PostNLException;
 use PostNL\Shopware6\Facade\ShipmentFacade;
-use PostNL\Shopware6\Service\PostNL\Label\PrinterFileType;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\Framework\Validation\DataBag\QueryDataBag;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,20 +14,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @RouteScope(scopes={"api"})
- */
+
+#[Route(defaults: ['_routeScope' => ['api']])]
 class ShipmentController extends AbstractController
 {
-    /**
-     * @var ShipmentFacade
-     */
-    protected $shipmentFacade;
+    protected ShipmentFacade $shipmentFacade;
 
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
+    protected LoggerInterface $logger;
 
     public function __construct(
         ShipmentFacade  $shipmentFacade,
@@ -40,15 +31,7 @@ class ShipmentController extends AbstractController
         $this->logger = $logger;
     }
 
-    /**
-     * @Route("/api/_action/postnl/shipment/barcodes",
-     *         defaults={"auth_enabled"=true}, name="api.action.postnl.shipment.barcodes", methods={"GET"})
-     *
-     * @param QueryDataBag $data
-     * @param Context $context
-     * @return JsonResponse
-     * @throws \Firstred\PostNL\Exception\PostNLException
-     */
+    #[Route(path: '/api/_action/postnl/shipment/barcodes', name: 'api.action.postnl.shipment.barcodes', defaults: ['auth_enabled' => true], methods: ['GET'])]
     public function barcodes(QueryDataBag $data, Context $context): JsonResponse
     {
         $orderIds = $data->get('orderIds', new QueryDataBag())->all();
@@ -65,20 +48,12 @@ class ShipmentController extends AbstractController
             $this->logger->error($e->getMessage());
 
             return $this->json([
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ], 500);
         }
     }
 
-
-    /**
-     * @Route("/api/_action/postnl/shipment/zones",
-     *         defaults={"auth_enabled"=true}, name="api.action.postnl.shipment.zones", methods={"GET"})
-     *
-     * @param QueryDataBag $data
-     * @param Context $context
-     * @return JsonResponse
-     */
+    #[Route(path: '/api/_action/postnl/shipment/zones', name: 'api.action.postnl.shipment.zones', defaults: ['auth_enabled' => true], methods: ['GET'])]
     public function determineZones(QueryDataBag $data, Context $context): JsonResponse
     {
         $orderIds = $data->get('orderIds', new QueryDataBag())->all();
@@ -86,18 +61,11 @@ class ShipmentController extends AbstractController
         $zones = $this->shipmentFacade->determineZones($orderIds, $context);
 
         return $this->json([
-            'zones' => $zones
+            'zones' => $zones,
         ]);
     }
 
-    /**
-     * @Route("/api/_action/postnl/shipment/change",
-     *         defaults={"auth_enabled"=true}, name="api.action.postnl.shipment.change", methods={"POST"})
-     *
-     * @param RequestDataBag $data
-     * @param Context $context
-     * @return JsonResponse
-     */
+    #[Route(path: '/api/_action/postnl/shipment/change', name: 'api.action.postnl.shipment.change', defaults: ['auth_enabled' => true], methods: ['POST'])]
     public function changeProduct(RequestDataBag $data, Context $context): JsonResponse
     {
         $orderIds = $data->get('orderIds', new QueryDataBag())->all();
@@ -108,14 +76,7 @@ class ShipmentController extends AbstractController
         return $this->json(null, 204);
     }
 
-    /**
-     * @Route("/api/_action/postnl/shipment/create",
-     *         defaults={"auth_enabled"=true}, name="api.action.postnl.shipment.create", methods={"GET"})
-     *
-     * @param QueryDataBag $data
-     * @param Context $context
-     * @return Response
-     */
+    #[Route(path: '/api/_action/postnl/shipment/create', name: 'api.action.postnl.shipment.create', defaults: ['auth_enabled' => true], methods: ['GET'])]
     public function create(QueryDataBag $data, Context $context): Response
     {
         $orderIds = $data->get('orderIds', new QueryDataBag())->all();
@@ -166,13 +127,6 @@ class ShipmentController extends AbstractController
         );
     }
 
-    /**
-     * @param string $filename
-     * @param string $content
-     * @param bool $forceDownload
-     * @param string $contentType
-     * @return Response
-     */
     private function createBinaryResponse(string $filename, string $content, bool $forceDownload, string $contentType): Response
     {
         $response = new Response($content);

@@ -7,7 +7,7 @@ use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Shipping\Aggregate\ShippingMethodPrice\ShippingMethodPriceEntity;
 use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\MultiFilter;
@@ -16,7 +16,7 @@ use Shopware\Core\Framework\Uuid\Uuid;
 class ShippingRulePriceService
 {
     /**
-     * @var EntityRepositoryInterface
+     * @var EntityRepository
      */
     private $shippingMethodPricesRepository;
 
@@ -26,10 +26,10 @@ class ShippingRulePriceService
     private $logger;
 
     /**
-     * @param EntityRepositoryInterface $shippingMethodPricesRepository
-     * @param LoggerInterface $logger
+     * @param EntityRepository $shippingMethodPricesRepository
+     * @param LoggerInterface  $logger
      */
-    public function __construct(EntityRepositoryInterface $shippingMethodPricesRepository, LoggerInterface $logger)
+    public function __construct($shippingMethodPricesRepository, LoggerInterface $logger)
     {
         $this->shippingMethodPricesRepository = $shippingMethodPricesRepository;
         $this->logger = $logger;
@@ -37,8 +37,9 @@ class ShippingRulePriceService
 
     /**
      * Create pricing matrices for a rule
-     * @param array $shippingMethodArray
-     * @param array $ruleIds
+     *
+     * @param array   $shippingMethodArray
+     * @param array   $ruleIds
      * @param Context $context
      * @return void
      */
@@ -61,8 +62,8 @@ class ShippingRulePriceService
     }
 
     /**
-     * @param string $shippingMethodId
-     * @param string $ruleId
+     * @param string  $shippingMethodId
+     * @param string  $ruleId
      * @param Context $context
      * @return string|null
      */
@@ -75,7 +76,7 @@ class ShippingRulePriceService
                 MultiFilter::CONNECTION_AND,
                 [
                     new EqualsFilter('shippingMethodId', $shippingMethodId),
-                    new EqualsFilter('ruleId', $ruleId)
+                    new EqualsFilter('ruleId', $ruleId),
                 ]
             )
         );
@@ -95,8 +96,8 @@ class ShippingRulePriceService
                 'net' => '0',
                 'gross' => '0',
                 'linked' => false,
-                'currencyId' => Defaults::CURRENCY
-            ]
+                'currencyId' => Defaults::CURRENCY,
+            ],
             ];
 
         $result = $this->shippingMethodPricesRepository->create(
@@ -109,7 +110,7 @@ class ShippingRulePriceService
                     'shippingMethodId' => $shippingMethodId,
                     'ruleId' => $ruleId,
                     'price' => 0,
-                ]
+                ],
             ], $context);
 
         if (empty($result->getErrors())) {
@@ -119,7 +120,7 @@ class ShippingRulePriceService
                 [
                     'shippingMethodId' => $shippingMethodId,
                     'ruleId' => $ruleId,
-                    'result' => $result
+                    'result' => $result,
                 ]);
             return null;
         }
