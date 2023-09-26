@@ -138,6 +138,8 @@ class ConversionSubscriber implements EventSubscriberInterface
         $deliveryOptions = $config->getDeliveryOptions();
         $postalCode = $deliveryAddress->getZipcode();
         $cartExtension = $cart->getExtension(CartService::EXTENSION);
+
+        /** @var DateTimeInterface $deliveryDate */
         $deliveryDate = $cartExtension[Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY];
 
         $shippingDuration = $config->getShippingDuration();
@@ -176,13 +178,8 @@ class ConversionSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $sentDateTime = new \DateTime(
-            $sentDateTime->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT),
-            new \DateTimeZone('UTC')
-        );
-
         $convertedCart = $event->getConvertedCart();
-        $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge_recursive(
+        $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge(
             $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] ?? [],
             [
                 Defaults::CUSTOM_FIELDS_SENT_DATE_KEY => date_format($sentDateTime, DATE_ATOM),
