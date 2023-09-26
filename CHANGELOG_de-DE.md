@@ -1,3 +1,14 @@
+# 3.0.0
+#### Update der Shopware-Kompatibilität
+- Diese Version ist kompatibel mit Shopware 6.5.2 und höher.
+
+#### Korrekturen
+- Es wurde ein Problem behoben, bei dem während der Kaufabwicklung kein Standardprodukt ausgewählt wurde.
+- Ein Problem wurde behoben, bei dem das Versanddatum und das gewählte Lieferdatum nicht in der Verwaltung angezeigt wurden.
+
+#### Bekannte Probleme
+- In Shopware-Versionen kleiner als 6.5.5.0 sind die PostNL-Symbole in der Administration nicht verfügbar. Dies ist nur ein kosmetisches Problem, das die Funktionalität nicht beeinträchtigt.
+
 # 2.0.0
 #### Neue Funktionen
 - Auswahl des Lieferdatums in der Kaufabwicklung hinzugefügt, einschließlich Abendlieferung.

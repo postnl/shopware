@@ -12,9 +12,11 @@ use Firstred\PostNL\Exception\InvalidConfigurationException;
 use Firstred\PostNL\Exception\ResponseException;
 use Firstred\PostNL\HttpClient\HttpClientInterface;
 use Firstred\PostNL\PostNL as BaseClient;
+use Firstred\PostNL\Service\DeliveryDateServiceInterface;
 use ParagonIE\HiddenString\HiddenString;
 use PostNL\Shopware6\Component\PostNL\Entity\Request\PostalCode;
 use PostNL\Shopware6\Component\PostNL\Entity\Response\PostalCodeResponse;
+use PostNL\Shopware6\Component\PostNL\Service\DeliveryDateServiceDecorator;
 use PostNL\Shopware6\Component\PostNL\Service\PostalcodeCheckService;
 use PostNL\Shopware6\Component\PostNL\Service\PostalcodeCheckServiceInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -24,6 +26,22 @@ class PostNL extends BaseClient
 {
     /** @var PostalcodeCheckServiceInterface */
     protected PostalcodeCheckServiceInterface $postalcodeCheckService;
+
+    public function getDeliveryDateService(): DeliveryDateServiceInterface
+    {
+        if (!isset($this->deliveryDateService)) {
+            $this->setDeliveryDateService(service: new DeliveryDateServiceDecorator(
+                apiKey: $this->apiKey,
+                sandbox: $this->getSandbox(),
+                httpClient: $this->getHttpClient(),
+                requestFactory: $this->getRequestFactory(),
+                streamFactory: $this->getStreamFactory(),
+            ));
+        }
+
+        return $this->deliveryDateService;
+    }
+
 
     /**
      * @return PostalcodeCheckServiceInterface

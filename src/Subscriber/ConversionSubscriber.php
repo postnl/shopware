@@ -138,6 +138,8 @@ class ConversionSubscriber implements EventSubscriberInterface
         $deliveryOptions = $config->getDeliveryOptions();
         $postalCode = $deliveryAddress->getZipcode();
         $cartExtension = $cart->getExtension(CartService::EXTENSION);
+
+        /** @var DateTimeInterface $deliveryDate */
         $deliveryDate = $cartExtension[Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY];
 
         $shippingDuration = $config->getShippingDuration();
@@ -176,19 +178,22 @@ class ConversionSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $sentDateTime = new \DateTime(
-            $sentDateTime->format(\Shopware\Core\Defaults::STORAGE_DATE_TIME_FORMAT),
-            new \DateTimeZone('UTC')
-        );
+        try {
+            $cutOffTimeParts = explode(':', $config->getCutOffTime());
+        } catch (\Throwable $e) {
+            $cutOffTimeParts = [0, 0];
+        }
+
+        $sentDateTime = \DateTime::createFromFormat(DATE_ATOM, $sentDateTime->format(DATE_ATOM));
+        $sentDateTime->setTime(...$cutOffTimeParts);
 
         $convertedCart = $event->getConvertedCart();
-        $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge_recursive(
+        $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge(
             $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] ?? [],
             [
-                Defaults::CUSTOM_FIELDS_SENT_DATE_KEY => date_format($sentDateTime, DATE_ATOM),
+                Defaults::CUSTOM_FIELDS_SENT_DATE_KEY => $sentDateTime->format(DATE_ATOM),
             ]
         );
-
         $event->setConvertedCart($convertedCart);
     }
 
@@ -361,7 +366,9 @@ class ConversionSubscriber implements EventSubscriberInterface
         $convertedCart = $event->getConvertedCart();
         $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge_recursive(
             $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] ?? [],
-            $data->all()
+            [
+                Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => $data->get(Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY)->format(DATE_ATOM)
+            ]
         );
 
         $event->setConvertedCart($convertedCart);
