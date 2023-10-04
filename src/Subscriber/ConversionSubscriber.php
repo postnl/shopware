@@ -122,6 +122,11 @@ class ConversionSubscriber implements EventSubscriberInterface
             return;
         }
 
+        $attributes = $this->attributeFactory->createFromEntity($cart->getDeliveries()->first()->getShippingMethod(), $event->getContext());
+        if($attributes->getDeliveryType() === DeliveryType::PICKUP) {
+            return;
+        }
+
         $deliveryAddress = $cart->getDeliveries()->first()->getLocation()->getAddress();
 
         $context = $event->getSalesChannelContext();
@@ -356,7 +361,7 @@ class ConversionSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if (is_null($attributes->getDeliveryType())) {
+        if ($attributes->getDeliveryType() === null || $attributes->getDeliveryType() === DeliveryType::PICKUP) {
             return;
         }
 
@@ -403,6 +408,12 @@ class ConversionSubscriber implements EventSubscriberInterface
             );
 
             $convertedCart = $this->setPickupPointAsDeliveryAddresses($convertedCart, $pickupPoint, $event->getContext());
+            $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge_recursive(
+                $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] ?? [],
+                [
+                    'pickupPointLocationCode' => $cartData->get('pickupPointLocationCode')
+                ]
+            );
         }
 
         $event->setConvertedCart($convertedCart);
