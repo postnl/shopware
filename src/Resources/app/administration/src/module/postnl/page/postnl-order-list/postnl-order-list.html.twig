@@ -29,9 +29,10 @@
 
     {% block sw_order_list_grid_columns_custom_fields_postnl_bar_code %}
         <template #column-customFields.postnl.barCode="{ item }">
-            <sw-external-link v-if="item.customFields.postnl.barCode"
-                              :href="getBarCodeLink(item)"
-                              target="_blank">
+            <sw-external-link
+                    v-if="orderHasProduct(item) && item.customFields.postnl.barCode"
+                    :href="getBarCodeLink(item)"
+                    target="_blank">
                 {{ item.customFields.postnl.barCode }}
             </sw-external-link>
         </template>
@@ -40,21 +41,26 @@
     {% block sw_order_list_grid_columns_custom_fields_postnl_confirm %}
         <template #column-customFields.postnl.confirm="{ item }">
             <sw-data-grid-column-boolean
-                v-model="item.customFields.postnl.confirm || false"
-                :is-inline-edit="false"
+                    v-if="orderHasProduct(item)"
+                    v-model="item.customFields.postnl.confirm || false"
+                    :is-inline-edit="false"
             />
         </template>
     {% endblock %}
 
     {% block sw_order_list_grid_columns_custom_fields_postnl_sent_date %}
         <template #column-customFields.postnl.sentDate="{ item }">
-            {{ item.customFields.postnl.sentDate | date("Y-m-d") }}
+            <template v-if="orderHasProduct(item)">
+                {{ item.customFields.postnl.sentDate | date("Y-m-d") }}
+            </template>
         </template>
     {% endblock %}
 
     {% block sw_order_list_grid_columns_custom_fields_postnl_delivery_date %}
         <template #column-customFields.postnl.deliveryDate="{ item }">
-            {{ item.customFields.postnl.deliveryDate | date("Y-m-d") }}
+            <template v-if="orderHasProduct(item)">
+                {{ item.customFields.postnl.deliveryDate | date("Y-m-d") }}
+            </template>
         </template>
     {% endblock %}
 {% endblock %}
