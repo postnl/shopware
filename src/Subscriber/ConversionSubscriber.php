@@ -174,7 +174,7 @@ class ConversionSubscriber implements EventSubscriberInterface
         $sentDateTime = $sentDateResponse->getSentDate();
 
         if (!$sentDateTime instanceof DateTimeInterface) {
-            $this->logger->error('Sent date time is not a DateTimeInterface', ['SentDateTime' => $sentDateTime]);
+            //$this->logger->error('Sent date time is not a DateTimeInterface', ['SentDateTime' => $sentDateTime]);
             return;
         }
 
