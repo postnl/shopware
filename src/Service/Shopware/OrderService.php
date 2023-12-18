@@ -55,7 +55,7 @@ class OrderService
     public function updateOrderCustomFields(string $orderId, array $customFields, Context $context): void
     {
         $order = $this->getOrder($orderId, $context);
-        $customFields = array_merge($order->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY], $customFields);
+        $customFields = array_merge($order->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY] ?? [], $customFields);
 
         $this->orderRepository->update([
             [
