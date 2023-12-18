@@ -64,7 +64,7 @@ class CheckoutFacade
             $config->getSenderAddress()->getCountrycode()
         );
 
-        $this->logger->debug('Getting delivery date', ['getDeliveryDate' => $getDeliveryDate]);
+//        $this->logger->debug('Getting delivery date', ['getDeliveryDate' => $getDeliveryDate]);
         $getDeliveryDateResponse = $this->deliveryDateService->getDeliveryDate($context, $getDeliveryDate);
 
         $deliveryDateStart = $getDeliveryDateResponse->getDeliveryDate();
