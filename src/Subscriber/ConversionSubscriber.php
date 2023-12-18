@@ -356,7 +356,7 @@ class ConversionSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if (is_null($attributes->getDeliveryType())) {
+        if ($attributes->getDeliveryType() !== DeliveryType::SHIPMENT) {
             return;
         }
 
