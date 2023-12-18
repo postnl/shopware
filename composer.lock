@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ad6d4bc5fe06cc4339f8ef6d9cc0d047",
+    "content-hash": "4ec6a8b08a2447c13317aa93b2a8d344",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -84,16 +84,16 @@
         },
         {
             "name": "firstred/postnl-api-php",
-            "version": "v2.0.2",
+            "version": "v2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firstred/postnl-api-php.git",
-                "reference": "38cf779461fc1059eb4a05f5758aec8214d6a8df"
+                "reference": "555b3b654bf14f995edf8fcfdce7ab5d150c07b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firstred/postnl-api-php/zipball/38cf779461fc1059eb4a05f5758aec8214d6a8df",
-                "reference": "38cf779461fc1059eb4a05f5758aec8214d6a8df",
+                "url": "https://api.github.com/repos/firstred/postnl-api-php/zipball/555b3b654bf14f995edf8fcfdce7ab5d150c07b9",
+                "reference": "555b3b654bf14f995edf8fcfdce7ab5d150c07b9",
                 "shasum": ""
             },
             "require": {
@@ -165,7 +165,7 @@
                 "issues": "https://github.com/firstred/postnl-api-php/issues",
                 "source": "https://github.com/firstred/postnl-api-php"
             },
-            "time": "2023-06-15T17:32:09+00:00"
+            "time": "2023-12-18T02:04:40+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -15218,7 +15218,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "composer-runtime-api": "^2.0"
+        "composer-runtime-api": "^2.0",
+        "php": "^8.1"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"
