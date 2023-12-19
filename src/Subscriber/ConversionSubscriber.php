@@ -122,6 +122,18 @@ class ConversionSubscriber implements EventSubscriberInterface
             return;
         }
 
+        try {
+            /** @var ShippingMethodAttributeStruct $attributes */
+            $attributes = $this->attributeFactory->createFromEntity($cart->getDeliveries()->first()->getShippingMethod(), $event->getContext());
+        } catch (\Throwable $e) {
+            return;
+        }
+
+        if ($attributes->getDeliveryType() !== DeliveryType::SHIPMENT) {
+            return;
+        }
+
+//        dd($event, $cart);
         $deliveryAddress = $cart->getDeliveries()->first()->getLocation()->getAddress();
 
         $context = $event->getSalesChannelContext();
