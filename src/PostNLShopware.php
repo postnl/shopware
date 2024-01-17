@@ -64,24 +64,26 @@ class PostNLShopware extends Plugin
     public function uninstall(UninstallContext $uninstallContext): void
     {
         parent::uninstall($uninstallContext);
+
         if ($uninstallContext->keepUserData()) {
             return;
         }
-        CustomFieldInstaller::createFactory($this->container)->uninstall($uninstallContext->getContext());
 
+        try {
+            CustomFieldInstaller::createFactory($this->container)->uninstall($uninstallContext->getContext());
+        } catch(\Throwable $e) {
+        }
 
         /** @var Connection $connection */
         $connection = $this->container->get(Connection::class);
 
-        $connection->transactional(function(Connection $connection) {
-            $connection->executeStatement("DROP TABLE `postnl_option`");
-            $connection->executeStatement("DROP TABLE `postnl_option_requirement_mapping`");
-            $connection->executeStatement("DROP TABLE `postnl_option_translation`");
-            $connection->executeStatement("DROP TABLE `postnl_product`");
-            $connection->executeStatement("DROP TABLE `postnl_product_option_optional_mapping`");
-            $connection->executeStatement("DROP TABLE `postnl_product_option_required_mapping`");
-            $connection->executeStatement("DROP TABLE `postnl_product_translation`");
-        });
+        $connection->executeStatement("DROP TABLE `postnl_option_requirement_mapping`");
+        $connection->executeStatement("DROP TABLE `postnl_product_option_optional_mapping`");
+        $connection->executeStatement("DROP TABLE `postnl_product_option_required_mapping`");
+        $connection->executeStatement("DROP TABLE `postnl_option_translation`");
+        $connection->executeStatement("DROP TABLE `postnl_product_translation`");
+        $connection->executeStatement("DROP TABLE `postnl_option`");
+        $connection->executeStatement("DROP TABLE `postnl_product`");
     }
 }
 
