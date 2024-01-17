@@ -64,7 +64,7 @@ class CheckoutFacade
             $config->getSenderAddress()->getCountrycode()
         );
 
-        $this->logger->debug('Getting delivery date', ['getDeliveryDate' => $getDeliveryDate]);
+//        $this->logger->debug('Getting delivery date', ['getDeliveryDate' => $getDeliveryDate]);
         $getDeliveryDateResponse = $this->deliveryDateService->getDeliveryDate($context, $getDeliveryDate);
 
         $deliveryDateStart = $getDeliveryDateResponse->getDeliveryDate();
@@ -85,7 +85,7 @@ class CheckoutFacade
         $timeframes = $this->timeframeService->getTimeframes($context, $getTimeframes);
 
         if (!$timeframes->getTimeframes()) {
-            $this->logger->error('Could not get a timeframe', ['timeframes' => $timeframes]);
+            //$this->logger->error('Could not get a timeframe', ['timeframes' => $timeframes]);
             throw new Exception('Could not get a timeframe');
         }
         //Return data

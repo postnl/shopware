@@ -122,6 +122,18 @@ class ConversionSubscriber implements EventSubscriberInterface
             return;
         }
 
+        try {
+            /** @var ShippingMethodAttributeStruct $attributes */
+            $attributes = $this->attributeFactory->createFromEntity($cart->getDeliveries()->first()->getShippingMethod(), $event->getContext());
+        } catch (\Throwable $e) {
+            return;
+        }
+
+        if ($attributes->getDeliveryType() !== DeliveryType::SHIPMENT) {
+            return;
+        }
+
+//        dd($event, $cart);
         $deliveryAddress = $cart->getDeliveries()->first()->getLocation()->getAddress();
 
         $context = $event->getSalesChannelContext();
@@ -174,7 +186,7 @@ class ConversionSubscriber implements EventSubscriberInterface
         $sentDateTime = $sentDateResponse->getSentDate();
 
         if (!$sentDateTime instanceof DateTimeInterface) {
-            $this->logger->error('Sent date time is not a DateTimeInterface', ['SentDateTime' => $sentDateTime]);
+            //$this->logger->error('Sent date time is not a DateTimeInterface', ['SentDateTime' => $sentDateTime]);
             return;
         }
 
@@ -356,7 +368,7 @@ class ConversionSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if (is_null($attributes->getDeliveryType())) {
+        if ($attributes->getDeliveryType() !== DeliveryType::SHIPMENT) {
             return;
         }
 

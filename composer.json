@@ -2,7 +2,7 @@
     "name": "postnl/shopware6",
     "description": "PostNL",
     "type": "shopware-platform-plugin",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "license": "proprietary",
     "authors": [
         {
@@ -53,7 +53,7 @@
     },
     "require": {
         "composer-runtime-api": "^2.0",
-        "firstred/postnl-api-php": "^v2.0",
+        "firstred/postnl-api-php": "^v2.0.4",
         "php": "^8.1"
     },
     "require-dev": {
