@@ -2,6 +2,7 @@
 
     <postnl-button v-if="acl.can('order.editor')"
                    variant="ghost"
+                   size="x-small"
                    @click="isChangeShippingModalOpen = true">
         <sw-icon name="postnl" multicolor></sw-icon>
         {{ $tc('postnl.order.detail.buttonChangeShipping') }}
@@ -9,6 +10,7 @@
 
     <postnl-button v-if="acl.can('order.editor')"
                    variant="ghost"
+                   size="x-small"
                    @click="isCreateShipmentModalOpen = true">
         <sw-icon name="postnl" multicolor></sw-icon>
         {{ $tc('postnl.order.detail.buttonCreateShipment') }}
@@ -27,6 +29,8 @@
         @close="isCreateShipmentModalOpen = false"
         @create-shipment="onCreateShipment"
     />
+
+    {% parent %}
 {% endblock %}
 
 

@@ -1,3 +1,6 @@
+# 3.0.1
+- Multiple small bugfixes
+
 # 3.0.0
 #### Shopware compatibility update
 - This version is compatible with Shopware 6.5.2 and higher.

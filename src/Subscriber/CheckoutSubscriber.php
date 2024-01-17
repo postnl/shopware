@@ -145,7 +145,7 @@ class CheckoutSubscriber implements EventSubscriberInterface
 
         if (!$timeFrame instanceof TimeframeStruct) {
             $this->logger->error('Get timeframes service: API returned an unexpected result', [
-                'result' => $timeframeCollection
+               // 'result' => $timeframeCollection
             ]);
             return;
         }
@@ -158,7 +158,7 @@ class CheckoutSubscriber implements EventSubscriberInterface
 
         $this->logger->debug('Fetched timeframes for address', [
             'address' => $address,
-            'result' => $timeframeCollection,
+            //'result' => $timeframeCollection,
         ]);
 
         $existingDeliveryDate = $this->cartService->getByKey('deliveryDate', $event->getSalesChannelContext());
@@ -215,14 +215,14 @@ class CheckoutSubscriber implements EventSubscriberInterface
 
         if (!$locationsResult instanceof GetLocationsResult) {
             $this->logger->error('Get Nearest Locations: API returned an unexpected result', [
-                'result' => $locationsResult
+                //'result' => $locationsResult
             ]);
             return;
         }
 
         $this->logger->debug('Fetched nearest pickup points for address', [
             'address' => $address,
-            'result' => $locationsResult,
+            //'result' => $locationsResult,
         ]);
 
         $pickupPoints = new ArrayStruct();
@@ -259,7 +259,7 @@ class CheckoutSubscriber implements EventSubscriberInterface
         }
 
         $this->logger->debug('Setting closest pickup points', [
-            'pickupPoints' => $pickupPoints,
+            //'pickupPoints' => $pickupPoints,
         ]);
 
         $event->getSalesChannelContext()->getShippingMethod()->addExtension('postnl_pickup', $pickupPoints);

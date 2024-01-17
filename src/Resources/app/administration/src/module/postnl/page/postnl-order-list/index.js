@@ -171,7 +171,9 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
         loadProducts(orders) {
             const productIds = [];
             for (const order of orders) {
-                productIds.push(order.customFields.postnl.productId);
+                if(this.orderHasProduct(order)) {
+                    productIds.push(order.customFields.postnl.productId);
+                }
             }
 
             const criteria = new Criteria();
@@ -209,6 +211,7 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
                 resolve();
             }).then(() => {
                 this.onRefresh();
+                this.$refs.orderGrid.resetSelection();
             });
         },
 
@@ -219,6 +222,7 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
                 resolve();
             }).then(() => {
                 this.onRefresh();
+                this.$refs.orderGrid.resetSelection();
             })
         }
     }

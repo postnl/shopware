@@ -49,6 +49,12 @@ class CredentialsFacade
             return $response instanceof GetNearestLocationsResponse;
         } catch (ResponseException|InvalidConfigurationException $e) {
             return false;
+        } catch (\Throwable $e) {
+            $this->logger->error($e->getMessage(), [
+                'exception' => (string)$e,
+            ]);
+
+            return false;
         }
     }
 }
