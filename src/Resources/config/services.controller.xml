@@ -40,21 +40,6 @@
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\CartService"/>
         </service>
 
-        <service id="PostNL\Shopware6\Controller\Storefront\PickupPointController">
-            <argument type="service" id="PostNL\Shopware6\Service\Shopware\CartService"/>
-
-            <call method="setContainer">
-                <argument type="service" id="service_container"/>
-            </call>
-        </service>
-
-        <service id="PostNL\Shopware6\Controller\Storefront\ShippingController">
-            <argument type="service" id="PostNL\Shopware6\Service\Shopware\CartService"/>
-            <call method="setContainer">
-                <argument type="service" id="service_container"/>
-            </call>
-        </service>
-
         <service id="PostNL\Shopware6\Controller\Storefront\PostalCodeCheckController">
             <argument type="service" id="PostNL\Shopware6\Facade\PostalCodeFacade" />
             <argument type="service" id="postnl.logger"/>
@@ -62,7 +47,5 @@
                 <argument type="service" id="service_container"/>
             </call>
         </service>
-
-
     </services>
 </container>
