@@ -1,3 +1,7 @@
+# 3.0.2
+- Fix an issue whereby selected delivery dates or pickup points were not stored.
+- Added delivery date and send date to the admin order detail page again.
+
 # 3.0.1
 - Multiple small bugfixes
 

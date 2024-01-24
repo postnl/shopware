@@ -34,19 +34,10 @@
             </call>
         </service>
 
-        <service id="PostNL\Shopware6\Controller\Storefront\PickupPointController">
+        <service id="PostNL\Shopware6\Controller\StoreApi\ContextSwitchRoute"
+                 decorates="Shopware\Core\System\SalesChannel\SalesChannel\ContextSwitchRoute">
+            <argument type="service" id="PostNL\Shopware6\Controller\StoreApi\ContextSwitchRoute.inner"/>
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\CartService"/>
-
-            <call method="setContainer">
-                <argument type="service" id="service_container"/>
-            </call>
-        </service>
-
-        <service id="PostNL\Shopware6\Controller\Storefront\ShippingController">
-            <argument type="service" id="PostNL\Shopware6\Service\Shopware\CartService"/>
-            <call method="setContainer">
-                <argument type="service" id="service_container"/>
-            </call>
         </service>
 
         <service id="PostNL\Shopware6\Controller\Storefront\PostalCodeCheckController">
@@ -56,7 +47,5 @@
                 <argument type="service" id="service_container"/>
             </call>
         </service>
-
-
     </services>
 </container>
