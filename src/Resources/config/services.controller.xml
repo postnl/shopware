@@ -34,6 +34,12 @@
             </call>
         </service>
 
+        <service id="PostNL\Shopware6\Controller\StoreApi\ContextSwitchRoute"
+                 decorates="Shopware\Core\System\SalesChannel\SalesChannel\ContextSwitchRoute">
+            <argument type="service" id="PostNL\Shopware6\Controller\StoreApi\ContextSwitchRoute.inner"/>
+            <argument type="service" id="PostNL\Shopware6\Service\Shopware\CartService"/>
+        </service>
+
         <service id="PostNL\Shopware6\Controller\Storefront\PickupPointController">
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\CartService"/>
 
