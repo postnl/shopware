@@ -1,0 +1,31 @@
+<!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+{% block sw_order_detail_details_shipping_date %}
+    <sw-datepicker
+        v-if=" postNLDeliveryDate"
+        {% if VUE3 %}
+            v-model:value="postNLDeliveryDate"
+        {% else %}
+            v-model="postNLDeliveryDate"
+        {% endif %}
+        disabled
+        :label="$tc('sw-order.detailDeliveries.labelDeliveryDate')"
+    />
+
+    <div v-else></div>
+{% endblock %}
+
+{% block sw_order_detail_details_shipping_tracking_codes %}
+    {% parent %}
+
+    <sw-datepicker
+        v-if="isPostNLOrder && postNLSentDate"
+        {% if VUE3 %}
+            v-model:value="postNLSentDate"
+        {% else %}
+            v-model="postNLSentDate"
+        {% endif %}
+        disabled
+        :label="$tc('postnl.order.detail.sentDate')"
+    />
+    <div v-else></div>
+{% endblock %}
