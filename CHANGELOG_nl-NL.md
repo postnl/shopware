@@ -1,3 +1,7 @@
+# 3.0.2
+- Probleem verholpen waarbij geselecteerde afleverdata of afhaalpunten niet werden opgeslagen.
+- Afleverdatum en verzenddatum weer toegevoegd aan de admin order detailpagina.
+
 # 3.0.1
 - Meerdere kleine bugfixes
 

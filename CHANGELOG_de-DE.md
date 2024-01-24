@@ -1,3 +1,7 @@
+# 3.0.2
+- Behebung eines Problems, bei dem ausgewählte Lieferdaten oder Abholpunkte nicht gespeichert wurden.
+- Das Lieferdatum und das Versanddatum wurden auf der administrativen Bestellungsdetailseite wieder hinzugefügt.
+
 # 3.0.1
 - Mehrere kleine Fehlerbehebungen
 
