@@ -397,25 +397,31 @@ class ConversionSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if (is_null($attributes->getDeliveryType())) {
+        if ($attributes->getDeliveryType() !== DeliveryType::PICKUP) {
             return;
         }
 
         /** @var ArrayStruct $cartData */
         $cartData = $cart->getExtensionOfType(CartService::EXTENSION, ArrayStruct::class);
 
+        if(!$cartData->has('pickupPointLocationCode')) {
+            return;
+        }
+
+        $locationCode = $cartData->get('pickupPointLocationCode');
+
         $convertedCart = $event->getConvertedCart();
+        $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge_recursive(
+            $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] ?? [],
+            [
+                'pickupPointLocationCode' => $locationCode
+            ]
+        );
         $convertedCart = $this->setAddresses($convertedCart);
 
+        $pickupPoint = $this->getPickupPoint($locationCode, $event->getSalesChannelContext());
 
-        if ($attributes->getDeliveryType() === DeliveryType::PICKUP && $cartData->has('pickupPointLocationCode')) {
-            $pickupPoint = $this->getPickupPoint(
-                $cartData->get('pickupPointLocationCode'),
-                $event->getSalesChannelContext()
-            );
-
-            $convertedCart = $this->setPickupPointAsDeliveryAddresses($convertedCart, $pickupPoint, $event->getContext());
-        }
+        $convertedCart = $this->setPickupPointAsDeliveryAddresses($convertedCart, $pickupPoint, $event->getContext());
 
         $event->setConvertedCart($convertedCart);
     }
