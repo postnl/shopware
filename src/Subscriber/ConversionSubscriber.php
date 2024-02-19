@@ -9,6 +9,7 @@ use Firstred\PostNL\Entity\Response\ResponseLocation;
 use Firstred\PostNL\Exception\InvalidArgumentException;
 use PostNL\Shopware6\Defaults;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
+use PostNL\Shopware6\Service\PostNL\CustomFieldHelper;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\ZoneService;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
@@ -107,8 +108,14 @@ class ConversionSubscriber implements EventSubscriberInterface
                 ['addSendDate', 600],
                 ['addDeliveryTypeData', 100],
                 ['addPickupPointAddress', 100],
+                ['addTypeCodeToAddresses', 200],
+                ['test', -200],
             ],
         ];
+    }
+
+    public function test(CartConvertedEvent $event) {
+//        dd($event->getConvertedCart());
     }
 
     /**
@@ -200,12 +207,11 @@ class ConversionSubscriber implements EventSubscriberInterface
         $sentDateTime->setTime(...$cutOffTimeParts);
 
         $convertedCart = $event->getConvertedCart();
-        $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge(
-            $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] ?? [],
-            [
-                Defaults::CUSTOM_FIELDS_SENT_DATE_KEY => $sentDateTime->format(DATE_ATOM),
-            ]
-        );
+
+        CustomFieldHelper::merge($convertedCart, [
+            Defaults::CUSTOM_FIELDS_SENT_DATE_KEY => $sentDateTime->format(DATE_ATOM),
+        ]);
+
         $event->setConvertedCart($convertedCart);
     }
 
@@ -286,12 +292,7 @@ class ConversionSubscriber implements EventSubscriberInterface
         );
 
         $convertedCart = $event->getConvertedCart();
-        $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge(
-            $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] ?? [],
-            [
-                'productId' => $productId,
-            ]
-        );
+        CustomFieldHelper::merge($convertedCart, ['productId' => $productId]);
 
         $event->setConvertedCart($convertedCart);
     }
@@ -376,12 +377,9 @@ class ConversionSubscriber implements EventSubscriberInterface
         $data = $cart->getExtensionOfType(CartService::EXTENSION, ArrayStruct::class);
 
         $convertedCart = $event->getConvertedCart();
-        $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] = array_merge_recursive(
-            $convertedCart['customFields'][Defaults::CUSTOM_FIELDS_KEY] ?? [],
-            [
-                Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => $data->get(Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY)->format(DATE_ATOM)
-            ]
-        );
+        CustomFieldHelper::merge($convertedCart, [
+            Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => $data->get(Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY)->format(DATE_ATOM)
+        ]);
 
         $event->setConvertedCart($convertedCart);
     }
@@ -397,24 +395,46 @@ class ConversionSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if (is_null($attributes->getDeliveryType())) {
+        if ($attributes->getDeliveryType() !== DeliveryType::PICKUP) {
             return;
         }
 
         /** @var ArrayStruct $cartData */
         $cartData = $cart->getExtensionOfType(CartService::EXTENSION, ArrayStruct::class);
 
+        if(!$cartData->has('pickupPointLocationCode')) {
+            return;
+        }
+
+        $locationCode = $cartData->get('pickupPointLocationCode');
+
         $convertedCart = $event->getConvertedCart();
+        CustomFieldHelper::merge($convertedCart, ['pickupPointLocationCode' => $locationCode]);
         $convertedCart = $this->setAddresses($convertedCart);
 
+        $pickupPoint = $this->getPickupPoint($locationCode, $event->getSalesChannelContext());
 
-        if ($attributes->getDeliveryType() === DeliveryType::PICKUP && $cartData->has('pickupPointLocationCode')) {
-            $pickupPoint = $this->getPickupPoint(
-                $cartData->get('pickupPointLocationCode'),
-                $event->getSalesChannelContext()
-            );
+        $convertedCart = $this->setPickupPointAsDeliveryAddresses($convertedCart, $pickupPoint, $event->getContext());
 
-            $convertedCart = $this->setPickupPointAsDeliveryAddresses($convertedCart, $pickupPoint, $event->getContext());
+        $event->setConvertedCart($convertedCart);
+    }
+
+    public function addTypeCodeToAddresses(CartConvertedEvent $event)
+    {
+        $convertedCart = $event->getConvertedCart();
+
+        foreach($convertedCart['deliveries'] as $i => $delivery) {
+            CustomFieldHelper::merge($convertedCart['deliveries'][$i]['shippingOrderAddress'], [
+                'addressType' => '01',
+            ]);
+        }
+
+        if (array_key_exists('addresses', $convertedCart)) {
+            foreach ($convertedCart['addresses'] as $i => $existingAddress) {
+                CustomFieldHelper::merge($convertedCart['addresses'][$i], [
+                    'addressType' => '01',
+                ]);
+            }
         }
 
         $event->setConvertedCart($convertedCart);
@@ -422,17 +442,7 @@ class ConversionSubscriber implements EventSubscriberInterface
 
     protected function setAddresses(array $convertedCart): array
     {
-        $shippingAddresses = array_column($convertedCart['deliveries'], 'shippingOrderAddress');
-
-        $addresses = array_map(function (array $shippingAddress) {
-            $shippingAddress['customFields'] = array_merge_recursive($shippingAddress['customFields'] ?? [], [
-                Defaults::CUSTOM_FIELDS_KEY => [
-                    'addressType' => '01',
-                ],
-            ]);
-
-            return $shippingAddress;
-        }, $shippingAddresses);
+        $addresses = array_column($convertedCart['deliveries'], 'shippingOrderAddress');
 
         if (array_key_exists('addresses', $convertedCart)) {
             foreach ($convertedCart['addresses'] as $existingAddress) {

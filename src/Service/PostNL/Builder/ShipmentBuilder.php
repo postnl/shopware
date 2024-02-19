@@ -254,7 +254,7 @@ class ShipmentBuilder
 
         $apiClient = $this->apiFactory->createClientForSalesChannel($order->getSalesChannelId(), $context);
 
-        $locationResult = $apiClient->getLocation(new GetLocation($orderAttributes->getPickupPointLocationCode()));
+        $locationResult = $apiClient->getLocation(new GetLocation((string)$orderAttributes->getPickupPointLocationCode()));
         $pickupPoint = $locationResult->getGetLocationsResult()->getResponseLocation()[0];
 
         $address = $pickupPoint->getAddress()->setAddressType('09');
