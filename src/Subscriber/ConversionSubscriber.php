@@ -109,13 +109,8 @@ class ConversionSubscriber implements EventSubscriberInterface
                 ['addDeliveryTypeData', 100],
                 ['addPickupPointAddress', 100],
                 ['addTypeCodeToAddresses', 200],
-                ['test', -200],
             ],
         ];
-    }
-
-    public function test(CartConvertedEvent $event) {
-//        dd($event->getConvertedCart());
     }
 
     /**
@@ -451,6 +446,10 @@ class ConversionSubscriber implements EventSubscriberInterface
         }
 
         foreach ($convertedCart['deliveries'] as &$delivery) {
+            if(!array_key_exists('shippingOrderAddress', $delivery)) {
+                continue;
+            }
+
             $delivery['shippingOrderAddressId'] = $delivery['shippingOrderAddress']['id'];
             unset($delivery['shippingOrderAddress']);
         }
