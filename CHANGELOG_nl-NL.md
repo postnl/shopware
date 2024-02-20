@@ -1,3 +1,13 @@
+# 3.1.0
+- Nieuwe België naar Nederland-producten toegevoegd voor verzend- en afhaalpunten
+- Een ID/leeftijdscontroleoptie toegevoegd voor verzend- en afhaalpunten in Nederland
+- Probleem verholpen waarbij de locatiecode van het afhaalpunt niet werd opgeslagen in de bestelling. Dit betrof alle 3.0 versies.
+- Ondersteuning toegevoegd voor MariaDB-versies ouder dan 10.5.2
+  - Als je al geprobeerd hebt de plugin te installeren op een oudere MariaDB versie, neem dan deze stappen om de plugin gegevens te verwijderen voordat je probeert de nieuwe versie te installeren:
+    - Verwijder elke database tabel die begint met `postnl_` uit de database
+    - Verwijder alle items uit de `migratie` database tabel waar het `klasse` veld begint met `PostNL\Shopware6`.
+    - Optioneel: Verwijder eerst de oude plugin bestanden en ververs de plugin lijst in de admin
+
 # 3.0.2
 - Probleem verholpen waarbij geselecteerde afleverdata of afhaalpunten niet werden opgeslagen.
 - Afleverdatum en verzenddatum weer toegevoegd aan de admin order detailpagina.

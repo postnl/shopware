@@ -1,3 +1,13 @@
+# 3.1.0
+- Neue Produkte für Belgien zu den Niederlanden für Versand- und Abholstellen hinzugefügt
+- Es wurde eine Option zur Überprüfung von ID/Alter für Versand- und Abholstellen in den Niederlanden hinzugefügt.
+- Es wurde ein Problem behoben, bei dem der Code der Abholstelle nicht in der Bestellung gespeichert wurde. Dies betraf alle 3.0-Versionen.
+- Unterstützung für MariaDB-Versionen älter als 10.5.2 wurde hinzugefügt.
+  - Wenn Sie bereits versucht haben, das Plugin auf einer älteren MariaDB-Version zu installieren, führen Sie diese Schritte aus, um die Plugin-Daten zu entfernen, bevor Sie versuchen, die neue Version zu installieren:
+    - Entfernen Sie alle Datenbanktabellen, die mit `postnl_` beginnen, aus der Datenbank
+    - Entfernen Sie alle Einträge aus der Datenbanktabelle `migration`, bei denen das Feld `class` mit `PostNL\Shopware6` beginnt
+    - Optional: Entfernen Sie zuerst die alten Plugin-Dateien und aktualisieren Sie die Plugin-Liste in der Verwaltung
+
 # 3.0.2
 - Behebung eines Problems, bei dem ausgewählte Lieferdaten oder Abholpunkte nicht gespeichert wurden.
 - Das Lieferdatum und das Versanddatum wurden auf der administrativen Bestellungsdetailseite wieder hinzugefügt.
