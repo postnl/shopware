@@ -2,7 +2,7 @@
     "name": "postnl/shopware6",
     "description": "PostNL",
     "type": "shopware-platform-plugin",
-    "version": "3.0.2",
+    "version": "3.0.3",
     "license": "proprietary",
     "authors": [
         {
