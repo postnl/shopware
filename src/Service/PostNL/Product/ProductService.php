@@ -232,10 +232,6 @@ class ProductService
         $structs = [];
 
         foreach(ProductDefinition::ALL_FLAGS as $flag) {
-            if($flag === ProductDefinition::PROP_AGE_CHECK) {
-                continue;
-            }
-
             $availableValues = $products->reduceToProperty($flag);
 
             /**
