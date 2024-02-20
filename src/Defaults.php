@@ -268,11 +268,11 @@ class Defaults
 
     //region ID Check products initial
 
-    // NL->BE, Verzending, verzekerd, handtekening
-    const PRODUCT_SHIPMENT_NL_BE_3438 = "aa67b151850646849464e633d4a14beb";
+    // NL->NL, Verzending, verzekerd, handtekening
+    const PRODUCT_SHIPMENT_NL_NL_3438 = "aa67b151850646849464e633d4a14beb";
 
-    // NL->BE, Pickup, handtekening
-    const PRODUCT_PICKUP_NL_BE_3571 = "91cca8b821f4413dad3f3133b7b5dffe";
+    // NL->NL, Pickup, handtekening
+    const PRODUCT_PICKUP_NL_NL_3571 = "91cca8b821f4413dad3f3133b7b5dffe";
     //endregion
     //endregion
 

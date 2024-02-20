@@ -22,10 +22,10 @@ class Migration1708424816CreateV3_1_0IdCheckProducts extends ProductMigration
     {
         $products = [
         [
-            'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_BE_3438),
+            'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_NL_NL_3438),
             'product_code_delivery' => '3438',
             'source_zone' => Zone::NL,
-            'destination_zone' => Zone::BE,
+            'destination_zone' => Zone::NL,
             'delivery_type' => DeliveryType::SHIPMENT,
             ProductDefinition::STOR_HOME_ALONE => 0,
             ProductDefinition::STOR_RETURN_IF_NOT_HOME => 0,
@@ -35,10 +35,10 @@ class Migration1708424816CreateV3_1_0IdCheckProducts extends ProductMigration
             ProductDefinition::STOR_NOTIFICATION => null,
         ],
         [
-            'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_PICKUP_NL_BE_3571),
+            'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_PICKUP_NL_NL_3571),
             'product_code_delivery' => '3571',
             'source_zone' => Zone::NL,
-            'destination_zone' => Zone::BE,
+            'destination_zone' => Zone::NL,
             'delivery_type' => DeliveryType::PICKUP,
             ProductDefinition::STOR_HOME_ALONE => 0,
             ProductDefinition::STOR_RETURN_IF_NOT_HOME => 0,
