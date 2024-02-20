@@ -49,6 +49,9 @@ class Defaults
     const PRODUCT_SHIPMENT_BE_BE = self::PRODUCT_SHIPMENT_BE_BE_4960;
     const PRODUCT_PICKUP_BE_BE   = self::PRODUCT_PICKUP_BE_BE_4880;
 
+    const PRODUCT_SHIPMENT_BE_NL = self::PRODUCT_SHIPMENT_BE_NL_4890;
+    const PRODUCT_PICKUP_BE_NL   = self::PRODUCT_PICKUP_BE_NL_4898;
+
     const PRODUCT_SHIPMENT_BE_EU = self::PRODUCT_SHIPMENT_BE_EU_4907_005_025;
     const PRODUCT_SHIPMENT_BE_GLOBAL = self::PRODUCT_SHIPMENT_BE_GLOBAL_4909_005_025;
     //endregion
@@ -143,7 +146,7 @@ class Defaults
     // BE->BE, Verzending, niet bij buren bezorgen, verzekerd
     const PRODUCT_SHIPMENT_BE_BE_4965 = "76128ef0531645d4a93979f7e58be30f";
 
-    // BE->BE, Pickup,verzekerd
+    // BE->BE, Pickup, verzekerd
     const PRODUCT_PICKUP_BE_BE_4878 = "7108d13a1c104ec3a3b0b661c9436186";
 
     // BE->BE, Pickup
@@ -234,14 +237,37 @@ class Defaults
     //endregion
     //endregion
 
+    //region V3.1.0 Identifiers
+    /**
+     * V3.1.0
+     */
+
+    //region New BE -> NL productcodes
+
+    // BE->NL, Verzending
+    const PRODUCT_SHIPMENT_BE_NL_4890 = "45432c40e63f4ec79aa230c0bed4c0e2";
+
+    // BE->NL, Verzending, handtekening
+    const PRODUCT_SHIPMENT_BE_NL_4891 = "6014c5955e0c448ab27c37142f0bfdac";
+
+    // BE->NL, Verzending, niet bij buren bezorgen
+    const PRODUCT_SHIPMENT_BE_NL_4893 = "be49eed381bc4b7e935a39926273717c";
+
+    // BE->NL, Verzending, handtekening, niet bij buren bezorgen
+    const PRODUCT_SHIPMENT_BE_NL_4894 = "47ab691cd2504280b1af6e6e002c94f2";
+
+    // BE->NL, Verzending, handtekening, retour b.g.g.
+    const PRODUCT_SHIPMENT_BE_NL_4896 = "dac322ddf7db4e3c95e7ba915b21f15c";
+
+    // BE->NL, Verzending, verzekerd, handtekening
+    const PRODUCT_SHIPMENT_BE_NL_4897 = "2cc40e192141468cb57852305596ad37";
+
+    // BE->NL, Pickup, handtekening
+    const PRODUCT_PICKUP_BE_NL_4898 = "bc5f4a5e53df412b80600eaa68d7d335";
+    //endregion
+    //endregion
+
     //region Placeholder identifiers
-//    const PLACEHOLDER = "45432c40e63f4ec79aa230c0bed4c0e2";
-//    const PLACEHOLDER = "6014c5955e0c448ab27c37142f0bfdac";
-//    const PLACEHOLDER = "be49eed381bc4b7e935a39926273717c";
-//    const PLACEHOLDER = "47ab691cd2504280b1af6e6e002c94f2";
-//    const PLACEHOLDER = "dac322ddf7db4e3c95e7ba915b21f15c";
-//    const PLACEHOLDER = "2cc40e192141468cb57852305596ad37";
-//    const PLACEHOLDER = "bc5f4a5e53df412b80600eaa68d7d335";
 //    const PLACEHOLDER = "aa67b151850646849464e633d4a14beb";
 //    const PLACEHOLDER = "91cca8b821f4413dad3f3133b7b5dffe";
 //    const PLACEHOLDER = "596c345d25684e729909175ed50c9897";
