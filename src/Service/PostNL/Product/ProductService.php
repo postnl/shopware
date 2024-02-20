@@ -395,6 +395,16 @@ class ProductService
                 break;
             case Zone::BE:
                 switch($destinationZone) {
+                    case Zone::NL:
+                        switch ($deliveryType) {
+                            case DeliveryType::SHIPMENT:
+                                $defaultProductId = Defaults::PRODUCT_SHIPMENT_BE_NL;
+                                break;
+                            case DeliveryType::PICKUP:
+                                $defaultProductId = Defaults::PRODUCT_PICKUP_BE_NL;
+                                break;
+                        }
+                        break;
                     case Zone::BE:
                         switch ($deliveryType) {
                             case DeliveryType::SHIPMENT:
