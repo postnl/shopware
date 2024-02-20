@@ -265,11 +265,18 @@ class Defaults
     // BE->NL, Pickup, handtekening
     const PRODUCT_PICKUP_BE_NL_4898 = "bc5f4a5e53df412b80600eaa68d7d335";
     //endregion
+
+    //region ID Check products initial
+
+    // NL->NL, Verzending, verzekerd, handtekening
+    const PRODUCT_SHIPMENT_NL_NL_3438 = "aa67b151850646849464e633d4a14beb";
+
+    // NL->NL, Pickup, handtekening
+    const PRODUCT_PICKUP_NL_NL_3571 = "91cca8b821f4413dad3f3133b7b5dffe";
+    //endregion
     //endregion
 
     //region Placeholder identifiers
-//    const PLACEHOLDER = "aa67b151850646849464e633d4a14beb";
-//    const PLACEHOLDER = "91cca8b821f4413dad3f3133b7b5dffe";
 //    const PLACEHOLDER = "596c345d25684e729909175ed50c9897";
 //    const PLACEHOLDER = "cbd12ab384534364919140e09f1c77bb";
 //    const PLACEHOLDER = "01d9979b809b4458b0e9ab16051a3570";
