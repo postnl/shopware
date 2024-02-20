@@ -33,6 +33,7 @@ class Migration1708424816CreateV3_1_0IdCheckProducts extends ProductMigration
             ProductDefinition::STOR_SIGNATURE => 0,
             ProductDefinition::STOR_AGE_CHECK => 1,
             ProductDefinition::STOR_NOTIFICATION => null,
+            ProductDefinition::STOR_TRACK_AND_TRACE => null,
         ],
         [
             'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_PICKUP_NL_NL_3571),
@@ -46,6 +47,7 @@ class Migration1708424816CreateV3_1_0IdCheckProducts extends ProductMigration
             ProductDefinition::STOR_SIGNATURE => 0,
             ProductDefinition::STOR_AGE_CHECK => 1,
             ProductDefinition::STOR_NOTIFICATION => null,
+            ProductDefinition::STOR_TRACK_AND_TRACE => null,
         ],
     ];
 

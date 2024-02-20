@@ -33,6 +33,7 @@ class Migration1708424779CreateV3_1_0BelgianProducts extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => 0,
                 ProductDefinition::STOR_AGE_CHECK => 0,
                 ProductDefinition::STOR_NOTIFICATION => null,
+                ProductDefinition::STOR_TRACK_AND_TRACE => null,
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_BE_NL_4891),
@@ -46,6 +47,7 @@ class Migration1708424779CreateV3_1_0BelgianProducts extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => 1,
                 ProductDefinition::STOR_AGE_CHECK => 0,
                 ProductDefinition::STOR_NOTIFICATION => null,
+                ProductDefinition::STOR_TRACK_AND_TRACE => null,
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_BE_NL_4893),
@@ -59,6 +61,7 @@ class Migration1708424779CreateV3_1_0BelgianProducts extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => 0,
                 ProductDefinition::STOR_AGE_CHECK => 0,
                 ProductDefinition::STOR_NOTIFICATION => null,
+                ProductDefinition::STOR_TRACK_AND_TRACE => null,
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_BE_NL_4894),
@@ -72,6 +75,7 @@ class Migration1708424779CreateV3_1_0BelgianProducts extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => 1,
                 ProductDefinition::STOR_AGE_CHECK => 0,
                 ProductDefinition::STOR_NOTIFICATION => null,
+                ProductDefinition::STOR_TRACK_AND_TRACE => null,
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_BE_NL_4896),
@@ -85,6 +89,7 @@ class Migration1708424779CreateV3_1_0BelgianProducts extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => 1,
                 ProductDefinition::STOR_AGE_CHECK => 0,
                 ProductDefinition::STOR_NOTIFICATION => null,
+                ProductDefinition::STOR_TRACK_AND_TRACE => null,
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_SHIPMENT_BE_NL_4897),
@@ -98,6 +103,7 @@ class Migration1708424779CreateV3_1_0BelgianProducts extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => 1,
                 ProductDefinition::STOR_AGE_CHECK => 0,
                 ProductDefinition::STOR_NOTIFICATION => null,
+                ProductDefinition::STOR_TRACK_AND_TRACE => null,
             ],
             [
                 'id' => Uuid::fromHexToBytes(Defaults::PRODUCT_PICKUP_BE_NL_4898),
@@ -111,6 +117,7 @@ class Migration1708424779CreateV3_1_0BelgianProducts extends ProductMigration
                 ProductDefinition::STOR_SIGNATURE => 1,
                 ProductDefinition::STOR_AGE_CHECK => 0,
                 ProductDefinition::STOR_NOTIFICATION => 0,
+                ProductDefinition::STOR_TRACK_AND_TRACE => null,
             ],
         ];
 
