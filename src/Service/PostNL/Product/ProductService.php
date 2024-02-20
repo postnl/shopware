@@ -481,13 +481,13 @@ class ProductService
                     ProductDefinition::PROP_RETURN_IF_NOT_HOME,
                     ProductDefinition::PROP_INSURANCE,
                     ProductDefinition::PROP_SIGNATURE,
-//                    ProductDefinition::PROP_AGE_CHECK,
+                    ProductDefinition::PROP_AGE_CHECK,
                 ];
             case DeliveryType::PICKUP:
                 return [
                     ProductDefinition::PROP_INSURANCE,
                     ProductDefinition::PROP_SIGNATURE,
-//                    ProductDefinition::PROP_AGE_CHECK,
+                    ProductDefinition::PROP_AGE_CHECK,
                     ProductDefinition::PROP_NOTIFICATION,
                 ];
             case DeliveryType::MAILBOX:
