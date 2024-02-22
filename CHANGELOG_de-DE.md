@@ -2,6 +2,7 @@
 - Neue Produkte für Belgien zu den Niederlanden für Versand- und Abholstellen hinzugefügt
 - Es wurde eine Option zur Überprüfung von ID/Alter für Versand- und Abholstellen in den Niederlanden hinzugefügt.
 - Es wurde ein Problem behoben, bei dem der Code der Abholstelle nicht in der Bestellung gespeichert wurde. Dies betraf alle 3.0-Versionen.
+- Behebt ein Problem, bei dem beim Ändern der Versandmethode in der Verwaltung immer NL als Land des Absenders ausgewählt wurde
 - Unterstützung für MariaDB-Versionen älter als 10.5.2 wurde hinzugefügt.
   - Wenn Sie bereits versucht haben, das Plugin auf einer älteren MariaDB-Version zu installieren, führen Sie diese Schritte aus, um die Plugin-Daten zu entfernen, bevor Sie versuchen, die neue Version zu installieren:
     - Entfernen Sie alle Datenbanktabellen, die mit `postnl_` beginnen, aus der Datenbank

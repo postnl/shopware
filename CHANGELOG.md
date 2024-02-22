@@ -2,6 +2,7 @@
 - Added new Belgium to Netherlands products for shipping and pickup points
 - Added an ID/age check option for shipping and pickup points in the Netherlands
 - Fixed an issue whereby the pickup point location code was not stored on the order. Affected all 3.0 versions.
+- Fixes an issue when changing the shipping method in the administration would always select NL as the sender's country
 - Added support for MariaDB versions older than 10.5.2
   - If you've already tried installing the plugin on an older MariaDB version, then take these steps to remove the plugin data before trying to install the new version:
     - Remove any database table starting with `postnl_` from the database

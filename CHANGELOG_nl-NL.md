@@ -2,6 +2,7 @@
 - Nieuwe België naar Nederland-producten toegevoegd voor verzend- en afhaalpunten
 - Een ID/leeftijdscontroleoptie toegevoegd voor verzend- en afhaalpunten in Nederland
 - Probleem verholpen waarbij de locatiecode van het afhaalpunt niet werd opgeslagen in de bestelling. Dit betrof alle 3.0 versies.
+- Verhelpt een probleem waarbij bij het wijzigen van de verzendmethode in de administratie altijd NL werd geselecteerd als het land van de afzender
 - Ondersteuning toegevoegd voor MariaDB-versies ouder dan 10.5.2
   - Als je al geprobeerd hebt de plugin te installeren op een oudere MariaDB versie, neem dan deze stappen om de plugin gegevens te verwijderen voordat je probeert de nieuwe versie te installeren:
     - Verwijder elke database tabel die begint met `postnl_` uit de database
