@@ -27,7 +27,8 @@ Component.register('postnl-change-shipping-modal', {
             isProcessing: false,
             isSuccess: false,
 
-            deliveryZones: [],
+            sourceZones: [],
+            destinationZones: [],
 
             isOverrideProduct: false,
             overrideProductId: null,
@@ -44,7 +45,7 @@ Component.register('postnl-change-shipping-modal', {
         },
 
         canChangeProduct() {
-            return this.deliveryZones.length === 1;
+            return this.sourceZones.length === 1 && this.destinationZones.length === 1;
         },
 
         orderIds() {
@@ -75,7 +76,10 @@ Component.register('postnl-change-shipping-modal', {
         determineZones() {
             return this.ShipmentService
                 .determineZones(this.orderIds)
-                .then(response => this.deliveryZones = response.zones);
+                .then(({source, destination}) => {
+                    this.sourceZones = source
+                    this.destinationZones = destination
+                });
         },
 
         sendShipments() {
