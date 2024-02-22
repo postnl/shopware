@@ -1,6 +1,5 @@
 import template from './postnl-change-shipping-modal.html.twig';
 // import './postnl-shipping-modal.scss';
-import {object} from '../../../../core/service/util.service';
 
 // eslint-disable-next-line no-undef
 const {Component, Mixin,} = Shopware;
@@ -28,7 +27,8 @@ Component.register('postnl-change-shipping-modal', {
             isProcessing: false,
             isSuccess: false,
 
-            deliveryZones: [],
+            sourceZones: [],
+            destinationZones: [],
 
             isOverrideProduct: false,
             overrideProductId: null,
@@ -45,8 +45,12 @@ Component.register('postnl-change-shipping-modal', {
         },
 
         canChangeProduct() {
-            return this.deliveryZones.length === 1;
-        }
+            return this.sourceZones.length === 1 && this.destinationZones.length === 1;
+        },
+
+        orderIds() {
+            return Object.values(this.selection).map(order => order.id)
+        },
     },
 
     created() {
@@ -60,7 +64,7 @@ Component.register('postnl-change-shipping-modal', {
                 this.isOverrideProduct = !!this.overrideProductId;
             }
 
-            this.determineZones();
+            this.determineZones()
         },
 
         closeModal() {
@@ -70,18 +74,19 @@ Component.register('postnl-change-shipping-modal', {
         },
 
         determineZones() {
-            this.ShipmentService
-                .determineDestinationZones(Object.values(object.map(this.selection, 'id')))
-                .then(response => this.deliveryZones = response.zones);
+            return this.ShipmentService
+                .determineZones(this.orderIds)
+                .then(({source, destination}) => {
+                    this.sourceZones = source
+                    this.destinationZones = destination
+                });
         },
 
         sendShipments() {
             this.isProcessing = true;
 
-            const orderIds = Object.values(this.selection).map(order => order.id);
-
             this.ShipmentService
-                .changeProducts(orderIds, this.overrideProductId)
+                .changeProducts(this.orderIds, this.overrideProductId)
                 .finally(() => {
                     this.isProcessing = false;
                     this.isSuccess = true;

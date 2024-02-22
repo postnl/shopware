@@ -5,7 +5,9 @@
     <postnl-product-selection
         v-if="canChangeProduct"
         v-model="overrideProductId"
-        :destinationZone="deliveryZones[0]"/>
+        :sourceZone="sourceZones[0]"
+        :destinationZone="destinationZones[0]"
+    />
 
     <sw-alert v-else
               variant="warning">
