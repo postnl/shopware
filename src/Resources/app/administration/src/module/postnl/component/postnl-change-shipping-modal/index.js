@@ -1,6 +1,5 @@
 import template from './postnl-change-shipping-modal.html.twig';
 // import './postnl-shipping-modal.scss';
-import {object} from '../../../../core/service/util.service';
 
 // eslint-disable-next-line no-undef
 const {Component, Mixin,} = Shopware;
@@ -46,7 +45,11 @@ Component.register('postnl-change-shipping-modal', {
 
         canChangeProduct() {
             return this.deliveryZones.length === 1;
-        }
+        },
+
+        orderIds() {
+            return Object.values(this.selection).map(order => order.id)
+        },
     },
 
     created() {
@@ -60,7 +63,7 @@ Component.register('postnl-change-shipping-modal', {
                 this.isOverrideProduct = !!this.overrideProductId;
             }
 
-            this.determineZones();
+            this.determineZones()
         },
 
         closeModal() {
@@ -70,18 +73,16 @@ Component.register('postnl-change-shipping-modal', {
         },
 
         determineZones() {
-            this.ShipmentService
-                .determineDestinationZones(Object.values(object.map(this.selection, 'id')))
+            return this.ShipmentService
+                .determineZones(this.orderIds)
                 .then(response => this.deliveryZones = response.zones);
         },
 
         sendShipments() {
             this.isProcessing = true;
 
-            const orderIds = Object.values(this.selection).map(order => order.id);
-
             this.ShipmentService
-                .changeProducts(orderIds, this.overrideProductId)
+                .changeProducts(this.orderIds, this.overrideProductId)
                 .finally(() => {
                     this.isProcessing = false;
                     this.isSuccess = true;
