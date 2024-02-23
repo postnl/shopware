@@ -5,19 +5,21 @@
     :isLoading="isLoading"
     @modal-close="closeModal"
 >
-    <postnl-product-selection
-        v-if="canChangeProduct"
-        v-model="overrideProductId"
-        :sourceZone="sourceZones[0]"
-        :destinationZone="destinationZones[0]"
-    />
+    <template v-if="!isLoading">
+        <postnl-product-selection
+            v-if="canChangeProduct"
+            v-model="overrideProductId"
+            :sourceZone="sourceZones[0]"
+            :destinationZone="destinationZones[0]"
+        />
 
-    <sw-alert
-        v-else
-        variant="warning"
-    >
-        {{ $tc('postnl.order.modal.changeShipping.warning') }}
-    </sw-alert>
+        <sw-alert
+            v-else
+            variant="warning"
+        >
+            {{ $tc('postnl.order.modal.changeShipping.warning') }}
+        </sw-alert>
+    </template>
 
     <template #modal-footer>
         <sw-button
