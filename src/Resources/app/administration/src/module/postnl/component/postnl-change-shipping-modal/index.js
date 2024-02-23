@@ -2,7 +2,7 @@ import template from './postnl-change-shipping-modal.html.twig';
 // import './postnl-shipping-modal.scss';
 
 // eslint-disable-next-line no-undef
-const {Component, Mixin,} = Shopware;
+const { Component, Mixin, } = Shopware;
 
 Component.register('postnl-change-shipping-modal', {
     template,
@@ -24,6 +24,7 @@ Component.register('postnl-change-shipping-modal', {
 
     data() {
         return {
+            isLoading: false,
             isProcessing: false,
             isSuccess: false,
 
@@ -74,12 +75,15 @@ Component.register('postnl-change-shipping-modal', {
         },
 
         determineZones() {
+            this.isLoading = true;
+
             return this.ShipmentService
                 .determineZones(this.orderIds)
-                .then(({source, destination}) => {
+                .then(({ source, destination }) => {
                     this.sourceZones = source
                     this.destinationZones = destination
-                });
+                })
+                .finally(() => this.isLoading = false)
         },
 
         sendShipments() {
