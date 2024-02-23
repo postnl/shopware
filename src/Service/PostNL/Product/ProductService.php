@@ -252,7 +252,7 @@ class ProductService
             $structs[$flag] = new ProductFlagStruct(
                 $flag,
                 $isVisible,
-                $isDisabled,
+                false,//$isDisabled,
                 $isSelected
             );
         }
