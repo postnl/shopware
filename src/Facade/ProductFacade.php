@@ -200,8 +200,18 @@ class ProductFacade
             $changeSet,
             $context
         );
-        // Should always only have one.
+
+        // Should have only one, if the combinations are available
         $filteredProducts = $this->productService->filterProductsByFlags($products, $filters);
+
+        $product = $filteredProducts->first();
+
+        if ($product instanceof ProductEntity) {
+            return $product;
+        }
+
+        // Combination was not available, try to filter by the change set. Can have multiple
+        $filteredProducts = $this->productService->filterProductsByChangeSet($products, $changeSet);
 
         $product = $filteredProducts->first();
 
