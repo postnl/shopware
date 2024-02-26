@@ -13,10 +13,16 @@ export default class PostNlApiService extends ApiService {
         super(httpClient, loginService, endpoint.filter(s => s.trim().length > 0).join('/'));
     }
 
+    getEndpoint(url) {
+        return [this.getApiBasePath(), url]
+            .filter(s => s.trim().length > 0)
+            .join('/')
+    }
+
     async get(url, data = {}) {
         return this.httpClient
             .get(
-                `_action/${ this.getApiBasePath() }/${ url }?${ stringify(data) }`,
+                `_action/${ this.getEndpoint(url) }?${ stringify(data) }`,
                 {
                     headers: await this.buildHeaders(),
                 }
@@ -28,7 +34,7 @@ export default class PostNlApiService extends ApiService {
     async post(url, data = {}) {
         return this.httpClient
             .post(
-                `_action/${ this.getApiBasePath() }/${ url }`,
+                `_action/${ this.getEndpoint(url) }`,
                 JSON.stringify(data),
                 {
                     headers: await this.buildHeaders(),
@@ -41,7 +47,7 @@ export default class PostNlApiService extends ApiService {
     async getBlob(url, data = {}) {
         return this.httpClient
             .get(
-                `_action/${ this.getApiBasePath() }/${ url }?${ stringify(data) }`,
+                `_action/${ this.getEndpoint(url) }?${ stringify(data) }`,
                 {
                     headers: await this.buildHeaders(),
                     responseType: 'blob',

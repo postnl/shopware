@@ -15,7 +15,11 @@ import './postnl-config-product-selection-pickup-nl-be-default';
 import './postnl-config-product-selection-shipment-be-be-default';
 import './postnl-config-product-selection-shipment-be-be-alternative';
 
+import './postnl-config-product-selection-pickup-be-be-default';
+
+import './postnl-config-product-selection-shipment-be-nl-default';
+import './postnl-config-product-selection-shipment-be-nl-alternative';
+
 import './postnl-config-product-selection-shipment-be-eu-default';
 import './postnl-config-product-selection-shipment-be-global-default';
 
-import './postnl-config-product-selection-pickup-be-be-default';

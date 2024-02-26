@@ -1,8 +1,12 @@
 <sw-container class="postnl-product-selection">
-    <sw-label :variant="disabled ? 'neutral' : 'info'" ghost>
+    <sw-label
+        :variant="disabled ? 'neutral' : 'info'"
+        ghost
+    >
         <template v-if="showProductCode">
             [{{ product.productCodeDelivery }}]
         </template>
+
         {{ product.name }}
     </sw-label>
 
@@ -15,13 +19,20 @@
         @change="onChangeDeliveryType"
     />
 
-    <sw-container columns="1fr 1fr" gap="0 16px">
+    <sw-container justify="end">
+        <sw-help-text :text="$tc('postnl.config.productSelection.combinationNotice')"/>
+    </sw-container>
+
+    <sw-container
+        columns="1fr 1fr"
+        gap="16px"
+        align="center"
+    >
         <sw-switch-field
             v-for="flag in flags"
             v-if="flag.visible"
             v-model="flag.selected"
             size="small"
-            noMarginTop
             :key="flag.name"
             :label="getFlagLabel(flag)"
             :disabled="disabled || flag.disabled"
@@ -29,6 +40,6 @@
         />
     </sw-container>
 
-    <sw-loader v-if="isLoading"/>
+    <sw-loader v-if="isLoading" />
 </sw-container>
 

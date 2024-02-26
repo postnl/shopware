@@ -273,7 +273,7 @@ Component.register('postnl-product-selection', {
 
             const flags = object.map(this.flags, 'selected');
 
-            this.ProductSelectionService
+            return this.ProductSelectionService
                 .selectProduct(
                     this.sourceZone,
                     this.destinationZone,
@@ -281,7 +281,9 @@ Component.register('postnl-product-selection', {
                     flags,
                     this.changeSet
                 )
-                .then(result => this.product = result.product)
+                .then(result => result.product)
+                .catch(this.getDefaultProduct)
+                .then(product => this.product = product)
                 .finally(() => {
                     this.isLoading = false;
                 })

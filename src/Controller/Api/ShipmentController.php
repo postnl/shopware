@@ -58,10 +58,12 @@ class ShipmentController extends AbstractController
     {
         $orderIds = $data->get('orderIds', new QueryDataBag())->all();
 
-        $zones = $this->shipmentFacade->determineZones($orderIds, $context);
+        $sourceZones = $this->shipmentFacade->determineSourceZones($orderIds, $context);
+        $destinationZones = $this->shipmentFacade->determineDestinationZones($orderIds, $context);
 
         return $this->json([
-            'zones' => $zones,
+            'source' => $sourceZones,
+            'destination' => $destinationZones,
         ]);
     }
 
