@@ -155,6 +155,21 @@
             <label lang="nl-NL">Ophalen bij een PostNL-punt, van BE naar BE</label>
         </component>
 
+
+        <component name="postnl-config-product-selection-shipment-be-nl-default">
+            <name>productShipmentBeNlDefault</name>
+            <label>Standard shipment, from BE to NL</label>
+            <label lang="de-DE">Standardversand, von BE nach NL</label>
+            <label lang="nl-NL">Standaard zending, van BE naar NL</label>
+        </component>
+
+        <component name="postnl-config-product-selection-shipment-be-nl-alternative">
+            <name>productShipmentBeNlAlternative</name>
+            <label>Standard shipment, from BE to NL - Alternative</label>
+            <label lang="de-DE">Standardversand, von BE nach NL - Alternativ</label>
+            <label lang="nl-NL">Standaard zending, van BE naar NL - Alternatief</label>
+        </component>
+
         <input-field type="bool">
             <name>sendToEU</name>
             <label>Enable shipments to Europe</label>

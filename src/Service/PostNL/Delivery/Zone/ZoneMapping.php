@@ -37,7 +37,7 @@ interface ZoneMapping
     ];
 
     const SOURCE_BE = [
-        'NL' => Zone::EU, // Netherlands
+        'NL' => Zone::NL, // Netherlands
         'BE' => Zone::BE, // Belgium
         'AT' => Zone::EU, // Austria
         'BG' => Zone::EU, // Bulgaria

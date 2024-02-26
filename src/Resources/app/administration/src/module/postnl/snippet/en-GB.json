@@ -74,7 +74,8 @@
         "headerAltActiveDebug": "[{code}] {name} - from {amount}",
         "headerAltDisabled": "Disabled",
         "enableAltProduct": "Enable alternative product",
-        "altProductAmount": "Use alternative product from"
+        "altProductAmount": "Use alternative product from",
+        "combinationNotice": "Not all combinations are possible. The most appropriate product will be selected based on your latest selection."
       }
     },
     "order": {

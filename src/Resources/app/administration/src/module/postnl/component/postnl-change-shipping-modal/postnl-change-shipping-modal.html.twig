@@ -1,31 +1,44 @@
-<sw-modal class="postnl-change-shipping-modal"
-          :title="$t('postnl.order.modal.changeShipping.title')"
-          :closable="!isProcessing"
-          @modal-close="closeModal">
-    <postnl-product-selection
-        v-if="canChangeProduct"
-        v-model="overrideProductId"
-        :destinationZone="deliveryZones[0]"/>
+<sw-modal
+    class="postnl-change-shipping-modal"
+    :title="$t('postnl.order.modal.changeShipping.title')"
+    :closable="!isProcessing"
+    :isLoading="isLoading"
+    @modal-close="closeModal"
+>
+    <template v-if="!isLoading">
+        <postnl-product-selection
+            v-if="canChangeProduct"
+            v-model="overrideProductId"
+            :sourceZone="sourceZones[0]"
+            :destinationZone="destinationZones[0]"
+        />
 
-    <sw-alert v-else
-              variant="warning">
-        {{ $tc('postnl.order.modal.changeShipping.warning') }}
-    </sw-alert>
+        <sw-alert
+            v-else
+            variant="warning"
+        >
+            {{ $tc('postnl.order.modal.changeShipping.warning') }}
+        </sw-alert>
+    </template>
 
     <template #modal-footer>
-        <sw-button size="small"
-                   :disabled="isProcessing"
-                   @click="closeModal">
+        <sw-button
+            size="small"
+            :disabled="isProcessing"
+            @click="closeModal"
+        >
             {{ $tc('postnl.order.modal.changeShipping.cancel') }}
         </sw-button>
-        <sw-button-process size="small"
-                           variant="primary"
-                           :animationTimeout="2500"
-                           :disabled="!canChangeProduct"
-                           :isLoading="isProcessing"
-                           :processSuccess="isSuccess"
-                           @click="sendShipments"
-                           @process-finish="processFinish">
+        <sw-button-process
+            size="small"
+            variant="primary"
+            :animationTimeout="2500"
+            :disabled="!canChangeProduct"
+            :isLoading="isProcessing"
+            :processSuccess="isSuccess"
+            @click="sendShipments"
+            @process-finish="processFinish"
+        >
             {{ $tc('postnl.order.modal.changeShipping.confirm') }}
         </sw-button-process>
     </template>

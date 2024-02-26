@@ -7,6 +7,7 @@
 
 PLUGIN_NAME=PostNLShopware
 PLUGIN_VERSION=`php -r 'echo json_decode(file_get_contents("$(PLUGIN_NAME)/composer.json"))->version;'`
+RELEASE_DIR=/var/www/html/.plugins/
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -94,6 +95,7 @@ release: ## Create a new release
 	@make install
 	@make build
 	@make zip
+	@make copy-release
 
 zip: ## Creates a new ZIP package
 	@php update-composer-require.php --shopware=">=6.5.2 <6.6" --env=prod --admin --storefront
@@ -101,3 +103,7 @@ zip: ## Creates a new ZIP package
 	@cd .. && rm -rf $(PLUGIN_NAME)-$(PLUGIN_VERSION).zip
 	@cd .. && zip -qq -r -0 $(PLUGIN_NAME)-$(PLUGIN_VERSION).zip $(PLUGIN_NAME)/ -x@$(PLUGIN_NAME)/zip.exclude.lst
 	@php update-composer-require.php --shopware=">=6.5.2 <6.6" --env=dev --admin --storefront
+
+copy-release: ## Copies it to the releases directory
+	@mkdir -p $(RELEASE_DIR)$(PLUGIN_NAME)
+	@cd .. && cp -f $(PLUGIN_NAME)-$(PLUGIN_VERSION).zip $(RELEASE_DIR)$(PLUGIN_NAME)/$(PLUGIN_NAME)-$(PLUGIN_VERSION).zip

@@ -74,7 +74,8 @@
         "headerAltActiveDebug": "[{code}] {name} - ab {amount}",
         "headerAltDisabled": "Deaktiviert",
         "enableAltProduct": "Alternatives Produkt aktivieren",
-        "altProductAmount": "Alternatives Produkt verwenden ab"
+        "altProductAmount": "Alternatives Produkt verwenden ab",
+        "combinationNotice": "Es sind nicht alle Kombinationen möglich. Das am besten geeignete Produkt wird auf der Grundlage Ihrer letzten Auswahl ausgewählt."
       }
     },
     "order": {

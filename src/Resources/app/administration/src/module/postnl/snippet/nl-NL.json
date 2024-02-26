@@ -74,7 +74,8 @@
         "headerAltActiveDebug": "[{code}] {name} - vanaf {amount}",
         "headerAltDisabled": "Niet actief",
         "enableAltProduct": "Schakel alternatief product in",
-        "altProductAmount": "Alternatief product gebruiken vanaf"
+        "altProductAmount": "Alternatief product gebruiken vanaf",
+        "combinationNotice": "Niet alle combinaties zijn mogelijk. Het meest geschikte product wordt geselecteerd op basis van je laatste selectie."
       }
     },
     "order": {

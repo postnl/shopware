@@ -74,7 +74,28 @@ class ShipmentFacade
      * @return string[]
      * @throws \Exception
      */
-    public function determineZones(array $orderIds, Context $context): array
+    public function determineSourceZones(array $orderIds, Context $context): array
+    {
+        $sourceZones = [];
+
+        foreach ($orderIds as $orderId) {
+            $order = $this->orderService->getOrder($orderId, $context);
+
+            $config = $this->configService->getConfiguration($order->getSalesChannelId(), $context);
+
+            $sourceZones[] = $config->getSenderAddress()->getCountrycode();
+        }
+
+        return array_values(array_unique($sourceZones));
+    }
+
+    /**
+     * @param string[]   $orderIds
+     * @param Context $context
+     * @return string[]
+     * @throws \Exception
+     */
+    public function determineDestinationZones(array $orderIds, Context $context): array
     {
         $deliveryZones = [];
 
