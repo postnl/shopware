@@ -1,3 +1,6 @@
+# 3.1.1
+- Problemen met het bewerken van bestellingen in de administratie opgelost
+
 # 3.1.0
 - Nieuwe België naar Nederland-producten toegevoegd voor verzend- en afhaalpunten
 - Een ID/leeftijdscontroleoptie toegevoegd voor verzend- en afhaalpunten in Nederland

@@ -1,3 +1,6 @@
+# 3.1.1
+- Fixed problems editing orders in the administration
+
 # 3.1.0
 - Added new Belgium to Netherlands products for shipping and pickup points
 - Added an ID/age check option for shipping and pickup points in the Netherlands

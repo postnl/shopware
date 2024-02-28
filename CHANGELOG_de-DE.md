@@ -1,3 +1,6 @@
+# 3.1.1
+- Probleme bei der Bearbeitung von Bestellungen in der Verwaltung behoben
+
 # 3.1.0
 - Neue Produkte für Belgien zu den Niederlanden für Versand- und Abholstellen hinzugefügt
 - Es wurde eine Option zur Überprüfung von ID/Alter für Versand- und Abholstellen in den Niederlanden hinzugefügt.
