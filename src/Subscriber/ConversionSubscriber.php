@@ -24,6 +24,7 @@ use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Shopware\Core\Checkout\Cart\Order\CartConvertedEvent;
+use Shopware\Core\Checkout\Cart\Order\OrderConvertedEvent;
 use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
@@ -109,8 +110,42 @@ class ConversionSubscriber implements EventSubscriberInterface
                 ['addDeliveryTypeData', 100],
                 ['addPickupPointAddress', 100],
                 ['addTypeCodeToAddresses', 200],
+                ['restorePostNLData', 100],
             ],
+            OrderConvertedEvent::class => [
+                ['storePostNLData', 100],
+            ]
         ];
+    }
+
+    public function storePostNLData(OrderConvertedEvent $event)
+    {
+        $order = $event->getOrder();
+        $data = $order->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY] ?? [];
+
+        $cart = $event->getConvertedCart();
+        $cart->addExtension(CartService::ORIGINAL_DATA, new ArrayStruct($data));
+
+        $event->setConvertedCart($cart);
+    }
+
+    public function restorePostNLData(CartConvertedEvent $event)
+    {
+        $cart = $event->getCart();
+
+        if(!$cart->hasExtensionOfType(CartService::ORIGINAL_DATA, ArrayStruct::class)) {
+            return;
+        }
+
+        $data = $cart->getExtensionOfType(CartService::ORIGINAL_DATA, ArrayStruct::class);
+
+        if($data->count() === 0) {
+            return;
+        }
+
+        $convertedCart = $event->getConvertedCart();
+        CustomFieldHelper::merge($convertedCart, $data->all());
+        $event->setConvertedCart($convertedCart);
     }
 
     /**
@@ -119,6 +154,10 @@ class ConversionSubscriber implements EventSubscriberInterface
     public function addSendDate(CartConvertedEvent $event)
     {
         $cart = $event->getCart();
+
+        if($cart->hasExtensionOfType(CartService::ORIGINAL_DATA, ArrayStruct::class)) {
+            return;
+        }
 
         if (!$cart->hasExtensionOfType(CartService::EXTENSION, ArrayStruct::class)) {
             return;
@@ -212,6 +251,12 @@ class ConversionSubscriber implements EventSubscriberInterface
 
     public function addShopwareProductData(CartConvertedEvent $event)
     {
+        $cart = $event->getCart();
+
+        if($cart->hasExtensionOfType(CartService::ORIGINAL_DATA, ArrayStruct::class)) {
+            return;
+        }
+
         $convertedCart = $event->getConvertedCart();
 
         /** @var array $lineItem */
@@ -267,6 +312,10 @@ class ConversionSubscriber implements EventSubscriberInterface
     public function addPostNLProductId(CartConvertedEvent $event)
     {
         $cart = $event->getCart();
+
+        if($cart->hasExtensionOfType(CartService::ORIGINAL_DATA, ArrayStruct::class)) {
+            return;
+        }
 
         try {
             /** @var ShippingMethodAttributeStruct $attributes */
@@ -353,6 +402,10 @@ class ConversionSubscriber implements EventSubscriberInterface
     {
         $cart = $event->getCart();
 
+        if($cart->hasExtensionOfType(CartService::ORIGINAL_DATA, ArrayStruct::class)) {
+            return;
+        }
+
         if (!$cart->hasExtensionOfType(CartService::EXTENSION, ArrayStruct::class)) {
             return;
         }
@@ -382,6 +435,10 @@ class ConversionSubscriber implements EventSubscriberInterface
     public function addPickupPointAddress(CartConvertedEvent $event)
     {
         $cart = $event->getCart();
+
+        if($cart->hasExtensionOfType(CartService::ORIGINAL_DATA, ArrayStruct::class)) {
+            return;
+        }
 
         try {
             /** @var ShippingMethodAttributeStruct $attributes */
@@ -416,6 +473,12 @@ class ConversionSubscriber implements EventSubscriberInterface
 
     public function addTypeCodeToAddresses(CartConvertedEvent $event)
     {
+        $cart = $event->getCart();
+
+        if($cart->hasExtensionOfType(CartService::ORIGINAL_DATA, ArrayStruct::class)) {
+            return;
+        }
+
         $convertedCart = $event->getConvertedCart();
 
         foreach($convertedCart['deliveries'] as $i => $delivery) {

@@ -10,8 +10,9 @@ use Shopware\Core\System\SalesChannel\SalesChannelContext;
 class CartService
 {
     public const EXTENSION = 'postnl-data';
+    public const ORIGINAL_DATA = 'postnl-order-data';
 
-    protected $cartService;
+    protected ShopwareCartService $cartService;
 
     public function __construct(ShopwareCartService $cartService)
     {
