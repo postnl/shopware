@@ -1,3 +1,7 @@
+# 3.1.2
+- Er is een incompatibiliteit ontdekt met het retourmanagementgedeelte van de Shopware Commercial plugin, waardoor het PostNL besteloverzicht niet meer werkt. Er is een workaround geïmplementeerd
+- (Minor) Ontbrekende afbeeldingen in de plugin configuratie opgelost
+
 # 3.1.1
 - Problemen met het bewerken van bestellingen in de administratie opgelost
 

@@ -1,3 +1,7 @@
+# 3.1.2
+- An incompatibility with the returns management section of the Shopware Commercial plugin was discovered, which caused the PostNL order overview to no longer work. A workaround has been implemented
+- (Minor) Fixed missing images in the plugin configuration
+
 # 3.1.1
 - Fixed problems editing orders in the administration
 
