@@ -1,3 +1,7 @@
+# 3.1.2
+- Es wurde eine Inkompatibilität mit der Retourenverwaltung des Shopware Commercial Plugins entdeckt, die dazu führte, dass die PostNL Bestellübersicht nicht mehr funktionierte. Ein Workaround wurde implementiert
+- (Minor) Fehlende Bilder in der Plugin-Konfiguration behoben
+
 # 3.1.1
 - Probleme bei der Bearbeitung von Bestellungen in der Verwaltung behoben
 

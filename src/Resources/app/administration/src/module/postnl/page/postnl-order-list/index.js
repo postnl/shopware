@@ -45,13 +45,18 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
             return this.repositoryFactory.create('postnl_product');
         },
 
-        listFilters() {
-            const filters = this.$super('listFilters');
-            return filters.filter(filter => filter.name !== 'shipping-method-filter');
+        listFilterOptions() {
+            const filters = this.$super('listFilterOptions')
+            delete filters['shipping-method-filter']
+            return filters
         },
     },
 
     methods: {
+        createdComponent() {
+            return this.$super('createdComponent')
+        },
+
         async getList() {
             this.isLoading = true;
 
