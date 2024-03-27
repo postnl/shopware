@@ -376,6 +376,10 @@
     </card>
 
     <card>
+        <title>Return label</title>
+        <title lang="de-DE">Rücksendeetikett</title>
+        <title lang="nl-NL">Retourlabel</title>
+
         <component name="postnl-config-description-text">
             <name>returnLabelInTheBoxTitle</name>
             <label>Print return label directly when the shipping label is printed so that the return label can be put in the box.</label>
@@ -383,9 +387,6 @@
             <label lang="nl-NL">Druk het retourlabel direct af wanneer het verzendlabel wordt afgedrukt, zodat het retouretiket in de doos kan worden gedaan.</label>
         </component>
 
-        <title>Return label</title>
-        <title lang="de-DE">Rücksendeetikett</title>
-        <title lang="nl-NL">Retourlabel</title>
         <input-field type="bool">
             <name>returnLabelInTheBox</name>
             <label>Print return label</label>
