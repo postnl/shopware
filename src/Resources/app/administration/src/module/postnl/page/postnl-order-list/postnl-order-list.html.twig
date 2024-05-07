@@ -42,7 +42,7 @@
         <template #column-customFields.postnl.confirm="{ item }">
             <sw-data-grid-column-boolean
                     v-if="orderHasProduct(item)"
-                    v-model="item.customFields.postnl.confirm || false"
+                    v-model:value="item.customFields.postnl.confirm"
                     :is-inline-edit="false"
             />
         </template>
