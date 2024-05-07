@@ -61,7 +61,7 @@ Component.register('postnl-memo-config', {
                     ? !string.isEmptyOrSpaces(v)
                     : true;
             }));
-            this.$emit('input', JSON.stringify(cleanedValue));
+            this.$emit('update:value', JSON.stringify(cleanedValue));
         }
     }
 });
