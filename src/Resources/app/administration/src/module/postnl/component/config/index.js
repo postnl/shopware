@@ -6,4 +6,3 @@ import './postnl-config-customer-data';
 import './postnl-config-sender-address';
 import './postnl-config-return-address';
 import './postnl-config-info';
-import './postnl-config-description-text';
