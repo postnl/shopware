@@ -9,7 +9,6 @@ Component.extend('postnl-config-product-selection-pickup-nl-nl-alternative', 'po
             deliveryType: 'pickup',
 
             isAlt: true,
-            defaultIsEnabled: false,
         };
     },
 })
