@@ -12,7 +12,7 @@
 
     <sw-single-select
         v-if="showDeliveryType"
-        v-model="actualDeliveryType"
+        v-model:value="actualDeliveryType"
         size="medium"
         :options="deliveryTypes"
         :disabled="disabled || (deliveryTypes.length == 0)"

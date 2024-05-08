@@ -2,11 +2,7 @@
 {% block sw_order_detail_details_shipping_date %}
     <sw-datepicker
         v-if=" postNLDeliveryDate"
-        {% if VUE3 %}
-            v-model:value="postNLDeliveryDate"
-        {% else %}
-            v-model="postNLDeliveryDate"
-        {% endif %}
+        v-model:value="postNLDeliveryDate"
         disabled
         :label="$tc('sw-order.detailDeliveries.labelDeliveryDate')"
     />
@@ -19,11 +15,7 @@
 
     <sw-datepicker
         v-if="isPostNLOrder && postNLSentDate"
-        {% if VUE3 %}
-            v-model:value="postNLSentDate"
-        {% else %}
-            v-model="postNLSentDate"
-        {% endif %}
+        v-model:value="postNLSentDate"
         disabled
         :label="$tc('postnl.order.detail.sentDate')"
     />

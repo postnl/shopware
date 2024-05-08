@@ -8,7 +8,7 @@
     <template v-if="!isLoading">
         <postnl-product-selection
             v-if="canChangeProduct"
-            v-model="overrideProductId"
+            v-model:value="overrideProductId"
             :sourceZone="sourceZones[0]"
             :destinationZone="destinationZones[0]"
         />
