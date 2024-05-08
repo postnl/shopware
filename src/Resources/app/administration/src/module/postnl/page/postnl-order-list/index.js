@@ -28,7 +28,7 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
             criteria.addFilter(
                 Criteria.equalsAny(
                     'deliveries.shippingMethod.technicalName',
-                    ['mailbox', 'shipment', 'pickup']
+                    ['postnl_mailbox', 'postnl_shipment', 'postnl_pickup']
                 )
             );
             criteria.addAssociation('deliveries.shippingOrderAddress.country');
