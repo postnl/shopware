@@ -50,6 +50,10 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
             delete filters['shipping-method-filter']
             return filters
         },
+
+        dateFilter() {
+            return Shopware.Filter.getByName('date');
+        },
     },
 
     methods: {
