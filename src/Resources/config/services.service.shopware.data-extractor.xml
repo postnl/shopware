@@ -16,5 +16,7 @@
         <service id="PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDeliveryDataExtractor">
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\DataExtractor\OrderAddressDataExtractor"/>
         </service>
+
+        <service id="PostNL\Shopware6\Service\Shopware\DataExtractor\ShippingMethodDataExtractor"/>
     </services>
 </container>

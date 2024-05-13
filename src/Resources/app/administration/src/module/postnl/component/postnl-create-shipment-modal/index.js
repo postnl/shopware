@@ -52,16 +52,17 @@ Component.register('postnl-create-shipment-modal', {
         }
     },
 
+    watch: {
+        isSuccess(value) {
+            if(value) {
+                return
+            }
 
-    created() {
-        this.createdComponent();
+            this.$emit('create-shipment')
+        }
     },
 
     methods: {
-        createdComponent() {
-            console.log(this.selectionHasProducts);
-        },
-
         closeModal() {
             if (!this.isProcessing) {
                 this.$emit('close');
@@ -118,9 +119,5 @@ Component.register('postnl-create-shipment-modal', {
                     this.isSuccess = true;
                 })
         },
-        processFinish() {
-            this.isSuccess = false;
-            this.$emit('create-shipment');
-        }
     },
 });

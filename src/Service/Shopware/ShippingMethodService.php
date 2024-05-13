@@ -131,17 +131,13 @@ class ShippingMethodService
                 'availabilityRuleId' => $ruleId,
                 'deliveryTimeId' => $deliveryTimeId,
                 'mediaId' => $mediaId,
+                'technicalName' => 'postnl_'.strtolower($deliveryType),
                 'prices' => [
                     [
                         'calculation' => 1,
                         'currencyId' => $context->getCurrencyId(),
                         'price' => 0.0,
                         'quantityStart' => 1,
-                    ],
-                ],
-                'customFields' => [
-                    Defaults::CUSTOM_FIELDS_KEY => [
-                        'deliveryType' => $deliveryType,
                     ],
                 ],
             ],

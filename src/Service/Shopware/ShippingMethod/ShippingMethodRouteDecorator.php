@@ -8,6 +8,7 @@ use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\ZoneService;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
+use PostNL\Shopware6\Service\Shopware\DataExtractor\ShippingMethodDataExtractor;
 use PostNL\Shopware6\Struct\Attribute\ShippingMethodAttributeStruct;
 use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 use Shopware\Core\Checkout\Shipping\Cart\Error\ShippingMethodBlockedError;
@@ -20,29 +21,22 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ShippingMethodRouteDecorator extends AbstractShippingMethodRoute
 {
-
     private AbstractShippingMethodRoute $decoratedService;
     private ConfigService $configService;
     private CartService $cartService;
-    private AttributeFactory $attributeFactory;
+    private ShippingMethodDataExtractor $shippingMethodDataExtractor;
 
-    /**
-     * @param AbstractShippingMethodRoute $decoratedService
-     * @param ConfigService               $configService
-     * @param CartService                 $cartService
-     * @param AttributeFactory            $attributeFactory
-     */
     public function __construct(
         AbstractShippingMethodRoute $decoratedService,
         ConfigService               $configService,
         CartService                 $cartService,
-        AttributeFactory            $attributeFactory
+        ShippingMethodDataExtractor $shippingMethodDataExtractor
     )
     {
         $this->decoratedService = $decoratedService;
         $this->configService = $configService;
         $this->cartService = $cartService;
-        $this->attributeFactory = $attributeFactory;
+        $this->shippingMethodDataExtractor = $shippingMethodDataExtractor;
     }
 
     public function getDecorated(): AbstractShippingMethodRoute
@@ -70,10 +64,9 @@ class ShippingMethodRouteDecorator extends AbstractShippingMethodRoute
          * @var ShippingMethodEntity $shippingMethod
          */
         foreach ($originalResult->getShippingMethods() as $key => $shippingMethod) {
-            /** @var ShippingMethodAttributeStruct $shippingMethodAttributes */
-            $shippingMethodAttributes = $this->attributeFactory->createFromEntity($shippingMethod, $context->getContext());
+            $deliveryType = $this->shippingMethodDataExtractor->extractDeliveryType($shippingMethod);
 
-            if (is_null($shippingMethodAttributes->getDeliveryType())) {
+            if(empty($deliveryType)) {
                 continue;
             }
 
@@ -93,13 +86,13 @@ class ShippingMethodRouteDecorator extends AbstractShippingMethodRoute
             }
 
             if (!in_array($shippingZone, [Zone::NL, Zone::BE]) &&
-                $shippingMethodAttributes->getDeliveryType() === DeliveryType::PICKUP) {
+                $deliveryType === DeliveryType::PICKUP) {
                 $originalResult->getShippingMethods()->remove($key);
                 continue;
             }
 
             if ($shippingZone != Zone::NL &&
-                $shippingMethodAttributes->getDeliveryType() === DeliveryType::MAILBOX) {
+                $deliveryType === DeliveryType::MAILBOX) {
                 $originalResult->getShippingMethods()->remove($key);
             }
         }

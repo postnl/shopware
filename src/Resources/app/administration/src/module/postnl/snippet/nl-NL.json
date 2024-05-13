@@ -23,7 +23,6 @@
       },
       "api": {
         "testButton": "Test API sleutels",
-        "dashboardButton": "In de zakelijke Mijn PostNL omgeving vind je jouw API key en klantgegevens",
         "productionApiKey": "Productie API sleutel",
         "sandboxApiKey": "Sandbox API sleutel",
         "isValid": "is geldig",

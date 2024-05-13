@@ -1,11 +1,9 @@
-import Plugin from 'src/plugin-system/plugin.class';
 import HttpClient from 'src/service/http-client.service';
 import DomAccess from 'src/helper/dom-access.helper';
-import PluginManager from 'src/plugin-system/plugin.manager';
 import Debouncer from 'src/helper/debouncer.helper'
 import ElementLoadingIndicatorUtil from 'src/utility/loading-indicator/element-loading-indicator.util'
 
-export default class PostnlPostalCodeCheckPlugin extends Plugin {
+export default class PostnlPostalCodeCheckPlugin extends window.PluginBaseClass {
     static options = {
         url: window.router['frontend.address.postnl.postal-code-check'],
         countries: [],
@@ -106,7 +104,7 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
         //Checkbox remove required
         const jsToggle = document.querySelector('#differentShippingAddress');
         if (jsToggle != null) {
-            const jsToggleInstance = PluginManager.getPluginInstanceFromElement(jsToggle, 'FormFieldToggle');
+            const jsToggleInstance = window.PluginManager.getPluginInstanceFromElement(jsToggle, 'FormFieldToggle');
             jsToggleInstance.$emitter.subscribe('onChange', () => {
                 this._updateRequired();
             })
@@ -403,6 +401,4 @@ export default class PostnlPostalCodeCheckPlugin extends Plugin {
     onChangeSelectedCountry(e) {
         this._adaptFormToSelectedCountryId(e.target.value)
     }
-
-
 }

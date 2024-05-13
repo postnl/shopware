@@ -21,7 +21,7 @@
                 {{ getProductName(item) }}
             </template>
             <template v-else>
-                <sw-icon name="default-badge-warning" color="#ed7000" small/>&nbsp;
+                <sw-icon name="default-badge-warning" color="#ed7000" small />&nbsp;
                 {{ $tc('postnl.order.list.missingProductId') }}
             </template>
         </template>
@@ -30,9 +30,10 @@
     {% block sw_order_list_grid_columns_custom_fields_postnl_bar_code %}
         <template #column-customFields.postnl.barCode="{ item }">
             <sw-external-link
-                    v-if="orderHasProduct(item) && item.customFields.postnl.barCode"
-                    :href="getBarCodeLink(item)"
-                    target="_blank">
+                v-if="orderHasProduct(item) && item.customFields.postnl.barCode"
+                :href="getBarCodeLink(item)"
+                target="_blank"
+            >
                 {{ item.customFields.postnl.barCode }}
             </sw-external-link>
         </template>
@@ -41,9 +42,9 @@
     {% block sw_order_list_grid_columns_custom_fields_postnl_confirm %}
         <template #column-customFields.postnl.confirm="{ item }">
             <sw-data-grid-column-boolean
-                    v-if="orderHasProduct(item)"
-                    v-model="item.customFields.postnl.confirm || false"
-                    :is-inline-edit="false"
+                v-if="orderHasProduct(item)"
+                v-model:value="item.customFields.postnl.confirm"
+                :is-inline-edit="false"
             />
         </template>
     {% endblock %}
@@ -51,7 +52,7 @@
     {% block sw_order_list_grid_columns_custom_fields_postnl_sent_date %}
         <template #column-customFields.postnl.sentDate="{ item }">
             <template v-if="orderHasProduct(item)">
-                {{ item.customFields.postnl.sentDate | date("Y-m-d") }}
+                {{ dateFilter(item.customFields.postnl.sentDate, "Y-m-d") }}
             </template>
         </template>
     {% endblock %}
@@ -59,7 +60,7 @@
     {% block sw_order_list_grid_columns_custom_fields_postnl_delivery_date %}
         <template #column-customFields.postnl.deliveryDate="{ item }">
             <template v-if="orderHasProduct(item)">
-                {{ item.customFields.postnl.deliveryDate | date("Y-m-d") }}
+                {{ dateFilter(item.customFields.postnl.deliveryDate, "Y-m-d") }}
             </template>
         </template>
     {% endblock %}
@@ -73,23 +74,25 @@
         {{ $tc('sw-order.list.contextMenuView') }}
     </sw-context-menu-item>
 
-    <sw-context-menu-divider/>
+    <sw-context-menu-divider />
 
     <sw-context-menu-item
         class="sw-order-list__order-ship-action"
         @click="isChangeShippingModalId = item.id"
-        icon="postnl-ghost">
+        icon="postnl-ghost"
+    >
         {{ $tc('postnl.order.list.buttonChangeShipping') }}
     </sw-context-menu-item>
 
     <sw-context-menu-item
         class="sw-order-list__order-ship-action"
         @click="isCreateShipmentModalId = item.id"
-        icon="postnl-ghost">
+        icon="postnl-ghost"
+    >
         {{ $tc('postnl.order.list.buttonCreateShipment') }}
     </sw-context-menu-item>
 
-    <sw-context-menu-divider/>
+    <sw-context-menu-divider />
 {% endblock %}
 
 {% block sw_order_list_delete_modal %}
@@ -112,18 +115,22 @@
 
 {% block sw_order_list_bulk_selected_actions_content %}
     <template #bulk>
-        <postnl-button v-if="acl.can('order.editor')"
-                       variant="ghost"
-                       size="x-small"
-                       @click="isBulkChangeShippingModalOpen = true">
+        <postnl-button
+            v-if="acl.can('order.editor')"
+            variant="ghost"
+            size="x-small"
+            @click="isBulkChangeShippingModalOpen = true"
+        >
             <sw-icon name="postnl" multicolor></sw-icon>
             {{ $tc('postnl.order.list.buttonChangeShipping') }}
         </postnl-button>
 
-        <postnl-button v-if="acl.can('order.editor')"
-                       variant="ghost"
-                       size="x-small"
-                       @click="isBulkCreateShipmentModalOpen = true">
+        <postnl-button
+            v-if="acl.can('order.editor')"
+            variant="ghost"
+            size="x-small"
+            @click="isBulkCreateShipmentModalOpen = true"
+        >
             <sw-icon name="postnl" multicolor></sw-icon>
             {{ $tc('postnl.order.list.buttonCreateShipment') }}
         </postnl-button>

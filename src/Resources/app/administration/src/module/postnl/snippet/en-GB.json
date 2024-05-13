@@ -23,7 +23,6 @@
       },
       "api": {
         "testButton": "Test API keys",
-        "dashboardButton": "You can find your API key and customer data in your Mijn PostNL business environment",
         "productionApiKey": "Production API key",
         "sandboxApiKey": "Sandbox API key",
         "isValid": "is valid.",
