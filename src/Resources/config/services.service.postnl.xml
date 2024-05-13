@@ -9,6 +9,7 @@
 
         <service id="PostNL\Shopware6\Service\PostNL\Factory\ApiFactory">
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\ConfigService"/>
+            <argument type="service" id="PostNL\Shopware6\Service\PostNL\VersionProvider"/>
             <argument type="service" id="postnl.logger"/>
         </service>
 
