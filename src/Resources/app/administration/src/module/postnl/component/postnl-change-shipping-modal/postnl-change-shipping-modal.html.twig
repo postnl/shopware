@@ -29,15 +29,15 @@
         >
             {{ $tc('postnl.order.modal.changeShipping.cancel') }}
         </sw-button>
+
         <sw-button-process
+            v-model:processSuccess="isSuccess"
             size="small"
             variant="primary"
             :animationTimeout="2500"
             :disabled="!canChangeProduct"
             :isLoading="isProcessing"
-            :processSuccess="isSuccess"
             @click="sendShipments"
-            @process-finish="processFinish"
         >
             {{ $tc('postnl.order.modal.changeShipping.confirm') }}
         </sw-button-process>

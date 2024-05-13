@@ -28,9 +28,7 @@
         gap="16px"
         align="center"
     >
-        <template
-            v-for="flag in flags"
-        >
+        <template v-for="flag in flags">
             <sw-switch-field
                 v-if="flag.visible"
                 v-model:value="flag.selected"

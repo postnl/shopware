@@ -14,19 +14,20 @@
                 size="small"
                 noMarginTop
             />
+
             <sw-switch-field
                 v-model:value="downloadLabels"
                 :label="$tc('postnl.order.modal.createShipments.downloadLabels')"
                 size="small"
                 noMarginTop
             />
-
         </sw-container>
 
         <template v-if="!selectionHasProducts">
             <sw-alert v-if="selectionCount === 1" variant="error">
                 {{ $tc('postnl.order.modal.createShipments.missingProductIdSingle') }}
             </sw-alert>
+
             <sw-alert v-if="selectionCount > 1" variant="error">
                 {{ $tc('postnl.order.modal.createShipments.missingProductIdMany') }}
             </sw-alert>
@@ -40,15 +41,15 @@
         >
             {{ $tc('postnl.order.modal.createShipments.cancel') }}
         </sw-button>
+
         <sw-button-process
+            v-model:processSuccess="isSuccess"
             size="small"
             variant="primary"
             :animationTimeout="2500"
             :isLoading="isProcessing"
-            :processSuccess="isSuccess"
             :disabled="!hasActions"
             @click="sendShipments"
-            @process-finish="processFinish"
         >
             {{ $tc('postnl.order.modal.createShipments.confirm') }}
         </sw-button-process>
