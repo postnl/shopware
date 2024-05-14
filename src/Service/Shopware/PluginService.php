@@ -12,54 +12,42 @@ use Shopware\Core\Framework\Plugin\PluginService as ShopwarePluginService;
 class PluginService
 {
     protected ShopwarePluginService $pluginService;
+    protected ?PluginEntity $plugin = null;
 
-    /**
-     * @param ShopwarePluginService $pluginService
-     */
     public function __construct(ShopwarePluginService $pluginService)
     {
         $this->pluginService = $pluginService;
     }
 
-    /**
-     * @param Context $context
-     * @return PluginEntity
-     */
     public function getPlugin(Context $context): PluginEntity
     {
-        return $this->pluginService->getPluginByName($this->getPluginName(), $context);
+        if(!$this->plugin instanceof PluginEntity) {
+            $this->plugin = $this->pluginService->getPluginByName($this->getPluginName(), $context);
+        }
+
+        return $this->plugin;
     }
 
-    /**
-     * @param Context $context
-     * @return string
-     */
     public function getAuthor(Context $context): string
     {
         return $this->getPlugin($context)->getAuthor() ?? '';
     }
 
-    /**
-     * @param Context $context
-     * @return string
-     */
+    public function getPath(Context $context): string
+    {
+        return $this->getPlugin($context)->getPath() ?? '';
+    }
+
     public function getVersion(Context $context): string
     {
         return $this->getPlugin($context)->getVersion();
     }
 
-    /**
-     * @param Context $context
-     * @return string
-     */
     public function getUpgradeVersion(Context $context): string
     {
         return $this->getPlugin($context)->getUpgradeVersion() ?? '';
     }
 
-    /**
-     * @return string
-     */
     public function getPluginName(): string
     {
         $className = PostNLShopware::class;
