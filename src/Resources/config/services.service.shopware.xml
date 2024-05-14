@@ -59,5 +59,9 @@
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\DataExtractor\ShippingMethodDataExtractor"/>
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\ConfigService"/>
         </service>
+
+        <service id="PostNL\Shopware6\Service\Shopware\PluginService">
+            <argument type="service" id="Shopware\Core\Framework\Plugin\PluginService"/>
+        </service>
     </services>
 </container>
