@@ -9,6 +9,7 @@
 
         <service id="PostNL\Shopware6\Service\PostNL\Factory\ApiFactory">
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\ConfigService"/>
+            <argument type="service" id="PostNL\Shopware6\Service\PostNL\VersionProvider"/>
             <argument type="service" id="postnl.logger"/>
         </service>
 
@@ -28,10 +29,13 @@
             <argument type="service" id="Shopware\Core\Content\Media\MediaService"/>
         </service>
 
-        <service id="PostNL\Shopware6\Service\PostNL\RuleCreatorService">
-        </service>
+        <service id="PostNL\Shopware6\Service\PostNL\RuleCreatorService"/>
+        <service id="PostNL\Shopware6\Service\PostNL\ShippingRulePriceCreatorService"/>
 
-        <service id="PostNL\Shopware6\Service\PostNL\ShippingRulePriceCreatorService">
+        <service id="PostNL\Shopware6\Service\PostNL\VersionProvider">
+            <argument>%kernel.shopware_version%</argument>
+            <argument>%kernel.project_dir%</argument>
+            <argument type="service" id="PostNL\Shopware6\Service\Shopware\PluginService"/>
         </service>
 
         <service id="PostNL\Shopware6\Service\PostNL\ShipmentService">
