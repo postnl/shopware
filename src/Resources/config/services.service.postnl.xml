@@ -34,6 +34,7 @@
 
         <service id="PostNL\Shopware6\Service\PostNL\VersionProvider">
             <argument>%kernel.shopware_version%</argument>
+            <argument>%kernel.project_dir%</argument>
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\PluginService"/>
         </service>
 
