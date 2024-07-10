@@ -1,3 +1,6 @@
+# 3.1.3
+- Es wurden zusätzliche Header zu den API-Aufrufen hinzugefügt. Dies ermöglicht uns eine bessere Unterstützung durch Überwachung der verwendeten Shopware- und Plugin-Versionen.
+
 # 3.1.2
 - Es wurde eine Inkompatibilität mit der Retourenverwaltung des Shopware Commercial Plugins entdeckt, die dazu führte, dass die PostNL Bestellübersicht nicht mehr funktionierte. Ein Workaround wurde implementiert
 - (Minor) Fehlende Bilder in der Plugin-Konfiguration behoben

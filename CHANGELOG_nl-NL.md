@@ -1,3 +1,6 @@
+# 3.1.3
+- Extra headers toegevoegd aan de API-aanroepen. Hierdoor kunnen we betere ondersteuning bieden door de gebruikte Shopware en plugin versies te monitoren.
+
 # 3.1.2
 - Er is een incompatibiliteit ontdekt met het retourmanagementgedeelte van de Shopware Commercial plugin, waardoor het PostNL besteloverzicht niet meer werkt. Er is een workaround geïmplementeerd
 - (Minor) Ontbrekende afbeeldingen in de plugin configuratie opgelost
