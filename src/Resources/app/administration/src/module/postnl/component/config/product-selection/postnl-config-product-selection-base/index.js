@@ -22,7 +22,7 @@ Component.extend('postnl-config-product-selection-base', 'postnl-memo-config', {
             deliveryType: 'shipment',
 
             isAlt: false,
-            defaultIsEnabled: !this.isAlt,
+            isEnabled: false,
             defaultCartAmount: 0,
         }
     },
@@ -31,6 +31,10 @@ Component.extend('postnl-config-product-selection-base', 'postnl-memo-config', {
         showProductCode() {
             return !!this.getConfigItem('debugMode');
         },
+
+        isEnabledByDefault() {
+            return this.isEnabled ?? !this.isAlt;
+        }
     },
 
     watch: {
@@ -50,7 +54,7 @@ Component.extend('postnl-config-product-selection-base', 'postnl-memo-config', {
     methods: {
         mountedComponent() {
             if(!this.content.hasOwnProperty('enabled')) {
-                this.content.enabled = this.defaultIsEnabled;
+                this.content.enabled = this.isEnabledByDefault;
                 this.updateValue(this.content);
             }
             if(!this.content.hasOwnProperty('cartAmount')) {

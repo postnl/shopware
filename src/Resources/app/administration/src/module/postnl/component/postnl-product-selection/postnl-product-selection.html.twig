@@ -12,11 +12,11 @@
 
     <sw-single-select
         v-if="showDeliveryType"
-        v-model="actualDeliveryType"
+        v-model:value="actualDeliveryType"
         size="medium"
         :options="deliveryTypes"
         :disabled="disabled || (deliveryTypes.length == 0)"
-        @change="onChangeDeliveryType"
+        @update:value="onChangeDeliveryType"
     />
 
     <sw-container justify="end">
@@ -28,16 +28,17 @@
         gap="16px"
         align="center"
     >
-        <sw-switch-field
-            v-for="flag in flags"
-            v-if="flag.visible"
-            v-model="flag.selected"
-            size="small"
-            :key="flag.name"
-            :label="getFlagLabel(flag)"
-            :disabled="disabled || flag.disabled"
-            @change="onChangeFlag(flag.name)"
-        />
+        <template v-for="flag in flags">
+            <sw-switch-field
+                v-if="flag.visible"
+                v-model:value="flag.selected"
+                size="small"
+                :key="flag.name"
+                :label="getFlagLabel(flag)"
+                :disabled="disabled || flag.disabled"
+                @update:value="onChangeFlag(flag.name)"
+            />
+        </template>
     </sw-container>
 
     <sw-loader v-if="isLoading" />

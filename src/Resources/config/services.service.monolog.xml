@@ -6,7 +6,7 @@
     <services>
         <defaults public="true"/>
 
-        <service id="postnl.logger" class="Symfony\Bridge\Monolog\Logger">
+        <service id="postnl.logger" class="Monolog\Logger">
             <argument>PostNL</argument>
 
             <argument type="collection">

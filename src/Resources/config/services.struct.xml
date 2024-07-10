@@ -10,9 +10,5 @@
         <service id="PostNL\Shopware6\Struct\Attribute\OrderAttributeStruct">
             <tag name="postnl.attribute.struct.entity"/>
         </service>
-
-        <service id="PostNL\Shopware6\Struct\Attribute\ShippingMethodAttributeStruct">
-            <tag name="postnl.attribute.struct.entity"/>
-        </service>
     </services>
 </container>

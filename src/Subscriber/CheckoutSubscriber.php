@@ -8,12 +8,11 @@ use Firstred\PostNL\Entity\Response\GetLocationsResult;
 use Firstred\PostNL\Entity\Response\ResponseLocation;
 use PostNL\Shopware6\Defaults;
 use PostNL\Shopware6\Facade\CheckoutFacade;
-use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shopware6\Service\Shopware\CartService;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
-use PostNL\Shopware6\Struct\Attribute\ShippingMethodAttributeStruct;
+use PostNL\Shopware6\Service\Shopware\DataExtractor\ShippingMethodDataExtractor;
 use PostNL\Shopware6\Struct\TimeframeCollection;
 use PostNL\Shopware6\Struct\TimeframeStruct;
 use Psr\Log\LoggerInterface;
@@ -31,58 +30,27 @@ class CheckoutSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @var ApiFactory
-     */
     protected $apiFactory;
-
-    /**
-     * @var AttributeFactory
-     */
-    protected $attributeFactory;
-
-    /**
-     * @var CartService
-     */
     protected $cartService;
-
-    /**
-     * @var CartService
-     */
     protected $checkoutFacade;
-
-    /**
-     * @var ConfigService
-     */
     protected $configService;
-
-    /**
-     * @var LoggerInterface
-     */
+    protected $shippingMethodDataExtractor;
     protected $logger;
 
-    /**
-     * @param ApiFactory $apiFactory
-     * @param AttributeFactory $attributeFactory
-     * @param CartService $cartService
-     * @param CheckoutFacade $checkoutFacade
-     * @param ConfigService $configService
-     * @param LoggerInterface $logger
-     */
     public function __construct(
         ApiFactory       $apiFactory,
-        AttributeFactory $attributeFactory,
         CartService      $cartService,
         CheckoutFacade   $checkoutFacade,
         ConfigService    $configService,
+        ShippingMethodDataExtractor $shippingMethodDataExtractor,
         LoggerInterface  $logger
     )
     {
         $this->apiFactory = $apiFactory;
-        $this->attributeFactory = $attributeFactory;
         $this->cartService = $cartService;
         $this->checkoutFacade = $checkoutFacade;
         $this->configService = $configService;
+        $this->shippingMethodDataExtractor = $shippingMethodDataExtractor;
         $this->logger = $logger;
     }
 
@@ -92,11 +60,9 @@ class CheckoutSubscriber implements EventSubscriberInterface
      */
     public function onCheckoutConfirmPageLoaded(CheckoutConfirmPageLoadedEvent $event)
     {
-        try {
-            /** @var ShippingMethodAttributeStruct $attributes */
-            $attributes = $this->attributeFactory->createFromEntity($event->getSalesChannelContext()->getShippingMethod(), $event->getContext());
-        } catch (\Throwable $e) {
-            // This is not a PostNL shipping method
+        $deliveryType = $this->shippingMethodDataExtractor->extractDeliveryType($event->getSalesChannelContext()->getShippingMethod());
+
+        if(empty($deliveryType)) {
             return;
         }
 
@@ -104,7 +70,7 @@ class CheckoutSubscriber implements EventSubscriberInterface
             'shippingMethod' => $event->getSalesChannelContext()->getShippingMethod()
         ]);
 
-        switch ($attributes->getDeliveryType()) {
+        switch ($deliveryType) {
             case DeliveryType::SHIPMENT:
                 $this->handleShipment($event);
                 break;

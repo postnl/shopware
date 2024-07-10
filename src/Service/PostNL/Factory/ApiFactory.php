@@ -5,32 +5,29 @@ namespace PostNL\Shopware6\Service\PostNL\Factory;
 use Firstred\PostNL\Entity\Address;
 use Firstred\PostNL\Entity\Customer;
 use Firstred\PostNL\Exception\InvalidArgumentException;
+use Firstred\PostNL\Exception\PostNLException;
 use PostNL\Shopware6\Component\PostNL\Factory\GuzzleRequestFactory;
 use PostNL\Shopware6\Component\PostNL\PostNL;
 use PostNL\Shopware6\Exception\PostNL\ClientCreationException;
+use PostNL\Shopware6\Service\PostNL\VersionProvider;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 
 class ApiFactory
 {
-    /**
-     * @var ConfigService
-     */
-    private $configService;
+    protected ConfigService $configService;
+    protected VersionProvider $versionProvider;
+    protected LoggerInterface $logger;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
-     * @param ConfigService   $configService
-     * @param LoggerInterface $logger
-     */
-    public function __construct(ConfigService $configService, LoggerInterface $logger)
+    public function __construct(
+        ConfigService $configService,
+        VersionProvider $versionProvider,
+        LoggerInterface $logger
+    )
     {
         $this->configService = $configService;
+        $this->versionProvider = $versionProvider;
         $this->logger = $logger;
     }
 
@@ -55,6 +52,11 @@ class ApiFactory
 
             $requestFactory = new GuzzleRequestFactory();
             $requestFactory->addHeader('SourceSystem', 25);
+            $requestFactory->addHeader('X-PostNL-Client-Versions', $this->versionProvider->getAllAsString(Context::createDefaultContext()));
+
+            if (function_exists("php_uname")) {
+                $requestFactory->addHeader('X-PostNL-Client-Info', php_uname());
+            }
 
             $client = new PostNL($customer, $apiKey, $sandbox);
             $client->setRequestFactory($requestFactory);
@@ -77,11 +79,6 @@ class ApiFactory
         }
     }
 
-    /**
-     * @param string  $salesChannelId
-     * @param Context $context
-     * @return PostNL
-     */
     public function createClientForSalesChannel(string $salesChannelId, Context $context): PostNL
     {
         $this->logger->debug("Creating API client for saleschannel", [
