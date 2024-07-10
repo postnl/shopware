@@ -58,6 +58,16 @@ Component.register('postnl-change-shipping-modal', {
         this.createdComponent();
     },
 
+    watch: {
+        isSuccess(value) {
+            if(value) {
+                return
+            }
+
+            this.$emit('change-shipping')
+        }
+    },
+
     methods: {
         createdComponent() {
             if (!this.isBulk) {
@@ -96,10 +106,5 @@ Component.register('postnl-change-shipping-modal', {
                     this.isSuccess = true;
                 })
         },
-
-        processFinish() {
-            this.isSuccess = false;
-            this.$emit('change-shipping');
-        }
     },
 });

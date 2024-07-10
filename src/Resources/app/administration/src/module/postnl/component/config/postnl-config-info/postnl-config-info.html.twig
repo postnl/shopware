@@ -1,59 +1,56 @@
-<sw-container class="postnl-config-info" gap="16px" columns="3fr 1fr">
+<sw-container class="postnl-config-info" gap="1rem" columns="3fr 1fr">
     <div>
-        <div class="title">
-            <i18n path="postnl.config.info.title">
+        <h3>
+            <i18n-t keypath="postnl.config.info.title">
                 <template #username>
                     {{ userName }}
                 </template>
-            </i18n>
-        </div>
-        <div class="description">
-            <br/>
-            <ol class="list">
-                <li class="list-item">
-                    <i18n path="postnl.config.info.onboardingStep1">
-                        <template #link>
-                            <sw-external-link
-                                href="https://mijn.postnl.nl/c/BP2_Mod_Login.app?inresponseto=&RelayState=&startURL=%2F">
-                                {{ $tc('postnl.config.info.mijnPostNL') }}
-                            </sw-external-link>
-                        </template>
-                    </i18n>
-                </li>
-                <li class="list-item">
-                    <i18n path="postnl.config.info.onboardingStep2"/>
-                    <br>
-                    <i18n path="postnl.config.info.onboardingStep21">
-                        <template #link>
-                            <sw-internal-link inline :routerLink="{ name:'sw.settings.shipping.index'}">
-                                {{ $tc('postnl.config.info.shippingSettings') }}
-                            </sw-internal-link>
-                        </template>
-                    </i18n>
-                </li>
-                <li class="list-item">
-                    <i18n path="postnl.config.info.onboardingStep3"/>
-                    <br>
-                    <i18n path="postnl.config.info.onboardingStep31">
-                        <template #link>
-                            <sw-internal-link inline :routerLink="{ name:'sw.sales.channel.list'}">
-                                {{ $tc('postnl.config.info.salesChannels') }}
-                            </sw-internal-link>
-                        </template>
-                    </i18n>
-                </li>
-            </ol>
-        </div>
-
+            </i18n-t>
+        </h3>
+        <ol class="onboarding-steps">
+            <li>
+                <i18n-t keypath="postnl.config.info.onboardingStep1">
+                    <template #link>
+                        <sw-external-link
+                            href="https://mijn.postnl.nl/c/BP2_Mod_Login.app?inresponseto=&RelayState=&startURL=%2F">
+                            {{ $tc('postnl.config.info.mijnPostNL') }}
+                        </sw-external-link>
+                    </template>
+                </i18n-t>
+            </li>
+            <li>
+                <i18n-t keypath="postnl.config.info.onboardingStep2"/>
+                <br>
+                <i18n-t keypath="postnl.config.info.onboardingStep21">
+                    <template #link>
+                        <sw-internal-link inline :routerLink="{ name:'sw.settings.shipping.index'}">
+                            {{ $tc('postnl.config.info.shippingSettings') }}
+                        </sw-internal-link>
+                    </template>
+                </i18n-t>
+            </li>
+            <li>
+                <i18n-t keypath="postnl.config.info.onboardingStep3"/>
+                <br>
+                <i18n-t keypath="postnl.config.info.onboardingStep31">
+                    <template #link>
+                        <sw-internal-link inline :routerLink="{ name:'sw.sales.channel.list'}">
+                            {{ $tc('postnl.config.info.salesChannels') }}
+                        </sw-internal-link>
+                    </template>
+                </i18n-t>
+            </li>
+        </ol>
     </div>
-    <div class="col-right">
-        <sw-button class="btn-action" link="https://postnl.github.io/shopware/" target=”_blank” rel="noopener">
-            <sw-icon name="regular-file-text"></sw-icon>
+
+    <sw-container class="sidebar" gap="1rem" columns="1fr" align="start">
+        <sw-button class="btn-action mt-button" link="https://postnl.github.io/shopware/">
+            <sw-icon name="regular-file-text"/>
             {{ $tc('postnl.config.info.btnManual') }}
         </sw-button>
-        <sw-button class="btn-action" link="mailto:digitaleklantsupport@postnl.nl">
-            <sw-icon name="regular-envelope"></sw-icon>
+        <sw-button class="btn-action mt-button" link="mailto:digitaleklantsupport@postnl.nl">
+            <sw-icon name="regular-envelope"/>
             {{ $tc('postnl.config.info.btnSupport') }}
         </sw-button>
-    </div>
+    </sw-container>
 </sw-container>

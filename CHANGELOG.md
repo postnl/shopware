@@ -1,3 +1,10 @@
+# 4.0.0
+#### Shopware compatibility update
+- This version is compatible with Shopware 6.6.0 and higher.
+
+#### New features
+- Added extra headers to the API calls. This enables us to provide better support by monitoring used Shopware and plugin versions.
+
 # 3.1.2
 - An incompatibility with the returns management section of the Shopware Commercial plugin was discovered, which caused the PostNL order overview to no longer work. A workaround has been implemented
 - (Minor) Fixed missing images in the plugin configuration

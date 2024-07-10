@@ -27,8 +27,8 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
 
             criteria.addFilter(
                 Criteria.equalsAny(
-                    'deliveries.shippingMethod.customFields.postnl.deliveryType',
-                    ['mailbox', 'shipment', 'pickup']
+                    'deliveries.shippingMethod.technicalName',
+                    ['postnl_mailbox', 'postnl_shipment', 'postnl_pickup']
                 )
             );
             criteria.addAssociation('deliveries.shippingOrderAddress.country');
@@ -49,6 +49,10 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
             const filters = this.$super('listFilterOptions')
             delete filters['shipping-method-filter']
             return filters
+        },
+
+        dateFilter() {
+            return Shopware.Filter.getByName('date');
         },
     },
 

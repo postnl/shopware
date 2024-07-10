@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace PostNL\Shopware6\Service\Shopware\Cart\Delivery;
 
 use PostNL\Shopware6\Defaults;
-use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\Shopware\CartService;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
-use PostNL\Shopware6\Struct\Attribute\ShippingMethodAttributeStruct;
+use PostNL\Shopware6\Service\Shopware\DataExtractor\ShippingMethodDataExtractor;
 use PostNL\Shopware6\Struct\Config\ConfigStruct;
 use PostNL\Shopware6\Struct\TimeframeStruct;
 use Shopware\Core\Checkout\Cart\Cart;
@@ -26,38 +25,23 @@ use Shopware\Core\System\SalesChannel\SalesChannelContext;
 class DeliveryCalculator extends ShopwareDeliveryCalculator
 {
     private QuantityPriceCalculator $priceCalculator;
-
-    private AttributeFactory $attributeFactory;
-
+    private ShippingMethodDataExtractor $shippingMethodDataExtractor;
     private ConfigService $configService;
 
-    /**
-     * @param QuantityPriceCalculator  $priceCalculator
-     * @param PercentageTaxRuleBuilder $percentageTaxRuleBuilder
-     * @param AttributeFactory         $attributeFactory
-     * @param ConfigService            $configService
-     */
     public function __construct(
         QuantityPriceCalculator $priceCalculator,
         PercentageTaxRuleBuilder $percentageTaxRuleBuilder,
-        AttributeFactory $attributeFactory,
+        ShippingMethodDataExtractor $shippingMethodDataExtractor,
         ConfigService $configService
     )
     {
         parent::__construct($priceCalculator, $percentageTaxRuleBuilder);
 
         $this->priceCalculator = $priceCalculator;
-        $this->attributeFactory = $attributeFactory;
+        $this->shippingMethodDataExtractor = $shippingMethodDataExtractor;
         $this->configService = $configService;
     }
 
-    /**
-     * @param CartDataCollection  $data
-     * @param Cart                $cart
-     * @param DeliveryCollection  $deliveries
-     * @param SalesChannelContext $context
-     * @return void
-     */
     public function calculate(
         CartDataCollection $data,
         Cart $cart,
@@ -85,16 +69,15 @@ class DeliveryCalculator extends ShopwareDeliveryCalculator
         SalesChannelContext $context
     ): void
     {
-        /** @var ShippingMethodAttributeStruct $shippingMethodAttributes */
-        $shippingMethodAttributes = $this->attributeFactory->createFromEntity($delivery->getShippingMethod(), $context->getContext());
+        $deliveryType = $this->shippingMethodDataExtractor->extractDeliveryType($delivery->getShippingMethod());
 
-        if(empty($shippingMethodAttributes->getDeliveryType())) {
+        if(empty($deliveryType)) {
             return;
         }
 
         $config = $this->configService->getConfiguration($context->getSalesChannelId(), $context->getContext());
 
-        switch($shippingMethodAttributes->getDeliveryType()) {
+        switch($deliveryType) {
             case 'shipment':
                 $this->calculateShipmentSurcharge($data, $delivery, $config, $context);
                 break;

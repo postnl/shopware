@@ -11,10 +11,10 @@
 
         <service id="PostNL\Shopware6\Subscriber\CheckoutSubscriber">
             <argument type="service" id="PostNL\Shopware6\Service\PostNL\Factory\ApiFactory"/>
-            <argument type="service" id="PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory"/>
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\CartService"/>
             <argument type="service" id="PostNL\Shopware6\Facade\CheckoutFacade"/>
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\ConfigService"/>
+            <argument type="service" id="PostNL\Shopware6\Service\Shopware\DataExtractor\ShippingMethodDataExtractor"/>
             <argument type="service" id="postnl.logger"/>
         </service>
 
@@ -26,6 +26,7 @@
             <argument type="service" id="product.repository" />
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\DeliveryDateService"/>
             <argument type="service" id="PostNL\Shopware6\Service\PostNL\Product\DefaultProductService"/>
+            <argument type="service" id="PostNL\Shopware6\Service\Shopware\DataExtractor\ShippingMethodDataExtractor"/>
             <argument type="service" id="postnl.logger"/>
             <tag name="kernel.event_subscriber"/>
         </service>

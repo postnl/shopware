@@ -9,7 +9,6 @@ Component.extend('postnl-config-product-selection-shipment-be-be-alternative', '
             deliveryType: 'shipment',
 
             isAlt: true,
-            defaultIsEnabled: false,
         };
     },
 })
