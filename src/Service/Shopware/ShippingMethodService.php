@@ -131,7 +131,7 @@ class ShippingMethodService
                 'availabilityRuleId' => $ruleId,
                 'deliveryTimeId' => $deliveryTimeId,
                 'mediaId' => $mediaId,
-                'technicalName' => 'postnl_'.strtolower($deliveryType),
+                'technicalName' => $this->getTechnicalName($deliveryType),
                 'prices' => [
                     [
                         'calculation' => 1,
@@ -154,6 +154,11 @@ class ShippingMethodService
         return $id;
     }
 
+    private function getTechnicalName(string $deliveryType): string
+    {
+        return 'postnl_'.strtolower($deliveryType);
+    }
+
     /**
      * @param string  $deliveryType
      * @param Context $context
@@ -163,7 +168,7 @@ class ShippingMethodService
     private function getShippingMethodForType(string $deliveryType, Context $context): ShippingMethodEntity
     {
         $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('customFields.' . Defaults::CUSTOM_FIELDS_KEY . '.deliveryType', $deliveryType));
+        $criteria->addFilter(new EqualsFilter('technicalName', $this->getTechnicalName($deliveryType)));
 
         $shippingMethod = $this->shippingMethodRepository->search($criteria, $context)->first();
 
@@ -273,16 +278,6 @@ class ShippingMethodService
         if ($icon instanceof MediaEntity) {
             return $icon->getId();
         }
-
-        // Add icon to the media library
-//        $iconMime = 'image/svg+xml';
-//        $iconExt = 'svg';
-//        $iconPath = realpath(implode(DIRECTORY_SEPARATOR, [
-//            $pluginDir,
-//            '..',
-//            'assets',
-//            'postnl-logo-vector.svg'
-//        ]));
 
         $iconMime = 'image/png';
         $iconExt = 'png';

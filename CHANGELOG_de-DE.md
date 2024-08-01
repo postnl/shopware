@@ -1,3 +1,6 @@
+# 4.0.1
+- Behebung eines Problems bei der Neuinstallation des Plugins nach dem Update auf 4.x
+
 # 4.0.0
 #### Update der Shopware-Kompatibilität
 - Diese Version ist kompatibel mit Shopware 6.6.0 und höher.
