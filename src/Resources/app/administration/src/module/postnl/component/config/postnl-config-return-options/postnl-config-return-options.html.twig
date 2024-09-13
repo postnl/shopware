@@ -1,0 +1,15 @@
+{% block memo_config_content %}
+    <sw-single-select
+        v-model:value="content.type"
+        :label="$tc('postnl.config.returnOptions.type')"
+        :options="typeOptions"
+    />
+
+    <sw-switch-field
+        v-if="content.type === 'shipmentAndReturn'"
+        v-model:value="content.allowImmediateShipmentAndReturn"
+        label="Moet nog snippet van worden gemaakt"
+    />
+
+
+{% endblock %}

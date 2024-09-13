@@ -67,6 +67,14 @@
           "country": "Please (re)select a valid country under sender address first."
         }
       },
+      "returnOptions": {
+        "type": "Return label",
+        "options": {
+          "none": "None",
+          "shipmentAndReturn": "Shipment and Return",
+          "labelInTheBox": "Label in the box"
+        }
+      },
       "productSelection": {
         "header": " {name}",
         "headerDebug": "[{code}] {name}",
