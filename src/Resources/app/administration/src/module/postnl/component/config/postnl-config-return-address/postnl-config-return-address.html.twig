@@ -54,7 +54,7 @@
                     :style="span(4)"
                 />
 
-                <template v-if="content.returnUseHomeAddress">
+                <template v-if="content.useHomeAddress">
                     <sw-text-field
                         v-model:value="content.street"
                         :label="$tc('postnl.config.returnAddress.street')"
