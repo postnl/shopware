@@ -50,6 +50,7 @@
       "returnAddress": {
         "customerCodeWarning": "Let op, voor retour zendingen moet een retour klantcode gebruikt worden",
         "contract": "Ik heb een retourcontract met PostNL",
+        "useHomeAddress": "Bestellingen retourneren naar adres in plaats van Antwoordnummer",
         "companyName": "Bedrijfsnaam",
         "firstName": "Voornaam",
         "name": "Achternaam",

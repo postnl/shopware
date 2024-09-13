@@ -50,6 +50,7 @@
       "returnAddress": {
         "customerCodeWarning": "Bitte beachten Sie, dass für Rücksendungen ein Kundencode verwendet werden muss",
         "contract": "Ich habe einen Rücksendevertrag mit PostNL",
+        "useHomeAddress": "Rücksendeaufträge an die Adresse statt an die Antwortnummer",
         "companyName": "Firmenname",
         "firstName": "Vorname",
         "name": "Nachname",

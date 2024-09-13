@@ -32,6 +32,13 @@
                 noMarginTop
             />
 
+            <sw-switch-field
+                v-model:value="content.useHomeAddress"
+                :label="$tc('postnl.config.returnAddress.useHomeAddress')"
+                size="small"
+                noMarginTop
+            />
+
             <sw-alert variant="info">
                 {{ $tc('postnl.config.returnAddress.customerCodeWarning') }}
             </sw-alert>
@@ -47,7 +54,26 @@
                     :style="span(4)"
                 />
 
+                <template v-if="content.returnUseHomeAddress">
+                    <sw-text-field
+                        v-model:value="content.street"
+                        :label="$tc('postnl.config.returnAddress.street')"
+                        :style="span(2)"
+                    />
+
+                    <sw-text-field
+                        v-model:value="content.houseNr"
+                        :label="$tc('postnl.config.returnAddress.houseNr')"
+                    />
+
+                    <sw-text-field
+                        v-model:value="content.houseNrExt"
+                        :label="$tc('postnl.config.returnAddress.houseNrExt')"
+                    />
+                </template>
+
                 <sw-text-field
+                    v-else
                     v-model:value="content.returnNumber"
                     :label="$tc('postnl.config.returnAddress.returnNumber')"
                     :style="span(4)"
