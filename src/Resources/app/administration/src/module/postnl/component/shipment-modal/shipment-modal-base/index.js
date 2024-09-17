@@ -1,4 +1,4 @@
-import template from "shipment-modal-base.html.twig";
+import template from "./shipment-modal-base.html.twig";
 
 const { Component, Mixin } = Shopware;
 
@@ -45,8 +45,8 @@ Component.register('postnl-shipment-modal-base', {
             return Object.values(this.selection).length;
         },
 
-        selectionHasProducts() {
-            return !Object.values(this.selection)
+        selectionIsMissingProduct() {
+            return Object.values(this.selection)
                 .map(order => order?.customFields?.postnl?.productId)
                 .some(productId => [undefined, null, ""].includes(productId))
         },

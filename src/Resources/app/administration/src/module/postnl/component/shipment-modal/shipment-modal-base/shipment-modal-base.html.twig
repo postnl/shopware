@@ -9,13 +9,19 @@
         {% endblock %}
     </sw-container>
 
+    {% block postnl_shipment_modal_additional_content %}
+    {% endblock %}
+
     <template #modal-footer>
+        {% block postnl_shipment_modal_footer_additional_buttons %}
+        {% endblock %}
+
         <sw-button
             size="small"
             :disabled="isProcessing"
             @click="closeModal"
         >
-            {% block postnl_shipment_modal_content %}
+            {% block postnl_shipment_modal_cancel_button_content %}
                 {{ $tc('global.default.cancel') }}
             {% endblock %}
         </sw-button>
@@ -29,7 +35,7 @@
             :disabled="isProcessing || isProcessingDisabled"
             @click="onStartProcessing"
         >
-            {% block postnl_shipment_modal_content %}
+            {% block postnl_shipment_modal_confirm_button_content %}
                 {{ $tc('global.default.confirm') }}
             {% endblock %}
         </sw-button-process>
