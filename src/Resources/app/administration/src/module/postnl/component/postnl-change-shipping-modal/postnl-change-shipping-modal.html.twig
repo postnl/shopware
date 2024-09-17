@@ -1,13 +1,7 @@
-<sw-modal
-    class="postnl-change-shipping-modal"
-    :title="$t('postnl.order.modal.changeShipping.title')"
-    :closable="!isProcessing"
-    :isLoading="isLoading"
-    @modal-close="closeModal"
->
+{% block postnl_shipment_modal_content %}
     <template v-if="!isLoading">
         <postnl-product-selection
-            v-if="canChangeProduct"
+            v-if="!isProcessingDisabled"
             v-model:value="overrideProductId"
             :sourceZone="sourceZones[0]"
             :destinationZone="destinationZones[0]"
@@ -20,26 +14,12 @@
             {{ $tc('postnl.order.modal.changeShipping.warning') }}
         </sw-alert>
     </template>
+{% endblock %}
 
-    <template #modal-footer>
-        <sw-button
-            size="small"
-            :disabled="isProcessing"
-            @click="closeModal"
-        >
-            {{ $tc('postnl.order.modal.changeShipping.cancel') }}
-        </sw-button>
+{% block postnl_shipment_modal_cancel_button_content %}
+    {{ $tc('postnl.order.modal.changeShipping.cancel') }}
+{% endblock %}
 
-        <sw-button-process
-            v-model:processSuccess="isSuccess"
-            size="small"
-            variant="primary"
-            :animationTimeout="2500"
-            :disabled="!canChangeProduct"
-            :isLoading="isProcessing"
-            @click="sendShipments"
-        >
-            {{ $tc('postnl.order.modal.changeShipping.confirm') }}
-        </sw-button-process>
-    </template>
-</sw-modal>
+{% block postnl_shipment_modal_confirm_button_content %}
+    {{ $tc('postnl.order.modal.changeShipping.confirm') }}
+{% endblock %}

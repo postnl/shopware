@@ -1,33 +1,10 @@
 import template from './postnl-change-shipping-modal.html.twig';
-// import './postnl-shipping-modal.scss';
 
-// eslint-disable-next-line no-undef
-const { Component, Mixin, } = Shopware;
-
-Component.register('postnl-change-shipping-modal', {
+Shopware.Component.register('postnl-change-shipping-modal', {
     template,
-
-    inject: [
-        'ShipmentService',
-    ],
-
-    mixins: [
-        Mixin.getByName('notification'),
-    ],
-
-    props: {
-        selection: {
-            type: Object,
-            required: true,
-        }
-    },
 
     data() {
         return {
-            isLoading: false,
-            isProcessing: false,
-            isSuccess: false,
-
             sourceZones: [],
             destinationZones: [],
 
@@ -37,51 +14,29 @@ Component.register('postnl-change-shipping-modal', {
     },
 
     computed: {
-        isBulk() {
-            return this.selectionCount > 1;
+        modalClasses() {
+            return [
+                'postnl-change-shipping-modal'
+            ]
         },
 
-        selectionCount() {
-            return Object.values(this.selection).length;
+        modalTitle() {
+            return this.$t('postnl.order.modal.changeShipping.title')
         },
 
-        canChangeProduct() {
-            return this.sourceZones.length === 1 && this.destinationZones.length === 1;
+        isProcessingDisabled() {
+            return this.sourceZones.length < 1 || this.destinationZones.length < 1;
         },
-
-        orderIds() {
-            return Object.values(this.selection).map(order => order.id)
-        },
-    },
-
-    created() {
-        this.createdComponent();
-    },
-
-    watch: {
-        isSuccess(value) {
-            if(value) {
-                return
-            }
-
-            this.$emit('change-shipping')
-        }
     },
 
     methods: {
         createdComponent() {
             if (!this.isBulk) {
-                this.overrideProductId = Object.values(this.selection)[0].customFields?.postnl?.productId;
+                this.overrideProductId = this.productIds.shift();
                 this.isOverrideProduct = !!this.overrideProductId;
             }
 
             this.determineZones()
-        },
-
-        closeModal() {
-            if (!this.isProcessing) {
-                this.$emit('close');
-            }
         },
 
         determineZones() {
@@ -96,14 +51,14 @@ Component.register('postnl-change-shipping-modal', {
                 .finally(() => this.isLoading = false)
         },
 
-        sendShipments() {
+        onStartProcessing() {
             this.isProcessing = true;
 
             this.ShipmentService
                 .changeProducts(this.orderIds, this.overrideProductId)
                 .finally(() => {
                     this.isProcessing = false;
-                    this.isSuccess = true;
+                    this.isProcessingSuccess = true;
                 })
         },
     },
