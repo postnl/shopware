@@ -1,4 +1,4 @@
-import template from "./shipment-modal-base.html.twig";
+import template from "./postnl-shipment-modal-base.html.twig";
 
 const { Component, Mixin } = Shopware;
 
