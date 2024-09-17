@@ -1,9 +1,6 @@
 import template from './postnl-create-shipment-modal.html.twig';
 
-// eslint-disable-next-line no-undef
-const {Component, Mixin,} = Shopware;
-
-Component.extend('postnl-create-shipment-modal', 'postnl-shipment-modal-base',{
+Shopware.Component.extend('postnl-create-shipment-modal', 'postnl-shipment-modal-base',{
     template,
 
     inject: [
