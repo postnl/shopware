@@ -1,6 +1,6 @@
-import template from "./postnl-shipment-modal-base.html.twig";
+import template from "./postnl-shipment-modal-base.html.twig"
 
-const { Component, Mixin } = Shopware;
+const { Component, Mixin } = Shopware
 
 Component.register('postnl-shipment-modal-base', {
     template,
@@ -21,7 +21,7 @@ Component.register('postnl-shipment-modal-base', {
             isLoading: false,
             isProcessing: false,
             isProcessingSuccess: false,
-        };
+        }
     },
 
     computed: {
@@ -34,30 +34,32 @@ Component.register('postnl-shipment-modal-base', {
         },
 
         isBulk() {
-            return this.selectionCount > 1;
+            return this.selectionCount > 1
         },
 
         isProcessingDisabled() {
             return false
         },
 
+        orderIds() {
+            return Object.values(this.selection).map(order => order.id)
+        },
+
+        productIds() {
+            return Object.values(this.selection).map(order => order?.customFields?.postnl?.productId)
+        },
+
         selectionCount() {
-            return Object.values(this.selection).length;
+            return Object.values(this.selection).length
         },
 
         selectionIsMissingProduct() {
-            return Object.values(this.selection)
-                .map(order => order?.customFields?.postnl?.productId)
-                .some(productId => [undefined, null, ""].includes(productId))
-        },
-
-        orderIds() {
-            return Object.values(this.selection).map(order => order.id)
+            return this.productIds.some(productId => [undefined, null, ""].includes(productId))
         },
     },
 
     created() {
-        this.createdComponent();
+        this.createdComponent()
     },
 
     watch: {
@@ -79,7 +81,7 @@ Component.register('postnl-shipment-modal-base', {
 
         closeModal() {
             if (!this.isProcessing) {
-                this.$emit('close');
+                this.$emit('close')
             }
         },
 
