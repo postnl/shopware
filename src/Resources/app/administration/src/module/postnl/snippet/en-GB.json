@@ -68,12 +68,17 @@
         }
       },
       "returnOptions": {
-        "type": "Return label",
+        "type": "Label type",
         "options": {
           "none": "None",
           "shipmentAndReturn": "Shipment and Return",
           "labelInTheBox": "Label in the box"
-        }
+        },
+        "description": {
+          "shipmentAndReturn": "The shipment label can also be used as the return label, but this needs to be activated per order.",
+          "labelInTheBox": "An extra return label will be printed and should be included in the shipment."
+        },
+        "allowImmediateShipmentAndReturn": "Labels can be used for returns immediately, without requiring activation."
       },
       "productSelection": {
         "header": " {name}",

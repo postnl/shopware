@@ -376,24 +376,13 @@
     </card>
 
     <card>
-        <title>Return label</title>
-        <title lang="de-DE">Rücksendeetikett</title>
-        <title lang="nl-NL">Retourlabel</title>
+        <title>Returns</title>
+        <title lang="de-DE">Rücksendung</title>
+        <title lang="nl-NL">Retouren</title>
 
-        <component name="postnl-config-description-text">
-            <name>returnLabelInTheBoxTitle</name>
-            <label>Print return label directly when the shipping label is printed so that the return label can be put in the box.</label>
-            <label lang="de-DE">Drucken Sie das Rücksendeetikett direkt beim Drucken des Versandetiketts, damit das Rücksendeetikett in den Karton gelegt werden kann.</label>
-            <label lang="nl-NL">Druk het retourlabel direct af wanneer het verzendlabel wordt afgedrukt, zodat het retouretiket in de doos kan worden gedaan.</label>
+        <component name="postnl-config-return-options">
+            <name>returnOptions</name>
         </component>
-
-        <input-field type="bool">
-            <name>returnLabelInTheBox</name>
-            <label>Print return label</label>
-            <label lang="de-DE">Rücksendeetikett drucken</label>
-            <label lang="nl-NL">Retourlabel afdrukken</label>
-            <defaultValue>true</defaultValue>
-        </input-field>
     </card>
 
     <card>
