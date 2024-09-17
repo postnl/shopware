@@ -1,81 +1,46 @@
 import template from './postnl-create-shipment-modal.html.twig';
-// import './postnl-shipping-modal.scss';
 
 // eslint-disable-next-line no-undef
 const {Component, Mixin,} = Shopware;
 
-Component.register('postnl-create-shipment-modal', {
+Component.extend('postnl-create-shipment-modal', 'postnl-shipment-modal-base',{
     template,
 
     inject: [
         'ShipmentService',
     ],
 
-    mixins: [
-        Mixin.getByName('notification'),
-    ],
-
-    props: {
-        selection: {
-            type: Object,
-            required: true,
-        }
-    },
-
     data() {
         return {
-            isProcessing: false,
-            isSuccess: false,
-
             confirmShipments: true,
             downloadLabels: true,
         };
     },
 
     computed: {
-        isBulk() {
-            return this.selectionCount > 1;
+        modalClasses() {
+            return [
+                'postnl-create-shipment-modal'
+            ]
         },
 
-        selectionCount() {
-            return Object.values(this.selection).length;
+        modalTitle() {
+            return this.$tc('postnl.order.modal.createShipments.title', this.selectionCount, {
+                count: this.selectionCount
+            })
         },
 
-        hasActions(){
-          return (this.confirmShipments || this.downloadLabels) && this.selectionHasProducts;
+        isProcessingDisabled(){
+            return (!this.confirmShipments && !this.downloadLabels) || this.selectionIsMissingProduct
         },
-
-        selectionHasProducts() {
-            return !Object.values(this.selection)
-                .map(order => order?.customFields?.postnl?.productId)
-                .some(productId => [undefined, null, ""].includes(productId))
-        }
-    },
-
-    watch: {
-        isSuccess(value) {
-            if(value) {
-                return
-            }
-
-            this.$emit('create-shipment')
-        }
     },
 
     methods: {
-        closeModal() {
-            if (!this.isProcessing) {
-                this.$emit('close');
-            }
-        },
-
         sendShipments() {
-            this.isProcessing = true;
-
-            const orderIds = Object.values(this.selection).map(order => order.id);
+            this.isProcessing = true
 
             this.ShipmentService
-                .generateBarcodes(orderIds)
+                .generateBarcodes(this.orderIds)
                 .catch(error => {
                     if (error.message) {
                         this.createNotificationError({
@@ -83,41 +48,43 @@ Component.register('postnl-create-shipment-modal', {
                             message: error.message,
                         });
                     }
-                    return Promise.reject();
+                    return Promise.reject()
                 })
                 .then(() => this.ShipmentService.createShipments(
-                    orderIds,
+                    this.orderIds,
                     this.confirmShipments,
                     this.downloadLabels,
                 ))
                 .then(response => {
                     if (response.data && this.downloadLabels) {
-                        //const filename = response.headers['content-disposition'].split('filename=')[1];
-                        const link = document.createElement('a');
-                        link.href = URL.createObjectURL(response.data);
-                        //link.download = filename;
-                        link.target = '_blank';
-                        link.dispatchEvent(new MouseEvent('click'));
-                        link.remove();
+                        //const filename = response.headers['content-disposition'].split('filename=')[1]
+                        const link = document.createElement('a')
+                        link.href = URL.createObjectURL(response.data)
+                        //link.download = filename
+                        link.target = '_blank'
+                        link.dispatchEvent(new MouseEvent('click'))
+                        link.remove()
                     }
-                    this.isSuccess = true;
+
+                    this.isProcessingSuccess = true
+
                     if (this.confirmShipments) {
                         this.createNotificationSuccess({
                             title: this.$tc('global.default.success'),
                             message: this.$tc('postnl.order.modal.createShipments.confirmedShipments'),
-                        });
+                        })
                     }
                 })
                 .catch(() => {
                     this.createNotificationError({
                         title: this.$tc('global.default.error'),
                         message: this.$tc('global.notification.unspecifiedSaveErrorMessage'),
-                    });
+                    })
                 })
                 .finally(() => {
-                    this.isProcessing = false;
-                    this.isSuccess = true;
+                    this.isProcessing = false
+                    this.isProcessingSuccess = true
                 })
         },
     },
-});
+})
