@@ -33,7 +33,7 @@ Shopware.Component.extend('postnl-create-shipment-modal', 'postnl-shipment-modal
     },
 
     methods: {
-        sendShipments() {
+        onStartProcessing() {
             this.isProcessing = true
 
             this.ShipmentService
