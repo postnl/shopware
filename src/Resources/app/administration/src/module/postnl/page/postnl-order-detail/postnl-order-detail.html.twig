@@ -1,20 +1,49 @@
 {% block sw_order_detail_actions_slot_smart_bar_actions %}
 
-    <postnl-button v-if="acl.can('order.editor')"
-                   variant="ghost"
-                   size="x-small"
-                   @click="isChangeShippingModalOpen = true">
-        <sw-icon name="postnl" multicolor></sw-icon>
-        {{ $tc('postnl.order.detail.buttonChangeShipping') }}
-    </postnl-button>
+    <sw-button-group
+        :disabled="isLoading"
+        block
+    >
+        <postnl-button
+            v-if="acl.can('order.editor')"
+            variant="ghost"
+            size="x-small"
 
-    <postnl-button v-if="acl.can('order.editor')"
-                   variant="ghost"
-                   size="x-small"
-                   @click="isCreateShipmentModalOpen = true">
-        <sw-icon name="postnl" multicolor></sw-icon>
-        {{ $tc('postnl.order.detail.buttonCreateShipment') }}
-    </postnl-button>
+            @click="isCreateShipmentModalOpen = true">
+            <sw-icon name="postnl" multicolor></sw-icon>
+        </postnl-button>
+
+        <sw-context-button icon="regular-chevron-down-xs">
+            <template #button>
+                <postnl-button
+                    v-if="acl.can('order.editor')"
+                    variant="ghost"
+                    square
+                >
+                    <sw-icon
+                        name="regular-chevron-down-xs"
+                        decorative
+                        size="1rem"
+                    />
+                </postnl-button>
+            </template>
+
+            <sw-context-menu-item
+                class="postnl-button"
+                @click="isChangeShippingModalOpen = true"
+            >
+                {{ $tc('postnl.order.detail.buttonChangeShipping') }}
+            </sw-context-menu-item>
+
+            <sw-context-menu-item
+                class="postnl-button"
+                @click="isCreateShipmentModalOpen = true"
+            >
+                {{ $tc('postnl.order.detail.buttonCreateShipment') }}
+            </sw-context-menu-item>
+        </sw-context-button>
+    </sw-button-group>
+
 
     <postnl-change-shipping-modal
         v-if="isChangeShippingModalOpen"

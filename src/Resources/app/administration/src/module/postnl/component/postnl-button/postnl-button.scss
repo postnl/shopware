@@ -67,6 +67,19 @@ $color-postnl-900: #d12d00; // L-2, H-6
             }
         }
     }
+}
 
+.sw-context-menu-item.postnl-button {
+    .sw-icon {
+        color: $color-postnl-500;
+    }
 
+    &:hover {
+        background: $color-postnl-50;
+        color: $color-postnl-500;
+
+        &.is--disabled {
+            color: $color-postnl-500;
+        }
+    }
 }
