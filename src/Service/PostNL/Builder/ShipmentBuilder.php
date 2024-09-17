@@ -202,16 +202,14 @@ class ShipmentBuilder
         $address->setCity($returnAddress->getCity());
         $address->setCountrycode($returnAddress->getCountrycode());
 
-        switch ($returnAddress->getCountrycode()) {
-            case 'NL':
-                $address->setStreetHouseNrExt($returnAddress->getStreet());
-                break;
-            default:
-                $address->setStreet($returnAddress->getStreet());
-                $address->setHouseNr($returnAddress->getHouseNr());
-                $address->setHouseNrExt($returnAddress->getHouseNrExt());
-                break;
+        if($returnAddress->getCountrycode() === 'NL' && !$returnAddress->isUseHomeAddress()) {
+            $address->setStreetHouseNrExt($returnAddress->getStreet());
+            return $address;
         }
+
+        $address->setStreet($returnAddress->getStreet());
+        $address->setHouseNr($returnAddress->getHouseNr());
+        $address->setHouseNrExt($returnAddress->getHouseNrExt());
 
         return $address;
     }
