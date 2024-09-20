@@ -19,12 +19,12 @@ export default class ShipmentService extends PostNlApiService
         })
     }
 
-    createShipments(orderIds, confirmShipments, downloadLabels) {
-        return this.getBlob('create', {
-            orderIds: orderIds,
-            confirmShipments: confirmShipments,
-            downloadLabels: downloadLabels,
-        });
+    /**
+     * @param data {orderIds:array<string>, confirmShipments:bool, downloadLabels:bool, smartReturn:bool}
+     * @returns {Promise<*|Promise<AxiosResponse<any>>>}
+     */
+    createShipments(data) {
+        return this.getBlob('create', data);
     }
 
     determineZones(orderIds) {

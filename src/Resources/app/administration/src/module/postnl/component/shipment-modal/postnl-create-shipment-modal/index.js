@@ -47,11 +47,11 @@ Shopware.Component.extend('postnl-create-shipment-modal', 'postnl-shipment-modal
                     }
                     return Promise.reject()
                 })
-                .then(() => this.ShipmentService.createShipments(
-                    this.orderIds,
-                    this.confirmShipments,
-                    this.downloadLabels,
-                ))
+                .then(() => this.ShipmentService.createShipments({
+                    orderIds: this.orderIds,
+                    confirmShipments: this.confirmShipments,
+                    downloadLabels: this.downloadLabels,
+                }))
                 .then(response => {
                     if (response.data && this.downloadLabels) {
                         //const filename = response.headers['content-disposition'].split('filename=')[1]
