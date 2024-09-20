@@ -33,10 +33,8 @@ class ReturnOptionsStructHandler implements AttributeTypeHandlerInterface
             $data = [];
         }
 
-        return $this->attributeFactory->create(
-            ReturnOptionsStruct::class,
-            $data,
-            $context
-        );
+        $struct = new ReturnOptionsStruct();
+        $struct->assign($data);
+        return $struct;
     }
 }

@@ -18,7 +18,7 @@ Component.extend('postnl-config-return-options', 'postnl-memo-config', {
     computed: {
         typeOptions() {
             return [
-                'none', 'shipmentAndReturn', 'labelInTheBox'
+                'none', 'labelInTheBox', 'shipmentAndReturn'
             ]
                 .map(value => ({
                     value,
