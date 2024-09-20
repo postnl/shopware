@@ -405,14 +405,11 @@ class ConfigStruct extends AttributeStruct
         return $this->fallbackHSCode;
     }
 
-    /**
-     * @return bool
-     */
-    public function isReturnLabelInTheBox(): bool
+    public function getReturnOptions(): ReturnOptionsStruct
     {
-        return $this->returnLabelInTheBox;
+        return $this->returnOptions;
     }
-
+    
     //=========================================================================================================
 
     /**
