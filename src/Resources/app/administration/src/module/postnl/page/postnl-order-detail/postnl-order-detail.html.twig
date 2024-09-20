@@ -30,6 +30,7 @@
 
             <sw-context-menu-item
                 class="postnl-button"
+                icon="regular-box-alt"
                 @click="isChangeShippingModalOpen = true"
             >
                 {{ $tc('postnl.order.detail.buttonChangeShipping') }}
@@ -37,9 +38,18 @@
 
             <sw-context-menu-item
                 class="postnl-button"
+                icon="regular-truck"
                 @click="isCreateShipmentModalOpen = true"
             >
                 {{ $tc('postnl.order.detail.buttonCreateShipment') }}
+            </sw-context-menu-item>
+
+            <sw-context-menu-item
+                class="postnl-button"
+                icon="regular-undo"
+                @click="isCreateReturnModalOpen = true"
+            >
+                {{ $tc('postnl.order.detail.buttonCreateReturn') }}
             </sw-context-menu-item>
         </sw-context-button>
     </sw-button-group>
@@ -49,14 +59,18 @@
         v-if="isChangeShippingModalOpen"
         :selection="{order: order}"
         @close="isChangeShippingModalOpen = false"
-        @change-shipping="onChangeShipping"
     />
 
     <postnl-create-shipment-modal
         v-if="isCreateShipmentModalOpen"
         :selection="{order: order}"
         @close="isCreateShipmentModalOpen = false"
-        @create-shipment="onCreateShipment"
+    />
+
+    <postnl-create-return-modal
+        v-if="isCreateReturnModalOpen"
+        :selection="{order: order}"
+        @close="isCreateReturnModalOpen = false"
     />
 
     {% parent %}

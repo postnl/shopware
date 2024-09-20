@@ -5,6 +5,10 @@ const { Component, Mixin } = Shopware
 Component.register('postnl-shipment-modal-base', {
     template,
 
+    inject: [
+        'ShipmentService'
+    ],
+
     mixins: [
         Mixin.getByName('notification'),
     ],
@@ -63,7 +67,7 @@ Component.register('postnl-shipment-modal-base', {
     },
 
     watch: {
-        isSuccess(value) {
+        isProcessingSuccess(value) {
             if (value === true) {
                 this.onProcessSuccess()
                 this.$emit('success-start')
@@ -87,9 +91,14 @@ Component.register('postnl-shipment-modal-base', {
 
         onStartProcessing() {
         },
+
         onProcessSuccess() {
         },
+
         onProcessSuccessEnd() {
+            console.log('end')
+            this.closeModal()
+            location.reload()
         },
     },
 })

@@ -1,6 +1,6 @@
 import template from './postnl-change-shipping-modal.html.twig';
 
-Shopware.Component.register('postnl-change-shipping-modal', {
+Shopware.Component.extend('postnl-change-shipping-modal', 'postnl-shipment-modal-base', {
     template,
 
     data() {
