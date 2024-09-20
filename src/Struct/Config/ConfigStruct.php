@@ -138,10 +138,8 @@ class ConfigStruct extends AttributeStruct
      * @var string|null
      */
     protected $fallbackHSCode;
-    /**
-     * @var bool
-     */
-    protected $returnLabelInTheBox;
+
+    protected ReturnOptionsStruct $returnOptions;
 
     //====================================================================================================
 
