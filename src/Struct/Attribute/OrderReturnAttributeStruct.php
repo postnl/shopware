@@ -8,6 +8,8 @@ use PostNL\Shopware6\Service\Attribute\AttributeStruct;
 
 class OrderReturnAttributeStruct extends AttributeStruct
 {
+    const S_SMART_RETURN = 'create-smart-return';
+
     protected ?bool $labelInTheBox = null;
     protected ?bool $shipmentAndReturn = null;
     protected ?bool $smartReturn = null;
