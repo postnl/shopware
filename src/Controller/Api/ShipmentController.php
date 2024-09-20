@@ -4,6 +4,7 @@ namespace PostNL\Shopware6\Controller\Api;
 
 use Firstred\PostNL\Exception\PostNLException;
 use PostNL\Shopware6\Facade\ShipmentFacade;
+use PostNL\Shopware6\Struct\Attribute\OrderReturnAttributeStruct;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\Validation\DataBag\QueryDataBag;
@@ -84,6 +85,11 @@ class ShipmentController extends AbstractController
         $orderIds = $data->get('orderIds', new QueryDataBag())->all();
         $confirmShipments = $data->getBoolean('confirmShipments');
         $downloadLabels = $data->getBoolean('downloadLabels');
+        $smartReturn = $data->getBoolean('smartReturn');
+
+        if($smartReturn) {
+            $context->addState(OrderReturnAttributeStruct::S_SMART_RETURN);
+        }
 
         $response = $this->shipmentFacade->shipOrders(
             $orderIds,
