@@ -15,11 +15,13 @@ use PostNL\Shopware6\Service\PostNL\Label\Extractor\LabelExtractorInterface;
 use PostNL\Shopware6\Service\PostNL\Label\Label;
 use PostNL\Shopware6\Service\PostNL\Label\LabelDefaults;
 use PostNL\Shopware6\Service\PostNL\Label\MergedLabelResponse;
+use PostNL\Shopware6\Service\PostNL\Label\PrinterFileType;
 use PostNL\Shopware6\Service\PostNL\Product\ProductService;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
 use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor;
 use PostNL\Shopware6\Service\Shopware\OrderService;
 use PostNL\Shopware6\Struct\Attribute\OrderAttributeStruct;
+use PostNL\Shopware6\Struct\Attribute\OrderReturnAttributeStruct;
 use Shopware\Core\Checkout\Order\OrderCollection;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
@@ -240,8 +242,6 @@ class ShipmentService
      */
     public function shipOrders(OrderCollection $orders, bool $confirm, Context $context): MergedLabelResponse
     {
-        $response = [];
-
         $config = $this->configService->getConfiguration(null, $context);
 
         /* Does not work yet, isn't needed yet, and when it is it should be moved to the foreach
@@ -250,9 +250,9 @@ class ShipmentService
             $printerType .= " " . $config->getPrinterDPI();
         }
         */
-
         $printerType = 'GraphicFile|PDF';
-        $hasGlobalPackShipment = false;
+
+        $pdfLabelFormat = $config->getPrinterFormat() === 'a4' ? LabelDefaults::LABEL_FORMAT_A4 : LabelDefaults::LABEL_FORMAT_A6;
 
         /** @var Label[] $labels */
         $labels = [];
@@ -262,6 +262,7 @@ class ShipmentService
             $apiClient = $this->apiFactory->createClientForSalesChannel($salesChannelId, $context);
 
             $salesChannelOrders = $orders->filterBySalesChannelId($salesChannelId);
+
             //Separate the order if mailbox or not
             $mailBoxOrders = [];
             $nonMailBoxOrders = [];
@@ -272,7 +273,7 @@ class ShipmentService
                 $product = $this->productService->getProduct($orderAttributes->getProductId(), $context);
 
                 if ($product->getDestinationZone() === Zone::GLOBAL) {
-                    $hasGlobalPackShipment = true;
+                    $pdfLabelFormat = LabelDefaults::LABEL_FORMAT_A4;
                 }
 
                 if ($product->getDeliveryType() === DeliveryType::MAILBOX) {
@@ -304,38 +305,7 @@ class ShipmentService
             }
         }
 
-        switch ($config->getPrinterFile()) {
-            default:
-            case 'pdf':
-                //Merge to into one document
-                $format = $config->getPrinterFormat() === 'a4' ? LabelDefaults::LABEL_FORMAT_A4 : LabelDefaults::LABEL_FORMAT_A6;
-                if ($hasGlobalPackShipment) {
-                    $format = LabelDefaults::LABEL_FORMAT_A4;
-                }
-                return new MergedLabelResponse('pdf', $this->labelService->mergeLabels($labels, [], $format));
-            case 'gif':
-                //Merge into one zip
-                if (count($labels) == 1) {
-                    return new MergedLabelResponse('gif', $labels[0]->getContent());
-                } else {
-                    return $this->zipImages($labels, 'gif');
-                }
-            case 'jpg':
-                //Merge into one zip
-                if (count($labels) == 1) {
-                    return new MergedLabelResponse('jpg', $labels[0]->getContent());
-                } else {
-                    return $this->zipImages($labels, 'jpg');
-                }
-            case 'zpl':
-                //Merge into one string
-                $mergedLabel = '';
-                foreach ($labels as $label) {
-                    $mergedLabel .= " " . base64_decode($label->getContent());
-                }
-                return new MergedLabelResponse('zpl', base64_encode($mergedLabel));
-        }
-
+        return $this->mergeLabels($labels, $config->getPrinterFile(), $pdfLabelFormat);
     }
 
     /**
@@ -376,28 +346,76 @@ class ShipmentService
             $confirm
         );
 
+        $labels = $this->labelExtractor->extract($labelResponses);
+
+        if($context->hasState(OrderReturnAttributeStruct::S_SMART_RETURN)) {
+            // Filter all smart return barcode "labels"
+            $labels = array_filter($labels, fn(Label $label) => $label->getType() !== 'PrintcodeLabel');
+            return $labels;
+        }
+
         if ($confirm) {
             foreach ($orders as $order) {
                 $this->orderService->updateOrderCustomFields($order->getId(), ['confirm' => $confirm], $context);
             }
         }
 
-        return $this->labelExtractor->extract($labelResponses);
+        return $labels;
     }
 
-    private function zipImages(array $labels, string $extension): MergedLabelResponse
+    private function mergeLabels(
+        array  $labels,
+        string $labelFormat,
+        string $pdfLabelFormat = LabelDefaults::LABEL_FORMAT_A4
+    ): MergedLabelResponse
+    {
+        switch ($labelFormat) {
+            default:
+            case PrinterFileType::PDF:
+                return new MergedLabelResponse(PrinterFileType::PDF, $this->labelService->mergeLabels($labels, [], $pdfLabelFormat));
+            case PrinterFileType::GIF:
+            case PrinterFileType::JPG:
+                //Merge into one zip
+                if (count($labels) == 1) {
+                    return new MergedLabelResponse($labelFormat, $labels[0]->getContent());
+                }
+                $base64ZipString = $this->zipImages($labels, $labelFormat);
+
+                return new MergedLabelResponse('zip', $base64ZipString);
+            case PrinterFileType::ZPL:
+                //Merge into one string
+                $mergedLabel = '';
+                foreach ($labels as $label) {
+                    $mergedLabel .= " " . base64_decode($label->getContent());
+                }
+                return new MergedLabelResponse(PrinterFileType::ZPL, base64_encode($mergedLabel));
+        }
+    }
+
+    /**
+     * @param Label[] $labels
+     * @param string  $extension
+     * @return string
+     */
+    private function zipImages(array $labels, string $labelFormat): string
     {
         $zip = new ZipArchive();
         $filePath = 'PostNL_Labels_' . date('YmdHis');
         $zip->open($filePath, ZipArchive::CREATE);
+
         foreach ($labels as $label) {
-            $zip->addFromString($label->getBarcode() .
-                "_" .
-                str_replace(' ', '_', $label->getType()) .
-                "." .
-                $extension, base64_decode($label->getContent()));
+            $zip->addFromString(
+                sprintf(
+                    '%s_%s.%s',
+                    $label->getBarcode(),
+                    str_replace(' ', '_', $label->getType()),
+                    $labelFormat
+                ),
+                base64_decode($label->getContent())
+            );
         }
+
         $zip->close();
-        return new MergedLabelResponse('zip', base64_encode(file_get_contents($filePath)));
+        return base64_encode(file_get_contents($filePath));
     }
 }
