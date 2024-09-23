@@ -164,6 +164,10 @@ class ShipmentBuilder
 
         //= Returns - Smart return ====
         if($context->hasState(OrderReturnAttributeStruct::S_SMART_RETURN)) {
+            // Smart returns should always be normal shipping.
+            // TODO maybe check Belgium?
+            $shipment->setProductCodeDelivery('2285');
+
             $returnCountryCode = $config->getReturnAddress()->getCountrycode();
             $returnBarcode = $apiClient->generateBarcode(
                 '3S',
