@@ -364,11 +364,6 @@ class ShipmentService
      * @throws \Firstred\PostNL\Exception\NotSupportedException
      * @throws \Firstred\PostNL\Exception\ResponseException
      * @throws \Psr\Cache\InvalidArgumentException
-     * @throws \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
-     * @throws \setasign\Fpdi\PdfParser\Filter\FilterException
-     * @throws \setasign\Fpdi\PdfParser\PdfParserException
-     * @throws \setasign\Fpdi\PdfParser\Type\PdfTypeException
-     * @throws \setasign\Fpdi\PdfReader\PdfReaderException
      */
     private function createLabelsForOrders(
         OrderCollection $orders,
@@ -383,6 +378,7 @@ class ShipmentService
             $shipments[] = $this->shipmentBuilder->buildShipment($order, $context);
         }
 
+        /** @noinspection PhpUnhandledExceptionInspection */
         $labelResponses = $apiClient->sendShipments(
             $shipments,
             $printerType,
