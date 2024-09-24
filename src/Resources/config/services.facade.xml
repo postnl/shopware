@@ -23,6 +23,7 @@
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\OrderService"/>
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor"/>
             <argument type="service" id="PostNL\Shopware6\Service\PostNL\ShipmentService"/>
+            <argument type="service" id="PostNL\Shopware6\Service\PostNL\LabelMailer"/>
         </service>
 
         <service id="PostNL\Shopware6\Facade\PostalCodeFacade">

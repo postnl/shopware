@@ -135,6 +135,24 @@ class ShipmentController extends AbstractController
         );
     }
 
+    #[Route(path: '/api/_action/postnl/shipment/create-smart-return', name: 'api.action.postnl.shipment.create-smart-return', defaults: ['auth_enabled' => true], methods: ['GET'])]
+    public function createSmartReturn(QueryDataBag $data, Context $context): Response
+    {
+        $orderIds = $data->get('orderIds', new QueryDataBag())->all();
+        $context->addState(OrderReturnAttributeStruct::S_SMART_RETURN);
+
+        $errors = $this->shipmentFacade->createSmartReturnForOrders(
+            $orderIds,
+            $context
+        );
+
+        if($errors->count() > 0) {
+            return $this->json($errors->getElements(), 500);
+        }
+
+        return $this->json(null, 204);
+    }
+
     private function createBinaryResponse(string $filename, string $content, bool $forceDownload, string $contentType): Response
     {
         $response = new Response($content);

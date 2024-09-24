@@ -32,14 +32,11 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
             this.isProcessing = true
 
             this.ShipmentService
-                .createShipments({
+                .createSmartReturn({
                     orderIds: this.orderIds,
-                    confirmShipments: true,
-                    downloadLabels: true,
-                    smartReturn: true,
                 })
                 .then(response => {
-                    if (response.data && this.downloadLabels) {
+                    if (response.data) {
                         //const filename = response.headers['content-disposition'].split('filename=')[1]
                         const link = document.createElement('a')
                         link.href = URL.createObjectURL(response.data)
@@ -51,12 +48,11 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
 
                     this.isProcessingSuccess = true
 
-                    if (this.confirmShipments) {
-                        this.createNotificationSuccess({
-                            title: this.$tc('global.default.success'),
-                            message: this.$tc('postnl.order.modal.createShipments.confirmedShipments'),
-                        })
-                    }
+                    this.createNotificationSuccess({
+                        title: this.$tc('global.default.success'),
+                        message: this.$tc('postnl.order.modal.createShipments.confirmedShipments'),
+                    })
+
                 })
                 .catch(() => {
                     this.createNotificationError({

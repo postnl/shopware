@@ -27,6 +27,10 @@ export default class ShipmentService extends PostNlApiService
         return this.getBlob('create', data);
     }
 
+    createSmartReturn(data) {
+        return this.get('create-smart-return', data)
+    }
+
     determineZones(orderIds) {
         return this.get('zones', {
             orderIds: orderIds,
