@@ -151,11 +151,16 @@ class ShipmentBuilder
 
             $addresses[] = $this->buildReturnAddress($order, $context);
 
+            $returnOptionValue = true;
+            if($returnOptions->getType() === ReturnOptionsStruct::T_SHIPMENT_AND_RETURN) {
+                $returnOptionValue = $returnOptions->isAllowImmediateShipmentAndReturn();
+            }
+
             $this->orderService->updateOrderCustomFields(
                 $order->getId(),
                 [
                     'returnOptions' => [
-                        $returnOptions->getType() => true
+                        $returnOptions->getType() => $returnOptionValue
                     ]
                 ],
                 $context
@@ -185,7 +190,7 @@ class ShipmentBuilder
                 $order->getId(),
                 [
                     'returnOptions' => [
-                        'smartReturn' => $returnOptions->isAllowImmediateShipmentAndReturn(),
+                        'smartReturn' => true,
                         'smartReturnBarcode' => [$returnBarcode],
                     ]
                 ],
