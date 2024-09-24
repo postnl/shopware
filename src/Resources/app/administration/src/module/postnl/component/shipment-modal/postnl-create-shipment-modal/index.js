@@ -80,7 +80,6 @@ Shopware.Component.extend('postnl-create-shipment-modal', 'postnl-shipment-modal
                 })
                 .finally(() => {
                     this.isProcessing = false
-                    this.isProcessingSuccess = true
                 })
         },
     },
