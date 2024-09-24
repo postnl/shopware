@@ -14,6 +14,7 @@ use PostNL\Shopware6\Service\PostNL\Factory\ApiFactory;
 use PostNL\Shopware6\Service\PostNL\Label\Extractor\LabelExtractorInterface;
 use PostNL\Shopware6\Service\PostNL\Label\Label;
 use PostNL\Shopware6\Service\PostNL\Label\LabelDefaults;
+use PostNL\Shopware6\Service\PostNL\Label\LabelInterface;
 use PostNL\Shopware6\Service\PostNL\Label\MergedLabelResponse;
 use PostNL\Shopware6\Service\PostNL\Label\PrinterFileType;
 use PostNL\Shopware6\Service\PostNL\Product\ProductService;
@@ -226,6 +227,48 @@ class ShipmentService
         return $barCodesAssigned;
     }
 
+    /**
+     * @param OrderEntity $order
+     * @param bool        $confirm
+     * @param Context     $context
+     * @return LabelInterface[]
+     * @throws PostNLException
+     * @throws \Firstred\PostNL\Exception\HttpClientException
+     * @throws \Firstred\PostNL\Exception\InvalidArgumentException
+     * @throws \Firstred\PostNL\Exception\NotSupportedException
+     * @throws \Firstred\PostNL\Exception\ResponseException
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
+     * @throws \setasign\Fpdi\PdfParser\Filter\FilterException
+     * @throws \setasign\Fpdi\PdfParser\PdfParserException
+     * @throws \setasign\Fpdi\PdfParser\Type\PdfTypeException
+     * @throws \setasign\Fpdi\PdfReader\PdfReaderException
+     */
+    public function shipOrder(OrderEntity $order, bool $confirm, Context $context): array
+    {
+        $apiClient = $this->apiFactory->createClientForSalesChannel($order->getSalesChannelId(), $context);
+        $config = $this->configService->getConfiguration($order->getSalesChannelId(), $context);
+
+        // TODO get from config
+        $printerType = 'GraphicFile|PDF';
+
+        /** @var OrderAttributeStruct $orderAttributes */
+        $orderAttributes = $this->attributeFactory->createFromEntity($order, $context);
+        $product = $this->productService->getProduct($orderAttributes->getProductId(), $context);
+
+        if($product->getDeliveryType() === DeliveryType::MAILBOX) {
+            // Mailbox always needs to be confirmed, regardless of what has been selected.
+            $confirm = true;
+        }
+
+        return $this->createLabelsForOrders(
+            new OrderCollection([$order]),
+            $apiClient,
+            $printerType,
+            $confirm,
+            $context
+        );
+    }
 
     /**
      * @throws \Firstred\PostNL\Exception\HttpClientException
@@ -254,7 +297,7 @@ class ShipmentService
 
         $pdfLabelFormat = $config->getPrinterFormat() === 'a4' ? LabelDefaults::LABEL_FORMAT_A4 : LabelDefaults::LABEL_FORMAT_A6;
 
-        /** @var Label[] $labels */
+        /** @var LabelInterface[] $labels */
         $labels = [];
 
         // Yes, this should be getSalesChannelIds.
@@ -314,7 +357,7 @@ class ShipmentService
      * @param string          $printerType
      * @param bool            $confirm
      * @param Context         $context
-     * @return Label[]
+     * @return LabelInterface[]
      * @throws PostNLException
      * @throws \Firstred\PostNL\Exception\HttpClientException
      * @throws \Firstred\PostNL\Exception\InvalidArgumentException
@@ -347,12 +390,6 @@ class ShipmentService
         );
 
         $labels = $this->labelExtractor->extract($labelResponses);
-
-        if($context->hasState(OrderReturnAttributeStruct::S_SMART_RETURN)) {
-            // Filter all smart return barcode "labels"
-            $labels = array_filter($labels, fn(Label $label) => $label->getType() !== 'PrintcodeLabel');
-            return $labels;
-        }
 
         if ($confirm) {
             foreach ($orders as $order) {
