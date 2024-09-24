@@ -13,6 +13,14 @@
             <argument type="service" id="postnl.logger"/>
         </service>
 
+        <service id="PostNL\Shopware6\Service\PostNL\LabelMailer">
+            <argument type="service" id="Shopware\Core\Content\Mail\Service\MailService"/>
+            <argument type="service" id="mail_template.repository"/>
+            <argument type="service" id="Shopware\Core\Framework\Adapter\Translation\Translator"/>
+            <argument type="service" id="Shopware\Core\System\Locale\LanguageLocaleCodeProvider"/>
+            <argument type="service" id="postnl.logger"/>
+        </service>
+
         <service id="PostNL\Shopware6\Service\PostNL\LabelService"/>
 
         <service id="PostNL\Shopware6\Service\PostNL\Product\ProductService">
