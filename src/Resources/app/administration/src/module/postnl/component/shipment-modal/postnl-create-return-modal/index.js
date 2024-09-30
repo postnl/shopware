@@ -1,4 +1,5 @@
 import template from './postnl-create-return-modal.html.twig';
+import './postnl-create-return-modal.scss';
 
 Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-base', {
     template,

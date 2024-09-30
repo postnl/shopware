@@ -1,0 +1,24 @@
+@import "~scss/variables";
+
+.postnl-return-option {
+    > input:disabled {
+        + .sw-radio-panel__body {
+            border-color: $color-gray-100;
+
+            .sw-radio-panel__radio {
+                border-color: $color-gray-100;
+                background-color: $color-gray-50;
+            }
+
+            .sw-radio-panel__image {
+                background-color: $color-gray-50;
+                color: $color-gray-100;
+            }
+
+            .sw-radio-panel__title,
+            .sw-radio-panel__description {
+                color: $color-gray-500;
+            }
+        }
+    }
+}
