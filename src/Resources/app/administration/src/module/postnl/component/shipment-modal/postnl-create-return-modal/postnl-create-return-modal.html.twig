@@ -1,19 +1,17 @@
 {% block postnl_shipment_modal_content %}
-    <template v-if="!isLoading">
-        <postnl-product-selection
-            v-if="!isProcessingDisabled"
-            v-model:value="overrideProductId"
-            :sourceZone="sourceZones[0]"
-            :destinationZone="destinationZones[0]"
+    <sw-container gap="1rem" columns="repeat(3, 1fr)">
+        <sw-radio-panel
+            v-for="type in returnTypes"
+            v-model:modelValue="returnType"
+            :title="type.label"
+            :description="type.description"
+            :icon="type.icon"
+            :value="type.value"
+            :disabled="!type.enabled"
+            name="returnType"
+            class="postnl-return-option"
         />
-
-        <sw-alert
-            v-else
-            variant="warning"
-        >
-            {{ $tc('postnl.order.modal.changeShipping.warning') }}
-        </sw-alert>
-    </template>
+    </sw-container>
 {% endblock %}
 
 {% block postnl_shipment_modal_cancel_button_content %}

@@ -25,6 +25,7 @@ Component.register('postnl-shipment-modal-base', {
             isLoading: false,
             isProcessing: false,
             isProcessingSuccess: false,
+            variant: 'default'
         }
     },
 

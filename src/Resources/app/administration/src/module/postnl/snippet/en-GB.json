@@ -96,6 +96,7 @@
         "shippingProduct": "PostNL product",
         "buttonChangeShipping": "Change shipping method",
         "buttonCreateShipment": "Create and confirm shipments",
+        "buttonCreateReturn": "Create return shipments",
         "sentDate": "Shipping date"
       },
       "list": {
@@ -128,6 +129,7 @@
           "missingProductIdSingle": "The selected order is missing a PostNL shipping method. Please select one first."
         },
         "createReturn": {
+          "title": "Pick return option",
           "cancel": "Cancel",
           "confirm": "Create return shipments",
           "success": {
@@ -136,6 +138,21 @@
           "errors": {
             "label": "Could not generate a label for order {orderNumbers} | Could not generate labels for {count} orders: {orderNumbers}",
             "mail": "Could not send an email for order {orderNumbers} | Could not send emails for {count} orders: {orderNumbers}"
+          },
+          "type": {
+            "notAvailable": "This return option is unavailable",
+            "smartReturn": {
+              "label": "Create return label",
+              "description": "Create and email a return label the customer can use to ship the products back to you."
+            },
+            "shipmentAndReturn": {
+              "label": "Activate \"shipment and return\" label",
+              "description": "Activate the customer's \"shipment and return\" label. They can use the original shipment label to return the products."
+            },
+            "labelInTheBox": {
+              "label": "Label in the Box",
+              "description": "The customer has received a return label in their shipment, they can use this to ship the products back."
+            }
           }
         }
       }

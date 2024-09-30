@@ -6,6 +6,7 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
     data() {
         return {
             returnType: null,
+            variant: 'large',
         };
     },
 
@@ -24,11 +25,49 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
             return false
         },
 
+        labelInTheBoxAvailable() {
+            return Object.values(this.selection)
+                .filter(order => ![undefined, null].includes(order?.customFields?.postnl?.returnOptions?.labelInTheBox))
+        },
+
+        shipmentAndReturnAvailable() {
+            return Object.values(this.selection)
+                .filter(order => ![undefined, null].includes(order?.customFields?.postnl?.returnOptions?.shipmentAndReturn))
+        },
+
+        shipmentAndReturnEnabled() {
+            return Object.values(this.selection)
+                .filter(order => [false].includes(order?.customFields?.postnl?.returnOptions?.shipmentAndReturn))
+        },
+
         returnTypes() {
-            return {
-                'smartReturn': true,
-                'shipmentAndReturn': this.order?.customFields?.postnl?.returnOptions?.shipmentAndReturn === false
-            }
+            return [
+                {
+                    label: this.$t('postnl.order.modal.createReturn.type.smartReturn.label'),
+                    value: 'smartReturn',
+                    enabled: true,
+                    icon: 'regular-truck',
+                    description: this.$t('postnl.order.modal.createReturn.type.smartReturn.description'),
+                },
+                {
+                    label: this.$t('postnl.order.modal.createReturn.type.shipmentAndReturn.label'),
+                    value: 'shipmentAndReturn',
+                    enabled: this.shipmentAndReturnEnabled.length > 0,
+                    icon: 'regular-checkmark',
+                    description: this.shipmentAndReturnAvailable.length > 0
+                        ? this.$t('postnl.order.modal.createReturn.type.shipmentAndReturn.description')
+                        : this.$t('postnl.order.modal.createReturn.type.notAvailable'),
+                },
+                {
+                    label: this.$t('postnl.order.modal.createReturn.type.labelInTheBox.label'),
+                    value: 'labelInTheBox',
+                    enabled: false,
+                    icon: 'regular-box',
+                    description: this.labelInTheBoxAvailable.length > 0
+                        ? this.$t('postnl.order.modal.createReturn.type.labelInTheBox.description')
+                        : this.$t('postnl.order.modal.createReturn.type.notAvailable'),
+                }
+            ]
         }
     },
 
@@ -37,6 +76,10 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
         },
 
         onStartProcessing() {
+
+        },
+
+        createSmartReturn() {
             this.isProcessing = true
 
             this.ShipmentService
@@ -57,7 +100,7 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
                         .forEach(([type, errors]) =>
                             this.createNotificationError({
                                 title: this.$tc('global.default.error'),
-                                message: this.$tc(`postnl.order.modal.createReturn.errors.${type}`, errors.length, {
+                                message: this.$tc(`postnl.order.modal.createReturn.errors.${ type }`, errors.length, {
                                     count: errors.length,
                                     orderNumbers: errors.map(error => error.orderNumber).join(', '),
                                 }),
