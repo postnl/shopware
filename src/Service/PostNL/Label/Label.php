@@ -4,9 +4,9 @@ namespace PostNL\Shopware6\Service\PostNL\Label;
 
 class Label implements LabelInterface
 {
-private string $content;
-private string $barcode;
-private string $type;
+    private string $content;
+    private string $barcode;
+    private string $type;
 
     /**
      * @param string $content
