@@ -88,9 +88,10 @@ SQL;
     }
 
     /**
+     * @param MailTemplateInterface[] $mailTemplates
      * @throws Exception
      */
-    protected function createMailTemplate(Connection $connection, string $mailTemplateTypeId, MailTemplateInterface $mailTemplate)
+    protected function createMailTemplate(Connection $connection, string $mailTemplateTypeId, array $mailTemplates)
     {
         $mailTemplateId = Uuid::randomHex();
 
@@ -101,7 +102,9 @@ SQL;
             'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
         ]);
 
-        $this->insertMailTemplateTranslation($connection, $mailTemplateId, $mailTemplate);
+        foreach($mailTemplates as $mailTemplate) {
+            $this->insertMailTemplateTranslation($connection, $mailTemplateId, $mailTemplate);
+        }
     }
 
     /**

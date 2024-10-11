@@ -15,10 +15,12 @@ class Migration1728648178AddReturnMailTemplate extends MailMigration
 
     public function update(Connection $connection): void
     {
-        $mailTemplates = [
-            new ReturnMail\enGB(),
-            new ReturnMail\deDE(),
-            new ReturnMail\nlNL(),
+        $emails = [
+            'return-mail' => [
+                new ReturnMail\enGB(),
+                new ReturnMail\deDE(),
+                new ReturnMail\nlNL(),
+            ]
         ];
 
         $mailTemplateId = $this->createMailTemplateType(
@@ -35,8 +37,8 @@ class Migration1728648178AddReturnMailTemplate extends MailMigration
             ]
         );
 
-        foreach ($mailTemplates as $mailTemplate) {
-            $this->createMailTemplate($connection, $mailTemplateId, $mailTemplate);
+        foreach ($emails as $mailTemplates) {
+            $this->createMailTemplate($connection, $mailTemplateId, $mailTemplates);
         }
     }
 

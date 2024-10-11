@@ -20,19 +20,21 @@ class Migration1649846266MailTemplateCreation extends MailMigration
      */
     public function update(Connection $connection): void
     {
-        $mailTemplates = [
-            new TrackAndTraceMail\enGB(),
-            new TrackAndTraceMail\deDE(),
-            new TrackAndTraceMail\nlNL(),
+        $emails = [
+            'track-and-trace' => [
+                new TrackAndTraceMail\enGB(),
+                new TrackAndTraceMail\deDE(),
+                new TrackAndTraceMail\nlNL(),
+            ]
         ];
 
         $mailTemplateTypeShippedId = $this->getMailTemplateTypeId($connection, 'order_delivery.state.shipped');
         $mailTemplateTypeShippedPartiallyId = $this->getMailTemplateTypeId($connection, 'order_delivery.state.shipped_partially');
 
         //Add the new template
-        foreach ($mailTemplates as $mailTemplate) {
-            $this->createMailTemplate($connection, $mailTemplateTypeShippedId, $mailTemplate);
-            $this->createMailTemplate($connection, $mailTemplateTypeShippedPartiallyId, $mailTemplate);
+        foreach ($emails as $mailTemplates) {
+            $this->createMailTemplate($connection, $mailTemplateTypeShippedId, $mailTemplates);
+            $this->createMailTemplate($connection, $mailTemplateTypeShippedPartiallyId, $mailTemplates);
         }
     }
 
