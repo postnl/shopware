@@ -23,7 +23,7 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
         },
 
         isProcessingDisabled() {
-            return false
+            return this.returnType === null
         },
 
         labelInTheBoxAvailable() {
@@ -77,7 +77,26 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
         },
 
         onStartProcessing() {
+            switch (this.returnType) {
+                case 'smartReturn':
+                    this.createSmartReturn()
+                    break;
+                case 'labelInTheBox':
+                    this.isProcessingSuccess = true;
+                    break;
+                case 'shipmentAndReturn':
+                    //TODO implement activation
+                    break;
+                default:
+                    this.createNotificationError({
+                        title: this.$tc('global.default.error'),
+                        message: this.$t('global.default.error'),
+                    })
+            }
+        },
 
+        updateReturnType(type) {
+            this.returnType = type
         },
 
         createSmartReturn() {

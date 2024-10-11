@@ -1,16 +1,18 @@
 {% block postnl_shipment_modal_content %}
     <sw-container gap="1rem" columns="repeat(3, 1fr)">
-        <sw-radio-panel
-            v-for="type in returnTypes"
-            v-model:modelValue="returnType"
-            :title="type.label"
-            :description="type.description"
-            :icon="type.icon"
-            :value="type.value"
-            :disabled="!type.enabled"
-            name="returnType"
-            class="postnl-return-option"
-        />
+        <template v-for="type in returnTypes">
+            <!-- Do not use modelValue, it breaks everything -->
+            <sw-radio-panel
+                :title="type.label"
+                :description="type.description"
+                :icon="type.icon"
+                :value="type.value"
+                :disabled="!type.enabled"
+                name="returnType"
+                class="postnl-return-option"
+                @update:modelValue="updateReturnType"
+            />
+        </template>
     </sw-container>
 {% endblock %}
 
