@@ -83,8 +83,8 @@ class LabelMailer
         $data->set('mediaIds', []);
 
         $templateData = [
-            'order'         => $order->jsonSerialize(),
-            'sales_channel' => $order->getSalesChannel()->jsonSerialize(),
+            'order'        => $order->jsonSerialize(),
+            'salesChannel' => $order->getSalesChannel()->jsonSerialize(),
         ];
 
         $binAttachments = [];
