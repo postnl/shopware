@@ -13,6 +13,43 @@ use Shopware\Core\Framework\Uuid\Uuid;
 
 abstract class MailMigration extends MigrationStep
 {
+    protected function createMailTemplateType(
+        Connection $connection,
+        string $technicalName,
+        array $nameTranslations,
+        array $availableEntities
+    ): string
+    {
+        $id = Uuid::randomHex();
+
+        $connection->insert(
+            'mail_template_type',
+            [
+                'id'                 => Uuid::fromHexToBytes($id),
+                'technical_name'     => $technicalName,
+                'available_entities' => json_encode($availableEntities),
+                'created_at'         => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                'template_data'      => null,
+            ]
+        );
+
+        foreach($nameTranslations as $locale => $name) {
+            $languageId = $this->getLanguageIdByLocale($connection, $locale);
+
+            $connection->insert(
+                'mail_template_type_translation',
+                [
+                    'mail_template_type_id' => Uuid::fromHexToBytes($id),
+                    'language_id'           => $languageId,
+                    'name'                  => $name,
+                    'created_at'            => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                ]
+            );
+        }
+
+        return $id;
+    }
+
     /**
      * @throws Exception
      */
