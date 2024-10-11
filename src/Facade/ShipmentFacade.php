@@ -5,6 +5,7 @@ namespace PostNL\Shopware6\Facade;
 
 use PostNL\Shopware6\Defaults;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\ZoneService;
+use PostNL\Shopware6\Service\PostNL\Label\Label;
 use PostNL\Shopware6\Service\PostNL\Label\MergedLabelResponse;
 use PostNL\Shopware6\Service\PostNL\LabelMailer;
 use PostNL\Shopware6\Service\PostNL\ShipmentService;
@@ -153,6 +154,7 @@ class ShipmentFacade
         foreach ($orders as $order) {
             try {
                 $labels = $this->shipmentService->shipOrder($order, true, $context);
+                $labels = array_filter($labels, fn(Label $label) => $label->getType() === 'PrintcodeLabel');
             }
             catch (\Exception $e) {
                 $errors->add(
