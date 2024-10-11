@@ -21,6 +21,7 @@ class LabelMailer
 {
     protected AbstractMailService        $mailService;
     protected EntityRepository           $mailTemplateRepository;
+    protected EntityRepository           $mailTemplateTypeRepository;
     protected AbstractTranslator         $translator;
     protected LanguageLocaleCodeProvider $languageLocaleCodeProvider;
     protected LoggerInterface            $logger;
@@ -28,6 +29,7 @@ class LabelMailer
     public function __construct(
         AbstractMailService        $mailService,
         EntityRepository           $mailTemplateRepository,
+        EntityRepository           $mailTemplateTypeRepository,
         AbstractTranslator         $translator,
         LanguageLocaleCodeProvider $languageLocaleCodeProvider,
         LoggerInterface            $logger
@@ -35,6 +37,7 @@ class LabelMailer
     {
         $this->mailService = $mailService;
         $this->mailTemplateRepository = $mailTemplateRepository;
+        $this->mailTemplateTypeRepository = $mailTemplateTypeRepository;
         $this->translator = $translator;
         $this->languageLocaleCodeProvider = $languageLocaleCodeProvider;
         $this->logger = $logger;
@@ -108,6 +111,8 @@ class LabelMailer
                 $labelContext,
                 $templateData
             );
+
+            $this->updateMailTemplateData($mailTemplate, $templateData, $context);
         }
         catch (\Exception $e) {
             $this->logger->error(
@@ -124,7 +129,7 @@ class LabelMailer
         }
     }
 
-    private function getMailTemplate(string $id, Context $context): ?MailTemplateEntity
+    protected function getMailTemplate(string $id, Context $context): ?MailTemplateEntity
     {
         $criteria = new Criteria([$id]);
         $criteria->setTitle('send-mail::load-mail-template');
@@ -139,13 +144,30 @@ class LabelMailer
         return $mailTemplate;
     }
 
-    private function getRecipients(OrderEntity $order): array
+    protected function updateMailTemplateData(
+        MailTemplateEntity $mailTemplate,
+        array              $templateData,
+        Context            $context
+    ): void
+    {
+        $this->mailTemplateTypeRepository->update(
+            [
+                [
+                    'id'           => $mailTemplate->getMailTemplateTypeId(),
+                    'templateData' => $templateData,
+                ],
+            ],
+            $context
+        );
+    }
+
+    protected function getRecipients(OrderEntity $order): array
     {
         $customer = $order->getOrderCustomer();
         return [$customer->getEmail() => $customer->getFirstName() . ' ' . $customer->getLastName()];
     }
 
-    private function injectTranslator(Context $context, ?string $salesChannelId): bool
+    protected function injectTranslator(Context $context, ?string $salesChannelId): bool
     {
         if ($salesChannelId === null) {
             return false;
