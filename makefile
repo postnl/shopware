@@ -60,14 +60,16 @@ infection: ## Starts all Infection/Mutation tests
 infection-covered: ## Starts covered Infection/Mutation tests
 	@XDEBUG_MODE=coverage php vendor/bin/infection --configuration=./.infection.json --only-covered
 
-snippet-check: ## Tests and verifies all plugin snippets
+trans-validate: ## Tests and verifies all plugin snippets
 	@php vendor/bin/phpunuhi validate --report-format=junit --report-output=./.reports/phpunuhi/junit.xml
 
-snippet-export: ## Exports all snippets
-	@php vendor/bin/phpunuhi export --dir=./.reports/phpunuhi
+trans-export: ## Exports all snippets
+	@php vendor/bin/phpunuhi export --dir=./.exports/phpunuhi
 
-snippet-import: ## Imports the provided snippet set [set=xyz file=xz.csv]
-	@php vendor/bin/phpunuhi import --set=$(set) --file=$(file) --intent=1
+trans-import: ## Imports translation sets
+	@php vendor/bin/phpunuhi fix:structure
+	@php vendor/bin/phpunuhi import --set="Admin components" --file="./.exports/phpunuhi/Admin components.csv"
+	@make trans-validate
 
 # ------------------------------------------------------------------------------------------------------------
 
