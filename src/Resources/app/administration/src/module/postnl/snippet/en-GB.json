@@ -153,7 +153,8 @@
               "label": "Label in the Box",
               "description": "The customer has received a return label in their shipment, they can use this to ship the products back."
             }
-          }
+          },
+          "smartReturnMailTemplate": "Select mail template"
         }
       }
     },

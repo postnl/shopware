@@ -144,7 +144,7 @@ class ShipmentFacade
         return $this->shipmentService->shipOrders($orders, $confirmShipments, $context);
     }
 
-    public function createSmartReturnForOrders(array $orderIds, Context $context): StructCollection
+    public function createSmartReturnForOrders(array $orderIds, string $mailTemplateId, Context $context): StructCollection
     {
         $orders = $this->orderService->getOrders($orderIds, $context);
         $context->addState(OrderReturnAttributeStruct::S_SMART_RETURN);
@@ -170,7 +170,7 @@ class ShipmentFacade
             }
 
             try {
-                $this->mailer->send($order, $labels, '018f5249892e7134b1f303979cdba0a4', $context);
+                $this->mailer->send($order, $labels, $mailTemplateId, $context);
             }
             catch (\Exception $e) {
                 $errors->add(

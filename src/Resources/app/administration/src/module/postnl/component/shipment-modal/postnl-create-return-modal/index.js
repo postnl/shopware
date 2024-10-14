@@ -1,13 +1,20 @@
 import template from './postnl-create-return-modal.html.twig';
 import './postnl-create-return-modal.scss';
 
+const { Criteria } = Shopware.Data
+
 Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-base', {
     template,
+
+    mixins: [
+        'placeholder'
+    ],
 
     data() {
         return {
             returnType: null,
             variant: 'large',
+            smartReturnMailTemplate: null
         };
     },
 
@@ -23,7 +30,15 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
         },
 
         isProcessingDisabled() {
-            return this.returnType === null
+            return this.returnType === null || (this.returnType === 'smartReturn' && this.smartReturnMailTemplate === null)
+        },
+
+        mailTemplateCriteria() {
+            const criteria = new Criteria()
+            criteria.addAssociation('mailTemplateType')
+            criteria.addFilter(Criteria.equals('mailTemplateType.technicalName', 'postnl_return_mail'))
+
+            return criteria
         },
 
         labelInTheBoxAvailable() {
@@ -76,6 +91,16 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
         createdComponent() {
         },
 
+        mailTemplateLabel(item) {
+            return [
+                this.placeholder(item.mailTemplateType, 'name', 'PostNL Return mail'),
+                this.placeholder(item, 'description', ''),
+                this.placeholder(item, 'subject'),
+            ]
+                .filter(string => string.length > 0)
+                .join(' - ')
+        },
+
         onStartProcessing() {
             switch (this.returnType) {
                 case 'smartReturn':
@@ -105,6 +130,7 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
             this.ShipmentService
                 .createSmartReturn({
                     orderIds: this.orderIds,
+                    mailTemplateId: this.smartReturnMailTemplate
                 })
                 .then(() => {
                     this.isProcessingSuccess = true

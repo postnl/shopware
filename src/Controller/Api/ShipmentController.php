@@ -139,10 +139,12 @@ class ShipmentController extends AbstractController
     public function createSmartReturn(QueryDataBag $data, Context $context): Response
     {
         $orderIds = $data->get('orderIds', new QueryDataBag())->all();
+        $mailTemplateId = $data->get('mailTemplateId');
         $context->addState(OrderReturnAttributeStruct::S_SMART_RETURN);
 
         $errors = $this->shipmentFacade->createSmartReturnForOrders(
             $orderIds,
+            $mailTemplateId,
             $context
         );
 

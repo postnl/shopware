@@ -14,6 +14,16 @@
             />
         </template>
     </sw-container>
+
+    <sw-entity-single-select
+        v-if="returnType === 'smartReturn'"
+        v-model:value="smartReturnMailTemplate"
+        :label="$tc('postnl.order.modal.createReturn.smartReturnMailTemplate')"
+        :labelCallback="mailTemplateLabel"
+        :criteria="mailTemplateCriteria"
+        entity="mail_template"
+
+    />
 {% endblock %}
 
 {% block postnl_shipment_modal_cancel_button_content %}
