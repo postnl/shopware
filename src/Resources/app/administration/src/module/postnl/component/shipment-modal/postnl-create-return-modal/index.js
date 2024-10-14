@@ -93,11 +93,11 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
 
         mailTemplateLabel(item) {
             return [
-                this.placeholder(item.mailTemplateType, 'name', 'PostNL Return mail'),
+                this.placeholder(item?.mailTemplateType, 'name', 'PostNL Return mail'),
                 this.placeholder(item, 'description', ''),
                 this.placeholder(item, 'subject'),
             ]
-                .filter(string => string.length > 0)
+                .filter(string => string && string.length > 0)
                 .join(' - ')
         },
 
