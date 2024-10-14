@@ -14,8 +14,11 @@ use Firstred\PostNL\HttpClient\HttpClientInterface;
 use Firstred\PostNL\PostNL as BaseClient;
 use Firstred\PostNL\Service\DeliveryDateServiceInterface;
 use ParagonIE\HiddenString\HiddenString;
+use PostNL\Shopware6\Component\PostNL\Entity\Request\ActivateReturn;
 use PostNL\Shopware6\Component\PostNL\Entity\Request\PostalCode;
 use PostNL\Shopware6\Component\PostNL\Entity\Response\PostalCodeResponse;
+use PostNL\Shopware6\Component\PostNL\Service\ActivateReturnService;
+use PostNL\Shopware6\Component\PostNL\Service\ActivateReturnServiceInterface;
 use PostNL\Shopware6\Component\PostNL\Service\DeliveryDateServiceDecorator;
 use PostNL\Shopware6\Component\PostNL\Service\PostalcodeCheckService;
 use PostNL\Shopware6\Component\PostNL\Service\PostalcodeCheckServiceInterface;
@@ -24,7 +27,7 @@ use Psr\Http\Message\StreamFactoryInterface;
 
 class PostNL extends BaseClient
 {
-    /** @var PostalcodeCheckServiceInterface */
+    protected ActivateReturnServiceInterface $activateReturnService;
     protected PostalcodeCheckServiceInterface $postalcodeCheckService;
 
     public function getDeliveryDateService(): DeliveryDateServiceInterface
@@ -42,6 +45,44 @@ class PostNL extends BaseClient
         return $this->deliveryDateService;
     }
 
+    /**
+     * @return ActivateReturnServiceInterface
+     * @throws \Firstred\PostNL\Exception\InvalidArgumentException
+     */
+    public function getActivateReturnService(): ActivateReturnServiceInterface
+    {
+        if (!isset($this->activateReturnService)) {
+            $this->setActivateReturnService(activateReturnService: new ActivateReturnService(
+                apiKey: $this->apiKey,
+                sandbox: $this->getSandbox(),
+                httpClient: $this->getHttpClient(),
+                requestFactory: $this->getRequestFactory(),
+                streamFactory: $this->getStreamFactory(),
+            ));
+        }
+        return $this->activateReturnService;
+    }
+
+    /**
+     * @param ActivateReturnServiceInterface $activateReturnService
+     * @return void
+     */
+    public function setActivateReturnService(ActivateReturnServiceInterface $activateReturnService): void
+    {
+        $this->activateReturnService = $activateReturnService;
+    }
+
+    public function activateReturn(string $barcode): void
+    {
+        $this->getActivateReturnService()
+            ->activateReturn(
+                activateReturn: new ActivateReturn(
+                    customerNumber: $this->getCustomer()->getCustomerNumber(),
+                    customerCode: $this->getCustomer()->getCustomerCode(),
+                    barcode: $barcode
+                )
+            );
+    }
 
     /**
      * @return PostalcodeCheckServiceInterface
