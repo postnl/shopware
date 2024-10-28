@@ -111,6 +111,7 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
                     break;
                 case 'shipmentAndReturn':
                     //TODO implement activation
+                    this.activateReturnlabels()
                     break;
                 default:
                     this.createNotificationError({
@@ -122,6 +123,39 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
 
         updateReturnType(type) {
             this.returnType = type
+        },
+
+        activateReturnlabels() {
+            this.isProcessing = true
+
+            this.ShipmentService
+                .activateReturnLabels({
+                    orderIds: this.orderIds
+                })
+                .then((response) => {
+                    this.isProcessingSuccess = true
+                    console.log(response)
+                    // this.createNotificationSuccess({
+                    //     title: this.$tc('global.default.success'),
+                    //     message: this.$tc('postnl.order.modal.createReturn.success.smartReturn', this.orderIds.length),
+                    // })
+                })
+                .catch((errors) => {
+                    [...new Set(errors.map(error => error.type))]
+                        .map(type => [type, errors.filter(error => error.type === type)]) // Turns into an entry compatible array
+                        .forEach(([type, errors]) =>
+                            this.createNotificationError({
+                                title: this.$tc('global.default.error'),
+                                message: this.$tc(`postnl.order.modal.createReturn.errors.${ type }`, errors.length, {
+                                    count: errors.length,
+                                    orderNumbers: errors.map(error => error.orderNumber).join(', '),
+                                }),
+                            })
+                        )
+                })
+                .finally(() => {
+                    this.isProcessing = false
+                })
         },
 
         createSmartReturn() {

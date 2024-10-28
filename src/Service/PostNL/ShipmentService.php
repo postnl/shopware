@@ -5,6 +5,7 @@ namespace PostNL\Shopware6\Service\PostNL;
 
 use Firstred\PostNL\Exception\PostNLException;
 use Firstred\PostNL\PostNL;
+use PostNL\Shopware6\Component\PostNL\Entity\Response\ActivateReturnResponse;
 use PostNL\Shopware6\Defaults;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Builder\ShipmentBuilder;
@@ -225,6 +226,27 @@ class ShipmentService
         }
 
         return $barCodesAssigned;
+    }
+
+    public function activateReturnLabels(OrderCollection $orders, Context $context): ActivateReturnResponse
+    {
+        $response = new ActivateReturnResponse([], []);
+
+        // Yes, this should be getSalesChannelIds.
+        foreach (array_unique(array_values($orders->getSalesChannelIs())) as $salesChannelId) {
+            $apiClient = $this->apiFactory->createClientForSalesChannel($salesChannelId, $context);
+
+            $salesChannelOrders = $orders->filterBySalesChannelId($salesChannelId);
+
+            foreach ($salesChannelOrders as $salesChannelOrder) {
+                /** @var OrderAttributeStruct $orderAttributes */
+                $orderAttributes = $this->attributeFactory->createFromEntity($salesChannelOrder, $context);
+
+                $response->merge($apiClient->activateReturn($orderAttributes->getBarCode()));
+            }
+        }
+
+        return $response;
     }
 
     /**

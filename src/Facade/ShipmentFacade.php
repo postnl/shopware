@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace PostNL\Shopware6\Facade;
 
+use PostNL\Shopware6\Component\PostNL\Entity\Response\ActivateReturnResponse;
 use PostNL\Shopware6\Defaults;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\ZoneService;
 use PostNL\Shopware6\Service\PostNL\Label\Label;
@@ -142,6 +143,20 @@ class ShipmentFacade
     {
         $orders = $this->orderService->getOrders($orderIds, $context);
         return $this->shipmentService->shipOrders($orders, $confirmShipments, $context);
+    }
+
+    /**
+     * @param string[] $orderIds
+     * @param Context  $context
+     * @return ActivateReturnResponse
+     */
+    public function activateReturnLabels(
+        array   $orderIds,
+        Context $context
+    ): ActivateReturnResponse
+    {
+        $orders = $this->orderService->getOrders($orderIds, $context);
+        return $this->shipmentService->activateReturnLabels($orders, $context);
     }
 
     public function createSmartReturnForOrders(array $orderIds, string $mailTemplateId, Context $context): StructCollection

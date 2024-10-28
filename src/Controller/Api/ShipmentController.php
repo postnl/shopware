@@ -155,6 +155,16 @@ class ShipmentController extends AbstractController
         return $this->json(null, 204);
     }
 
+    #[Route(path: '/api/_action/postnl/shipment/activate-return-label', name: 'api.action.postnl.shipment.activate-return-label', defaults: ['auth_enabled' => true], methods: ['GET'])]
+    public function activateReturnLabel(QueryDataBag $data, Context $context): Response
+    {
+        $orderIds = $data->get('orderIds', new QueryDataBag())->all();
+
+        $response = $this->shipmentFacade->activateReturnLabels($orderIds, $context);
+
+        return $this->json($response, 200);
+    }
+
     private function createBinaryResponse(string $filename, string $content, bool $forceDownload, string $contentType): Response
     {
         $response = new Response($content);

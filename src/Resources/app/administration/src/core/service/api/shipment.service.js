@@ -31,6 +31,10 @@ export default class ShipmentService extends PostNlApiService
         return this.get('create-smart-return', data)
     }
 
+    activateReturnLabels(data) {
+        return this.get('activate-return-label', data)
+    }
+
     determineZones(orderIds) {
         return this.get('zones', {
             orderIds: orderIds,

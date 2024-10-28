@@ -16,6 +16,7 @@ use Firstred\PostNL\Service\DeliveryDateServiceInterface;
 use ParagonIE\HiddenString\HiddenString;
 use PostNL\Shopware6\Component\PostNL\Entity\Request\ActivateReturn;
 use PostNL\Shopware6\Component\PostNL\Entity\Request\PostalCode;
+use PostNL\Shopware6\Component\PostNL\Entity\Response\ActivateReturnResponse;
 use PostNL\Shopware6\Component\PostNL\Entity\Response\PostalCodeResponse;
 use PostNL\Shopware6\Component\PostNL\Service\ActivateReturnService;
 use PostNL\Shopware6\Component\PostNL\Service\ActivateReturnServiceInterface;
@@ -72,9 +73,19 @@ class PostNL extends BaseClient
         $this->activateReturnService = $activateReturnService;
     }
 
-    public function activateReturn(string $barcode): void
+    /**
+     * @param string $barcode
+     * @return ActivateReturnResponse
+     * @throws CifDownException
+     * @throws CifException
+     * @throws HttpClientException
+     * @throws InvalidArgumentException
+     * @throws InvalidConfigurationException
+     * @throws ResponseException
+     */
+    public function activateReturn(string $barcode): ActivateReturnResponse
     {
-        $this->getActivateReturnService()
+        return $this->getActivateReturnService()
             ->activateReturn(
                 activateReturn: new ActivateReturn(
                     customerNumber: $this->getCustomer()->getCustomerNumber(),

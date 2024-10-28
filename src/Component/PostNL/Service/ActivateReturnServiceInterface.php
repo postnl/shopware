@@ -13,13 +13,14 @@ use Firstred\PostNL\Exception\ResponseException;
 use Firstred\PostNL\Service\ServiceInterface;
 use PostNL\Shopware6\Component\PostNL\Entity\Request\ActivateReturn;
 use PostNL\Shopware6\Component\PostNL\Entity\Request\PostalCode;
+use PostNL\Shopware6\Component\PostNL\Entity\Response\ActivateReturnResponse;
 use PostNL\Shopware6\Component\PostNL\Entity\Response\PostalCodeResponse;
 
 interface ActivateReturnServiceInterface extends ServiceInterface
 {
     /**
      * @param ActivateReturn $activateReturn
-     * @return void
+     * @return ActivateReturnResponse
      * @throws CifDownException
      * @throws CifException
      * @throws HttpClientException
@@ -27,5 +28,5 @@ interface ActivateReturnServiceInterface extends ServiceInterface
      * @throws InvalidConfigurationException
      * @throws InvalidArgumentException
      */
-    public function activateReturn(ActivateReturn $activateReturn): void;
+    public function activateReturn(ActivateReturn $activateReturn): ActivateReturnResponse;
 }

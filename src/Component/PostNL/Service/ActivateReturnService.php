@@ -10,11 +10,13 @@ use Firstred\PostNL\Service\ResponseProcessor\ResponseProcessorSettersTrait;
 use ParagonIE\HiddenString\HiddenString;
 use PostNL\Shopware6\Component\PostNL\Entity\Request\ActivateReturn;
 use PostNL\Shopware6\Component\PostNL\Entity\Request\PostalCode;
+use PostNL\Shopware6\Component\PostNL\Entity\Response\ActivateReturnResponse;
 use PostNL\Shopware6\Component\PostNL\Entity\Response\PostalCodeResponse;
 use PostNL\Shopware6\Component\PostNL\Service\RequestBuilder\PostalcodeCheckServiceRequestBuilderInterface;
 use PostNL\Shopware6\Component\PostNL\Service\RequestBuilder\Rest\ActivateReturnServiceRestRequestBuilder;
 use PostNL\Shopware6\Component\PostNL\Service\RequestBuilder\Rest\PostalcodeCheckServiceRestRequestBuilder;
 use PostNL\Shopware6\Component\PostNL\Service\ResponseProcessor\PostalcodeCheckServiceResponseProcessorInterface;
+use PostNL\Shopware6\Component\PostNL\Service\ResponseProcessor\Rest\ActivateReturnServiceRestResponseProcessor;
 use PostNL\Shopware6\Component\PostNL\Service\ResponseProcessor\Rest\PostalcodeCheckServiceRestResponseProcessor;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
@@ -29,7 +31,7 @@ class ActivateReturnService extends AbstractService implements ActivateReturnSer
     use ResponseProcessorSettersTrait;
 
     protected ActivateReturnServiceRestRequestBuilder $requestBuilder;
-//    protected ?PostalcodeCheckServiceResponseProcessorInterface $responseProcessor;
+    protected ?ActivateReturnServiceRestResponseProcessor $responseProcessor;
 
     /**
      * @param HiddenString            $apiKey
@@ -60,16 +62,16 @@ class ActivateReturnService extends AbstractService implements ActivateReturnSer
             requestFactory: $this->getRequestFactory(),
             streamFactory: $this->getStreamFactory(),
         );
-//        $this->responseProcessor = new PostalcodeCheckServiceRestResponseProcessor();
+        $this->responseProcessor = new ActivateReturnServiceRestResponseProcessor();
     }
 
-    public function activateReturn(ActivateReturn $activateReturn): void
+    public function activateReturn(ActivateReturn $activateReturn): ActivateReturnResponse
     {
-        $this
+        $response = $this
             ->getHttpClient()
             ->doRequest(request: $this->requestBuilder->buildActivateReturnRequest(activateReturn: $activateReturn));
 
-//        return $this->responseProcessor->processPostalcodeCheckResponse(response: $response);
+        return $this->responseProcessor->processActivateReturnResponse(response: $response);
     }
 
 
