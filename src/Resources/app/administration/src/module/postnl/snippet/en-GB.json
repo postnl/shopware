@@ -133,7 +133,8 @@
           "cancel": "Cancel",
           "confirm": "Create return shipments",
           "success": {
-            "smartReturn": "Created smart return | Created smart returns"
+            "smartReturn": "Created smart return | Created smart returns",
+            "shipmentAndReturn": "Activated shipment and return label | Activated {count} shipment and return labels"
           },
           "errors": {
             "label": "Could not generate a label for order {orderNumbers} | Could not generate labels for {count} orders: {orderNumbers}",

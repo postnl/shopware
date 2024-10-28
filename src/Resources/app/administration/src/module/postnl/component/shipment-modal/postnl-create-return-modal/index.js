@@ -138,7 +138,9 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
                     if(response.successfulBarcodes.length > 0) {
                         this.createNotificationSuccess({
                             title: this.$tc('global.default.success'),
-                            message: this.$tc('postnl.order.modal.createReturn.success.activateLabel', this.orderIds.length),
+                            message: this.$tc('postnl.order.modal.createReturn.success.shipmentAndReturn', response.successfulBarcodes.length, {
+                                count: response.successfulBarcodes.length
+                            }),
                         })
                     }
 
@@ -147,7 +149,7 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
                             if(barcodeError.warnings.length > 0) {
                                 barcodeError.warnings.forEach(warning => {
                                     this.createNotificationWarning({
-                                        title: this.$tc('global.default.warning'),
+                                        title: `${this.$tc('global.default.warning')} ${barcodeError.barcode}`,
                                         message: warning.description,
                                     })
                                 })
@@ -156,7 +158,7 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
                             if(barcodeError.errors.length > 0) {
                                 barcodeError.errors.forEach(error => {
                                     this.createNotificationError({
-                                        title: this.$tc('global.default.error'),
+                                        title: `${this.$tc('global.default.error')} ${barcodeError.barcode}`,
                                         message: error.description
                                     })
                                 })
