@@ -82,7 +82,6 @@ class ActivateReturnServiceRestResponseProcessor extends AbstractRestResponsePro
 
     protected function validateResponse(ResponseInterface $response): bool
     {
-        dd((string)$response->getBody());
         parent::validateResponse($response);
 
         try {
