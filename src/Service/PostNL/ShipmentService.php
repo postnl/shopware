@@ -24,6 +24,7 @@ use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor;
 use PostNL\Shopware6\Service\Shopware\OrderService;
 use PostNL\Shopware6\Struct\Attribute\OrderAttributeStruct;
 use PostNL\Shopware6\Struct\Attribute\OrderReturnAttributeStruct;
+use PostNL\Shopware6\Struct\Config\ReturnOptionsStruct;
 use Shopware\Core\Checkout\Order\OrderCollection;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
@@ -242,7 +243,20 @@ class ShipmentService
                 /** @var OrderAttributeStruct $orderAttributes */
                 $orderAttributes = $this->attributeFactory->createFromEntity($salesChannelOrder, $context);
 
-                $response->merge($apiClient->activateReturn($orderAttributes->getBarCode()));
+                $activateResponse = $apiClient->activateReturn($orderAttributes->getBarCode());
+
+                if(in_array($orderAttributes->getBarCode(), $activateResponse->getSuccessfulBarcodes())) {
+                    $this->orderService->updateOrderCustomFields(
+                        $salesChannelOrder->getId(),
+                        [
+                            'returnOptions' => [
+                                ReturnOptionsStruct::T_SHIPMENT_AND_RETURN => true
+                            ]
+                        ],
+                        $context
+                    );
+                }
+                $response->merge($activateResponse);
             }
         }
 

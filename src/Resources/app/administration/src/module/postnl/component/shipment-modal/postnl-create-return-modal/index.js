@@ -134,7 +134,6 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
                 })
                 .then((response) => {
                     this.isProcessingSuccess = true
-                    console.log(response)
 
                     if(response.successfulBarcodes.length > 0) {
                         this.createNotificationSuccess({
@@ -165,19 +164,11 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
                         })
                     }
                 })
-                .catch((errors) => {
-                    console.log(errors)
-                    // [...new Set(errors.map(error => error.type))]
-                    //     .map(type => [type, errors.filter(error => error.type === type)]) // Turns into an entry compatible array
-                    //     .forEach(([type, errors]) =>
-                    //         this.createNotificationError({
-                    //             title: this.$tc('global.default.error'),
-                    //             message: this.$tc(`postnl.order.modal.createReturn.errors.${ type }`, errors.length, {
-                    //                 count: errors.length,
-                    //                 orderNumbers: errors.map(error => error.orderNumber).join(', '),
-                    //             }),
-                    //         })
-                    //     )
+                .catch(() => {
+                    this.createNotificationError({
+                        title: this.$tc('global.default.error'),
+                        message: this.$tc('sw-error.general.messagePlaceholder')
+                    })
                 })
                 .finally(() => {
                     this.isProcessing = false
