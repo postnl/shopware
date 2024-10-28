@@ -161,7 +161,7 @@ class ShipmentController extends AbstractController
         $orderIds = $data->get('orderIds', new QueryDataBag())->all();
 
         $response = $this->shipmentFacade->activateReturnLabels($orderIds, $context);
-
+//dd($response);
         return $this->json($response, 200);
     }
 

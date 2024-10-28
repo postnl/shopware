@@ -135,23 +135,49 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
                 .then((response) => {
                     this.isProcessingSuccess = true
                     console.log(response)
-                    // this.createNotificationSuccess({
-                    //     title: this.$tc('global.default.success'),
-                    //     message: this.$tc('postnl.order.modal.createReturn.success.smartReturn', this.orderIds.length),
-                    // })
+
+                    if(response.successfulBarcodes.length > 0) {
+                        this.createNotificationSuccess({
+                            title: this.$tc('global.default.success'),
+                            message: this.$tc('postnl.order.modal.createReturn.success.activateLabel', this.orderIds.length),
+                        })
+                    }
+
+                    if(response.errorsPerBarcode.length > 0) {
+                        response.errorsPerBarcode.forEach(barcodeError => {
+                            if(barcodeError.warnings.length > 0) {
+                                barcodeError.warnings.forEach(warning => {
+                                    this.createNotificationWarning({
+                                        title: this.$tc('global.default.warning'),
+                                        message: warning.description,
+                                    })
+                                })
+                            }
+
+                            if(barcodeError.errors.length > 0) {
+                                barcodeError.errors.forEach(error => {
+                                    this.createNotificationError({
+                                        title: this.$tc('global.default.error'),
+                                        message: error.description
+                                    })
+                                })
+                            }
+                        })
+                    }
                 })
                 .catch((errors) => {
-                    [...new Set(errors.map(error => error.type))]
-                        .map(type => [type, errors.filter(error => error.type === type)]) // Turns into an entry compatible array
-                        .forEach(([type, errors]) =>
-                            this.createNotificationError({
-                                title: this.$tc('global.default.error'),
-                                message: this.$tc(`postnl.order.modal.createReturn.errors.${ type }`, errors.length, {
-                                    count: errors.length,
-                                    orderNumbers: errors.map(error => error.orderNumber).join(', '),
-                                }),
-                            })
-                        )
+                    console.log(errors)
+                    // [...new Set(errors.map(error => error.type))]
+                    //     .map(type => [type, errors.filter(error => error.type === type)]) // Turns into an entry compatible array
+                    //     .forEach(([type, errors]) =>
+                    //         this.createNotificationError({
+                    //             title: this.$tc('global.default.error'),
+                    //             message: this.$tc(`postnl.order.modal.createReturn.errors.${ type }`, errors.length, {
+                    //                 count: errors.length,
+                    //                 orderNumbers: errors.map(error => error.orderNumber).join(', '),
+                    //             }),
+                    //         })
+                    //     )
                 })
                 .finally(() => {
                     this.isProcessing = false

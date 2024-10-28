@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace PostNL\Shopware6\Component\PostNL\Entity\Response;
 
-class ActivateReturnErrorMessage
+use JsonSerializable;
+
+class ActivateReturnErrorMessage implements JsonSerializable
 {
     protected string $code;
     protected string $description;
@@ -27,5 +29,13 @@ class ActivateReturnErrorMessage
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'code' => $this->code,
+            'description' => $this->description,
+        ];
     }
 }

@@ -97,7 +97,6 @@ Component.register('postnl-shipment-modal-base', {
         },
 
         onProcessSuccessEnd() {
-            console.log('end')
             this.closeModal()
             location.reload()
         },

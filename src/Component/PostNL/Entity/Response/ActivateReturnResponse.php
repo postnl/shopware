@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace PostNL\Shopware6\Component\PostNL\Entity\Response;
 
-class ActivateReturnResponse
+use JsonSerializable;
+
+class ActivateReturnResponse implements JsonSerializable
 {
     /** @var string[] */
     protected array $successfulBarcodes = [];
@@ -39,7 +41,15 @@ class ActivateReturnResponse
     {
         foreach ($responses as $response) {
             $this->successfulBarcodes = array_merge($this->successfulBarcodes, $response->getSuccessfulBarcodes());
-            $this->errorsPerBarcode = array_merge($this->errorsPerBarcode, $response->getErrorsPerBarcodes());
+            $this->errorsPerBarcode = array_merge($this->errorsPerBarcode, $response->getErrorsPerBarcode());
         }
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'successfulBarcodes' => $this->successfulBarcodes,
+            'errorsPerBarcode' => $this->errorsPerBarcode,
+        ];
     }
 }

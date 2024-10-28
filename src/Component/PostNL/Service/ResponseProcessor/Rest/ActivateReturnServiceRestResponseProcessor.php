@@ -54,7 +54,7 @@ class ActivateReturnServiceRestResponseProcessor extends AbstractRestResponsePro
             throw new NotFoundException();
         }
 
-        $errors = [];
+        $errorsPerBarcode = [];
 
         foreach ($json->errorsPerBarcode as $barcodeError) {
             $warnings = [];
@@ -74,10 +74,10 @@ class ActivateReturnServiceRestResponseProcessor extends AbstractRestResponsePro
                 errors  : $errors
             );
 
-            $errors[] = $errorResult;
+            $errorsPerBarcode[] = $errorResult;
         }
 
-        return new ActivateReturnResponse($json->successFulBarcodes, $errors);
+        return new ActivateReturnResponse($json->successFulBarcodes, $errorsPerBarcode);
     }
 
     protected function validateResponse(ResponseInterface $response): bool
