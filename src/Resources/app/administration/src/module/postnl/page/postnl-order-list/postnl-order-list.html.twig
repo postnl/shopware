@@ -78,18 +78,35 @@
 
     <sw-context-menu-item
         class="sw-order-list__order-ship-action"
-        @click="isChangeShippingModalId = item.id"
         icon="postnl-ghost"
+        disabled
+        variant="headline"
+    >
+        {{ $tc('postnl.order.list.buttonPostnlHeadline') }}
+    </sw-context-menu-item>
+
+    <sw-context-menu-item
+        class="sw-order-list__order-ship-action"
+        icon="regular-box-alt"
+        @click="isChangeShippingModalId = item.id"
     >
         {{ $tc('postnl.order.list.buttonChangeShipping') }}
     </sw-context-menu-item>
 
     <sw-context-menu-item
         class="sw-order-list__order-ship-action"
+        icon="regular-truck"
         @click="isCreateShipmentModalId = item.id"
-        icon="postnl-ghost"
     >
         {{ $tc('postnl.order.list.buttonCreateShipment') }}
+    </sw-context-menu-item>
+
+    <sw-context-menu-item
+        class="sw-order-list__order-ship-action"
+        icon="regular-undo"
+        @click="isCreateReturnModalId = item.id"
+    >
+        {{ $tc('postnl.order.list.buttonCreateReturn') }}
     </sw-context-menu-item>
 
     <sw-context-menu-divider />
@@ -102,16 +119,21 @@
         v-if="isChangeShippingModalId === item.id"
         :selection="{item: item}"
         @close="isChangeShippingModalId = null"
-        @change-shipping="onChangeShipping"
     />
 
     <postnl-create-shipment-modal
         v-if="isCreateShipmentModalId === item.id"
         :selection="{item: item}"
         @close="isCreateShipmentModalId = null"
-        @create-shipment="onCreateShipment"
+    />
+
+    <postnl-create-return-modal
+        v-if="isCreateReturnModalId === item.id"
+        :selection="{item: item}"
+        @close="isCreateReturnModalId = null"
     />
 {% endblock %}
+
 
 {% block sw_order_list_bulk_selected_actions_content %}
     <template #bulk>
@@ -143,14 +165,18 @@
             v-if="isBulkChangeShippingModalOpen"
             :selection="selection"
             @close="isBulkChangeShippingModalOpen = false"
-            @change-shipping="onChangeShipping"
         />
 
         <postnl-create-shipment-modal
             v-if="isBulkCreateShipmentModalOpen"
             :selection="selection"
             @close="isBulkCreateShipmentModalOpen = false"
-            @create-shipment="onCreateShipment"
+        />
+
+        <postnl-create-return-modal
+            v-if="isCreateReturnModalOpen"
+            :selection="selection"
+            @close="isCreateReturnModalOpen = false"
         />
     </template>
 {% endblock %}

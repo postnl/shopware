@@ -104,8 +104,10 @@
         "columnProduct": "PostNL product",
         "columnBarCode": "Barcode",
         "columnConfirm": "Confirmed",
+        "buttonPostnlHeadline": "PostNL",
         "buttonChangeShipping": "Change shipping method",
         "buttonCreateShipment": "Create and confirm shipments",
+        "buttonCreateReturn": "Create return shipments",
         "columnSentDate": "Shipping date",
         "columnDeliveryDate": "Delivery date",
         "missingProductId": "No PostNL shipping method assigned, please select one first"

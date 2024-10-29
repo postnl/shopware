@@ -13,6 +13,7 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
         return {
             isBulkChangeShippingModalOpen: false,
             isBulkCreateShipmentModalOpen: false,
+            isCreateReturnModalId: null,
             isChangeShippingModalId: null,
             isCreateShipmentModalId: null,
 
@@ -213,26 +214,26 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
             return !!item?.customFields?.postnl?.productId || false;
         },
 
-        onChangeShipping() {
-            new Promise(resolve => {
-                this.isBulkChangeShippingModalOpen = false;
-                this.isChangeShippingModalId = null;
-                resolve();
-            }).then(() => {
-                this.onRefresh();
-                this.$refs.orderGrid.resetSelection();
-            });
-        },
-
-        onCreateShipment() {
-            new Promise(resolve => {
-                this.isBulkCreateShipmentModalOpen = false;
-                this.isCreateShipmentModalId = null;
-                resolve();
-            }).then(() => {
-                this.onRefresh();
-                this.$refs.orderGrid.resetSelection();
-            })
-        }
+        // onChangeShipping() {
+        //     new Promise(resolve => {
+        //         this.isBulkChangeShippingModalOpen = false;
+        //         this.isChangeShippingModalId = null;
+        //         resolve();
+        //     }).then(() => {
+        //         this.onRefresh();
+        //         this.$refs.orderGrid.resetSelection();
+        //     });
+        // },
+        //
+        // onCreateShipment() {
+        //     new Promise(resolve => {
+        //         this.isBulkCreateShipmentModalOpen = false;
+        //         this.isCreateShipmentModalId = null;
+        //         resolve();
+        //     }).then(() => {
+        //         this.onRefresh();
+        //         this.$refs.orderGrid.resetSelection();
+        //     })
+        // }
     }
 });
