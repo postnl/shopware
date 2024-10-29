@@ -243,6 +243,10 @@ class ShipmentService
                 /** @var OrderAttributeStruct $orderAttributes */
                 $orderAttributes = $this->attributeFactory->createFromEntity($salesChannelOrder, $context);
 
+                if(empty($orderAttributes->getBarCode())) {
+                    continue;
+                }
+
                 $activateResponse = $apiClient->activateReturn($orderAttributes->getBarCode());
 
                 if(in_array($orderAttributes->getBarCode(), $activateResponse->getSuccessfulBarcodes())) {
@@ -283,7 +287,7 @@ class ShipmentService
     public function shipOrder(OrderEntity $order, bool $confirm, Context $context): array
     {
         $apiClient = $this->apiFactory->createClientForSalesChannel($order->getSalesChannelId(), $context);
-        $config = $this->configService->getConfiguration($order->getSalesChannelId(), $context);
+//        $config = $this->configService->getConfiguration($order->getSalesChannelId(), $context);
 
         // TODO get from config
         $printerType = 'GraphicFile|PDF';

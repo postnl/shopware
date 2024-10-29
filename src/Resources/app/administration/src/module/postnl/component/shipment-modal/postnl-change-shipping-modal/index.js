@@ -25,7 +25,7 @@ Shopware.Component.extend('postnl-change-shipping-modal', 'postnl-shipment-modal
         },
 
         isProcessingDisabled() {
-            return this.sourceZones.length < 1 || this.destinationZones.length < 1;
+            return this.sourceZones.length > 1 || this.destinationZones.length > 1;
         },
     },
 
