@@ -76,6 +76,19 @@
         "enableAltProduct": "Alternatives Produkt aktivieren",
         "altProductAmount": "Alternatives Produkt verwenden ab",
         "combinationNotice": "Es sind nicht alle Kombinationen möglich. Das am besten geeignete Produkt wird auf der Grundlage Ihrer letzten Auswahl ausgewählt."
+      },
+      "returnOptions": {
+        "type": "Typ des Etiketts",
+        "options": {
+          "none": "Keine",
+          "shipmentAndReturn": "Versand und Rücksendung",
+          "labelInTheBox": "Etikett im Karton"
+        },
+        "description": {
+          "shipmentAndReturn": "Das Versandetikett kann auch als Rücksendeetikett verwendet werden, dies muss jedoch pro Bestellung aktiviert werden.",
+          "labelInTheBox": "Es wird ein zusätzlicher Retourenaufkleber gedruckt, der der Sendung beigelegt werden sollte."
+        },
+        "allowImmediateShipmentAndReturn": "Die Etiketten können sofort für Rücksendungen verwendet werden, ohne dass sie aktiviert werden müssen."
       }
     },
     "order": {
@@ -83,7 +96,8 @@
         "shippingProduct": "PostNL produkt",
         "buttonChangeShipping": "Versandart ändern",
         "buttonCreateShipment": "Vorregistrierung und Etikettendruck",
-        "sentDate": "Versanddatum"
+        "sentDate": "Versanddatum",
+        "buttonCreateReturn": "Rücksendungen erstellen"
       },
       "list": {
         "columnShippingAddress": "Lieferadresse",
@@ -94,7 +108,13 @@
         "buttonCreateShipment": "Vorregistrierung und Etikettendruck",
         "columnSentDate": "Versanddatum",
         "columnDeliveryDate": "Liefertermin",
-        "missingProductId": "Keine PostNL-Versandmethode zugewiesen, bitte wählen Sie zuerst eine aus."
+        "missingProductId": "Keine PostNL-Versandmethode zugewiesen, bitte wählen Sie zuerst eine aus.",
+        "buttonPostnlHeadline": "PostNL",
+        "buttonCreateReturn": "Rücksendungen erstellen",
+        "statusSmartReturn": "Intelligente Rückgabe: {barcode}",
+        "statusShipmentAndReturnActive": "Versand und Rücksendung: Aktiviert",
+        "statusShipmentAndReturnInactive": "Versand und Rücksendung: Erfordert Aktivierung",
+        "statusLabelInTheBox": "Etikett in der Schachtel: Verfügbar"
       },
       "modal": {
         "changeShipping": {
@@ -113,6 +133,35 @@
           "confirm": "Sendungen senden",
           "missingProductIdMany": "Eine oder mehrere Bestellungen haben keine PostNL Versandart. Bitte wählen Sie zuerst eine über \"Versandart ändern\"",
           "missingProductIdSingle": "Die ausgewählten Bestellungen haben keine PostNL-Versandart. Bitte wählen Sie zuerst eine über \"Versandart ändern\" aus."
+        },
+        "createReturn": {
+          "title": "Rückgabeoption wählen",
+          "cancel": "Abbrechen",
+          "confirm": "Retourensendungen erstellen",
+          "success": {
+            "smartReturn": "Smart-Retoure erstellt | Smart-Retouren erstellt",
+            "shipmentAndReturn": "Aktivierte Versand- und Retourenetiketten | Aktivierte {count} Versand- und Retourenetiketten"
+          },
+          "errors": {
+            "label": "Konnte kein Etikett für Auftrag {orderNumbers} erstellen | Konnte keine Etiketten für {count} Bestellungen erstellen: {orderNumbers}",
+            "mail": "Konnte keine E-Mail für die Bestellung {orderNumbers} senden | Konnte keine E-Mails für {count} Bestellungen senden: {orderNumbers}"
+          },
+          "type": {
+            "notAvailable": "Diese Rückgabeoption ist nicht verfügbar",
+            "smartReturn": {
+              "label": "Rücksendeetikett erstellen",
+              "description": "Erstellen und versenden Sie ein Rücksendeetikett, mit dem der Kunde die Produkte an Sie zurückschicken kann."
+            },
+            "shipmentAndReturn": {
+              "label": "Aktivieren Sie das Etikett „Versand und Rücksendung",
+              "description": "Aktivieren Sie das „Versand- und Rücksendeetikett“ des Kunden. Der Kunde kann das ursprüngliche Versandetikett für die Rücksendung der Produkte verwenden."
+            },
+            "labelInTheBox": {
+              "label": "Etikett in der Box",
+              "description": "Der Kunde hat mit seiner Sendung ein Rücksendeetikett erhalten, das er für die Rücksendung der Produkte verwenden kann."
+            }
+          },
+          "smartReturnMailTemplate": "Mailvorlage auswählen"
         }
       }
     },
