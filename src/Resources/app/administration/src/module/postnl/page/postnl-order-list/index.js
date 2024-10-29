@@ -129,11 +129,17 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
                     dataIndex: 'customFields.postnl.sentDate',
                     label: 'postnl.order.list.columnSentDate',
                     align: 'center',
-                },{
+                },
+                {
                     property: 'customFields.postnl.deliveryDate',
                     dataIndex: 'customFields.postnl.deliveryDate',
                     label: 'postnl.order.list.columnDeliveryDate',
                     align: 'center',
+                },
+                {
+                    property: 'customFields.postnl.returnOptions',
+                    dataIndex: 'customFields.postnl.returnOptions',
+                    label: 'postnl.order.list.columnReturnOptions',
                 },
             ];
 
@@ -159,6 +165,7 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
                 columnMap['customFields-postnl-confirm'],
                 columnMap['customFields-postnl-sentDate'],
                 columnMap['customFields-postnl-deliveryDate'],
+                columnMap['customFields-postnl-returnOptions'],
                 columnMap['stateMachineState-name'],
                 columnMap['transactions-stateMachineState-name'],
                 columnMap['deliveries-stateMachineState-name'],
@@ -213,6 +220,16 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
 
         orderHasProduct(item) {
             return !!item?.customFields?.postnl?.productId || false;
+        },
+
+        orderHasReturnOption(item, option) {
+            const returnOptions = item.customFields?.postnl?.returnOptions
+
+            if(!returnOptions) {
+                return false
+            }
+
+            return option in returnOptions
         },
 
         // onChangeShipping() {

@@ -64,6 +64,44 @@
             </template>
         </template>
     {% endblock %}
+
+    {% block sw_order_list_grid_columns_custom_fields_postnl_return_options %}
+        <template #column-customFields.postnl.returnOptions="{ item }">
+            <template v-if="item.customFields?.postnl?.returnOptions?.smartReturn">
+                <sw-status
+                    v-for="barcode in item.customFields?.postnl?.returnOptions?.smartReturnBarcodes"
+                    color="blue"
+                >
+                    {{ $tc('postnl.order.list.statusSmartReturn', 0, {
+                        barcode: barcode
+                    }) }}
+                </sw-status>
+            </template>
+
+            <template v-if="orderHasReturnOption(item, 'shipmentAndReturn')">
+                <sw-status
+                    v-if="item.customFields.postnl.returnOptions.shipmentAndReturn"
+                    color="green"
+                >
+                    {{ $tc('postnl.order.list.statusShipmentAndReturnActive') }}
+                </sw-status>
+
+                <sw-status
+                    v-else
+                    color="red"
+                >
+                    {{ $tc('postnl.order.list.statusShipmentAndReturnInactive') }}
+                </sw-status>
+            </template>
+
+            <sw-status
+                v-if="orderHasReturnOption(item, 'labelInTheBox')"
+                color="green"
+            >
+                {{ $tc('postnl.order.list.statusLabelInTheBox') }}
+            </sw-status>
+        </template>
+    {% endblock %}
 {% endblock %}
 
 {% block sw_order_list_grid_columns_actions_view %}
