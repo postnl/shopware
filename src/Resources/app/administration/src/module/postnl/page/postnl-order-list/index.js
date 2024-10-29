@@ -13,9 +13,10 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
         return {
             isBulkChangeShippingModalOpen: false,
             isBulkCreateShipmentModalOpen: false,
-            isCreateReturnModalId: null,
+            isBulkCreateReturnModalOpen: false,
             isChangeShippingModalId: null,
             isCreateShipmentModalId: null,
+            isCreateReturnModalId: null,
 
             countries: {},
             products: {}

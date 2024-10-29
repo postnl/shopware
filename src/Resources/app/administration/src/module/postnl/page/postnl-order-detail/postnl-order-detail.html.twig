@@ -1,14 +1,13 @@
 {% block sw_order_detail_actions_slot_smart_bar_actions %}
 
     <sw-button-group
+        v-if="acl.can('order.editor')"
         :disabled="isLoading"
         block
     >
         <postnl-button
-            v-if="acl.can('order.editor')"
             variant="ghost"
             size="x-small"
-
             @click="isCreateShipmentModalOpen = true">
             <sw-icon name="postnl" multicolor></sw-icon>
         </postnl-button>
@@ -16,7 +15,6 @@
         <sw-context-button icon="regular-chevron-down-xs">
             <template #button>
                 <postnl-button
-                    v-if="acl.can('order.editor')"
                     variant="ghost"
                     square
                 >

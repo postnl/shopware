@@ -137,25 +137,58 @@
 
 {% block sw_order_list_bulk_selected_actions_content %}
     <template #bulk>
-        <postnl-button
+        <sw-button-group
             v-if="acl.can('order.editor')"
-            variant="ghost"
-            size="x-small"
-            @click="isBulkChangeShippingModalOpen = true"
+            :disabled="isLoading"
         >
-            <sw-icon name="postnl" multicolor></sw-icon>
-            {{ $tc('postnl.order.list.buttonChangeShipping') }}
-        </postnl-button>
+            <postnl-button
+                variant="ghost"
+                size="x-small"
 
-        <postnl-button
-            v-if="acl.can('order.editor')"
-            variant="ghost"
-            size="x-small"
-            @click="isBulkCreateShipmentModalOpen = true"
-        >
-            <sw-icon name="postnl" multicolor></sw-icon>
-            {{ $tc('postnl.order.list.buttonCreateShipment') }}
-        </postnl-button>
+                @click="isBulkCreateShipmentModalOpen = true">
+                <sw-icon name="postnl" multicolor></sw-icon>
+            </postnl-button>
+
+            <sw-context-button icon="regular-chevron-down-xs">
+                <template #button>
+                    <postnl-button
+                        variant="ghost"
+                        size="small"
+                        square
+                    >
+                        <sw-icon
+                            name="regular-chevron-down-xs"
+                            decorative
+                            size="1rem"
+                        />
+                    </postnl-button>
+                </template>
+
+                <sw-context-menu-item
+                    class="postnl-button"
+                    icon="regular-box-alt"
+                    @click="isBulkChangeShippingModalOpen = true"
+                >
+                    {{ $tc('postnl.order.detail.buttonChangeShipping') }}
+                </sw-context-menu-item>
+
+                <sw-context-menu-item
+                    class="postnl-button"
+                    icon="regular-truck"
+                    @click="isBulkCreateShipmentModalOpen = true"
+                >
+                    {{ $tc('postnl.order.detail.buttonCreateShipment') }}
+                </sw-context-menu-item>
+
+                <sw-context-menu-item
+                    class="postnl-button"
+                    icon="regular-undo"
+                    @click="isBulkCreateReturnModalOpen = true"
+                >
+                    {{ $tc('postnl.order.detail.buttonCreateReturn') }}
+                </sw-context-menu-item>
+            </sw-context-button>
+        </sw-button-group>
     </template>
 {% endblock %}
 
@@ -176,7 +209,7 @@
         <postnl-create-return-modal
             v-if="isCreateReturnModalOpen"
             :selection="selection"
-            @close="isCreateReturnModalOpen = false"
+            @close="isBulkCreateReturnModalOpen = false"
         />
     </template>
 {% endblock %}
