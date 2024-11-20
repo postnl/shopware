@@ -4,9 +4,9 @@ namespace PostNL\Shopware6;
 
 use Doctrine\DBAL\Connection;
 use PostNL\Shopware6\Service\PostNL\RuleCreatorService;
-use PostNL\Shopware6\Service\PostNL\ShippingMethodCreatorService;
 use PostNL\Shopware6\Service\PostNL\ShippingRulePriceCreatorService;
 use PostNL\Shopware6\Service\Shopware\CustomField\CustomFieldInstaller;
+use PostNL\Shopware6\Service\Shopware\ShippingMethodService;
 use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
 use Shopware\Core\Framework\Plugin\Context\InstallContext;
@@ -31,6 +31,20 @@ class PostNLShopware extends Plugin
 
     public function update(UpdateContext $updateContext): void
     {
+        if(version_compare($updateContext->getCurrentPluginVersion(), "4", ">=") &&
+            version_compare($updateContext->getCurrentPluginVersion(), "4.1.0", "<")) {
+            // If current version of the plugin is higher than v4, abut lower than 4.1.0
+            $shippingMethodService = ShippingMethodService::instance($this->container);
+
+            $mediaId = $shippingMethodService->getMediaId($this->getPath(), $updateContext->getContext());
+            $shippingMethodService->saveIcon(
+                $this->getPath(),
+                ShippingMethodService::ICON_NAME,
+                $updateContext->getContext(),
+                $mediaId
+            );
+        }
+
         CustomFieldInstaller::createFactory($this->container)->install($updateContext->getContext());
     }
 
@@ -38,13 +52,8 @@ class PostNLShopware extends Plugin
     {
         parent::activate($activateContext);
 
-        /** @var ShippingMethodCreatorService $shippingMethodCreator */
-        $shippingMethodCreator = $this->container->get(ShippingMethodCreatorService::class);
-        $shippingMethodIDs = $shippingMethodCreator->create(
-            $activateContext,
-            $this->container,
-            $this->getPath()
-        );
+        $shippingMethodService = ShippingMethodService::instance($this->container);
+        $shippingMethodIDs = $shippingMethodService->createShippingMethods($this->getPath(), $activateContext->getContext());
 
         /** @var RuleCreatorService $ruleCreatorService */
         $ruleCreatorService = $this->container->get(RuleCreatorService::class);
@@ -58,7 +67,6 @@ class PostNLShopware extends Plugin
             $activateContext,
             $this->container
         );
-
     }
 
     public function uninstall(UninstallContext $uninstallContext): void
