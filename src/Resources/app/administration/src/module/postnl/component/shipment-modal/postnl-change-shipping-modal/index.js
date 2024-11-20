@@ -5,8 +5,6 @@ Shopware.Component.extend('postnl-change-shipping-modal', 'postnl-shipment-modal
 
     data() {
         return {
-            sourceZones: [],
-            destinationZones: [],
 
             isOverrideProduct: false,
             overrideProductId: null,
@@ -35,21 +33,8 @@ Shopware.Component.extend('postnl-change-shipping-modal', 'postnl-shipment-modal
                 this.overrideProductId = this.productIds.shift();
                 this.isOverrideProduct = !!this.overrideProductId;
             }
-
-            this.determineZones()
         },
 
-        determineZones() {
-            this.isLoading = true;
-
-            return this.ShipmentService
-                .determineZones(this.orderIds)
-                .then(({ source, destination }) => {
-                    this.sourceZones = source
-                    this.destinationZones = destination
-                })
-                .finally(() => this.isLoading = false)
-        },
 
         onStartProcessing() {
             this.isProcessing = true;

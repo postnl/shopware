@@ -136,6 +136,8 @@
         },
         "createReturn": {
           "title": "Pick return option",
+          "multipleZoneWarning": "Unable to create returns when the selected orders have a mix of zones (NL, BE, EU, World)",
+          "noReturnOptionsWarning": "No return options are available for this order",
           "cancel": "Cancel",
           "confirm": "Create return shipments",
           "success": {

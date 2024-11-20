@@ -30,7 +30,11 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
         },
 
         isProcessingDisabled() {
-            return this.returnType === null || (this.returnType === 'smartReturn' && this.smartReturnMailTemplate === null)
+            return this.returnType === null || (this.returnType === 'smartReturn' && this.smartReturnMailTemplate === null) || this.hasMultipleZones
+        },
+
+        hasMultipleZones() {
+            return this.destinationZones.length > 1
         },
 
         mailTemplateCriteria() {
@@ -64,6 +68,7 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
                     enabled: true,
                     icon: 'regular-truck',
                     description: this.$t('postnl.order.modal.createReturn.type.smartReturn.description'),
+                    requiredZones: ['NL'],
                 },
                 {
                     label: this.$t('postnl.order.modal.createReturn.type.shipmentAndReturn.label'),
@@ -73,6 +78,7 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
                     description: this.shipmentAndReturnAvailable.length > 0
                         ? this.$t('postnl.order.modal.createReturn.type.shipmentAndReturn.description')
                         : this.$t('postnl.order.modal.createReturn.type.notAvailable'),
+                    requiredZones: ['NL'],
                 },
                 {
                     label: this.$t('postnl.order.modal.createReturn.type.labelInTheBox.label'),
@@ -82,8 +88,10 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
                     description: this.labelInTheBoxAvailable.length > 0
                         ? this.$t('postnl.order.modal.createReturn.type.labelInTheBox.description')
                         : this.$t('postnl.order.modal.createReturn.type.notAvailable'),
+                    requiredZones: ['NL', 'BE'],
                 }
             ]
+                .filter(returnType => returnType.requiredZones.some(zone => this.destinationZones.includes(zone)))
         }
     },
 

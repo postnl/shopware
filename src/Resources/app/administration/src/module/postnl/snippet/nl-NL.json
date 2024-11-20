@@ -136,6 +136,8 @@
         },
         "createReturn": {
           "title": "Kies retouroptie",
+          "multipleZoneWarning": "Kan geen retouren maken wanneer de geselecteerde orders een mix van zones hebben (NL, BE, EU, Wereld)",
+          "noReturnOptionsWarning": "Er zijn geen retouropties beschikbaar voor deze bestelling",
           "cancel": "Annuleer",
           "confirm": "Retourzendingen maken",
           "success": {

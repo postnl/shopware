@@ -136,6 +136,8 @@
         },
         "createReturn": {
           "title": "Rückgabeoption wählen",
+          "multipleZoneWarning": "Die Erstellung von Retouren ist nicht möglich, wenn die ausgewählten Aufträge eine Mischung von Zonen (NL, BE, EU, Welt) haben",
+          "noReturnOptionsWarning": "Für diese Bestellung sind keine Rückgabeoptionen verfügbar",
           "cancel": "Abbrechen",
           "confirm": "Retourensendungen erstellen",
           "success": {

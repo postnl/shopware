@@ -25,7 +25,10 @@ Component.register('postnl-shipment-modal-base', {
             isLoading: false,
             isProcessing: false,
             isProcessingSuccess: false,
-            variant: 'default'
+            variant: 'default',
+
+            sourceZones: [],
+            destinationZones: [],
         }
     },
 
@@ -65,6 +68,7 @@ Component.register('postnl-shipment-modal-base', {
 
     created() {
         this.createdComponent()
+        this.determineZones()
     },
 
     watch: {
@@ -88,6 +92,18 @@ Component.register('postnl-shipment-modal-base', {
             if (!this.isProcessing) {
                 this.$emit('close')
             }
+        },
+
+        determineZones() {
+            this.isLoading = true;
+
+            return this.ShipmentService
+                .determineZones(this.orderIds)
+                .then(({ source, destination }) => {
+                    this.sourceZones = source
+                    this.destinationZones = destination
+                })
+                .finally(() => this.isLoading = false)
         },
 
         onStartProcessing() {
