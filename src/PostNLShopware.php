@@ -31,6 +31,20 @@ class PostNLShopware extends Plugin
 
     public function update(UpdateContext $updateContext): void
     {
+        if(version_compare($updateContext->getCurrentPluginVersion(), "4", ">=") &&
+            version_compare($updateContext->getCurrentPluginVersion(), "4.1.0", "<")) {
+            // If current version of the plugin is higher than v4, abut lower than 4.1.0
+            $shippingMethodService = ShippingMethodService::instance($this->container);
+
+            $mediaId = $shippingMethodService->getMediaId($this->getPath(), $updateContext->getContext());
+            $shippingMethodService->saveIcon(
+                $this->getPath(),
+                ShippingMethodService::ICON_NAME,
+                $updateContext->getContext(),
+                $mediaId
+            );
+        }
+
         CustomFieldInstaller::createFactory($this->container)->install($updateContext->getContext());
     }
 
