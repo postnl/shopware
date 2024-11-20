@@ -125,12 +125,24 @@ class ShipmentBuilder
         //= Returns - Not smart return ====
         $returnOptions = $config->getReturnOptions();
         $returnCustomerCode = $config->getReturnAddress()->getReturnCustomerCode();
-        if(
-            $returnOptions->getType() !== ReturnOptionsStruct::T_NONE &&
-            !empty($returnCustomerCode) &&
-            $product->getDestinationZone() !== Zone::GLOBAL &&
-            !$context->hasState(OrderReturnAttributeStruct::S_SMART_RETURN)
-        ) {
+
+        $shouldCreateSeparateReturnLabel = false;
+        if(!empty($returnCustomerCode) && !$context->hasState(OrderReturnAttributeStruct::S_SMART_RETURN)) {
+            switch($returnOptions->getType()) {
+                case ReturnOptionsStruct::T_LABEL_IN_THE_BOX:
+                    $shouldCreateSeparateReturnLabel = in_array($product->getDestinationZone(), [
+                        Zone::NL, Zone::BE
+                    ]);
+                    break;
+                case ReturnOptionsStruct::T_SHIPMENT_AND_RETURN:
+                    $shouldCreateSeparateReturnLabel = in_array($product->getDestinationZone(), [
+                        Zone::NL
+                    ]);
+                    break;
+            }
+        }
+
+        if($shouldCreateSeparateReturnLabel) {
             $returnCountryCode = $config->getReturnAddress()->getCountrycode();
 
             //Next 2 lines are a temp fix for non usage of returncode in SDK 2/3
@@ -169,8 +181,14 @@ class ShipmentBuilder
 
         //= Returns - Smart return ====
         if($context->hasState(OrderReturnAttributeStruct::S_SMART_RETURN)) {
+            if(in_array($product->getDestinationZone(), [
+                Zone::NL
+            ])) {
+                throw new \Exception(sprintf('Smart returns cannot be generated for zone "%s"', $product->getDestinationZone()));
+            }
+
             // Smart returns should always be normal shipping.
-            // TODO maybe check Belgium?
+            // maybe check Belgium? No Belgium doesn't get Smart returns
             $shipment->setProductCodeDelivery('2285');
 
             $returnCountryCode = $config->getReturnAddress()->getCountrycode();
