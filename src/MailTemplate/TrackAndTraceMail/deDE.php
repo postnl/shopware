@@ -1,9 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shopware6\Migration\MailTemplates;
+namespace PostNL\Shopware6\MailTemplate\TrackAndTraceMail;
 
-class MailTemplate_deDE implements MailTemplateInterface
+use PostNL\Shopware6\MailTemplate\MailTemplateInterface;
+
+class deDE implements MailTemplateInterface
 {
+
 
     public static function getLocale(): string
     {

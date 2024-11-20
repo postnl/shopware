@@ -1,55 +1,50 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace PostNL\Shopware6\Facade;
 
+use PostNL\Shopware6\Component\PostNL\Entity\Response\ActivateReturnResponse;
 use PostNL\Shopware6\Defaults;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\ZoneService;
+use PostNL\Shopware6\Service\PostNL\Label\Label;
 use PostNL\Shopware6\Service\PostNL\Label\MergedLabelResponse;
+use PostNL\Shopware6\Service\PostNL\LabelMailer;
 use PostNL\Shopware6\Service\PostNL\ShipmentService;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
 use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor;
 use PostNL\Shopware6\Service\Shopware\OrderService;
+use PostNL\Shopware6\Struct\Attribute\OrderReturnAttributeStruct;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\Struct\ArrayStruct;
+use Shopware\Core\Framework\Struct\StructCollection;
 
 class ShipmentFacade
 {
-    /**
-     * @var ConfigService
-     */
-    protected $configService;
-
-    /**
-     * @var OrderService
-     */
-    protected $orderService;
-
-    /**
-     * @var OrderDataExtractor
-     */
-    protected $orderDataExtractor;
-
-    /**
-     * @var ShipmentService
-     */
-    protected $shipmentService;
+    protected ConfigService      $configService;
+    protected OrderService       $orderService;
+    protected OrderDataExtractor $orderDataExtractor;
+    protected ShipmentService    $shipmentService;
+    protected LabelMailer        $mailer;
 
     public function __construct(
         ConfigService      $configService,
         OrderService       $orderService,
         OrderDataExtractor $orderDataExtractor,
-        ShipmentService    $shipmentService
+        ShipmentService    $shipmentService,
+        LabelMailer        $mailer
     )
     {
         $this->configService = $configService;
         $this->orderService = $orderService;
         $this->orderDataExtractor = $orderDataExtractor;
         $this->shipmentService = $shipmentService;
+        $this->mailer = $mailer;
     }
 
     /**
      * @param string[] $orderIds
-     * @param Context $context
+     * @param Context  $context
      * @return array<string, string>
      * @throws \Firstred\PostNL\Exception\PostNLException
      */
@@ -57,20 +52,22 @@ class ShipmentFacade
     {
         $orders = $this->orderService->getOrders($orderIds, $context);
 
-        $ordersWithoutBarcode = $orders->filter(function (OrderEntity $order) {
-            $customFields = $order->getCustomFields() ?? [];
-            if (!array_key_exists(Defaults::CUSTOM_FIELDS_KEY, $customFields)) {
-                return false;
+        $ordersWithoutBarcode = $orders->filter(
+            function (OrderEntity $order) {
+                $customFields = $order->getCustomFields() ?? [];
+                if (!array_key_exists(Defaults::CUSTOM_FIELDS_KEY, $customFields)) {
+                    return false;
+                }
+                return !array_key_exists('barCode', $customFields[Defaults::CUSTOM_FIELDS_KEY]);
             }
-            return !array_key_exists('barCode', $customFields[Defaults::CUSTOM_FIELDS_KEY]);
-        });
+        );
 
         return $this->shipmentService->generateBarcodesForOrders($ordersWithoutBarcode, $context);
     }
 
     /**
-     * @param string[]   $orderIds
-     * @param Context $context
+     * @param string[] $orderIds
+     * @param Context  $context
      * @return string[]
      * @throws \Exception
      */
@@ -90,8 +87,8 @@ class ShipmentFacade
     }
 
     /**
-     * @param string[]   $orderIds
-     * @param Context $context
+     * @param string[] $orderIds
+     * @param Context  $context
      * @return string[]
      * @throws \Exception
      */
@@ -117,8 +114,8 @@ class ShipmentFacade
 
     /**
      * @param string[] $orderIds
-     * @param string $productId
-     * @param Context $context
+     * @param string   $productId
+     * @param Context  $context
      * @return void
      */
     public function changeProduct(
@@ -134,8 +131,8 @@ class ShipmentFacade
 
     /**
      * @param string[] $orderIds
-     * @param bool $confirmShipments
-     * @param Context $context
+     * @param bool     $confirmShipments
+     * @param Context  $context
      * @return MergedLabelResponse
      */
     public function shipOrders(
@@ -145,7 +142,64 @@ class ShipmentFacade
     ): MergedLabelResponse
     {
         $orders = $this->orderService->getOrders($orderIds, $context);
-
         return $this->shipmentService->shipOrders($orders, $confirmShipments, $context);
+    }
+
+    /**
+     * @param string[] $orderIds
+     * @param Context  $context
+     * @return ActivateReturnResponse
+     */
+    public function activateReturnLabels(
+        array   $orderIds,
+        Context $context
+    ): ActivateReturnResponse
+    {
+        $orders = $this->orderService->getOrders($orderIds, $context);
+        return $this->shipmentService->activateReturnLabels($orders, $context);
+    }
+
+    public function createSmartReturnForOrders(array $orderIds, string $mailTemplateId, Context $context): StructCollection
+    {
+        $orders = $this->orderService->getOrders($orderIds, $context);
+        $context->addState(OrderReturnAttributeStruct::S_SMART_RETURN);
+
+        $errors = new StructCollection();
+
+        foreach ($orders as $order) {
+            try {
+                $labels = $this->shipmentService->shipOrder($order, true, $context);
+                $labels = array_filter($labels, fn(Label $label) => $label->getType() === 'PrintcodeLabel');
+            }
+            catch (\Exception $e) {
+                $errors->add(
+                    new ArrayStruct(
+                        [
+                            'type'         => 'label',
+                            'orderNumber'  => $order->getOrderNumber(),
+                            'errorMessage' => $e->getMessage(),
+                        ]
+                    )
+                );
+                continue;
+            }
+
+            try {
+                $this->mailer->send($order, $labels, $mailTemplateId, $context);
+            }
+            catch (\Exception $e) {
+                $errors->add(
+                    new ArrayStruct(
+                        [
+                            'type'         => 'mail',
+                            'orderNumber'  => $order->getOrderNumber(),
+                            'errorMessage' => $e->getMessage(),
+                        ]
+                    )
+                );
+            }
+        }
+
+        return $errors;
     }
 }

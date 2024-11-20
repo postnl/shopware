@@ -3,17 +3,26 @@
     xsi:noNamespaceSchemaLocation="./vendor/boxblinkracer/phpunuhi/config.xsd"
 >
     <translations>
+        <set name="Admin components">
+            <format>
+                <json indent="2"/>
+            </format>
+            <locales basePath="./src/Resources/app/administration/src/module/postnl/snippet">
+                <locale name="en-GB" base="true">%base_path%/en-GB.json</locale>
+                <locale name="de-DE">%base_path%/de-DE.json</locale>
+                <locale name="nl-NL">%base_path%/nl-NL.json</locale>
+            </locales>
+        </set>
 
         <set name="Storefront JSON">
             <format>
                 <json indent="2" sort="true"/>
             </format>
-            <locales>
-                <locale name="en-GB">./src/Resources/snippet/en_GB/storefront.en-GB.json</locale>
-                <locale name="de-DE">./src/Resources/snippet/de_DE/storefront.de-DE.json</locale>
-                <locale name="nl-NL">./src/Resources/snippet/nl_NL/storefront.nl-NL.json</locale>
+            <locales basePath="./src/Resources/snippet">
+                <locale name="en-GB" base="true">%base_path%/en_GB/storefront.en-GB.json</locale>
+                <locale name="de-DE">%base_path%/de_DE/storefront.de-DE.json</locale>
+                <locale name="nl-NL">%base_path%/nl_NL/storefront.nl-NL.json</locale>
             </locales>
         </set>
-
     </translations>
 </phpunuhi>

@@ -16,64 +16,30 @@ class Migration1674219692CreateV2_0Mappings extends MappingMigration
 
     public function update(Connection $connection): void
     {
-        $this->insert($connection, ProductOptionOptionalMappingDefinition::ENTITY_NAME, [
-            [
-                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_NL_3085,
-                'option_id'  => Defaults::OPTION_118_006,
-            ],
-            [
-                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_NL_3087,
-                'option_id'  => Defaults::OPTION_118_006,
-            ],
-            [
-                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_NL_3089,
-                'option_id'  => Defaults::OPTION_118_006,
-            ],
-            [
-                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_NL_3090,
-                'option_id'  => Defaults::OPTION_118_006,
-            ],
-            [
-                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_NL_3094,
-                'option_id'  => Defaults::OPTION_118_006,
-            ],
-            [
-                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_NL_3096,
-                'option_id'  => Defaults::OPTION_118_006,
-            ],
-            [
-                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_NL_3189,
-                'option_id'  => Defaults::OPTION_118_006,
-            ],
-            [
-                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_NL_3385,
-                'option_id'  => Defaults::OPTION_118_006,
-            ],
-            [
-                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_NL_3389,
-                'option_id'  => Defaults::OPTION_118_006,
-            ],
-            [
-                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_NL_3390,
-                'option_id'  => Defaults::OPTION_118_006,
-            ],
-            [
-                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_BE_4912,
-                'option_id'  => Defaults::OPTION_118_006,
-            ],
-            [
-                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_BE_4914,
-                'option_id'  => Defaults::OPTION_118_006,
-            ],
-            [
-                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_BE_4941,
-                'option_id'  => Defaults::OPTION_118_006,
-            ],
-            [
-                'product_id' => Defaults::PRODUCT_SHIPMENT_NL_BE_4946,
-                'option_id'  => Defaults::OPTION_118_006,
-            ],
-        ]);
+        $productIds = [
+            Defaults::PRODUCT_SHIPMENT_NL_NL_3085,
+            Defaults::PRODUCT_SHIPMENT_NL_NL_3087,
+            Defaults::PRODUCT_SHIPMENT_NL_NL_3089,
+            Defaults::PRODUCT_SHIPMENT_NL_NL_3090,
+            Defaults::PRODUCT_SHIPMENT_NL_NL_3094,
+            Defaults::PRODUCT_SHIPMENT_NL_NL_3096,
+            Defaults::PRODUCT_SHIPMENT_NL_NL_3189,
+            Defaults::PRODUCT_SHIPMENT_NL_NL_3385,
+            Defaults::PRODUCT_SHIPMENT_NL_NL_3389,
+            Defaults::PRODUCT_SHIPMENT_NL_NL_3390,
+            Defaults::PRODUCT_SHIPMENT_NL_BE_4912,
+            Defaults::PRODUCT_SHIPMENT_NL_BE_4914,
+            Defaults::PRODUCT_SHIPMENT_NL_BE_4941,
+            Defaults::PRODUCT_SHIPMENT_NL_BE_4946,
+        ];
+
+        $optionsIds = [
+            Defaults::OPTION_118_006
+        ];
+
+        $data = $this->createMatrix('product_id', $productIds, 'option_id', $optionsIds);
+
+        $this->insert($connection, ProductOptionOptionalMappingDefinition::ENTITY_NAME, $data);
     }
 
     public function updateDestructive(Connection $connection): void

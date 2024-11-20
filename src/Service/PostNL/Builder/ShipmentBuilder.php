@@ -22,7 +22,10 @@ use PostNL\Shopware6\Service\PostNL\Product\ProductService;
 use PostNL\Shopware6\Service\Shopware\ConfigService;
 use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderAddressDataExtractor;
 use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor;
+use PostNL\Shopware6\Service\Shopware\OrderService;
 use PostNL\Shopware6\Struct\Attribute\OrderAttributeStruct;
+use PostNL\Shopware6\Struct\Attribute\OrderReturnAttributeStruct;
+use PostNL\Shopware6\Struct\Config\ReturnOptionsStruct;
 use PostNL\Shopware6\Struct\TimeframeStruct;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Document\DocumentEntity;
@@ -57,6 +60,8 @@ class ShipmentBuilder
      */
     protected $orderAddressDataExtractor;
 
+    protected OrderService $orderService;
+
     /**
      * @var ProductService
      */
@@ -73,6 +78,7 @@ class ShipmentBuilder
         ConfigService             $configService,
         OrderDataExtractor        $orderDataExtractor,
         OrderAddressDataExtractor $orderAddressDataExtractor,
+        OrderService              $orderService,
         ProductService            $productService,
         LoggerInterface           $logger
     )
@@ -82,6 +88,7 @@ class ShipmentBuilder
         $this->configService = $configService;
         $this->orderDataExtractor = $orderDataExtractor;
         $this->orderAddressDataExtractor = $orderAddressDataExtractor;
+        $this->orderService = $orderService;
         $this->productService = $productService;
         $this->logger = $logger;
     }
@@ -115,13 +122,27 @@ class ShipmentBuilder
         $shipment->setReference('Order ' . $order->getOrderNumber());
 
 
-        //= Return label in the box ====
+        //= Returns - Not smart return ====
+        $returnOptions = $config->getReturnOptions();
         $returnCustomerCode = $config->getReturnAddress()->getReturnCustomerCode();
-        if (
-            $config->isReturnLabelInTheBox()
-            && !empty($returnCustomerCode)
-            && $product->getDestinationZone() !== Zone::GLOBAL
-        ) {
+
+        $shouldCreateSeparateReturnLabel = false;
+        if(!empty($returnCustomerCode) && !$context->hasState(OrderReturnAttributeStruct::S_SMART_RETURN)) {
+            switch($returnOptions->getType()) {
+                case ReturnOptionsStruct::T_LABEL_IN_THE_BOX:
+                    $shouldCreateSeparateReturnLabel = in_array($product->getDestinationZone(), [
+                        Zone::NL, Zone::BE
+                    ]);
+                    break;
+                case ReturnOptionsStruct::T_SHIPMENT_AND_RETURN:
+                    $shouldCreateSeparateReturnLabel = in_array($product->getDestinationZone(), [
+                        Zone::NL
+                    ]);
+                    break;
+            }
+        }
+
+        if($shouldCreateSeparateReturnLabel) {
             $returnCountryCode = $config->getReturnAddress()->getCountrycode();
 
             //Next 2 lines are a temp fix for non usage of returncode in SDK 2/3
@@ -141,6 +162,67 @@ class ShipmentBuilder
             $shipment->setReturnBarcode($returnBarcode);
 
             $addresses[] = $this->buildReturnAddress($order, $context);
+
+            $returnOptionValue = true;
+            if($returnOptions->getType() === ReturnOptionsStruct::T_SHIPMENT_AND_RETURN) {
+                $returnOptionValue = $returnOptions->isAllowImmediateShipmentAndReturn();
+            }
+
+            $this->orderService->updateOrderCustomFields(
+                $order->getId(),
+                [
+                    'returnOptions' => [
+                        $returnOptions->getType() => $returnOptionValue
+                    ]
+                ],
+                $context
+            );
+        }
+
+        //= Returns - Smart return ====
+        if($context->hasState(OrderReturnAttributeStruct::S_SMART_RETURN)) {
+            if(in_array($product->getDestinationZone(), [
+                Zone::NL
+            ])) {
+                throw new \Exception(sprintf('Smart returns cannot be generated for zone "%s"', $product->getDestinationZone()));
+            }
+
+            // Smart returns should always be normal shipping.
+            // maybe check Belgium? No Belgium doesn't get Smart returns
+            $shipment->setProductCodeDelivery('2285');
+
+            $returnCountryCode = $config->getReturnAddress()->getCountrycode();
+            $returnBarcode = $apiClient->generateBarcode(
+                '3S',
+                $apiClient->getCustomer()->getCustomerCode(),
+                null,
+                strtoupper($returnCountryCode) === 'BE'
+            );
+            $shipment->setBarcode($returnBarcode);
+
+            $returnAddress = $this->buildReturnAddress($order, $context);
+            $returnAddress->setAddressType('01');
+            $addresses[] = $returnAddress;
+
+            $this->orderService->updateOrderCustomFields(
+                $order->getId(),
+                [
+                    'returnOptions' => [
+                        'smartReturn' => true,
+                        'smartReturnBarcode' => [$returnBarcode],
+                    ]
+                ],
+                $context
+            );
+        } else {
+            //= Addresses ====
+            $addresses[] = $this->buildReceiverAddress($order);
+
+            if ($product->getDeliveryType() === DeliveryType::PICKUP) {
+                $addresses[] = $this->buildPickupLocationAddress($order, $context);
+
+                $shipment->setDeliveryAddress('09');
+            }
         }
 
         //= Mailbox ====
@@ -153,15 +235,6 @@ class ShipmentBuilder
                 (new \DateTimeImmutable($orderAttributes->getTimeframe()['to']))
                     ->format('d-m-Y H:i:s')
             );
-        }
-
-        //= Addresses ====
-        $addresses[] = $this->buildReceiverAddress($order);
-
-        if ($product->getDeliveryType() === DeliveryType::PICKUP) {
-            $addresses[] = $this->buildPickupLocationAddress($order, $context);
-
-            $shipment->setDeliveryAddress('09');
         }
 
         //= Amount ====
@@ -202,16 +275,14 @@ class ShipmentBuilder
         $address->setCity($returnAddress->getCity());
         $address->setCountrycode($returnAddress->getCountrycode());
 
-        switch ($returnAddress->getCountrycode()) {
-            case 'NL':
-                $address->setStreetHouseNrExt($returnAddress->getStreet());
-                break;
-            default:
-                $address->setStreet($returnAddress->getStreet());
-                $address->setHouseNr($returnAddress->getHouseNr());
-                $address->setHouseNrExt($returnAddress->getHouseNrExt());
-                break;
+        if($returnAddress->getCountrycode() === 'NL' && !$returnAddress->isUseHomeAddress()) {
+            $address->setStreetHouseNrExt($returnAddress->getStreet());
+            return $address;
         }
+
+        $address->setStreet($returnAddress->getStreet());
+        $address->setHouseNr($returnAddress->getHouseNr());
+        $address->setHouseNrExt($returnAddress->getHouseNrExt());
 
         return $address;
     }
@@ -338,6 +409,32 @@ class ShipmentBuilder
                 // TODO improve this
                 $productOptions[] = new ProductOption('118', '006');
             }
+        }
+
+        $returnOptions = $config->getReturnOptions();
+        if(
+            $returnOptions->getType() !== ReturnOptionsStruct::T_NONE &&
+            $product->getDestinationZone() !== Zone::GLOBAL &&
+            !$context->hasState(OrderReturnAttributeStruct::S_SMART_RETURN)
+        ) {
+            $productOptions[] = new ProductOption('191', '001');
+
+            switch($returnOptions->getType()) {
+                case ReturnOptionsStruct::T_LABEL_IN_THE_BOX:
+                    $productOptions[] = new ProductOption('152', '028');
+                    break;
+                case ReturnOptionsStruct::T_SHIPMENT_AND_RETURN:
+                    $productOptions[] = new ProductOption('152', '026');
+
+                    if(!$returnOptions->isAllowImmediateShipmentAndReturn()) {
+                        $productOptions[] = new ProductOption('191', '004');
+                    }
+                    break;
+            }
+        }
+
+        if($context->hasState(OrderReturnAttributeStruct::S_SMART_RETURN)) {
+            $productOptions[] = new ProductOption('152', '025');
         }
 
         foreach($product->getRequiredOptions() as $requiredOption) {

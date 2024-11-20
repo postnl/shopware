@@ -50,6 +50,7 @@
       "returnAddress": {
         "customerCodeWarning": "Please note, a return customer code must be used for return shipments",
         "contract": "I have a return contract with PostNL",
+        "useHomeAddress": "Return orders to address instead of reply number",
         "companyName": "Company name",
         "firstName": "First name",
         "name": "Last name",
@@ -65,6 +66,19 @@
         "warning": {
           "country": "Please (re)select a valid country under sender address first."
         }
+      },
+      "returnOptions": {
+        "type": "Label type",
+        "options": {
+          "none": "None",
+          "shipmentAndReturn": "Shipment and Return",
+          "labelInTheBox": "Label in the box"
+        },
+        "description": {
+          "shipmentAndReturn": "The shipment label can also be used as the return label, but this needs to be activated per order.",
+          "labelInTheBox": "An extra return label will be printed and should be included in the shipment."
+        },
+        "allowImmediateShipmentAndReturn": "Labels can be used for returns immediately, without requiring activation."
       },
       "productSelection": {
         "header": " {name}",
@@ -82,6 +96,7 @@
         "shippingProduct": "PostNL product",
         "buttonChangeShipping": "Change shipping method",
         "buttonCreateShipment": "Create and confirm shipments",
+        "buttonCreateReturn": "Create return shipments",
         "sentDate": "Shipping date"
       },
       "list": {
@@ -89,11 +104,17 @@
         "columnProduct": "PostNL product",
         "columnBarCode": "Barcode",
         "columnConfirm": "Confirmed",
+        "buttonPostnlHeadline": "PostNL",
         "buttonChangeShipping": "Change shipping method",
         "buttonCreateShipment": "Create and confirm shipments",
+        "buttonCreateReturn": "Create return shipments",
         "columnSentDate": "Shipping date",
         "columnDeliveryDate": "Delivery date",
-        "missingProductId": "No PostNL shipping method assigned, please select one first"
+        "missingProductId": "No PostNL shipping method assigned, please select one first",
+        "statusSmartReturn": "Smart return: {barcode}",
+        "statusShipmentAndReturnActive": "Shipment and Return: Activated",
+        "statusShipmentAndReturnInactive": "Shipment and Return: Requires activation",
+        "statusLabelInTheBox": "Label in the box: Available"
       },
       "modal": {
         "changeShipping": {
@@ -112,6 +133,37 @@
           "confirm": "Send shipments",
           "missingProductIdMany": "One or more selected orders is missing a PostNL shipping method. Please select one first.",
           "missingProductIdSingle": "The selected order is missing a PostNL shipping method. Please select one first."
+        },
+        "createReturn": {
+          "title": "Pick return option",
+          "multipleZoneWarning": "Unable to create returns when the selected orders have a mix of zones (NL, BE, EU, World)",
+          "noReturnOptionsWarning": "No return options are available for this order",
+          "cancel": "Cancel",
+          "confirm": "Create return shipments",
+          "success": {
+            "smartReturn": "Created smart return | Created smart returns",
+            "shipmentAndReturn": "Activated shipment and return label | Activated {count} shipment and return labels"
+          },
+          "errors": {
+            "label": "Could not generate a label for order {orderNumbers} | Could not generate labels for {count} orders: {orderNumbers}",
+            "mail": "Could not send an email for order {orderNumbers} | Could not send emails for {count} orders: {orderNumbers}"
+          },
+          "type": {
+            "notAvailable": "This return option is unavailable",
+            "smartReturn": {
+              "label": "Create return label",
+              "description": "Create and email a return label the customer can use to ship the products back to you."
+            },
+            "shipmentAndReturn": {
+              "label": "Activate \"shipment and return\" label",
+              "description": "Activate the customer's \"shipment and return\" label. They can use the original shipment label to return the products."
+            },
+            "labelInTheBox": {
+              "label": "Label in the Box",
+              "description": "The customer has received a return label in their shipment, they can use this to ship the products back."
+            }
+          },
+          "smartReturnMailTemplate": "Select mail template"
         }
       }
     },

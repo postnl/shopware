@@ -1,8 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shopware6\Migration\MailTemplates;
+namespace PostNL\Shopware6\MailTemplate\TrackAndTraceMail;
 
-class MailTemplate_nlNL implements MailTemplateInterface
+use PostNL\Shopware6\MailTemplate\MailTemplateInterface;
+
+class nlNL implements MailTemplateInterface
 {
 
     public static function getLocale(): string
@@ -24,7 +26,7 @@ class MailTemplate_nlNL implements MailTemplateInterface
     public static function getContentPlain(): string
     {
         return <<<MAIL
-Goed nieuws! Je bestelling met bestelnummer {ORDERNUMBER} is klaargemaakt en komt zo snel mogelijk met PostNL naar je toe. Binnen enkele uren kun je je bestelling volgen via onderstaande link:
+Goed nieuws! Je bestelling met bestelnummer {{order.orderNumber}} is klaargemaakt en komt zo snel mogelijk met PostNL naar je toe. Binnen enkele uren kun je je bestelling volgen via onderstaande link:
 
 {{postNL.trackAndTraceLink}}
 

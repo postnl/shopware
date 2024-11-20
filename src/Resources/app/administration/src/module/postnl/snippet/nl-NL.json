@@ -50,6 +50,7 @@
       "returnAddress": {
         "customerCodeWarning": "Let op, voor retour zendingen moet een retour klantcode gebruikt worden",
         "contract": "Ik heb een retourcontract met PostNL",
+        "useHomeAddress": "Bestellingen retourneren naar adres in plaats van Antwoordnummer",
         "companyName": "Bedrijfsnaam",
         "firstName": "Voornaam",
         "name": "Achternaam",
@@ -75,6 +76,19 @@
         "enableAltProduct": "Schakel alternatief product in",
         "altProductAmount": "Alternatief product gebruiken vanaf",
         "combinationNotice": "Niet alle combinaties zijn mogelijk. Het meest geschikte product wordt geselecteerd op basis van je laatste selectie."
+      },
+      "returnOptions": {
+        "type": "Type label",
+        "options": {
+          "none": "Geen",
+          "shipmentAndReturn": "Verzending en retourzending",
+          "labelInTheBox": "Etiket in de doos"
+        },
+        "description": {
+          "shipmentAndReturn": "Het verzendlabel kan ook als retouretiket worden gebruikt, maar dit moet per bestelling worden geactiveerd.",
+          "labelInTheBox": "Er wordt een extra retouretiket afgedrukt dat bij de zending moet worden ingesloten."
+        },
+        "allowImmediateShipmentAndReturn": "Etiketten kunnen direct worden gebruikt voor retouren, zonder dat ze hoeven te worden geactiveerd."
       }
     },
     "order": {
@@ -82,7 +96,8 @@
         "shippingProduct": "PostNL product",
         "buttonChangeShipping": "Verzendmethode wijzigen",
         "buttonCreateShipment": "Voormelden en labels printen",
-        "sentDate": "Verzenddatum"
+        "sentDate": "Verzenddatum",
+        "buttonCreateReturn": "Retourzendingen aanmaken"
       },
       "list": {
         "columnShippingAddress": "Verzendadres",
@@ -93,7 +108,13 @@
         "buttonCreateShipment": "Voormelden en labels printen",
         "columnSentDate": "Verzenddatum",
         "columnDeliveryDate": "Bezorgdatum",
-        "missingProductId": "Geen PostNL verzendmethode toegewezen, selecteer er eerst een."
+        "missingProductId": "Geen PostNL verzendmethode toegewezen, selecteer er eerst een.",
+        "buttonPostnlHeadline": "PostNL",
+        "buttonCreateReturn": "Retourzendingen aanmaken",
+        "statusSmartReturn": "Smart return: {barcode}",
+        "statusShipmentAndReturnActive": "Heen en terug label: Geactiveerd",
+        "statusShipmentAndReturnInactive": "Heen en terug label: Activering vereist",
+        "statusLabelInTheBox": "Label in de doos: Beschikbaar"
       },
       "modal": {
         "changeShipping": {
@@ -112,6 +133,37 @@
           "confirm": "Verzendingen aanmaken",
           "missingProductIdMany": "Eén of meerdere bestellingen heeft geen PostNL verzendmethode. Selecteer er a.u.b. eerst een via \"Verzendmethode wijzigen\"",
           "missingProductIdSingle": "De geselecteerde bestellingen heeft geen PostNL verzendmethode. Selecteer er a.u.b. eerst een via \"Verzendmethode wijzigen\""
+        },
+        "createReturn": {
+          "title": "Kies retouroptie",
+          "multipleZoneWarning": "Kan geen retouren maken wanneer de geselecteerde orders een mix van zones hebben (NL, BE, EU, Wereld)",
+          "noReturnOptionsWarning": "Er zijn geen retouropties beschikbaar voor deze bestelling",
+          "cancel": "Annuleer",
+          "confirm": "Retourzendingen maken",
+          "success": {
+            "smartReturn": "Smart return aangemaakt | Smart returns aangemaakt",
+            "shipmentAndReturn": "“Heen en terug” label geactiveerd | {count} “heen en terug” labels geactiveerd"
+          },
+          "errors": {
+            "label": "Kon geen etiket genereren voor order {orderNumbers} | Kon geen labels genereren voor {count} orders: {orderNumbers}",
+            "mail": "Kon geen e-mail verzenden voor order {orderNumbers} | Kon geen e-mails verzenden voor {count} orders: {orderNumbers}"
+          },
+          "type": {
+            "notAvailable": "Deze retouroptie is niet beschikbaar",
+            "smartReturn": {
+              "label": "Retourlabel maken",
+              "description": "Maak en e-mail een retouretiket dat de klant kan gebruiken om de producten naar u terug te sturen."
+            },
+            "shipmentAndReturn": {
+              "label": "Activeer \"heen en terug\" label",
+              "description": "Activeer het \"heen en terug\" label van de klant. De klant kan het originele verzendlabel gebruiken om de producten terug te sturen."
+            },
+            "labelInTheBox": {
+              "label": "Etiket in de doos",
+              "description": "De klant heeft een retouretiket ontvangen bij zijn zending. Hij kan dit gebruiken om de producten terug te sturen."
+            }
+          },
+          "smartReturnMailTemplate": "Mailsjabloon selecteren"
         }
       }
     },
@@ -146,4 +198,3 @@
     }
   }
 }
-

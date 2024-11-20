@@ -1,0 +1,54 @@
+{% block postnl_shipment_modal_content %}
+    <template v-if="!hasMultipleZones">
+        <sw-container
+            v-if="returnTypes.length > 0"
+            gap="1rem"
+            columns="repeat(3, 1fr)"
+        >
+            <template v-for="type in returnTypes">
+                <!-- Do not use modelValue, it breaks everything -->
+                <sw-radio-panel
+                    :title="type.label"
+                    :description="type.description"
+                    :icon="type.icon"
+                    :value="type.value"
+                    :disabled="!type.enabled"
+                    name="returnType"
+                    class="postnl-return-option"
+                    @update:modelValue="updateReturnType"
+                />
+            </template>
+        </sw-container>
+
+        <sw-alert
+            v-else
+            variant="warning"
+        >
+            {{ $tc('postnl.order.modal.createReturn.noReturnOptionsWarning') }}
+        </sw-alert>
+
+        <sw-entity-single-select
+            v-if="returnType === 'smartReturn'"
+            v-model:value="smartReturnMailTemplate"
+            :label="$tc('postnl.order.modal.createReturn.smartReturnMailTemplate')"
+            :labelCallback="mailTemplateLabel"
+            :criteria="mailTemplateCriteria"
+            entity="mail_template"
+        />
+    </template>
+
+    <sw-alert
+        v-else
+        variant="warning"
+    >
+        {{ $tc('postnl.order.modal.createReturn.multipleZoneWarning') }}
+    </sw-alert>
+{% endblock %}
+
+{% block postnl_shipment_modal_cancel_button_content %}
+    {{ $tc('postnl.order.modal.createReturn.cancel') }}
+{% endblock %}
+
+{% block postnl_shipment_modal_confirm_button_content %}
+    {{ $tc('postnl.order.modal.createReturn.confirm') }}
+{% endblock %}
