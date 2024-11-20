@@ -17,9 +17,22 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\DeliveryTime\DeliveryTimeDefinition;
 use Shopware\Core\System\DeliveryTime\DeliveryTimeEntity;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ShippingMethodService
 {
+    public static function instance(ContainerInterface $container): self
+    {
+        return new ShippingMethodService(
+            $container->get('delivery_time.repository'),
+            $container->get('media.repository'),
+            $container->get('rule.repository'),
+            $container->get('shipping_method.repository'),
+            MediaService::getInstance($container),
+            $container->get('logger', ContainerInterface::NULL_ON_INVALID_REFERENCE) ?? new NullLogger()
+        );
+    }
+
     private const NAMES = [
         'shipment' => [
             'en-GB' => 'PostNL standard shipping',
