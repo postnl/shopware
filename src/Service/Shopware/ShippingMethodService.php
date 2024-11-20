@@ -2,12 +2,11 @@
 
 namespace PostNL\Shopware6\Service\Shopware;
 
-use PostNL\Shopware6\Defaults;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Shopware\Core\Checkout\Cart\Rule\CartAmountRule;
 use Shopware\Core\Checkout\Shipping\ShippingMethodEntity;
 use Shopware\Core\Content\Media\MediaEntity;
-use Shopware\Core\Content\Media\MediaService;
 use Shopware\Core\Content\Rule\RuleDefinition;
 use Shopware\Core\Content\Rule\RuleEntity;
 use Shopware\Core\Framework\Context;
@@ -32,6 +31,8 @@ class ShippingMethodService
             $container->get('logger', ContainerInterface::NULL_ON_INVALID_REFERENCE) ?? new NullLogger()
         );
     }
+
+    public const ICON_NAME = 'postnl-icon';
 
     private const NAMES = [
         'shipment' => [
@@ -279,9 +280,9 @@ class ShippingMethodService
         throw new \Exception('Could not get delivery time for shipping methods');
     }
 
-    private function getMediaId(string $pluginDir, Context $context): string
+    public function getMediaId(string $pluginDir, Context $context): string
     {
-        $fileName = 'postnl-icon';
+        $fileName = self::ICON_NAME;
 
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('fileName', $fileName));
@@ -291,6 +292,12 @@ class ShippingMethodService
         if ($icon instanceof MediaEntity) {
             return $icon->getId();
         }
+
+        return $this->saveIcon($pluginDir, $fileName, $context);
+    }
+
+    public function saveIcon(string $pluginDir, string $fileName, Context $context, ?string $mediaId = null): string
+    {
 
         $iconMime = 'image/png';
         $iconExt = 'png';
@@ -309,7 +316,7 @@ class ShippingMethodService
             $fileName,
             $context,
             '',
-            null,
+            $mediaId,
             false
         );
     }
