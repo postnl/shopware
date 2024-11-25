@@ -78,7 +78,7 @@
           "shipmentAndReturn": "The shipment label can also be used as the return label, but this needs to be activated per order.",
           "labelInTheBox": "An extra return label will be printed and should be included in the shipment."
         },
-        "allowImmediateShipmentAndReturn": "Labels can be used for returns immediately, without requiring activation."
+        "allowImmediateShipmentAndReturn": "Shipping labels are also the return labels, without needing to be activated."
       },
       "productSelection": {
         "header": " {name}",
@@ -110,6 +110,7 @@
         "buttonCreateReturn": "Create return shipments",
         "columnSentDate": "Shipping date",
         "columnDeliveryDate": "Delivery date",
+        "columnReturnOptions": "Return options",
         "missingProductId": "No PostNL shipping method assigned, please select one first",
         "statusSmartReturn": "Smart return: {barcode}",
         "statusShipmentAndReturnActive": "Shipment and Return: Activated",
@@ -137,7 +138,7 @@
         "createReturn": {
           "title": "Pick return option",
           "multipleZoneWarning": "Unable to create returns when the selected orders have a mix of zones (NL, BE, EU, World)",
-          "noReturnOptionsWarning": "No return options are available for this order",
+          "noReturnOptionsWarning": "Return options are only available for NL shipments",
           "cancel": "Cancel",
           "confirm": "Create return shipments",
           "success": {
@@ -152,7 +153,7 @@
             "notAvailable": "This return option is unavailable",
             "smartReturn": {
               "label": "Create return label",
-              "description": "Create and email a return label the customer can use to ship the products back to you."
+              "description": "Email a digital return barcode to the customer. Your customer then has the digital barcode scanned at a PostNL point."
             },
             "shipmentAndReturn": {
               "label": "Activate \"shipment and return\" label",

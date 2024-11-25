@@ -88,7 +88,7 @@
           "shipmentAndReturn": "Das Versandetikett kann auch als Rücksendeetikett verwendet werden, dies muss jedoch pro Bestellung aktiviert werden.",
           "labelInTheBox": "Es wird ein zusätzlicher Retourenaufkleber gedruckt, der der Sendung beigelegt werden sollte."
         },
-        "allowImmediateShipmentAndReturn": "Die Etiketten können sofort für Rücksendungen verwendet werden, ohne dass sie aktiviert werden müssen."
+        "allowImmediateShipmentAndReturn": "Die Versandetiketten sind gleichzeitig die Rücksendeetiketten, ohne dass sie aktiviert werden müssen."
       }
     },
     "order": {
@@ -108,6 +108,7 @@
         "buttonCreateShipment": "Vorregistrierung und Etikettendruck",
         "columnSentDate": "Versanddatum",
         "columnDeliveryDate": "Liefertermin",
+        "columnReturnOptions": "Rückgabe-Optionen",
         "missingProductId": "Keine PostNL-Versandmethode zugewiesen, bitte wählen Sie zuerst eine aus.",
         "buttonPostnlHeadline": "PostNL",
         "buttonCreateReturn": "Rücksendungen erstellen",
@@ -137,7 +138,7 @@
         "createReturn": {
           "title": "Rückgabeoption wählen",
           "multipleZoneWarning": "Die Erstellung von Retouren ist nicht möglich, wenn die ausgewählten Aufträge eine Mischung von Zonen (NL, BE, EU, Welt) haben",
-          "noReturnOptionsWarning": "Für diese Bestellung sind keine Rückgabeoptionen verfügbar",
+          "noReturnOptionsWarning": "Rückgabeoptionen sind nur für NL-Sendungen verfügbar.",
           "cancel": "Abbrechen",
           "confirm": "Retourensendungen erstellen",
           "success": {
@@ -152,7 +153,7 @@
             "notAvailable": "Diese Rückgabeoption ist nicht verfügbar",
             "smartReturn": {
               "label": "Rücksendeetikett erstellen",
-              "description": "Erstellen und versenden Sie ein Rücksendeetikett, mit dem der Kunde die Produkte an Sie zurückschicken kann."
+              "description": "Senden Sie dem Kunden einen digitalen Rücksende-Barcode per E-Mail. Ihr Kunde lässt dann den digitalen Barcode in einer PostNL-Filiale einscannen."
             },
             "shipmentAndReturn": {
               "label": "Aktivieren Sie das Etikett „Versand und Rücksendung",

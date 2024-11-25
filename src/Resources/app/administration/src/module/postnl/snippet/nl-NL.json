@@ -82,13 +82,13 @@
         "options": {
           "none": "Geen",
           "shipmentAndReturn": "Verzending en retourzending",
-          "labelInTheBox": "Etiket in de doos"
+          "labelInTheBox": "Label in de doos"
         },
         "description": {
-          "shipmentAndReturn": "Het verzendlabel kan ook als retouretiket worden gebruikt, maar dit moet per bestelling worden geactiveerd.",
-          "labelInTheBox": "Er wordt een extra retouretiket afgedrukt dat bij de zending moet worden ingesloten."
+          "shipmentAndReturn": "Het verzendlabel kan ook als retourlabel worden gebruikt, maar dit moet per bestelling worden geactiveerd.",
+          "labelInTheBox": "Er wordt een extra retourlabel afgedrukt dat bij de zending moet worden ingesloten."
         },
-        "allowImmediateShipmentAndReturn": "Etiketten kunnen direct worden gebruikt voor retouren, zonder dat ze hoeven te worden geactiveerd."
+        "allowImmediateShipmentAndReturn": "Verzendlabels zijn ook meteen de retourlabels, zonder dat ze hoeven te worden geactiveerd."
       }
     },
     "order": {
@@ -108,6 +108,7 @@
         "buttonCreateShipment": "Voormelden en labels printen",
         "columnSentDate": "Verzenddatum",
         "columnDeliveryDate": "Bezorgdatum",
+        "columnReturnOptions": "Retour opties",
         "missingProductId": "Geen PostNL verzendmethode toegewezen, selecteer er eerst een.",
         "buttonPostnlHeadline": "PostNL",
         "buttonCreateReturn": "Retourzendingen aanmaken",
@@ -137,7 +138,7 @@
         "createReturn": {
           "title": "Kies retouroptie",
           "multipleZoneWarning": "Kan geen retouren maken wanneer de geselecteerde orders een mix van zones hebben (NL, BE, EU, Wereld)",
-          "noReturnOptionsWarning": "Er zijn geen retouropties beschikbaar voor deze bestelling",
+          "noReturnOptionsWarning": "Retouren opties zijn alleen beschikbaar voor NL zendingen",
           "cancel": "Annuleer",
           "confirm": "Retourzendingen maken",
           "success": {
@@ -145,22 +146,22 @@
             "shipmentAndReturn": "“Heen en terug” label geactiveerd | {count} “heen en terug” labels geactiveerd"
           },
           "errors": {
-            "label": "Kon geen etiket genereren voor order {orderNumbers} | Kon geen labels genereren voor {count} orders: {orderNumbers}",
+            "label": "Kon geen label genereren voor order {orderNumbers} | Kon geen labels genereren voor {count} orders: {orderNumbers}",
             "mail": "Kon geen e-mail verzenden voor order {orderNumbers} | Kon geen e-mails verzenden voor {count} orders: {orderNumbers}"
           },
           "type": {
             "notAvailable": "Deze retouroptie is niet beschikbaar",
             "smartReturn": {
               "label": "Retourlabel maken",
-              "description": "Maak en e-mail een retouretiket dat de klant kan gebruiken om de producten naar u terug te sturen."
+              "description": "E-mail een digitale retourbarcode naar de klant. Je klant laat de digitale barcode vervolgens scannen op een PostNL-punt."
             },
             "shipmentAndReturn": {
               "label": "Activeer \"heen en terug\" label",
               "description": "Activeer het \"heen en terug\" label van de klant. De klant kan het originele verzendlabel gebruiken om de producten terug te sturen."
             },
             "labelInTheBox": {
-              "label": "Etiket in de doos",
-              "description": "De klant heeft een retouretiket ontvangen bij zijn zending. Hij kan dit gebruiken om de producten terug te sturen."
+              "label": "Label in de doos",
+              "description": "De klant heeft een retourlabel ontvangen bij zijn zending. Hij kan dit gebruiken om de producten terug te sturen."
             }
           },
           "smartReturnMailTemplate": "Mailsjabloon selecteren"
