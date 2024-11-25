@@ -12,7 +12,16 @@
                     {{ content.returnCustomerCode }}
                 </div>
                 <div>
-                    {{ $tc('postnl.config.returnAddress.returnNumberPrefix') }} {{ content.returnNumber }}
+                    <template v-if="content.useHomeAddress">
+                        {{ content.street }} {{ content.houseNr }}
+
+                        <template v-if="content.houseNrExt">
+                            {{ content.houseNrExt }}
+                        </template>
+                    </template>
+                    <template v-else>
+                        {{ $tc('postnl.config.returnAddress.returnNumberPrefix') }} {{ content.returnNumber }}
+                    </template>
 
                     <template v-if="content.zipcode || content.city">
                         , {{ content.zipcode }} {{ content.city }}
