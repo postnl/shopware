@@ -69,7 +69,7 @@
         <template #column-customFields.postnl.returnOptions="{ item }">
             <template v-if="item.customFields?.postnl?.returnOptions?.smartReturn">
                 <sw-status
-                    v-for="barcode in item.customFields?.postnl?.returnOptions?.smartReturnBarcodes"
+                    v-for="barcode in item.customFields?.postnl?.returnOptions?.smartReturnBarcode"
                     color="blue"
                 >
                     {{ $tc('postnl.order.list.statusSmartReturn', 0, {
