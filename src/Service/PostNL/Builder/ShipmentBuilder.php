@@ -181,7 +181,7 @@ class ShipmentBuilder
 
         //= Returns - Smart return ====
         if($context->hasState(OrderReturnAttributeStruct::S_SMART_RETURN)) {
-            if(in_array($product->getDestinationZone(), [
+            if(!in_array($product->getDestinationZone(), [
                 Zone::NL
             ])) {
                 throw new \Exception(sprintf('Smart returns cannot be generated for zone "%s"', $product->getDestinationZone()));
@@ -189,7 +189,7 @@ class ShipmentBuilder
 
             // Smart returns should always be normal shipping.
             // maybe check Belgium? No Belgium doesn't get Smart returns
-            $shipment->setProductCodeDelivery('2285');
+            $shipment->setProductCodeDelivery($config->getReturnAddress()->isUseHomeAddress() ? '3285' : '2285');
 
             $returnCountryCode = $config->getReturnAddress()->getCountrycode();
             $returnBarcode = $apiClient->generateBarcode(
