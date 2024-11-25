@@ -45,6 +45,11 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
             return criteria
         },
 
+        hasConfirmedOrders() {
+            return Object.values(this.selection)
+                .some(order => [true].includes(order?.customFields?.postnl?.confirm))
+        },
+
         labelInTheBoxAvailable() {
             return Object.values(this.selection)
                 .filter(order => ![undefined, null].includes(order?.customFields?.postnl?.returnOptions?.labelInTheBox))
@@ -65,7 +70,7 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
                 {
                     label: this.$t('postnl.order.modal.createReturn.type.smartReturn.label'),
                     value: 'smartReturn',
-                    enabled: true,
+                    enabled: this.hasConfirmedOrders,
                     icon: 'regular-truck',
                     description: this.$t('postnl.order.modal.createReturn.type.smartReturn.description'),
                     requiredZones: ['NL'],
@@ -73,7 +78,7 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
                 {
                     label: this.$t('postnl.order.modal.createReturn.type.shipmentAndReturn.label'),
                     value: 'shipmentAndReturn',
-                    enabled: this.shipmentAndReturnEnabled.length > 0,
+                    enabled: this.hasConfirmedOrders && this.shipmentAndReturnEnabled.length > 0,
                     icon: 'regular-checkmark',
                     description: this.shipmentAndReturnAvailable.length > 0
                         ? this.$t('postnl.order.modal.createReturn.type.shipmentAndReturn.description')

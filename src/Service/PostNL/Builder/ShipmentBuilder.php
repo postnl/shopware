@@ -181,6 +181,11 @@ class ShipmentBuilder
 
         //= Returns - Smart return ====
         if($context->hasState(OrderReturnAttributeStruct::S_SMART_RETURN)) {
+
+            if(!$orderAttributes->getConfirm()) {
+                throw new \Exception('Cannot generate return shipment for an unconfirmed shipment');
+            }
+
             if(!in_array($product->getDestinationZone(), [
                 Zone::NL
             ])) {
@@ -258,7 +263,7 @@ class ShipmentBuilder
 
         //= Product Options ====
         $shipment->setProductOptions($this->buildProductOptions($order, $product, $context));
-
+//dd($shipment);
         return $shipment;
     }
 
