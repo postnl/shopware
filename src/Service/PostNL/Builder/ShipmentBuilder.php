@@ -187,14 +187,21 @@ class ShipmentBuilder
             }
 
             if(!in_array($product->getDestinationZone(), [
-                Zone::NL
+                Zone::NL,
+                Zone::BE
             ])) {
                 throw new \Exception(sprintf('Smart returns cannot be generated for zone "%s"', $product->getDestinationZone()));
             }
 
             // Smart returns should always be normal shipping.
             // maybe check Belgium? No Belgium doesn't get Smart returns
-            $shipment->setProductCodeDelivery($config->getReturnAddress()->isUseHomeAddress() ? '3285' : '2285');
+
+            if($product->getDestinationZone() == Zone::NL) {
+                $shipment->setProductCodeDelivery($config->getReturnAddress()->isUseHomeAddress() ? '3285' : '2285');
+            }
+            if($product->getDestinationZone() == Zone::BE) {
+                $shipment->setProductCodeDelivery('3250');
+            }
 
             $returnCountryCode = $config->getReturnAddress()->getCountrycode();
             $returnBarcode = $apiClient->generateBarcode(
@@ -439,7 +446,14 @@ class ShipmentBuilder
         }
 
         if($context->hasState(OrderReturnAttributeStruct::S_SMART_RETURN)) {
-            $productOptions[] = new ProductOption('152', '025');
+            if($product->getDestinationZone() == Zone::NL) {
+                $productOptions[] = new ProductOption('152', '025');
+            }
+
+            if($product->getDestinationZone() == Zone::BE) {
+                $productOptions[] = new ProductOption('152', '027');
+                $productOptions[] = new ProductOption('191', '001');
+            }
         }
 
         foreach($product->getRequiredOptions() as $requiredOption) {

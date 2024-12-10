@@ -73,7 +73,7 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
                     enabled: this.hasConfirmedOrders,
                     icon: 'regular-truck',
                     description: this.$t('postnl.order.modal.createReturn.type.smartReturn.description'),
-                    requiredZones: ['NL'],
+                    requiredZones: ['NL', 'BE'],
                 },
                 {
                     label: this.$t('postnl.order.modal.createReturn.type.shipmentAndReturn.label'),
