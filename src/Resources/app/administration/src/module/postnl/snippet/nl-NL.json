@@ -164,7 +164,7 @@
               "description": "De klant heeft een retourlabel ontvangen bij zijn zending. Hij kan dit gebruiken om de producten terug te sturen."
             }
           },
-          "smartReturnMailTemplate": "Mailsjabloon selecteren"
+          "selectMailTemplate": "Mailsjabloon selecteren"
         }
       }
     },

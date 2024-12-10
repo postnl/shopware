@@ -37,10 +37,18 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
             return this.destinationZones.length > 1
         },
 
-        mailTemplateCriteria() {
+        smartReturnMailTemplateCriteria() {
             const criteria = new Criteria()
             criteria.addAssociation('mailTemplateType')
             criteria.addFilter(Criteria.equals('mailTemplateType.technicalName', 'postnl_return_mail'))
+
+            return criteria
+        },
+
+        shipmentAndReturnMailTemplateCriteria() {
+            const criteria = new Criteria()
+            criteria.addAssociation('mailTemplateType')
+            criteria.addFilter(Criteria.equals('mailTemplateType.technicalName', 'postnl_activate_shipment_and_return_label_mail'))
 
             return criteria
         },

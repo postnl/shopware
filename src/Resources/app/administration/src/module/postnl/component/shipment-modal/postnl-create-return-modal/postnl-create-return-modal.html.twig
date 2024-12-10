@@ -30,9 +30,18 @@
         <sw-entity-single-select
             v-if="returnType === 'smartReturn'"
             v-model:value="smartReturnMailTemplate"
-            :label="$tc('postnl.order.modal.createReturn.smartReturnMailTemplate')"
+            :label="$tc('postnl.order.modal.createReturn.selectMailTemplate')"
             :labelCallback="mailTemplateLabel"
-            :criteria="mailTemplateCriteria"
+            :criteria="smartReturnMailTemplateCriteria"
+            entity="mail_template"
+        />
+
+        <sw-entity-single-select
+            v-if="returnType === 'shipmentAndReturn'"
+            v-model:value="shipmentAndReturnMailTemplate"
+            :label="$tc('postnl.order.modal.createReturn.selectMailTemplate')"
+            :labelCallback="mailTemplateLabel"
+            :criteria="shipmentAndReturnMailTemplateCriteria"
             entity="mail_template"
         />
     </template>

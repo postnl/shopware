@@ -164,7 +164,7 @@
               "description": "The customer has received a return label in their shipment, they can use this to ship the products back."
             }
           },
-          "smartReturnMailTemplate": "Select mail template"
+          "selectMailTemplate": "Select mail template"
         }
       }
     },

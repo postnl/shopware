@@ -164,7 +164,7 @@
               "description": "Der Kunde hat mit seiner Sendung ein Rücksendeetikett erhalten, das er für die Rücksendung der Produkte verwenden kann."
             }
           },
-          "smartReturnMailTemplate": "Mailvorlage auswählen"
+          "selectMailTemplate": "Mailvorlage auswählen"
         }
       }
     },
