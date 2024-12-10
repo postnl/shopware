@@ -28,7 +28,7 @@
                     </template>
 
                     <template v-if="senderCountry">
-                        , {{ senderCountry?.name }}
+                        , {{ senderCountry?.translated?.name || senderCountry?.name }}
                     </template>
                 </div>
             </sw-container>
@@ -104,7 +104,7 @@
                 />
 
                 <sw-text-field
-                    :value="senderCountry?.name"
+                    :value="senderCountry?.translated?.name || senderCountry?.name"
                     :label="$tc('postnl.config.returnAddress.country')"
                     disabled
                 />
@@ -145,7 +145,7 @@
                     </template>
 
                     <template v-if="senderCountry">
-                        , {{ senderCountry?.name }}
+                        , {{ senderCountry?.translated?.name || senderCountry?.name }}
                     </template>
                 </div>
             </sw-container>
@@ -193,7 +193,7 @@
                 />
 
                 <sw-text-field
-                    :value="senderCountry?.name"
+                    :value="senderCountry?.translated?.name || senderCountry?.name"
                     :label="$tc('postnl.config.returnAddress.country')"
                     disabled
                 />
