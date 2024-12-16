@@ -14,6 +14,7 @@ use Firstred\PostNL\Entity\Request\GetLocation;
 use Firstred\PostNL\Entity\Shipment;
 use PostNL\Shopware6\Defaults;
 use PostNL\Shopware6\Entity\Product\ProductEntity;
+use PostNL\Shopware6\MailTemplate\ActivateShipmentAndReturnMail\deDE;
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
 use PostNL\Shopware6\Service\PostNL\Delivery\DeliveryType;
 use PostNL\Shopware6\Service\PostNL\Delivery\Zone\Zone;
@@ -186,24 +187,21 @@ class ShipmentBuilder
                 throw new \Exception('Cannot generate return shipment for an unconfirmed shipment');
             }
 
-            if(!in_array($product->getDestinationZone(), [
-                Zone::NL,
-                Zone::BE
-            ])) {
-                throw new \Exception(sprintf('Smart returns cannot be generated for zone "%s"', $product->getDestinationZone()));
-            }
-
-            // Smart returns should always be normal shipping.
-            // maybe check Belgium? No Belgium doesn't get Smart returns
-
-            if($product->getDestinationZone() == Zone::NL) {
-                $shipment->setProductCodeDelivery($config->getReturnAddress()->isUseHomeAddress() ? '3285' : '2285');
-            }
-            if($product->getDestinationZone() == Zone::BE) {
-                $shipment->setProductCodeDelivery('3250');
-            }
-
             $returnCountryCode = $config->getReturnAddress()->getCountrycode();
+
+            switch($product->getDestinationZone()) {
+                case Zone::NL:
+                    $shipment->setProductCodeDelivery($config->getReturnAddress()->isUseHomeAddress() ? '3285' : '2285');
+                    break;
+                case Zone::BE:
+                    if($returnCountryCode === 'BE') {
+                        $shipment->setProductCodeDelivery('3250');
+                        break;
+                    }
+                default:
+                    throw new \Exception(sprintf('Smart returns cannot be generated for zone "%s"', $product->getDestinationZone()));
+            }
+
             $returnBarcode = $apiClient->generateBarcode(
                 '3S',
                 $apiClient->getCustomer()->getCustomerCode(),

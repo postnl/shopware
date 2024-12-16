@@ -146,8 +146,8 @@
             "shipmentAndReturn": "Activated shipment and return label | Activated {count} shipment and return labels"
           },
           "errors": {
-            "label": "Could not generate a label for order {orderNumbers} | Could not generate labels for {count} orders: {orderNumbers}",
-            "mail": "Could not send an email for order {orderNumbers} | Could not send emails for {count} orders: {orderNumbers}"
+            "label": "Could not generate a label for order {orderNumbers}: {message} | Could not generate labels for {count} orders: {orderNumbers}",
+            "mail": "Could not send an email for order {orderNumbers}: {message} | Could not send emails for {count} orders: {orderNumbers}"
           },
           "type": {
             "notAvailable": "This return option is unavailable",

@@ -146,8 +146,8 @@
             "shipmentAndReturn": "“Heen en terug” label geactiveerd | {count} “heen en terug” labels geactiveerd"
           },
           "errors": {
-            "label": "Kon geen label genereren voor order {orderNumbers} | Kon geen labels genereren voor {count} orders: {orderNumbers}",
-            "mail": "Kon geen e-mail verzenden voor order {orderNumbers} | Kon geen e-mails verzenden voor {count} orders: {orderNumbers}"
+            "label": "Kon geen label genereren voor order {orderNumbers}: {message} | Kon geen labels genereren voor {count} orders: {orderNumbers}",
+            "mail": "Kon geen e-mail verzenden voor order {orderNumbers}: {message} | Kon geen e-mails verzenden voor {count} orders: {orderNumbers}"
           },
           "type": {
             "notAvailable": "Deze retouroptie is niet beschikbaar",

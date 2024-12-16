@@ -28,9 +28,9 @@ class enGB implements MailTemplateInterface
         return <<<MAIL
 Hi {{ order.orderCustomer.firstName }} {{ order.orderCustomer.lastName }},
 
-In this email you will find the barcode required to return your order. Scan this
-barcode at a PostNL point to print the return label. Please note, wait at least
-10 minutes after receiving this email before having the barcode scanned.
+Your return request has been processed. You can now return the parcel.
+
+The shipping label that is already on the parcel also works as a return label. Scan the barcode at a PostNL point to return your shipment.
 
 Have a good day,
 
@@ -47,9 +47,9 @@ MAIL;
 Hi {{ order.orderCustomer.firstName }} {{ order.orderCustomer.lastName }},
 </p>
 <p>
-In this email you will find the barcode required to return your order. Scan this
-barcode at a PostNL point to print the return label. Please note, wait at least
-10 minutes after receiving this email before having the barcode scanned.
+Your return request has been processed. You can now return the parcel.
+
+The shipping label that is already on the parcel also works as a return label. Scan the barcode at a PostNL point to return your shipment.
 </p>
 <p>
 Have a good day,

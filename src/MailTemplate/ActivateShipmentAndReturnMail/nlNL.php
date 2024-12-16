@@ -28,10 +28,7 @@ class nlNL implements MailTemplateInterface
         return <<<MAIL
 Hi {{ order.orderCustomer.firstName }} {{ order.orderCustomer.lastName }},
 
-In deze email vind je de barcode die nodig is om jouw bestelling te
-retourneren. Scan deze barcode bij een PostNL punt om het retour-label te
-printen. Let op, wacht minimaal 10 minuten na het ontvangen van deze mail
-voordat je de barcode laat scannen.
+Jouw retouraanvraag is verwerkt. Je kunt nu het pakket retourneren. Het verzendlabel dat al op de verpakking zat, werkt ook als retourlabel. Scan deze barcode bij een PostNL punt om jouw zending te retourneren.
 
 Een fijne dag,
 
@@ -48,10 +45,7 @@ MAIL;
 Hi {{ order.orderCustomer.firstName }} {{ order.orderCustomer.lastName }},
 </p>
 <p>
-In deze email vind je de barcode die nodig is om jouw bestelling te
-retourneren. Scan deze barcode bij een PostNL punt om het retour-label te
-printen. Let op, wacht minimaal 10 minuten na het ontvangen van deze mail
-voordat je de barcode laat scannen.
+Jouw retouraanvraag is verwerkt. Je kunt nu het pakket retourneren. Het verzendlabel dat al op de verpakking zat, werkt ook als retourlabel. Scan deze barcode bij een PostNL punt om jouw zending te retourneren.
 </p>
 <p>
 Een fijne dag,

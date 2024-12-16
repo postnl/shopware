@@ -146,8 +146,8 @@
             "shipmentAndReturn": "Aktivierte Versand- und Retourenetiketten | Aktivierte {count} Versand- und Retourenetiketten"
           },
           "errors": {
-            "label": "Konnte kein Etikett für Auftrag {orderNumbers} erstellen | Konnte keine Etiketten für {count} Bestellungen erstellen: {orderNumbers}",
-            "mail": "Konnte keine E-Mail für die Bestellung {orderNumbers} senden | Konnte keine E-Mails für {count} Bestellungen senden: {orderNumbers}"
+            "label": "Konnte kein Etikett für Auftrag {orderNumbers} erstellen: {message} | Konnte keine Etiketten für {count} Bestellungen erstellen: {orderNumbers}",
+            "mail": "Konnte keine E-Mail für die Bestellung {orderNumbers} senden: {message} | Konnte keine E-Mails für {count} Bestellungen senden: {orderNumbers}"
           },
           "type": {
             "notAvailable": "Diese Rückgabeoption ist nicht verfügbar",

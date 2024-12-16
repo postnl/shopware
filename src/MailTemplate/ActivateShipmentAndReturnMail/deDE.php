@@ -28,9 +28,9 @@ class deDE implements MailTemplateInterface
         return <<<MAIL
 Hallo {{ order.orderCustomer.firstName }} {{ order.orderCustomer.lastName }},
 
-In dieser E-Mail finden Sie den Barcode, der für die Rücksendung Ihrer Bestellung erforderlich ist. Scannen Sie diesen
-Barcode bei einer PostNL-Stelle ein, um das Rücksendeetikett auszudrucken. Bitte beachten Sie, dass Sie mindestens
-10 Minuten nach Erhalt dieser E-Mail warten, bevor Sie den Barcode einscannen lassen.
+Ihr Rücksendeantrag wurde bearbeitet. Sie können das Paket nun zurückschicken.
+
+Der Versandaufkleber, der sich bereits auf dem Paket befindet, funktioniert auch als Rücksendeaufkleber. Scannen Sie den Barcode an einer PostNL-Stelle ein, um Ihre Sendung zurückzusenden.
 
 Einen schönen Tag,
 
@@ -47,9 +47,9 @@ MAIL;
 Hallo {{ order.orderCustomer.firstName }} {{ order.orderCustomer.lastName }},
 </p>
 <p>
-In dieser E-Mail finden Sie den Barcode, der für die Rücksendung Ihrer Bestellung erforderlich ist. Scannen Sie diesen
-Barcode bei einer PostNL-Stelle ein, um das Rücksendeetikett auszudrucken. Bitte beachten Sie, dass Sie mindestens
-10 Minuten nach Erhalt dieser E-Mail warten, bevor Sie den Barcode einscannen lassen.
+Ihr Rücksendeantrag wurde bearbeitet. Sie können das Paket nun zurückschicken.
+
+Der Versandaufkleber, der sich bereits auf dem Paket befindet, funktioniert auch als Rücksendeaufkleber. Scannen Sie den Barcode an einer PostNL-Stelle ein, um Ihre Sendung zurückzusenden.
 </p>
 <p>
 Einen schönen Tag,

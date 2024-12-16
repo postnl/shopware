@@ -132,7 +132,7 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
                     break;
                 case 'shipmentAndReturn':
                     //TODO implement activation
-                    this.activateReturnlabels()
+                    this.activateReturnLabels()
                     break;
                 default:
                     this.createNotificationError({
@@ -146,7 +146,7 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
             this.returnType = type
         },
 
-        activateReturnlabels() {
+        activateReturnLabels() {
             this.isProcessing = true
 
             this.ShipmentService
@@ -223,6 +223,7 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
                                 message: this.$tc(`postnl.order.modal.createReturn.errors.${ type }`, errors.length, {
                                     count: errors.length,
                                     orderNumbers: errors.map(error => error.orderNumber).join(', '),
+                                    message: errors[0].errorMessage // This will only show when there's 1 error.
                                 }),
                             })
                         )
