@@ -169,7 +169,12 @@ class ShipmentFacade
         foreach ($orders as $order) {
             try {
                 $labels = $this->shipmentService->shipOrder($order, true, $context);
-                $labels = array_filter($labels, fn(Label $label) => $label->getType() === 'PrintcodeLabel');
+                
+                $printLabels = array_filter($labels, fn(Label $label) => $label->getType() === 'PrintcodeLabel');
+
+                if(count($printLabels) > 0) {
+                    $labels = $printLabels;
+                }
             }
             catch (\Exception $e) {
                 $errors->add(

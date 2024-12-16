@@ -194,10 +194,11 @@ class ShipmentBuilder
                     $shipment->setProductCodeDelivery($config->getReturnAddress()->isUseHomeAddress() ? '3285' : '2285');
                     break;
                 case Zone::BE:
-                    if($returnCountryCode === 'BE') {
-                        $shipment->setProductCodeDelivery('3250');
-                        break;
-                    }
+                    $shipment->setProductCodeDelivery(strtoupper($returnCountryCode) === 'BE' ? '4882' : '3250');
+                    $senderAddress = $this->buildReceiverAddress($order);
+                    $senderAddress->setAddressType('02');
+                    $addresses[] = $senderAddress;
+                    break;
                 default:
                     throw new \Exception(sprintf('Smart returns cannot be generated for zone "%s"', $product->getDestinationZone()));
             }
