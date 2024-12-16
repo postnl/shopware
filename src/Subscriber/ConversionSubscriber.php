@@ -331,6 +331,10 @@ class ConversionSubscriber implements EventSubscriberInterface
             return;
         }
 
+        if($cart->getDeliveries()->count() === 0) {
+            return;
+        }
+
         $deliveryType = $this->shippingMethodDataExtractor->extractDeliveryType($cart->getDeliveries()->first()->getShippingMethod());
 
         if (empty($deliveryType)) {
@@ -424,6 +428,10 @@ class ConversionSubscriber implements EventSubscriberInterface
             return;
         }
 
+        if($cart->getDeliveries()->count() === 0) {
+            return;
+        }
+
         $deliveryType = $this->shippingMethodDataExtractor->extractDeliveryType($cart->getDeliveries()->first()->getShippingMethod());
 
         if (empty($deliveryType)) {
@@ -453,6 +461,10 @@ class ConversionSubscriber implements EventSubscriberInterface
         $cart = $event->getCart();
 
         if ($cart->hasExtensionOfType(CartService::ORIGINAL_DATA, ArrayStruct::class)) {
+            return;
+        }
+
+        if($cart->getDeliveries()->count() === 0) {
             return;
         }
 
