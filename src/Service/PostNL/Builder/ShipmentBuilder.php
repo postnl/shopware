@@ -135,11 +135,11 @@ class ShipmentBuilder
                         Zone::NL, Zone::BE
                     ]);
                     break;
-                case ReturnOptionsStruct::T_SHIPMENT_AND_RETURN:
-                    $shouldCreateSeparateReturnLabel = in_array($product->getDestinationZone(), [
-                        Zone::NL
-                    ]);
-                    break;
+//                case ReturnOptionsStruct::T_SHIPMENT_AND_RETURN:
+//                    $shouldCreateSeparateReturnLabel = in_array($product->getDestinationZone(), [
+//                        Zone::NL
+//                    ]);
+//                    break;
             }
         }
 
@@ -189,9 +189,20 @@ class ShipmentBuilder
 
             $returnCountryCode = $config->getReturnAddress()->getCountrycode();
 
+            // Where was the product originally sent to?
             switch($product->getDestinationZone()) {
                 case Zone::NL:
-                    $shipment->setProductCodeDelivery($config->getReturnAddress()->isUseHomeAddress() ? '3285' : '2285');
+                    switch($returnCountryCode) {
+                        case Zone::NL:
+                            $shipment->setProductCodeDelivery($config->getReturnAddress()->isUseHomeAddress() ? '3285' : '2285');
+                            break;
+                        case Zone::BE:
+                            $shipment->setProductCodeDelivery('4785');
+                            $senderAddress = $this->buildReceiverAddress($order);
+                            $senderAddress->setAddressType('02');
+                            $addresses[] = $senderAddress;
+                            break;
+                    }
                     break;
                 case Zone::BE:
                     $shipment->setProductCodeDelivery(strtoupper($returnCountryCode) === 'BE' ? '4882' : '3250');
@@ -425,7 +436,7 @@ class ShipmentBuilder
         $returnOptions = $config->getReturnOptions();
         if(
             $returnOptions->getType() !== ReturnOptionsStruct::T_NONE &&
-            $product->getDestinationZone() !== Zone::GLOBAL &&
+            $product->getDestinationZone() === Zone::NL &&
             !$context->hasState(OrderReturnAttributeStruct::S_SMART_RETURN)
         ) {
             $productOptions[] = new ProductOption('191', '001');
