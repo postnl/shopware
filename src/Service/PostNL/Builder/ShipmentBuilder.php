@@ -126,24 +126,14 @@ class ShipmentBuilder
         //= Returns - Not smart return ====
         $returnOptions = $config->getReturnOptions();
         $returnCustomerCode = $config->getReturnAddress()->getReturnCustomerCode();
-
-        $shouldCreateSeparateReturnLabel = false;
-        if(!empty($returnCustomerCode) && !$context->hasState(OrderReturnAttributeStruct::S_SMART_RETURN)) {
-            switch($returnOptions->getType()) {
-                case ReturnOptionsStruct::T_LABEL_IN_THE_BOX:
-                    $shouldCreateSeparateReturnLabel = in_array($product->getDestinationZone(), [
-                        Zone::NL, Zone::BE
-                    ]);
-                    break;
-//                case ReturnOptionsStruct::T_SHIPMENT_AND_RETURN:
-//                    $shouldCreateSeparateReturnLabel = in_array($product->getDestinationZone(), [
-//                        Zone::NL
-//                    ]);
-//                    break;
-            }
-        }
-
-        if($shouldCreateSeparateReturnLabel) {
+        
+        //== Returns - Label in the Box ====
+        if(
+            !empty($returnCustomerCode) &&
+            !$context->hasState(OrderReturnAttributeStruct::S_SMART_RETURN) &&
+            $returnOptions->getType() === ReturnOptionsStruct::T_LABEL_IN_THE_BOX &&
+            in_array($product->getDestinationZone(), [Zone::NL, Zone::BE])
+        ) {
             $returnCountryCode = $config->getReturnAddress()->getCountrycode();
 
             //Next 2 lines are a temp fix for non usage of returncode in SDK 2/3
@@ -164,16 +154,29 @@ class ShipmentBuilder
 
             $addresses[] = $this->buildReturnAddress($order, $context);
 
-            $returnOptionValue = true;
-            if($returnOptions->getType() === ReturnOptionsStruct::T_SHIPMENT_AND_RETURN) {
-                $returnOptionValue = $returnOptions->isAllowImmediateShipmentAndReturn();
-            }
-
             $this->orderService->updateOrderCustomFields(
                 $order->getId(),
                 [
                     'returnOptions' => [
-                        $returnOptions->getType() => $returnOptionValue
+                        ReturnOptionsStruct::T_LABEL_IN_THE_BOX => true
+                    ]
+                ],
+                $context
+            );
+        }
+
+        //== Returns - Shipment and return ====
+        if(
+            !empty($returnCustomerCode) &&
+            !$context->hasState(OrderReturnAttributeStruct::S_SMART_RETURN) &&
+            $returnOptions->getType() === ReturnOptionsStruct::T_SHIPMENT_AND_RETURN &&
+            in_array($product->getDestinationZone(), [Zone::NL])
+        ) {
+            $this->orderService->updateOrderCustomFields(
+                $order->getId(),
+                [
+                    'returnOptions' => [
+                        ReturnOptionsStruct::T_SHIPMENT_AND_RETURN => $returnOptions->isAllowImmediateShipmentAndReturn()
                     ]
                 ],
                 $context
