@@ -14,7 +14,8 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
         return {
             returnType: null,
             variant: 'large',
-            smartReturnMailTemplate: null
+            smartReturnMailTemplate: null,
+            shipmentAndReturnMailTemplate: null,
         };
     },
 
@@ -30,7 +31,10 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
         },
 
         isProcessingDisabled() {
-            return this.returnType === null || (this.returnType === 'smartReturn' && this.smartReturnMailTemplate === null) || this.hasMultipleZones
+            return this.returnType === null ||
+                (this.returnType === 'smartReturn' && this.smartReturnMailTemplate === null) ||
+                (this.returnType === 'shipmentAndReturn' && this.shipmentAndReturnMailTemplate === null) ||
+                this.hasMultipleZones
         },
 
         hasMultipleZones() {
@@ -151,7 +155,8 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
 
             this.ShipmentService
                 .activateReturnLabels({
-                    orderIds: this.orderIds
+                    orderIds: this.orderIds,
+                    mailTemplateId: this.shipmentAndReturnMailTemplate
                 })
                 .then((response) => {
                     this.isProcessingSuccess = true

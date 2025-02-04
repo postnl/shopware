@@ -229,42 +229,32 @@ class ShipmentService
         return $barCodesAssigned;
     }
 
-    public function activateReturnLabels(OrderCollection $orders, Context $context): ActivateReturnResponse
+    public function activateReturnLabels(OrderEntity $order, Context $context): ActivateReturnResponse
     {
-        $response = new ActivateReturnResponse([], []);
+        /** @var OrderAttributeStruct $orderAttributes */
+        $orderAttributes = $this->attributeFactory->createFromEntity($order, $context);
 
-        // Yes, this should be getSalesChannelIds.
-        foreach (array_unique(array_values($orders->getSalesChannelIs())) as $salesChannelId) {
-            $apiClient = $this->apiFactory->createClientForSalesChannel($salesChannelId, $context);
-
-            $salesChannelOrders = $orders->filterBySalesChannelId($salesChannelId);
-
-            foreach ($salesChannelOrders as $salesChannelOrder) {
-                /** @var OrderAttributeStruct $orderAttributes */
-                $orderAttributes = $this->attributeFactory->createFromEntity($salesChannelOrder, $context);
-
-                if(empty($orderAttributes->getBarCode())) {
-                    continue;
-                }
-
-                $activateResponse = $apiClient->activateReturn($orderAttributes->getBarCode());
-
-                if(in_array($orderAttributes->getBarCode(), $activateResponse->getSuccessfulBarcodes())) {
-                    $this->orderService->updateOrderCustomFields(
-                        $salesChannelOrder->getId(),
-                        [
-                            'returnOptions' => [
-                                ReturnOptionsStruct::T_SHIPMENT_AND_RETURN => true
-                            ]
-                        ],
-                        $context
-                    );
-                }
-                $response->merge($activateResponse);
-            }
+        if(empty($orderAttributes->getBarCode())) {
+            return new ActivateReturnResponse([], []);
         }
 
-        return $response;
+        $apiClient = $this->apiFactory->createClientForSalesChannel($order->getSalesChannelId(), $context);
+
+        $activateResponse = $apiClient->activateReturn($orderAttributes->getBarCode());
+
+        if(in_array($orderAttributes->getBarCode(), $activateResponse->getSuccessfulBarcodes())) {
+            $this->orderService->updateOrderCustomFields(
+                $order->getId(),
+                [
+                    'returnOptions' => [
+                        ReturnOptionsStruct::T_SHIPMENT_AND_RETURN => true
+                    ]
+                ],
+                $context
+            );
+        }
+
+        return $activateResponse;
     }
 
     /**

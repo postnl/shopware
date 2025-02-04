@@ -126,6 +126,7 @@ class ShipmentBuilder
         //= Returns - Not smart return ====
         $returnOptions = $config->getReturnOptions();
         $returnCustomerCode = $config->getReturnAddress()->getReturnCustomerCode();
+        $returnCountryCode = $config->getReturnAddress()->getCountrycode();
         
         //== Returns - Label in the Box ====
         if(
@@ -134,7 +135,6 @@ class ShipmentBuilder
             $returnOptions->getType() === ReturnOptionsStruct::T_LABEL_IN_THE_BOX &&
             in_array($product->getDestinationZone(), [Zone::NL, Zone::BE])
         ) {
-            $returnCountryCode = $config->getReturnAddress()->getCountrycode();
 
             //Next 2 lines are a temp fix for non usage of returncode in SDK 2/3
             $originalCustomerCode = $apiClient->getCustomer()->getCustomerCode();
@@ -170,7 +170,8 @@ class ShipmentBuilder
             !empty($returnCustomerCode) &&
             !$context->hasState(OrderReturnAttributeStruct::S_SMART_RETURN) &&
             $returnOptions->getType() === ReturnOptionsStruct::T_SHIPMENT_AND_RETURN &&
-            in_array($product->getDestinationZone(), [Zone::NL])
+            in_array($product->getDestinationZone(), [Zone::NL]) &&
+            $returnCountryCode === 'NL'
         ) {
             $this->orderService->updateOrderCustomFields(
                 $order->getId(),

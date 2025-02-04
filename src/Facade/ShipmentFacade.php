@@ -147,16 +147,34 @@ class ShipmentFacade
 
     /**
      * @param string[] $orderIds
+     * @param string   $mailTemplateId
      * @param Context  $context
      * @return ActivateReturnResponse
      */
     public function activateReturnLabels(
         array   $orderIds,
+        string  $mailTemplateId,
         Context $context
     ): ActivateReturnResponse
     {
         $orders = $this->orderService->getOrders($orderIds, $context);
-        return $this->shipmentService->activateReturnLabels($orders, $context);
+
+        $response = new ActivateReturnResponse([], []);
+
+        foreach ($orders as $order) {
+            try {
+                $orderResponse = $this->shipmentService->activateReturnLabels($order, $context);
+
+                if (count($orderResponse->getSuccessfulBarcodes()) > 0) {
+                    $this->mailer->send($order, [], $mailTemplateId, $context);
+                }
+
+                $response->merge($orderResponse);
+            }
+            catch (\Exception $e) {
+            }
+        }
+        return $response;
     }
 
     public function createSmartReturnForOrders(array $orderIds, string $mailTemplateId, Context $context): StructCollection
@@ -169,10 +187,10 @@ class ShipmentFacade
         foreach ($orders as $order) {
             try {
                 $labels = $this->shipmentService->shipOrder($order, true, $context);
-                
+
                 $printLabels = array_filter($labels, fn(Label $label) => $label->getType() === 'PrintcodeLabel');
 
-                if(count($printLabels) > 0) {
+                if (count($printLabels) > 0) {
                     $labels = $printLabels;
                 }
             }

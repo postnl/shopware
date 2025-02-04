@@ -159,9 +159,10 @@ class ShipmentController extends AbstractController
     public function activateReturnLabel(QueryDataBag $data, Context $context): Response
     {
         $orderIds = $data->get('orderIds', new QueryDataBag())->all();
+        $mailTemplateId = $data->get('mailTemplateId');
 
-        $response = $this->shipmentFacade->activateReturnLabels($orderIds, $context);
-//dd($response);
+        $response = $this->shipmentFacade->activateReturnLabels($orderIds, $mailTemplateId, $context);
+
         return $this->json($response, 200);
     }
 
