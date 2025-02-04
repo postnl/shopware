@@ -6,12 +6,17 @@ const { Criteria } = Shopware.Data
 Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-base', {
     template,
 
+    inject: [
+        'systemConfigApiService'
+    ],
+
     mixins: [
         'placeholder'
     ],
 
     data() {
         return {
+            returnAddress: null,
             returnType: null,
             variant: 'large',
             smartReturnMailTemplate: null,
@@ -45,6 +50,14 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
             const criteria = new Criteria()
             criteria.addAssociation('mailTemplateType')
             criteria.addFilter(Criteria.equals('mailTemplateType.technicalName', 'postnl_return_mail'))
+
+            return criteria
+        },
+
+        smartReturnBeMailTemplateCriteria() {
+            const criteria = new Criteria()
+            criteria.addAssociation('mailTemplateType')
+            criteria.addFilter(Criteria.equals('mailTemplateType.technicalName', 'postnl_return_mail_be'))
 
             return criteria
         },
@@ -114,6 +127,15 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
 
     methods: {
         createdComponent() {
+            this.getReturnAddress()
+        },
+
+        getReturnAddress() {
+            this.systemConfigApiService
+                .getValues('PostNLShopware')
+                .then(config => config['PostNLShopware.config.returnAddress'])
+                .then(string => JSON.parse(string))
+                .then(address => this.returnAddress = address)
         },
 
         mailTemplateLabel(item) {

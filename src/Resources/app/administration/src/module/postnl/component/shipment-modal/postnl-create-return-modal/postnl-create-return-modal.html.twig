@@ -28,11 +28,20 @@
         </sw-alert>
 
         <sw-entity-single-select
-            v-if="returnType === 'smartReturn'"
+            v-if="returnType === 'smartReturn' && returnAddress.countrycode === 'NL'"
             v-model:value="smartReturnMailTemplate"
             :label="$tc('postnl.order.modal.createReturn.selectMailTemplate')"
             :labelCallback="mailTemplateLabel"
             :criteria="smartReturnMailTemplateCriteria"
+            entity="mail_template"
+        />
+
+        <sw-entity-single-select
+            v-if="returnType === 'smartReturn' && returnAddress.countrycode === 'BE'"
+            v-model:value="smartReturnMailTemplate"
+            :label="$tc('postnl.order.modal.createReturn.selectMailTemplate')"
+            :labelCallback="mailTemplateLabel"
+            :criteria="smartReturnBeMailTemplateCriteria"
             entity="mail_template"
         />
 
