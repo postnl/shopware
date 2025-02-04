@@ -181,6 +181,7 @@ class ShipmentService
             $barCodesAssigned[$order->getId()] = $barCode;
 
             $this->orderService->updateOrderCustomFields($order->getId(), ['barCode' => $barCode], $context);
+            $this->orderService->storeTrackingCode($order->getId(), $barCode, $context);
         }
 
         return $barCodesAssigned;
@@ -224,6 +225,7 @@ class ShipmentService
             $barCodesAssigned[$order->getId()] = $barCode;
 
             $this->orderService->updateOrderCustomFields($order->getId(), ['barCode' => $barCode], $context);
+            $this->orderService->storeTrackingCode($order->getId(), $barCode, $context);
         }
 
         return $barCodesAssigned;
