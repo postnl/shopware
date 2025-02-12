@@ -109,7 +109,7 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
                     description: this.shipmentAndReturnAvailable.length > 0
                         ? this.$t('postnl.order.modal.createReturn.type.shipmentAndReturn.description')
                         : this.$t('postnl.order.modal.createReturn.type.notAvailable'),
-                    requiredZones: ['NL'],
+                    requiredZones: ['NL', 'BE'],
                     returnZones: ['NL', 'BE'],
                 },
                 {

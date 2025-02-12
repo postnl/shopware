@@ -170,7 +170,7 @@ class ShipmentBuilder
             !empty($returnCustomerCode) &&
             !$context->hasState(OrderReturnAttributeStruct::S_SMART_RETURN) &&
             $returnOptions->getType() === ReturnOptionsStruct::T_SHIPMENT_AND_RETURN &&
-            in_array($product->getDestinationZone(), [Zone::NL]) &&
+            in_array($product->getDestinationZone(), [Zone::NL, Zone::BE]) &&
             in_array($returnCountryCode, [Zone::NL, Zone::BE])
         ) {
             $this->orderService->updateOrderCustomFields(
