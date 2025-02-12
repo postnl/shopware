@@ -99,6 +99,7 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
                     icon: 'regular-truck',
                     description: this.$t('postnl.order.modal.createReturn.type.smartReturn.description'),
                     requiredZones: ['NL', 'BE'],
+                    returnZones: ['NL', 'BE'],
                 },
                 {
                     label: this.$t('postnl.order.modal.createReturn.type.shipmentAndReturn.label'),
@@ -109,6 +110,7 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
                         ? this.$t('postnl.order.modal.createReturn.type.shipmentAndReturn.description')
                         : this.$t('postnl.order.modal.createReturn.type.notAvailable'),
                     requiredZones: ['NL'],
+                    returnZones: ['NL', 'BE'],
                 },
                 {
                     label: this.$t('postnl.order.modal.createReturn.type.labelInTheBox.label'),
@@ -119,10 +121,16 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
                         ? this.$t('postnl.order.modal.createReturn.type.labelInTheBox.description')
                         : this.$t('postnl.order.modal.createReturn.type.notAvailable'),
                     requiredZones: ['NL', 'BE'],
+                    returnZones: ['NL'],
                 }
             ]
                 .filter(returnType => returnType.requiredZones.some(zone => this.destinationZones.includes(zone)))
-        }
+                .filter(returnType => returnType.returnZones.some(zone => zone === this.returnZone))
+        },
+
+        returnZone() {
+            return this?.returnAddress?.countrycode
+        },
     },
 
     methods: {

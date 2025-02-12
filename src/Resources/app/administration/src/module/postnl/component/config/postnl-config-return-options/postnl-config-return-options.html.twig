@@ -6,16 +6,16 @@
     />
 
     <template v-if="content.type === 'shipmentAndReturn'">
-        <sw-alert variant="info">
-            {{ $tc('postnl.config.returnOptions.description.shipmentAndReturn') }}
-        </sw-alert>
-
         <sw-switch-field
             v-model:value="content.allowImmediateShipmentAndReturn"
             :label="$tc('postnl.config.returnOptions.allowImmediateShipmentAndReturn')"
             size="small"
             noMarginTop
         />
+
+        <sw-alert variant="info" v-if="!content.allowImmediateShipmentAndReturn">
+            {{ $tc('postnl.config.returnOptions.description.shipmentAndReturn') }}
+        </sw-alert>
     </template>
 
     <template v-if="content.type === 'labelInTheBox'">

@@ -171,7 +171,7 @@ class ShipmentBuilder
             !$context->hasState(OrderReturnAttributeStruct::S_SMART_RETURN) &&
             $returnOptions->getType() === ReturnOptionsStruct::T_SHIPMENT_AND_RETURN &&
             in_array($product->getDestinationZone(), [Zone::NL]) &&
-            $returnCountryCode === 'NL'
+            in_array($returnCountryCode, [Zone::NL, Zone::BE])
         ) {
             $this->orderService->updateOrderCustomFields(
                 $order->getId(),
@@ -438,24 +438,26 @@ class ShipmentBuilder
         }
 
         $returnOptions = $config->getReturnOptions();
-        if(
-            $returnOptions->getType() !== ReturnOptionsStruct::T_NONE &&
-            $product->getDestinationZone() === Zone::NL &&
-            !$context->hasState(OrderReturnAttributeStruct::S_SMART_RETURN)
-        ) {
+
+        if(!$context->hasState(OrderReturnAttributeStruct::S_SMART_RETURN)) {
             $productOptions[] = new ProductOption('191', '001');
 
-            switch($returnOptions->getType()) {
-                case ReturnOptionsStruct::T_LABEL_IN_THE_BOX:
-                    $productOptions[] = new ProductOption('152', '028');
-                    break;
-                case ReturnOptionsStruct::T_SHIPMENT_AND_RETURN:
-                    $productOptions[] = new ProductOption('152', '026');
+            if(
+                $returnOptions->getType() === ReturnOptionsStruct::T_LABEL_IN_THE_BOX &&
+                in_array($product->getDestinationZone(), [Zone::NL])
+            ) {
+                $productOptions[] = new ProductOption('152', '028');
+            }
 
-                    if(!$returnOptions->isAllowImmediateShipmentAndReturn()) {
-                        $productOptions[] = new ProductOption('191', '004');
-                    }
-                    break;
+            if(
+                $returnOptions->getType() === ReturnOptionsStruct::T_SHIPMENT_AND_RETURN &&
+                in_array($product->getDestinationZone(), [Zone::NL, Zone::BE])
+            ) {
+                $productOptions[] = new ProductOption('152', '026');
+
+                if(!$returnOptions->isAllowImmediateShipmentAndReturn()) {
+                    $productOptions[] = new ProductOption('191', '004');
+                }
             }
         }
 
