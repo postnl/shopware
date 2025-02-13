@@ -1,3 +1,14 @@
+# 4.1.0
+#### New features
+- Added new return options:
+  - A shipping label can also be used immediately as a return label.
+  - Added manual generation of return labels.
+  - Dutch return addresses can now be a regular address instead of a reply number.
+
+#### Bugfixes
+- Added missing cart data
+- Improved compatibility with Shopware Commercial plugin
+
 # 4.0.1
 - Fix an issue when reinstalling the plugin after updating to 4.x
 
