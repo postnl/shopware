@@ -1,3 +1,14 @@
+# 4.1.0
+#### Nieuwe functies
+- Nieuwe retouropties toegevoegd:
+  - Een verzendlabel kan ook meteen als retourlabel gebruikt worden.
+  - Handmatig genereren van retourlabels toegevoegd.
+  - Nederlandse retouradressen kunnen nu een gewoon adres zijn in plaats van een antwoordnummer.
+
+#### Bugfixes
+- Ontbrekende winkelwagengegevens 
+- Verbeterde compatibiliteit met Shopware Commercial plugin
+
 # 4.0.1
 - Probleem opgelost bij het opnieuw installeren van de plugin na een update naar 4.x
 

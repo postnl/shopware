@@ -10,6 +10,7 @@ Component.extend('postnl-order-detail', 'sw-order-detail', {
         return {
             isChangeShippingModalOpen: false,
             isCreateShipmentModalOpen: false,
+            isCreateReturnModalOpen: false,
         }
     },
 
@@ -26,15 +27,4 @@ Component.extend('postnl-order-detail', 'sw-order-detail', {
             this.reloadEntityData();
         }
     },
-
-    methods: {
-        onChangeShipping() {
-            this.isChangeShippingModalOpen = false;
-            location.reload();
-        },
-        onCreateShipment() {
-            this.isCreateShipmentModalOpen = false;
-            location.reload();
-        }
-    }
 })

@@ -4,6 +4,7 @@ namespace PostNL\Shopware6\Controller\Api;
 
 use Firstred\PostNL\Exception\PostNLException;
 use PostNL\Shopware6\Facade\ShipmentFacade;
+use PostNL\Shopware6\Struct\Attribute\OrderReturnAttributeStruct;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\Validation\DataBag\QueryDataBag;
@@ -12,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 
 #[Route(defaults: ['_routeScope' => ['api']])]
@@ -84,6 +85,11 @@ class ShipmentController extends AbstractController
         $orderIds = $data->get('orderIds', new QueryDataBag())->all();
         $confirmShipments = $data->getBoolean('confirmShipments');
         $downloadLabels = $data->getBoolean('downloadLabels');
+        $smartReturn = $data->getBoolean('smartReturn');
+
+        if($smartReturn) {
+            $context->addState(OrderReturnAttributeStruct::S_SMART_RETURN);
+        }
 
         $response = $this->shipmentFacade->shipOrders(
             $orderIds,
@@ -127,6 +133,37 @@ class ShipmentController extends AbstractController
             true,
             $contentType
         );
+    }
+
+    #[Route(path: '/api/_action/postnl/shipment/create-smart-return', name: 'api.action.postnl.shipment.create-smart-return', defaults: ['auth_enabled' => true], methods: ['GET'])]
+    public function createSmartReturn(QueryDataBag $data, Context $context): Response
+    {
+        $orderIds = $data->get('orderIds', new QueryDataBag())->all();
+        $mailTemplateId = $data->get('mailTemplateId');
+        $context->addState(OrderReturnAttributeStruct::S_SMART_RETURN);
+
+        $errors = $this->shipmentFacade->createSmartReturnForOrders(
+            $orderIds,
+            $mailTemplateId,
+            $context
+        );
+
+        if($errors->count() > 0) {
+            return $this->json($errors->getElements(), 500);
+        }
+
+        return $this->json(null, 204);
+    }
+
+    #[Route(path: '/api/_action/postnl/shipment/activate-return-label', name: 'api.action.postnl.shipment.activate-return-label', defaults: ['auth_enabled' => true], methods: ['GET'])]
+    public function activateReturnLabel(QueryDataBag $data, Context $context): Response
+    {
+        $orderIds = $data->get('orderIds', new QueryDataBag())->all();
+        $mailTemplateId = $data->get('mailTemplateId');
+
+        $response = $this->shipmentFacade->activateReturnLabels($orderIds, $mailTemplateId, $context);
+
+        return $this->json($response, 200);
     }
 
     private function createBinaryResponse(string $filename, string $content, bool $forceDownload, string $contentType): Response

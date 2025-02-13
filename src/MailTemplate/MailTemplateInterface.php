@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PostNL\Shopware6\Migration\MailTemplates;
+namespace PostNL\Shopware6\MailTemplate;
 
 interface MailTemplateInterface
 {

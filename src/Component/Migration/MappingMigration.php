@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace PostNL\Shopware6\Component\Migration;
 
@@ -17,16 +18,45 @@ abstract class MappingMigration extends MigrationStep
      */
     protected function insert(Connection $connection, string $table, array $data)
     {
-        $connection->transactional(function ($connection) use ($table, $data) {
-            $connection->executeStatement('SET foreign_key_checks = 0');
+        $connection->transactional(
+            function ($connection) use ($table, $data) {
+                $connection->executeStatement('SET foreign_key_checks = 0');
 
-            foreach ($data as $entry) {
-                $connection->insert($table, array_map(function ($id) {
-                    return Uuid::fromHexToBytes($id);
-                }, $entry));
+                foreach ($data as $entry) {
+                    $connection->insert(
+                        $table,
+                        array_map(
+                            function ($id) {
+                                return Uuid::fromHexToBytes($id);
+                            },
+                            $entry
+                        )
+                    );
+                }
+
+                $connection->executeStatement('SET foreign_key_checks = 1');
             }
+        );
+    }
 
-            $connection->executeStatement('SET foreign_key_checks = 1');
-        });
+    protected function createMatrix(
+        string $leftKey,
+        array  $leftIds,
+        string $rightKey,
+        array  $rightIds
+    ): array
+    {
+        $output = [];
+
+        foreach ($leftIds as $leftId) {
+            foreach ($rightIds as $rightId) {
+                $output[] = [
+                    $leftKey  => $leftId,
+                    $rightKey => $rightId,
+                ];
+            }
+        }
+
+        return $output;
     }
 }

@@ -16,69 +16,40 @@ class OrderAttributeStruct extends EntityAttributeStruct
         return OrderEntity::class;
     }
 
-    /**
-     * @var string|null
-     */
-    protected $productId;
+    protected ?string $productId = null;
+    protected ?string $barCode = null;
+    protected ?int $pickupPointLocationCode = null;
+    protected ?bool $confirm = null;
+    protected ?array $timeframe = null;
+    protected ?OrderReturnAttributeStruct $returns = null;
 
-    /**
-     * @var string|null
-     */
-    protected $barCode;
-
-    /**
-     * @var int|null
-     */
-    protected $pickupPointLocationCode;
-
-    /**
-     * @var bool
-     */
-    protected $confirm;
-
-    /**
-     * @var array|null
-     */
-    protected $timeframe;
-
-    /**
-     * @return string|null
-     */
     public function getProductId(): ?string
     {
         return $this->productId;
     }
 
-    /**
-     * @return string|null
-     */
     public function getBarCode(): ?string
     {
         return $this->barCode;
     }
 
-    /**
-     * @return int|null
-     */
     public function getPickupPointLocationCode(): ?int
     {
         return $this->pickupPointLocationCode;
     }
 
-    /**
-     * @return bool
-     */
-    public function isConfirm(): bool
+    public function getConfirm(): ?bool
     {
         return $this->confirm;
     }
 
-    /**
-     * @return array|null
-     */
     public function getTimeframe(): ?array
     {
         return $this->timeframe;
     }
 
+    public function getReturns(): ?OrderReturnAttributeStruct
+    {
+        return $this->returns;
+    }
 }

@@ -57,13 +57,37 @@ class OrderService
         $order = $this->getOrder($orderId, $context);
         $customFields = array_merge($order->getCustomFields()[Defaults::CUSTOM_FIELDS_KEY] ?? [], $customFields);
 
-        $this->orderRepository->update([
+        $this->orderRepository->update(
             [
-                'id' => $order->getId(),
-                'customFields' => [
-                    Defaults::CUSTOM_FIELDS_KEY => $customFields,
+                [
+                    'id'           => $order->getId(),
+                    'customFields' => [
+                        Defaults::CUSTOM_FIELDS_KEY => $customFields,
+                    ],
                 ],
             ],
-        ], $context);
+            $context
+        );
+    }
+
+    public function storeTrackingCode(string $orderId, string $barcode, Context $context): void
+    {
+        $order = $this->getOrder($orderId, $context);
+        $delivery = $order->getDeliveries()->first();
+
+        $this->orderRepository->update(
+            [
+                [
+                    'id'           => $orderId,
+                    'deliveries' => [
+                        [
+                            'id' => $delivery->getId(),
+                            'trackingCodes' => [$barcode],
+                        ]
+                    ],
+                ]
+            ],
+            $context
+        );
     }
 }

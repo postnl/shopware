@@ -76,12 +76,13 @@ class ConversionSubscriber implements EventSubscriberInterface
     {
         return [
             CartConvertedEvent::class  => [
+                ['addSendDate', 600],
                 ['addPostNLProductId', 500],
                 ['addShopwareProductData', 400],
-                ['addSendDate', 600],
+                ['addTypeCodeToAddresses', 200],
                 ['addDeliveryTypeData', 100],
                 ['addPickupPointAddress', 100],
-                ['addTypeCodeToAddresses', 200],
+                ['storeCartData', 100],
                 ['restorePostNLData', 100],
             ],
             OrderConvertedEvent::class => [
@@ -90,6 +91,12 @@ class ConversionSubscriber implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * If an order is converted to a cart, which happens when changing something on an order in the admin, then we have
+     * to store the order custom fields as an extension on the cart, or else those will be removed.
+     * @param OrderConvertedEvent $event
+     * @return void
+     */
     public function storePostNLData(OrderConvertedEvent $event)
     {
         $order = $event->getOrder();
@@ -101,6 +108,12 @@ class ConversionSubscriber implements EventSubscriberInterface
         $event->setConvertedCart($cart);
     }
 
+    /**
+     * When a cart is converted to an order, and it has the extension set by storePostNLData, then we merge that data
+     * into the custom fields of the new order.
+     * @param CartConvertedEvent $event
+     * @return void
+     */
     public function restorePostNLData(CartConvertedEvent $event)
     {
         $cart = $event->getCart();
@@ -110,6 +123,29 @@ class ConversionSubscriber implements EventSubscriberInterface
         }
 
         $data = $cart->getExtensionOfType(CartService::ORIGINAL_DATA, ArrayStruct::class);
+
+        if ($data->count() === 0) {
+            return;
+        }
+
+        $convertedCart = $event->getConvertedCart();
+        CustomFieldHelper::merge($convertedCart, $data->all());
+        $event->setConvertedCart($convertedCart);
+    }
+
+    public function storeCartData(CartConvertedEvent $event)
+    {
+        $cart = $event->getCart();
+
+        if ($cart->hasExtensionOfType(CartService::ORIGINAL_DATA, ArrayStruct::class)) {
+            return;
+        }
+
+        if (!$cart->hasExtensionOfType(CartService::EXTENSION, ArrayStruct::class)) {
+            return;
+        }
+
+        $data = $cart->getExtensionOfType(CartService::EXTENSION, ArrayStruct::class);
 
         if ($data->count() === 0) {
             return;
@@ -295,6 +331,10 @@ class ConversionSubscriber implements EventSubscriberInterface
             return;
         }
 
+        if($cart->getDeliveries()->count() === 0) {
+            return;
+        }
+
         $deliveryType = $this->shippingMethodDataExtractor->extractDeliveryType($cart->getDeliveries()->first()->getShippingMethod());
 
         if (empty($deliveryType)) {
@@ -388,6 +428,10 @@ class ConversionSubscriber implements EventSubscriberInterface
             return;
         }
 
+        if($cart->getDeliveries()->count() === 0) {
+            return;
+        }
+
         $deliveryType = $this->shippingMethodDataExtractor->extractDeliveryType($cart->getDeliveries()->first()->getShippingMethod());
 
         if (empty($deliveryType)) {
@@ -417,6 +461,10 @@ class ConversionSubscriber implements EventSubscriberInterface
         $cart = $event->getCart();
 
         if ($cart->hasExtensionOfType(CartService::ORIGINAL_DATA, ArrayStruct::class)) {
+            return;
+        }
+
+        if($cart->getDeliveries()->count() === 0) {
             return;
         }
 
