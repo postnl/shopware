@@ -1,3 +1,14 @@
+# 4.1.0
+#### Neue Funktionen
+- Neue Rückgabeoptionen hinzugefügt:
+  - Ein Versandetikett kann auch gleich als Rücksendeetikett verwendet werden.
+  - Manuelle Erstellung von Rücksendeetiketten wurde hinzugefügt.
+  - Niederländische Rücksendeadressen können nun eine normale Adresse statt einer Antwortnummer sein.
+
+#### Fehlerbehebungen
+- Fehlende Warenkorbdaten hinzugefügt
+- Verbesserte Kompatibilität mit Shopware Commercial Plugin
+
 # 4.0.1
 - Behebung eines Problems bei der Neuinstallation des Plugins nach dem Update auf 4.x
 

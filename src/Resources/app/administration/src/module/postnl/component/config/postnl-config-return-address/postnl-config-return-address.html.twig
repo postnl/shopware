@@ -12,14 +12,23 @@
                     {{ content.returnCustomerCode }}
                 </div>
                 <div>
-                    {{ $tc('postnl.config.returnAddress.returnNumberPrefix') }} {{ content.returnNumber }}
+                    <template v-if="content.useHomeAddress">
+                        {{ content.street }} {{ content.houseNr }}
+
+                        <template v-if="content.houseNrExt">
+                            {{ content.houseNrExt }}
+                        </template>
+                    </template>
+                    <template v-else>
+                        {{ $tc('postnl.config.returnAddress.returnNumberPrefix') }} {{ content.returnNumber }}
+                    </template>
 
                     <template v-if="content.zipcode || content.city">
                         , {{ content.zipcode }} {{ content.city }}
                     </template>
 
                     <template v-if="senderCountry">
-                        , {{ senderCountry?.name }}
+                        , {{ senderCountry?.translated?.name || senderCountry?.name }}
                     </template>
                 </div>
             </sw-container>
@@ -28,6 +37,13 @@
             <sw-switch-field
                 v-model:value="content.hasReturnContract"
                 :label="$tc('postnl.config.returnAddress.contract')"
+                size="small"
+                noMarginTop
+            />
+
+            <sw-switch-field
+                v-model:value="content.useHomeAddress"
+                :label="$tc('postnl.config.returnAddress.useHomeAddress')"
                 size="small"
                 noMarginTop
             />
@@ -47,7 +63,26 @@
                     :style="span(4)"
                 />
 
+                <template v-if="content.useHomeAddress">
+                    <sw-text-field
+                        v-model:value="content.street"
+                        :label="$tc('postnl.config.returnAddress.street')"
+                        :style="span(2)"
+                    />
+
+                    <sw-text-field
+                        v-model:value="content.houseNr"
+                        :label="$tc('postnl.config.returnAddress.houseNr')"
+                    />
+
+                    <sw-text-field
+                        v-model:value="content.houseNrExt"
+                        :label="$tc('postnl.config.returnAddress.houseNrExt')"
+                    />
+                </template>
+
                 <sw-text-field
+                    v-else
                     v-model:value="content.returnNumber"
                     :label="$tc('postnl.config.returnAddress.returnNumber')"
                     :style="span(4)"
@@ -69,7 +104,7 @@
                 />
 
                 <sw-text-field
-                    :value="senderCountry?.name"
+                    :value="senderCountry?.translated?.name || senderCountry?.name"
                     :label="$tc('postnl.config.returnAddress.country')"
                     disabled
                 />
@@ -110,7 +145,7 @@
                     </template>
 
                     <template v-if="senderCountry">
-                        , {{ senderCountry?.name }}
+                        , {{ senderCountry?.translated?.name || senderCountry?.name }}
                     </template>
                 </div>
             </sw-container>
@@ -158,7 +193,7 @@
                 />
 
                 <sw-text-field
-                    :value="senderCountry?.name"
+                    :value="senderCountry?.translated?.name || senderCountry?.name"
                     :label="$tc('postnl.config.returnAddress.country')"
                     disabled
                 />

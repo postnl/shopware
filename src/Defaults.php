@@ -276,12 +276,31 @@ class Defaults
     //endregion
     //endregion
 
+    //region 4.1.0 Identifiers
+    /**
+     * V4.1.0
+     */
+
+    //region Return options
+
+    // Return label in the box shipment
+    const OPTION_152_028 = "596c345d25684e729909175ed50c9897";
+
+    // Smart return
+    const OPTION_152_025 = "01d9979b809b4458b0e9ab16051a3570";
+
+    // "Heen en Terug" label
+    const OPTION_152_026 = "145be8d723fd4410b06a95993a076e63";
+
+    // 35 day return window (as opposed to the default 20 days)
+    const OPTION_191_001 = "cbd12ab384534364919140e09f1c77bb";
+
+    // "Heen en Terug" label is blocked and must be activated first
+    const OPTION_191_004 = "28834a4946a04bad9b82051c5318531d";
+    //endregion
+    //endregion
+
     //region Placeholder identifiers
-//    const PLACEHOLDER = "596c345d25684e729909175ed50c9897";
-//    const PLACEHOLDER = "cbd12ab384534364919140e09f1c77bb";
-//    const PLACEHOLDER = "01d9979b809b4458b0e9ab16051a3570";
-//    const PLACEHOLDER = "28834a4946a04bad9b82051c5318531d";
-//    const PLACEHOLDER = "145be8d723fd4410b06a95993a076e63";
 //    const PLACEHOLDER = "59faf97383fb41c9ba18fde481999335";
 //    const PLACEHOLDER = "6df10bb508e340a4b96975180e1b8f50";
 //    const PLACEHOLDER = "1658038211964ac381e8d56fd6726a9c";

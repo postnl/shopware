@@ -2,7 +2,7 @@
 
 namespace PostNL\Shopware6\Service\PostNL\Label;
 
-class MergedLabelResponse
+class MergedLabelResponse implements LabelInterface
 {
     private string $type;
     private string $content;
@@ -32,6 +32,4 @@ class MergedLabelResponse
     {
         return $this->content;
     }
-
-
 }

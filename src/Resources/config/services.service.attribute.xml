@@ -23,6 +23,11 @@
             <tag name="postnl.attribute.handler.type"/>
         </service>
 
+        <service id="PostNL\Shopware6\Service\Attribute\TypeHandler\OrderReturnStructHandler">
+            <argument type="service" id="PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory"/>
+            <tag name="postnl.attribute.handler.type"/>
+        </service>
+
         <service id="PostNL\Shopware6\Service\Attribute\TypeHandler\ProductSelectionStructHandler">
             <argument type="service" id="PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory"/>
             <tag name="postnl.attribute.handler.type"/>
@@ -31,6 +36,11 @@
         <service id="PostNL\Shopware6\Service\Attribute\TypeHandler\ReturnAddressStructHandler">
             <argument type="service" id="PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory"/>
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\CountryService"/>
+            <tag name="postnl.attribute.handler.type"/>
+        </service>
+
+        <service id="PostNL\Shopware6\Service\Attribute\TypeHandler\ReturnOptionsStructHandler">
+            <argument type="service" id="PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory"/>
             <tag name="postnl.attribute.handler.type"/>
         </service>
 
