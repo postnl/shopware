@@ -1,6 +1,6 @@
 import template from './postnl-zone.html.twig';
 
-Shopware.Component.extend('postnl-zone', 'sw-condition-base', {
+export default {
     template,
 
     computed: {
@@ -12,10 +12,10 @@ Shopware.Component.extend('postnl-zone', 'sw-condition-base', {
         zones: {
             get() {
                 return [
-                    {value:'NL', label:this.$tc('postnl.rules.shipping.zone.nl')},
-                    {value:'BE', label:this.$tc('postnl.rules.shipping.zone.be')},
-                    {value:'GLOBAL', label:this.$tc('postnl.rules.shipping.zone.global')},
-                    {value:'EU', label:this.$tc('postnl.rules.shipping.zone.eu')},
+                    { value: 'NL', label: this.$t('postnl.rules.shipping.zone.nl') },
+                    { value: 'BE', label: this.$t('postnl.rules.shipping.zone.be') },
+                    { value: 'EU', label: this.$t('postnl.rules.shipping.zone.eu') },
+                    { value: 'GLOBAL', label: this.$t('postnl.rules.shipping.zone.global') },
                 ];
             }
         },
@@ -26,13 +26,8 @@ Shopware.Component.extend('postnl-zone', 'sw-condition-base', {
             },
             set(postNLZones) {
                 this.ensureValueExist();
-                this.condition.value = {...this.condition.value, postNLZones};
+                this.condition.value = { ...this.condition.value, postNLZones };
             },
         }
     },
-    methods:{
-        setPostNLZones(zones) {
-            this.postNLZones = zones;
-        },
-    }
-});
+};

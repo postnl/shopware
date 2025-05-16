@@ -10,11 +10,10 @@
         {% block sw_condition_postnl_zone_field_values %}
             <sw-multi-select
                 v-if="!isEmpty"
-                size="medium"
-                :value="postNLZones"
+                v-model:value="postNLZones"
                 :disabled="disabled"
                 :options="zones"
-                @change="setPostNLZones"
+                size="medium"
             />
         {% endblock %}
     </div>
