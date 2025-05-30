@@ -81,8 +81,9 @@ class TrackAndTraceMailDataService extends AbstractMailService
             $shippingCountry = $this->orderDataExtractor->extractDeliveryCountry($order);
 
             $templateData['postNL']['trackAndTraceLink'] = sprintf(
-                'http://postnl.nl/tracktrace/?B=%s&P=%s&D=%s&T=C',
+                'https://jouw.postnl.nl/track-and-trace/%s-%s-%s?language=%s',
                 $barcode,
+                $shippingCountry->getIso(),
                 $shippingAddress->getZipcode(),
                 $shippingCountry->getIso()
             );
