@@ -4,7 +4,6 @@
         :class="classes"
         :style="styles"
         :aria-hidden="decorative || undefined"
-    >
-        <postnl-assets-icons-postnl/>
-    </span>
+        v-html="iconSvgData"
+    />
 {% endblock %}
