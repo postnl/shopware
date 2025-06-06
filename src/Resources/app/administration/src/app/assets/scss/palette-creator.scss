@@ -1,0 +1,56 @@
+/* https://www.sitepoint.com/using-sass-build-color-palettes/ */
+
+// Using Shopware's pumpkin spice color as base palette
+$base-palette: (
+    'base': #ff9800,
+    'colors': #fff3e0 #ffe0b2 #ffcc80 #ffb74d #ffa726 #ff9800 #fb8c00 #f57c00 #ef6c00 #e65100
+) !default;
+
+@function color-diff($a, $b) {
+    $sat: saturation($a) - saturation($b);
+    $lig: lightness($a) - lightness($b);
+    $fn-sat: if($sat > 0, 'desaturate', 'saturate');
+    $fn-lig: if($lig > 0, 'darken', 'lighten');
+    @return (
+        adjust-hue: -(hue($a) - hue($b)),
+        #{$fn-sat}: abs($sat),
+        #{$fn-lig}: abs($lig)
+    );
+}
+
+@function palette-diff($palette) {
+    $base: map-get($palette, 'base');
+    $colors: map-get($palette, 'colors');
+    $diffs: ();
+    @each $color in $colors {
+        $diffs: append($diffs, color-diff($base, $color));
+    }
+    @return $diffs;
+}
+
+$palette-diff: palette-diff($base-palette);
+
+@function apply-diff($color, $diff) {
+    @each $function, $value in $diff {
+        $color: call($function, $color, $value);
+    }
+    @return $color;
+}
+
+@function create-palette($base-color) {
+    $palette: ();
+    @each $diff in $palette-diff {
+        $palette: append($palette, apply-diff($base-color, $diff));
+    }
+    @return $palette;
+}
+
+@function palette($base-color, $prefix) {
+    $colors: create-palette($base-color);
+    $keys: '50' '100' '200' '300' '400' '500' '600' '700' '800' '900';
+    $palette: ();
+    @for $i from 1 through min(length($colors), length($keys)) {
+        $palette: map-merge($palette, $prefix+(nth($keys, $i): nth($colors, $i)));
+    }
+    @return $palette;
+}

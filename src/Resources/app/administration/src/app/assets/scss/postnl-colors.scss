@@ -1,0 +1,22 @@
+@import "palette-creator";
+
+$postnl-palette: palette(#ed7000, 'postnl-color-');
+@debug $postnl-palette;
+//$postnl-palette: palette(#f56900);
+
+@each $value, $color in $postnl-palette {
+    //$color-postnl-#{$value}: $color;
+
+
+    //.postnl-color-#{$value} {
+    //    background-color: $color-postnl-#{$value};
+    //}
+}
+
+
+
+
+[class^="postnl-color"] {
+    width: 100px;
+    height: 100px;
+}
