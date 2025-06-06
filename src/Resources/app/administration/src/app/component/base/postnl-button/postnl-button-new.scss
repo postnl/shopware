@@ -33,9 +33,9 @@ $sw-button-transition: all 0.15s ease-out;
             display: inline-block;
 
             &, &:hover, &:active, &:disabled, &:visited {
-                color: $color-darkgray-200;
-                border: 1px solid $color-gray-400;
-                background-color: $color-gray-50;
+                color: $color-white;
+                border: 1px solid $color-postnl-500;
+                background-color: $color-postnl-500;
             }
 
             &:focus-visible {
@@ -52,7 +52,7 @@ $sw-button-transition: all 0.15s ease-out;
             }
 
             &:disabled, &.postnl-button--disabled {
-                color: $color-gray-500;
+                color: $color-white;
                 border-color: $color-gray-200;
                 cursor: not-allowed;
             }
@@ -89,6 +89,10 @@ $sw-button-transition: all 0.15s ease-out;
                     display: inline;
                 }
             }
+
+            &.postnl-button--ghost {
+
+            }
         }
     }
 
@@ -104,11 +108,11 @@ $sw-button-transition: all 0.15s ease-out;
     }
 
     .mt-icon {
-        color: $color-gray-800;
+        color: $color-white;
     }
 
     .sw-loader .sw-loader-element div {
-        border-color: $color-gray-800 transparent transparent transparent;
+        border-color: $color-white transparent transparent transparent;
     }
 
     .postnl-button__loader {
