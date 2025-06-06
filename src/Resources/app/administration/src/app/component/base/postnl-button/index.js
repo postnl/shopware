@@ -13,24 +13,6 @@ export default {
             required: false,
             default: false,
         },
-        variant: {
-            type: String,
-            required: false,
-            default: 'regular',
-            validValues: [
-                'regular',
-                'ghost',
-            ],
-            validator(value) {
-                if (!value.length) {
-                    return true;
-                }
-                return [
-                    'regular',
-                    'ghost',
-                ].includes(value);
-            },
-        },
         size: {
             type: String,
             required: false,
@@ -60,6 +42,11 @@ export default {
             required: false,
             default: false,
         },
+        ghost: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
         // eslint-disable-next-line vue/require-default-prop
         routerLink: {
             type: Object,
@@ -80,11 +67,11 @@ export default {
     computed: {
         buttonClasses() {
             return {
-                [`postnl-button--${this.variant}`]: this.variant,
                 [`postnl-button--${this.size}`]: this.size,
                 'postnl-button--block': this.block,
                 'postnl-button--disabled': this.disabled,
                 'postnl-button--square': this.square,
+                'postnl-button--ghost': this.ghost,
             };
         },
 
