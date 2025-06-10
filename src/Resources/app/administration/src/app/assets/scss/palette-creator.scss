@@ -1,6 +1,6 @@
 /* https://www.sitepoint.com/using-sass-build-color-palettes/ */
 
-// Using Shopware's pumpkin spice color as base palette
+// Using Shopware's pumpkin spice color as base palette because it's closest to PostNL orange
 $base-palette: (
     'base': #ff9800,
     'colors': #fff3e0 #ffe0b2 #ffcc80 #ffb74d #ffa726 #ff9800 #fb8c00 #f57c00 #ef6c00 #e65100
@@ -45,13 +45,12 @@ $palette-diff: palette-diff($base-palette);
     @return $palette;
 }
 
-@function palette($base-color, $prefix) {
+@function palette($base-color) {
     $colors: create-palette($base-color);
     $keys: '50' '100' '200' '300' '400' '500' '600' '700' '800' '900';
     $palette: ();
     @for $i from 1 through min(length($colors), length($keys)) {
-        $key: #{$prefix}#{nth($keys, $i)};
-        $palette: map-merge($palette, ($key: nth($colors, $i)));
+        $palette: map-merge($palette, (nth($keys, $i): nth($colors, $i)));
     }
     @return $palette;
 }
