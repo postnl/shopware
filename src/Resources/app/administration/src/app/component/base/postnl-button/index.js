@@ -1,5 +1,5 @@
 import template from './postnl-button.html.twig'
-import './postnl-button-new.scss'
+import './postnl-button.scss'
 import './sw-button-group.scss'
 
 export default {

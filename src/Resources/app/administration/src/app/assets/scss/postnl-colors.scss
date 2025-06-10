@@ -13,16 +13,3 @@ $color-postnl-600: map-get($postnl-palette, "600");
 $color-postnl-700: map-get($postnl-palette, "700");
 $color-postnl-800: map-get($postnl-palette, "800");
 $color-postnl-900: map-get($postnl-palette, "900");
-
-
-[class^="postnl-color"] {
-    width: 100px;
-    height: 100px;
-    display: inline-block;
-}
-
-@each $value, $color in $postnl-palette {
-    .postnl-color-#{$value} {
-        background-color: $color;
-    }
-}

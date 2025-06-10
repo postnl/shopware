@@ -1,112 +1,123 @@
 @import "~scss/variables";
+@import "./../../../assets/scss/postnl-colors";
 
 $sw-button-transition: all 0.15s ease-out;
 
-// Using the same color changes as for Shopware's pumpkin spice, using 500 as base.
-$color-postnl-50: #ffeede;  // lighten 88%
-$color-postnl-100: #ffd4ad; // lighten 70%
-$color-postnl-200: #ffb776; // lighten 50%
-$color-postnl-300: #ff9a40; // lighten 30%
-$color-postnl-400: #ff8517; // lighten 15%
-$color-postnl-500: #ed7000; // base, H28, L46
-$color-postnl-600: #e66000; // L-1, H-3
-$color-postnl-700: #e05200; // L-1, H-3
-$color-postnl-800: #db4500; // L-1, H-3
-$color-postnl-900: #d12d00; // L-2, H-6
-
 .postnl-button {
-    border: 1px solid $color-gray-400;
-    background: $color-gray-50;
-    color: $color-darkgray-200;
-    transition: $sw-button-transition;
-    display: inline-block;
+    border: 1px solid transparent;
     border-radius: $border-radius-default;
-    padding: 2px 24px;
-    font-size: $font-size-xs;
-    line-height: 34px;
-    outline: none;
-    font-weight: $font-weight-semi-bold;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    vertical-align: middle;
-    text-decoration: none;
     cursor: pointer;
-    user-select: none;
+    display: inline-block;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semi-bold;
+    line-height: 34px;
     margin: 0;
+    outline: none;
+    padding: 2px 24px;
     position: relative;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    transition: $sw-button-transition;
+    user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
 
-    &:focus-visible {
-        outline: revert;
-    }
-
-    &.sw-internal-link, &.sw-external-link {
+    &, &.sw-internal-link, &.sw-external-link {
         .sw-external-link__icon {
             display: none;
         }
 
-        &:not(.mt-internal-link, .mt-link--external, .mt-link--internal, .mt-button) { //Added to increase CSS specificity
-            display: inline-flex;
-            color: $color-darkgray-200;
+        &, &:not(.mt-internal-link, .mt-link--external, .mt-link--internal, .mt-button) { //Added to increase CSS specificity
             text-decoration: none;
             font-size: $font-size-xs;
+            display: inline-block;
 
-            &:hover:not(.postnl-button--disabled),
-            &:hover:not([disabled]) {
-                color: $color-darkgray-200;
-                background: $color-gray-100;
+            &, &:hover, &:active, &:disabled, &:visited {
+                color: $color-white;
+                border-color: $color-postnl-500;
+                background-color: $color-postnl-500;
             }
 
-            &:active:not(.postnl-button--disabled) {
-                color: $color-darkgray-200;
-                background: $color-gray-200;
-                border-color: $color-gray-400;
+            &:focus-visible {
+                outline: revert;
             }
 
-            &:disabled,
-            &.postnl-button--disabled {
-                color: $color-gray-500;
-                border-color: $color-gray-200;
+            &:hover:not(:disabled, .postnl-button--disabled) {
+                background: $color-postnl-700;
+                border-color: $color-postnl-700;
+            }
+
+            &:active:not(:disabled, .postnl-button--disabled) {
+                background: $color-postnl-800;
+                border-color: $color-postnl-800;
+            }
+
+            &:disabled, &.postnl-button--disabled {
+                color: $color-white;
+                background-color: $color-postnl-100;
+                border-color: $color-postnl-100;
                 cursor: not-allowed;
-
-                &:hover {
-                    color: $color-gray-500;
-                    background: $color-gray-50;
-                }
-
-                .mt-icon {
-                    color: $color-gray-400;
-                }
             }
 
-            &.postnl-button--small, &.postnl-button--x-small {
+            &.postnl-button--small {
+                padding-left: 15px;
+                padding-right: 15px;
                 font-size: $font-size-xxs;
+                line-height: 26px;
+
+                &.postnl-button--square {
+                    width: 32px;
+                }
             }
-        }
-    }
 
-    &:hover:not(.postnl-button--disabled),
-    &:hover:not([disabled]) {
-        background: $color-gray-100;
-    }
+            &.postnl-button--x-small {
+                padding-left: 10px;
+                padding-right: 10px;
+                font-size: $font-size-xxs;
+                line-height: $line-height-xs;
 
-    &:active:not(.postnl-button--disabled) {
-        background: $color-gray-200;
-        border-color: $color-gray-400;
-    }
+                &.postnl-button--square {
+                    width: 24px;
+                }
+            }
 
-    &:disabled,
-    &.postnl-button--disabled {
-        color: $color-gray-500;
-        border-color: $color-gray-200;
-        cursor: not-allowed;
+            &.postnl-button--square {
+                width: 40px;
+                padding-left: 0;
+                padding-right: 0;
+                text-align: center;
 
-        &:hover {
-            color: $color-gray-500;
-            background: $color-gray-50;
-        }
+                .postnl-button__content {
+                    display: inline;
+                }
+            }
 
-        .mt-icon {
-            color: $color-gray-400;
+            &.postnl-button--ghost {
+                color: $color-postnl-500;
+                border-color: $color-postnl-500;
+                background-color: transparent;
+
+                &:hover:not(:disabled, .postnl-button--disabled) {
+                    background: $color-postnl-50;
+                    border-color: $color-postnl-600;
+                    color: $color-postnl-600;
+                }
+
+                &:active:not(:disabled, .postnl-button--disabled) {
+                    background: $color-postnl-100;
+                    border-color: $color-postnl-700;
+                    color: $color-postnl-700;
+                }
+
+                &:disabled, &.postnl-button--disabled {
+                    color: $color-postnl-200;
+                    border-color: $color-postnl-200;
+                }
+
+                .sw-loader .sw-loader-element div {
+                    border-color: $color-postnl-200 transparent transparent transparent;
+                }
+            }
         }
     }
 
@@ -122,137 +133,11 @@ $color-postnl-900: #d12d00; // L-2, H-6
     }
 
     .mt-icon {
-        color: $color-gray-800;
+        color: $color-white;
     }
 
     .sw-loader .sw-loader-element div {
-        border-color: $color-gray-800 transparent transparent transparent;
-    }
-
-    &.postnl-button--regular{
-        background: $color-postnl-500;
-        color: $color-white;
-        line-height: 36px;
-        border: 0 none;
-
-        &.sw-internal-link, &.sw-external-link {
-            color: $color-white;
-
-
-            &:hover {
-                background: $color-postnl-700;
-            }
-        }
-
-        .mt-icon {
-            color: $color-white;
-        }
-
-        .sw-loader .sw-loader-element div {
-            border-color: $color-white transparent transparent transparent;
-        }
-
-        &.postnl-button--x-small {
-            line-height: $line-height-sm;
-        }
-
-        &.postnl-button--small {
-            line-height: $line-height-lg;
-        }
-
-        &:hover {
-            background: $color-postnl-700;
-        }
-
-        &:active {
-            background: $color-postnl-800;
-        }
-
-        &:disabled,
-        &.postnl-button--disabled {
-            background: $color-postnl-200;
-
-            &:hover {
-                background: $color-postnl-200;
-                color: $color-white;
-            }
-        }
-
-        &.postnl-button--square .mt-icon {
-            color: $color-white;
-        }
-    }
-
-
-    &.postnl-button--ghost {
-        background-color: transparent;
-        border-color: $color-shopware-brand-500;
-        color: $color-shopware-brand-500;
-
-        .mt-icon {
-            color: $color-shopware-brand-500;
-        }
-
-        .sw-loader .sw-loader-element div {
-            border-color: $color-shopware-brand-500 transparent transparent transparent;
-        }
-
-        &:hover {
-            background-color: $color-shopware-brand-50;
-        }
-
-        &:active {
-            background-color: $color-shopware-brand-100;
-        }
-
-        &:disabled,
-        &.postnl-button--disabled {
-            background-color: transparent;
-            border-color: $color-shopware-brand-200;
-            color: $color-shopware-brand-200;
-
-            .mt-icon {
-                color: $color-shopware-brand-200;
-            }
-        }
-    }
-
-    &.postnl-button--block {
-        display: block;
-        width: 100%;
-    }
-
-    &.postnl-button--x-small {
-        padding-left: 10px;
-        padding-right: 10px;
-        font-size: $font-size-xxs;
-        line-height: $line-height-xs;
-
-        &.postnl-button--square {
-            width: 24px;
-        }
-    }
-
-    &.postnl-button--small {
-        padding-left: 15px;
-        padding-right: 15px;
-        font-size: $font-size-xxs;
-        line-height: 26px;
-
-        &.postnl-button--square {
-            width: 32px;
-        }
-    }
-
-    &.postnl-button--square {
-        width: 40px;
-        padding-left: 0;
-        padding-right: 0;
-        text-align: center;
-
-        .postnl-button__content {
-            display: inline;
-        }
+        border-color: $color-white transparent transparent transparent;
     }
 
     .postnl-button__loader {
