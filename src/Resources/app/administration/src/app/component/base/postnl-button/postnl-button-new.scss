@@ -34,7 +34,7 @@ $sw-button-transition: all 0.15s ease-out;
 
             &, &:hover, &:active, &:disabled, &:visited {
                 color: $color-white;
-                border: 1px solid $color-postnl-500;
+                border-color: $color-postnl-500;
                 background-color: $color-postnl-500;
             }
 
@@ -43,17 +43,19 @@ $sw-button-transition: all 0.15s ease-out;
             }
 
             &:hover:not(:disabled, .postnl-button--disabled) {
-                background: $color-gray-100;
+                background: $color-postnl-700;
+                border-color: $color-postnl-700;
             }
 
             &:active:not(:disabled, .postnl-button--disabled) {
-                background: $color-gray-200;
-                border-color: $color-gray-400;
+                background: $color-postnl-800;
+                border-color: $color-postnl-800;
             }
 
             &:disabled, &.postnl-button--disabled {
                 color: $color-white;
-                border-color: $color-gray-200;
+                background-color: $color-postnl-100;
+                border-color: $color-postnl-100;
                 cursor: not-allowed;
             }
 
@@ -91,7 +93,30 @@ $sw-button-transition: all 0.15s ease-out;
             }
 
             &.postnl-button--ghost {
+                color: $color-postnl-500;
+                border-color: $color-postnl-500;
+                background-color: transparent;
 
+                &:hover:not(:disabled, .postnl-button--disabled) {
+                    background: $color-postnl-50;
+                    border-color: $color-postnl-600;
+                    color: $color-postnl-600;
+                }
+
+                &:active:not(:disabled, .postnl-button--disabled) {
+                    background: $color-postnl-100;
+                    border-color: $color-postnl-700;
+                    color: $color-postnl-700;
+                }
+
+                &:disabled, &.postnl-button--disabled {
+                    color: $color-postnl-200;
+                    border-color: $color-postnl-200;
+                }
+
+                .sw-loader .sw-loader-element div {
+                    border-color: $color-postnl-200 transparent transparent transparent;
+                }
             }
         }
     }

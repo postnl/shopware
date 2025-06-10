@@ -1,7 +1,7 @@
 @import "palette-creator";
 
 $postnl-palette: palette(#ed7000); // Old color
-//$postnl-palette: palette(#f56900);
+$postnl-palette: palette(#f56900); // New color
 
 $color-postnl-50: map-get($postnl-palette, "50");
 $color-postnl-100: map-get($postnl-palette, "100");
@@ -18,6 +18,7 @@ $color-postnl-900: map-get($postnl-palette, "900");
 [class^="postnl-color"] {
     width: 100px;
     height: 100px;
+    display: inline-block;
 }
 
 @each $value, $color in $postnl-palette {
