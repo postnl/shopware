@@ -1,11 +1,11 @@
 @import "palette-creator";
 
-$postnl-palette: palette(#ed7000, 'postnl-color-');
+$postnl-palette: palette(#ed7000, 'color-postnl-');
 @debug $postnl-palette;
 //$postnl-palette: palette(#f56900);
 
 @each $value, $color in $postnl-palette {
-    //$color-postnl-#{$value}: $color;
+    $value: $color;
 
 
     //.postnl-color-#{$value} {
