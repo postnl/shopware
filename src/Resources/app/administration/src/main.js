@@ -1,3 +1,5 @@
+import './app/init'
+
 // import './core';
 // import './init';
 // import './mixin';
