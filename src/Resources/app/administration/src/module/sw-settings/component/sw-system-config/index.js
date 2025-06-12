@@ -1,3 +1,5 @@
+import './sw-system-config.scss'
+
 export default {
     methods: {
         hasMapInheritanceSupport(element) {

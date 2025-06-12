@@ -1,0 +1,7 @@
+.sw-system-config {
+    .sw-inherit-wrapper[class*="post-nl-shopware"] {
+        .sw-inherit-wrapper__toggle-wrapper:not(:has(+ .sw-form-field-renderer)) {
+            display: none;
+        }
+    }
+}
