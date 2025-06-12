@@ -1,131 +1,43 @@
 {
-  "postnl-zone": {
-    "type": "extend",
-    "component": "sw-condition-base"
-  },
+  "extend": {
+    "postnl-zone": "sw-condition-base",
 
-  "postnl-memo-collapse": {
-    "type": "extend",
-    "component": "sw-collapse"
-  },
-  "postnl-config-customer-data": {
-    "type": "extend",
-    "component": "postnl-memo-config"
-  },
-  "postnl-config-return-address": {
-    "type": "extend",
-    "component": "postnl-memo-config"
-  },
-  "postnl-config-return-options": {
-    "type": "extend",
-    "component": "postnl-memo-config"
-  },
-  "postnl-config-sender-address": {
-    "type": "extend",
-    "component": "postnl-memo-config"
-  },
+    "postnl-memo-collapse": "sw-collapse",
 
-  "postnl-config-product-selection-base": {
-    "type": "extend",
-    "component": "postnl-memo-config"
-  },
-  "postnl-config-product-selection-pickup-be-be-default": {
-    "type": "extend",
-    "component": "postnl-config-product-selection-base"
-  },
-  "postnl-config-product-selection-pickup-nl-be-default": {
-    "type": "extend",
-    "component": "postnl-config-product-selection-base"
-  },
-  "postnl-config-product-selection-pickup-nl-nl-alternative": {
-    "type": "extend",
-    "component": "postnl-config-product-selection-base"
-  },
-  "postnl-config-product-selection-pickup-nl-nl-default": {
-    "type": "extend",
-    "component": "postnl-config-product-selection-base"
-  },
-  "postnl-config-product-selection-shipment-be-be-alternative": {
-    "type": "extend",
-    "component": "postnl-config-product-selection-base"
-  },
-  "postnl-config-product-selection-shipment-be-be-default": {
-    "type": "extend",
-    "component": "postnl-config-product-selection-base"
-  },
-  "postnl-config-product-selection-shipment-be-eu-default": {
-    "type": "extend",
-    "component": "postnl-config-product-selection-base"
-  },
-  "postnl-config-product-selection-shipment-be-global-default": {
-    "type": "extend",
-    "component": "postnl-config-product-selection-base"
-  },
-  "postnl-config-product-selection-shipment-be-nl-alternative": {
-    "type": "extend",
-    "component": "postnl-config-product-selection-base"
-  },
-  "postnl-config-product-selection-shipment-be-nl-default": {
-    "type": "extend",
-    "component": "postnl-config-product-selection-base"
-  },
-  "postnl-config-product-selection-shipment-nl-be-alternative": {
-    "type": "extend",
-    "component": "postnl-config-product-selection-base"
-  },
-  "postnl-config-product-selection-shipment-nl-be-default": {
-    "type": "extend",
-    "component": "postnl-config-product-selection-base"
-  },
-  "postnl-config-product-selection-shipment-nl-eu-default": {
-    "type": "extend",
-    "component": "postnl-config-product-selection-base"
-  },
-  "postnl-config-product-selection-shipment-nl-global-default": {
-    "type": "extend",
-    "component": "postnl-config-product-selection-base"
-  },
-  "postnl-config-product-selection-shipment-nl-nl-alternative": {
-    "type": "extend",
-    "component": "postnl-config-product-selection-base"
-  },
-  "postnl-config-product-selection-shipment-nl-nl-default": {
-    "type": "extend",
-    "component": "postnl-config-product-selection-base"
-  },
+    "postnl-config-customer-data": "postnl-memo-config",
+    "postnl-config-return-address": "postnl-memo-config",
+    "postnl-config-return-options": "postnl-memo-config",
+    "postnl-config-sender-address": "postnl-memo-config",
 
-  "postnl-change-shipping-modal": {
-    "type": "extend",
-    "component": "postnl-shipment-modal-base"
-  },
-  "postnl-create-return-modal": {
-    "type": "extend",
-    "component": "postnl-shipment-modal-base"
-  },
-  "postnl-create-shipment-modal": {
-    "type": "extend",
-    "component": "postnl-shipment-modal-base"
-  },
+    "postnl-config-product-selection-base": "postnl-memo-config",
+    "postnl-config-product-selection-pickup-be-be-default": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-pickup-nl-be-default": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-pickup-nl-nl-alternative": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-pickup-nl-nl-default": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-be-be-alternative": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-be-be-default": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-be-eu-default": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-be-global-default": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-be-nl-alternative": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-be-nl-default": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-nl-be-alternative": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-nl-be-default": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-nl-eu-default": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-nl-global-default": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-nl-nl-alternative": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-nl-nl-default": "postnl-config-product-selection-base",
 
-  "postnl-order-detail": {
-    "type": "extend",
-    "component": "sw-order-detail"
-  },
-  "postnl-order-list": {
-    "type": "extend",
-    "component": "sw-order-list"
-  },
+    "postnl-change-shipping-modal": "postnl-shipment-modal-base",
+    "postnl-create-return-modal": "postnl-shipment-modal-base",
+    "postnl-create-shipment-modal": "postnl-shipment-modal-base",
 
-  "sw-order-delivery-metadata": {
-    "type": "override"
+    "postnl-order-detail": "sw-order-detail",
+    "postnl-order-list": "sw-order-list"
   },
-  "sw-order-user-card": {
-    "type": "override"
-  },
-  "sw-order-detail-details": {
-    "type": "override"
-  },
-  "sw-system-config": {
-    "type": "override"
-  }
+  "override": [
+    "sw-order-delivery-metadata",
+    "sw-order-user-card",
+    "sw-order-detail-details",
+    "sw-system-config"
+  ]
 }
