@@ -1,4 +1,7 @@
 import './api-service.init'
-import './component.init'
-import './decorator.init'
 import './store.init'
+
+import './decorator.init'
+import './../mixin'
+
+import './component.init'
