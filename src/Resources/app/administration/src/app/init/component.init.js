@@ -15,7 +15,7 @@ Object
             return
         }
 
-        if (config?.override && componentName in config?.override) {
+        if (config?.override?.some(override => override === componentName)) {
             Shopware.Component.override(componentName, importFn)
             return
         }
