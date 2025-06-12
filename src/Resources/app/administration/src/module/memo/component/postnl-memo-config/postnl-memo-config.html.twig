@@ -1,10 +1,13 @@
 {% block memo_config %}
-    <component v-bind="$attrs"
-               :is="field"
-               :disabled="disabled"
-               :required="required"
-               @inheritance-restore="$emit('inheritance-restore', $event)"
-               @inheritance-remove="$emit('inheritance-remove', $event)">
+    <component
+        v-bind="$attrs"
+        class="postnl-config-component"
+        :is="field"
+        :disabled="disabled"
+        :required="required"
+        @inheritance-restore="$emit('inheritance-restore', $event)"
+        @inheritance-remove="$emit('inheritance-remove', $event)"
+    >
         <template #sw-field-input="{ identification, error, disabled, required }">
             {% block memo_config_content %}{% endblock %}
         </template>

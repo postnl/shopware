@@ -1,7 +1,10 @@
-import template from './postnl-memo-config.html.twig';
+import template from './postnl-memo-config.html.twig'
+import './postnl-memo-config.scss'
 
-const { Mixin } = Shopware;
-const { string } = Shopware.Utils;
+const {
+    Mixin,
+    Utils: { string}
+} = Shopware
 
 export default {
     template,
