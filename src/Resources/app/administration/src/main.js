@@ -1,8 +1,5 @@
-import './app/init'
+void import('./core/postnl').then(({ PostNLInstance }) => {
+    window.PostNLShopware = PostNLInstance
 
-// import './core';
-// import './init';
-// import './mixin';
-// import './module';
-
-// import './decorator/rule-condition-service-decoration';
+    import('./app/init')
+})
