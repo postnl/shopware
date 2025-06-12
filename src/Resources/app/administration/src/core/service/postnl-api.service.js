@@ -1,6 +1,6 @@
 import { stringify } from "qs";
 
-const { Application, Context, State } = Shopware;
+const { Application, Context, Store } = Shopware;
 const { Criteria } = Shopware.Data;
 // eslint-disable-next-line no-undef
 const ApiService = Shopware.Classes.ApiService;
@@ -66,7 +66,7 @@ export default class PostNlApiService extends ApiService {
     }
 
     async buildLocaleCache() {
-        const cache = State.get('postnlLocaleLanguage').locales;
+        const cache = Store.get('postnlLocaleLanguage').locales;
         const locale = Application.getContainer('factory').locale.getLastKnownLocale();
 
         if (cache.hasOwnProperty(locale)) {
@@ -83,7 +83,7 @@ export default class PostNlApiService extends ApiService {
             .searchIds(criteria, Context.api)
             .then(result => {
                 const languageId = result.data[0];
-                State.commit('postnlLocaleLanguage/addLanguage', { locale, languageId });
+                Store.get('postnlLocaleLanguage').addLanguage(locale, languageId);
                 return languageId;
             })
     }

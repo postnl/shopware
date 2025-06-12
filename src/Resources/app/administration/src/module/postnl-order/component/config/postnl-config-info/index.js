@@ -18,7 +18,7 @@ export default {
          */
         userName() {
             // eslint-disable-next-line no-undef
-            const user = Shopware.State.get('session').currentUser;
+            const user = Shopware.Store.get('session').currentUser;
 
             if (!user) {
                 return '';

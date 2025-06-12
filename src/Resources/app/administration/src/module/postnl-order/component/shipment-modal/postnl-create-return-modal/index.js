@@ -165,7 +165,6 @@ export default {
                     this.isProcessingSuccess = true;
                     break;
                 case 'shipmentAndReturn':
-                    //TODO implement activation
                     this.activateReturnLabels()
                     break;
                 default:

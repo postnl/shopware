@@ -1,6 +1,5 @@
 import template from './postnl-order-detail.html.twig';
 
-// const { , State } = Shopware;
 const { mapState } = Shopware.Component.getComponentHelper();
 
 export default {
@@ -23,8 +22,7 @@ export default {
 
     created() {
         if(!this.versionContext) {
-            // TODO replace with Store
-            // State.commit('swOrderDetail/setVersionContext', Shopware.Context.api);
+            Shopware.Store.get('swOrderDetail').setVersionContext(Shopware.Context.api);
             this.reloadEntityData();
         }
     },
