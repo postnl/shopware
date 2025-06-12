@@ -1,11 +1,8 @@
-import './component';
-import './page';
-
 import nlNL from './snippet/nl-NL.json';
 import deDE from './snippet/de-DE.json';
 import enGB from './snippet/en-GB.json';
 
-Shopware.Module.register('postnl-order', {
+export default {
     type: 'core',
     name: 'PostNL',
     title: 'postnl.general.mainMenuItemGeneral',
@@ -57,8 +54,7 @@ Shopware.Module.register('postnl-order', {
             parent: 'sw-order'
         }
     ]
-})
-
+}
 
 function orderDetailChildren() {
     return {
