@@ -1,5 +1,9 @@
-const components = import.meta.glob('./../component/**/index.js')
-import config from './../component/config.json'
+const components = import.meta.glob([
+    './../component/**/index.{j,t}s',
+    './../../module/*/*/**/index.{j,t}s'
+])
+// console.log(components)
+import config from './component.json'
 
 Object
     .entries(components)
@@ -17,15 +21,18 @@ Object
                     throw `Missing "component" field in ${ componentName } configuration.`
                 }
 
+                // console.log(`Component ${componentName} extends ${config[componentName].component}`)
                 Shopware.Component.extend(componentName, config[componentName].component, importFn)
             }
 
             if (config[componentName].type === 'override') {
+                // console.log(`Overriding component ${componentName}`)
                 Shopware.Component.override(componentName, importFn)
             }
 
             return
         }
 
+        // console.log(`Registering component ${componentName}`)
         Shopware.Component.register(componentName, importFn)
     })

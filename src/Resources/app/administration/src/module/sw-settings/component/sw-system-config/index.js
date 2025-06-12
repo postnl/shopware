@@ -1,4 +1,4 @@
-Shopware.Component.override('sw-system-config', {
+export default {
     methods: {
         hasMapInheritanceSupport(element) {
             const componentName = element.config && element.config.componentName
@@ -12,4 +12,4 @@ Shopware.Component.override('sw-system-config', {
             return this.$super('hasMapInheritanceSupport', element);
         }
     }
-})
+}

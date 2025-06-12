@@ -3,7 +3,7 @@ import './postnl-create-return-modal.scss';
 
 const { Criteria } = Shopware.Data
 
-Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-base', {
+export default {
     template,
 
     inject: [
@@ -268,4 +268,4 @@ Shopware.Component.extend('postnl-create-return-modal', 'postnl-shipment-modal-b
                 })
         },
     },
-});
+}

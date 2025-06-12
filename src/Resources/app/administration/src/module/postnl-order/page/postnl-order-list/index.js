@@ -2,7 +2,7 @@ import template from './postnl-order-list.html.twig'
 
 const { Criteria } = Shopware.Data;
 
-Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
+export default {
     template,
 
     inject: [
@@ -254,4 +254,4 @@ Shopware.Component.extend('postnl-order-list', 'sw-order-list', {
         //     })
         // }
     }
-});
+}

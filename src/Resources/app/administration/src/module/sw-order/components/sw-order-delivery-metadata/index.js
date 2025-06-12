@@ -1,6 +1,6 @@
 import template from './sw-order-delivery-metadata.html.twig'
 
-Shopware.Component.override('sw-order-delivery-metadata', {
+export default {
     template,
 
     computed: {
@@ -24,4 +24,4 @@ Shopware.Component.override('sw-order-delivery-metadata', {
             return this.order.customFields.postnl?.sentDate || null;
         }
     },
-});
+}

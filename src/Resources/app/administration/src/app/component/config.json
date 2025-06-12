@@ -1,6 +1,0 @@
-{
-  "postnl-zone": {
-    "type": "extend",
-    "component": "sw-condition-base"
-  }
-}

@@ -1,6 +1,6 @@
 import template from './postnl-create-shipment-modal.html.twig';
 
-Shopware.Component.extend('postnl-create-shipment-modal', 'postnl-shipment-modal-base',{
+export default {
     template,
 
     inject: [
@@ -83,4 +83,4 @@ Shopware.Component.extend('postnl-create-shipment-modal', 'postnl-shipment-modal
                 })
         },
     },
-})
+}

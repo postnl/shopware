@@ -1,8 +1,8 @@
 import template from './postnl-config-return-address.html.twig';
 
-const { Component, Mixin } = Shopware;
+const { Mixin } = Shopware;
 
-Component.extend('postnl-config-return-address', 'postnl-memo-config', {
+export default {
     template,
 
     mixins: [
@@ -15,4 +15,4 @@ Component.extend('postnl-config-return-address', 'postnl-memo-config', {
             this.content.countrycode = value.iso;
         }
     }
-})
+}

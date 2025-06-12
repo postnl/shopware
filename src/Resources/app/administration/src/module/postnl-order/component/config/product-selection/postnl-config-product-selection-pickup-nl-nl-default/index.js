@@ -1,7 +1,4 @@
-const { Component } = Shopware;
-
-Component.extend('postnl-config-product-selection-pickup-nl-nl-default', 'postnl-config-product-selection-base', {
-
+export default {
     data() {
         return {
             sourceZone: 'NL',
@@ -9,4 +6,4 @@ Component.extend('postnl-config-product-selection-pickup-nl-nl-default', 'postnl
             deliveryType: 'pickup',
         };
     },
-})
+}

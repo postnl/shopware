@@ -1,9 +1,9 @@
 import template from "./postnl-config-api-credentials-test.html.twig";
 import './postnl-config-api-credentials-test.scss';
 
-const { Component, Mixin } = Shopware;
+const { Mixin } = Shopware;
 
-Component.register('postnl-config-api-credentials-test', {
+export default {
     template,
 
     inject: [
@@ -67,4 +67,4 @@ Component.register('postnl-config-api-credentials-test', {
                 });
         }
     }
-});
+}

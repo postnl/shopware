@@ -1,7 +1,7 @@
 import template from './postnl-required-hint.html.twig';
 import './postnl-required-hint.scss';
 
-Shopware.Component.register('postnl-required-hint', {
+export default {
     template,
 
     props: {
@@ -19,5 +19,5 @@ Shopware.Component.register('postnl-required-hint', {
             ];
         },
 
-    },
-})
+    }
+}

@@ -1,11 +1,9 @@
-import template from './postnl-product-selection.html.twig';
-import './postnl-product-selection.scss';
+import template from './postnl-product-selection.html.twig'
+import './postnl-product-selection.scss'
 
-import { object } from '../../../../core/service/util.service';
+const { object } = PostNLShopware.Utils
 
-const { Component } = Shopware;
-
-Component.register('postnl-product-selection', {
+export default {
     template,
 
     inject: [
@@ -318,4 +316,4 @@ Component.register('postnl-product-selection', {
             return '';
         }
     }
-})
+}

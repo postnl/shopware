@@ -1,0 +1,131 @@
+{
+  "postnl-zone": {
+    "type": "extend",
+    "component": "sw-condition-base"
+  },
+
+  "postnl-memo-collapse": {
+    "type": "extend",
+    "component": "sw-collapse"
+  },
+  "postnl-config-customer-data": {
+    "type": "extend",
+    "component": "postnl-memo-config"
+  },
+  "postnl-config-return-address": {
+    "type": "extend",
+    "component": "postnl-memo-config"
+  },
+  "postnl-config-return-options": {
+    "type": "extend",
+    "component": "postnl-memo-config"
+  },
+  "postnl-config-sender-address": {
+    "type": "extend",
+    "component": "postnl-memo-config"
+  },
+
+  "postnl-config-product-selection-base": {
+    "type": "extend",
+    "component": "postnl-memo-config"
+  },
+  "postnl-config-product-selection-pickup-be-be-default": {
+    "type": "extend",
+    "component": "postnl-config-product-selection-base"
+  },
+  "postnl-config-product-selection-pickup-nl-be-default": {
+    "type": "extend",
+    "component": "postnl-config-product-selection-base"
+  },
+  "postnl-config-product-selection-pickup-nl-nl-alternative": {
+    "type": "extend",
+    "component": "postnl-config-product-selection-base"
+  },
+  "postnl-config-product-selection-pickup-nl-nl-default": {
+    "type": "extend",
+    "component": "postnl-config-product-selection-base"
+  },
+  "postnl-config-product-selection-shipment-be-be-alternative": {
+    "type": "extend",
+    "component": "postnl-config-product-selection-base"
+  },
+  "postnl-config-product-selection-shipment-be-be-default": {
+    "type": "extend",
+    "component": "postnl-config-product-selection-base"
+  },
+  "postnl-config-product-selection-shipment-be-eu-default": {
+    "type": "extend",
+    "component": "postnl-config-product-selection-base"
+  },
+  "postnl-config-product-selection-shipment-be-global-default": {
+    "type": "extend",
+    "component": "postnl-config-product-selection-base"
+  },
+  "postnl-config-product-selection-shipment-be-nl-alternative": {
+    "type": "extend",
+    "component": "postnl-config-product-selection-base"
+  },
+  "postnl-config-product-selection-shipment-be-nl-default": {
+    "type": "extend",
+    "component": "postnl-config-product-selection-base"
+  },
+  "postnl-config-product-selection-shipment-nl-be-alternative": {
+    "type": "extend",
+    "component": "postnl-config-product-selection-base"
+  },
+  "postnl-config-product-selection-shipment-nl-be-default": {
+    "type": "extend",
+    "component": "postnl-config-product-selection-base"
+  },
+  "postnl-config-product-selection-shipment-nl-eu-default": {
+    "type": "extend",
+    "component": "postnl-config-product-selection-base"
+  },
+  "postnl-config-product-selection-shipment-nl-global-default": {
+    "type": "extend",
+    "component": "postnl-config-product-selection-base"
+  },
+  "postnl-config-product-selection-shipment-nl-nl-alternative": {
+    "type": "extend",
+    "component": "postnl-config-product-selection-base"
+  },
+  "postnl-config-product-selection-shipment-nl-nl-default": {
+    "type": "extend",
+    "component": "postnl-config-product-selection-base"
+  },
+
+  "postnl-change-shipping-modal": {
+    "type": "extend",
+    "component": "postnl-shipment-modal-base"
+  },
+  "postnl-create-return-modal": {
+    "type": "extend",
+    "component": "postnl-shipment-modal-base"
+  },
+  "postnl-create-shipment-modal": {
+    "type": "extend",
+    "component": "postnl-shipment-modal-base"
+  },
+
+  "postnl-order-detail": {
+    "type": "extend",
+    "component": "sw-order-detail"
+  },
+  "postnl-order-list": {
+    "type": "extend",
+    "component": "sw-order-list"
+  },
+
+  "sw-order-delivery-metadata": {
+    "type": "override"
+  },
+  "sw-order-user-card": {
+    "type": "override"
+  },
+  "sw-order-detail-details": {
+    "type": "override"
+  },
+  "sw-system-config": {
+    "type": "override"
+  }
+}

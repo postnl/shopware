@@ -1,8 +1,6 @@
 import template from './sw-order-user-card.html.twig';
 
-const { Component } = Shopware;
-
-Component.override('sw-order-user-card', {
+export default {
     template,
 
     inject: [
@@ -44,4 +42,4 @@ Component.override('sw-order-user-card', {
                 .then(result => this.postnl.product = result.product);
         }
     }
-});
+}

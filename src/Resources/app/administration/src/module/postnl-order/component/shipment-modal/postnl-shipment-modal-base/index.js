@@ -1,8 +1,8 @@
 import template from "./postnl-shipment-modal-base.html.twig"
 
-const { Component, Mixin } = Shopware
+const { Mixin } = Shopware
 
-Component.register('postnl-shipment-modal-base', {
+export default {
     template,
 
     inject: [
@@ -117,4 +117,4 @@ Component.register('postnl-shipment-modal-base', {
             location.reload()
         },
     },
-})
+}

@@ -1,8 +1,8 @@
 import template from './postnl-config-product-selection-base.html.twig';
 
-const { Component, Mixin } = Shopware;
+const { Mixin } = Shopware;
 
-Component.extend('postnl-config-product-selection-base', 'postnl-memo-config', {
+export default {
     template,
 
     inject: [
@@ -81,5 +81,4 @@ Component.extend('postnl-config-product-selection-base', 'postnl-memo-config', {
                 .then(product => this.product = product);
         }
     },
-
-})
+}

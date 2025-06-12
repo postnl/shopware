@@ -1,17 +1,15 @@
 import template from './postnl-config-info.html.twig';
 import './postnl-config-info.scss';
 
-
 // eslint-disable-next-line no-undef
-const {Component, Mixin} = Shopware;
+const { Mixin} = Shopware;
 
-Component.register('postnl-config-info', {
+export default {
     template,
 
     mixins: [
         Mixin.getByName('notification'),
     ],
-
 
     computed: {
         /**
@@ -33,4 +31,4 @@ Component.register('postnl-config-info', {
             return user.firstName;
         },
     },
-});
+}

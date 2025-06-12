@@ -1,7 +1,4 @@
-const { Component } = Shopware;
-
-Component.extend('postnl-config-product-selection-shipment-be-nl-alternative', 'postnl-config-product-selection-base', {
-
+export default {
     data() {
         return {
             sourceZone: 'BE',
@@ -11,4 +8,4 @@ Component.extend('postnl-config-product-selection-shipment-be-nl-alternative', '
             isAlt: true,
         };
     },
-})
+}

@@ -5,3 +5,4 @@ import './decorator.init'
 import './../mixin'
 
 import './component.init'
+import './module.init'

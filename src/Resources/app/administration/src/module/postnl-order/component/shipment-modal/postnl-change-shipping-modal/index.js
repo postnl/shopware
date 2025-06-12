@@ -1,11 +1,10 @@
 import template from './postnl-change-shipping-modal.html.twig';
 
-Shopware.Component.extend('postnl-change-shipping-modal', 'postnl-shipment-modal-base', {
+export default {
     template,
 
     data() {
         return {
-
             isOverrideProduct: false,
             overrideProductId: null,
         };
@@ -47,4 +46,4 @@ Shopware.Component.extend('postnl-change-shipping-modal', 'postnl-shipment-modal
                 })
         },
     },
-});
+}

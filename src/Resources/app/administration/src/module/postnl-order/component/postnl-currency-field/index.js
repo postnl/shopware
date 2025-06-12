@@ -1,5 +1,5 @@
-import template from './postnl-currency-field.html.twig';
+import template from './postnl-currency-field.html.twig'
 
-Shopware.Component.register('postnl-currency-field', {
+export default {
     template,
-});
+}

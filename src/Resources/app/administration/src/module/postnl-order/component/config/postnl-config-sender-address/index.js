@@ -1,9 +1,9 @@
 import template from './postnl-config-sender-address.html.twig';
 
-const { Component, Mixin } = Shopware;
+const { Mixin } = Shopware;
 const { Criteria } = Shopware.Data;
 
-Component.extend('postnl-config-sender-address', 'postnl-memo-config', {
+export default {
     template,
 
     inject: [
@@ -56,4 +56,4 @@ Component.extend('postnl-config-sender-address', 'postnl-memo-config', {
                 });
         }
     }
-})
+}
