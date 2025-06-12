@@ -1,5 +1,4 @@
 import template from './postnl-memo-config.html.twig'
-import './postnl-memo-config.scss'
 
 const {
     Mixin,

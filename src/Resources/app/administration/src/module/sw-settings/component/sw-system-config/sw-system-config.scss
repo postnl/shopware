@@ -3,5 +3,9 @@
         .sw-inherit-wrapper__toggle-wrapper:not(:has(+ .sw-form-field-renderer)) {
             display: none;
         }
+
+        .sw-block-field__block {
+            height: unset;
+        }
     }
 }
