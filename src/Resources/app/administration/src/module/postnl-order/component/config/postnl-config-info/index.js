@@ -2,7 +2,7 @@ import template from './postnl-config-info.html.twig';
 import './postnl-config-info.scss';
 
 // eslint-disable-next-line no-undef
-const { Mixin} = Shopware;
+const { Mixin, Store} = Shopware;
 
 export default {
     template,
@@ -18,7 +18,7 @@ export default {
          */
         userName() {
             // eslint-disable-next-line no-undef
-            const user = Shopware.Store.get('session').currentUser;
+            const user = Store.get('session').currentUser;
 
             if (!user) {
                 return '';
