@@ -1,5 +1,7 @@
-void import('./core/postnl').then(({ PostNLInstance }) => {
-    window.PostNLShopware = PostNLInstance
+void import('./core/postnl')
+    .then(module => module.default)
+    .then(({ PostNLInstance }) => {
+        window.PostNLShopware = PostNLInstance
 
-    import('./app/init')
-})
+        import('./app/init')
+    })

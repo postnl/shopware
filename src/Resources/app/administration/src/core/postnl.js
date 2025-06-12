@@ -1,5 +1,7 @@
+import utils from './service/util.service'
+
 class PostNLClass {
-    Utils = import('./service/util.service').default
+    Utils = utils
 }
 
 const PostNLInstance = new PostNLClass()
