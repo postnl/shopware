@@ -70,7 +70,7 @@ export default class PostnlPostalCodeCheckPlugin extends window.PluginBaseClass 
 
         //Shopware own
         this.zipcodeElementSW = DomAccess.querySelector(this.addressForm, '#' + this.options.concatPrefix + 'AddressZipcode');
-        this.streetElementSW = DomAccess.querySelector(this.addressForm, '#' + this.options.concatPrefix + 'AddressStreet');
+        this.streetElementSW = DomAccess.querySelector(this.addressForm, '#' + this.options.concatPrefix + '-AddressStreet');
         this.cityElementSW = DomAccess.querySelector(this.addressForm, '#' + this.options.concatPrefix + 'AddressCity');
     }
 
@@ -234,10 +234,10 @@ export default class PostnlPostalCodeCheckPlugin extends window.PluginBaseClass 
     _showWarningAlert(innerHTML) {
         if (innerHTML === "") {
             this.postnlWarningAlert.setAttribute('hidden', 'hidden');
-            this.postnlWarningAlert.querySelector('.alert-content').innerHTML = innerHTML
+            this.postnlWarningAlert.querySelector('.alert-content-container').innerHTML = innerHTML
         } else {
             this.postnlWarningAlert.removeAttribute('hidden');
-            this.postnlWarningAlert.querySelector('.alert-content').innerHTML = innerHTML
+            this.postnlWarningAlert.querySelector('.alert-content-container').innerHTML = innerHTML
         }
     }
 

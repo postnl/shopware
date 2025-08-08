@@ -6,16 +6,28 @@
         {% if idPrefix is not defined %}
             {% set idPrefix = '' %}
         {% endif %}
+
         {% set allowedCountries =  page.countries.elements|filter(country => country.iso == "NL") %}
         {% set codecheckOptions = {
             countries: allowedCountries,
             concatPrefix : idPrefix ~ prefix
         } %}
 
+        {% set options = {
+            scopeElementSelector,
+            prefix,
+        } %}
+
+        {% set arrangement = config('core.loginRegistration.addressInputFieldArrangement') %}
+        {# @deprecated tag:v6.8.0 - Variable will be removed #}
+        {% set isOldArrangement = not feature('v6.8.0.0') and (arrangement === 'city-zip-state' or arrangement === 'zip-city-state') %}
+
         <div data-postnl-postal-code-check="true"
              data-postnl-postal-code-check-options='{{ codecheckOptions | json_encode }}'>
 
-            <div class="row g-2 country-and-state-form-elements" data-country-state-select="true">
+            <div class="row g-2 country-and-state-form-elements"
+                 data-country-state-select="true"
+                 data-country-state-select-options="{{ options|json_encode }}">
                 {% block component_address_form_country %}
                     {{ parent() }}
                 {% endblock %}
@@ -169,6 +181,7 @@
                     {{ parent() }}
                 {% endblock %}
             </div>
+
             <div class="row g-2">
                 {% block component_address_form_additional_field1 %}
                     {{ parent() }}
