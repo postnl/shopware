@@ -31,7 +31,7 @@
                 icon="regular-box-alt"
                 @click="isChangeShippingModalOpen = true"
             >
-                {{ $tc('postnl.order.detail.buttonChangeShipping') }}
+                {{ $t('postnl.order.detail.buttonChangeShipping') }}
             </sw-context-menu-item>
 
             <sw-context-menu-item
@@ -39,7 +39,7 @@
                 icon="regular-truck"
                 @click="isCreateShipmentModalOpen = true"
             >
-                {{ $tc('postnl.order.detail.buttonCreateShipment') }}
+                {{ $t('postnl.order.detail.buttonCreateShipment') }}
             </sw-context-menu-item>
 
             <sw-context-menu-item
@@ -47,7 +47,7 @@
                 icon="regular-undo"
                 @click="isCreateReturnModalOpen = true"
             >
-                {{ $tc('postnl.order.detail.buttonCreateReturn') }}
+                {{ $t('postnl.order.detail.buttonCreateReturn') }}
             </sw-context-menu-item>
         </sw-context-button>
     </sw-button-group>
@@ -79,17 +79,17 @@
     <sw-tabs-item
         v-if="!showTabs"
         :route="{ name: 'postnl.order.detail.base', params: { id: $route.params.id } }"
-        :title="$tc('sw-order.detail.tabGeneral')"
+        :title="$t('sw-order.detail.tabGeneral')"
     >
-        {{ $tc('sw-order.detail.tabGeneral') }}
+        {{ $t('sw-order.detail.tabGeneral') }}
     </sw-tabs-item>
 
     <sw-tabs-item
         v-if="showTabs"
         :route="{ name: 'postnl.order.detail.general', params: { id: $route.params.id } }"
-        :title="$tc('sw-order.detail.tabGeneral')"
+        :title="$t('sw-order.detail.tabGeneral')"
     >
-        {{ $tc('sw-order.detail.tabGeneral') }}
+        {{ $t('sw-order.detail.tabGeneral') }}
     </sw-tabs-item>
 {% endblock %}
 
@@ -97,9 +97,9 @@
     <sw-tabs-item
         v-if="showTabs"
         :route="{ name: 'postnl.order.detail.details', params: { id: $route.params.id } }"
-        :title="$tc('sw-order.detail.tabDetails')"
+        :title="$t('sw-order.detail.tabDetails')"
     >
-        {{ $tc('sw-order.detail.tabDetails') }}
+        {{ $t('sw-order.detail.tabDetails') }}
     </sw-tabs-item>
 {% endblock %}
 
@@ -107,8 +107,8 @@
     <sw-tabs-item
         v-if="showTabs"
         :route="{ name: 'postnl.order.detail.documents', params: { id: $route.params.id } }"
-        :title="$tc('sw-order.detail.tabDocuments')"
+        :title="$t('sw-order.detail.tabDocuments')"
     >
-        {{ $tc('sw-order.detail.tabDocuments') }}
+        {{ $t('sw-order.detail.tabDocuments') }}
     </sw-tabs-item>
 {% endblock %}

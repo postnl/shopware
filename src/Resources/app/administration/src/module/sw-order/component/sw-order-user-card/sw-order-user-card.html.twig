@@ -3,7 +3,7 @@
 
     <template v-if="isPostNLOrder && postnl.product">
         {% block sw_order_detail_base_secondary_info_delivery_postnl %}
-            <dt>{{ $tc('postnl.order.detail.shippingProduct') }}</dt>
+            <dt>{{ $t('postnl.order.detail.shippingProduct') }}</dt>
             <dd>{{ postnl.product.translated.name }}</dd>
         {% endblock %}
     </template>

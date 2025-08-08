@@ -22,7 +22,7 @@
             </template>
             <template v-else>
                 <sw-icon name="default-badge-warning" color="#ed7000" small />&nbsp;
-                {{ $tc('postnl.order.list.missingProductId') }}
+                {{ $t('postnl.order.list.missingProductId') }}
             </template>
         </template>
     {% endblock %}
@@ -72,7 +72,7 @@
                     v-for="barcode in item.customFields?.postnl?.returnOptions?.smartReturnBarcode"
                     color="blue"
                 >
-                    {{ $tc('postnl.order.list.statusSmartReturn', 0, {
+                    {{ $t('postnl.order.list.statusSmartReturn', {
                         barcode: barcode
                     }) }}
                 </sw-status>
@@ -83,14 +83,14 @@
                     v-if="item.customFields.postnl.returnOptions.shipmentAndReturn"
                     color="green"
                 >
-                    {{ $tc('postnl.order.list.statusShipmentAndReturnActive') }}
+                    {{ $t('postnl.order.list.statusShipmentAndReturnActive') }}
                 </sw-status>
 
                 <sw-status
                     v-else
                     color="red"
                 >
-                    {{ $tc('postnl.order.list.statusShipmentAndReturnInactive') }}
+                    {{ $t('postnl.order.list.statusShipmentAndReturnInactive') }}
                 </sw-status>
             </template>
 
@@ -98,7 +98,7 @@
                 v-if="orderHasReturnOption(item, 'labelInTheBox')"
                 color="green"
             >
-                {{ $tc('postnl.order.list.statusLabelInTheBox') }}
+                {{ $t('postnl.order.list.statusLabelInTheBox') }}
             </sw-status>
         </template>
     {% endblock %}
@@ -109,7 +109,7 @@
         class="sw-order-list__order-view-action"
         :router-link="{ name: 'postnl.order.detail', params: { id: item.id } }"
     >
-        {{ $tc('sw-order.list.contextMenuView') }}
+        {{ $t('sw-order.list.contextMenuView') }}
     </sw-context-menu-item>
 
     <sw-context-menu-divider />
@@ -120,7 +120,7 @@
         disabled
         variant="headline"
     >
-        {{ $tc('postnl.order.list.buttonPostnlHeadline') }}
+        {{ $t('postnl.order.list.buttonPostnlHeadline') }}
     </sw-context-menu-item>
 
     <sw-context-menu-item
@@ -128,7 +128,7 @@
         icon="regular-box-alt"
         @click="isChangeShippingModalId = item.id"
     >
-        {{ $tc('postnl.order.list.buttonChangeShipping') }}
+        {{ $t('postnl.order.list.buttonChangeShipping') }}
     </sw-context-menu-item>
 
     <sw-context-menu-item
@@ -136,7 +136,7 @@
         icon="regular-truck"
         @click="isCreateShipmentModalId = item.id"
     >
-        {{ $tc('postnl.order.list.buttonCreateShipment') }}
+        {{ $t('postnl.order.list.buttonCreateShipment') }}
     </sw-context-menu-item>
 
     <sw-context-menu-item
@@ -144,7 +144,7 @@
         icon="regular-undo"
         @click="isCreateReturnModalId = item.id"
     >
-        {{ $tc('postnl.order.list.buttonCreateReturn') }}
+        {{ $t('postnl.order.list.buttonCreateReturn') }}
     </sw-context-menu-item>
 
     <sw-context-menu-divider />
@@ -207,7 +207,7 @@
                     icon="regular-box-alt"
                     @click="isBulkChangeShippingModalOpen = true"
                 >
-                    {{ $tc('postnl.order.detail.buttonChangeShipping') }}
+                    {{ $t('postnl.order.detail.buttonChangeShipping') }}
                 </sw-context-menu-item>
 
                 <sw-context-menu-item
@@ -215,7 +215,7 @@
                     icon="regular-truck"
                     @click="isBulkCreateShipmentModalOpen = true"
                 >
-                    {{ $tc('postnl.order.detail.buttonCreateShipment') }}
+                    {{ $t('postnl.order.detail.buttonCreateShipment') }}
                 </sw-context-menu-item>
 
                 <sw-context-menu-item
@@ -223,7 +223,7 @@
                     icon="regular-undo"
                     @click="isBulkCreateReturnModalOpen = true"
                 >
-                    {{ $tc('postnl.order.detail.buttonCreateReturn') }}
+                    {{ $t('postnl.order.detail.buttonCreateReturn') }}
                 </sw-context-menu-item>
             </sw-context-button>
         </sw-button-group>

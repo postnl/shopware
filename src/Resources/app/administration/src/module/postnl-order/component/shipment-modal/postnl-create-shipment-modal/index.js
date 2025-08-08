@@ -22,7 +22,7 @@ export default {
         },
 
         modalTitle() {
-            return this.$tc('postnl.order.modal.createShipments.title', this.selectionCount, {
+            return this.$t('postnl.order.modal.createShipments.title', this.selectionCount, {
                 count: this.selectionCount
             })
         },
@@ -41,7 +41,7 @@ export default {
                 .catch(error => {
                     if (error.message) {
                         this.createNotificationError({
-                            title: this.$tc('global.default.error'),
+                            title: this.$t('global.default.error'),
                             message: error.message,
                         });
                     }
@@ -67,15 +67,15 @@ export default {
 
                     if (this.confirmShipments) {
                         this.createNotificationSuccess({
-                            title: this.$tc('global.default.success'),
-                            message: this.$tc('postnl.order.modal.createShipments.confirmedShipments'),
+                            title: this.$t('global.default.success'),
+                            message: this.$t('postnl.order.modal.createShipments.confirmedShipments'),
                         })
                     }
                 })
                 .catch(() => {
                     this.createNotificationError({
-                        title: this.$tc('global.default.error'),
-                        message: this.$tc('global.notification.unspecifiedSaveErrorMessage'),
+                        title: this.$t('global.default.error'),
+                        message: this.$t('global.notification.unspecifiedSaveErrorMessage'),
                     })
                 })
                 .finally(() => {

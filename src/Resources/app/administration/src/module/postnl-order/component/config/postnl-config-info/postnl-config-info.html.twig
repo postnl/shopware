@@ -7,7 +7,7 @@
                 <template #link>
                     <sw-external-link
                         href="https://mijn.postnl.nl/c/BP2_Mod_Login.app?inresponseto=&RelayState=&startURL=%2F">
-                        {{ $tc('postnl.config.info.mijnPostNL') }}
+                        {{ $t('postnl.config.info.mijnPostNL') }}
                     </sw-external-link>
                 </template>
             </i18n-t>
@@ -16,7 +16,7 @@
                 <template #br><br></template>
                 <template #link>
                     <sw-internal-link inline :routerLink="{ name:'sw.settings.shipping.index'}">
-                        {{ $tc('postnl.config.info.shippingSettings') }}
+                        {{ $t('postnl.config.info.shippingSettings') }}
                     </sw-internal-link>
                 </template>
             </i18n-t>
@@ -25,7 +25,7 @@
                 <template #br><br></template>
                 <template #link>
                     <sw-internal-link inline :routerLink="{ name:'sw.sales.channel.list'}">
-                        {{ $tc('postnl.config.info.salesChannels') }}
+                        {{ $t('postnl.config.info.salesChannels') }}
                     </sw-internal-link>
                 </template>
             </i18n-t>
@@ -45,7 +45,7 @@
             block
         >
             <mt-icon name="regular-file-text"/>
-            {{ $tc('postnl.config.info.btnManual') }}
+            {{ $t('postnl.config.info.btnManual') }}
         </mt-button>
 
         <mt-button
@@ -55,7 +55,7 @@
             block
         >
             <mt-icon name="regular-envelope"/>
-            {{ $tc('postnl.config.info.btnSupport') }}
+            {{ $t('postnl.config.info.btnSupport') }}
         </mt-button>
     </sw-container>
 </sw-container>

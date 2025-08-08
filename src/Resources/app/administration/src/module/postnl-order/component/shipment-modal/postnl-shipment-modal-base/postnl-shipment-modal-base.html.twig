@@ -23,7 +23,7 @@
             @click="closeModal"
         >
             {% block postnl_shipment_modal_cancel_button_content %}
-                {{ $tc('global.default.cancel') }}
+                {{ $t('global.default.cancel') }}
             {% endblock %}
         </sw-button>
 
@@ -37,7 +37,7 @@
             @click="onStartProcessing"
         >
             {% block postnl_shipment_modal_confirm_button_content %}
-                {{ $tc('global.default.confirm') }}
+                {{ $t('global.default.confirm') }}
             {% endblock %}
         </sw-button-process>
     </template>

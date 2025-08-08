@@ -24,13 +24,13 @@
             v-else
             variant="warning"
         >
-            {{ $tc('postnl.order.modal.createReturn.noReturnOptionsWarning') }}
+            {{ $t('postnl.order.modal.createReturn.noReturnOptionsWarning') }}
         </sw-alert>
 
         <sw-entity-single-select
             v-if="returnType === 'smartReturn' && returnAddress.countrycode === 'NL'"
             v-model:value="smartReturnMailTemplate"
-            :label="$tc('postnl.order.modal.createReturn.selectMailTemplate')"
+            :label="$t('postnl.order.modal.createReturn.selectMailTemplate')"
             :labelCallback="mailTemplateLabel"
             :criteria="smartReturnMailTemplateCriteria"
             entity="mail_template"
@@ -39,7 +39,7 @@
         <sw-entity-single-select
             v-if="returnType === 'smartReturn' && returnAddress.countrycode === 'BE'"
             v-model:value="smartReturnMailTemplate"
-            :label="$tc('postnl.order.modal.createReturn.selectMailTemplate')"
+            :label="$t('postnl.order.modal.createReturn.selectMailTemplate')"
             :labelCallback="mailTemplateLabel"
             :criteria="smartReturnBeMailTemplateCriteria"
             entity="mail_template"
@@ -48,7 +48,7 @@
         <sw-entity-single-select
             v-if="returnType === 'shipmentAndReturn'"
             v-model:value="shipmentAndReturnMailTemplate"
-            :label="$tc('postnl.order.modal.createReturn.selectMailTemplate')"
+            :label="$t('postnl.order.modal.createReturn.selectMailTemplate')"
             :labelCallback="mailTemplateLabel"
             :criteria="shipmentAndReturnMailTemplateCriteria"
             entity="mail_template"
@@ -59,14 +59,14 @@
         v-else
         variant="warning"
     >
-        {{ $tc('postnl.order.modal.createReturn.multipleZoneWarning') }}
+        {{ $t('postnl.order.modal.createReturn.multipleZoneWarning') }}
     </sw-alert>
 {% endblock %}
 
 {% block postnl_shipment_modal_cancel_button_content %}
-    {{ $tc('postnl.order.modal.createReturn.cancel') }}
+    {{ $t('postnl.order.modal.createReturn.cancel') }}
 {% endblock %}
 
 {% block postnl_shipment_modal_confirm_button_content %}
-    {{ $tc('postnl.order.modal.createReturn.confirm') }}
+    {{ $t('postnl.order.modal.createReturn.confirm') }}
 {% endblock %}

@@ -22,7 +22,7 @@ export default {
             ]
                 .map(value => ({
                     value,
-                    label: this.$tc(`postnl.config.returnOptions.options.${value}`),
+                    label: this.$t(`postnl.config.returnOptions.options.${value}`),
                 }))
         }
     },

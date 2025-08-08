@@ -44,25 +44,25 @@ export default {
             return this.PostNlApiCredentialsService.checkCredentials(apikey, sandbox)
                 .then((response) => {
                     const keySnippet = sandbox === true
-                        ? this.$tc('postnl.config.api.sandboxApiKey')
-                        : this.$tc('postnl.config.api.productionApiKey');
+                        ? this.$t('postnl.config.api.sandboxApiKey')
+                        : this.$t('postnl.config.api.productionApiKey');
 
                     if (response.valid === true) {
                         this.createNotificationSuccess({
-                            title: this.$tc('global.default.success'),
-                            message: `${keySnippet} ${this.$tc('postnl.config.api.isValid')}`,
+                            title: this.$t('global.default.success'),
+                            message: `${keySnippet} ${this.$t('postnl.config.api.isValid')}`,
                         });
                     } else {
                         this.createNotificationError({
-                            title: this.$tc('global.default.error'),
-                            message: `${keySnippet} ${this.$tc('postnl.config.api.isInvalid')}`,
+                            title: this.$t('global.default.error'),
+                            message: `${keySnippet} ${this.$t('postnl.config.api.isInvalid')}`,
                         });
                     }
                 })
                 .catch(() => {
                     this.createNotificationError({
-                        title: this.$tc('global.default.error'),
-                        message: this.$tc('global.notification.unspecifiedSaveErrorMessage'),
+                        title: this.$t('global.default.error'),
+                        message: this.$t('global.notification.unspecifiedSaveErrorMessage'),
                     });
                 });
         }

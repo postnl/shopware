@@ -204,7 +204,7 @@ export default {
                 .then(deliveryTypes => {
                     this.deliveryTypes = deliveryTypes.map(deliveryType => {
                         return {
-                            label: this.$tc('postnl.productSelection.deliveryType.' + deliveryType),
+                            label: this.$t('postnl.productSelection.deliveryType.' + deliveryType),
                             value: deliveryType
                         };
                     });
@@ -311,7 +311,7 @@ export default {
 
         getFlagLabel(flag) {
             if (flag) {
-                return this.$tc('postnl.productSelection.flag.' + flag.name);
+                return this.$t('postnl.productSelection.flag.' + flag.name);
             }
             return '';
         }

@@ -169,7 +169,7 @@ export default {
                     break;
                 default:
                     this.createNotificationError({
-                        title: this.$tc('global.default.error'),
+                        title: this.$t('global.default.error'),
                         message: this.$t('global.default.error'),
                     })
             }
@@ -192,10 +192,14 @@ export default {
 
                     if(response.successfulBarcodes.length > 0) {
                         this.createNotificationSuccess({
-                            title: this.$tc('global.default.success'),
-                            message: this.$tc('postnl.order.modal.createReturn.success.shipmentAndReturn', response.successfulBarcodes.length, {
-                                count: response.successfulBarcodes.length
-                            }),
+                            title: this.$t('global.default.success'),
+                            message: this.$t(
+                                'postnl.order.modal.createReturn.success.shipmentAndReturn',
+                                {
+                                    count: response.successfulBarcodes.length
+                                },
+                                response.successfulBarcodes.length,
+                            ),
                         })
                     }
 
@@ -204,7 +208,7 @@ export default {
                             if(barcodeError.warnings.length > 0) {
                                 barcodeError.warnings.forEach(warning => {
                                     this.createNotificationWarning({
-                                        title: `${this.$tc('global.default.warning')} ${barcodeError.barcode}`,
+                                        title: `${this.$t('global.default.warning')} ${barcodeError.barcode}`,
                                         message: warning.description,
                                     })
                                 })
@@ -213,7 +217,7 @@ export default {
                             if(barcodeError.errors.length > 0) {
                                 barcodeError.errors.forEach(error => {
                                     this.createNotificationError({
-                                        title: `${this.$tc('global.default.error')} ${barcodeError.barcode}`,
+                                        title: `${this.$t('global.default.error')} ${barcodeError.barcode}`,
                                         message: error.description
                                     })
                                 })
@@ -223,8 +227,8 @@ export default {
                 })
                 .catch(() => {
                     this.createNotificationError({
-                        title: this.$tc('global.default.error'),
-                        message: this.$tc('sw-error.general.messagePlaceholder')
+                        title: this.$t('global.default.error'),
+                        message: this.$t('sw-error.general.messagePlaceholder')
                     })
                 })
                 .finally(() => {
@@ -244,8 +248,8 @@ export default {
                     this.isProcessingSuccess = true
 
                     this.createNotificationSuccess({
-                        title: this.$tc('global.default.success'),
-                        message: this.$tc('postnl.order.modal.createReturn.success.smartReturn', this.orderIds.length),
+                        title: this.$t('global.default.success'),
+                        message: this.$t('postnl.order.modal.createReturn.success.smartReturn', this.orderIds.length),
                     })
                 })
                 .catch((errors) => {
@@ -253,12 +257,16 @@ export default {
                         .map(type => [type, errors.filter(error => error.type === type)]) // Turns into an entry compatible array
                         .forEach(([type, errors]) =>
                             this.createNotificationError({
-                                title: this.$tc('global.default.error'),
-                                message: this.$tc(`postnl.order.modal.createReturn.errors.${ type }`, errors.length, {
-                                    count: errors.length,
-                                    orderNumbers: errors.map(error => error.orderNumber).join(', '),
-                                    message: errors[0].errorMessage // This will only show when there's 1 error.
-                                }),
+                                title: this.$t('global.default.error'),
+                                message: this.$t(
+                                    `postnl.order.modal.createReturn.errors.${ type }`,
+                                    {
+                                        count: errors.length,
+                                        orderNumbers: errors.map(error => error.orderNumber).join(', '),
+                                        message: errors[0].errorMessage // This will only show when there's 1 error.
+                                    },
+                                    errors.length,
+                                ),
                             })
                         )
                 })
