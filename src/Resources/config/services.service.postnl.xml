@@ -64,7 +64,6 @@
             <argument type="service" id="PostNL\Shopware6\Service\PostNL\TrackAndTraceMailDataService.inner"/>
             <argument type="service" id="PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory"/>
             <argument type="service" id="PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor"/>
-            <argument type="service" id="PostNL\Shopware6\Service\Shopware\DataExtractor\OrderAddressDataExtractor"/>
         </service>
 
         <service id="PostNL\Shopware6\Service\PostNL\PostalCodeService">
