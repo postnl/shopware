@@ -191,6 +191,8 @@ class CheckoutSubscriber implements EventSubscriberInterface
             //'result' => $locationsResult,
         ]);
 
+        $config = $this->configService->getConfiguration($event->getSalesChannelContext()->getSalesChannelId(), $event->getContext());
+
         $pickupPoints = new ArrayStruct();
         $locationCode = null;
         foreach ($locationsResult->getResponseLocation() as $i => $responseLocation) {
@@ -198,7 +200,7 @@ class CheckoutSubscriber implements EventSubscriberInterface
                 $locationCode = $responseLocation->getLocationCode();
             }
 
-            if ($i >= 5) {
+            if ($i >= $config->getPickupPointsNumberOfChoices()) {
                 break;
             }
 
