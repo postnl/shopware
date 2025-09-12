@@ -10,7 +10,6 @@ export default {
     version: '1.0.0',
     targetVersion: '1.0.0',
     color: '#ed7000',
-    icon: 'postnl-ghost',
 
     snippets: {
         'nl-NL': nlNL,

@@ -6,16 +6,16 @@
         block
     >
         <postnl-button
-            variant="ghost"
+            ghost
             size="x-small"
             @click="isCreateShipmentModalOpen = true">
-            <sw-icon name="postnl" multicolor></sw-icon>
+            <postnl-icon />
         </postnl-button>
 
         <sw-context-button icon="regular-chevron-down-xs">
             <template #button>
                 <postnl-button
-                    variant="ghost"
+                    ghost
                     square
                 >
                     <sw-icon
@@ -27,7 +27,6 @@
             </template>
 
             <sw-context-menu-item
-                class="postnl-button"
                 icon="regular-box-alt"
                 @click="isChangeShippingModalOpen = true"
             >
@@ -35,7 +34,6 @@
             </sw-context-menu-item>
 
             <sw-context-menu-item
-                class="postnl-button"
                 icon="regular-truck"
                 @click="isCreateShipmentModalOpen = true"
             >
@@ -43,7 +41,6 @@
             </sw-context-menu-item>
 
             <sw-context-menu-item
-                class="postnl-button"
                 icon="regular-undo"
                 @click="isCreateReturnModalOpen = true"
             >

@@ -116,10 +116,13 @@
 
     <sw-context-menu-item
         class="sw-order-list__order-ship-action"
-        icon="postnl-ghost"
+        icon="regular-truck"
         disabled
         variant="headline"
     >
+        <template #icon>
+            <postnl-icon small />
+        </template>
         {{ $t('postnl.order.list.buttonPostnlHeadline') }}
     </sw-context-menu-item>
 
@@ -180,17 +183,17 @@
             :disabled="isLoading"
         >
             <postnl-button
-                variant="ghost"
+                ghost
                 size="x-small"
 
                 @click="isBulkCreateShipmentModalOpen = true">
-                <sw-icon name="postnl" multicolor></sw-icon>
+                <postnl-icon small />
             </postnl-button>
 
             <sw-context-button icon="regular-chevron-down-xs">
                 <template #button>
                     <postnl-button
-                        variant="ghost"
+                        ghost
                         size="small"
                         square
                     >

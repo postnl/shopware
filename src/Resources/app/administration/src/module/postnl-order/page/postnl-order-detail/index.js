@@ -14,10 +14,13 @@ export default {
     },
 
     computed: {
-        ...mapState('swOrderDetail', [
-            'order',
-            'versionContext',
-        ]),
+        ...mapState(
+            () => Shopware.Store.get('swOrderDetail'),
+            [
+                'order',
+                'versionContext',
+            ]
+        ),
     },
 
     created() {
