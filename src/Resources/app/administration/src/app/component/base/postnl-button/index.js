@@ -1,6 +1,7 @@
 import template from './postnl-button.html.twig'
 import './postnl-button.scss'
 import './sw-button-group.scss'
+import './sw-context-menu-item.scss'
 
 export default {
     template,

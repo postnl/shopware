@@ -1,5 +1,5 @@
 @import "~scss/variables";
-@import "./../../../assets/scss/postnl-colors";
+@import "~/app/assets/scss/postnl-colors";
 
 $sw-button-transition: all 0.15s ease-out;
 
@@ -92,6 +92,10 @@ $sw-button-transition: all 0.15s ease-out;
                 }
             }
 
+            & .mt-icon {
+                color: $color-white;
+            }
+
             &.postnl-button--ghost {
                 color: $color-postnl-500;
                 border-color: $color-postnl-500;
@@ -117,6 +121,10 @@ $sw-button-transition: all 0.15s ease-out;
                 .sw-loader .sw-loader-element div {
                     border-color: $color-postnl-200 transparent transparent transparent;
                 }
+
+                & .mt-icon {
+                    color: $color-postnl-500;
+                }
             }
         }
     }
@@ -130,14 +138,6 @@ $sw-button-transition: all 0.15s ease-out;
 
     .postnl-button__content.is--hidden {
         visibility: hidden;
-    }
-
-    .mt-icon {
-        color: $color-white;
-
-        .postnl-button--ghost & {
-            color: $color-postnl-500;
-        }
     }
 
     .sw-loader .sw-loader-element div {
