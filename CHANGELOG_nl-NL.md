@@ -1,3 +1,8 @@
+# 4.2.0
+- [Toegankelijkheid] Adresvermelding toegevoegd bij gebruik van een schermlezer.
+- Weergave van leveringsdatum in het beheer bijgewerkt.
+- Track & trace-url in e-mails bijgewerkt.
+
 # 4.1.0
 #### Nieuwe functies
 - Nieuwe retouropties toegevoegd:

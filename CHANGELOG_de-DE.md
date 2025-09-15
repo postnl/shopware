@@ -1,3 +1,8 @@
+# 4.2.0
+- [Barrierefreiheit] Bei Verwendung eines Screenreaders wird nun die Adresse angezeigt.
+- Anzeige des Lieferdatums in der Verwaltung korrigiert.
+- URL für Sendungsverfolgung in E-Mails aktualisiert.
+
 # 4.1.0
 #### Neue Funktionen
 - Neue Rückgabeoptionen hinzugefügt:

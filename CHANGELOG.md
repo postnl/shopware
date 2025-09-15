@@ -1,3 +1,8 @@
+# 4.2.0
+- [Accessibility] Added address callout when using a screenreader.
+- Fixed display of delivery date in the administration
+- Updated track and trace url in e-mails.
+
 # 4.1.0
 #### New features
 - Added new return options:
