@@ -19,7 +19,7 @@
 
 # 4.0.0
 #### Shopware compatibiliteit update
-- Deze versie is compatibel met Shopware 6.5.2 en hoger.
+- Deze versie is compatibel met Shopware 6.6.0 en hoger.
 
 #### Nieuwe functies
 - Extra headers toegevoegd aan de API-aanroepen. Hierdoor kunnen we betere ondersteuning bieden door de gebruikte Shopware en plugin versies te monitoren.
