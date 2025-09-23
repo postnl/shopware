@@ -28,7 +28,7 @@ class Migration1738685102AddReturnMailTemplateForBelgium extends MailMigration
             ]
         ];
 
-        $mailTemplateId = $this->createMailTemplateType(
+        $mailTemplateId = $this->getMailTemplateTypeId($connection, 'postnl_return_mail_be') ?? $this->createMailTemplateType(
             $connection,
             'postnl_return_mail_be',
             [

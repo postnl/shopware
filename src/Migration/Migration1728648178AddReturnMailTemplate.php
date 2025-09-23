@@ -23,7 +23,7 @@ class Migration1728648178AddReturnMailTemplate extends MailMigration
             ]
         ];
 
-        $mailTemplateId = $this->createMailTemplateType(
+        $mailTemplateId = $this->getMailTemplateTypeId($connection, 'postnl_return_mail') ?? $this->createMailTemplateType(
             $connection,
             'postnl_return_mail',
             [

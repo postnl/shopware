@@ -22,7 +22,7 @@ class Migration1733845698AddActivateReturnLabelMail extends MailMigration
         ]
     ];
 
-        $mailTemplateId = $this->createMailTemplateType(
+        $mailTemplateId = $this->getMailTemplateTypeId($connection, 'postnl_activate_shipment_and_return_label_mail') ?? $this->createMailTemplateType(
             $connection,
             'postnl_activate_shipment_and_return_label_mail',
             [
