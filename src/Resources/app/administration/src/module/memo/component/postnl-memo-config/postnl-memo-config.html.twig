@@ -1,6 +1,9 @@
 {% block memo_config %}
     <component
-        v-bind="$attrs"
+        v-bind="{
+            ...$attrs,
+            ...inheritanceAttrs
+        }"
         :is="field"
         :disabled="disabled"
         :required="required"
