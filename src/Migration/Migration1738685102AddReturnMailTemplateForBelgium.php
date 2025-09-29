@@ -1,11 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace PostNL\Shopware6\Migration;
 
 use Doctrine\DBAL\Connection;
 use PostNL\Shopware6\Component\Migration\MailMigration;
-use Shopware\Core\Framework\Log\Package;
 use PostNL\Shopware6\MailTemplate\ReturnMailBe;
+use Shopware\Core\Framework\Log\Package;
 
 /**
  * @internal
@@ -25,7 +27,7 @@ class Migration1738685102AddReturnMailTemplateForBelgium extends MailMigration
                 new ReturnMailBe\enGB(),
                 new ReturnMailBe\deDE(),
                 new ReturnMailBE\nlNL(),
-            ]
+            ],
         ];
 
         $mailTemplateId = $this->getMailTemplateTypeId($connection, 'postnl_return_mail_be') ?? $this->createMailTemplateType(
@@ -37,8 +39,8 @@ class Migration1738685102AddReturnMailTemplateForBelgium extends MailMigration
                 'nl-NL' => 'PostNL Retour Mail (BE)',
             ],
             [
-                'order' => 'order',
-                'salesChannel' => 'sales_channel'
+                'order'        => 'order',
+                'salesChannel' => 'sales_channel',
             ]
         );
 

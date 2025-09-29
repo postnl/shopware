@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace PostNL\Shopware6\Migration;
 
@@ -20,7 +22,7 @@ class Migration1728648178AddReturnMailTemplate extends MailMigration
                 new ReturnMail\enGB(),
                 new ReturnMail\deDE(),
                 new ReturnMail\nlNL(),
-            ]
+            ],
         ];
 
         $mailTemplateId = $this->getMailTemplateTypeId($connection, 'postnl_return_mail') ?? $this->createMailTemplateType(
@@ -32,8 +34,8 @@ class Migration1728648178AddReturnMailTemplate extends MailMigration
                 'nl-NL' => 'PostNL Retour Mail',
             ],
             [
-                'order' => 'order',
-                'salesChannel' => 'sales_channel'
+                'order'        => 'order',
+                'salesChannel' => 'sales_channel',
             ]
         );
 
@@ -42,8 +44,5 @@ class Migration1728648178AddReturnMailTemplate extends MailMigration
         }
     }
 
-    public function updateDestructive(Connection $connection): void
-    {
-
-    }
+    public function updateDestructive(Connection $connection): void {}
 }
