@@ -9,13 +9,11 @@
       "info": {
         "title": "Hallo {username}, willkommen bei der PostNL-Erweiterung!",
         "onboardingStep1": "Finden Sie Ihren API-Schlüssel unter {link}. Oder fordern Sie hier einen API-Schlüssel an.",
+        "onboardingStep2": "Aktivieren Sie die Versandoptionen von PostNL in den Versandeinstellungen von Shopware.{br}Gehen Sie zu den {link}.",
+        "onboardingStep3": "Aktivieren Sie die Versandoptionen von PostNL pro Vertriebskanal.{br}Gehen Sie zu Ihren {link}.",
         "mijnPostNL": "MijnPostNL",
         "mijnPostNLApiHere": "hier",
-        "onboardingStep2": "Aktivieren Sie die Versandoptionen von PostNL in den Versandeinstellungen von Shopware.",
-        "onboardingStep21": "Gehen Sie zu den {link}.",
         "shippingSettings": "Versandeinstellungen",
-        "onboardingStep3": "Aktivieren Sie die Versandoptionen von PostNL pro Vertriebskanal.",
-        "onboardingStep31": "Gehen Sie zu Ihren {link}.",
         "salesChannels": "Vertriebskanälen",
         "btnManual": "Manuell",
         "btnSupport": "Unterstützung"
