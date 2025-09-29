@@ -1,4 +1,4 @@
-const { Context, Mixin } = Shopware;
+const { Context, Mixin, Store } = Shopware;
 
 Mixin.register('postnl-config-sender-country', {
 
@@ -17,10 +17,6 @@ Mixin.register('postnl-config-sender-country', {
     },
 
     computed: {
-        countryRepository() {
-            return this.repositoryFactory.create('country');
-        },
-
         senderCountryId() {
             return this.getJsonConfigItem('senderAddress')?.country;
         }
@@ -30,23 +26,13 @@ Mixin.register('postnl-config-sender-country', {
         senderCountryId: {
             handler(value) {
                 if(!!value) {
-                    this.getSenderCountry(value);
-                    return;
+                    this.senderCountry = Store.get('postnlCountryCache').getCountryByIso(value)
+                    return
                 }
 
-                this.country = null;
+                this.senderCountry = null
             },
             immediate: true,
         }
     },
-
-    methods: {
-        getSenderCountry(countryId) {
-            this.countryRepository
-                .get(countryId, Context.api)
-                .then(country => {
-                    this.senderCountry = country;
-                });
-        }
-    }
 });
