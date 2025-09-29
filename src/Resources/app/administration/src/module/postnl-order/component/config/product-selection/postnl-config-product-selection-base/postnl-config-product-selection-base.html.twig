@@ -16,7 +16,7 @@
                             <template v-if="content.enabled">
                                 <template v-if="showProductCode">
                                     {{ $t('postnl.config.productSelection.headerDebug', {
-                                        name: product?.name,
+                                        name: product?.translated?.name ?? product?.name,
                                         code: product?.productCodeDelivery,
                                         amount: content.cartAmount
                                     }) }}
@@ -24,7 +24,7 @@
 
                                 <template v-else>
                                     {{ $t('postnl.config.productSelection.header', {
-                                        name: product?.name,
+                                        name: product?.translated?.name ?? product?.name,
                                         amount: content.cartAmount
                                     }) }}
                                 </template>
@@ -38,14 +38,14 @@
                         <template v-else>
                             <template v-if="showProductCode">
                                 {{ $t('postnl.config.productSelection.headerDebug', {
-                                    name: product?.name,
+                                    name: product?.translated?.name ?? product?.name,
                                     code: product?.productCodeDelivery
                                 }) }}
                             </template>
 
                             <template v-else>
                                 {{ $t('postnl.config.productSelection.header', {
-                                    name: product?.name,
+                                    name: product?.translated?.name ?? product?.name,
                                 }) }}
                             </template>
                         </template>

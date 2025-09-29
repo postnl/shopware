@@ -7,7 +7,7 @@
             [{{ product.productCodeDelivery }}]
         </template>
 
-        {{ product.name }}
+        {{ product?.translated?.name ?? product?.name }}
     </sw-label>
 
     <sw-single-select
