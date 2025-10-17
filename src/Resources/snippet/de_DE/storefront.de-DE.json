@@ -5,6 +5,9 @@
         "evening": "Abend"
       }
     },
+    "pickup": {
+      "pba": "Parcel and letter drop-off point"
+    },
     "address": {
       "streetLabel": "Straßenname",
       "streetPlaceholder": "Straßenname eingeben...",

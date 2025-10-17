@@ -10,19 +10,41 @@
     margin-bottom: 8px;
 }
 
-.postnl-shipping-method__shipment {
-    &--delivery {
-        &:not(:first-child) {
-            margin-top: .8rem;
+.postnl-shipping-method {
+    &__shipment {
+        &--delivery {
+            &:not(:first-child) {
+                margin-top: .8rem;
+            }
+
+            border-bottom: 1px solid $sw-border-color;
+
+            &-date {
+                margin: .5rem 0;
+
+                .form-check-label {
+                    width: 100%;
+                }
+            }
         }
+    }
 
-        border-bottom: 1px solid $sw-border-color;
+    &__pickup {
+        &--location {
+            display: inline-grid;
+            grid-template-areas: "icon name" "icon street" "icon city";
 
-        &-date {
-            margin: .5rem 0;
-
-            .form-check-label {
-                width: 100%;
+            &-icon {
+                grid-area: icon;
+            }
+            &-name {
+                grid-area: name;
+            }
+            &-address--street {
+                grid-area: street;
+            }
+            &-address--city {
+                grid-area: city;
             }
         }
     }
