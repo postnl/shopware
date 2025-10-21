@@ -33,6 +33,7 @@
         &--location {
             display: inline-grid;
             grid-template-areas: "icon name" "icon street" "icon city";
+            grid-column-gap: 0.5rem;
 
             &-icon {
                 grid-area: icon;
@@ -48,6 +49,10 @@
             }
         }
     }
+}
+
+.icon-postnl > svg {
+    top: 0;
 }
 
 .postnl-live-region {

@@ -21,7 +21,14 @@
                         for="postnl-shipping-method__pickup--location-{{ loop.index }}"
                     >
 
-                        <div class="postnl-shipping-method__pickup--location-icon"></div>
+                        <div class="postnl-shipping-method__pickup--location-icon">
+
+                            {% if pickup.getTerminalType() === constant('PostNL\\Shopware6\\Defaults::PICKUP_POINT_TYPE_PBA') %}
+                                {% sw_icon 'pakket-automaat' style { namespace: 'PostNLShopware', class: 'postnl' } %}
+                            {% else %}
+                                {% sw_icon 'locatie' style { namespace: 'PostNLShopware', class: 'postnl' } %}
+                            {% endif %}
+                        </div>
                         <div class="postnl-shipping-method__pickup--location-name">
                             {% if pickup.getTerminalType() === constant('PostNL\\Shopware6\\Defaults::PICKUP_POINT_TYPE_PBA') %}
                                 {{ 'postnl.pickup.pba'|trans|sw_sanitize }}
