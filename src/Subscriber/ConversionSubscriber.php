@@ -198,8 +198,12 @@ class ConversionSubscriber implements EventSubscriberInterface
         $postalCode = $deliveryAddress->getZipcode();
         $cartExtension = $cart->getExtension(CartService::EXTENSION);
 
-        /** @var DateTimeInterface $deliveryDate */
+        /** @var ?DateTimeInterface $deliveryDate */
         $deliveryDate = $cartExtension[Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY];
+
+        if(!$deliveryDate instanceof DateTimeInterface) {
+            return;
+        }
 
         $shippingDuration = $config->getShippingDuration();
 
@@ -445,11 +449,18 @@ class ConversionSubscriber implements EventSubscriberInterface
         /** @var ArrayStruct $data */
         $data = $cart->getExtensionOfType(CartService::EXTENSION, ArrayStruct::class);
 
+        /** @var ?DateTimeInterface $deliveryDate */
+        $deliveryDate = $data[Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY];
+
+        if(!$deliveryDate instanceof DateTimeInterface) {
+            return;
+        }
+
         $convertedCart = $event->getConvertedCart();
         CustomFieldHelper::merge(
             $convertedCart,
             [
-                Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => $data->get(Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY)->format(DATE_ATOM),
+                Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => $deliveryDate->format(DATE_ATOM),
             ]
         );
 
