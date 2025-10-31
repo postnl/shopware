@@ -2,7 +2,7 @@ const components = import.meta.glob([
     './../component/**/index.{j,t}s',
     './../../module/*/*/**/index.{j,t}s'
 ])
-// console.log(components)
+
 import config from './component.json'
 
 Object
@@ -20,6 +20,5 @@ Object
             return
         }
 
-        // console.log(`Registering component ${componentName}`)
         Shopware.Component.register(componentName, importFn)
     })
