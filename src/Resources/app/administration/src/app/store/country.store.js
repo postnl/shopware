@@ -9,7 +9,11 @@ export default {
 
     actions: {
         getCountryByIso(iso) {
-            return this.countries.first(country => country.iso === iso)
+            return this.countries.find(country => country.iso === iso)
+        },
+
+        getCountryById(id) {
+            return this.countries.find(country => country.id === id)
         },
 
         load() {

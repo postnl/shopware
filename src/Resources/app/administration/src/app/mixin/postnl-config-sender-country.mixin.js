@@ -26,7 +26,7 @@ Mixin.register('postnl-config-sender-country', {
         senderCountryId: {
             handler(value) {
                 if(!!value) {
-                    this.senderCountry = Store.get('postnlCountryCache').getCountryByIso(value)
+                    this.senderCountry = Store.get('postnlCountryCache').getCountryById(value)
                     return
                 }
 
