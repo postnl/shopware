@@ -5,6 +5,9 @@
         "evening": "Avond"
       }
     },
+    "pickup": {
+      "pba": "Pakket- en briefautomaat"
+    },
     "address": {
       "streetLabel": "Straatnaam",
       "streetPlaceholder": "Voer straatnaam in...",

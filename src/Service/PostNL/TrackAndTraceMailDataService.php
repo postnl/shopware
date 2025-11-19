@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PostNL\Shopware6\Service\PostNL;
 
 use PostNL\Shopware6\Service\Attribute\Factory\AttributeFactory;
-use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderAddressDataExtractor;
 use PostNL\Shopware6\Service\Shopware\DataExtractor\OrderDataExtractor;
 use PostNL\Shopware6\Struct\Attribute\OrderAttributeStruct;
 use Shopware\Core\Checkout\Order\OrderEntity;
@@ -13,39 +14,11 @@ use Symfony\Component\Mime\Email;
 
 class TrackAndTraceMailDataService extends AbstractMailService
 {
-
-    /**
-     * @var AbstractMailService
-     */
-    protected AbstractMailService $mailService;
-
-    /**
-     * @var AttributeFactory
-     */
-    protected AttributeFactory $attributeFactory;
-
-    /**
-     * @var OrderDataExtractor
-     */
-    protected OrderDataExtractor $orderDataExtractor;
-
-    /**
-     * @var OrderAddressDataExtractor
-     */
-    protected OrderAddressDataExtractor $orderAddressDataExtractor;
-
     public function __construct(
-        AbstractMailService $mailService,
-        AttributeFactory $attributeFactory,
-        OrderDataExtractor $orderDataExtractor,
-        OrderAddressDataExtractor $orderAddressDataExtractor
-    )
-    {
-        $this->mailService = $mailService;
-        $this->attributeFactory = $attributeFactory;
-        $this->orderDataExtractor = $orderDataExtractor;
-        $this->orderAddressDataExtractor = $orderAddressDataExtractor;
-    }
+        protected AbstractMailService $mailService,
+        protected AttributeFactory    $attributeFactory,
+        protected OrderDataExtractor  $orderDataExtractor,
+    ) {}
 
     public function getDecorated(): AbstractMailService
     {
@@ -54,13 +27,13 @@ class TrackAndTraceMailDataService extends AbstractMailService
 
     public function send(array $data, Context $context, array $templateData = []): ?Email
     {
-        if(!array_key_exists('order', $templateData)) {
+        if (!array_key_exists('order', $templateData)) {
             return $this->getDecorated()->send($data, $context, $templateData);
         }
 
         $order = $templateData['order'];
 
-        if(!$order instanceof OrderEntity) {
+        if (!$order instanceof OrderEntity) {
             return $this->getDecorated()->send($data, $context, $templateData);
         }
 
@@ -76,17 +49,35 @@ class TrackAndTraceMailDataService extends AbstractMailService
             return $this->getDecorated()->send($data, $context, $templateData);
         }
 
+        $languageCode = match ($order->getLanguage()?->getLocale()?->getCode()) {
+            null => null,
+            'nl-NL', 'nl-BE', 'nl-AW', 'nl-BQ', 'nl-CW', 'nl-SR', 'nl-SX' => 'nl',
+            default => 'en',
+        };
+
+        if (is_null($languageCode)) {
+            try {
+                $customer = $this->orderDataExtractor->extractCustomer($order);
+                $languageCode = $customer->getCustomer()?->getLanguage()?->getLocale()?->getCode();
+            }
+            catch (\Throwable $e) {
+                $languageCode = null;
+            }
+        }
+
         try {
             $shippingAddress = $this->orderDataExtractor->extractDeliveryAddress($order);
             $shippingCountry = $this->orderDataExtractor->extractDeliveryCountry($order);
 
             $templateData['postNL']['trackAndTraceLink'] = sprintf(
-                'http://postnl.nl/tracktrace/?B=%s&P=%s&D=%s&T=C',
+                'https://jouw.postnl.nl/track-and-trace/%s-%s-%s?language=%s',
                 $barcode,
                 $shippingAddress->getZipcode(),
-                $shippingCountry->getIso()
+                $shippingCountry->getIso(),
+                $languageCode ?? $shippingCountry->getIso() === 'NL' ? 'nl' : 'en',
             );
-        } catch(\Throwable $e) {
+        }
+        catch (\Throwable $e) {
             return $this->getDecorated()->send($data, $context, $templateData);
         }
 

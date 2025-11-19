@@ -7,19 +7,41 @@
         {% for pickup in context.shippingMethod.extensions.postnl_pickup.all %}
             <div class="postnl-pickup-point">
                 <div class="form-check">
-                    <input type="radio"
-                           class="form-check-input shipping-method-input"
-                           id="postnl-shipping-method__pickup--location-{{ loop.index }}"
-                           {% if locationCode == pickup.getLocationCode() %}checked{% endif %}
-                           name="postnl-pickup-location"
-                           value="{{ pickup.getLocationCode() }}"/>
+                    <input
+                        type="radio"
+                        class="form-check-input shipping-method-input"
+                        id="postnl-shipping-method__pickup--location-{{ loop.index }}"
+                        {% if locationCode == pickup.getLocationCode() %}checked{% endif %}
+                        name="postnl-pickup-location"
+                        value="{{ pickup.getLocationCode() }}"
+                    />
 
-                    <label class="form-check-label"
-                           for="postnl-shipping-method__pickup--location-{{ loop.index }}">
+                    <label
+                        class="form-check-label postnl-shipping-method__pickup--location"
+                        for="postnl-shipping-method__pickup--location-{{ loop.index }}"
+                    >
 
-                        <div>{{ pickup.getName() }}</div>
-                        <div>{{ pickup.getAddress().getStreet() }} {{ pickup.getAddress().getHouseNr() }} {{ pickup.getAddress().getHouseNrExt() }}</div>
-                        <div>{{ pickup.getAddress().getZipcode() }} {{ pickup.getAddress().getCity() }}</div>
+                        <div class="postnl-shipping-method__pickup--location-icon">
+
+                            {% if pickup.getTerminalType() === constant('PostNL\\Shopware6\\Defaults::PICKUP_POINT_TYPE_PBA') %}
+                                {% sw_icon 'pakket-automaat' style { namespace: 'PostNLShopware', class: 'postnl' } %}
+                            {% else %}
+                                {% sw_icon 'locatie' style { namespace: 'PostNLShopware', class: 'postnl' } %}
+                            {% endif %}
+                        </div>
+                        <div class="postnl-shipping-method__pickup--location-name">
+                            {% if pickup.getTerminalType() === constant('PostNL\\Shopware6\\Defaults::PICKUP_POINT_TYPE_PBA') %}
+                                {{ 'postnl.pickup.pba'|trans|sw_sanitize }}
+                            {% else %}
+                                {{ pickup.getName() }}
+                            {% endif %}
+                        </div>
+                        <div class="postnl-shipping-method__pickup--location-address--street">
+                            {{ pickup.getAddress().getStreet() }} {{ pickup.getAddress().getHouseNr() }} {{ pickup.getAddress().getHouseNrExt() }}
+                        </div>
+                        <div class="postnl-shipping-method__pickup--location-address--city">
+                            {{ pickup.getAddress().getZipcode() }} {{ pickup.getAddress().getCity() }}
+                        </div>
 
                     </label>
                 </div>

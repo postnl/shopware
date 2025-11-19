@@ -1,3 +1,12 @@
+# 4.2.0
+- [Accessibility] Added address callout when using a screenreader.
+- Fixed display of delivery date in the administration
+- Updated track and trace url in e-mails.
+- Added option to display up to 20 pickup points.
+- Removed return option "Shipment and Return label."
+- Improves storefront display of pickup points.
+- Misc. small fixes
+
 # 4.1.0
 #### New features
 - Added new return options:

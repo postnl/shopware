@@ -1,3 +1,12 @@
+# 4.2.0
+- [Barrierefreiheit] Bei Verwendung eines Screenreaders wird nun die Adresse angezeigt.
+- Anzeige des Lieferdatums in der Verwaltung korrigiert.
+- URL für Sendungsverfolgung in E-Mails aktualisiert.
+- Option zum Anzeigen von bis zu 20 Abholstellen hinzugefügt.
+- Die Rückgabeoption "Versand- und Rücksendeetikett" wurde entfernt.
+- Verbesserung der Anzeige der Abholstellen im Shop.
+- Verschiedene kleinere Fehlerbehebungen
+
 # 4.1.0
 #### Neue Funktionen
 - Neue Rückgabeoptionen hinzugefügt:

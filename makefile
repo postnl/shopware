@@ -82,8 +82,8 @@ pr: ## Prepares everything for a Pull Request
 	@make snippet-check -B
 
 build: ## Builds the package
-	@rm -rf src/Resources/app/storefront/dist
-	@mkdir -p src/Resources/app/storefront/dist
+	@rm -rf src/Resources/app/storefront/dist/storefront
+	@mkdir -p src/Resources/app/storefront/dist/storefront
 	@cd ../../.. && php bin/console plugin:refresh
 	@cd ../../.. && php bin/console plugin:install $(PLUGIN_NAME) --activate --clearCache | true
 	@cd ../../.. && php bin/console plugin:refresh

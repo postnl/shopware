@@ -63,6 +63,7 @@ export default class PostnlPostalCodeCheckPlugin extends window.PluginBaseClass 
 
         //Alert blocks
         this.postnlWarningAlert = DomAccess.querySelector(this.el, '.postnl-alerts');
+        this.postnlLiveRegion = DomAccess.querySelector(this.el, '.postnl-live-region');
 
         //Parent form
         this.addressForm = this.zipcodeElement.closest('form');
@@ -297,9 +298,20 @@ export default class PostnlPostalCodeCheckPlugin extends window.PluginBaseClass 
         this._fillStreetFields();
         this.zipcodeElementSW.value = this.zipcodeElement.value;
         this.cityElementSW.value = this.cityElement.value;
+
+        const announce = [
+            postalCode['streetName'],
+            postalCode['houseNumber'],
+            postalCode['houseNumberAddition'],
+            ...postalCode['postalCode'],
+            postalCode['city']
+        ]
+            .filter((e) => e !== null && (typeof e !== 'string' || e.length > 0))
+
+        this.postnlLiveRegion.innerHTML = announce.join(' ')
     }
 
-    _handleError(data, response) {
+    _handleError(data, response) {7
         //No result, so it is an error
         if (data['type'] === "NotFoundException") {
             this._showWarningAlert(data['message'])

@@ -25,6 +25,10 @@ class Defaults
     const LINEITEM_PAYLOAD_TARIFF_KEY = 'hsTariffCode';
     const LINEITEM_PAYLOAD_ORIGIN_KEY = 'countryOfOrigin';
     //endregion
+    //region Pickup Point Types
+    const PICKUP_POINT_TYPE_STORE = 'store'; // In store pickup
+    const PICKUP_POINT_TYPE_PBA = 'pba'; // "Pakket- en briefautomaat"
+    //endregion
     //endregion
 
     //region Category Defaults

@@ -60,7 +60,7 @@
     {% block sw_order_list_grid_columns_custom_fields_postnl_delivery_date %}
         <template #column-customFields.postnl.deliveryDate="{ item }">
             <template v-if="orderHasProduct(item)">
-                {{ dateFilter(item.customFields.postnl.deliveryDate, "Y-m-d") }}
+                {{ dateFilter(item.customFields.postnl.deliveryDate?.date ?? item.customFields.postnl.deliveryDate, "Y-m-d") }}
             </template>
         </template>
     {% endblock %}

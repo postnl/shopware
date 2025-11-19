@@ -53,14 +53,19 @@ abstract class MailMigration extends MigrationStep
     /**
      * @throws Exception
      */
-    protected function getMailTemplateTypeId(Connection $connection, string $technicalName): string
+    protected function getMailTemplateTypeId(Connection $connection, string $technicalName): ?string
     {
         $sql = sprintf('SELECT id
             FROM mail_template_type
             WHERE technical_name = "%s";',$technicalName);
 
+        $id = $connection->fetchOne($sql);
 
-        return Uuid::fromBytesToHex($connection->fetchOne($sql));
+        if(is_bool($id)) {
+            return null;
+        }
+
+        return Uuid::fromBytesToHex($id);
     }
 
     /**
