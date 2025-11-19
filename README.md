@@ -5,12 +5,14 @@ Vanwege breaking changes in Shopware zijn we genoodzaakt om voor bepaalde Shopwa
 
 | Shopware          | Plugin     |
 |-------------------|------------|
+| 6.7 vanaf 6.7.0.0 | Versie 5.x |
 | 6.6 vanaf 6.6.0.0 | Versie 4.x |
 | 6.5 vanaf 6.5.2.0 | Versie 3.x |
 | 6.4 vanaf 6.4.1.0 | Versie 2.x |
 
 #### Laatste versies
-![Shopware 6.6](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2Fpostnl%2Fshopware%2Fraw%2Fmaster%2Fcomposer.json&query=version&prefix=Versie%20&style=flat-square&label=Shopware%206.6&color=ed7000)
+![Shopware 6.7](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2Fpostnl%2Fshopware%2Fraw%2Fmaster%2Fcomposer.json&query=version&prefix=Versie%20&style=flat-square&label=Shopware%206.7&color=ed7000)
+![Shopware 6.6](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2Fpostnl%2Fshopware%2Fraw%2Fmaster-sw66%2Fcomposer.json&query=version&prefix=Versie%20&style=flat-square&label=Shopware%206.6&color=ed7000)
 ![Shopware 6.5](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2Fpostnl%2Fshopware%2Fraw%2Fmaster-sw65%2Fcomposer.json&query=version&prefix=Versie%20&style=flat-square&label=Shopware%206.5&color=ed7000)
 ![Shopware 6.4](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2Fpostnl%2Fshopware%2Fraw%2Fmaster-sw64%2Fcomposer.json&query=version&prefix=Versie%20&style=flat-square&label=Shopware%206.4&color=ed7000)
 
