@@ -1,0 +1,199 @@
+{
+  "postnl": {
+    "general": {
+      "mainMenuItemGeneral": "PostNL Orders",
+      "descriptionTextModule": "PostNL Orders",
+      "ordersMenuItemGeneral": "PostNL Orders"
+    },
+    "config": {
+      "mandatoryFields": "Fields with an asterisk are mandatory.",
+      "info": {
+        "title": "Hi {username}, welcome to the PostNL extension!",
+        "onboardingStep1": "Find your API key at {link}. Or request an API key here.",
+        "onboardingStep2": "Activate PostNL's shipping options in Shopware's Shipping settings.{br}Go to {link}",
+        "onboardingStep3": "Activate PostNL's shipping options per sales channel.{br}Go to your {link}",
+        "mijnPostNL": "MijnPostNL",
+        "mijnPostNLApiHere": "here",
+        "shippingSettings": "Shipping settings",
+        "salesChannels": "Sales channels",
+        "btnManual": "Manual",
+        "btnSupport": "Support"
+      },
+      "api": {
+        "testButton": "Test API keys",
+        "productionApiKey": "Production API key",
+        "sandboxApiKey": "Sandbox API key",
+        "isValid": "is valid.",
+        "isInvalid": "is invalid."
+      },
+      "customerData": {
+        "customerNumber": "Customer number (e.g. '11223344')",
+        "customerCode": "Customer code (e.g. 'DEVC')",
+        "collectionLocation": "Location code (e.g. '123456')",
+        "globalPack": "Non-EU",
+        "globalPackCustomerCode": "Parcel non-EU customer code (e.g. '1234')",
+        "globalPackBarcodeType": "Parcel non-EU barcode type(e.g. 'CD')"
+      },
+      "senderAddress": {
+        "companyName": "Company name",
+        "firstName": "First name",
+        "name": "Last name",
+        "street": "Street",
+        "houseNr": "House number",
+        "houseNrExt": "House number addition",
+        "zipcode": "Zipcode",
+        "city": "City",
+        "country": "Country"
+      },
+      "returnAddress": {
+        "customerCodeWarning": "Please note, a return customer code must be used for return shipments",
+        "contract": "I have a return contract with PostNL",
+        "useHomeAddress": "Return orders to address instead of reply number",
+        "companyName": "Company name",
+        "firstName": "First name",
+        "name": "Last name",
+        "street": "Street",
+        "houseNr": "House number",
+        "houseNrExt": "House number addition",
+        "zipcode": "Zipcode",
+        "city": "City",
+        "country": "Country",
+        "returnCustomerCode": "Return customer code",
+        "returnNumber": "Return number",
+        "returnNumberPrefix": "Antwoordnummer",
+        "warning": {
+          "country": "Please (re)select a valid country under sender address first."
+        }
+      },
+      "returnOptions": {
+        "type": "Label type",
+        "options": {
+          "none": "None",
+          "shipmentAndReturn": "Shipment and Return",
+          "labelInTheBox": "Label in the box"
+        },
+        "description": {
+          "shipmentAndReturn": "The shipment label can also be used as the return label, but this needs to be activated per order.",
+          "labelInTheBox": "An extra return label will be printed and should be included in the shipment."
+        },
+        "allowImmediateShipmentAndReturn": "Shipping labels are also the return labels, without needing to be activated."
+      },
+      "productSelection": {
+        "header": " {name}",
+        "headerDebug": "[{code}] {name}",
+        "headerAltActive": "{name} - from {amount}",
+        "headerAltActiveDebug": "[{code}] {name} - from {amount}",
+        "headerAltDisabled": "Disabled",
+        "enableAltProduct": "Enable alternative product",
+        "altProductAmount": "Use alternative product from",
+        "combinationNotice": "Not all combinations are possible. The most appropriate product will be selected based on your latest selection."
+      }
+    },
+    "order": {
+      "detail": {
+        "shippingProduct": "PostNL product",
+        "buttonChangeShipping": "Change shipping method",
+        "buttonCreateShipment": "Create and confirm shipments",
+        "buttonCreateReturn": "Create return shipments",
+        "sentDate": "Shipping date"
+      },
+      "list": {
+        "columnShippingAddress": "Shipping address",
+        "columnProduct": "PostNL product",
+        "columnBarCode": "Barcode",
+        "columnConfirm": "Confirmed",
+        "buttonPostnlHeadline": "PostNL",
+        "buttonChangeShipping": "Change shipping method",
+        "buttonCreateShipment": "Create and confirm shipments",
+        "buttonCreateReturn": "Create return shipments",
+        "columnSentDate": "Shipping date",
+        "columnDeliveryDate": "Delivery date",
+        "columnReturnOptions": "Return options",
+        "missingProductId": "No PostNL shipping method assigned, please select one first",
+        "statusSmartReturn": "Smart return: {barcode}",
+        "statusShipmentAndReturnActive": "Shipment and Return: Activated",
+        "statusShipmentAndReturnInactive": "Shipment and Return: Requires activation",
+        "statusLabelInTheBox": "Label in the box: Available"
+      },
+      "modal": {
+        "changeShipping": {
+          "title": "Change shipping method",
+          "warning": "Unable to change shipping method when the selected orders have a mix of destination zones (NL, BE, EU, World)",
+          "cancel": "Cancel",
+          "confirm": "Change shipping method"
+        },
+        "createShipments": {
+          "title": "Ship this order | Ship {count} orders",
+          "overrideProduct": "Select different product",
+          "confirmShipments": "Confirm shipments at PostNL",
+          "confirmedShipments": "Shipment confirmed at PostNL",
+          "downloadLabels": "Download shipping labels",
+          "cancel": "Cancel",
+          "confirm": "Send shipments",
+          "missingProductIdMany": "One or more selected orders is missing a PostNL shipping method. Please select one first.",
+          "missingProductIdSingle": "The selected order is missing a PostNL shipping method. Please select one first."
+        },
+        "createReturn": {
+          "title": "Pick return option",
+          "multipleZoneWarning": "Unable to create returns when the selected orders have a mix of zones (NL, BE, EU, World)",
+          "noReturnOptionsWarning": "Return options are only available for NL shipments",
+          "cancel": "Cancel",
+          "confirm": "Create return shipments",
+          "success": {
+            "smartReturn": "Created smart return | Created smart returns",
+            "shipmentAndReturn": "Activated shipment and return label | Activated {count} shipment and return labels"
+          },
+          "errors": {
+            "label": "Could not generate a label for order {orderNumbers}: {message} | Could not generate labels for {count} orders: {orderNumbers}",
+            "mail": "Could not send an email for order {orderNumbers}: {message} | Could not send emails for {count} orders: {orderNumbers}"
+          },
+          "type": {
+            "notAvailable": "This return option is unavailable",
+            "smartReturn": {
+              "label": "Create return label",
+              "description": "Email a digital return barcode to the customer. Your customer then has the digital barcode scanned at a PostNL point."
+            },
+            "shipmentAndReturn": {
+              "label": "Activate \"shipment and return\" label",
+              "description": "Activate the customer's \"shipment and return\" label. They can use the original shipment label to return the products."
+            },
+            "labelInTheBox": {
+              "label": "Label in the Box",
+              "description": "The customer has received a return label in their shipment, they can use this to ship the products back."
+            }
+          },
+          "selectMailTemplate": "Select mail template"
+        }
+      }
+    },
+    "productSelection": {
+      "deliveryType": {
+        "shipment": "Standard Shipment",
+        "pickup": "Pick-up at PostNL location",
+        "mailbox": "Mailbox parcel",
+        "parcel": "Parcel"
+      },
+      "flag": {
+        "homeAlone": "Deliver to stated address only",
+        "returnIfNotHome": "Return when not home",
+        "insurance": "Extra Cover",
+        "insurancePlus": "Extra Cover Plus",
+        "signature": "Signature on delivery",
+        "ageCheck": "Age check",
+        "notification": "Notification",
+        "trackAndTrace": "Track & Trace"
+      }
+    },
+    "rules": {
+      "shipping": {
+        "name": "PostNL shipping zone",
+        "zone": {
+          "nl": "Netherlands",
+          "be": "Belgium",
+          "eu": "Europe",
+          "global": "Rest of world"
+        }
+      }
+    }
+  }
+}

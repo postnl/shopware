@@ -2,6 +2,7 @@
 
 namespace PostNL\Shopware6\Component\Migration;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Shopware\Core\Framework\Uuid\Uuid;
 
@@ -75,8 +76,8 @@ SQL;
         $existingLanguages = $connection->executeQuery(
             $sql,
             [\array_keys($locales)],
-            [Connection::PARAM_STR_ARRAY]
-        )->fetchAll();
+            [ArrayParameterType::STRING]
+        )->fetchAllAssociative();
 
         return \array_map(static function ($locale) use ($existingLanguages): array {
             $languageId = null;
@@ -108,8 +109,8 @@ SQL;
         $locales = $connection->executeQuery(
             $sql,
             [\array_values($localeCodes)],
-            [Connection::PARAM_STR_ARRAY]
-        )->fetchAll();
+            [ArrayParameterType::STRING]
+        )->fetchAllAssociative();
 
         $enhancedLocales = [];
         foreach ($localeCodes as $name => $code) {

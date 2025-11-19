@@ -1,0 +1,44 @@
+<sw-modal
+    :class="modalClasses"
+    :title="modalTitle"
+    :closable="!isProcessing"
+    :variant="variant"
+    @modal-close="closeModal"
+>
+    <sw-container columns="1fr" gap="1rem">
+        {% block postnl_shipment_modal_content %}
+        {% endblock %}
+    </sw-container>
+
+    {% block postnl_shipment_modal_additional_content %}
+    {% endblock %}
+
+    <template #modal-footer>
+        {% block postnl_shipment_modal_footer_additional_buttons %}
+        {% endblock %}
+
+        <sw-button
+            size="small"
+            :disabled="isProcessing"
+            @click="closeModal"
+        >
+            {% block postnl_shipment_modal_cancel_button_content %}
+                {{ $t('global.default.cancel') }}
+            {% endblock %}
+        </sw-button>
+
+        <sw-button-process
+            v-model:processSuccess="isProcessingSuccess"
+            size="small"
+            variant="primary"
+            :animationTimeout="2500"
+            :isLoading="isProcessing"
+            :disabled="isProcessing || isProcessingDisabled"
+            @click="onStartProcessing"
+        >
+            {% block postnl_shipment_modal_confirm_button_content %}
+                {{ $t('global.default.confirm') }}
+            {% endblock %}
+        </sw-button-process>
+    </template>
+</sw-modal>

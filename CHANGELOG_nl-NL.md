@@ -1,3 +1,7 @@
+# 5.0.0
+#### Shopware compatibiliteit update
+- Deze versie is compatibel met Shopware 6.7.0 en hoger.
+
 # 4.2.0
 - [Toegankelijkheid] Adresvermelding toegevoegd bij gebruik van een schermlezer.
 - Weergave van leveringsdatum in het beheer bijgewerkt.

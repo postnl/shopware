@@ -4,7 +4,7 @@
         v-if=" postNLDeliveryDate"
         v-model:value="postNLDeliveryDate"
         disabled
-        :label="$tc('sw-order.detailDeliveries.labelDeliveryDate')"
+        :label="$t('sw-order.detailDeliveries.labelDeliveryDate')"
     />
 
     <div v-else></div>
@@ -17,7 +17,7 @@
         v-if="isPostNLOrder && postNLSentDate"
         v-model:value="postNLSentDate"
         disabled
-        :label="$tc('postnl.order.detail.sentDate')"
+        :label="$t('postnl.order.detail.sentDate')"
     />
     <div v-else></div>
 {% endblock %}

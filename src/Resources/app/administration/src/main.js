@@ -1,7 +1,7 @@
-import './app';
-import './core';
-import './init';
-import './mixin';
-import './module';
+const bootPromise = Shopware.Plugin.addBootPromise()
 
-import './decorator/rule-condition-service-decoration';
+void import('./core/postnl')
+    .then(module => module.default)
+    .then(({ PostNLInstance }) => window.PostNLShopware = PostNLInstance)
+    .then(() => import('./app/init'))
+    .finally(() => bootPromise())

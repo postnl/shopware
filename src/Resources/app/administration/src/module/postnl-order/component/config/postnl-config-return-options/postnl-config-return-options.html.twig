@@ -1,0 +1,27 @@
+{% block memo_config_content %}
+    <sw-single-select
+        v-model:value="content.type"
+        :label="$t('postnl.config.returnOptions.type')"
+        :options="typeOptions"
+    />
+
+    <template v-if="content.type === 'shipmentAndReturn'">
+        <sw-switch-field
+            v-model:value="content.allowImmediateShipmentAndReturn"
+            :label="$t('postnl.config.returnOptions.allowImmediateShipmentAndReturn')"
+            size="small"
+            noMarginTop
+            deprecated
+        />
+
+        <sw-alert variant="info" v-if="!content.allowImmediateShipmentAndReturn">
+            {{ $t('postnl.config.returnOptions.description.shipmentAndReturn') }}
+        </sw-alert>
+    </template>
+
+    <template v-if="content.type === 'labelInTheBox'">
+        <sw-alert variant="info">
+            {{ $t('postnl.config.returnOptions.description.labelInTheBox') }}
+        </sw-alert>
+    </template>
+{% endblock %}
