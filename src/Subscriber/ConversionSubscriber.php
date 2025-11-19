@@ -492,6 +492,10 @@ class ConversionSubscriber implements EventSubscriberInterface
         $convertedCart = $this->setAddresses($convertedCart);
 
         $pickupPoint = $this->getPickupPoint($locationCode, $event->getSalesChannelContext());
+        if($pickupPoint->getAddress()->getHouseNrExt() === 'PBA') {
+            $pickupPoint->getAddress()->setHouseNrExt('');
+            $pickupPoint->setName("Pakket- en briefautomaat");
+        }
 
         $convertedCart = $this->setPickupPointAsDeliveryAddresses($convertedCart, $pickupPoint, $event->getContext());
 
