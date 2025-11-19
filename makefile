@@ -100,11 +100,11 @@ release: ## Create a new release
 	@make copy-release
 
 zip: ## Creates a new ZIP package
-	@php update-composer-require.php --shopware="~6.6.0" --env=prod --admin --storefront
+	@php update-composer-require.php --shopware="~6.7.0" --env=prod --admin --storefront
 	@cd .. && echo "Creating Zip file $(PLUGIN_NAME)-$(PLUGIN_VERSION).zip\n"
 	@cd .. && rm -rf $(PLUGIN_NAME)-$(PLUGIN_VERSION).zip
 	@cd .. && zip -qq -r -0 $(PLUGIN_NAME)-$(PLUGIN_VERSION).zip $(PLUGIN_NAME)/ -x@$(PLUGIN_NAME)/zip.exclude.lst
-	@php update-composer-require.php --shopware="~6.6.0" --env=dev --admin --storefront
+	@php update-composer-require.php --shopware="~6.7.0" --env=dev --admin --storefront
 
 copy-release: ## Copies it to the releases directory
 	@mkdir -p $(RELEASE_DIR)$(PLUGIN_NAME)

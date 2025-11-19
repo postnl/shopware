@@ -1,0 +1,114 @@
+{% block sw_order_detail_actions_slot_smart_bar_actions %}
+
+    <sw-button-group
+        v-if="acl.can('order.editor')"
+        :disabled="isLoading"
+        block
+    >
+        <postnl-button
+            ghost
+            size="x-small"
+            @click="isCreateShipmentModalOpen = true">
+            <postnl-icon />
+        </postnl-button>
+
+        <sw-context-button icon="regular-chevron-down-xs">
+            <template #button>
+                <postnl-button
+                    ghost
+                    square
+                >
+                    <sw-icon
+                        name="regular-chevron-down-xs"
+                        decorative
+                        size="1rem"
+                    />
+                </postnl-button>
+            </template>
+
+            <sw-context-menu-item
+                class="postnl-context-menu-item"
+                icon="regular-box-alt"
+                @click="isChangeShippingModalOpen = true"
+            >
+                {{ $t('postnl.order.detail.buttonChangeShipping') }}
+            </sw-context-menu-item>
+
+            <sw-context-menu-item
+                class="postnl-context-menu-item"
+                icon="regular-truck"
+                @click="isCreateShipmentModalOpen = true"
+            >
+                {{ $t('postnl.order.detail.buttonCreateShipment') }}
+            </sw-context-menu-item>
+
+            <sw-context-menu-item
+                class="postnl-context-menu-item"
+                icon="regular-undo"
+                @click="isCreateReturnModalOpen = true"
+            >
+                {{ $t('postnl.order.detail.buttonCreateReturn') }}
+            </sw-context-menu-item>
+        </sw-context-button>
+    </sw-button-group>
+
+
+    <postnl-change-shipping-modal
+        v-if="isChangeShippingModalOpen"
+        :selection="{order: order}"
+        @close="isChangeShippingModalOpen = false"
+    />
+
+    <postnl-create-shipment-modal
+        v-if="isCreateShipmentModalOpen"
+        :selection="{order: order}"
+        @close="isCreateShipmentModalOpen = false"
+    />
+
+    <postnl-create-return-modal
+        v-if="isCreateReturnModalOpen"
+        :selection="{order: order}"
+        @close="isCreateReturnModalOpen = false"
+    />
+
+    {% parent %}
+{% endblock %}
+
+
+{% block sw_order_detail_content_tabs_general %}
+    <sw-tabs-item
+        v-if="!showTabs"
+        :route="{ name: 'postnl.order.detail.base', params: { id: $route.params.id } }"
+        :title="$t('sw-order.detail.tabGeneral')"
+    >
+        {{ $t('sw-order.detail.tabGeneral') }}
+    </sw-tabs-item>
+
+    <sw-tabs-item
+        v-if="showTabs"
+        :route="{ name: 'postnl.order.detail.general', params: { id: $route.params.id } }"
+        :title="$t('sw-order.detail.tabGeneral')"
+    >
+        {{ $t('sw-order.detail.tabGeneral') }}
+    </sw-tabs-item>
+{% endblock %}
+
+{% block sw_order_detail_content_tabs_details %}
+    <sw-tabs-item
+        v-if="showTabs"
+        :route="{ name: 'postnl.order.detail.details', params: { id: $route.params.id } }"
+        :title="$t('sw-order.detail.tabDetails')"
+    >
+        {{ $t('sw-order.detail.tabDetails') }}
+    </sw-tabs-item>
+{% endblock %}
+
+{% block sw_order_detail_content_tabs_documents %}
+    <sw-tabs-item
+        v-if="showTabs"
+        :route="{ name: 'postnl.order.detail.documents', params: { id: $route.params.id } }"
+        :title="$t('sw-order.detail.tabDocuments')"
+    >
+        {{ $t('sw-order.detail.tabDocuments') }}
+    </sw-tabs-item>
+{% endblock %}

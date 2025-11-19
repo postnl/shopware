@@ -1,0 +1,72 @@
+{% block postnl_shipment_modal_content %}
+    <template v-if="!hasMultipleZones">
+        <sw-container
+            v-if="returnTypes.length > 0"
+            gap="1rem"
+            columns="repeat(3, 1fr)"
+        >
+            <template v-for="type in returnTypes">
+                <!-- Do not use modelValue, it breaks everything -->
+                <sw-radio-panel
+                    :title="type.label"
+                    :description="type.description"
+                    :icon="type.icon"
+                    :value="type.value"
+                    :disabled="!type.enabled"
+                    name="returnType"
+                    class="postnl-return-option"
+                    @update:modelValue="updateReturnType"
+                />
+            </template>
+        </sw-container>
+
+        <sw-alert
+            v-else
+            variant="warning"
+        >
+            {{ $t('postnl.order.modal.createReturn.noReturnOptionsWarning') }}
+        </sw-alert>
+
+        <sw-entity-single-select
+            v-if="returnType === 'smartReturn' && returnAddress.countrycode === 'NL'"
+            v-model:value="smartReturnMailTemplate"
+            :label="$t('postnl.order.modal.createReturn.selectMailTemplate')"
+            :labelCallback="mailTemplateLabel"
+            :criteria="smartReturnMailTemplateCriteria"
+            entity="mail_template"
+        />
+
+        <sw-entity-single-select
+            v-if="returnType === 'smartReturn' && returnAddress.countrycode === 'BE'"
+            v-model:value="smartReturnMailTemplate"
+            :label="$t('postnl.order.modal.createReturn.selectMailTemplate')"
+            :labelCallback="mailTemplateLabel"
+            :criteria="smartReturnBeMailTemplateCriteria"
+            entity="mail_template"
+        />
+
+        <sw-entity-single-select
+            v-if="returnType === 'shipmentAndReturn'"
+            v-model:value="shipmentAndReturnMailTemplate"
+            :label="$t('postnl.order.modal.createReturn.selectMailTemplate')"
+            :labelCallback="mailTemplateLabel"
+            :criteria="shipmentAndReturnMailTemplateCriteria"
+            entity="mail_template"
+        />
+    </template>
+
+    <sw-alert
+        v-else
+        variant="warning"
+    >
+        {{ $t('postnl.order.modal.createReturn.multipleZoneWarning') }}
+    </sw-alert>
+{% endblock %}
+
+{% block postnl_shipment_modal_cancel_button_content %}
+    {{ $t('postnl.order.modal.createReturn.cancel') }}
+{% endblock %}
+
+{% block postnl_shipment_modal_confirm_button_content %}
+    {{ $t('postnl.order.modal.createReturn.confirm') }}
+{% endblock %}

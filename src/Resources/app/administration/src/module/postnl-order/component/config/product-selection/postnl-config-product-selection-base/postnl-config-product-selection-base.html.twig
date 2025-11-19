@@ -1,0 +1,90 @@
+{% block memo_config %}
+    <component
+        v-if="senderCountry?.iso === sourceZone"
+        v-bind="$attrs"
+        :is="field"
+        :disabled="disabled"
+        :required="required"
+        @inheritance-restore="$emit('inheritance-restore', $event)"
+        @inheritance-remove="$emit('inheritance-remove', $event)"
+    >
+        <template #sw-field-input="{ identification, error, disabled, required }">
+            {% block memo_config_content %}
+                <postnl-memo-collapse :disabled="disabled">
+                    <template #header>
+                        <template v-if="isAlt">
+                            <template v-if="content.enabled">
+                                <template v-if="showProductCode">
+                                    {{ $t('postnl.config.productSelection.headerDebug', {
+                                        name: product?.translated?.name ?? product?.name,
+                                        code: product?.productCodeDelivery,
+                                        amount: content.cartAmount
+                                    }) }}
+                                </template>
+
+                                <template v-else>
+                                    {{ $t('postnl.config.productSelection.header', {
+                                        name: product?.translated?.name ?? product?.name,
+                                        amount: content.cartAmount
+                                    }) }}
+                                </template>
+                            </template>
+
+                            <template v-else>
+                                {{ $t('postnl.config.productSelection.headerAltDisabled') }}
+                            </template>
+                        </template>
+
+                        <template v-else>
+                            <template v-if="showProductCode">
+                                {{ $t('postnl.config.productSelection.headerDebug', {
+                                    name: product?.translated?.name ?? product?.name,
+                                    code: product?.productCodeDelivery
+                                }) }}
+                            </template>
+
+                            <template v-else>
+                                {{ $t('postnl.config.productSelection.header', {
+                                    name: product?.translated?.name ?? product?.name,
+                                }) }}
+                            </template>
+                        </template>
+                    </template>
+                    <template #content="{ disabled }">
+                        <sw-container>
+                            <sw-container v-if="isAlt" columns="1fr 1fr" gap="16px">
+                                <sw-switch-field
+                                    v-model:value="content.enabled"
+                                    size="small"
+                                    :label="$t('postnl.config.productSelection.enableAltProduct')"
+                                    :disabled="disabled"
+                                    deprecated
+                                />
+
+                                <postnl-currency-field
+                                    v-if="content.enabled"
+                                    v-model:value="content.cartAmount"
+                                    size="small"
+                                    :label="$t('postnl.config.productSelection.altProductAmount')"
+                                    :disabled="disabled"
+                                />
+                            </sw-container>
+
+                            <postnl-product-selection
+                                v-if="!isAlt || content.enabled"
+                                v-model:value="content.id"
+                                :sourceZone="sourceZone"
+                                :destinationZone="destinationZone"
+                                :deliveryType="deliveryType"
+                                :showDeliveryType="false"
+                                :showProductCode="showProductCode"
+                                :disabled="disabled"
+                            />
+                        </sw-container>
+                    </template>
+                </postnl-memo-collapse>
+            {% endblock %}
+        </template>
+    </component>
+{% endblock %}
+

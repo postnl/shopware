@@ -1,0 +1,96 @@
+{% block memo_config_content %}
+    <postnl-memo-collapse :disabled="disabled">
+        <template #header>
+            <sw-container rows="1fr 1fr">
+                <div>
+                    {{ content.companyName }}
+
+                    <template v-if="content.companyName && (content.firstName || content.name)">
+                        &mdash;
+                    </template>
+
+                    {{ content.firstName }} {{ content.name }}
+                </div>
+                <div>
+                    {{ content.street }} {{ content.houseNr }}
+
+                    <template v-if="content.houseNrExt">
+                        {{ content.houseNrExt }}
+                    </template>
+
+                    <template v-if="content.zipcode || content.city">
+                        , {{ content.zipcode }} {{ content.city }}
+                    </template>
+
+                    <template v-if="country">
+                        , {{ country }}
+                    </template>
+                </div>
+            </sw-container>
+        </template>
+        <template #content>
+            <sw-container columns="repeat(4, 1fr)" gap="0 16px">
+                <sw-text-field
+                    v-model:value="content.companyName"
+                    required
+                    :label="$t('postnl.config.senderAddress.companyName')"
+                    :style="span(4)"
+                />
+
+                <sw-text-field
+                    v-model:value="content.firstName"
+                    :label="$t('postnl.config.senderAddress.firstName')"
+                    :style="span(2)"
+                />
+
+                <sw-text-field
+                    v-model:value="content.name"
+                    :label="$t('postnl.config.senderAddress.name')"
+                    :style="span(2)"
+                />
+
+                <sw-text-field
+                    v-model:value="content.street"
+                    required
+                    :label="$t('postnl.config.senderAddress.street')"
+                    :style="span(2)"
+                />
+
+                <sw-text-field
+                    v-model:value="content.houseNr"
+                    required
+                    :label="$t('postnl.config.senderAddress.houseNr')"
+                />
+
+                <sw-text-field
+                    v-model:value="content.houseNrExt"
+                    :label="$t('postnl.config.senderAddress.houseNrExt')"
+                />
+
+                <sw-text-field
+                    v-model:value="content.zipcode"
+                    required
+                    :label="$t('postnl.config.senderAddress.zipcode')"
+                />
+
+                <sw-text-field
+                    v-model:value="content.city"
+                    required
+                    :label="$t('postnl.config.senderAddress.city')"
+                    :style="span(2)"
+                />
+
+                <sw-entity-single-select
+                    v-model:value="content.country"
+                    entity="country"
+                    required
+                    :label="$t('postnl.config.senderAddress.country')"
+                    :criteria="countryCriteria"
+                />
+            </sw-container>
+
+            <postnl-required-hint textAlign="right" />
+        </template>
+
+    </postnl-memo-collapse>
+{% endblock %}

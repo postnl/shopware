@@ -1,0 +1,9 @@
+{% block postnl_icon %}
+    <span
+        class="postnl-icon postnl-icon--fill"
+        :class="classes"
+        :style="styles"
+        :aria-hidden="decorative || undefined"
+        v-html="iconSvgData"
+    />
+{% endblock %}

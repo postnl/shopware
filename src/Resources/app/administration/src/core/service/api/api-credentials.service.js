@@ -4,6 +4,7 @@ export default class ApiCredentialsService extends PostNlApiService
 {
     constructor(httpClient, loginService, apiBasePath = 'credentials') {
         super(httpClient, loginService, apiBasePath);
+        this.name = 'PostNlApiCredentialsService'
     }
 
     checkCredentials(apiKey, sandbox = false) {
