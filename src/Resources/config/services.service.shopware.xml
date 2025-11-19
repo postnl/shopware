@@ -22,6 +22,12 @@
             <argument type="service" id="postnl.logger"/>
         </service>
 
+        <service id="PostNL\Shopware6\Service\Shopware\MediaService">
+            <argument type="service" id="Shopware\Core\Content\Media\File\FileSaver"/>
+            <argument type="service" id="media.repository"/>
+            <argument type="service" id="media_folder.repository"/>
+        </service>
+
         <service id="PostNL\Shopware6\Service\Shopware\OrderService">
             <argument type="service" id="order.repository"/>
         </service>
@@ -31,7 +37,7 @@
             <argument type="service" id="media.repository"/>
             <argument type="service" id="rule.repository"/>
             <argument type="service" id="shipping_method.repository"/>
-            <argument type="service" id="Shopware\Core\Content\Media\MediaService"/>
+            <argument type="service" id="PostNL\Shopware6\Service\Shopware\MediaService"/>
             <argument type="service" id="postnl.logger"/>
         </service>
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace PostNL\Shopware6\Migration;
 
@@ -14,15 +16,16 @@ class Migration1733845698AddActivateReturnLabelMail extends MailMigration
     }
 
     public function update(Connection $connection): void
-    { $emails = [
-        'return-mail' => [
-            new ActivateShipmentAndReturnMail\enGB(),
-            new ActivateShipmentAndReturnMail\deDE(),
-            new ActivateShipmentAndReturnMail\nlNL(),
-        ]
-    ];
+    {
+        $emails = [
+            'return-mail' => [
+                new ActivateShipmentAndReturnMail\enGB(),
+                new ActivateShipmentAndReturnMail\deDE(),
+                new ActivateShipmentAndReturnMail\nlNL(),
+            ],
+        ];
 
-        $mailTemplateId = $this->createMailTemplateType(
+        $mailTemplateId = $this->getMailTemplateTypeId($connection, 'postnl_activate_shipment_and_return_label_mail') ?? $this->createMailTemplateType(
             $connection,
             'postnl_activate_shipment_and_return_label_mail',
             [
@@ -31,8 +34,8 @@ class Migration1733845698AddActivateReturnLabelMail extends MailMigration
                 'nl-NL' => 'PostNL Heen en terug label geactiveerd mail',
             ],
             [
-                'order' => 'order',
-                'salesChannel' => 'sales_channel'
+                'order'        => 'order',
+                'salesChannel' => 'sales_channel',
             ]
         );
 

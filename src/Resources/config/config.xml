@@ -376,6 +376,24 @@
     </card>
 
     <card>
+        <title>Pickup Points</title>
+        <title lang="de-DE">Abholstellen</title>
+        <title lang="nl-NL">Afhaallocaties</title>
+
+        <input-field type="int">
+            <name>pickupPointsNumberOfChoices</name>
+            <label>Number of pickup points</label>
+            <label lang="de-DE">Anzahl der Abholstellen</label>
+            <label lang="nl-NL">Aantal afhaallocaties</label>
+
+            <defaultValue>5</defaultValue>
+            <min>5</min>
+            <max>20</max>
+            <step>1</step>
+        </input-field>
+    </card>
+
+    <card>
         <title>Returns</title>
         <title lang="de-DE">Rücksendung</title>
         <title lang="nl-NL">Retouren</title>

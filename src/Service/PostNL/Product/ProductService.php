@@ -239,6 +239,9 @@ class ProductService
              * A flag is disabled if there's only 1 possible value, and it's not set to true by the product.
              * A flag is selected if it's set to true by the product, or if there's only 1 possible value that equates to true
              */
+            /**
+             * Flags can no longer be disabled, @see commit 36cd681d422c4561336748421fe6e30a27cba741 from 2024-02-23
+             */
 
             $hasMultipleValues = count($availableValues) > 1;
             $isVisible = $hasMultipleValues || !is_null($availableValues[0]);

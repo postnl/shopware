@@ -1,3 +1,12 @@
+# 4.2.0
+- [Toegankelijkheid] Adresvermelding toegevoegd bij gebruik van een schermlezer.
+- Weergave van leveringsdatum in het beheer bijgewerkt.
+- Track & trace-url in e-mails bijgewerkt.
+- Optie toegevoegd om maximaal 20 afhaalpunten weer te geven.
+- Retourneringsoptie ‘Heen- en teruglabel’ verwijderd.
+- Weergave van afhaalpunten in de winkel verbeterd.
+- Diverse kleine verbeteringen.
+
 # 4.1.0
 #### Nieuwe functies
 - Nieuwe retouropties toegevoegd:
@@ -14,7 +23,7 @@
 
 # 4.0.0
 #### Shopware compatibiliteit update
-- Deze versie is compatibel met Shopware 6.5.2 en hoger.
+- Deze versie is compatibel met Shopware 6.6.0 en hoger.
 
 #### Nieuwe functies
 - Extra headers toegevoegd aan de API-aanroepen. Hierdoor kunnen we betere ondersteuning bieden door de gebruikte Shopware en plugin versies te monitoren.

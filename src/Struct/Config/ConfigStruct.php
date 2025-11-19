@@ -139,6 +139,8 @@ class ConfigStruct extends AttributeStruct
      */
     protected $fallbackHSCode;
 
+    protected int $pickupPointsNumberOfChoices = 5;
+
     protected ReturnOptionsStruct $returnOptions;
 
     //====================================================================================================
@@ -403,6 +405,11 @@ class ConfigStruct extends AttributeStruct
     public function getFallbackHSCode(): ?string
     {
         return $this->fallbackHSCode;
+    }
+
+    public function getPickupPointsNumberOfChoices(): int
+    {
+        return $this->pickupPointsNumberOfChoices;
     }
 
     public function getReturnOptions(): ReturnOptionsStruct

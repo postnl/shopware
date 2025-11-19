@@ -10,20 +10,58 @@
     margin-bottom: 8px;
 }
 
-.postnl-shipping-method__shipment {
-    &--delivery {
-        &:not(:first-child) {
-            margin-top: .8rem;
-        }
+.postnl-shipping-method {
+    &__shipment {
+        &--delivery {
+            &:not(:first-child) {
+                margin-top: .8rem;
+            }
 
-        border-bottom: 1px solid $sw-border-color;
+            border-bottom: 1px solid $sw-border-color;
 
-        &-date {
-            margin: .5rem 0;
+            &-date {
+                margin: .5rem 0;
 
-            .form-check-label {
-                width: 100%;
+                .form-check-label {
+                    width: 100%;
+                }
             }
         }
     }
+
+    &__pickup {
+        &--location {
+            display: inline-grid;
+            grid-template-areas: "icon name" "icon street" "icon city";
+            grid-column-gap: 0.5rem;
+
+            &-icon {
+                grid-area: icon;
+            }
+            &-name {
+                grid-area: name;
+            }
+            &-address--street {
+                grid-area: street;
+            }
+            &-address--city {
+                grid-area: city;
+            }
+        }
+    }
+}
+
+.icon-postnl > svg {
+    top: 0;
+}
+
+.postnl-live-region {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    clip: rect(0 0 0 0);
 }
