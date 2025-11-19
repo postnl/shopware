@@ -1,0 +1,43 @@
+{
+  "extend": {
+    "postnl-zone": "sw-condition-base",
+
+    "postnl-memo-collapse": "sw-collapse",
+
+    "postnl-config-customer-data": "postnl-memo-config",
+    "postnl-config-return-address": "postnl-memo-config",
+    "postnl-config-return-options": "postnl-memo-config",
+    "postnl-config-sender-address": "postnl-memo-config",
+
+    "postnl-config-product-selection-base": "postnl-memo-config",
+    "postnl-config-product-selection-pickup-be-be-default": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-pickup-nl-be-default": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-pickup-nl-nl-alternative": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-pickup-nl-nl-default": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-be-be-alternative": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-be-be-default": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-be-eu-default": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-be-global-default": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-be-nl-alternative": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-be-nl-default": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-nl-be-alternative": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-nl-be-default": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-nl-eu-default": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-nl-global-default": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-nl-nl-alternative": "postnl-config-product-selection-base",
+    "postnl-config-product-selection-shipment-nl-nl-default": "postnl-config-product-selection-base",
+
+    "postnl-change-shipping-modal": "postnl-shipment-modal-base",
+    "postnl-create-return-modal": "postnl-shipment-modal-base",
+    "postnl-create-shipment-modal": "postnl-shipment-modal-base",
+
+    "postnl-order-detail": "sw-order-detail",
+    "postnl-order-list": "sw-order-list"
+  },
+  "override": [
+    "sw-order-delivery-metadata",
+    "sw-order-user-card",
+    "sw-order-detail-details",
+    "sw-system-config"
+  ]
+}

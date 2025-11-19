@@ -1,6 +1,8 @@
-export const object = require('./utils/object.utils').default;
+import objectUtils from './utils/object.utils'
 
 export default {
-    object: object,
+    object: objectUtils,
 }
+
+export const object = objectUtils
 

@@ -1,0 +1,37 @@
+{% block postnl_shipment_modal_content %}
+    <sw-container columns="1fr 1fr" gap="16px">
+        <sw-switch-field
+            v-model:value="confirmShipments"
+            :label="$t('postnl.order.modal.createShipments.confirmShipments')"
+            size="small"
+            noMarginTop
+            deprecated
+        />
+
+        <sw-switch-field
+            v-model:value="downloadLabels"
+            :label="$t('postnl.order.modal.createShipments.downloadLabels')"
+            size="small"
+            noMarginTop
+            deprecated
+        />
+    </sw-container>
+
+    <template v-if="selectionIsMissingProduct">
+        <sw-alert v-if="selectionCount === 1" variant="error">
+            {{ $t('postnl.order.modal.createShipments.missingProductIdSingle') }}
+        </sw-alert>
+
+        <sw-alert v-if="selectionCount > 1" variant="error">
+            {{ $t('postnl.order.modal.createShipments.missingProductIdMany') }}
+        </sw-alert>
+    </template>
+{% endblock %}
+
+{% block postnl_shipment_modal_cancel_button_content %}
+    {{ $t('postnl.order.modal.createShipments.cancel') }}
+{% endblock %}
+
+{% block postnl_shipment_modal_confirm_button_content %}
+    {{ $t('postnl.order.modal.createShipments.confirm') }}
+{% endblock %}

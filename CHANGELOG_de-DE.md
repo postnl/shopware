@@ -1,3 +1,7 @@
+# 5.0.0
+#### Update der Shopware-Kompatibilität
+- Diese Version ist kompatibel mit Shopware 6.7.0 und höher.
+
 # 4.2.0
 - [Barrierefreiheit] Bei Verwendung eines Screenreaders wird nun die Adresse angezeigt.
 - Anzeige des Lieferdatums in der Verwaltung korrigiert.

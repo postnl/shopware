@@ -1,0 +1,83 @@
+{# @deprecated tag:v6.8.0 - Will be removed, use mt-button instead. #}
+{% block postnl_button %}
+    {% block postnl_button_router_link %}
+        <sw-internal-link
+            v-if="routerLink && !disabled"
+            v-bind="$attrs"
+            :router-link="routerLink"
+            :disabled="disabled"
+            class="postnl-button"
+            :class="buttonClasses"
+            hide-icon
+        >
+            {% block postnl_button_router_link_content %}
+                <span class="postnl-button__content">
+                    <slot>
+                        {% block postnl_button_router_link_slot_default %}{% endblock %}
+                    </slot>
+                </span>
+            {% endblock %}
+        </sw-internal-link>
+    {% endblock %}
+
+    {% block postnl_button_link %}
+        <sw-external-link
+            v-else-if="link && !disabled"
+            v-bind="$attrs"
+            class="postnl-button"
+            :class="buttonClasses"
+            :href="link"
+        >
+            {% block postnl_button_link_content %}
+                <span class="postnl-button__content">
+                    <slot>
+                        {% block postnl_button_link_slot_default %}{% endblock %}
+                    </slot>
+                </span>
+            {% endblock %}
+        </sw-external-link>
+    {% endblock %}
+
+    {% block postnl_button_disabled %}
+        <span
+            v-else-if="disabled"
+            v-bind="$attrs"
+            class="postnl-button"
+            :class="buttonClasses"
+        >
+            {% block postnl_button_router_link_content %}
+                <span class="postnl-button__content">
+                    <slot>
+                        {% block postnl_button_router_link_slot_default %}{% endblock %}
+                    </slot>
+                </span>
+            {% endblock %}
+        </span>
+    {% endblock %}
+
+    {% block postnl_button_button %}
+        <button
+            v-else
+            class="postnl-button"
+            :class="buttonClasses"
+            :disabled="disabled || isLoading"
+            v-bind="filteredAttributes"
+        >
+            {% block postnl_button_button_content %}
+                <sw-loader
+                    v-if="isLoading"
+                    class="postnl-button_loader"
+                    size="20px"
+                />
+                <span
+                    class="postnl-button__content"
+                    :class="contentVisibilityClass"
+                >
+                    <slot>
+                    {% block postnl_button_button_slot_default %}{% endblock %}
+                    </slot>
+                </span>
+            {% endblock %}
+        </button>
+    {% endblock %}
+{% endblock %}

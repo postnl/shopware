@@ -1,9 +1,11 @@
-import template from './postnl-memo-config.html.twig';
+import template from './postnl-memo-config.html.twig'
 
-const { Component, Mixin } = Shopware;
-const { string } = Shopware.Utils;
+const {
+    Mixin,
+    Utils: { string}
+} = Shopware
 
-Component.register('postnl-memo-config', {
+export default {
     template,
 
     mixins: [
@@ -64,4 +66,4 @@ Component.register('postnl-memo-config', {
             this.$emit('update:value', JSON.stringify(cleanedValue));
         }
     }
-});
+}

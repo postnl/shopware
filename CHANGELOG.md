@@ -1,3 +1,7 @@
+# 5.0.0
+#### Shopware compatibility update
+- This version is compatible with Shopware 6.7.0 and higher.
+
 # 4.2.0
 - [Accessibility] Added address callout when using a screenreader.
 - Fixed display of delivery date in the administration

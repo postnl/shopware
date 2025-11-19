@@ -1,0 +1,12 @@
+@import "~/app/assets/scss/postnl-colors";
+
+.postnl-context-menu-item {
+    &:hover {
+        color: $color-postnl-500;
+        background-color: $color-postnl-50;
+
+        & .mt-icon {
+            color: currentColor;
+        }
+    }
+}

@@ -1,6 +1,6 @@
 import template from './sw-order-detail-details.html.twig'
 
-Shopware.Component.override('sw-order-detail-details', {
+export default {
     template,
 
     computed: {
@@ -24,4 +24,4 @@ Shopware.Component.override('sw-order-detail-details', {
             return this.order.customFields.postnl?.sentDate || null;
         }
     },
-})
+}

@@ -1,0 +1,94 @@
+@import "~scss/variables";
+
+.sw-button-group {
+    display: inline-flex;
+    vertical-align: middle;
+    margin-right: 1px;
+    position: relative;
+
+    &.sw-button-group--block {
+        display: flex;
+    }
+
+    .sw-tooltip--wrapper > button.postnl-button {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .postnl-button {
+        border-radius: 0;
+        margin-left: -1px;
+        position: relative;
+
+        &:first-child {
+            border-top-left-radius: $border-radius-default;
+            border-bottom-left-radius: $border-radius-default;
+            margin-left: 0;
+        }
+
+        &:last-child {
+            border-top-right-radius: $border-radius-default;
+            border-bottom-right-radius: $border-radius-default;
+        }
+
+        &:only-child {
+            margin-left: -1px;
+        }
+
+        &.postnl-button--primary,
+        &.postnl-button--critical,
+        &.postnl-button--contrast {
+            position: static;
+            margin-left: 0;
+        }
+    }
+
+    .sw-context-button {
+        .postnl-button {
+            border-radius: 0;
+        }
+
+        &:first-child .postnl-button {
+            border-top-left-radius: $border-radius-default;
+            border-bottom-left-radius: $border-radius-default;
+        }
+
+        &:last-child .postnl-button {
+            border-top-right-radius: $border-radius-default;
+            border-bottom-right-radius: $border-radius-default;
+        }
+
+        .postnl-icon {
+            padding: 4px;
+        }
+    }
+
+    &.sw-button-group--split {
+        > .postnl-button {
+            &.postnl-button--primary,
+            &.postnl-button--critical,
+            &.postnl-button--contrast {
+                position: relative;
+                margin-left: 8px;
+            }
+        }
+
+        .sw-context-button > .postnl-button {
+            &.postnl-button--primary,
+            &.postnl-button--critical,
+            &.postnl-button--contrast {
+                border-left: 1px solid rgba(0, 0, 0, 20%);
+            }
+        }
+
+        .icon--small-arrow-medium-down {
+            padding-bottom: 2px;
+        }
+    }
+
+    .postnl-button.postnl-button--square {
+        //height: 100%;
+        //width: auto;
+        aspect-ratio: 1;
+    }
+}

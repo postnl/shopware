@@ -2,7 +2,7 @@
     "name": "postnl/shopware6",
     "description": "PostNL",
     "type": "shopware-platform-plugin",
-    "version": "4.2.0",
+    "version": "5.0.0",
     "license": "proprietary",
     "authors": [
         {
@@ -65,9 +65,9 @@
         "nunomaduro/phpinsights": "^2.8",
         "infection/infection": "^0.29.7",
         "boxblinkracer/phpunuhi": "^1",
-        "shopware/core": "~6.6.0",
-        "shopware/administration": "~6.6.0",
-        "shopware/storefront": "~6.6.0"
+        "shopware/core": "~6.7.0",
+        "shopware/administration": "~6.7.0",
+        "shopware/storefront": "~6.7.0"
     },
     "scripts": {
         "post-install-cmd": [
