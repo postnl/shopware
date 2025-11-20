@@ -72,6 +72,7 @@ class TrackAndTraceMailDataService extends AbstractMailService
             $templateData['postNL']['trackAndTraceLink'] = sprintf(
                 'https://jouw.postnl.nl/track-and-trace/%s-%s-%s?language=%s',
                 $barcode,
+                $shippingCountry->getIso(),
                 $shippingAddress->getZipcode(),
                 $shippingCountry->getIso(),
                 $languageCode ?? $shippingCountry->getIso() === 'NL' ? 'nl' : 'en',
