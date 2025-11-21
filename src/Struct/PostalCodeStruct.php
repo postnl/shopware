@@ -11,7 +11,7 @@ class PostalCodeStruct extends Struct
 {
     public static function createFromPostalCodeResult(PostalCodeResult $result)
     {
-        return (new static())->assign([
+        return (new self())->assign([
             'city' => $result->getCity(),
             'postalCode' => $result->getPostalCode(),
             'streetName' => $result->getStreetName(),
