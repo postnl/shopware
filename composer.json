@@ -53,7 +53,7 @@
     },
     "require": {
         "composer-runtime-api": "^2.0",
-        "firstred/postnl-api-php": "^v2.0.4",
+        "firstred/postnl-api-php": "^2.0.14",
         "php": "^8.1"
     },
     "require-dev": {
