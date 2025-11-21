@@ -1,3 +1,6 @@
+# 5.0.1
+- API-Client auf 2.0.14 aktualisiert
+
 # 5.0.0
 #### Update der Shopware-Kompatibilität
 - Diese Version ist kompatibel mit Shopware 6.7.0 und höher.
