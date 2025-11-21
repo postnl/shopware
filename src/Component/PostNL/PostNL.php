@@ -31,21 +31,6 @@ class PostNL extends BaseClient
     protected ActivateReturnServiceInterface $activateReturnService;
     protected PostalcodeCheckServiceInterface $postalcodeCheckService;
 
-    public function getDeliveryDateService(): DeliveryDateServiceInterface
-    {
-        if (!isset($this->deliveryDateService)) {
-            $this->setDeliveryDateService(service: new DeliveryDateServiceDecorator(
-                apiKey: $this->apiKey,
-                sandbox: $this->getSandbox(),
-                httpClient: $this->getHttpClient(),
-                requestFactory: $this->getRequestFactory(),
-                streamFactory: $this->getStreamFactory(),
-            ));
-        }
-
-        return $this->deliveryDateService;
-    }
-
     /**
      * @return ActivateReturnServiceInterface
      * @throws \Firstred\PostNL\Exception\InvalidArgumentException
