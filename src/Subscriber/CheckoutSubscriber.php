@@ -30,29 +30,14 @@ class CheckoutSubscriber implements EventSubscriberInterface
         ];
     }
 
-    protected $apiFactory;
-    protected $cartService;
-    protected $checkoutFacade;
-    protected $configService;
-    protected $shippingMethodDataExtractor;
-    protected $logger;
-
     public function __construct(
-        ApiFactory       $apiFactory,
-        CartService      $cartService,
-        CheckoutFacade   $checkoutFacade,
-        ConfigService    $configService,
-        ShippingMethodDataExtractor $shippingMethodDataExtractor,
-        LoggerInterface  $logger
-    )
-    {
-        $this->apiFactory = $apiFactory;
-        $this->cartService = $cartService;
-        $this->checkoutFacade = $checkoutFacade;
-        $this->configService = $configService;
-        $this->shippingMethodDataExtractor = $shippingMethodDataExtractor;
-        $this->logger = $logger;
-    }
+        protected ApiFactory       $apiFactory,
+        protected CartService      $cartService,
+        protected CheckoutFacade   $checkoutFacade,
+        protected ConfigService    $configService,
+        protected ShippingMethodDataExtractor $shippingMethodDataExtractor,
+        protected LoggerInterface  $logger
+    ) {}
 
     /**
      * @param CheckoutConfirmPageLoadedEvent $event
