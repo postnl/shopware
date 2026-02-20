@@ -149,9 +149,14 @@ export default {
             });
 
             // Hide the states by default
-            columnMap['stateMachineState-name'].visible = false;
-            columnMap['transactions-stateMachineState-name'].visible = false;
-            columnMap['deliveries-stateMachineState-name'].visible = false;
+            const hideStates = [
+                'stateMachineState-name',
+                'deliveries-stateMachineState-name',
+                'transactions-stateMachineState-name',
+                'primaryOrderDelivery-stateMachineState-name',
+                'primaryOrderTransaction-stateMachineState-name',
+            ]
+            hideStates.forEach(key => key in columnMap ? columnMap[key].visible = false : null);
 
             columnMap['orderNumber'].routerLink = 'postnl.order.detail';
 
@@ -169,7 +174,9 @@ export default {
                 columnMap['stateMachineState-name'],
                 columnMap['transactions-stateMachineState-name'],
                 columnMap['deliveries-stateMachineState-name'],
-            ];
+                columnMap['primaryOrderTransaction-stateMachineState-name'],
+                columnMap['primaryOrderDelivery-stateMachineState-name'],
+            ].filter(column => column)
         },
 
         loadCountries(orders) {
@@ -189,7 +196,7 @@ export default {
         loadProducts(orders) {
             const productIds = [];
             for (const order of orders) {
-                if(this.orderHasProduct(order)) {
+                if (this.orderHasProduct(order)) {
                     productIds.push(order.customFields.postnl.productId);
                 }
             }
@@ -225,7 +232,7 @@ export default {
         orderHasReturnOption(item, option) {
             const returnOptions = item.customFields?.postnl?.returnOptions
 
-            if(!returnOptions) {
+            if (!returnOptions) {
                 return false
             }
 

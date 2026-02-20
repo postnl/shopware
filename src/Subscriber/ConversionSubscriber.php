@@ -82,7 +82,6 @@ class ConversionSubscriber implements EventSubscriberInterface
                 ['addTypeCodeToAddresses', 200],
                 ['addDeliveryTypeData', 100],
                 ['addPickupPointAddress', 100],
-                ['storeCartData', 100],
                 ['restorePostNLData', 100],
             ],
             OrderConvertedEvent::class => [
@@ -123,29 +122,6 @@ class ConversionSubscriber implements EventSubscriberInterface
         }
 
         $data = $cart->getExtensionOfType(CartService::ORIGINAL_DATA, ArrayStruct::class);
-
-        if ($data->count() === 0) {
-            return;
-        }
-
-        $convertedCart = $event->getConvertedCart();
-        CustomFieldHelper::merge($convertedCart, $data->all());
-        $event->setConvertedCart($convertedCart);
-    }
-
-    public function storeCartData(CartConvertedEvent $event)
-    {
-        $cart = $event->getCart();
-
-        if ($cart->hasExtensionOfType(CartService::ORIGINAL_DATA, ArrayStruct::class)) {
-            return;
-        }
-
-        if (!$cart->hasExtensionOfType(CartService::EXTENSION, ArrayStruct::class)) {
-            return;
-        }
-
-        $data = $cart->getExtensionOfType(CartService::EXTENSION, ArrayStruct::class);
 
         if ($data->count() === 0) {
             return;
@@ -258,7 +234,9 @@ class ConversionSubscriber implements EventSubscriberInterface
         CustomFieldHelper::merge(
             $convertedCart,
             [
+                Defaults::CUSTOM_FIELDS_DELIVERY_DATE_KEY => $deliveryDate->format(DATE_ATOM),
                 Defaults::CUSTOM_FIELDS_SENT_DATE_KEY => $sentDateTime->format(DATE_ATOM),
+                Defaults::CUSTOM_FIELDS_TIMEFRAME_KEY => $cartExtension[Defaults::CUSTOM_FIELDS_TIMEFRAME_KEY],
             ]
         );
 

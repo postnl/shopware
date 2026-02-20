@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PostNL\Shopware6\Component\PostNL\Service\RequestBuilder\Rest;
 
 use Firstred\PostNL\Entity\AbstractEntity;
-use Firstred\PostNL\Entity\Request\GenerateBarcode;
 use Firstred\PostNL\Exception\InvalidArgumentException;
 use Firstred\PostNL\Exception\InvalidConfigurationException;
 use Firstred\PostNL\Service\RequestBuilder\Rest\AbstractRestRequestBuilder;

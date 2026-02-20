@@ -7,7 +7,7 @@
             <format>
                 <json indent="2"/>
             </format>
-            <locales basePath="./src/Resources/app/administration/src/module/postnl/snippet">
+            <locales basePath="./src/Resources/app/administration/src/module/postnl-order/snippet">
                 <locale name="en-GB" base="true">%base_path%/en-GB.json</locale>
                 <locale name="de-DE">%base_path%/de-DE.json</locale>
                 <locale name="nl-NL">%base_path%/nl-NL.json</locale>

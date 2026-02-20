@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace PostNL\tests\Service\PostNL\Factory;
+namespace PostNL\Shopware6\PHPUnit\Service\PostNL\Factory;
 
 use Firstred\PostNL\PostNL;
 use Monolog\Logger;
