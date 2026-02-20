@@ -25,7 +25,7 @@ class PostalCodeCollection extends Collection
 {
     public static function createFromPostalCodeResponse(PostalCodeResponse $response)
     {
-        $collection = new static();
+        $collection = new self();
 
         foreach ($response->getPostalCodeResult() as $result) {
             $collection->add(PostalCodeStruct::createFromPostalCodeResult($result));

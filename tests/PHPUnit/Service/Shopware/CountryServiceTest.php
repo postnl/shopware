@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace PostNL\tests\Service\Shopware;
+namespace PostNL\Shopware6\PHPUnit\Service\Shopware;
 
 use PostNL\Shopware6\Exception\Shopware\InvalidCountryIdException;
 use PostNL\Shopware6\Service\Shopware\CountryService;

@@ -1,6 +1,6 @@
 <?php
 
-namespace PostNL\tests\Service\PostNL;
+namespace PostNL\Shopware6\PHPUnit\Service\PostNL;
 
 use PHPUnit\Framework\Constraint\IsType;
 use PHPUnit\Framework\TestCase;

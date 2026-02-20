@@ -1,3 +1,8 @@
+# 5.0.1
+- API-Client auf 2.0.14 aktualisiert
+- Ein Problem in der Verwaltung wurde behoben, das die Anzeige von Spalten in der Bestellübersicht verhinderte.
+- Ein Konflikt zwischen normalen Sendungen und Abholstellen wurde behoben. Die Auswahl einer Abholstelle sollte nun nicht mehr zu einer Verzögerung der Sendung führen, wenn zuvor eine verzögerte Sendung ausgewählt wurde.
+
 # 5.0.0
 #### Update der Shopware-Kompatibilität
 - Diese Version ist kompatibel mit Shopware 6.7.0 und höher.

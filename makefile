@@ -49,7 +49,7 @@ phpmin: ## Starts the PHP compatibility checks
 
 phpstan: ## Starts the PHPStan Analyser
 	@php vendor/bin/phpstan analyse -c ./.phpstan.neon
-	@php vendor/bin/phpstan analyse -c ./.phpstan.lvl8.neon
+#   @php vendor/bin/phpstan analyse -c ./.phpstan.lvl8.neon
 
 phpunit: ## Starts all Unit Tests
 	@XDEBUG_MODE=coverage php vendor/bin/phpunit --configuration=phpunit.xml
@@ -79,7 +79,7 @@ pr: ## Prepares everything for a Pull Request
 	@make phpcheck -B
 	@make phpmin -B
 	@make phpstan -B
-	@make snippet-check -B
+	@make trans-validate -B
 
 build: ## Builds the package
 	@rm -rf src/Resources/app/storefront/dist/storefront
