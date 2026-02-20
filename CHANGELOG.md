@@ -1,5 +1,7 @@
 # 5.0.1
 - Updated API client to 2.0.14
+- Fixed an issue in the administration that prevented columns from being displayed in the order overview
+- Fixes a conflict between normal shipments and pickup points. Selecting a pickup point should no longer delay the shipment if a delayed shipment was selected previously.
 
 # 5.0.0
 #### Shopware compatibility update
