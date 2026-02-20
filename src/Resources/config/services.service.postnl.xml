@@ -34,10 +34,6 @@
             <argument type="service" id="postnl.logger"/>
         </service>
 
-        <service id="PostNL\Shopware6\Service\PostNL\ShippingMethodCreatorService">
-            <argument type="service" id="Shopware\Core\Content\Media\MediaService"/>
-        </service>
-
         <service id="PostNL\Shopware6\Service\PostNL\RuleCreatorService"/>
         <service id="PostNL\Shopware6\Service\PostNL\ShippingRulePriceCreatorService"/>
 
